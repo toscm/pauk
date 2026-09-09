@@ -2,3 +2,9 @@
 # the API front controller. FallbackResource instead of
 # mod_rewrite: IONOS's Apache 500s on per-directory rewrites.
 FallbackResource /index.php
+
+# CGI PHP does not receive the Authorization header by default;
+# re-expose it as an environment variable (the front controller
+# also promotes REDIRECT_-prefixed variants that the
+# FallbackResource internal redirect produces).
+SetEnvIf Authorization "(.+)" HTTP_AUTHORIZATION=$1
