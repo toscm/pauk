@@ -39,4 +39,7 @@ class PaukApp(App):
 
 
 def run_tui(client: Client) -> None:
-    PaukApp(client).run()
+    try:
+        PaukApp(client).run()
+    finally:
+        client.close()

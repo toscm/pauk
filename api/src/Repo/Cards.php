@@ -86,8 +86,8 @@ final class Cards
     public function create(int $userId, array $body): array
     {
         $type = $body['type'] ?? null;
-        if (!in_array($type, ['mc', 'text'], true)) {
-            throw new ApiError(400, 'validation', "type must be 'mc' or 'text'");
+        if (!in_array($type, ['mc', 'text', 'match'], true)) {
+            throw new ApiError(400, 'validation', "type must be 'mc', 'text' or 'match'");
         }
         $question = $body['question_md'] ?? null;
         if (!is_string($question) || trim($question) === '') {
@@ -95,8 +95,11 @@ final class Cards
         }
         $options = null;
         $answers = null;
+        $pairs = null;
         if ($type === 'mc') {
             $options = $this->validateOptions($body['options'] ?? null);
+        } elseif ($type === 'match') {
+            $pairs = $this->validatePairs($body['pairs'] ?? null);
         } else {
             $answers = $this->validateAnswers($body['accepted_answers'] ?? null);
         }
@@ -114,6 +117,9 @@ final class Cards
             }
             if ($answers !== null) {
                 $this->replaceAnswers($cardId, $answers);
+            }
+            if ($pairs !== null) {
+                $this->replacePairs($cardId, $pairs);
             }
             foreach ($dirIds as $dirId) {
                 $stmt = $this->pdo->prepare(
@@ -157,6 +163,12 @@ final class Cards
                     throw new ApiError(400, 'validation', 'accepted_answers only apply to text cards');
                 }
                 $this->replaceAnswers($cardId, $this->validateAnswers($body['accepted_answers']), true);
+            }
+            if (array_key_exists('pairs', $body)) {
+                if ($card['type'] !== 'match') {
+                    throw new ApiError(400, 'validation', 'pairs only apply to match cards');
+                }
+                $this->replacePairs($cardId, $this->validatePairs($body['pairs']), true);
             }
             if (array_key_exists('dirs', $body)) {
                 $dirIds = $this->validateDirIds($userId, $body['dirs']);
@@ -205,6 +217,8 @@ final class Cards
             sort($selected);
             $match = $selected === $correctIds ? 'exact' : 'wrong';
             $expected = ['correct_option_ids' => $correctIds];
+        } elseif ($card['type'] === 'match') {
+            [$match, $expected, $detail] = $this->gradeMatch($card, $body['matches'] ?? null);
         } else {
             $answer = $body['answer'] ?? null;
             if (!is_string($answer)) {
@@ -218,7 +232,51 @@ final class Cards
             'INSERT INTO reviews (card_id, user_id, was_correct) VALUES (?, ?, ?)'
         );
         $stmt->execute([$cardId, $userId, $correct ? 1 : 0]);
-        return ['correct' => $correct, 'match' => $match, 'expected' => $expected];
+        $result = ['correct' => $correct, 'match' => $match, 'expected' => $expected];
+        if (isset($detail)) {
+            $result['detail'] = $detail;
+        }
+        return $result;
+    }
+
+    /**
+     * Grade a matching answer. Pairs share one row id across left
+     * and right, so a left is matched correctly when the chosen
+     * right id equals the left id.
+     *
+     * @param array<string, mixed> $card
+     * @return array{0: string, 1: array<string, mixed>, 2: list<array<string, mixed>>}
+     */
+    private function gradeMatch(array $card, mixed $matches): array
+    {
+        if (!is_array($matches)) {
+            throw new ApiError(400, 'validation', 'matches must be a map of left id to right id');
+        }
+        $detail = [];
+        $allOk = true;
+        foreach ($card['pairs'] as $pair) {
+            $leftId = $pair['id'];
+            $chosen = $matches[(string) $leftId] ?? ($matches[$leftId] ?? null);
+            if ($chosen !== null && !is_int($chosen)) {
+                throw new ApiError(400, 'validation', 'matched right ids must be integers');
+            }
+            $ok = $chosen === $leftId;
+            $allOk = $allOk && $ok;
+            $detail[] = [
+                'left' => $leftId,
+                'chosen_right' => $chosen,
+                'correct_right' => $leftId,
+                'ok' => $ok,
+            ];
+        }
+        return [
+            $allOk ? 'exact' : 'wrong',
+            ['pairs' => array_map(
+                fn ($p) => ['left_md' => $p['left_md'], 'right_md' => $p['right_md']],
+                $card['pairs']
+            )],
+            $detail,
+        ];
     }
 
     /** @return array{0: list<string>, 1: list<mixed>} */
@@ -238,8 +296,8 @@ final class Cards
             $where[] = 'dc.card_id IS NULL';
         }
         if (isset($filters['type'])) {
-            if (!in_array($filters['type'], ['mc', 'text'], true)) {
-                throw new ApiError(400, 'validation', "type must be 'mc' or 'text'");
+            if (!in_array($filters['type'], ['mc', 'text', 'match'], true)) {
+                throw new ApiError(400, 'validation', "type must be 'mc', 'text' or 'match'");
             }
             $where[] = 'c.type = ?';
             $params[] = $filters['type'];
@@ -285,6 +343,24 @@ final class Cards
         }
         if ($correctCount === 0) {
             throw new ApiError(400, 'validation', 'at least one option must be correct');
+        }
+        return $clean;
+    }
+
+    /** @return list<array{left_md: string, right_md: string}> */
+    private function validatePairs(mixed $pairs): array
+    {
+        if (!is_array($pairs) || count($pairs) < 2) {
+            throw new ApiError(400, 'validation', 'pairs must be a list of at least 2 entries');
+        }
+        $clean = [];
+        foreach ($pairs as $pair) {
+            $left = $pair['left_md'] ?? null;
+            $right = $pair['right_md'] ?? null;
+            if (!is_string($left) || trim($left) === '' || !is_string($right) || trim($right) === '') {
+                throw new ApiError(400, 'validation', 'each pair needs a non-empty left_md and right_md');
+            }
+            $clean[] = ['left_md' => trim($left), 'right_md' => trim($right)];
         }
         return $clean;
     }
@@ -352,6 +428,21 @@ final class Cards
         }
     }
 
+    /** @param list<array{left_md: string, right_md: string}> $pairs */
+    private function replacePairs(int $cardId, array $pairs, bool $clear = false): void
+    {
+        if ($clear) {
+            $stmt = $this->pdo->prepare('DELETE FROM match_pairs WHERE card_id = ?');
+            $stmt->execute([$cardId]);
+        }
+        $stmt = $this->pdo->prepare(
+            'INSERT INTO match_pairs (card_id, position, left_md, right_md) VALUES (?, ?, ?, ?)'
+        );
+        foreach ($pairs as $i => $pair) {
+            $stmt->execute([$cardId, $i, $pair['left_md'], $pair['right_md']]);
+        }
+    }
+
     /** @param array<string, mixed> $row */
     private function hydrate(array $row, bool $quiz): array
     {
@@ -377,6 +468,30 @@ final class Cards
                     ],
                 $stmt->fetchAll()
             );
+        } elseif ($row['type'] === 'match') {
+            $stmt = $this->pdo->prepare(
+                'SELECT id, left_md, right_md FROM match_pairs
+                 WHERE card_id = ? ORDER BY position'
+            );
+            $stmt->execute([$cardId]);
+            $pairs = array_map(
+                fn ($p) => ['id' => (int) $p['id'], 'left_md' => $p['left_md'], 'right_md' => $p['right_md']],
+                $stmt->fetchAll()
+            );
+            if ($quiz) {
+                $card['lefts'] = array_map(
+                    fn ($p) => ['id' => $p['id'], 'left_md' => $p['left_md']],
+                    $pairs
+                );
+                $choices = array_map(
+                    fn ($p) => ['id' => $p['id'], 'right_md' => $p['right_md']],
+                    $pairs
+                );
+                shuffle($choices);
+                $card['choices'] = $choices;
+            } else {
+                $card['pairs'] = $pairs;
+            }
         } elseif (!$quiz) {
             $stmt = $this->pdo->prepare(
                 'SELECT accepted_answer FROM text_answers WHERE card_id = ? ORDER BY id'

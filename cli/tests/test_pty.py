@@ -25,7 +25,7 @@ def test_tui_starts_and_navigates_on_real_pty(cli_env):
     try:
         child.expect("Start a quiz")
         child.send("\r")                    # open the picker
-        child.expect("Questions per quiz")  # status bar rendered
+        child.expect("questions")           # status bar rendered (N questions)
         child.expect("all cards")           # favorites list populated
         child.send("\x1bOQ")                # F2: tree view (SS3 code)
         child.send("\x1b[12~")              # F2 fallback (CSI code)

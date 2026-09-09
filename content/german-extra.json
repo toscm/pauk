@@ -1,0 +1,761 @@
+{
+  "dirs": [
+    "germany",
+    "germany/bundeslaender",
+    "germany/bundeslaender/match",
+    "germany/cities",
+    "germany/cities/match",
+    "germany/autobahnen",
+    "germany/autobahnen/match",
+    "germany/facts",
+    "germany/facts/mc"
+  ],
+  "dir_links": [],
+  "cards": [
+    {
+      "dirs": [
+        "germany/bundeslaender/match"
+      ],
+      "type": "match",
+      "question_md": "Match each Bundesland to its capital (South / Southwest)",
+      "pairs": [
+        {
+          "left_md": "Baden-Württemberg",
+          "right_md": "Stuttgart"
+        },
+        {
+          "left_md": "Bayern",
+          "right_md": "München"
+        },
+        {
+          "left_md": "Hessen",
+          "right_md": "Wiesbaden"
+        },
+        {
+          "left_md": "Rheinland-Pfalz",
+          "right_md": "Mainz"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/match"
+      ],
+      "type": "match",
+      "question_md": "Match each Bundesland to its capital (West / North)",
+      "pairs": [
+        {
+          "left_md": "Nordrhein-Westfalen",
+          "right_md": "Düsseldorf"
+        },
+        {
+          "left_md": "Saarland",
+          "right_md": "Saarbrücken"
+        },
+        {
+          "left_md": "Niedersachsen",
+          "right_md": "Hannover"
+        },
+        {
+          "left_md": "Schleswig-Holstein",
+          "right_md": "Kiel"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/match"
+      ],
+      "type": "match",
+      "question_md": "Match each Bundesland to its capital (East)",
+      "pairs": [
+        {
+          "left_md": "Sachsen",
+          "right_md": "Dresden"
+        },
+        {
+          "left_md": "Sachsen-Anhalt",
+          "right_md": "Magdeburg"
+        },
+        {
+          "left_md": "Thüringen",
+          "right_md": "Erfurt"
+        },
+        {
+          "left_md": "Brandenburg",
+          "right_md": "Potsdam"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/match"
+      ],
+      "type": "match",
+      "question_md": "Match each Bundesland to its capital (mixed review 1)",
+      "pairs": [
+        {
+          "left_md": "Mecklenburg-Vorpommern",
+          "right_md": "Schwerin"
+        },
+        {
+          "left_md": "Bayern",
+          "right_md": "München"
+        },
+        {
+          "left_md": "Sachsen",
+          "right_md": "Dresden"
+        },
+        {
+          "left_md": "Niedersachsen",
+          "right_md": "Hannover"
+        },
+        {
+          "left_md": "Hessen",
+          "right_md": "Wiesbaden"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/match"
+      ],
+      "type": "match",
+      "question_md": "Match each Bundesland to its capital (mixed review 2)",
+      "pairs": [
+        {
+          "left_md": "Baden-Württemberg",
+          "right_md": "Stuttgart"
+        },
+        {
+          "left_md": "Nordrhein-Westfalen",
+          "right_md": "Düsseldorf"
+        },
+        {
+          "left_md": "Rheinland-Pfalz",
+          "right_md": "Mainz"
+        },
+        {
+          "left_md": "Thüringen",
+          "right_md": "Erfurt"
+        },
+        {
+          "left_md": "Brandenburg",
+          "right_md": "Potsdam"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/match"
+      ],
+      "type": "match",
+      "question_md": "Match each Bundesland to its capital (mixed review 3)",
+      "pairs": [
+        {
+          "left_md": "Saarland",
+          "right_md": "Saarbrücken"
+        },
+        {
+          "left_md": "Schleswig-Holstein",
+          "right_md": "Kiel"
+        },
+        {
+          "left_md": "Sachsen-Anhalt",
+          "right_md": "Magdeburg"
+        },
+        {
+          "left_md": "Mecklenburg-Vorpommern",
+          "right_md": "Schwerin"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/cities/match"
+      ],
+      "type": "match",
+      "question_md": "Match each city to its Bundesland (Set 1)",
+      "pairs": [
+        {
+          "left_md": "München",
+          "right_md": "Bayern"
+        },
+        {
+          "left_md": "Köln",
+          "right_md": "Nordrhein-Westfalen"
+        },
+        {
+          "left_md": "Frankfurt am Main",
+          "right_md": "Hessen"
+        },
+        {
+          "left_md": "Stuttgart",
+          "right_md": "Baden-Württemberg"
+        },
+        {
+          "left_md": "Leipzig",
+          "right_md": "Sachsen"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/cities/match"
+      ],
+      "type": "match",
+      "question_md": "Match each city to its Bundesland (Set 2)",
+      "pairs": [
+        {
+          "left_md": "Hannover",
+          "right_md": "Niedersachsen"
+        },
+        {
+          "left_md": "Dresden",
+          "right_md": "Sachsen"
+        },
+        {
+          "left_md": "Nürnberg",
+          "right_md": "Bayern"
+        },
+        {
+          "left_md": "Mannheim",
+          "right_md": "Baden-Württemberg"
+        },
+        {
+          "left_md": "Düsseldorf",
+          "right_md": "Nordrhein-Westfalen"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/cities/match"
+      ],
+      "type": "match",
+      "question_md": "Match each city to its Bundesland (Set 3)",
+      "pairs": [
+        {
+          "left_md": "Kiel",
+          "right_md": "Schleswig-Holstein"
+        },
+        {
+          "left_md": "Magdeburg",
+          "right_md": "Sachsen-Anhalt"
+        },
+        {
+          "left_md": "Freiburg",
+          "right_md": "Baden-Württemberg"
+        },
+        {
+          "left_md": "Dortmund",
+          "right_md": "Nordrhein-Westfalen"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/cities/match"
+      ],
+      "type": "match",
+      "question_md": "Match each city to its Bundesland (Set 4)",
+      "pairs": [
+        {
+          "left_md": "Essen",
+          "right_md": "Nordrhein-Westfalen"
+        },
+        {
+          "left_md": "Wiesbaden",
+          "right_md": "Hessen"
+        },
+        {
+          "left_md": "Karlsruhe",
+          "right_md": "Baden-Württemberg"
+        },
+        {
+          "left_md": "Nürnberg",
+          "right_md": "Bayern"
+        },
+        {
+          "left_md": "Leipzig",
+          "right_md": "Sachsen"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/autobahnen/match"
+      ],
+      "type": "match",
+      "question_md": "Match each Autobahn to its route (Set 1)",
+      "pairs": [
+        {
+          "left_md": "A1",
+          "right_md": "Hamburg – Köln"
+        },
+        {
+          "left_md": "A2",
+          "right_md": "Oberhausen – Berlin"
+        },
+        {
+          "left_md": "A3",
+          "right_md": "Emmerich – Passau"
+        },
+        {
+          "left_md": "A4",
+          "right_md": "Aachen – Görlitz"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/autobahnen/match"
+      ],
+      "type": "match",
+      "question_md": "Match each Autobahn to its route (Set 2)",
+      "pairs": [
+        {
+          "left_md": "A5",
+          "right_md": "Frankfurt – Basel"
+        },
+        {
+          "left_md": "A6",
+          "right_md": "Saarbrücken – Waidhaus"
+        },
+        {
+          "left_md": "A7",
+          "right_md": "Flensburg – Füssen"
+        },
+        {
+          "left_md": "A8",
+          "right_md": "Stuttgart – München"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/autobahnen/match"
+      ],
+      "type": "match",
+      "question_md": "Match each Autobahn to its route (Set 3)",
+      "pairs": [
+        {
+          "left_md": "A9",
+          "right_md": "München – Berlin"
+        },
+        {
+          "left_md": "A24",
+          "right_md": "Hamburg – Berlin"
+        },
+        {
+          "left_md": "A81",
+          "right_md": "Würzburg – Singen"
+        },
+        {
+          "left_md": "A10",
+          "right_md": "Berliner Ring"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/autobahnen/match"
+      ],
+      "type": "match",
+      "question_md": "Match each Autobahn to its route (Set 4)",
+      "pairs": [
+        {
+          "left_md": "A99",
+          "right_md": "Autobahnring München"
+        },
+        {
+          "left_md": "A31",
+          "right_md": "Emden – Bottrop"
+        },
+        {
+          "left_md": "A93",
+          "right_md": "Hof – Kiefersfelden"
+        },
+        {
+          "left_md": "A45",
+          "right_md": "Dortmund – Aschaffenburg"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/facts/mc"
+      ],
+      "type": "mc",
+      "question_md": "Which is the largest Bundesland by area?",
+      "options": [
+        {
+          "text_md": "Bayern",
+          "correct": true
+        },
+        {
+          "text_md": "Niedersachsen",
+          "correct": false
+        },
+        {
+          "text_md": "Baden-Württemberg",
+          "correct": false
+        },
+        {
+          "text_md": "Nordrhein-Westfalen",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/facts/mc"
+      ],
+      "type": "mc",
+      "question_md": "Which is the most populous Bundesland?",
+      "options": [
+        {
+          "text_md": "Bayern",
+          "correct": false
+        },
+        {
+          "text_md": "Nordrhein-Westfalen",
+          "correct": true
+        },
+        {
+          "text_md": "Baden-Württemberg",
+          "correct": false
+        },
+        {
+          "text_md": "Niedersachsen",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/facts/mc"
+      ],
+      "type": "mc",
+      "question_md": "Which is the smallest Bundesland by area?",
+      "options": [
+        {
+          "text_md": "Hamburg",
+          "correct": false
+        },
+        {
+          "text_md": "Saarland",
+          "correct": false
+        },
+        {
+          "text_md": "Bremen",
+          "correct": true
+        },
+        {
+          "text_md": "Berlin",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/facts/mc"
+      ],
+      "type": "mc",
+      "question_md": "Which is the longest Autobahn in Germany?",
+      "options": [
+        {
+          "text_md": "A1",
+          "correct": false
+        },
+        {
+          "text_md": "A3",
+          "correct": false
+        },
+        {
+          "text_md": "A9",
+          "correct": false
+        },
+        {
+          "text_md": "A7",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/facts/mc"
+      ],
+      "type": "mc",
+      "question_md": "Which of these is a city-state (Stadtstaat)?",
+      "options": [
+        {
+          "text_md": "Hamburg",
+          "correct": true
+        },
+        {
+          "text_md": "Hessen",
+          "correct": false
+        },
+        {
+          "text_md": "Sachsen",
+          "correct": false
+        },
+        {
+          "text_md": "Brandenburg",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/facts/mc"
+      ],
+      "type": "mc",
+      "question_md": "How many Bundesländer does Germany have?",
+      "options": [
+        {
+          "text_md": "13",
+          "correct": false
+        },
+        {
+          "text_md": "16",
+          "correct": true
+        },
+        {
+          "text_md": "14",
+          "correct": false
+        },
+        {
+          "text_md": "20",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/facts/mc"
+      ],
+      "type": "mc",
+      "question_md": "What is the capital of Germany?",
+      "options": [
+        {
+          "text_md": "Bonn",
+          "correct": false
+        },
+        {
+          "text_md": "Frankfurt am Main",
+          "correct": false
+        },
+        {
+          "text_md": "Berlin",
+          "correct": true
+        },
+        {
+          "text_md": "München",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/facts/mc"
+      ],
+      "type": "mc",
+      "question_md": "Which Bundesland completely surrounds Berlin?",
+      "options": [
+        {
+          "text_md": "Sachsen",
+          "correct": false
+        },
+        {
+          "text_md": "Sachsen-Anhalt",
+          "correct": false
+        },
+        {
+          "text_md": "Mecklenburg-Vorpommern",
+          "correct": false
+        },
+        {
+          "text_md": "Brandenburg",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/facts/mc"
+      ],
+      "type": "mc",
+      "question_md": "Which river flows through Köln?",
+      "options": [
+        {
+          "text_md": "Rhein",
+          "correct": true
+        },
+        {
+          "text_md": "Elbe",
+          "correct": false
+        },
+        {
+          "text_md": "Donau",
+          "correct": false
+        },
+        {
+          "text_md": "Main",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/facts/mc"
+      ],
+      "type": "mc",
+      "question_md": "Which river flows through Hamburg?",
+      "options": [
+        {
+          "text_md": "Rhein",
+          "correct": false
+        },
+        {
+          "text_md": "Elbe",
+          "correct": true
+        },
+        {
+          "text_md": "Donau",
+          "correct": false
+        },
+        {
+          "text_md": "Weser",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/facts/mc"
+      ],
+      "type": "mc",
+      "question_md": "Which river flows through Frankfurt am Main?",
+      "options": [
+        {
+          "text_md": "Rhein",
+          "correct": false
+        },
+        {
+          "text_md": "Neckar",
+          "correct": false
+        },
+        {
+          "text_md": "Main",
+          "correct": true
+        },
+        {
+          "text_md": "Elbe",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/facts/mc"
+      ],
+      "type": "mc",
+      "question_md": "Which river flows through Dresden?",
+      "options": [
+        {
+          "text_md": "Spree",
+          "correct": false
+        },
+        {
+          "text_md": "Donau",
+          "correct": false
+        },
+        {
+          "text_md": "Rhein",
+          "correct": false
+        },
+        {
+          "text_md": "Elbe",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/facts/mc"
+      ],
+      "type": "mc",
+      "question_md": "What is the highest mountain in Germany?",
+      "options": [
+        {
+          "text_md": "Zugspitze",
+          "correct": true
+        },
+        {
+          "text_md": "Brocken",
+          "correct": false
+        },
+        {
+          "text_md": "Feldberg",
+          "correct": false
+        },
+        {
+          "text_md": "Watzmann",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/facts/mc"
+      ],
+      "type": "mc",
+      "question_md": "Which river forms much of the border between Germany and Poland?",
+      "options": [
+        {
+          "text_md": "Elbe",
+          "correct": false
+        },
+        {
+          "text_md": "Oder",
+          "correct": true
+        },
+        {
+          "text_md": "Weser",
+          "correct": false
+        },
+        {
+          "text_md": "Rhein",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/facts/mc"
+      ],
+      "type": "mc",
+      "question_md": "Which German Bundesland is an island?",
+      "options": [
+        {
+          "text_md": "Schleswig-Holstein",
+          "correct": false
+        },
+        {
+          "text_md": "Mecklenburg-Vorpommern",
+          "correct": false
+        },
+        {
+          "text_md": "None – no Bundesland is an island",
+          "correct": true
+        },
+        {
+          "text_md": "Bremen",
+          "correct": false
+        }
+      ]
+    }
+  ]
+}

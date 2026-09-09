@@ -62,6 +62,29 @@ Card object (as returned to its owner):
 Free-text cards have `"type": "text"` and, instead of
 `options`, `"accepted_answers": ["Mitochondrium"]`.
 
+Matching cards have `"type": "match"` and, instead of
+`options`, a `pairs` list — each pair a left and a right the
+user must connect (e.g. a pronoun and the matching verb
+form):
+
+    {"id": 20, "type": "match",
+     "question_md": "Match each pronoun to the form of **parlare**",
+     "pairs": [
+       {"id": 5, "left_md": "io",       "right_md": "parlo"},
+       {"id": 6, "left_md": "tu",       "right_md": "parli"},
+       {"id": 7, "left_md": "lui/lei",  "right_md": "parla"}
+     ], "dirs": [...], ...}
+
+In quiz form (`quiz=1`) a match card omits the pairing:
+`lefts` lists the left items in order, `choices` lists the
+right items shuffled; a left matches the choice with the
+same `id`.
+
+    {"id": 20, "type": "match",
+     "question_md": "...",
+     "lefts":   [{"id": 5, "left_md": "io"}, {"id": 6, "left_md": "tu"}],
+     "choices": [{"id": 6, "right_md": "parli"}, {"id": 5, "right_md": "parlo"}]}
+
 - `GET /cards` — list. Filters: `dir` (directory id;
   add `recursive=1` to include all transitive
   subdirectories, deduplicated), `unfiled=1` (cards in no
@@ -92,6 +115,14 @@ Free-text cards have `"type": "text"` and, instead of
 Multiple choice: `{"selected": [1, 3]}` (option ids).
 Correct iff the selected set equals the set of correct
 option ids.
+
+Matching: `{"matches": {"5": 5, "6": 7}}` — a map from each
+left item's id to the chosen right item's id. A pair is
+correct when the chosen right id equals the left id; the
+card is correct iff every pair is. Response adds `detail`, a
+per-left list of `{left, chosen_right, correct_right, ok}`;
+`expected` holds the full `pairs`. `match` is `"exact"` or
+`"wrong"`.
 
 Free text: `{"answer": "mitochondrium"}`. Grading:
 

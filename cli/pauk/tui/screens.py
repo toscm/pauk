@@ -71,7 +71,7 @@ class HomeScreen(Screen):
                 Option("Quit", id="quit"),
                 id="home-menu",
             )
-        yield StatusBar("↑↓ move · Enter select · q quit")
+        yield StatusBar("")
 
     def on_mount(self) -> None:
         menu = self.query_one("#home-menu", OptionList)
@@ -212,14 +212,15 @@ class PickerScreen(Screen):
     def _update_status(self) -> None:
         n = self._memory["n"]
         if self._memory["view"] == "tree":
-            keys = "↑↓ move · → enter · ← leave · Enter start · Tab favorites"
+            self.query_one("#picker-status", StatusBar).update(
+                f"{n} questions · [ ] · Tab list"
+            )
         else:
             flt = self._memory["filter"]
-            typed = f"filter: {flt} · " if flt else ""
-            keys = f"{typed}↑↓ move · type to filter · Enter start · Tab tree"
-        self.query_one("#picker-status", StatusBar).update(
-            f"Questions per quiz: {n}  ([ / ] to change) · {keys} · Esc back"
-        )
+            typed = f" · /{flt}" if flt else ""
+            self.query_one("#picker-status", StatusBar).update(
+                f"{n} questions · [ ] · Tab tree{typed}"
+            )
 
     def _rebuild_favorites(self) -> None:
         query = self._memory["filter"]
@@ -338,11 +339,13 @@ class QuizScreen(Screen):
         with Vertical(id="quiz"):
             yield Markdown(id="question")
             yield Vertical(id="question-image")
-            yield Input(placeholder="your answer …", id="answer")
+            yield Static(id="match-left")
+            yield OptionList(id="match-choices")
+            yield Input(placeholder="answer", id="answer")
             yield SelectionList(id="choices")
             with Horizontal(id="quiz-buttons", classes="compact-buttons"):
-                yield Button("Submit", id="submit", variant="primary")
-                yield Button("Continue", id="continue", variant="success")
+                yield Button("Submit", id="submit")
+                yield Button("Continue", id="continue")
             yield Static(id="feedback")
         yield StatusBar("Loading…", id="quiz-status")
 
@@ -362,6 +365,14 @@ class QuizScreen(Screen):
                 self.app.call_from_thread(self.app.pop_screen)
                 return
             run = self.app.client.start_run(self.dir_id, len(cards), self.ranked)
+            # warm the image cache up front so no card paint blocks on
+            # a download later
+            for card in cards:
+                for url in IMAGE_MD_RE.findall(card["question_md"]):
+                    try:
+                        self.app.image_for(url)
+                    except Exception:  # noqa: BLE001
+                        pass
         except Exception as exc:  # noqa: BLE001
             self.app.call_from_thread(
                 self.notify, f"Could not start quiz: {exc}", severity="error"
@@ -374,10 +385,9 @@ class QuizScreen(Screen):
         self.app.call_from_thread(self.show_card)
 
     def _status(self) -> None:
-        best = f"best for n={self.n}: {round(self.best['accuracy'] * 100)}%" if self.best else "no record yet"
+        best = f" · best {round(self.best['accuracy'] * 100)}%" if self.best else ""
         self.query_one("#quiz-status", StatusBar).update(
-            f"{self.deck_title} · Q {self.index + 1}/{len(self.cards)} "
-            f"· score {self.score} · {best} · Esc ends"
+            f"Q {self.index + 1}/{len(self.cards)} · score {self.score}{best}"
         )
 
     def show_card(self) -> None:
@@ -386,25 +396,44 @@ class QuizScreen(Screen):
         self._status()
         question_md = self._show_images(card["question_md"])
         self.query_one("#question", Markdown).update(question_md)
-        answer_input = self.query_one("#answer", Input)
-        choices = self.query_one("#choices", SelectionList)
         self.query_one("#feedback", Static).update("")
         self.query_one("#continue", Button).display = False
+        # hide every answer widget, then show the ones this type needs
+        for wid in ("#answer", "#choices", "#submit", "#match-left", "#match-choices"):
+            self.query_one(wid).display = False
+
         if card["type"] == "mc":
-            answer_input.display = False
+            choices = self.query_one("#choices", SelectionList)
             choices.display = True
             self.query_one("#submit", Button).display = True
             choices.clear_options()
-            choices.add_options([
-                Selection(o["text_md"], o["id"]) for o in card["options"]
-            ])
+            choices.add_options([Selection(o["text_md"], o["id"]) for o in card["options"]])
             choices.focus()
+        elif card["type"] == "match":
+            self._match_idx = 0
+            self._match_answers = {}
+            self.query_one("#match-left").display = True
+            self.query_one("#match-choices").display = True
+            self._show_match_left()
         else:
-            choices.display = False
-            self.query_one("#submit", Button).display = False
-            answer_input.display = True
-            answer_input.value = ""
-            answer_input.focus()
+            answer = self.query_one("#answer", Input)
+            answer.display = True
+            answer.value = ""
+            answer.focus()
+
+    def _show_match_left(self) -> None:
+        card = self.cards[self.index]
+        left = card["lefts"][self._match_idx]
+        self.query_one("#match-left", Static).update(
+            f"[{self._match_idx + 1}/{len(card['lefts'])}]  {left['left_md']}  →"
+        )
+        choices = self.query_one("#match-choices", OptionList)
+        choices.clear_options()
+        choices.add_options([
+            Option(c["right_md"], id=str(c["id"])) for c in card["choices"]
+        ])
+        choices.highlighted = 0
+        choices.focus()
 
     def _show_images(self, question_md: str) -> str:
         holder = self.query_one("#question-image", Vertical)
@@ -441,13 +470,28 @@ class QuizScreen(Screen):
         elif event.button.id == "continue":
             self._next()
 
+    def on_option_list_option_selected(self, event: OptionList.OptionSelected) -> None:
+        if self.in_feedback or self.cards[self.index]["type"] != "match":
+            return
+        card = self.cards[self.index]
+        left_id = card["lefts"][self._match_idx]["id"]
+        self._match_answers[str(left_id)] = int(event.option.id)
+        self._match_idx += 1
+        if self._match_idx < len(card["lefts"]):
+            self._show_match_left()
+        else:
+            self._grade({"matches": self._match_answers})
+
+    @work(thread=True)
     def _grade(self, payload: dict) -> None:
         try:
             result = self.app.client.answer(self.cards[self.index]["id"], payload)
         except Exception as exc:  # noqa: BLE001
-            self.notify(f"Could not submit answer: {exc}", severity="error")
+            self.app.call_from_thread(
+                self.notify, f"Could not submit answer: {exc}", severity="error"
+            )
             return
-        self._feedback(result)
+        self.app.call_from_thread(self._feedback, result)
 
     def _feedback(self, result: dict) -> None:
         self.in_feedback = True
@@ -470,13 +514,17 @@ class QuizScreen(Screen):
                 ids = set(expected["correct_option_ids"])
                 names = [o["text_md"] for o in card["options"] if o["id"] in ids]
                 text = f"✗ wrong — correct: {', '.join(names)}"
+            elif card["type"] == "match":
+                pairs = ", ".join(
+                    f"{p['left_md']}→{p['right_md']}" for p in expected["pairs"]
+                )
+                text = f"✗ wrong — {pairs}"
             else:
                 text = f"✗ wrong — accepted: {', '.join(expected['accepted_answers'])}"
             feedback.set_classes("bad")
-        feedback.update(text + "     (Enter to continue)")
-        self.query_one("#answer", Input).display = False
-        self.query_one("#choices", SelectionList).display = False
-        self.query_one("#submit", Button).display = False
+        feedback.update(text)
+        for wid in ("#answer", "#choices", "#submit", "#match-left", "#match-choices"):
+            self.query_one(wid).display = False
         cont = self.query_one("#continue", Button)
         cont.display = True
         cont.focus()
@@ -488,21 +536,31 @@ class QuizScreen(Screen):
         else:
             self._finish()
 
+    @work(thread=True)
     def _finish(self) -> None:
         try:
             summary = self.app.client.finish_run(self.run_id, self.score, self.answered)
         except Exception as exc:  # noqa: BLE001
-            self.notify(f"Could not save result: {exc}", severity="error")
-            self.app.pop_screen()
+            self.app.call_from_thread(
+                self.notify, f"Could not save result: {exc}", severity="error"
+            )
+            self.app.call_from_thread(self.app.pop_screen)
             return
+        self.app.call_from_thread(self._show_result, summary)
+
+    def _show_result(self, summary: dict) -> None:
         self.app.switch_screen(ResultScreen(
             summary, self.cards, self.wrong_cards, self.dir_id, self.deck_title, self.n
         ))
 
     def action_quit_quiz(self) -> None:
+        # an abandoned run is finished as unranked so a partial score
+        # never enters a per-n leaderboard
         if self.run_id is not None:
             try:
-                self.app.client.finish_run(self.run_id, self.score, self.answered)
+                self.app.client.finish_run(
+                    self.run_id, self.score, self.answered, ranked=False
+                )
             except Exception:  # noqa: BLE001 - leaving anyway
                 pass
         self.app.pop_screen()
@@ -545,14 +603,14 @@ class ResultScreen(Screen):
         with Vertical(id="result"):
             if summary.get("rank") is not None:
                 yield self._trophy()
-                yield Static(f"New record — place #{summary['rank']} for n={self.n}!", id="rank-line")
+                yield Static(f"New record — #{summary['rank']}!", id="rank-line")
             yield Static("\n".join(lines), id="result-text")
             with Horizontal(id="result-buttons", classes="compact-buttons"):
-                yield Button("↻ Repeat (r)", id="repeat")
+                yield Button("Repeat", id="repeat")
                 if self.wrong_cards:
-                    yield Button(f"✗ Repeat {len(self.wrong_cards)} wrong (w)", id="repeat-wrong")
-                yield Button("Done (Esc)", id="done")
-        yield StatusBar("r repeat · w repeat wrong · Esc back to decks")
+                    yield Button(f"Repeat {len(self.wrong_cards)} wrong", id="repeat-wrong")
+                yield Button("Done", id="done")
+        yield StatusBar("r repeat · w wrong")
 
     def _trophy(self):
         try:
@@ -658,7 +716,7 @@ class SettingsScreen(Screen):
                 value=str(config_mod.get("default_questions")),
                 id="default-n", type="integer",
             )
-        yield StatusBar("Enter/select to save · Esc back")
+        yield StatusBar("")
 
     def on_option_list_option_selected(self, event: OptionList.OptionSelected) -> None:
         config_mod.set_value("statusbar_position", event.option.id)

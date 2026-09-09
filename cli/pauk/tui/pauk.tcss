@@ -28,10 +28,6 @@ StatusBar {
     max-height: 12;
 }
 
-#filter {
-    margin: 0 1;
-}
-
 #quiz {
     padding: 1 2;
 }
@@ -40,8 +36,13 @@ StatusBar {
     margin-bottom: 1;
 }
 
-#choices {
+#choices, #match-choices {
     max-height: 12;
+}
+
+#match-left {
+    text-style: bold;
+    margin-bottom: 1;
 }
 
 #feedback {
@@ -49,17 +50,8 @@ StatusBar {
     text-style: bold;
 }
 
-#feedback.good {
-    color: $success;
-    margin-top: 1;
-    text-style: bold;
-}
-
-#feedback.bad {
-    color: $error;
-    margin-top: 1;
-    text-style: bold;
-}
+#feedback.good { color: $success; }
+#feedback.bad { color: $error; }
 
 /* compact, text-only buttons: one row tall, no heavy border */
 .compact-buttons {

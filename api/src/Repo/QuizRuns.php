@@ -35,8 +35,13 @@ final class QuizRuns
         return $top[0] ?? null;
     }
 
-    /** @return array<string, mixed> */
-    public function finish(int $userId, int $runId, int $correct, int $total): array
+    /**
+     * @param ?bool $forceRanked when false, downgrades the run to
+     *   unranked (used when a quiz is abandoned early so a partial
+     *   score never enters a leaderboard)
+     * @return array<string, mixed>
+     */
+    public function finish(int $userId, int $runId, int $correct, int $total, ?bool $forceRanked = null): array
     {
         $stmt = $this->pdo->prepare(
             'SELECT id, dir_id, total, ranked, finished_at
@@ -53,12 +58,14 @@ final class QuizRuns
         if ($correct < 0 || $total < 0 || $correct > $total) {
             throw new ApiError(400, 'validation', 'invalid correct/total');
         }
-        $stmt = $this->pdo->prepare(
-            'UPDATE quiz_runs SET correct = ?, total = ?, finished_at = NOW() WHERE id = ?'
-        );
-        $stmt->execute([$correct, $total, $runId]);
-
         $ranked = (int) $run['ranked'] === 1;
+        if ($forceRanked === false) {
+            $ranked = false;
+        }
+        $stmt = $this->pdo->prepare(
+            'UPDATE quiz_runs SET correct = ?, total = ?, ranked = ?, finished_at = NOW() WHERE id = ?'
+        );
+        $stmt->execute([$correct, $total, $ranked ? 1 : 0, $runId]);
         $dirId = $run['dir_id'] === null ? null : (int) $run['dir_id'];
         // Only ranked runs have a leaderboard; the leaderboard is
         // per (dir, total) so a repeat of a subset never competes

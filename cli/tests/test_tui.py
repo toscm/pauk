@@ -45,8 +45,18 @@ def client(server, tmp_path):
                     {"text_md": "nope", "correct": False},
                 ],
             },
+            {
+                "dirs": ["tuidemo/match"],
+                "type": "match",
+                "question_md": "Match them",
+                "pairs": [
+                    {"left_md": "io", "right_md": "sono"},
+                    {"left_md": "tu", "right_md": "sei"},
+                ],
+            },
         ],
     }
+    sample["dirs"].append("tuidemo/match")
     path = tmp_path / "tui.json"
     path.write_text(json.dumps(sample))
     import_file(client, path, echo=lambda *_: None)
@@ -127,7 +137,7 @@ async def test_question_count_in_statusbar(client):
         await pilot.press("[")                      # -5
         assert app.picker_memory["n"] == 30
         status = str(app.screen.query_one("#picker-status").render())
-        assert "Questions per quiz: 30" in status
+        assert "30 questions" in status
 
 
 async def test_repeat_wrong_is_unranked(client):
@@ -206,3 +216,121 @@ async def test_quiz_shows_image(client, tmp_path):
         assert len(app.screen.query(ImageWidget)) == 1
         # cached: the app holds the decoded image
         assert media["url"] in app._image_cache
+
+
+async def test_match_card_flow(client):
+    """A match card is answered by picking a right item for each left."""
+    app = PaukApp(client)
+    async with app.run_test(size=(100, 40)) as pilot:
+        await pilot.press("enter")
+        await _settle(pilot)
+        await pilot.press(*"tuidemo/match", "enter")   # filter to the match deck
+        await _settle(pilot)
+        assert isinstance(app.screen, QuizScreen)
+        assert app.screen.cards[0]["type"] == "match"
+        # answer both lefts correctly: pick the choice whose id matches
+        for _ in range(len(app.screen.cards[0]["lefts"])):
+            card = app.screen.cards[app.screen.index]
+            left_id = card["lefts"][app.screen._match_idx]["id"]
+            choices = app.screen.query_one("#match-choices")
+            # highlight the choice with the matching id, then select
+            for i in range(choices.option_count):
+                if choices.get_option_at_index(i).id == str(left_id):
+                    choices.highlighted = i
+                    break
+            await pilot.press("enter")
+            await _settle(pilot)
+        assert app.screen.in_feedback
+        assert "correct" in str(app.screen.query_one("#feedback").render())
+
+
+async def test_all_cards_quiz(client):
+    app = PaukApp(client)
+    async with app.run_test(size=(100, 40)) as pilot:
+        await pilot.press("enter")
+        await _settle(pilot)
+        # first favorites option is "all cards"
+        fav = app.screen.query_one("#fav-list")
+        assert fav.get_option_at_index(0).id == "__all__"
+        fav.highlighted = 0
+        await pilot.press("enter")
+        await _settle(pilot)
+        assert isinstance(app.screen, QuizScreen)
+        assert app.screen.dir_id is None
+
+
+async def test_quit_early_is_unranked(client, monkeypatch):
+    app = PaukApp(client)
+    async with app.run_test(size=(100, 40)) as pilot:
+        await pilot.press("enter")
+        await _settle(pilot)
+        await pilot.press(*"tuidemo/inner", "enter")
+        await _settle(pilot)
+        assert isinstance(app.screen, QuizScreen)
+        finished = {}
+        real = app.client.finish_run
+
+        def spy(run_id, correct, total, ranked=None):
+            finished["ranked"] = ranked
+            return real(run_id, correct, total, ranked)
+
+        monkeypatch.setattr(app.client, "finish_run", spy)
+        await pilot.press("escape")             # quit early
+        await _settle(pilot)
+        assert finished.get("ranked") is False
+
+
+async def test_error_toast_on_load_failure(client, monkeypatch):
+    def boom():
+        raise RuntimeError("network down")
+
+    app = PaukApp(client)
+    async with app.run_test(size=(100, 40)) as pilot:
+        monkeypatch.setattr(app.client, "quiz_dirs", boom)
+        await pilot.press("enter")              # open picker → load fails
+        await _settle(pilot)
+        assert isinstance(app.screen, PickerScreen)  # did not crash
+        notifications = list(app._notifications)
+        assert any(n.severity == "error" for n in notifications)
+
+
+async def test_repeat_full_deck_is_unranked(client):
+    app = PaukApp(client)
+    async with app.run_test(size=(100, 40)) as pilot:
+        await pilot.press("enter")
+        await _settle(pilot)
+        await pilot.press(*"tuidemo/inner", "enter")
+        await _settle(pilot)
+        for _ in range(len(app.screen.cards)):
+            card = app.screen.cards[app.screen.index]
+            if card["type"] == "text":
+                await pilot.press(*"x", "enter")
+            else:
+                await pilot.press("space")
+                await pilot.click("#submit")
+            await pilot.pause()
+            await pilot.press("enter")
+            await pilot.pause()
+        assert isinstance(app.screen, ResultScreen)
+        await pilot.press("r")                  # repeat whole deck
+        await _settle(pilot)
+        assert isinstance(app.screen, QuizScreen)
+        assert app.screen.ranked is False
+
+
+async def test_settings_default_questions(client, tmp_path, monkeypatch):
+    monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path / "cfg2"))
+    from importlib import reload
+
+    from pauk import config as config_mod
+    reload(config_mod)
+    app = PaukApp(client)
+    async with app.run_test(size=(100, 40)) as pilot:
+        await pilot.press("down", "down", "enter")   # Settings
+        assert isinstance(app.screen, SettingsScreen)
+        inp = app.screen.query_one("#default-n")
+        inp.focus()
+        await pilot.pause()
+        await pilot.press("backspace", "backspace", "5", "0", "enter")
+        assert config_mod.get("default_questions") == 50
+    reload(config_mod)

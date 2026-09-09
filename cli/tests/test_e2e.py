@@ -327,3 +327,17 @@ def test_media_upload_and_import_substitution(cli_env, tmp_path):
     refused = run_cli(cli_env, "media", "rm", media_id)
     assert refused.returncode == 1
     assert "referenced" in refused.stdout
+
+    # unlink the card, then media rm succeeds
+    ls_cards = run_cli(cli_env, "ls", "media-demo")
+    import re as _re
+    card_id = _re.search(r"#(\d+)", ls_cards.stdout).group(1)
+    run_cli(cli_env, "rm", card_id)
+    # (the mc card also references it) remove media-mc card too
+    for line in run_cli(cli_env, "ls", "media-mc").stdout.splitlines():
+        m = _re.search(r"#(\d+)", line)
+        if m:
+            run_cli(cli_env, "rm", m.group(1))
+    removed = run_cli(cli_env, "media", "rm", media_id)
+    assert removed.returncode == 0, removed.stdout
+    assert "deleted" in removed.stdout

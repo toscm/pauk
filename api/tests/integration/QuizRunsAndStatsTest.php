@@ -91,6 +91,21 @@ final class QuizRunsAndStatsTest extends ApiTestCase
         $this->assertSame(409, $status);
     }
 
+    public function testAbandonedRunCanBeForcedUnranked(): void
+    {
+        $dir = $this->makeDir('d');
+        // start a ranked run of 25, quit after 2 correct → finish
+        // as unranked so a 2/2 partial never becomes "best for n=2"
+        [, $run] = $this->request('POST', '/quiz/runs', ['dir_id' => $dir, 'total' => 25]);
+        [, $result] = $this->request('PATCH', "/quiz/runs/{$run['id']}", [
+            'correct' => 2, 'total' => 2, 'ranked' => false,
+        ]);
+        $this->assertFalse($result['ranked']);
+        $this->assertNull($result['rank']);
+        [, $next] = $this->request('POST', '/quiz/runs', ['dir_id' => $dir, 'total' => 2]);
+        $this->assertNull($next['best']);
+    }
+
     public function testZeroTotalRunsAreNotRanked(): void
     {
         $dir = $this->makeDir('d');

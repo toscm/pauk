@@ -59,9 +59,15 @@ final class Db
     /** @return list<string> */
     private static function splitStatements(string $sql): array
     {
-        // Migrations contain plain DDL/DML without string literals
-        // holding semicolons, so a simple split is sufficient.
-        $parts = array_map('trim', explode(';', $sql));
+        // Strip full-line -- comments first (a semicolon inside a
+        // comment would otherwise split a statement in two), then
+        // split on ';'. Migrations hold no string literals with
+        // semicolons, so this simple split is sufficient.
+        $lines = array_filter(
+            explode("\n", $sql),
+            fn ($line) => !str_starts_with(ltrim($line), '--')
+        );
+        $parts = array_map('trim', explode(';', implode("\n", $lines)));
         return array_values(array_filter($parts, fn ($p) => $p !== ''));
     }
 }

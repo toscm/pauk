@@ -119,10 +119,14 @@ class Client:
             json={"dir_id": dir_id, "total": total, "ranked": ranked},
         )
 
-    def finish_run(self, run_id: int, correct: int, total: int) -> dict:
-        return self._call(
-            "PATCH", f"/quiz/runs/{run_id}", json={"correct": correct, "total": total}
-        )
+    def finish_run(self, run_id: int, correct: int, total: int, ranked: bool | None = None) -> dict:
+        body: dict = {"correct": correct, "total": total}
+        if ranked is not None:
+            body["ranked"] = ranked   # False marks an abandoned run
+        return self._call("PATCH", f"/quiz/runs/{run_id}", json=body)
+
+    def close(self) -> None:
+        self._http.close()
 
     # --- media ------------------------------------------------------
     def upload_media(self, path) -> dict:

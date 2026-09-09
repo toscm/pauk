@@ -143,11 +143,12 @@ final class App
                 $body = Http::body($request);
                 $correct = $body['correct'] ?? null;
                 $total = $body['total'] ?? null;
-                if (!is_int($correct) || !is_int($total)) {
-                    throw new ApiError(400, 'validation', 'correct and total must be integers');
+                $ranked = $body['ranked'] ?? null;   // false = abandoned run
+                if (!is_int($correct) || !is_int($total) || ($ranked !== null && !is_bool($ranked))) {
+                    throw new ApiError(400, 'validation', 'correct/total integers, ranked bool');
                 }
                 $runs = new \Pauk\Repo\QuizRuns($pdo);
-                return Http::json($response, $runs->finish($userId, (int) $args['id'], $correct, $total));
+                return Http::json($response, $runs->finish($userId, (int) $args['id'], $correct, $total, $ranked));
             });
 
             $group->get('/stats', function (Request $request, Response $response) use ($repos) {

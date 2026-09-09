@@ -1,0 +1,3299 @@
+{
+  "dirs": [
+    "italian",
+    "italian/verbs",
+    "italian/verbs/conjugation",
+    "italian/verbs/conjugation/present",
+    "italian/verbs/conjugation/essere-avere",
+    "italian/verbs/conjugation/present/essere",
+    "italian/verbs/conjugation/present/avere",
+    "italian/verbs/conjugation/present/fare",
+    "italian/verbs/conjugation/present/andare",
+    "italian/verbs/conjugation/present/venire",
+    "italian/verbs/conjugation/present/dire",
+    "italian/verbs/conjugation/present/potere",
+    "italian/verbs/conjugation/present/volere",
+    "italian/verbs/conjugation/present/dovere",
+    "italian/verbs/conjugation/present/sapere",
+    "italian/verbs/conjugation/present/vedere",
+    "italian/verbs/conjugation/present/dare",
+    "italian/verbs/conjugation/present/stare",
+    "italian/verbs/conjugation/present/parlare",
+    "italian/verbs/conjugation/present/mangiare",
+    "italian/verbs/conjugation/present/prendere",
+    "italian/verbs/conjugation/present/mettere",
+    "italian/verbs/conjugation/present/uscire",
+    "italian/verbs/conjugation/present/dormire",
+    "italian/verbs/conjugation/present/finire",
+    "italian/verbs/conjugation/present/capire",
+    "italian/verbs/conjugation/present/leggere",
+    "italian/verbs/conjugation/present/scrivere",
+    "italian/verbs/conjugation/present/vivere"
+  ],
+  "dir_links": [],
+  "cards": [
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/essere"
+      ],
+      "type": "match",
+      "question_md": "Match each pronoun to the present tense of **essere** (to be)",
+      "pairs": [
+        {
+          "left_md": "io",
+          "right_md": "sono"
+        },
+        {
+          "left_md": "tu",
+          "right_md": "sei"
+        },
+        {
+          "left_md": "lui/lei",
+          "right_md": "è"
+        },
+        {
+          "left_md": "noi",
+          "right_md": "siamo"
+        },
+        {
+          "left_md": "voi",
+          "right_md": "siete"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/essere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **io** ___ (*essere*, to be)?",
+      "options": [
+        {
+          "text_md": "sono",
+          "correct": true
+        },
+        {
+          "text_md": "sei",
+          "correct": false
+        },
+        {
+          "text_md": "è",
+          "correct": false
+        },
+        {
+          "text_md": "siamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/essere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **tu** ___ (*essere*, to be)?",
+      "options": [
+        {
+          "text_md": "sono",
+          "correct": false
+        },
+        {
+          "text_md": "sei",
+          "correct": true
+        },
+        {
+          "text_md": "è",
+          "correct": false
+        },
+        {
+          "text_md": "siamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/essere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **noi** ___ (*essere*, to be)?",
+      "options": [
+        {
+          "text_md": "sono",
+          "correct": false
+        },
+        {
+          "text_md": "sei",
+          "correct": false
+        },
+        {
+          "text_md": "è",
+          "correct": false
+        },
+        {
+          "text_md": "siamo",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/essere"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **essere** (to be) for **voi**",
+      "accepted_answers": [
+        "siete"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/essere"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **essere** (to be) for **loro**",
+      "accepted_answers": [
+        "sono"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/avere"
+      ],
+      "type": "match",
+      "question_md": "Match each pronoun to the present tense of **avere** (to have)",
+      "pairs": [
+        {
+          "left_md": "io",
+          "right_md": "ho"
+        },
+        {
+          "left_md": "tu",
+          "right_md": "hai"
+        },
+        {
+          "left_md": "lui/lei",
+          "right_md": "ha"
+        },
+        {
+          "left_md": "noi",
+          "right_md": "abbiamo"
+        },
+        {
+          "left_md": "voi",
+          "right_md": "avete"
+        },
+        {
+          "left_md": "loro",
+          "right_md": "hanno"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/avere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **io** ___ (*avere*, to have)?",
+      "options": [
+        {
+          "text_md": "hai",
+          "correct": false
+        },
+        {
+          "text_md": "ho",
+          "correct": true
+        },
+        {
+          "text_md": "ha",
+          "correct": false
+        },
+        {
+          "text_md": "abbiamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/avere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **tu** ___ (*avere*, to have)?",
+      "options": [
+        {
+          "text_md": "ho",
+          "correct": false
+        },
+        {
+          "text_md": "ha",
+          "correct": false
+        },
+        {
+          "text_md": "hai",
+          "correct": true
+        },
+        {
+          "text_md": "abbiamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/avere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **noi** ___ (*avere*, to have)?",
+      "options": [
+        {
+          "text_md": "abbiamo",
+          "correct": true
+        },
+        {
+          "text_md": "ho",
+          "correct": false
+        },
+        {
+          "text_md": "hai",
+          "correct": false
+        },
+        {
+          "text_md": "ha",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/avere"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **avere** (to have) for **voi**",
+      "accepted_answers": [
+        "avete"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/avere"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **avere** (to have) for **loro**",
+      "accepted_answers": [
+        "hanno"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/fare"
+      ],
+      "type": "match",
+      "question_md": "Match each pronoun to the present tense of **fare** (to do/make)",
+      "pairs": [
+        {
+          "left_md": "io",
+          "right_md": "faccio"
+        },
+        {
+          "left_md": "tu",
+          "right_md": "fai"
+        },
+        {
+          "left_md": "lui/lei",
+          "right_md": "fa"
+        },
+        {
+          "left_md": "noi",
+          "right_md": "facciamo"
+        },
+        {
+          "left_md": "voi",
+          "right_md": "fate"
+        },
+        {
+          "left_md": "loro",
+          "right_md": "fanno"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/fare"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **io** ___ (*fare*, to do/make)?",
+      "options": [
+        {
+          "text_md": "fai",
+          "correct": false
+        },
+        {
+          "text_md": "fa",
+          "correct": false
+        },
+        {
+          "text_md": "faccio",
+          "correct": true
+        },
+        {
+          "text_md": "facciamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/fare"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **tu** ___ (*fare*, to do/make)?",
+      "options": [
+        {
+          "text_md": "faccio",
+          "correct": false
+        },
+        {
+          "text_md": "fa",
+          "correct": false
+        },
+        {
+          "text_md": "facciamo",
+          "correct": false
+        },
+        {
+          "text_md": "fai",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/fare"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **noi** ___ (*fare*, to do/make)?",
+      "options": [
+        {
+          "text_md": "faccio",
+          "correct": false
+        },
+        {
+          "text_md": "facciamo",
+          "correct": true
+        },
+        {
+          "text_md": "fai",
+          "correct": false
+        },
+        {
+          "text_md": "fa",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/fare"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **fare** (to do/make) for **voi**",
+      "accepted_answers": [
+        "fate"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/fare"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **fare** (to do/make) for **loro**",
+      "accepted_answers": [
+        "fanno"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/andare"
+      ],
+      "type": "match",
+      "question_md": "Match each pronoun to the present tense of **andare** (to go)",
+      "pairs": [
+        {
+          "left_md": "io",
+          "right_md": "vado"
+        },
+        {
+          "left_md": "tu",
+          "right_md": "vai"
+        },
+        {
+          "left_md": "lui/lei",
+          "right_md": "va"
+        },
+        {
+          "left_md": "noi",
+          "right_md": "andiamo"
+        },
+        {
+          "left_md": "voi",
+          "right_md": "andate"
+        },
+        {
+          "left_md": "loro",
+          "right_md": "vanno"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/andare"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **io** ___ (*andare*, to go)?",
+      "options": [
+        {
+          "text_md": "vai",
+          "correct": false
+        },
+        {
+          "text_md": "va",
+          "correct": false
+        },
+        {
+          "text_md": "andiamo",
+          "correct": false
+        },
+        {
+          "text_md": "vado",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/andare"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **tu** ___ (*andare*, to go)?",
+      "options": [
+        {
+          "text_md": "vai",
+          "correct": true
+        },
+        {
+          "text_md": "vado",
+          "correct": false
+        },
+        {
+          "text_md": "va",
+          "correct": false
+        },
+        {
+          "text_md": "andiamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/andare"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **noi** ___ (*andare*, to go)?",
+      "options": [
+        {
+          "text_md": "vado",
+          "correct": false
+        },
+        {
+          "text_md": "vai",
+          "correct": false
+        },
+        {
+          "text_md": "andiamo",
+          "correct": true
+        },
+        {
+          "text_md": "va",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/andare"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **andare** (to go) for **voi**",
+      "accepted_answers": [
+        "andate"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/andare"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **andare** (to go) for **loro**",
+      "accepted_answers": [
+        "vanno"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/venire"
+      ],
+      "type": "match",
+      "question_md": "Match each pronoun to the present tense of **venire** (to come)",
+      "pairs": [
+        {
+          "left_md": "io",
+          "right_md": "vengo"
+        },
+        {
+          "left_md": "tu",
+          "right_md": "vieni"
+        },
+        {
+          "left_md": "lui/lei",
+          "right_md": "viene"
+        },
+        {
+          "left_md": "noi",
+          "right_md": "veniamo"
+        },
+        {
+          "left_md": "voi",
+          "right_md": "venite"
+        },
+        {
+          "left_md": "loro",
+          "right_md": "vengono"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/venire"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **io** ___ (*venire*, to come)?",
+      "options": [
+        {
+          "text_md": "vengo",
+          "correct": true
+        },
+        {
+          "text_md": "vieni",
+          "correct": false
+        },
+        {
+          "text_md": "viene",
+          "correct": false
+        },
+        {
+          "text_md": "veniamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/venire"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **tu** ___ (*venire*, to come)?",
+      "options": [
+        {
+          "text_md": "vengo",
+          "correct": false
+        },
+        {
+          "text_md": "vieni",
+          "correct": true
+        },
+        {
+          "text_md": "viene",
+          "correct": false
+        },
+        {
+          "text_md": "veniamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/venire"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **noi** ___ (*venire*, to come)?",
+      "options": [
+        {
+          "text_md": "vengo",
+          "correct": false
+        },
+        {
+          "text_md": "vieni",
+          "correct": false
+        },
+        {
+          "text_md": "viene",
+          "correct": false
+        },
+        {
+          "text_md": "veniamo",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/venire"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **venire** (to come) for **voi**",
+      "accepted_answers": [
+        "venite"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/venire"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **venire** (to come) for **loro**",
+      "accepted_answers": [
+        "vengono"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/dire"
+      ],
+      "type": "match",
+      "question_md": "Match each pronoun to the present tense of **dire** (to say)",
+      "pairs": [
+        {
+          "left_md": "io",
+          "right_md": "dico"
+        },
+        {
+          "left_md": "tu",
+          "right_md": "dici"
+        },
+        {
+          "left_md": "lui/lei",
+          "right_md": "dice"
+        },
+        {
+          "left_md": "noi",
+          "right_md": "diciamo"
+        },
+        {
+          "left_md": "voi",
+          "right_md": "dite"
+        },
+        {
+          "left_md": "loro",
+          "right_md": "dicono"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/dire"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **io** ___ (*dire*, to say)?",
+      "options": [
+        {
+          "text_md": "dici",
+          "correct": false
+        },
+        {
+          "text_md": "dico",
+          "correct": true
+        },
+        {
+          "text_md": "dice",
+          "correct": false
+        },
+        {
+          "text_md": "diciamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/dire"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **tu** ___ (*dire*, to say)?",
+      "options": [
+        {
+          "text_md": "dico",
+          "correct": false
+        },
+        {
+          "text_md": "dice",
+          "correct": false
+        },
+        {
+          "text_md": "dici",
+          "correct": true
+        },
+        {
+          "text_md": "diciamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/dire"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **noi** ___ (*dire*, to say)?",
+      "options": [
+        {
+          "text_md": "diciamo",
+          "correct": true
+        },
+        {
+          "text_md": "dico",
+          "correct": false
+        },
+        {
+          "text_md": "dici",
+          "correct": false
+        },
+        {
+          "text_md": "dice",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/dire"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **dire** (to say) for **voi**",
+      "accepted_answers": [
+        "dite"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/dire"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **dire** (to say) for **loro**",
+      "accepted_answers": [
+        "dicono"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/potere"
+      ],
+      "type": "match",
+      "question_md": "Match each pronoun to the present tense of **potere** (can, to be able to)",
+      "pairs": [
+        {
+          "left_md": "io",
+          "right_md": "posso"
+        },
+        {
+          "left_md": "tu",
+          "right_md": "puoi"
+        },
+        {
+          "left_md": "lui/lei",
+          "right_md": "può"
+        },
+        {
+          "left_md": "noi",
+          "right_md": "possiamo"
+        },
+        {
+          "left_md": "voi",
+          "right_md": "potete"
+        },
+        {
+          "left_md": "loro",
+          "right_md": "possono"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/potere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **io** ___ (*potere*, can, to be able to)?",
+      "options": [
+        {
+          "text_md": "puoi",
+          "correct": false
+        },
+        {
+          "text_md": "può",
+          "correct": false
+        },
+        {
+          "text_md": "posso",
+          "correct": true
+        },
+        {
+          "text_md": "possiamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/potere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **tu** ___ (*potere*, can, to be able to)?",
+      "options": [
+        {
+          "text_md": "posso",
+          "correct": false
+        },
+        {
+          "text_md": "può",
+          "correct": false
+        },
+        {
+          "text_md": "possiamo",
+          "correct": false
+        },
+        {
+          "text_md": "puoi",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/potere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **noi** ___ (*potere*, can, to be able to)?",
+      "options": [
+        {
+          "text_md": "posso",
+          "correct": false
+        },
+        {
+          "text_md": "possiamo",
+          "correct": true
+        },
+        {
+          "text_md": "puoi",
+          "correct": false
+        },
+        {
+          "text_md": "può",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/potere"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **potere** (can, to be able to) for **voi**",
+      "accepted_answers": [
+        "potete"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/potere"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **potere** (can, to be able to) for **loro**",
+      "accepted_answers": [
+        "possono"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/volere"
+      ],
+      "type": "match",
+      "question_md": "Match each pronoun to the present tense of **volere** (to want)",
+      "pairs": [
+        {
+          "left_md": "io",
+          "right_md": "voglio"
+        },
+        {
+          "left_md": "tu",
+          "right_md": "vuoi"
+        },
+        {
+          "left_md": "lui/lei",
+          "right_md": "vuole"
+        },
+        {
+          "left_md": "noi",
+          "right_md": "vogliamo"
+        },
+        {
+          "left_md": "voi",
+          "right_md": "volete"
+        },
+        {
+          "left_md": "loro",
+          "right_md": "vogliono"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/volere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **io** ___ (*volere*, to want)?",
+      "options": [
+        {
+          "text_md": "vuoi",
+          "correct": false
+        },
+        {
+          "text_md": "vuole",
+          "correct": false
+        },
+        {
+          "text_md": "vogliamo",
+          "correct": false
+        },
+        {
+          "text_md": "voglio",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/volere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **tu** ___ (*volere*, to want)?",
+      "options": [
+        {
+          "text_md": "vuoi",
+          "correct": true
+        },
+        {
+          "text_md": "voglio",
+          "correct": false
+        },
+        {
+          "text_md": "vuole",
+          "correct": false
+        },
+        {
+          "text_md": "vogliamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/volere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **noi** ___ (*volere*, to want)?",
+      "options": [
+        {
+          "text_md": "voglio",
+          "correct": false
+        },
+        {
+          "text_md": "vuoi",
+          "correct": false
+        },
+        {
+          "text_md": "vogliamo",
+          "correct": true
+        },
+        {
+          "text_md": "vuole",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/volere"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **volere** (to want) for **voi**",
+      "accepted_answers": [
+        "volete"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/volere"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **volere** (to want) for **loro**",
+      "accepted_answers": [
+        "vogliono"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/dovere"
+      ],
+      "type": "match",
+      "question_md": "Match each pronoun to the present tense of **dovere** (must, to have to)",
+      "pairs": [
+        {
+          "left_md": "io",
+          "right_md": "devo"
+        },
+        {
+          "left_md": "tu",
+          "right_md": "devi"
+        },
+        {
+          "left_md": "lui/lei",
+          "right_md": "deve"
+        },
+        {
+          "left_md": "noi",
+          "right_md": "dobbiamo"
+        },
+        {
+          "left_md": "voi",
+          "right_md": "dovete"
+        },
+        {
+          "left_md": "loro",
+          "right_md": "devono"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/dovere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **io** ___ (*dovere*, must, to have to)?",
+      "options": [
+        {
+          "text_md": "devo",
+          "correct": true
+        },
+        {
+          "text_md": "devi",
+          "correct": false
+        },
+        {
+          "text_md": "deve",
+          "correct": false
+        },
+        {
+          "text_md": "dobbiamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/dovere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **tu** ___ (*dovere*, must, to have to)?",
+      "options": [
+        {
+          "text_md": "devo",
+          "correct": false
+        },
+        {
+          "text_md": "devi",
+          "correct": true
+        },
+        {
+          "text_md": "deve",
+          "correct": false
+        },
+        {
+          "text_md": "dobbiamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/dovere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **noi** ___ (*dovere*, must, to have to)?",
+      "options": [
+        {
+          "text_md": "devo",
+          "correct": false
+        },
+        {
+          "text_md": "devi",
+          "correct": false
+        },
+        {
+          "text_md": "deve",
+          "correct": false
+        },
+        {
+          "text_md": "dobbiamo",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/dovere"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **dovere** (must, to have to) for **voi**",
+      "accepted_answers": [
+        "dovete"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/dovere"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **dovere** (must, to have to) for **loro**",
+      "accepted_answers": [
+        "devono"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/sapere"
+      ],
+      "type": "match",
+      "question_md": "Match each pronoun to the present tense of **sapere** (to know (a fact))",
+      "pairs": [
+        {
+          "left_md": "io",
+          "right_md": "so"
+        },
+        {
+          "left_md": "tu",
+          "right_md": "sai"
+        },
+        {
+          "left_md": "lui/lei",
+          "right_md": "sa"
+        },
+        {
+          "left_md": "noi",
+          "right_md": "sappiamo"
+        },
+        {
+          "left_md": "voi",
+          "right_md": "sapete"
+        },
+        {
+          "left_md": "loro",
+          "right_md": "sanno"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/sapere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **io** ___ (*sapere*, to know (a fact))?",
+      "options": [
+        {
+          "text_md": "sai",
+          "correct": false
+        },
+        {
+          "text_md": "so",
+          "correct": true
+        },
+        {
+          "text_md": "sa",
+          "correct": false
+        },
+        {
+          "text_md": "sappiamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/sapere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **tu** ___ (*sapere*, to know (a fact))?",
+      "options": [
+        {
+          "text_md": "so",
+          "correct": false
+        },
+        {
+          "text_md": "sa",
+          "correct": false
+        },
+        {
+          "text_md": "sai",
+          "correct": true
+        },
+        {
+          "text_md": "sappiamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/sapere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **noi** ___ (*sapere*, to know (a fact))?",
+      "options": [
+        {
+          "text_md": "sappiamo",
+          "correct": true
+        },
+        {
+          "text_md": "so",
+          "correct": false
+        },
+        {
+          "text_md": "sai",
+          "correct": false
+        },
+        {
+          "text_md": "sa",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/sapere"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **sapere** (to know (a fact)) for **voi**",
+      "accepted_answers": [
+        "sapete"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/sapere"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **sapere** (to know (a fact)) for **loro**",
+      "accepted_answers": [
+        "sanno"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/vedere"
+      ],
+      "type": "match",
+      "question_md": "Match each pronoun to the present tense of **vedere** (to see)",
+      "pairs": [
+        {
+          "left_md": "io",
+          "right_md": "vedo"
+        },
+        {
+          "left_md": "tu",
+          "right_md": "vedi"
+        },
+        {
+          "left_md": "lui/lei",
+          "right_md": "vede"
+        },
+        {
+          "left_md": "noi",
+          "right_md": "vediamo"
+        },
+        {
+          "left_md": "voi",
+          "right_md": "vedete"
+        },
+        {
+          "left_md": "loro",
+          "right_md": "vedono"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/vedere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **io** ___ (*vedere*, to see)?",
+      "options": [
+        {
+          "text_md": "vedi",
+          "correct": false
+        },
+        {
+          "text_md": "vede",
+          "correct": false
+        },
+        {
+          "text_md": "vedo",
+          "correct": true
+        },
+        {
+          "text_md": "vediamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/vedere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **tu** ___ (*vedere*, to see)?",
+      "options": [
+        {
+          "text_md": "vedo",
+          "correct": false
+        },
+        {
+          "text_md": "vede",
+          "correct": false
+        },
+        {
+          "text_md": "vediamo",
+          "correct": false
+        },
+        {
+          "text_md": "vedi",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/vedere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **noi** ___ (*vedere*, to see)?",
+      "options": [
+        {
+          "text_md": "vedo",
+          "correct": false
+        },
+        {
+          "text_md": "vediamo",
+          "correct": true
+        },
+        {
+          "text_md": "vedi",
+          "correct": false
+        },
+        {
+          "text_md": "vede",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/vedere"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **vedere** (to see) for **voi**",
+      "accepted_answers": [
+        "vedete"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/vedere"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **vedere** (to see) for **loro**",
+      "accepted_answers": [
+        "vedono"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/dare"
+      ],
+      "type": "match",
+      "question_md": "Match each pronoun to the present tense of **dare** (to give)",
+      "pairs": [
+        {
+          "left_md": "io",
+          "right_md": "do"
+        },
+        {
+          "left_md": "tu",
+          "right_md": "dai"
+        },
+        {
+          "left_md": "lui/lei",
+          "right_md": "dà"
+        },
+        {
+          "left_md": "noi",
+          "right_md": "diamo"
+        },
+        {
+          "left_md": "voi",
+          "right_md": "date"
+        },
+        {
+          "left_md": "loro",
+          "right_md": "danno"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/dare"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **io** ___ (*dare*, to give)?",
+      "options": [
+        {
+          "text_md": "dai",
+          "correct": false
+        },
+        {
+          "text_md": "dà",
+          "correct": false
+        },
+        {
+          "text_md": "diamo",
+          "correct": false
+        },
+        {
+          "text_md": "do",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/dare"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **tu** ___ (*dare*, to give)?",
+      "options": [
+        {
+          "text_md": "dai",
+          "correct": true
+        },
+        {
+          "text_md": "do",
+          "correct": false
+        },
+        {
+          "text_md": "dà",
+          "correct": false
+        },
+        {
+          "text_md": "diamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/dare"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **noi** ___ (*dare*, to give)?",
+      "options": [
+        {
+          "text_md": "do",
+          "correct": false
+        },
+        {
+          "text_md": "dai",
+          "correct": false
+        },
+        {
+          "text_md": "diamo",
+          "correct": true
+        },
+        {
+          "text_md": "dà",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/dare"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **dare** (to give) for **voi**",
+      "accepted_answers": [
+        "date"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/dare"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **dare** (to give) for **loro**",
+      "accepted_answers": [
+        "danno"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/stare"
+      ],
+      "type": "match",
+      "question_md": "Match each pronoun to the present tense of **stare** (to stay)",
+      "pairs": [
+        {
+          "left_md": "io",
+          "right_md": "sto"
+        },
+        {
+          "left_md": "tu",
+          "right_md": "stai"
+        },
+        {
+          "left_md": "lui/lei",
+          "right_md": "sta"
+        },
+        {
+          "left_md": "noi",
+          "right_md": "stiamo"
+        },
+        {
+          "left_md": "voi",
+          "right_md": "state"
+        },
+        {
+          "left_md": "loro",
+          "right_md": "stanno"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/stare"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **io** ___ (*stare*, to stay)?",
+      "options": [
+        {
+          "text_md": "sto",
+          "correct": true
+        },
+        {
+          "text_md": "stai",
+          "correct": false
+        },
+        {
+          "text_md": "sta",
+          "correct": false
+        },
+        {
+          "text_md": "stiamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/stare"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **tu** ___ (*stare*, to stay)?",
+      "options": [
+        {
+          "text_md": "sto",
+          "correct": false
+        },
+        {
+          "text_md": "stai",
+          "correct": true
+        },
+        {
+          "text_md": "sta",
+          "correct": false
+        },
+        {
+          "text_md": "stiamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/stare"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **noi** ___ (*stare*, to stay)?",
+      "options": [
+        {
+          "text_md": "sto",
+          "correct": false
+        },
+        {
+          "text_md": "stai",
+          "correct": false
+        },
+        {
+          "text_md": "sta",
+          "correct": false
+        },
+        {
+          "text_md": "stiamo",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/stare"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **stare** (to stay) for **voi**",
+      "accepted_answers": [
+        "state"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/stare"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **stare** (to stay) for **loro**",
+      "accepted_answers": [
+        "stanno"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/parlare"
+      ],
+      "type": "match",
+      "question_md": "Match each pronoun to the present tense of **parlare** (to speak)",
+      "pairs": [
+        {
+          "left_md": "io",
+          "right_md": "parlo"
+        },
+        {
+          "left_md": "tu",
+          "right_md": "parli"
+        },
+        {
+          "left_md": "lui/lei",
+          "right_md": "parla"
+        },
+        {
+          "left_md": "noi",
+          "right_md": "parliamo"
+        },
+        {
+          "left_md": "voi",
+          "right_md": "parlate"
+        },
+        {
+          "left_md": "loro",
+          "right_md": "parlano"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/parlare"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **io** ___ (*parlare*, to speak)?",
+      "options": [
+        {
+          "text_md": "parli",
+          "correct": false
+        },
+        {
+          "text_md": "parlo",
+          "correct": true
+        },
+        {
+          "text_md": "parla",
+          "correct": false
+        },
+        {
+          "text_md": "parliamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/parlare"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **tu** ___ (*parlare*, to speak)?",
+      "options": [
+        {
+          "text_md": "parlo",
+          "correct": false
+        },
+        {
+          "text_md": "parla",
+          "correct": false
+        },
+        {
+          "text_md": "parli",
+          "correct": true
+        },
+        {
+          "text_md": "parliamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/parlare"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **noi** ___ (*parlare*, to speak)?",
+      "options": [
+        {
+          "text_md": "parliamo",
+          "correct": true
+        },
+        {
+          "text_md": "parlo",
+          "correct": false
+        },
+        {
+          "text_md": "parli",
+          "correct": false
+        },
+        {
+          "text_md": "parla",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/parlare"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **parlare** (to speak) for **voi**",
+      "accepted_answers": [
+        "parlate"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/parlare"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **parlare** (to speak) for **loro**",
+      "accepted_answers": [
+        "parlano"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/mangiare"
+      ],
+      "type": "match",
+      "question_md": "Match each pronoun to the present tense of **mangiare** (to eat)",
+      "pairs": [
+        {
+          "left_md": "io",
+          "right_md": "mangio"
+        },
+        {
+          "left_md": "tu",
+          "right_md": "mangi"
+        },
+        {
+          "left_md": "lui/lei",
+          "right_md": "mangia"
+        },
+        {
+          "left_md": "noi",
+          "right_md": "mangiamo"
+        },
+        {
+          "left_md": "voi",
+          "right_md": "mangiate"
+        },
+        {
+          "left_md": "loro",
+          "right_md": "mangiano"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/mangiare"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **io** ___ (*mangiare*, to eat)?",
+      "options": [
+        {
+          "text_md": "mangi",
+          "correct": false
+        },
+        {
+          "text_md": "mangia",
+          "correct": false
+        },
+        {
+          "text_md": "mangio",
+          "correct": true
+        },
+        {
+          "text_md": "mangiamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/mangiare"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **tu** ___ (*mangiare*, to eat)?",
+      "options": [
+        {
+          "text_md": "mangio",
+          "correct": false
+        },
+        {
+          "text_md": "mangia",
+          "correct": false
+        },
+        {
+          "text_md": "mangiamo",
+          "correct": false
+        },
+        {
+          "text_md": "mangi",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/mangiare"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **noi** ___ (*mangiare*, to eat)?",
+      "options": [
+        {
+          "text_md": "mangio",
+          "correct": false
+        },
+        {
+          "text_md": "mangiamo",
+          "correct": true
+        },
+        {
+          "text_md": "mangi",
+          "correct": false
+        },
+        {
+          "text_md": "mangia",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/mangiare"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **mangiare** (to eat) for **voi**",
+      "accepted_answers": [
+        "mangiate"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/mangiare"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **mangiare** (to eat) for **loro**",
+      "accepted_answers": [
+        "mangiano"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/prendere"
+      ],
+      "type": "match",
+      "question_md": "Match each pronoun to the present tense of **prendere** (to take)",
+      "pairs": [
+        {
+          "left_md": "io",
+          "right_md": "prendo"
+        },
+        {
+          "left_md": "tu",
+          "right_md": "prendi"
+        },
+        {
+          "left_md": "lui/lei",
+          "right_md": "prende"
+        },
+        {
+          "left_md": "noi",
+          "right_md": "prendiamo"
+        },
+        {
+          "left_md": "voi",
+          "right_md": "prendete"
+        },
+        {
+          "left_md": "loro",
+          "right_md": "prendono"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/prendere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **io** ___ (*prendere*, to take)?",
+      "options": [
+        {
+          "text_md": "prendi",
+          "correct": false
+        },
+        {
+          "text_md": "prende",
+          "correct": false
+        },
+        {
+          "text_md": "prendiamo",
+          "correct": false
+        },
+        {
+          "text_md": "prendo",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/prendere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **tu** ___ (*prendere*, to take)?",
+      "options": [
+        {
+          "text_md": "prendi",
+          "correct": true
+        },
+        {
+          "text_md": "prendo",
+          "correct": false
+        },
+        {
+          "text_md": "prende",
+          "correct": false
+        },
+        {
+          "text_md": "prendiamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/prendere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **noi** ___ (*prendere*, to take)?",
+      "options": [
+        {
+          "text_md": "prendo",
+          "correct": false
+        },
+        {
+          "text_md": "prendi",
+          "correct": false
+        },
+        {
+          "text_md": "prendiamo",
+          "correct": true
+        },
+        {
+          "text_md": "prende",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/prendere"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **prendere** (to take) for **voi**",
+      "accepted_answers": [
+        "prendete"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/prendere"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **prendere** (to take) for **loro**",
+      "accepted_answers": [
+        "prendono"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/mettere"
+      ],
+      "type": "match",
+      "question_md": "Match each pronoun to the present tense of **mettere** (to put)",
+      "pairs": [
+        {
+          "left_md": "io",
+          "right_md": "metto"
+        },
+        {
+          "left_md": "tu",
+          "right_md": "metti"
+        },
+        {
+          "left_md": "lui/lei",
+          "right_md": "mette"
+        },
+        {
+          "left_md": "noi",
+          "right_md": "mettiamo"
+        },
+        {
+          "left_md": "voi",
+          "right_md": "mettete"
+        },
+        {
+          "left_md": "loro",
+          "right_md": "mettono"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/mettere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **io** ___ (*mettere*, to put)?",
+      "options": [
+        {
+          "text_md": "metto",
+          "correct": true
+        },
+        {
+          "text_md": "metti",
+          "correct": false
+        },
+        {
+          "text_md": "mette",
+          "correct": false
+        },
+        {
+          "text_md": "mettiamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/mettere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **tu** ___ (*mettere*, to put)?",
+      "options": [
+        {
+          "text_md": "metto",
+          "correct": false
+        },
+        {
+          "text_md": "metti",
+          "correct": true
+        },
+        {
+          "text_md": "mette",
+          "correct": false
+        },
+        {
+          "text_md": "mettiamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/mettere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **noi** ___ (*mettere*, to put)?",
+      "options": [
+        {
+          "text_md": "metto",
+          "correct": false
+        },
+        {
+          "text_md": "metti",
+          "correct": false
+        },
+        {
+          "text_md": "mette",
+          "correct": false
+        },
+        {
+          "text_md": "mettiamo",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/mettere"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **mettere** (to put) for **voi**",
+      "accepted_answers": [
+        "mettete"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/mettere"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **mettere** (to put) for **loro**",
+      "accepted_answers": [
+        "mettono"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/uscire"
+      ],
+      "type": "match",
+      "question_md": "Match each pronoun to the present tense of **uscire** (to go out)",
+      "pairs": [
+        {
+          "left_md": "io",
+          "right_md": "esco"
+        },
+        {
+          "left_md": "tu",
+          "right_md": "esci"
+        },
+        {
+          "left_md": "lui/lei",
+          "right_md": "esce"
+        },
+        {
+          "left_md": "noi",
+          "right_md": "usciamo"
+        },
+        {
+          "left_md": "voi",
+          "right_md": "uscite"
+        },
+        {
+          "left_md": "loro",
+          "right_md": "escono"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/uscire"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **io** ___ (*uscire*, to go out)?",
+      "options": [
+        {
+          "text_md": "esci",
+          "correct": false
+        },
+        {
+          "text_md": "esco",
+          "correct": true
+        },
+        {
+          "text_md": "esce",
+          "correct": false
+        },
+        {
+          "text_md": "usciamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/uscire"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **tu** ___ (*uscire*, to go out)?",
+      "options": [
+        {
+          "text_md": "esco",
+          "correct": false
+        },
+        {
+          "text_md": "esce",
+          "correct": false
+        },
+        {
+          "text_md": "esci",
+          "correct": true
+        },
+        {
+          "text_md": "usciamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/uscire"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **noi** ___ (*uscire*, to go out)?",
+      "options": [
+        {
+          "text_md": "usciamo",
+          "correct": true
+        },
+        {
+          "text_md": "esco",
+          "correct": false
+        },
+        {
+          "text_md": "esci",
+          "correct": false
+        },
+        {
+          "text_md": "esce",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/uscire"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **uscire** (to go out) for **voi**",
+      "accepted_answers": [
+        "uscite"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/uscire"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **uscire** (to go out) for **loro**",
+      "accepted_answers": [
+        "escono"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/dormire"
+      ],
+      "type": "match",
+      "question_md": "Match each pronoun to the present tense of **dormire** (to sleep)",
+      "pairs": [
+        {
+          "left_md": "io",
+          "right_md": "dormo"
+        },
+        {
+          "left_md": "tu",
+          "right_md": "dormi"
+        },
+        {
+          "left_md": "lui/lei",
+          "right_md": "dorme"
+        },
+        {
+          "left_md": "noi",
+          "right_md": "dormiamo"
+        },
+        {
+          "left_md": "voi",
+          "right_md": "dormite"
+        },
+        {
+          "left_md": "loro",
+          "right_md": "dormono"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/dormire"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **io** ___ (*dormire*, to sleep)?",
+      "options": [
+        {
+          "text_md": "dormi",
+          "correct": false
+        },
+        {
+          "text_md": "dorme",
+          "correct": false
+        },
+        {
+          "text_md": "dormo",
+          "correct": true
+        },
+        {
+          "text_md": "dormiamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/dormire"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **tu** ___ (*dormire*, to sleep)?",
+      "options": [
+        {
+          "text_md": "dormo",
+          "correct": false
+        },
+        {
+          "text_md": "dorme",
+          "correct": false
+        },
+        {
+          "text_md": "dormiamo",
+          "correct": false
+        },
+        {
+          "text_md": "dormi",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/dormire"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **noi** ___ (*dormire*, to sleep)?",
+      "options": [
+        {
+          "text_md": "dormo",
+          "correct": false
+        },
+        {
+          "text_md": "dormiamo",
+          "correct": true
+        },
+        {
+          "text_md": "dormi",
+          "correct": false
+        },
+        {
+          "text_md": "dorme",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/dormire"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **dormire** (to sleep) for **voi**",
+      "accepted_answers": [
+        "dormite"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/dormire"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **dormire** (to sleep) for **loro**",
+      "accepted_answers": [
+        "dormono"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/finire"
+      ],
+      "type": "match",
+      "question_md": "Match each pronoun to the present tense of **finire** (to finish)",
+      "pairs": [
+        {
+          "left_md": "io",
+          "right_md": "finisco"
+        },
+        {
+          "left_md": "tu",
+          "right_md": "finisci"
+        },
+        {
+          "left_md": "lui/lei",
+          "right_md": "finisce"
+        },
+        {
+          "left_md": "noi",
+          "right_md": "finiamo"
+        },
+        {
+          "left_md": "voi",
+          "right_md": "finite"
+        },
+        {
+          "left_md": "loro",
+          "right_md": "finiscono"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/finire"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **io** ___ (*finire*, to finish)?",
+      "options": [
+        {
+          "text_md": "finisci",
+          "correct": false
+        },
+        {
+          "text_md": "finisce",
+          "correct": false
+        },
+        {
+          "text_md": "finiamo",
+          "correct": false
+        },
+        {
+          "text_md": "finisco",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/finire"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **tu** ___ (*finire*, to finish)?",
+      "options": [
+        {
+          "text_md": "finisci",
+          "correct": true
+        },
+        {
+          "text_md": "finisco",
+          "correct": false
+        },
+        {
+          "text_md": "finisce",
+          "correct": false
+        },
+        {
+          "text_md": "finiamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/finire"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **noi** ___ (*finire*, to finish)?",
+      "options": [
+        {
+          "text_md": "finisco",
+          "correct": false
+        },
+        {
+          "text_md": "finisci",
+          "correct": false
+        },
+        {
+          "text_md": "finiamo",
+          "correct": true
+        },
+        {
+          "text_md": "finisce",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/finire"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **finire** (to finish) for **voi**",
+      "accepted_answers": [
+        "finite"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/finire"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **finire** (to finish) for **loro**",
+      "accepted_answers": [
+        "finiscono"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/capire"
+      ],
+      "type": "match",
+      "question_md": "Match each pronoun to the present tense of **capire** (to understand)",
+      "pairs": [
+        {
+          "left_md": "io",
+          "right_md": "capisco"
+        },
+        {
+          "left_md": "tu",
+          "right_md": "capisci"
+        },
+        {
+          "left_md": "lui/lei",
+          "right_md": "capisce"
+        },
+        {
+          "left_md": "noi",
+          "right_md": "capiamo"
+        },
+        {
+          "left_md": "voi",
+          "right_md": "capite"
+        },
+        {
+          "left_md": "loro",
+          "right_md": "capiscono"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/capire"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **io** ___ (*capire*, to understand)?",
+      "options": [
+        {
+          "text_md": "capisco",
+          "correct": true
+        },
+        {
+          "text_md": "capisci",
+          "correct": false
+        },
+        {
+          "text_md": "capisce",
+          "correct": false
+        },
+        {
+          "text_md": "capiamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/capire"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **tu** ___ (*capire*, to understand)?",
+      "options": [
+        {
+          "text_md": "capisco",
+          "correct": false
+        },
+        {
+          "text_md": "capisci",
+          "correct": true
+        },
+        {
+          "text_md": "capisce",
+          "correct": false
+        },
+        {
+          "text_md": "capiamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/capire"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **noi** ___ (*capire*, to understand)?",
+      "options": [
+        {
+          "text_md": "capisco",
+          "correct": false
+        },
+        {
+          "text_md": "capisci",
+          "correct": false
+        },
+        {
+          "text_md": "capisce",
+          "correct": false
+        },
+        {
+          "text_md": "capiamo",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/capire"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **capire** (to understand) for **voi**",
+      "accepted_answers": [
+        "capite"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/capire"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **capire** (to understand) for **loro**",
+      "accepted_answers": [
+        "capiscono"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/leggere"
+      ],
+      "type": "match",
+      "question_md": "Match each pronoun to the present tense of **leggere** (to read)",
+      "pairs": [
+        {
+          "left_md": "io",
+          "right_md": "leggo"
+        },
+        {
+          "left_md": "tu",
+          "right_md": "leggi"
+        },
+        {
+          "left_md": "lui/lei",
+          "right_md": "legge"
+        },
+        {
+          "left_md": "noi",
+          "right_md": "leggiamo"
+        },
+        {
+          "left_md": "voi",
+          "right_md": "leggete"
+        },
+        {
+          "left_md": "loro",
+          "right_md": "leggono"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/leggere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **io** ___ (*leggere*, to read)?",
+      "options": [
+        {
+          "text_md": "leggi",
+          "correct": false
+        },
+        {
+          "text_md": "leggo",
+          "correct": true
+        },
+        {
+          "text_md": "legge",
+          "correct": false
+        },
+        {
+          "text_md": "leggiamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/leggere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **tu** ___ (*leggere*, to read)?",
+      "options": [
+        {
+          "text_md": "leggo",
+          "correct": false
+        },
+        {
+          "text_md": "legge",
+          "correct": false
+        },
+        {
+          "text_md": "leggi",
+          "correct": true
+        },
+        {
+          "text_md": "leggiamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/leggere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **noi** ___ (*leggere*, to read)?",
+      "options": [
+        {
+          "text_md": "leggiamo",
+          "correct": true
+        },
+        {
+          "text_md": "leggo",
+          "correct": false
+        },
+        {
+          "text_md": "leggi",
+          "correct": false
+        },
+        {
+          "text_md": "legge",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/leggere"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **leggere** (to read) for **voi**",
+      "accepted_answers": [
+        "leggete"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/leggere"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **leggere** (to read) for **loro**",
+      "accepted_answers": [
+        "leggono"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/scrivere"
+      ],
+      "type": "match",
+      "question_md": "Match each pronoun to the present tense of **scrivere** (to write)",
+      "pairs": [
+        {
+          "left_md": "io",
+          "right_md": "scrivo"
+        },
+        {
+          "left_md": "tu",
+          "right_md": "scrivi"
+        },
+        {
+          "left_md": "lui/lei",
+          "right_md": "scrive"
+        },
+        {
+          "left_md": "noi",
+          "right_md": "scriviamo"
+        },
+        {
+          "left_md": "voi",
+          "right_md": "scrivete"
+        },
+        {
+          "left_md": "loro",
+          "right_md": "scrivono"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/scrivere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **io** ___ (*scrivere*, to write)?",
+      "options": [
+        {
+          "text_md": "scrivi",
+          "correct": false
+        },
+        {
+          "text_md": "scrive",
+          "correct": false
+        },
+        {
+          "text_md": "scrivo",
+          "correct": true
+        },
+        {
+          "text_md": "scriviamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/scrivere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **tu** ___ (*scrivere*, to write)?",
+      "options": [
+        {
+          "text_md": "scrivo",
+          "correct": false
+        },
+        {
+          "text_md": "scrive",
+          "correct": false
+        },
+        {
+          "text_md": "scriviamo",
+          "correct": false
+        },
+        {
+          "text_md": "scrivi",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/scrivere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **noi** ___ (*scrivere*, to write)?",
+      "options": [
+        {
+          "text_md": "scrivo",
+          "correct": false
+        },
+        {
+          "text_md": "scriviamo",
+          "correct": true
+        },
+        {
+          "text_md": "scrivi",
+          "correct": false
+        },
+        {
+          "text_md": "scrive",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/scrivere"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **scrivere** (to write) for **voi**",
+      "accepted_answers": [
+        "scrivete"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/scrivere"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **scrivere** (to write) for **loro**",
+      "accepted_answers": [
+        "scrivono"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/vivere"
+      ],
+      "type": "match",
+      "question_md": "Match each pronoun to the present tense of **vivere** (to live)",
+      "pairs": [
+        {
+          "left_md": "io",
+          "right_md": "vivo"
+        },
+        {
+          "left_md": "tu",
+          "right_md": "vivi"
+        },
+        {
+          "left_md": "lui/lei",
+          "right_md": "vive"
+        },
+        {
+          "left_md": "noi",
+          "right_md": "viviamo"
+        },
+        {
+          "left_md": "voi",
+          "right_md": "vivete"
+        },
+        {
+          "left_md": "loro",
+          "right_md": "vivono"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/vivere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **io** ___ (*vivere*, to live)?",
+      "options": [
+        {
+          "text_md": "vivi",
+          "correct": false
+        },
+        {
+          "text_md": "vive",
+          "correct": false
+        },
+        {
+          "text_md": "viviamo",
+          "correct": false
+        },
+        {
+          "text_md": "vivo",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/vivere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **tu** ___ (*vivere*, to live)?",
+      "options": [
+        {
+          "text_md": "vivi",
+          "correct": true
+        },
+        {
+          "text_md": "vivo",
+          "correct": false
+        },
+        {
+          "text_md": "vive",
+          "correct": false
+        },
+        {
+          "text_md": "viviamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/vivere"
+      ],
+      "type": "mc",
+      "question_md": "Which is the correct form: **noi** ___ (*vivere*, to live)?",
+      "options": [
+        {
+          "text_md": "vivo",
+          "correct": false
+        },
+        {
+          "text_md": "vivi",
+          "correct": false
+        },
+        {
+          "text_md": "viviamo",
+          "correct": true
+        },
+        {
+          "text_md": "vive",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/vivere"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **vivere** (to live) for **voi**",
+      "accepted_answers": [
+        "vivete"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/present/vivere"
+      ],
+      "type": "text",
+      "question_md": "Conjugate **vivere** (to live) for **loro**",
+      "accepted_answers": [
+        "vivono"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/essere-avere"
+      ],
+      "type": "match",
+      "question_md": "essere vs avere: io & tu forms",
+      "pairs": [
+        {
+          "left_md": "io (*essere*)",
+          "right_md": "sono"
+        },
+        {
+          "left_md": "io (*avere*)",
+          "right_md": "ho"
+        },
+        {
+          "left_md": "tu (*essere*)",
+          "right_md": "sei"
+        },
+        {
+          "left_md": "tu (*avere*)",
+          "right_md": "hai"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/essere-avere"
+      ],
+      "type": "match",
+      "question_md": "essere vs avere: lui/lei & noi forms",
+      "pairs": [
+        {
+          "left_md": "lui/lei (*essere*)",
+          "right_md": "è"
+        },
+        {
+          "left_md": "lui/lei (*avere*)",
+          "right_md": "ha"
+        },
+        {
+          "left_md": "noi (*essere*)",
+          "right_md": "siamo"
+        },
+        {
+          "left_md": "noi (*avere*)",
+          "right_md": "abbiamo"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/essere-avere"
+      ],
+      "type": "match",
+      "question_md": "essere vs avere: voi & loro forms",
+      "pairs": [
+        {
+          "left_md": "voi (*essere*)",
+          "right_md": "siete"
+        },
+        {
+          "left_md": "voi (*avere*)",
+          "right_md": "avete"
+        },
+        {
+          "left_md": "loro (*essere*)",
+          "right_md": "sono"
+        },
+        {
+          "left_md": "loro (*avere*)",
+          "right_md": "hanno"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/essere-avere"
+      ],
+      "type": "match",
+      "question_md": "Match each pronoun to the correct form of *essere*",
+      "pairs": [
+        {
+          "left_md": "io (*essere*)",
+          "right_md": "sono"
+        },
+        {
+          "left_md": "tu (*essere*)",
+          "right_md": "sei"
+        },
+        {
+          "left_md": "lui/lei (*essere*)",
+          "right_md": "è"
+        },
+        {
+          "left_md": "noi (*essere*)",
+          "right_md": "siamo"
+        },
+        {
+          "left_md": "voi (*essere*)",
+          "right_md": "siete"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/essere-avere"
+      ],
+      "type": "match",
+      "question_md": "Match each pronoun to the correct form of *avere*",
+      "pairs": [
+        {
+          "left_md": "io (*avere*)",
+          "right_md": "ho"
+        },
+        {
+          "left_md": "tu (*avere*)",
+          "right_md": "hai"
+        },
+        {
+          "left_md": "lui/lei (*avere*)",
+          "right_md": "ha"
+        },
+        {
+          "left_md": "noi (*avere*)",
+          "right_md": "abbiamo"
+        },
+        {
+          "left_md": "voi (*avere*)",
+          "right_md": "avete"
+        },
+        {
+          "left_md": "loro (*avere*)",
+          "right_md": "hanno"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/essere-avere"
+      ],
+      "type": "match",
+      "question_md": "essere vs avere: mixed review 1",
+      "pairs": [
+        {
+          "left_md": "io (*avere*)",
+          "right_md": "ho"
+        },
+        {
+          "left_md": "lui/lei (*essere*)",
+          "right_md": "è"
+        },
+        {
+          "left_md": "loro (*avere*)",
+          "right_md": "hanno"
+        },
+        {
+          "left_md": "noi (*essere*)",
+          "right_md": "siamo"
+        },
+        {
+          "left_md": "tu (*avere*)",
+          "right_md": "hai"
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/conjugation/essere-avere"
+      ],
+      "type": "match",
+      "question_md": "essere vs avere: mixed review 2",
+      "pairs": [
+        {
+          "left_md": "voi (*avere*)",
+          "right_md": "avete"
+        },
+        {
+          "left_md": "io (*essere*)",
+          "right_md": "sono"
+        },
+        {
+          "left_md": "tu (*essere*)",
+          "right_md": "sei"
+        },
+        {
+          "left_md": "noi (*avere*)",
+          "right_md": "abbiamo"
+        },
+        {
+          "left_md": "lui/lei (*avere*)",
+          "right_md": "ha"
+        }
+      ]
+    }
+  ]
+}
