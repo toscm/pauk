@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pauk"
-version = "0.5.0"
+version = "0.6.0"
 description = "CLI client for the pauk flashcard app"
 requires-python = ">=3.10"
 dependencies = [
@@ -13,6 +13,7 @@ dependencies = [
     "rich>=13.7",
     "textual>=8.0",
     "textual-image>=0.8",
+    "pillow>=10.0",
     "tomli>=2.0; python_version < '3.11'",
 ]
 
@@ -24,6 +25,9 @@ pauk = "pauk.main:run"
 
 [tool.setuptools.packages.find]
 include = ["pauk*"]
+
+[tool.setuptools.package-data]
+"pauk.tui" = ["*.tcss", "assets/*.png"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

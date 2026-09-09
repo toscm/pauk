@@ -9,7 +9,7 @@ final class QuizRunsAndStatsTest extends ApiTestCase
     public function testRunLifecycleAndRanking(): void
     {
         $dir = $this->makeDir('d');
-        // three finished runs with different scores
+        // three finished runs with different scores, all n=10
         foreach ([[5, 10], [9, 10], [7, 10], [3, 10]] as [$correct, $total]) {
             [$status, $run] = $this->request('POST', '/quiz/runs', [
                 'dir_id' => $dir, 'total' => $total,
@@ -22,17 +22,53 @@ final class QuizRunsAndStatsTest extends ApiTestCase
         }
         // last run (3/10) must not be in the top 3
         $this->assertNull($result['rank']);
-        $this->assertSame(
-            [9, 7, 5],
-            array_column($result['top'], 'correct')
-        );
+        $this->assertSame([9, 7, 5], array_column($result['top'], 'correct'));
+        // top runs carry an accuracy fraction
+        $this->assertSame(0.9, $result['top'][0]['accuracy']);
 
         // a new best run ranks first
         [, $run] = $this->request('POST', '/quiz/runs', ['dir_id' => $dir, 'total' => 10]);
+        // starting reports the current best for this (dir, n)
+        $this->assertSame(0.9, $run['best']['accuracy']);
         [, $result] = $this->request('PATCH', "/quiz/runs/{$run['id']}", [
             'correct' => 10, 'total' => 10,
         ]);
         $this->assertSame(1, $result['rank']);
+    }
+
+    public function testBestIsPerQuestionCount(): void
+    {
+        $dir = $this->makeDir('d');
+        // n=5 run at 100%, n=20 run at 55%
+        [, $run] = $this->request('POST', '/quiz/runs', ['dir_id' => $dir, 'total' => 5]);
+        $this->request('PATCH', "/quiz/runs/{$run['id']}", ['correct' => 5, 'total' => 5]);
+        [, $run] = $this->request('POST', '/quiz/runs', ['dir_id' => $dir, 'total' => 20]);
+        $this->request('PATCH', "/quiz/runs/{$run['id']}", ['correct' => 11, 'total' => 20]);
+
+        // best for n=5 is 5/5, independent of the n=20 leaderboard
+        [, $five] = $this->request('POST', '/quiz/runs', ['dir_id' => $dir, 'total' => 5]);
+        $this->assertSame(5, $five['best']['correct']);
+        $this->assertEqualsWithDelta(1.0, $five['best']['accuracy'], 1e-9);
+        [, $twenty] = $this->request('POST', '/quiz/runs', ['dir_id' => $dir, 'total' => 20]);
+        $this->assertSame(0.55, $twenty['best']['accuracy']);
+    }
+
+    public function testUnrankedRunsDoNotCompete(): void
+    {
+        $dir = $this->makeDir('d');
+        // an unranked practice run (e.g. repeat-wrong) of 1/1
+        [, $run] = $this->request('POST', '/quiz/runs', [
+            'dir_id' => $dir, 'total' => 1, 'ranked' => false,
+        ]);
+        [, $result] = $this->request('PATCH', "/quiz/runs/{$run['id']}", [
+            'correct' => 1, 'total' => 1,
+        ]);
+        $this->assertFalse($result['ranked']);
+        $this->assertNull($result['rank']);
+        $this->assertSame([], $result['top']);
+        // it does not become anyone's "best"
+        [, $next] = $this->request('POST', '/quiz/runs', ['dir_id' => $dir, 'total' => 1]);
+        $this->assertNull($next['best']);
     }
 
     public function testRunValidation(): void
@@ -82,7 +118,7 @@ final class QuizRunsAndStatsTest extends ApiTestCase
         $this->assertSame('italian/verbs', $first['path']);
         $this->assertSame(3, $first['runs']);
         $this->assertSame(1, $first['cards_total']);
-        $this->assertSame(['correct' => 1, 'total' => 1], $first['best']);
+        $this->assertEqualsWithDelta(1.0, $first['best']['accuracy'], 1e-9);
         // unstarted dirs follow, alphabetically by path
         $this->assertSame(['italian', 'unused'], array_column(array_slice($data['items'], 1), 'path'));
         $this->assertNull($data['items'][1]['best']);

@@ -48,15 +48,16 @@ def run_quiz(client: Client, dir_path: str | None, recursive: bool, n: int) -> N
         console.print("[yellow]No cards found for this selection.[/yellow]")
         return
 
-    best_text = f"{best['correct']}/{best['total']}" if best else "none yet"
+    best_text = f"{round(best['accuracy'] * 100)}%" if best else "none yet"
     console.print(f"\n[bold]Quiz: {title}[/bold] — {len(cards)} questions")
     console.print(
         "[dim]Mode: weighted pick (new, often-wrong, and stale cards first) "
         f"· Best run: {best_text} · q = quit[/dim]\n"
     )
 
+    ranked = True
     while True:
-        quit_early, wrong_cards = _run_once(client, dir_id, cards)
+        quit_early, wrong_cards = _run_once(client, dir_id, cards, ranked)
         if quit_early:
             return
         prompt = "[bold]r[/bold] = repeat"
@@ -72,12 +73,14 @@ def run_quiz(client: Client, dir_path: str | None, recursive: bool, n: int) -> N
             cards = random.sample(wrong_cards, len(wrong_cards))
         else:
             return
+        # repeats are practice, not ranked
+        ranked = False
         console.print()
 
 
-def _run_once(client: Client, dir_id: int | None, cards: list[dict]) -> tuple[bool, list[dict]]:
+def _run_once(client: Client, dir_id: int | None, cards: list[dict], ranked: bool = True) -> tuple[bool, list[dict]]:
     """One pass over cards. Returns (quit_early, wrong_cards)."""
-    run_id = client.start_run(dir_id, len(cards))
+    run_id = client.start_run(dir_id, len(cards), ranked)["id"]
     score = 0
     answered = 0
     wrong_cards = []
@@ -111,7 +114,10 @@ def _show_ranking(summary: dict) -> None:
         console.print("[bold]Top runs:[/bold]")
         for i, run in enumerate(top, start=1):
             date = run["finished_at"][:10]
-            console.print(f"  {i}. {run['correct']}/{run['total']}  ({date})")
+            console.print(
+                f"  {i}. {round(run['accuracy'] * 100)}%  "
+                f"({run['correct']}/{run['total']}, {date})"
+            )
     rank = summary.get("rank")
     if rank is not None:
         console.print(f"[bold yellow]{TROPHY}[/bold yellow]")

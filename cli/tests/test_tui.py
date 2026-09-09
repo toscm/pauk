@@ -1,11 +1,10 @@
-"""Headless TUI tests: Textual Pilot driving the real app
-against the real test API (same server fixture as the e2e
-suite)."""
+"""Headless TUI tests: Textual Pilot driving the real app against
+the real test API. Network runs in worker threads, so tests wait
+for workers to settle before asserting."""
 
 from __future__ import annotations
 
 import json
-from pathlib import Path
 
 import pytest
 
@@ -17,6 +16,7 @@ from pauk.tui.screens import (
     PickerScreen,
     QuizScreen,
     ResultScreen,
+    SettingsScreen,
     StatsScreen,
 )
 
@@ -53,13 +53,19 @@ def client(server, tmp_path):
     return client
 
 
+async def _settle(pilot):
+    """Wait for background workers (network) and the UI to catch up."""
+    await pilot.app.workers.wait_for_complete()
+    await pilot.pause()
+
+
 async def test_home_menu_and_stats(client):
     app = PaukApp(client)
     async with app.run_test(size=(100, 40)) as pilot:
         assert isinstance(app.screen, HomeScreen)
-        # second entry: Statistics
-        await pilot.press("down", "enter")
+        await pilot.press("down", "enter")          # Statistics
         assert isinstance(app.screen, StatsScreen)
+        await _settle(pilot)
         assert "Statistics" in str(app.screen.query_one("#stats-text").render())
         await pilot.press("escape")
         assert isinstance(app.screen, HomeScreen)
@@ -70,91 +76,112 @@ async def test_tree_navigation_and_full_quiz(client):
     async with app.run_test(size=(100, 40)) as pilot:
         await pilot.press("enter")                  # Start a quiz
         assert isinstance(app.screen, PickerScreen)
+        await _settle(pilot)
         await pilot.press("f2")                     # tree view
-        tree = app.screen.query_one("#deck-tree")
         await pilot.pause()
-        # cursor onto the tuidemo deck (position varies with other
-        # seeded decks), enter it with Right
+        tree = app.screen.query_one("#deck-tree")
         node = next(
-            n for n in tree.root.children
-            if n.data and n.data["path"] == "tuidemo"
+            n for n in tree.root.children if n.data and n.data["path"] == "tuidemo"
         )
         tree.move_cursor(node)
         assert not node.is_expanded
-        await pilot.press("right")
+        await pilot.press("right")                  # expand
         assert node.is_expanded
         assert "tuidemo" in app.picker_memory["expanded"]
-        # move onto the child and start it
-        await pilot.press("down", "enter")
-        # count dialog: replace default with 2
-        await pilot.press("backspace", "backspace", "2", "enter")
+        await pilot.press("down", "enter")          # child → start quiz
+        await _settle(pilot)
         assert isinstance(app.screen, QuizScreen)
         assert app.screen.deck_title == "tuidemo/inner"
         assert len(app.screen.cards) == 2
 
-        # answer both cards (text: wrong on purpose; mc: pick first)
         for _ in range(2):
             card = app.screen.cards[app.screen.index]
             if card["type"] == "text":
                 await pilot.press(*"zzz", "enter")
             else:
-                await pilot.press("space")           # toggle first option
+                await pilot.press("space")
                 await pilot.click("#submit")
             await pilot.pause()
             assert app.screen.in_feedback
-            await pilot.press("enter")               # Continue button
+            await pilot.press("enter")              # Continue
             await pilot.pause()
 
         assert isinstance(app.screen, ResultScreen)
         text = str(app.screen.query_one("#result-text").render())
         assert "Result:" in text
-        assert "Top runs:" in text
 
-        # back to the picker: expansion state survived
-        await pilot.press("escape")
+        await pilot.press("escape")                 # back to picker
+        await pilot.pause()
         assert isinstance(app.screen, PickerScreen)
         assert "tuidemo" in app.picker_memory["expanded"]
-        tree = app.screen.query_one("#deck-tree")
-        assert any(
-            node.data and node.data["path"] == "tuidemo" and node.is_expanded
-            for node in tree.root.children
-        )
 
 
-async def test_favorites_filter_and_repeat_wrong(client):
+async def test_question_count_in_statusbar(client):
     app = PaukApp(client)
     async with app.run_test(size=(100, 40)) as pilot:
-        await pilot.press("enter")                  # picker, favorites tab
-        assert isinstance(app.screen, PickerScreen)
-        await pilot.press(*"tuidemo/inner", "enter")  # filter + top match
-        await pilot.press("backspace", "backspace", "1", "enter")
-        assert isinstance(app.screen, QuizScreen)
+        await pilot.press("enter")
+        await _settle(pilot)
+        assert app.picker_memory["n"] == 25         # default
+        await pilot.press("]", "]")                 # +5, +5
+        assert app.picker_memory["n"] == 35
+        await pilot.press("[")                      # -5
+        assert app.picker_memory["n"] == 30
+        status = str(app.screen.query_one("#picker-status").render())
+        assert "Questions per quiz: 30" in status
 
-        # answer wrong to unlock "repeat wrong"
-        card = app.screen.cards[0]
-        if card["type"] == "text":
-            await pilot.press(*"wrong", "enter")
-        else:
-            await pilot.click("#submit")            # nothing selected = wrong
-        await pilot.pause()
-        await pilot.press("enter")                  # Continue -> finish
-        await pilot.pause()
+
+async def test_repeat_wrong_is_unranked(client):
+    app = PaukApp(client)
+    async with app.run_test(size=(100, 40)) as pilot:
+        await pilot.press("enter")
+        await _settle(pilot)
+        await pilot.press(*"tuidemo/inner", "enter")  # filter + start
+        await _settle(pilot)
+        assert isinstance(app.screen, QuizScreen)
+        assert app.screen.ranked is True
+
+        # answer both wrong to populate wrong_cards
+        for _ in range(len(app.screen.cards)):
+            card = app.screen.cards[app.screen.index]
+            if card["type"] == "text":
+                await pilot.press(*"xxx", "enter")
+            else:
+                await pilot.click("#submit")        # nothing selected
+            await pilot.pause()
+            await pilot.press("enter")
+            await pilot.pause()
+
         assert isinstance(app.screen, ResultScreen)
         assert app.screen.wrong_cards
-
-        # repeat only the wrong card
-        await pilot.click("#repeat-wrong")
-        await pilot.pause()
+        await pilot.press("w")                      # repeat wrong
+        await _settle(pilot)
         assert isinstance(app.screen, QuizScreen)
-        assert len(app.screen.cards) == 1
-        await pilot.press("escape")                 # end early -> picker
+        # the repeat run is explicitly unranked
+        assert app.screen.ranked is False
+
+
+async def test_settings_persist(client, tmp_path, monkeypatch):
+    monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path / "cfg"))
+    from importlib import reload
+
+    from pauk import config as config_mod
+    reload(config_mod)
+
+    app = PaukApp(client)
+    async with app.run_test(size=(100, 40)) as pilot:
+        await pilot.press("down", "down", "enter")  # Settings
+        assert isinstance(app.screen, SettingsScreen)
+        # choose 'top' for the status bar
+        pos = app.screen.query_one("#pos-list")
+        pos.focus()
         await pilot.pause()
-        assert isinstance(app.screen, PickerScreen)
-        # filter text survived the quiz
-        assert app.picker_memory["filter"] == "tuidemo/inner"
+        await pilot.press("down", "enter")          # 'top'
+        await pilot.pause()
+        assert config_mod.get("statusbar_position") == "top"
+    reload(config_mod)
 
 
-async def test_quiz_shows_image(client, server, tmp_path):
+async def test_quiz_shows_image(client, tmp_path):
     from PIL import Image as PILImage
 
     img_path = tmp_path / "map.png"
@@ -170,14 +197,12 @@ async def test_quiz_shows_image(client, server, tmp_path):
     app = PaukApp(client)
     async with app.run_test(size=(100, 40)) as pilot:
         await pilot.press("enter")
+        await _settle(pilot)
         await pilot.press(*"imagedemo", "enter")
-        await pilot.press("backspace", "backspace", "1", "enter")
+        await _settle(pilot)
         assert isinstance(app.screen, QuizScreen)
-        await pilot.pause()
         from textual_image.widget import Image as ImageWidget
 
-        images = app.screen.query(ImageWidget)
-        assert len(images) == 1
-        # the markdown no longer contains the raw image link
-        markdown = app.screen.query_one("#question")
-        assert "![map]" not in str(markdown.source if hasattr(markdown, "source") else "")
+        assert len(app.screen.query(ImageWidget)) == 1
+        # cached: the app holds the decoded image
+        assert media["url"] in app._image_cache

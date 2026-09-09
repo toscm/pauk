@@ -1,38 +1,36 @@
-"""Screens of the pauk TUI: Home → Picker → Quiz → Result."""
+"""Screens of the pauk TUI: Home → Picker → Quiz → Result.
+
+Network calls run in background threads (Textual @work) so the UI
+never blocks: every screen paints immediately with a "Loading…"
+line and fills in when the data arrives. One status bar per
+screen (position from settings); no separate header.
+"""
 
 from __future__ import annotations
 
-import io
 import random
 import re
+from pathlib import Path
 
+from textual import work
 from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.containers import Horizontal, Vertical
-from textual.screen import ModalScreen, Screen
-from textual.widgets import (
-    Button,
-    Footer,
-    Input,
-    Markdown,
-    OptionList,
-    SelectionList,
-    Static,
-    TabbedContent,
-    TabPane,
-    Tree,
-)
+from textual.screen import Screen
+from textual.widgets import Button, Input, Markdown, OptionList, SelectionList, Static, Tree
 from textual.widgets.option_list import Option
 from textual.widgets.selection_list import Selection
 
+from pauk import config as config_mod
 from pauk.fuzzy import fuzzy_filter
 
+ASSETS = Path(__file__).parent / "assets"
+
 LOGO = r"""
-                        _
-  _ __    __ _  _   _  | | __
- | '_ \  / _` || | | | | |/ /
- | |_) || (_| || |_| | |   <
- | .__/  \__,_| \__,_| |_|\_\
+  _ __   __ _ _   _ _  __
+ | '_ \ / _` | | | | |/ /
+ | |_) | (_| | |_| |   <
+ | .__/ \__,_|\__,_|_|\_\
  |_|
 """
 
@@ -50,6 +48,15 @@ TROPHY = "\n".join([
 ])
 
 
+class StatusBar(Static):
+    """One status line, docked top or bottom per the user's
+    setting. Multi-line content is fine."""
+
+    def on_mount(self) -> None:
+        position = config_mod.get("statusbar_position")
+        self.styles.dock = "top" if position == "top" else "bottom"
+
+
 class HomeScreen(Screen):
     BINDINGS = [Binding("q", "app.quit", "Quit")]
 
@@ -60,10 +67,11 @@ class HomeScreen(Screen):
             yield OptionList(
                 Option("Start a quiz", id="quiz"),
                 Option("Statistics", id="stats"),
+                Option("Settings", id="settings"),
                 Option("Quit", id="quit"),
                 id="home-menu",
             )
-        yield Footer()
+        yield StatusBar("↑↓ move · Enter select · q quit")
 
     def on_mount(self) -> None:
         menu = self.query_one("#home-menu", OptionList)
@@ -75,17 +83,19 @@ class HomeScreen(Screen):
             self.app.push_screen(PickerScreen())
         elif event.option.id == "stats":
             self.app.push_screen(StatsScreen())
+        elif event.option.id == "settings":
+            self.app.push_screen(SettingsScreen())
         else:
             self.app.exit()
 
 
 class DeckTree(Tree):
-    """Tree with the requested navigation: Right enters a
-    directory, Left leaves it (or jumps to the parent)."""
+    """Right enters a directory, Left leaves it (or jumps to the
+    parent)."""
 
     BINDINGS = [
-        Binding("right", "enter_dir", "Enter dir", show=True),
-        Binding("left", "leave_dir", "Leave dir", show=True),
+        Binding("right", "enter_dir", "Enter", show=True),
+        Binding("left", "leave_dir", "Leave", show=True),
     ]
 
     def action_enter_dir(self) -> None:
@@ -104,66 +114,115 @@ class DeckTree(Tree):
 
 
 class PickerScreen(Screen):
-    """Deck selection: favorites list (filterable) and directory
-    tree. View/expansion/filter state is kept on the app so it
-    survives leaving and re-entering the picker."""
+    """Deck selection with a favorites list and a directory tree.
+    View/expansion/filter state and the chosen question count live
+    on the app, so they survive leaving and re-entering."""
 
     BINDINGS = [
         Binding("escape", "app.pop_screen", "Back"),
-        Binding("f2", "toggle_view", "Favorites/Tree"),
+        Binding("f2", "toggle_view", "Fav/Tree"),
     ]
 
-    def action_toggle_view(self) -> None:
-        tabs = self.query_one("#picker-tabs", TabbedContent)
-        tabs.active = "tree" if tabs.active == "fav" else "fav"
-        self._focus_active_view()
-
-    def _focus_active_view(self) -> None:
-        tabs = self.query_one("#picker-tabs", TabbedContent)
-        if tabs.active == "tree":
-            self.query_one("#deck-tree", DeckTree).focus()
-        else:
-            self.query_one("#filter", Input).focus()
-
-    def compose(self) -> ComposeResult:
-        with TabbedContent(id="picker-tabs"):
-            with TabPane("Favorites", id="fav"):
-                yield Input(placeholder="type to filter ...", id="filter")
-                yield OptionList(id="fav-list")
-            with TabPane("Tree", id="tree"):
-                yield DeckTree("decks", id="deck-tree")
-        yield Footer()
+    entries: list[dict] = []
 
     @property
     def _memory(self) -> dict:
         app = self.app
         if not hasattr(app, "picker_memory"):
-            app.picker_memory = {"tab": "fav", "expanded": set(), "filter": ""}
+            app.picker_memory = {
+                "view": "fav",
+                "expanded": set(),
+                "filter": "",
+                "n": config_mod.get("default_questions"),
+            }
         return app.picker_memory
 
+    def compose(self) -> ComposeResult:
+        yield OptionList(id="fav-list")
+        yield DeckTree("decks", id="deck-tree")
+        yield StatusBar("Loading…", id="picker-status")
+
     def on_mount(self) -> None:
-        self.entries = [
-            e for e in self.app.client.quiz_dirs() if e["cards_total"] > 0
-        ]
-        filter_input = self.query_one("#filter", Input)
-        filter_input.value = self._memory["filter"]
-        self._rebuild_favorites()
-        self._build_tree()
-        tabs = self.query_one("#picker-tabs", TabbedContent)
-        tabs.active = self._memory["tab"]
-        self.call_after_refresh(self._focus_active_view)
+        # data is fetched in on_screen_resume (which also fires on
+        # first show), so the payload is loaded exactly once per visit
+        self._apply_view()
 
     def on_screen_resume(self) -> None:
-        # refresh counts/order after a quiz, keeping view state
-        if hasattr(self, "entries"):
-            self.entries = [
-                e for e in self.app.client.quiz_dirs() if e["cards_total"] > 0
-            ]
-            self._rebuild_favorites()
-            self._build_tree()
+        self._update_status()
+        self._load_decks()
+
+    @work(exclusive=True, thread=True)
+    def _load_decks(self) -> None:
+        try:
+            data = self.app.client.quiz_dirs()
+        except Exception as exc:  # noqa: BLE001
+            self.app.call_from_thread(
+                self.notify, f"Could not load decks: {exc}", severity="error"
+            )
+            return
+        self.app.call_from_thread(self._populate, data)
+
+    def _populate(self, data: list[dict]) -> None:
+        self.entries = [e for e in data if e["cards_total"] > 0]
+        self._rebuild_favorites()
+        self._build_tree()
+
+    # --- input ----------------------------------------------------
+    def on_key(self, event) -> None:
+        # handled here rather than via bindings so that bracket keys
+        # and typed filter characters both reach the screen (a
+        # focused Input would swallow them); arrows/enter/tab are
+        # left for the focused list or tree
+        if event.key == "right_square_bracket":
+            self.action_more_questions(); event.stop(); return
+        if event.key == "left_square_bracket":
+            self.action_fewer_questions(); event.stop(); return
+        if self._memory["view"] != "fav":
+            return
+        if event.key == "backspace":
+            self._memory["filter"] = self._memory["filter"][:-1]
+            self._rebuild_favorites(); self._update_status(); event.stop()
+        elif event.is_printable and event.character:
+            self._memory["filter"] += event.character
+            self._rebuild_favorites(); self._update_status(); event.stop()
+
+    # --- views ----------------------------------------------------
+    def _apply_view(self) -> None:
+        tree_view = self._memory["view"] == "tree"
+        self.query_one("#deck-tree").display = tree_view
+        self.query_one("#fav-list").display = not tree_view
+        if tree_view:
+            self.query_one("#deck-tree", DeckTree).focus()
+        else:
+            self.query_one("#fav-list", OptionList).focus()
+
+    def action_toggle_view(self) -> None:
+        self._memory["view"] = "tree" if self._memory["view"] == "fav" else "fav"
+        self._apply_view()
+        self._update_status()
+
+    def action_more_questions(self) -> None:
+        self._memory["n"] = min(200, self._memory["n"] + 5)
+        self._update_status()
+
+    def action_fewer_questions(self) -> None:
+        self._memory["n"] = max(1, self._memory["n"] - 5)
+        self._update_status()
+
+    def _update_status(self) -> None:
+        n = self._memory["n"]
+        if self._memory["view"] == "tree":
+            keys = "↑↓ move · → enter · ← leave · Enter start · Tab favorites"
+        else:
+            flt = self._memory["filter"]
+            typed = f"filter: {flt} · " if flt else ""
+            keys = f"{typed}↑↓ move · type to filter · Enter start · Tab tree"
+        self.query_one("#picker-status", StatusBar).update(
+            f"Questions per quiz: {n}  ([ / ] to change) · {keys} · Esc back"
+        )
 
     def _rebuild_favorites(self) -> None:
-        query = self.query_one("#filter", Input).value
+        query = self._memory["filter"]
         ordered = sorted(self.entries, key=lambda e: (-e["runs"], e["path"]))
         if query:
             ordered = fuzzy_filter(query, ordered, key=lambda e: e["path"])
@@ -171,14 +230,7 @@ class PickerScreen(Screen):
         if not query:
             options.append(Option("all cards", id="__all__"))
         for entry in ordered[:30]:
-            best = (
-                f", best {entry['best']['correct']}/{entry['best']['total']}"
-                if entry["best"] else ""
-            )
-            options.append(Option(
-                f"{entry['path']}  ({entry['cards_total']} cards{best})",
-                id=entry["path"],
-            ))
+            options.append(Option(f"{entry['path']}  {_best_tag(entry)}", id=entry["path"]))
         option_list = self.query_one("#fav-list", OptionList)
         option_list.clear_options()
         option_list.add_options(options)
@@ -189,7 +241,6 @@ class PickerScreen(Screen):
         tree = self.query_one("#deck-tree", DeckTree)
         tree.show_root = False
         tree.clear()
-        by_path = {e["path"]: e for e in self.entries}
 
         def children_of(path: str) -> list[dict]:
             prefix = path + "/"
@@ -200,38 +251,24 @@ class PickerScreen(Screen):
                 key=lambda e: e["path"],
             )
 
-        def label(entry: dict) -> str:
-            best = (
-                f", best {entry['best']['correct']}/{entry['best']['total']}"
-                if entry["best"] else ""
-            )
-            return f"{entry['name']} ({entry['cards_total']} cards{best})"
-
         def add(parent_node, entry: dict) -> None:
+            label = f"{entry['name']}  ({entry['cards_total']} cards) {_best_tag(entry)}"
             kids = children_of(entry["path"])
             if kids:
                 node = parent_node.add(
-                    label(entry), data=entry,
-                    expand=entry["path"] in self._memory["expanded"],
+                    label, data=entry, expand=entry["path"] in self._memory["expanded"]
                 )
                 for kid in kids:
                     add(node, kid)
             else:
-                parent_node.add_leaf(label(entry), data=entry)
+                parent_node.add_leaf(label, data=entry)
 
         for top in sorted(
-            (e for e in self.entries if "/" not in e["path"]),
-            key=lambda e: e["path"],
+            (e for e in self.entries if "/" not in e["path"]), key=lambda e: e["path"]
         ):
             add(tree.root, top)
-        unset = by_path  # keep the closure simple for linters
-        del unset
 
     # --- state memory ---------------------------------------------
-    def on_tabbed_content_tab_activated(self, event: TabbedContent.TabActivated) -> None:
-        self._memory["tab"] = event.pane.id
-        self._focus_active_view()
-
     def on_tree_node_expanded(self, event: Tree.NodeExpanded) -> None:
         if event.node.data:
             self._memory["expanded"].add(event.node.data["path"])
@@ -240,18 +277,6 @@ class PickerScreen(Screen):
         if event.node.data:
             self._memory["expanded"].discard(event.node.data["path"])
 
-    def on_input_changed(self, event: Input.Changed) -> None:
-        if event.input.id == "filter":
-            self._memory["filter"] = event.value
-            self._rebuild_favorites()
-
-    def on_input_submitted(self, event: Input.Submitted) -> None:
-        if event.input.id == "filter":
-            option_list = self.query_one("#fav-list", OptionList)
-            if option_list.option_count:
-                self._start(option_list.get_option_at_index(0).id)
-
-    # --- starting a quiz ------------------------------------------
     def on_option_list_option_selected(self, event: OptionList.OptionSelected) -> None:
         self._start(event.option.id)
 
@@ -261,52 +286,21 @@ class PickerScreen(Screen):
 
     def _start(self, selection: str) -> None:
         path = None if selection == "__all__" else selection
-
-        def launch(n: int | None) -> None:
-            if not n:
-                return
-            client = self.app.client
-            dir_id = None
-            title = "all cards"
-            best = None
-            if path is not None:
-                title = path
-                for entry in self.entries:
-                    if entry["path"] == path:
-                        dir_id = entry["id"]
-                        best = entry["best"]
-                        break
-            cards = client.quiz_cards(dir_id, recursive=True, n=n)
-            if not cards:
-                self.notify("No cards found for this selection.", severity="warning")
-                return
-            self.app.push_screen(QuizScreen(cards, dir_id, title, best))
-
-        self.app.push_screen(CountDialog(), launch)
+        dir_id = None
+        title = "all cards"
+        if path is not None:
+            title = path
+            for entry in self.entries:
+                if entry["path"] == path:
+                    dir_id = entry["id"]
+                    break
+        self.app.push_screen(QuizScreen(dir_id, title, self._memory["n"]))
 
 
-class CountDialog(ModalScreen[int]):
-    """How many questions?"""
-
-    BINDINGS = [Binding("escape", "cancel", "Cancel")]
-
-    def compose(self) -> ComposeResult:
-        with Vertical(id="count-dialog"):
-            yield Static("How many questions?")
-            yield Input(value="20", id="count", type="integer")
-
-    def on_mount(self) -> None:
-        self.query_one("#count", Input).focus()
-
-    def on_input_submitted(self, event: Input.Submitted) -> None:
-        try:
-            n = max(1, min(200, int(event.value)))
-        except ValueError:
-            n = 20
-        self.dismiss(n)
-
-    def action_cancel(self) -> None:
-        self.dismiss(None)
+def _best_tag(entry: dict) -> str:
+    if entry.get("best"):
+        return f"· best {round(entry['best']['accuracy'] * 100)}%"
+    return ""
 
 
 IMAGE_MD_RE = re.compile(
@@ -315,94 +309,117 @@ IMAGE_MD_RE = re.compile(
 
 
 class QuizScreen(Screen):
-    BINDINGS = [Binding("escape", "quit_quiz", "End quiz")]
+    """A quiz session. Cards are fetched in the background; the
+    screen paints immediately."""
 
-    def __init__(self, cards: list[dict], dir_id: int | None, title: str, best: dict | None):
+    BINDINGS = [
+        Binding("escape", "quit_quiz", "End quiz"),
+        Binding("enter", "advance", "Continue", show=False),
+    ]
+
+    def __init__(self, dir_id: int | None, title: str, n: int, ranked: bool = True,
+                 cards: list[dict] | None = None):
         super().__init__()
-        self.cards = cards
         self.dir_id = dir_id
         self.deck_title = title
-        self.best = best
+        self.n = n
+        self.ranked = ranked
+        self.preset_cards = cards
+        self.cards: list[dict] = []
         self.index = 0
         self.score = 0
         self.answered = 0
         self.wrong_cards: list[dict] = []
         self.run_id: int | None = None
+        self.best = None
         self.in_feedback = False
 
     def compose(self) -> ComposeResult:
         with Vertical(id="quiz"):
-            yield Static(id="quiz-header")
             yield Markdown(id="question")
             yield Vertical(id="question-image")
-            yield Input(placeholder="your answer ...", id="answer")
+            yield Input(placeholder="your answer …", id="answer")
             yield SelectionList(id="choices")
-            yield Button("Submit answer", id="submit", variant="primary")
+            with Horizontal(id="quiz-buttons", classes="compact-buttons"):
+                yield Button("Submit", id="submit", variant="primary")
+                yield Button("Continue", id="continue", variant="success")
             yield Static(id="feedback")
-            yield Button("Continue", id="continue", variant="success")
-        yield Footer()
+        yield StatusBar("Loading…", id="quiz-status")
 
     def on_mount(self) -> None:
-        self.run_id = self.app.client.start_run(self.dir_id, len(self.cards))
-        self.show_card()
+        self._begin()
+
+    @work(exclusive=True, thread=True)
+    def _begin(self) -> None:
+        try:
+            cards = self.preset_cards
+            if cards is None:
+                cards = self.app.client.quiz_cards(self.dir_id, True, self.n)
+            if not cards:
+                self.app.call_from_thread(
+                    self.notify, "No cards for this selection.", severity="warning"
+                )
+                self.app.call_from_thread(self.app.pop_screen)
+                return
+            run = self.app.client.start_run(self.dir_id, len(cards), self.ranked)
+        except Exception as exc:  # noqa: BLE001
+            self.app.call_from_thread(
+                self.notify, f"Could not start quiz: {exc}", severity="error"
+            )
+            self.app.call_from_thread(self.app.pop_screen)
+            return
+        self.cards = cards
+        self.run_id = run["id"]
+        self.best = run.get("best")
+        self.app.call_from_thread(self.show_card)
+
+    def _status(self) -> None:
+        best = f"best for n={self.n}: {round(self.best['accuracy'] * 100)}%" if self.best else "no record yet"
+        self.query_one("#quiz-status", StatusBar).update(
+            f"{self.deck_title} · Q {self.index + 1}/{len(self.cards)} "
+            f"· score {self.score} · {best} · Esc ends"
+        )
 
     def show_card(self) -> None:
         self.in_feedback = False
         card = self.cards[self.index]
-        best_text = (
-            f"best {self.best['correct']}/{self.best['total']}"
-            if self.best else "no best run yet"
-        )
-        self.query_one("#quiz-header", Static).update(
-            f"{self.deck_title} · question {self.index + 1}/{len(self.cards)} "
-            f"· score {self.score} · {best_text} · Esc ends the quiz"
-        )
+        self._status()
         question_md = self._show_images(card["question_md"])
         self.query_one("#question", Markdown).update(question_md)
         answer_input = self.query_one("#answer", Input)
         choices = self.query_one("#choices", SelectionList)
-        submit = self.query_one("#submit", Button)
         self.query_one("#feedback", Static).update("")
         self.query_one("#continue", Button).display = False
         if card["type"] == "mc":
             answer_input.display = False
             choices.display = True
-            submit.display = True
+            self.query_one("#submit", Button).display = True
             choices.clear_options()
             choices.add_options([
-                Selection(option["text_md"], option["id"])
-                for option in card["options"]
+                Selection(o["text_md"], o["id"]) for o in card["options"]
             ])
             choices.focus()
         else:
             choices.display = False
-            submit.display = False
+            self.query_one("#submit", Button).display = False
             answer_input.display = True
             answer_input.value = ""
             answer_input.focus()
 
     def _show_images(self, question_md: str) -> str:
-        """Render image references as terminal images (kitty/sixel
-        with a unicode half-cell fallback); on success the markdown
-        image line is dropped from the text. Any failure leaves the
-        markdown untouched."""
         holder = self.query_one("#question-image", Vertical)
         holder.remove_children()
         for url in IMAGE_MD_RE.findall(question_md)[:2]:
             try:
-                from PIL import Image as PILImage
                 from textual_image.widget import Image as ImageWidget
 
-                data = self.app.client.get_bytes(url)
-                pil = PILImage.open(io.BytesIO(data))
-                pil.load()
+                pil = self.app.image_for(url)
                 widget = ImageWidget(pil)
                 widget.styles.height = 14
                 widget.styles.width = "auto"
                 holder.mount(widget)
                 question_md = IMAGE_MD_RE.sub(
-                    lambda m: "" if m.group(1) == url else m.group(0),
-                    question_md,
+                    lambda m: "" if m.group(1) == url else m.group(0), question_md
                 )
             except Exception:  # noqa: BLE001 - image display is best-effort
                 pass
@@ -411,20 +428,26 @@ class QuizScreen(Screen):
     # --- answering ------------------------------------------------
     def on_input_submitted(self, event: Input.Submitted) -> None:
         if event.input.id == "answer" and not self.in_feedback:
-            result = self.app.client.answer(
-                self.cards[self.index]["id"], {"answer": event.value}
-            )
-            self._feedback(result)
+            self._grade({"answer": event.value})
+
+    def action_advance(self) -> None:
+        if self.in_feedback:
+            self._next()
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         if event.button.id == "submit" and not self.in_feedback:
-            selected = self.query_one("#choices", SelectionList).selected
-            result = self.app.client.answer(
-                self.cards[self.index]["id"], {"selected": list(selected)}
-            )
-            self._feedback(result)
+            selected = list(self.query_one("#choices", SelectionList).selected)
+            self._grade({"selected": selected})
         elif event.button.id == "continue":
             self._next()
+
+    def _grade(self, payload: dict) -> None:
+        try:
+            result = self.app.client.answer(self.cards[self.index]["id"], payload)
+        except Exception as exc:  # noqa: BLE001
+            self.notify(f"Could not submit answer: {exc}", severity="error")
+            return
+        self._feedback(result)
 
     def _feedback(self, result: dict) -> None:
         self.in_feedback = True
@@ -435,13 +458,13 @@ class QuizScreen(Screen):
         else:
             self.wrong_cards.append(card)
         expected = result["expected"]
+        feedback = self.query_one("#feedback", Static)
         if result["correct"]:
             if result["match"] == "typo":
-                spelling = expected["accepted_answers"][0]
-                text = f"✓ correct — typo tolerated, correct spelling: {spelling}"
+                text = f"✓ correct — typo tolerated, correct spelling: {expected['accepted_answers'][0]}"
             else:
                 text = "✓ correct"
-            self.query_one("#feedback", Static).set_classes("good")
+            feedback.set_classes("good")
         else:
             if card["type"] == "mc":
                 ids = set(expected["correct_option_ids"])
@@ -449,8 +472,8 @@ class QuizScreen(Screen):
                 text = f"✗ wrong — correct: {', '.join(names)}"
             else:
                 text = f"✗ wrong — accepted: {', '.join(expected['accepted_answers'])}"
-            self.query_one("#feedback", Static).set_classes("bad")
-        self.query_one("#feedback", Static).update(text)
+            feedback.set_classes("bad")
+        feedback.update(text + "     (Enter to continue)")
         self.query_one("#answer", Input).display = False
         self.query_one("#choices", SelectionList).display = False
         self.query_one("#submit", Button).display = False
@@ -466,75 +489,104 @@ class QuizScreen(Screen):
             self._finish()
 
     def _finish(self) -> None:
-        summary = self.app.client.finish_run(self.run_id, self.score, self.answered)
+        try:
+            summary = self.app.client.finish_run(self.run_id, self.score, self.answered)
+        except Exception as exc:  # noqa: BLE001
+            self.notify(f"Could not save result: {exc}", severity="error")
+            self.app.pop_screen()
+            return
         self.app.switch_screen(ResultScreen(
-            summary, self.cards, self.wrong_cards,
-            self.dir_id, self.deck_title, self.best,
+            summary, self.cards, self.wrong_cards, self.dir_id, self.deck_title, self.n
         ))
 
     def action_quit_quiz(self) -> None:
-        self.app.client.finish_run(self.run_id, self.score, self.answered)
+        if self.run_id is not None:
+            try:
+                self.app.client.finish_run(self.run_id, self.score, self.answered)
+            except Exception:  # noqa: BLE001 - leaving anyway
+                pass
         self.app.pop_screen()
 
 
 class ResultScreen(Screen):
-    BINDINGS = [Binding("escape", "app.pop_screen", "Back to decks")]
+    BINDINGS = [
+        Binding("escape", "app.pop_screen", "Back"),
+        Binding("r", "repeat", "Repeat"),
+        Binding("w", "repeat_wrong", "Repeat wrong"),
+    ]
 
-    def __init__(self, summary, cards, wrong_cards, dir_id, title, best):
+    def __init__(self, summary, cards, wrong_cards, dir_id, title, n):
         super().__init__()
         self.summary = summary
         self.cards = cards
         self.wrong_cards = wrong_cards
         self.dir_id = dir_id
         self.deck_title = title
-        self.best = best
+        self.n = n
 
     def compose(self) -> ComposeResult:
         summary = self.summary
+        pct = round(summary["correct"] / summary["total"] * 100) if summary["total"] else 0
         lines = [
             f"Quiz finished: {self.deck_title}",
             "",
-            f"Result: {summary['correct']}/{summary['total']} correct",
-            "",
+            f"Result: {summary['correct']}/{summary['total']} correct ({pct}%)",
         ]
         top = summary.get("top") or []
         if top:
-            lines.append("Top runs:")
+            lines.append("")
+            lines.append(f"Top runs for n={self.n}:")
             for i, run in enumerate(top, start=1):
                 marker = "  ← this run" if summary.get("rank") == i else ""
                 lines.append(
-                    f"  {i}. {run['correct']}/{run['total']}"
-                    f"  ({run['finished_at'][:10]}){marker}"
+                    f"  {i}. {round(run['accuracy'] * 100)}%  "
+                    f"({run['correct']}/{run['total']}, {run['finished_at'][:10]}){marker}"
                 )
         with Vertical(id="result"):
-            yield Static("\n".join(lines), id="result-text")
             if summary.get("rank") is not None:
-                yield Static(TROPHY, id="trophy")
-                yield Static(
-                    f"New top-{len(top)} run — place #{summary['rank']}!",
-                    id="rank-line",
-                )
-            with Horizontal(id="result-buttons"):
-                yield Button("Repeat", id="repeat", variant="primary")
+                yield self._trophy()
+                yield Static(f"New record — place #{summary['rank']} for n={self.n}!", id="rank-line")
+            yield Static("\n".join(lines), id="result-text")
+            with Horizontal(id="result-buttons", classes="compact-buttons"):
+                yield Button("↻ Repeat (r)", id="repeat")
                 if self.wrong_cards:
-                    yield Button(
-                        f"Repeat the {len(self.wrong_cards)} wrong",
-                        id="repeat-wrong", variant="warning",
-                    )
-                yield Button("Done", id="done", variant="success")
-        yield Footer()
+                    yield Button(f"✗ Repeat {len(self.wrong_cards)} wrong (w)", id="repeat-wrong")
+                yield Button("Done (Esc)", id="done")
+        yield StatusBar("r repeat · w repeat wrong · Esc back to decks")
+
+    def _trophy(self):
+        try:
+            from PIL import Image as PILImage
+            from textual_image.widget import Image as ImageWidget
+
+            widget = ImageWidget(PILImage.open(ASSETS / "trophy.png"))
+            widget.styles.height = 12
+            widget.styles.width = "auto"
+            return widget
+        except Exception:  # noqa: BLE001 - ascii fallback
+            return Static(TROPHY, id="trophy")
+
+    def action_repeat(self) -> None:
+        self._repeat(self.cards)
+
+    def action_repeat_wrong(self) -> None:
+        if self.wrong_cards:
+            self._repeat(self.wrong_cards)
+
+    def _repeat(self, cards: list[dict]) -> None:
+        # repeats are practice, not ranked — a 1/1 repeat-wrong must
+        # never become a "best run"
+        shuffled = random.sample(cards, len(cards))
+        self.app.switch_screen(
+            QuizScreen(self.dir_id, self.deck_title, len(shuffled),
+                       ranked=False, cards=shuffled)
+        )
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         if event.button.id == "repeat":
-            cards = random.sample(self.cards, len(self.cards))
-            self.app.switch_screen(
-                QuizScreen(cards, self.dir_id, self.deck_title, self.best)
-            )
+            self.action_repeat()
         elif event.button.id == "repeat-wrong":
-            cards = random.sample(self.wrong_cards, len(self.wrong_cards))
-            self.app.switch_screen(
-                QuizScreen(cards, self.dir_id, self.deck_title, self.best)
-            )
+            self.action_repeat_wrong()
         else:
             self.app.pop_screen()
 
@@ -543,37 +595,80 @@ class StatsScreen(Screen):
     BINDINGS = [Binding("escape", "app.pop_screen", "Back")]
 
     def compose(self) -> ComposeResult:
-        yield Static(id="stats-text")
-        yield Footer()
+        yield Static("Loading…", id="stats-text")
+        yield StatusBar("Esc back")
 
     def on_mount(self) -> None:
-        client = self.app.client
-        data = client.stats()
+        self._load()
+
+    @work(exclusive=True, thread=True)
+    def _load(self) -> None:
+        try:
+            data = self.app.client.stats()
+            decks = self.app.client.quiz_dirs()
+        except Exception as exc:  # noqa: BLE001
+            self.app.call_from_thread(
+                self.notify, f"Could not load stats: {exc}", severity="error"
+            )
+            return
+        self.app.call_from_thread(self._render_stats, data, decks)
+
+    def _render_stats(self, data: dict, decks: list[dict]) -> None:
         summary = data["summary"]
-        accuracy = (
-            "-" if summary["accuracy"] is None else f"{summary['accuracy']:.0%}"
-        )
+        accuracy = "-" if summary["accuracy"] is None else f"{summary['accuracy']:.0%}"
         lines = [
             "Statistics",
             "",
-            f"cards: {summary['cards']} · asked at least once: "
-            f"{summary['asked_cards']} · answers: {summary['reviews']} "
-            f"· accuracy: {accuracy}",
+            f"cards: {summary['cards']} · asked at least once: {summary['asked_cards']} "
+            f"· answers: {summary['reviews']} · accuracy: {accuracy}",
             "",
         ]
-        decks = [d for d in client.quiz_dirs() if d["runs"] > 0][:5]
-        if decks:
+        top = [d for d in decks if d["runs"] > 0][:5]
+        if top:
             lines.append("Top decks (most played):")
-            for deck in decks:
+            for deck in top:
                 best = (
-                    f"best {deck['best']['correct']}/{deck['best']['total']}"
-                    if deck["best"] else "no finished run"
+                    f"best {round(deck['best']['accuracy'] * 100)}%"
+                    if deck["best"] else "no ranked run"
                 )
                 runs = "run" if deck["runs"] == 1 else "runs"
                 lines.append(
-                    f"  {deck['runs']:>3} {runs}  {deck['path']}"
-                    f"  ({deck['cards_total']} cards, {best})"
+                    f"  {deck['runs']:>3} {runs}  {deck['path']}  "
+                    f"({deck['cards_total']} cards, {best})"
                 )
         else:
             lines.append("No quiz runs yet.")
         self.query_one("#stats-text", Static).update("\n".join(lines))
+
+
+class SettingsScreen(Screen):
+    BINDINGS = [Binding("escape", "app.pop_screen", "Back")]
+
+    def compose(self) -> ComposeResult:
+        with Vertical(id="settings"):
+            yield Static("Settings", id="settings-title")
+            yield Static("Status bar position:")
+            yield OptionList(
+                Option("bottom", id="bottom"),
+                Option("top", id="top"),
+                id="pos-list",
+            )
+            yield Static("Default questions per quiz:")
+            yield Input(
+                value=str(config_mod.get("default_questions")),
+                id="default-n", type="integer",
+            )
+        yield StatusBar("Enter/select to save · Esc back")
+
+    def on_option_list_option_selected(self, event: OptionList.OptionSelected) -> None:
+        config_mod.set_value("statusbar_position", event.option.id)
+        self.notify(f"Status bar: {event.option.id} (applies on next screen)")
+
+    def on_input_submitted(self, event: Input.Submitted) -> None:
+        if event.input.id == "default-n":
+            try:
+                n = max(1, min(200, int(event.value)))
+            except ValueError:
+                n = 25
+            config_mod.set_value("default_questions", n)
+            self.notify(f"Default questions: {n}")

@@ -161,33 +161,43 @@ pickers, sorted by popularity (started runs) then path:
       "name": "core-verbs",
       "cards_total": 20,
       "runs": 5,
-      "best": {"correct": 18, "total": 20}
+      "best": {"accuracy": 0.9}
     }]}
 
 `path` is the canonical path (alphabetically first when a
 directory is reachable via several); `best` is the user's
-best finished run for the directory, or null.
+best ranked accuracy for the directory across any question
+count, or null. This endpoint is batched: a fixed number of
+queries regardless of directory count.
 
 `POST /quiz/runs` — log a quiz start. Body: `dir_id`
 (integer or null for all-cards quizzes), `total` (planned
-question count). Returns 201 `{"id": ...}`. Run counts
-drive the popularity sorting above.
+question count), `ranked` (boolean, default true — repeat
+and repeat-wrong runs pass false so they never enter a
+leaderboard). Returns 201:
+
+    {"id": 7, "best": {"correct": 18, "total": 20, "accuracy": 0.9}}
+
+`best` is the current best ranked run for this exact
+`(dir, total)` — so the quiz can show "best for n=20: 90%"
+up front — or null. Run counts drive the popularity sorting.
 
 `PATCH /quiz/runs/{id}` — finish a run. Body: `correct`,
 `total` (actually answered; may be less than planned when
 the user quits early). Response:
 
-    {"id": 7, "correct": 18, "total": 20,
+    {"id": 7, "correct": 18, "total": 20, "ranked": true,
      "rank": 2,
-     "top": [{"correct": 19, "total": 20, "finished_at": ...},
-             {"correct": 18, "total": 20, "finished_at": ...},
-             {"correct": 15, "total": 20, "finished_at": ...}]}
+     "top": [{"correct": 19, "total": 20, "accuracy": 0.95, "finished_at": ...},
+             {"correct": 18, "total": 20, "accuracy": 0.9,  "finished_at": ...}]}
 
-`top` is the user's top three finished runs for the same
-directory (score = correct/total, ties broken by larger
-total, then earlier finish); `rank` is this run's 1-based
-position among them, or null if not in the top three. Runs
-with `total` 0 are discarded, not ranked.
+Leaderboards are per `(dir, total)`, so n=5 and n=20 have
+separate top-3 lists and a repeated subset never competes
+with a full run. `top` holds the top three ranked runs for
+this run's `(dir, total)` (by accuracy, ties broken by
+earlier finish); `rank` is this run's 1-based position, or
+null when unranked or outside the top three. Runs with
+`total` 0, and runs with `ranked` false, are never ranked.
 
 ## Statistics
 

@@ -110,9 +110,9 @@ final class App
 
             // --- quiz picker, runs, stats --------------------------------
             $group->get('/quiz/dirs', function (Request $request, Response $response) use ($repos) {
-                [$pdo, $userId, $dirs] = $repos($request);
+                [$pdo, $userId] = $repos($request);
                 $runs = new \Pauk\Repo\QuizRuns($pdo);
-                return Http::json($response, ['items' => $runs->pickerDirs($userId, $dirs)]);
+                return Http::json($response, ['items' => $runs->pickerDirs($userId)]);
             });
 
             $group->post('/quiz/runs', function (Request $request, Response $response) use ($repos) {
@@ -120,11 +120,22 @@ final class App
                 $body = Http::body($request);
                 $dirId = $body['dir_id'] ?? null;
                 $total = $body['total'] ?? null;
-                if (($dirId !== null && !is_int($dirId)) || !is_int($total) || $total < 0) {
-                    throw new ApiError(400, 'validation', 'dir_id must be int|null, total a non-negative int');
+                $ranked = $body['ranked'] ?? true;
+                if (($dirId !== null && !is_int($dirId)) || !is_int($total) || $total < 0
+                    || !is_bool($ranked)) {
+                    throw new ApiError(400, 'validation', 'dir_id int|null, total non-negative int, ranked bool');
                 }
                 $runs = new \Pauk\Repo\QuizRuns($pdo);
-                return Http::json($response, ['id' => $runs->start($userId, $dirId, $total)], 201);
+                $id = $runs->start($userId, $dirId, $total, $ranked);
+                $best = $ranked ? $runs->bestForN($userId, $dirId, $total) : null;
+                return Http::json($response, [
+                    'id' => $id,
+                    'best' => $best === null ? null : [
+                        'correct' => $best['correct'],
+                        'total' => $best['total'],
+                        'accuracy' => round($best['correct'] / $best['total'], 3),
+                    ],
+                ], 201);
             });
 
             $group->patch('/quiz/runs/{id:[0-9]+}', function (Request $request, Response $response, array $args) use ($repos) {

@@ -286,8 +286,8 @@ def stats(
         console.print("[bold]Top decks[/bold] (most played):")
         for deck in decks:
             best = (
-                f"best {deck['best']['correct']}/{deck['best']['total']}"
-                if deck["best"] else "no finished run"
+                f"best {round(deck['best']['accuracy'] * 100)}%"
+                if deck["best"] else "no ranked run"
             )
             runs = "run" if deck["runs"] == 1 else "runs"
             console.print(

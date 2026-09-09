@@ -1,3 +1,11 @@
+StatusBar {
+    background: $panel;
+    color: $text-muted;
+    padding: 0 1;
+    height: auto;
+    width: 100%;
+}
+
 #home {
     align: center middle;
     height: 100%;
@@ -17,37 +25,15 @@
 
 #home-menu {
     width: 40;
-    max-height: 10;
-}
-
-#picker-tabs {
-    height: 100%;
+    max-height: 12;
 }
 
 #filter {
     margin: 0 1;
 }
 
-#count-dialog {
-    align: center middle;
-    background: $surface;
-    border: solid $primary;
-    width: 44;
-    height: 6;
-    padding: 1 2;
-}
-
-CountDialog {
-    align: center middle;
-}
-
 #quiz {
     padding: 1 2;
-}
-
-#quiz-header {
-    color: $text-muted;
-    margin-bottom: 1;
 }
 
 #question {
@@ -75,6 +61,27 @@ CountDialog {
     text-style: bold;
 }
 
+/* compact, text-only buttons: one row tall, no heavy border */
+.compact-buttons {
+    height: auto;
+    margin-top: 1;
+}
+
+.compact-buttons Button {
+    height: 1;
+    min-width: 0;
+    border: none;
+    padding: 0 2;
+    margin-right: 2;
+    background: $panel;
+    color: $text;
+}
+
+.compact-buttons Button:hover {
+    background: $primary;
+    color: $text;
+}
+
 #result {
     padding: 1 2;
 }
@@ -90,15 +97,24 @@ CountDialog {
     margin-bottom: 1;
 }
 
-#result-buttons {
-    height: 3;
-    margin-top: 1;
+#stats-text, #result-text {
+    padding: 0 2;
 }
 
-#result-buttons Button {
-    margin-right: 2;
-}
-
-#stats-text {
+#settings {
     padding: 1 2;
+}
+
+#settings-title {
+    text-style: bold;
+    margin-bottom: 1;
+}
+
+#pos-list {
+    max-height: 4;
+    width: 30;
+}
+
+#default-n {
+    width: 20;
 }

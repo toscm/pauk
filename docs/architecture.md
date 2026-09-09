@@ -8,12 +8,14 @@
   because it runs on the already-paid IONOS shared webhosting;
   the language is an implementation detail behind the spec.
 
-- `cli`: Python 3 client (Typer + httpx + rich). Talks HTTP
-  only, so it is independent of the API's implementation
-  language. Started without arguments it shows an interactive
-  menu (quiz / organize / settings / exit); every menu action
-  is also available as a direct subcommand for scripting and
-  tests.
+- `cli`: Python 3 client. Started without arguments it runs a
+  full-screen Textual app (home → deck picker with a favorites
+  list and a directory tree → quiz screen with inline images →
+  results with top-3 and repeat). Network calls run in
+  background worker threads so the UI never blocks. The Typer
+  subcommands (config/login/ls/add/rm/quiz/stats/media/import/
+  update) remain the scripting interface and are covered by the
+  e2e tests; a pexpect pty test guards real-terminal input.
 
 - `web` (later): static single-page app served from the same
   webspace, talking to the same API.
@@ -121,14 +123,18 @@ Directories form a DAG, not a tree:
 - InnoDB, utf8mb4. FK constraints with ON DELETE CASCADE on
   junction tables, so deleting an entity cleans up its edges.
 
-- The directory DAG is stored as an edge table and traversed
-  with recursive CTEs (`WITH RECURSIVE`); `UNION` dedup makes
-  traversal diamond-safe and loop-safe. No closure table —
-  unnecessary at this scale. Caution: the CTE's column type
-  is inferred from the anchor query, and a bare bound
-  parameter is typed as a short string that silently
-  truncates deeper ids — always write the anchor as
-  `SELECT CAST(? AS UNSIGNED)`.
+- The directory DAG is stored as an edge table. Single-dir
+  traversal uses a recursive CTE (`WITH RECURSIVE`), with
+  `UNION` dedup making it diamond-safe and loop-safe. Caution:
+  the CTE's column type is inferred from the anchor query, and
+  a bare bound parameter is typed as a short string that
+  silently truncates deeper ids — always write the anchor as
+  `SELECT CAST(? AS UNSIGNED)`. The quiz-picker listing, which
+  needs the transitive card count of *every* directory at once,
+  instead loads all edges and memberships in a few queries and
+  computes the closures in PHP — one recursive CTE per
+  directory would be an N+1 against the remote production DB.
+  No closure table — unnecessary at this scale.
 
 ## Decisions
 

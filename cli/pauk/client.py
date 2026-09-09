@@ -111,8 +111,13 @@ class Client:
     def quiz_dirs(self) -> list[dict]:
         return self._call("GET", "/quiz/dirs")["items"]
 
-    def start_run(self, dir_id: int | None, total: int) -> int:
-        return self._call("POST", "/quiz/runs", json={"dir_id": dir_id, "total": total})["id"]
+    def start_run(self, dir_id: int | None, total: int, ranked: bool = True) -> dict:
+        """Returns {'id', 'best'} where best is the current record
+        for this (dir, total) or None."""
+        return self._call(
+            "POST", "/quiz/runs",
+            json={"dir_id": dir_id, "total": total, "ranked": ranked},
+        )
 
     def finish_run(self, run_id: int, correct: int, total: int) -> dict:
         return self._call(
@@ -136,7 +141,9 @@ class Client:
         self._call("DELETE", f"/media/{media_id}")
 
     def get_bytes(self, url: str) -> bytes:
-        response = httpx.get(url, timeout=30.0)
+        # reuse the authenticated client's connection pool (keep-alive)
+        # so repeated image fetches skip the TLS handshake
+        response = self._http.get(url, headers={})
         response.raise_for_status()
         return response.content
 
