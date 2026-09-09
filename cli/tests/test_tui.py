@@ -14,6 +14,7 @@ from pauk.tui.app import PaukApp
 from pauk.tui.screens import (
     HomeScreen,
     PickerScreen,
+    QuestScreen,
     QuizScreen,
     ResultScreen,
     SettingsScreen,
@@ -334,3 +335,87 @@ async def test_settings_default_questions(client, tmp_path, monkeypatch):
         await pilot.press("backspace", "backspace", "5", "0", "enter")
         assert config_mod.get("default_questions") == 50
     reload(config_mod)
+
+
+class FakeProvider:
+    """Deterministic provider for quest tests — no real LLM."""
+    name = "fake"
+
+    def chat(self, system, messages):
+        return "Prego! (fake reply)"
+
+    def judge(self, criteria, transcript):
+        # succeed iff the user ever said the magic word
+        return any("cornetti" in m["content"] for m in transcript if m["role"] == "user")
+
+
+async def test_quest_flow_success(server, tmp_path):
+    client = Client(server["url"], server["token"])
+    quest = {
+        "dirs": ["questdemo"],
+        "dir_links": [],
+        "cards": [{
+            "dirs": ["questdemo"],
+            "type": "quest",
+            "scenario_md": "Order cornetti",
+            "role_prompt": "You are a baker.",
+            "success_criteria": "Ordered cornetti.",
+            "max_messages": 3,
+            "lang": "it",
+        }],
+    }
+    path = tmp_path / "quest.json"
+    path.write_text(json.dumps(quest))
+    import_file(client, path, echo=lambda *_: None)
+
+    app = PaukApp(client, provider=FakeProvider())
+    async with app.run_test(size=(100, 40)) as pilot:
+        await pilot.press("enter")                      # picker
+        await _settle(pilot)
+        await pilot.press(*"questdemo", "enter")        # start the deck
+        await _settle(pilot)
+        # a quest deck launches the QuestScreen
+        assert isinstance(app.screen, QuestScreen)
+        # send a winning message
+        inp = app.screen.query_one("#quest-input")
+        inp.focus()
+        await pilot.press(*"vorrei due cornetti", "enter")
+        await _settle(pilot)
+        assert len(app.screen.messages) == 2            # user + assistant
+        await pilot.press("f2")                         # finish → judge
+        await _settle(pilot)
+        assert app.screen.finished
+        log = str(app.screen.query_one("#quest-log").render())
+        assert "succeeded" in log
+
+
+async def test_quest_give_up_counts_as_wrong(server, tmp_path):
+    client = Client(server["url"], server["token"])
+    quest = {
+        "dirs": ["questgiveup"],
+        "dir_links": [],
+        "cards": [{
+            "dirs": ["questgiveup"],
+            "type": "quest",
+            "scenario_md": "Do a thing",
+            "role_prompt": "You are someone.",
+            "success_criteria": "Did the thing.",
+            "max_messages": 3,
+            "lang": "",
+        }],
+    }
+    path = tmp_path / "q2.json"
+    path.write_text(json.dumps(quest))
+    import_file(client, path, echo=lambda *_: None)
+
+    app = PaukApp(client, provider=FakeProvider())
+    async with app.run_test(size=(100, 40)) as pilot:
+        await pilot.press("enter")
+        await _settle(pilot)
+        await pilot.press(*"questgiveup", "enter")
+        await _settle(pilot)
+        assert isinstance(app.screen, QuestScreen)
+        await pilot.press("escape")                     # give up immediately
+        await _settle(pilot)
+        # back in the quiz, which finishes (only card) → ResultScreen
+        assert isinstance(app.screen, ResultScreen)

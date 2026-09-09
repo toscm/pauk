@@ -1,0 +1,33 @@
+{
+  "dirs": ["italian", "italian/quests"],
+  "dir_links": [],
+  "cards": [
+    {
+      "dirs": ["italian/quests"],
+      "type": "quest",
+      "scenario_md": "You are at a bakery (**panetteria**) in Rome. Order **2 croissants (cornetti) and 1 coffee (caffè)**. The baker speaks only Italian. Be polite.",
+      "role_prompt": "You are a warm, patient Italian baker in Rome who speaks ONLY Italian. Stay fully in character, keep replies short and natural, and never switch to English. If the customer is unclear, ask a short clarifying question in Italian.",
+      "success_criteria": "The customer clearly asked, in Italian, for 2 cornetti (croissants) and 1 caffè (coffee). Minor grammar mistakes are fine as long as the order is unambiguous.",
+      "max_messages": 8,
+      "lang": "it"
+    },
+    {
+      "dirs": ["italian/quests"],
+      "type": "quest",
+      "scenario_md": "You are at a train station in Milan. Ask for **a one-way ticket to Florence (Firenze)** and find out **which platform (binario)** the train leaves from. The clerk speaks only Italian.",
+      "role_prompt": "You are an Italian ticket clerk at Milano Centrale who speaks ONLY Italian. Stay in character, be efficient and polite, and answer in short natural Italian sentences. Invent a plausible platform number when asked.",
+      "success_criteria": "The customer asked, in Italian, for a one-way ticket to Firenze AND asked which binario/platform the train departs from.",
+      "max_messages": 8,
+      "lang": "it"
+    },
+    {
+      "dirs": ["italian/quests"],
+      "type": "quest",
+      "scenario_md": "You are at a **restaurant** in Naples. Order **a margherita pizza and a glass of red wine (un bicchiere di vino rosso)**, then ask for **the bill (il conto)**. The waiter speaks only Italian.",
+      "role_prompt": "You are a friendly Neapolitan waiter who speaks ONLY Italian. Stay in character, keep it short and natural, and never use English.",
+      "success_criteria": "The customer ordered, in Italian, a margherita pizza and a glass of red wine, and also asked for il conto (the bill).",
+      "max_messages": 10,
+      "lang": "it"
+    }
+  ]
+}

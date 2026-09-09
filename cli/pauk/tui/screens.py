@@ -393,6 +393,11 @@ class QuizScreen(Screen):
     def show_card(self) -> None:
         self.in_feedback = False
         card = self.cards[self.index]
+        if card["type"] == "quest":
+            # a quest is played in its own screen; the outcome counts
+            # as one item of this quiz
+            self.app.push_screen(QuestScreen(card), self._quest_done)
+            return
         self._status()
         question_md = self._show_images(card["question_md"])
         self.query_one("#question", Markdown).update(question_md)
@@ -529,6 +534,16 @@ class QuizScreen(Screen):
         cont.display = True
         cont.focus()
 
+    def _quest_done(self, success: bool | None) -> None:
+        # returning from a quest: count it, then move on
+        card = self.cards[self.index]
+        self.answered += 1
+        if success:
+            self.score += 1
+        else:
+            self.wrong_cards.append(card)
+        self._next()
+
     def _next(self) -> None:
         self.index += 1
         if self.index < len(self.cards):
@@ -647,6 +662,123 @@ class ResultScreen(Screen):
             self.action_repeat_wrong()
         else:
             self.app.pop_screen()
+
+
+class QuestScreen(Screen):
+    """Play one quest: a dialog with the LLM in character, then a
+    judged success and the fewest-messages highscore. Dismisses with
+    the success boolean so the surrounding quiz can count it."""
+
+    BINDINGS = [
+        Binding("escape", "give_up", "Give up"),
+        Binding("f2", "finish", "Finish", show=True),
+    ]
+
+    def __init__(self, card: dict):
+        super().__init__()
+        self.card = card
+        self.messages: list[dict] = []
+        self.user_messages = 0
+        self.finished = False
+
+    def compose(self) -> ComposeResult:
+        with Vertical(id="quest"):
+            yield Markdown(self.card["scenario_md"], id="quest-scenario")
+            yield Static(id="quest-log")
+            yield Input(placeholder="your message", id="quest-input")
+        yield StatusBar(id="quest-status")
+
+    def on_mount(self) -> None:
+        self._update_status()
+        self.query_one("#quest-input", Input).focus()
+
+    def _update_status(self) -> None:
+        maxm = self.card["max_messages"]
+        lang = f" · {self.card['lang']}" if self.card.get("lang") else ""
+        self.query_one("#quest-status", StatusBar).update(
+            f"message {self.user_messages}/{maxm}{lang} · F2 finish · Esc give up"
+        )
+
+    def _render_log(self) -> None:
+        lines = []
+        for m in self.messages:
+            who = "you" if m["role"] == "user" else "•"
+            lines.append(f"{who}: {m['content']}")
+        self.query_one("#quest-log", Static).update("\n\n".join(lines))
+
+    def on_input_submitted(self, event: Input.Submitted) -> None:
+        if self.finished or event.input.id != "quest-input":
+            return
+        text = event.value.strip()
+        if not text:
+            return
+        self.messages.append({"role": "user", "content": text})
+        self.user_messages += 1
+        event.input.value = ""
+        self._render_log()
+        self._update_status()
+        self._reply()
+
+    @work(thread=True)
+    def _reply(self) -> None:
+        try:
+            reply = self.app.provider.chat(self.card["role_prompt"], self.messages)
+        except Exception as exc:  # noqa: BLE001
+            self.app.call_from_thread(
+                self.notify, f"LLM error: {exc}", severity="error"
+            )
+            return
+        self.app.call_from_thread(self._got_reply, reply)
+
+    def _got_reply(self, reply: str) -> None:
+        self.messages.append({"role": "assistant", "content": reply})
+        self._render_log()
+        if self.user_messages >= self.card["max_messages"]:
+            self.action_finish()
+
+    def action_finish(self) -> None:
+        if self.finished or not self.messages:
+            if not self.messages:
+                self.dismiss(False)
+            return
+        self.finished = True
+        self.query_one("#quest-input", Input).disabled = True
+        self.query_one("#quest-status", StatusBar).update("judging…")
+        self._judge()
+
+    @work(thread=True)
+    def _judge(self) -> None:
+        try:
+            success = self.app.provider.judge(self.card["success_criteria"], self.messages)
+            result = self.app.client.quest_run(self.card["id"], success, self.user_messages)
+        except Exception as exc:  # noqa: BLE001
+            self.app.call_from_thread(
+                self.notify, f"Could not finish quest: {exc}", severity="error"
+            )
+            self.app.call_from_thread(self.dismiss, False)
+            return
+        self.app.call_from_thread(self._show_outcome, success, result)
+
+    def _show_outcome(self, success: bool, result: dict) -> None:
+        best = result.get("best_messages")
+        verdict = "✓ succeeded" if success else "✗ not this time"
+        extra = ""
+        if success and result.get("rank"):
+            extra = f" · best {best} messages (#{result['rank']})"
+        self.query_one("#quest-log", Static).update(
+            (str(self.query_one("#quest-log", Static).render()) + "\n\n")
+            + f"{verdict} in {self.user_messages} messages{extra}"
+        )
+        self.query_one("#quest-status", StatusBar).update("Esc to continue")
+        self._pending_success = success
+        self.set_focus(None)
+
+    def action_give_up(self) -> None:
+        # Esc after the outcome continues; Esc mid-quest gives up
+        if getattr(self, "_pending_success", None) is not None:
+            self.dismiss(self._pending_success)
+        else:
+            self.dismiss(False)
 
 
 class StatsScreen(Screen):

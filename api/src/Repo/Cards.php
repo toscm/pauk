@@ -86,10 +86,19 @@ final class Cards
     public function create(int $userId, array $body): array
     {
         $type = $body['type'] ?? null;
-        if (!in_array($type, ['mc', 'text', 'match'], true)) {
-            throw new ApiError(400, 'validation', "type must be 'mc', 'text' or 'match'");
+        if (!in_array($type, ['mc', 'text', 'match', 'quest'], true)) {
+            throw new ApiError(400, 'validation', "type must be 'mc', 'text', 'match' or 'quest'");
         }
-        $question = $body['question_md'] ?? null;
+        // quest cards carry no question_md of their own; the scenario
+        // is the prompt. Synthesize one from the scenario so the
+        // shared question_md/search/media machinery still applies.
+        $spec = null;
+        if ($type === 'quest') {
+            $spec = $this->validateQuest($body);
+            $question = $spec['scenario_md'];
+        } else {
+            $question = $body['question_md'] ?? null;
+        }
         if (!is_string($question) || trim($question) === '') {
             throw new ApiError(400, 'validation', 'question_md must be a non-empty string');
         }
@@ -100,7 +109,7 @@ final class Cards
             $options = $this->validateOptions($body['options'] ?? null);
         } elseif ($type === 'match') {
             $pairs = $this->validatePairs($body['pairs'] ?? null);
-        } else {
+        } elseif ($type === 'text') {
             $answers = $this->validateAnswers($body['accepted_answers'] ?? null);
         }
         $dirIds = $this->validateDirIds($userId, $body['dirs'] ?? []);
@@ -120,6 +129,9 @@ final class Cards
             }
             if ($pairs !== null) {
                 $this->replacePairs($cardId, $pairs);
+            }
+            if ($spec !== null) {
+                $this->replaceQuest($cardId, $spec);
             }
             foreach ($dirIds as $dirId) {
                 $stmt = $this->pdo->prepare(
@@ -169,6 +181,26 @@ final class Cards
                     throw new ApiError(400, 'validation', 'pairs only apply to match cards');
                 }
                 $this->replacePairs($cardId, $this->validatePairs($body['pairs']), true);
+            }
+            $questFields = ['scenario_md', 'role_prompt', 'success_criteria', 'max_messages', 'lang'];
+            if (array_intersect($questFields, array_keys($body)) !== []) {
+                if ($card['type'] !== 'quest') {
+                    throw new ApiError(400, 'validation', 'quest fields only apply to quest cards');
+                }
+                // merge with the stored spec so a partial update works
+                $merged = array_merge([
+                    'scenario_md' => $card['scenario_md'],
+                    'role_prompt' => $card['role_prompt'],
+                    'success_criteria' => $card['success_criteria'],
+                    'max_messages' => $card['max_messages'],
+                    'lang' => $card['lang'],
+                ], array_intersect_key($body, array_flip([
+                    'scenario_md', 'role_prompt', 'success_criteria', 'max_messages', 'lang',
+                ])));
+                $spec = $this->validateQuest($merged);
+                $this->replaceQuest($cardId, $spec);
+                $stmt = $this->pdo->prepare('UPDATE cards SET question_md = ? WHERE id = ?');
+                $stmt->execute([$spec['scenario_md'], $cardId]);
             }
             if (array_key_exists('dirs', $body)) {
                 $dirIds = $this->validateDirIds($userId, $body['dirs']);
@@ -296,8 +328,8 @@ final class Cards
             $where[] = 'dc.card_id IS NULL';
         }
         if (isset($filters['type'])) {
-            if (!in_array($filters['type'], ['mc', 'text', 'match'], true)) {
-                throw new ApiError(400, 'validation', "type must be 'mc', 'text' or 'match'");
+            if (!in_array($filters['type'], ['mc', 'text', 'match', 'quest'], true)) {
+                throw new ApiError(400, 'validation', "type must be 'mc', 'text', 'match' or 'quest'");
             }
             $where[] = 'c.type = ?';
             $params[] = $filters['type'];
@@ -345,6 +377,45 @@ final class Cards
             throw new ApiError(400, 'validation', 'at least one option must be correct');
         }
         return $clean;
+    }
+
+    /** @return array{scenario_md: string, role_prompt: string, success_criteria: string, max_messages: int, lang: string} */
+    private function validateQuest(array $body): array
+    {
+        foreach (['scenario_md', 'role_prompt', 'success_criteria'] as $field) {
+            if (!isset($body[$field]) || !is_string($body[$field]) || trim($body[$field]) === '') {
+                throw new ApiError(400, 'validation', "$field must be a non-empty string");
+            }
+        }
+        $maxMessages = $body['max_messages'] ?? 10;
+        if (!is_int($maxMessages) || $maxMessages < 1 || $maxMessages > 100) {
+            throw new ApiError(400, 'validation', 'max_messages must be 1..100');
+        }
+        $lang = $body['lang'] ?? '';
+        if (!is_string($lang)) {
+            throw new ApiError(400, 'validation', 'lang must be a string');
+        }
+        return [
+            'scenario_md' => trim($body['scenario_md']),
+            'role_prompt' => trim($body['role_prompt']),
+            'success_criteria' => trim($body['success_criteria']),
+            'max_messages' => $maxMessages,
+            'lang' => $lang,
+        ];
+    }
+
+    /** @param array<string, mixed> $spec */
+    private function replaceQuest(int $cardId, array $spec): void
+    {
+        $stmt = $this->pdo->prepare(
+            'REPLACE INTO quest_specs
+             (card_id, scenario_md, role_prompt, success_criteria, max_messages, lang)
+             VALUES (?, ?, ?, ?, ?, ?)'
+        );
+        $stmt->execute([
+            $cardId, $spec['scenario_md'], $spec['role_prompt'],
+            $spec['success_criteria'], $spec['max_messages'], $spec['lang'],
+        ]);
     }
 
     /** @return list<array{left_md: string, right_md: string}> */
@@ -491,6 +562,20 @@ final class Cards
                 $card['choices'] = $choices;
             } else {
                 $card['pairs'] = $pairs;
+            }
+        } elseif ($row['type'] === 'quest') {
+            $stmt = $this->pdo->prepare(
+                'SELECT scenario_md, role_prompt, success_criteria, max_messages, lang
+                 FROM quest_specs WHERE card_id = ?'
+            );
+            $stmt->execute([$cardId]);
+            $spec = $stmt->fetch();
+            if ($spec !== false) {
+                $card['scenario_md'] = $spec['scenario_md'];
+                $card['role_prompt'] = $spec['role_prompt'];
+                $card['success_criteria'] = $spec['success_criteria'];
+                $card['max_messages'] = (int) $spec['max_messages'];
+                $card['lang'] = $spec['lang'];
             }
         } elseif (!$quiz) {
             $stmt = $this->pdo->prepare(

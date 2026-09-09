@@ -125,6 +125,12 @@ class Client:
             body["ranked"] = ranked   # False marks an abandoned run
         return self._call("PATCH", f"/quiz/runs/{run_id}", json=body)
 
+    def quest_run(self, card_id: int, success: bool, messages_used: int) -> dict:
+        return self._call(
+            "POST", f"/cards/{card_id}/quest-run",
+            json={"success": success, "messages_used": messages_used},
+        )
+
     def close(self) -> None:
         self._http.close()
 

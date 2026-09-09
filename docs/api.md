@@ -108,6 +108,23 @@ same `id`.
 - `DELETE /cards/{id}` — 204. Removes its directory links;
   does not delete referenced media.
 
+Quest cards have `"type": "quest"` and, instead of the above,
+a spec the client uses to run a dialog with an LLM:
+
+    {"id": 30, "type": "quest",
+     "scenario_md": "You are at an Italian bakery. Order 2
+       croissants and 1 coffee. The baker speaks only Italian.",
+     "role_prompt": "You are a friendly Italian baker who speaks
+       only Italian. Stay in character.",
+     "success_criteria": "The customer clearly ordered 2
+       croissants and 1 coffee in Italian.",
+     "max_messages": 10, "lang": "it", "dirs": [...], ...}
+
+The dialog and the success judgement run entirely client-side
+(the CLI drives the provider chosen by `pauk.llm.hardware`);
+the API never calls an LLM. Quiz mode returns the same fields
+(a user owns their own quest content).
+
 ## Answering
 
 `POST /cards/{id}/answer`
@@ -149,6 +166,23 @@ For mc cards `expected` contains
 `"correct_option_ids": [1, 3]` instead. `match` is
 `"exact"`, `"typo"`, or `"wrong"` (mc: `"exact"`/`"wrong"`).
 The answer is also appended to the `reviews` log.
+
+## Quest runs
+
+`POST /cards/{id}/quest-run` — record a finished quest attempt.
+Body: `success` (boolean), `messages_used` (integer). The run
+is appended to the `reviews` log (`was_correct = success`, so
+quests feed the weighted selection and stats) and to
+`quest_runs`. Response:
+
+    {"success": true, "messages_used": 6,
+     "best_messages": 6, "rank": 1,
+     "top": [{"messages_used": 6, "finished_at": "..."}]}
+
+`best_messages` is the fewest messages among the user's
+successful runs of this quest (null if none); `top` is the
+best three successful runs (fewest messages, ties by earlier
+finish); `rank` is this run's place among them, or null.
 
 ## Quiz selection
 

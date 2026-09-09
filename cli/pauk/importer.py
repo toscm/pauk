@@ -32,11 +32,14 @@ def import_file(client: Client, path: Path, echo=print) -> tuple[int, int]:
             if e.code != "conflict":
                 raise
 
-    existing = {card["question_md"]: card for card in client.iter_cards()}
+    # dedup key: question_md for normal cards, scenario_md for quests
+    # (a quest's scenario becomes its question_md server-side)
+    existing = {_dedup_key(card): card for card in client.iter_cards()}
     created = skipped = linked = 0
     for card in data.get("cards", []):
         target_ids = [dir_ids[p] for p in card.get("dirs", [])]
-        present = existing.get(card["question_md"])
+        key = _dedup_key(card)
+        present = existing.get(key)
         if present is not None:
             skipped += 1
             # keep directory links up to date for existing cards
@@ -49,12 +52,14 @@ def import_file(client: Client, path: Path, echo=print) -> tuple[int, int]:
         body = {k: v for k, v in card.items() if k != "dirs"}
         body["dirs"] = target_ids
         client.create_card(body)
-        existing[card["question_md"]] = {"id": None, "dirs": [
-            {"id": i} for i in target_ids
-        ]}
+        existing[key] = {"id": None, "dirs": [{"id": i} for i in target_ids]}
         created += 1
     echo(f"imported {created} cards, skipped {skipped} existing, added {linked} links")
     return created, skipped
+
+
+def _dedup_key(card: dict) -> str:
+    return card.get("question_md") or card.get("scenario_md") or ""
 
 
 def _resolve_media(client: Client, cards: list[dict], base: Path, echo) -> None:
@@ -75,7 +80,8 @@ def _resolve_media(client: Client, cards: list[dict], base: Path, echo) -> None:
         return text
 
     for card in cards:
-        card["question_md"] = substitute(card["question_md"])
+        if "question_md" in card:
+            card["question_md"] = substitute(card["question_md"])
         for option in card.get("options", []):
             option["text_md"] = substitute(option["text_md"])
     if uploaded:

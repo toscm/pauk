@@ -94,6 +94,18 @@ final class App
                 return Http::json($response, $cards->answer($userId, (int) $args['id'], Http::body($request)));
             });
 
+            $group->post('/cards/{id:[0-9]+}/quest-run', function (Request $request, Response $response, array $args) use ($repos) {
+                [$pdo, $userId] = $repos($request);
+                $body = Http::body($request);
+                $success = $body['success'] ?? null;
+                $messagesUsed = $body['messages_used'] ?? null;
+                if (!is_bool($success) || !is_int($messagesUsed)) {
+                    throw new ApiError(400, 'validation', 'success bool, messages_used int required');
+                }
+                $quests = new \Pauk\Repo\QuestRuns($pdo);
+                return Http::json($response, $quests->record($userId, (int) $args['id'], $success, $messagesUsed));
+            });
+
             // --- quiz selection ------------------------------------------
             $group->get('/quiz/cards', function (Request $request, Response $response) use ($repos) {
                 [$pdo, $userId, , $cards] = $repos($request);
