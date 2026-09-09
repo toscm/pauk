@@ -1,5 +1,5 @@
 ---
-status: open
+status: done
 kind: task
 ---
 
@@ -19,3 +19,12 @@ explains the whole system so someone could learn pauk from it:
 - API reference with runnable curl examples per endpoint
 
 Build after the LLM/quest work so the book can cover tasks too.
+
+2026-09-09 (iteration 5): Done. Built as a printable HTML
+handbook (Artifact) with six chapters: overview, the data
+model (all 14 tables with columns/types + the DAG/leaderboard
+design), the five card types with real examples, IONOS
+deployment (docroot stub, Apache quirks, backups), a CLI
+walkthrough with terminal "screenshots" (menu, picker, quiz,
+quest, route), and a curl API reference. Source saved at
+docs/handbook.html; print CSS with page breaks and a TOC.

@@ -1,0 +1,693 @@
+<title>The pauk Handbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --paper: #faf8f3;
+    --surface: #f2efe6;
+    --ink: #1c1e26;
+    --ink-soft: #464a58;
+    --ink-faint: #797f90;
+    --rule: #ddd7c8;
+    --rule-strong: #c7c0ac;
+    --accent: #2b5f6b;         /* deep slate-teal, phosphor-cooled */
+    --accent-soft: #e2ebeb;
+    --amber: #b26a1f;          /* highscore / callout warm */
+    --amber-soft: #f5e9d6;
+    --code-bg: #f4f1e9;
+    --code-ink: #2a2d38;
+    --good: #2f6b45;
+    --bad: #9d3227;
+    --term-bg: #1a2026;
+    --term-ink: #d6ddd8;
+    --term-dim: #7f8c88;
+    --term-green: #8fce9b;
+    --term-amber: #e0b877;
+    --term-blue: #86b6c9;
+    --maxw: 40rem;
+  }
+  :root:not([data-theme="light"]) {
+    @media (prefers-color-scheme: dark) {
+      --paper: #14161b;
+      --surface: #1b1e25;
+      --ink: #e6e8ee;
+      --ink-soft: #b3b8c6;
+      --ink-faint: #838999;
+      --rule: #2c3038;
+      --rule-strong: #3a3f49;
+      --accent: #6fb3bf;
+      --accent-soft: #1e3238;
+      --amber: #d9a05a;
+      --amber-soft: #2e2517;
+      --code-bg: #1d2027;
+      --code-ink: #cdd2dc;
+      --good: #74c78e;
+      --bad: #e0897d;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #14161b;
+    --surface: #1b1e25;
+    --ink: #e6e8ee;
+    --ink-soft: #b3b8c6;
+    --ink-faint: #838999;
+    --rule: #2c3038;
+    --rule-strong: #3a3f49;
+    --accent: #6fb3bf;
+    --accent-soft: #1e3238;
+    --amber: #d9a05a;
+    --amber-soft: #2e2517;
+    --code-bg: #1d2027;
+    --code-ink: #cdd2dc;
+    --good: #74c78e;
+    --bad: #e0897d;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 1.5rem; }
+
+  /* ---- typography ---- */
+  h1, h2, h3, h4 { font-family: "IBM Plex Serif", Georgia, serif; text-wrap: balance; line-height: 1.2; }
+  p { max-width: var(--maxw); }
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  code, pre, .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+
+  .eyebrow {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* ---- cover ---- */
+  .cover {
+    min-height: 96vh;
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 4rem 0 2.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .cover-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+  .cover-mark {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem; color: var(--ink-faint); letter-spacing: 0.04em;
+    white-space: pre; line-height: 1.35;
+  }
+  .cover-mid { margin: auto 0; }
+  .cover h1 {
+    font-size: clamp(3rem, 11vw, 5.6rem);
+    margin: 0; font-weight: 700; letter-spacing: -0.01em;
+  }
+  .cover .sub {
+    font-family: "IBM Plex Serif", serif; font-style: italic;
+    font-size: clamp(1.15rem, 3.5vw, 1.6rem); color: var(--ink-soft);
+    margin: 0.6rem 0 0; max-width: 34rem;
+  }
+  .cover .meta {
+    display: flex; flex-wrap: wrap; gap: 1.4rem 2.2rem;
+    font-family: "IBM Plex Mono", monospace; font-size: 0.8rem;
+    color: var(--ink-faint); margin-top: 2.4rem;
+  }
+  .cover .meta b { color: var(--ink); font-weight: 600; display: block; font-size: 0.95rem; }
+  .cover-foot { font-family: "IBM Plex Mono", monospace; font-size: 0.74rem; color: var(--ink-faint); letter-spacing: 0.05em; }
+
+  /* ---- table of contents ---- */
+  .toc { padding: 3.5rem 0 1rem; }
+  .toc h2 { font-size: 1.05rem; letter-spacing: 0.02em; margin: 0 0 1.4rem; color: var(--ink-soft); }
+  .toc ol { list-style: none; counter-reset: ch; margin: 0; padding: 0; }
+  .toc li { counter-increment: ch; border-top: 1px solid var(--rule); }
+  .toc li:last-child { border-bottom: 1px solid var(--rule); }
+  .toc a {
+    display: grid; grid-template-columns: 2.4rem 1fr auto; align-items: baseline;
+    gap: 0.8rem; padding: 0.72rem 0; text-decoration: none; color: var(--ink);
+  }
+  .toc a:hover { color: var(--accent); }
+  .toc a::before { content: counter(ch, decimal-leading-zero); font-family: "IBM Plex Mono", monospace; font-size: 0.78rem; color: var(--accent); }
+  .toc .t { font-family: "IBM Plex Serif", serif; font-size: 1.1rem; }
+  .toc .d { font-family: "IBM Plex Mono", monospace; font-size: 0.72rem; color: var(--ink-faint); text-align: right; }
+
+  /* ---- chapters ---- */
+  .chapter { padding: 3.5rem 0 1.5rem; border-top: 1px solid var(--rule); }
+  .chapter-head { counter-increment: chapternum; margin-bottom: 2rem; }
+  .chapter-head .num {
+    font-family: "IBM Plex Mono", monospace; font-size: 0.78rem; letter-spacing: 0.16em;
+    color: var(--accent); text-transform: uppercase;
+  }
+  .chapter-head h2 { font-size: clamp(1.9rem, 5vw, 2.7rem); margin: 0.4rem 0 0; }
+  .chapter-head .lede { font-size: 1.08rem; color: var(--ink-soft); margin: 1rem 0 0; font-family: "IBM Plex Serif", serif; }
+
+  h3 { font-size: 1.32rem; margin: 2.4rem 0 0.6rem; font-weight: 600; }
+  h4 { font-size: 1rem; margin: 1.6rem 0 0.4rem; font-weight: 600; font-family: "IBM Plex Sans", sans-serif; letter-spacing: 0.01em; }
+
+  /* ---- code & terminal ---- */
+  pre { overflow-x: auto; border-radius: 6px; }
+  .code {
+    background: var(--code-bg); color: var(--code-ink);
+    border: 1px solid var(--rule); padding: 0.95rem 1.1rem;
+    font-size: 0.82rem; line-height: 1.55; margin: 1.2rem 0;
+  }
+  .code .c { color: var(--ink-faint); }
+  .code .k { color: var(--accent); font-weight: 600; }
+  .code .s { color: var(--amber); }
+  p code, li code, td code {
+    background: var(--code-bg); border: 1px solid var(--rule);
+    padding: 0.05em 0.35em; border-radius: 3px; font-size: 0.85em;
+  }
+
+  .term {
+    background: var(--term-bg); border-radius: 8px; margin: 1.4rem 0;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.04); overflow: hidden;
+    border: 1px solid #2b333a;
+  }
+  .term-bar {
+    display: flex; align-items: center; gap: 0.4rem; padding: 0.5rem 0.8rem;
+    background: #232b31; border-bottom: 1px solid #2b333a;
+  }
+  .term-bar .dot { width: 0.62rem; height: 0.62rem; border-radius: 50%; background: #3d474e; }
+  .term-bar .ttl { margin-left: 0.5rem; font-family: "IBM Plex Mono", monospace; font-size: 0.72rem; color: var(--term-dim); }
+  .term pre {
+    margin: 0; padding: 0.9rem 1.1rem; color: var(--term-ink);
+    font-family: "IBM Plex Mono", monospace; font-size: 0.79rem; line-height: 1.5;
+    background: none;
+  }
+  .term .dim { color: var(--term-dim); }
+  .term .g { color: var(--term-green); }
+  .term .a { color: var(--term-amber); }
+  .term .b { color: var(--term-blue); }
+  .term .sel { color: var(--term-bg); background: var(--term-green); }
+
+  /* ---- schema tables ---- */
+  .tablewrap { overflow-x: auto; margin: 1.2rem 0; }
+  table.schema { border-collapse: collapse; width: 100%; font-size: 0.8rem; min-width: 32rem; }
+  table.schema caption {
+    text-align: left; font-family: "IBM Plex Mono", monospace; font-weight: 600;
+    color: var(--accent); font-size: 0.82rem; padding-bottom: 0.5rem; letter-spacing: 0.02em;
+  }
+  table.schema th {
+    text-align: left; font-family: "IBM Plex Mono", monospace; font-size: 0.68rem;
+    text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint);
+    border-bottom: 1.5px solid var(--rule-strong); padding: 0.4rem 0.7rem 0.4rem 0;
+    font-weight: 500;
+  }
+  table.schema td { border-bottom: 1px solid var(--rule); padding: 0.42rem 0.7rem 0.42rem 0; vertical-align: top; }
+  table.schema td:first-child { font-family: "IBM Plex Mono", monospace; color: var(--ink); font-weight: 500; white-space: nowrap; }
+  table.schema td.ty { font-family: "IBM Plex Mono", monospace; color: var(--accent); font-size: 0.74rem; }
+  table.schema tr.pk td:first-child::after { content: "PK"; font-size: 0.6rem; color: var(--paper); background: var(--accent); padding: 0.05em 0.3em; border-radius: 2px; margin-left: 0.4rem; vertical-align: middle; letter-spacing: 0.05em; }
+  table.schema tr.fk td:first-child::after { content: "FK"; font-size: 0.6rem; color: var(--ink-soft); border: 1px solid var(--rule-strong); padding: 0.02em 0.3em; border-radius: 2px; margin-left: 0.4rem; vertical-align: middle; letter-spacing: 0.05em; }
+
+  /* ---- callouts & cards ---- */
+  .note {
+    background: var(--accent-soft); border-left: 3px solid var(--accent);
+    padding: 0.9rem 1.1rem; margin: 1.4rem 0; font-size: 0.92rem; border-radius: 0 5px 5px 0;
+  }
+  .note.warn { background: var(--amber-soft); border-left-color: var(--amber); }
+  .note .lbl { font-family: "IBM Plex Mono", monospace; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.25rem; }
+  .note.warn .lbl { color: var(--amber); }
+  .note p { margin: 0; max-width: none; }
+
+  .typecard { border: 1px solid var(--rule); border-radius: 8px; padding: 1.2rem 1.3rem; margin: 1.4rem 0; background: var(--surface); }
+  .typecard h4 { margin-top: 0; display: flex; align-items: baseline; gap: 0.6rem; font-family: "IBM Plex Serif", serif; font-size: 1.25rem; }
+  .typecard h4 .tag { font-family: "IBM Plex Mono", monospace; font-size: 0.68rem; background: var(--accent); color: var(--paper); padding: 0.1em 0.5em; border-radius: 3px; letter-spacing: 0.04em; }
+  .typecard .desc { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 0.6rem; }
+
+  .statgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; margin: 1.6rem 0; }
+  .statgrid div { background: var(--surface); padding: 1rem 1.1rem; }
+  .statgrid .n { font-family: "IBM Plex Mono", monospace; font-size: 1.7rem; font-weight: 600; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .statgrid .l { font-size: 0.72rem; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 0.15rem; }
+
+  hr.soft { border: none; border-top: 1px solid var(--rule); margin: 2rem 0; }
+
+  /* ---- diagram ---- */
+  .diagram { margin: 1.6rem 0; overflow-x: auto; }
+  .diagram svg { display: block; min-width: 30rem; width: 100%; height: auto; }
+  .dg-node { fill: var(--surface); stroke: var(--rule-strong); }
+  .dg-node.accent { fill: var(--accent-soft); stroke: var(--accent); }
+  .dg-label { font-family: "IBM Plex Mono", monospace; font-size: 12px; fill: var(--ink); }
+  .dg-edge { stroke: var(--ink-faint); stroke-width: 1.4; fill: none; }
+  .dg-edge-lbl { font-family: "IBM Plex Mono", monospace; font-size: 10px; fill: var(--ink-faint); }
+
+  .colophon { padding: 3rem 0 4rem; border-top: 1px solid var(--rule); color: var(--ink-soft); font-size: 0.9rem; }
+  .colophon .eyebrow { display: block; margin-bottom: 1rem; }
+
+  /* ---- print ---- */
+  @media print {
+    :root { --paper: #fff; --surface: #fff; --ink: #111; --code-bg: #f6f6f6; }
+    body { font-size: 10.5pt; line-height: 1.5; }
+    .chapter, .colophon { page-break-before: always; border: none; padding-top: 0; }
+    .cover { min-height: 92vh; page-break-after: always; }
+    .toc { page-break-after: always; }
+    .term, .code, .typecard, .tablewrap, .note, .diagram { page-break-inside: avoid; }
+    a { color: var(--ink); text-decoration: none; }
+    .toc .d { display: none; }
+  }
+</style>
+
+<div class="wrap">
+
+  <!-- ============ COVER ============ -->
+  <header class="cover">
+    <div class="cover-top">
+      <span class="eyebrow">Architecture &amp; Operations Handbook</span>
+      <span class="cover-mark">  _ __   __ _ _   _ _
+ | '_ \ / _` | | | | |/ /
+ | |_) | (_| | |_| |   &lt;
+ | .__/ \__,_|\__,_|_|\_\
+ |_|</span>
+    </div>
+    <div class="cover-mid">
+      <h1>The pauk Handbook</h1>
+      <p class="sub">How a flashcard trainer is built, deployed on rented shared hosting, and played from the terminal.</p>
+      <div class="meta">
+        <span><b>HTTP API</b>PHP 8.4 · Slim 4 · MariaDB</span>
+        <span><b>Client</b>Python · Textual TUI</span>
+        <span><b>Live at</b>pauk.aao756.de</span>
+      </div>
+    </div>
+    <div class="cover-foot">API v0.7.0 · CLI v0.10.0 · Revision 2026-09</div>
+  </header>
+
+  <!-- ============ TOC ============ -->
+  <nav class="toc">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#ch1"><span class="t">What pauk Is</span><span class="d">the API is the product</span></a></li>
+      <li><a href="#ch2"><span class="t">The Data Model</span><span class="d">14 tables · a directory DAG</span></a></li>
+      <li><a href="#ch3"><span class="t">Five Kinds of Card</span><span class="d">mc · text · match · quest · route</span></a></li>
+      <li><a href="#ch4"><span class="t">Deployment on IONOS</span><span class="d">shared hosting, made to behave</span></a></li>
+      <li><a href="#ch5"><span class="t">The Terminal Client</span><span class="d">a walk through the screens</span></a></li>
+      <li><a href="#ch6"><span class="t">The HTTP API</span><span class="d">every endpoint, with curl</span></a></li>
+    </ol>
+  </nav>
+
+  <!-- ============ CH 1 ============ -->
+  <section class="chapter" id="ch1">
+    <div class="chapter-head">
+      <span class="num">Chapter One</span>
+      <h2>What pauk Is</h2>
+      <p class="lede">A flashcard trainer whose single source of truth is an HTTP API. Every interface &mdash; the terminal app today, a web or mobile app later &mdash; is a thin client of that one contract.</p>
+    </div>
+
+    <p><em>pauk</em> stores questions and answers, organises them into a graph of decks, and quizzes you on them. Questions are written in Markdown and may embed images. The name is short, verb-able, and thematically earned the way <code>git</code> is: it comes from the German <em>pauken</em>, &ldquo;to cram&rdquo;.</p>
+
+    <p>The governing decision is that <strong>the API is the product</strong>. The database is touched by nothing but the API; the CLI, and any future web or mobile client, speak only HTTP. That keeps the clients disposable and the contract durable &mdash; the implementation language (PHP, chosen because it runs on already-paid shared hosting) is an implementation detail behind the spec.</p>
+
+    <div class="statgrid">
+      <div><div class="n">14</div><div class="l">Tables</div></div>
+      <div><div class="n">5</div><div class="l">Card types</div></div>
+      <div><div class="n">91</div><div class="l">Live decks</div></div>
+      <div><div class="n">400+</div><div class="l">Live cards</div></div>
+    </div>
+
+    <h3>The three components</h3>
+    <p>The repository is a monorepo with three roles, named by what they <em>are</em>, never by their language:</p>
+    <ul>
+      <li><code>api/</code> &mdash; the HTTP API. PHP&nbsp;8.4 on the Slim&nbsp;4 framework, talking to MariaDB through PDO.</li>
+      <li><code>cli/</code> &mdash; the command-line client. Python, built on <a href="https://textual.textualize.io">Textual</a> for the full-screen app and Typer for the scripting subcommands.</li>
+      <li><code>content/</code> &mdash; importable decks of cards (Italian, German geography, the Greek alphabet) as JSON.</li>
+    </ul>
+
+    <div class="note">
+      <span class="lbl">Design principle</span>
+      <p>As simple as possible, and conventional wherever a convention exists &mdash; so the code and the app feel familiar from the first minute. One database engine everywhere. One organising concept (directories) instead of two (directories and tags).</p>
+    </div>
+  </section>
+
+  <!-- ============ CH 2 ============ -->
+  <section class="chapter" id="ch2">
+    <div class="chapter-head">
+      <span class="num">Chapter Two</span>
+      <h2>The Data Model</h2>
+      <p class="lede">Fourteen tables in MariaDB. Everything owned by a user carries <code>user_id</code> from the first migration; decks form a directed acyclic graph, not a tree; leaderboards are per question count.</p>
+    </div>
+
+    <h3>Identity</h3>
+    <p>A single user in practice today, but multi-user in the schema from day one &mdash; retrofitting <code>user_id</code> is painful, so it was never deferred. Tokens are 32 random bytes, stored only as their SHA-256 hash.</p>
+
+    <div class="tablewrap"><table class="schema"><caption>users</caption>
+      <tr><th>Column</th><th>Type</th><th>Notes</th></tr>
+      <tr class="pk"><td>id</td><td class="ty">BIGINT UNSIGNED</td><td>auto-increment</td></tr>
+      <tr><td>name</td><td class="ty">VARCHAR(64)</td><td>unique</td></tr>
+      <tr><td>created_at</td><td class="ty">DATETIME</td><td>default now</td></tr>
+    </table></div>
+
+    <div class="tablewrap"><table class="schema"><caption>api_tokens</caption>
+      <tr><th>Column</th><th>Type</th><th>Notes</th></tr>
+      <tr class="pk"><td>id</td><td class="ty">BIGINT UNSIGNED</td><td></td></tr>
+      <tr class="fk"><td>user_id</td><td class="ty">BIGINT UNSIGNED</td><td>&rarr; users, cascade</td></tr>
+      <tr><td>token_hash</td><td class="ty">CHAR(64)</td><td>unique · SHA-256 hex</td></tr>
+      <tr><td>label</td><td class="ty">VARCHAR(64)</td><td>e.g. &ldquo;cli&rdquo;</td></tr>
+      <tr><td>created_at</td><td class="ty">DATETIME</td><td></td></tr>
+      <tr><td>last_used_at</td><td class="ty">DATETIME</td><td>nullable</td></tr>
+    </table></div>
+
+    <h3>Cards and their bodies</h3>
+    <p>Every card is one row in <code>cards</code> with a <code>type</code> and a Markdown <code>question_md</code>. The type-specific parts live in satellite tables, joined on <code>card_id</code> and cascade-deleted with the card.</p>
+
+    <div class="tablewrap"><table class="schema"><caption>cards</caption>
+      <tr><th>Column</th><th>Type</th><th>Notes</th></tr>
+      <tr class="pk"><td>id</td><td class="ty">BIGINT UNSIGNED</td><td></td></tr>
+      <tr class="fk"><td>user_id</td><td class="ty">BIGINT UNSIGNED</td><td>&rarr; users, cascade</td></tr>
+      <tr><td>type</td><td class="ty">ENUM</td><td>mc · text · match · quest · route</td></tr>
+      <tr><td>question_md</td><td class="ty">TEXT</td><td>Markdown; images via <code>![]()</code></td></tr>
+      <tr><td>created_at</td><td class="ty">DATETIME</td><td></td></tr>
+      <tr><td>updated_at</td><td class="ty">DATETIME</td><td>on update now</td></tr>
+    </table></div>
+
+    <div class="tablewrap"><table class="schema"><caption>mc_options · text_answers · match_pairs</caption>
+      <tr><th>Column</th><th>Type</th><th>Table &amp; notes</th></tr>
+      <tr><td>card_id, position, text_md, is_correct</td><td class="ty">FK, INT, TEXT, TINYINT</td><td><b>mc_options</b> &mdash; one row per choice; many may be correct</td></tr>
+      <tr><td>card_id, accepted_answer</td><td class="ty">FK, VARCHAR(512)</td><td><b>text_answers</b> &mdash; one row per accepted phrasing</td></tr>
+      <tr><td>card_id, position, left_md, right_md</td><td class="ty">FK, INT, VARCHAR, VARCHAR</td><td><b>match_pairs</b> &mdash; the shared row id is the correct connection</td></tr>
+    </table></div>
+
+    <div class="tablewrap"><table class="schema"><caption>quest_specs &amp; route_specs (one row per card)</caption>
+      <tr><th>Column</th><th>Type</th><th>Table &amp; notes</th></tr>
+      <tr><td>scenario_md, role_prompt, success_criteria, max_messages, lang</td><td class="ty">TEXT×3, INT, VARCHAR</td><td><b>quest_specs</b> &mdash; the dialog task definition</td></tr>
+      <tr><td>graph_name, start_node, goal_node</td><td class="ty">VARCHAR×3</td><td><b>route_specs</b> &mdash; which graph, and the endpoints</td></tr>
+    </table></div>
+
+    <h3>Decks are a graph, not a folder tree</h3>
+    <p>A directory is a <em>collection</em>, not a filesystem node. A card can belong to any number of directories; a directory can sit under any number of parents. So &ldquo;Italian core verbs&rdquo; is both a quiz of its own and a sub-deck of &ldquo;Italian verbs&rdquo; &mdash; and quizzing the parent includes the child transitively.</p>
+
+    <div class="diagram" aria-label="A directory DAG: italian points to verbs and a1; both verbs and a1 point to core-verbs.">
+      <svg viewBox="0 0 480 200" role="img">
+        <path class="dg-edge" d="M120,44 C 180,44 180,96 236,96"></path>
+        <path class="dg-edge" d="M120,150 C 180,150 180,110 236,104"></path>
+        <path class="dg-edge" d="M96,64 L 96,126"></path>
+        <rect class="dg-node accent" x="16" y="26" width="104" height="36" rx="6"></rect>
+        <text class="dg-label" x="34" y="49">italian</text>
+        <rect class="dg-node" x="16" y="130" width="104" height="36" rx="6"></rect>
+        <text class="dg-label" x="38" y="153">a1</text>
+        <rect class="dg-node" x="150" y="26" width="104" height="36" rx="6"></rect>
+        <text class="dg-label" x="168" y="49">verbs</text>
+        <rect class="dg-node accent" x="300" y="78" width="150" height="40" rx="6"></rect>
+        <text class="dg-label" x="316" y="103">core-verbs</text>
+        <path class="dg-edge" d="M254,44 C 290,44 290,86 300,92"></path>
+      </svg>
+    </div>
+
+    <p>The graph is stored as two edge tables. Cycles are rejected when an edge is created; a name is unique among its siblings, so a slash-path like <code>italian/verbs/core-verbs</code> resolves unambiguously even though a deck may be reachable by several paths. Deleting a directory never deletes a card &mdash; an unreferenced card simply becomes <em>unfiled</em>.</p>
+
+    <div class="tablewrap"><table class="schema"><caption>dirs · dir_dirs · dir_cards</caption>
+      <tr><th>Column</th><th>Type</th><th>Table &amp; notes</th></tr>
+      <tr><td>id, user_id, name</td><td class="ty">PK, FK, VARCHAR(64)</td><td><b>dirs</b> &mdash; name matches <code>^[a-z0-9-]+$</code></td></tr>
+      <tr><td>parent_id, child_id</td><td class="ty">FK, FK</td><td><b>dir_dirs</b> &mdash; nesting edges (composite PK)</td></tr>
+      <tr><td>dir_id, card_id</td><td class="ty">FK, FK</td><td><b>dir_cards</b> &mdash; membership edges (composite PK)</td></tr>
+    </table></div>
+
+    <div class="note">
+      <span class="lbl">Traversal gotcha</span>
+      <p>Single-deck traversal uses a recursive CTE. MariaDB infers the CTE column type from the anchor row, and a bare bound parameter is typed as a <em>short string</em> that silently truncates larger ids &mdash; so the anchor is always written <code>SELECT CAST(? AS UNSIGNED)</code>. The deck picker, which needs every directory&rsquo;s transitive card count at once, instead loads all edges in a few queries and computes the closures in PHP; one CTE per directory would be an N+1 against the remote database.</p>
+    </div>
+
+    <h3>History and scores</h3>
+    <p>Every answer is appended to <code>reviews</code> &mdash; the append-only log the weighted question-picker reads, and the seam where real spaced repetition can slot in later. Three run tables record finished sessions and drive the leaderboards.</p>
+
+    <div class="tablewrap"><table class="schema"><caption>reviews · quiz_runs · quest_runs · route_runs</caption>
+      <tr><th>Column</th><th>Type</th><th>Table &amp; notes</th></tr>
+      <tr><td>card_id, user_id, was_correct, answered_at</td><td class="ty">FK, FK, TINYINT, DATETIME</td><td><b>reviews</b> &mdash; one row per answer</td></tr>
+      <tr><td>dir_id, total, correct, ranked, started_at, finished_at</td><td class="ty">FK?, INT, INT, TINYINT, …</td><td><b>quiz_runs</b> &mdash; leaderboard per (deck, total)</td></tr>
+      <tr><td>card_id, success, messages_used</td><td class="ty">FK, TINYINT, INT</td><td><b>quest_runs</b> &mdash; fewest messages wins</td></tr>
+      <tr><td>card_id, success, km</td><td class="ty">FK, TINYINT, INT</td><td><b>route_runs</b> &mdash; fewest kilometres wins</td></tr>
+    </table></div>
+
+    <div class="note warn">
+      <span class="lbl">Why leaderboards are per question count</span>
+      <p>A &ldquo;best run&rdquo; only means something against a fixed length. Scoring 5/5 on a five-card quiz is not comparable to 18/20 on a twenty-card one, so each <code>(deck, total)</code> keeps its own top-three. Repeat and repeat-wrong runs are marked <code>ranked = 0</code> so a one-question practice pass can never masquerade as a record &mdash; and abandoning a quiz early finishes the run unranked for the same reason.</p>
+    </div>
+  </section>
+
+  <!-- ============ CH 3 ============ -->
+  <section class="chapter" id="ch3">
+    <div class="chapter-head">
+      <span class="num">Chapter Three</span>
+      <h2>Five Kinds of Card</h2>
+      <p class="lede">The same deck can mix all five. Grading and question-selection are server-side, so every client behaves identically; where a task needs a model, only the client talks to it.</p>
+    </div>
+
+    <div class="typecard">
+      <h4><span class="tag">mc</span> Multiple choice</h4>
+      <p class="desc">Correct when the chosen set of option ids equals the correct set. Several options may be correct.</p>
+      <pre class="code"><span class="k">Q</span>  Which definite article is correct?  ___ <b>zaino</b> (backpack)
+   <span class="s">&#9635; lo</span>   &#9633; il   &#9633; la   &#9633; l&rsquo;</pre>
+    </div>
+
+    <div class="typecard">
+      <h4><span class="tag">text</span> Free text</h4>
+      <p class="desc">Normalised (case-folded, diacritics and punctuation stripped), then matched. Typos within a length-scaled Levenshtein budget are accepted and flagged; answers under four characters must match exactly.</p>
+      <pre class="code"><span class="k">Q</span>  Translate to Italian: <b>to be</b>
+<span class="k">A</span>  essere        <span class="c"># &ldquo;essre&rdquo; &rarr; accepted (typo), &ldquo;avere&rdquo; &rarr; wrong</span></pre>
+    </div>
+
+    <div class="typecard">
+      <h4><span class="tag">match</span> Matching</h4>
+      <p class="desc">Connect each left item to its right. Ideal for conjugation tables. In quiz form the right side is shuffled; a left matches the choice sharing its row id, so the correct pairing never leaks.</p>
+      <pre class="code"><span class="k">Q</span>  Match each pronoun to the present tense of <b>essere</b> (to be)
+   io &rarr; <b>sono</b>    tu &rarr; <b>sei</b>    lui/lei &rarr; <b>&egrave;</b>
+   noi &rarr; <b>siamo</b>  voi &rarr; <b>siete</b></pre>
+    </div>
+
+    <div class="typecard">
+      <h4><span class="tag">quest</span> LLM dialog task</h4>
+      <p class="desc">A scenario you solve by conversation with a model playing a role, judged for success, scored by fewest messages. The dialog and the judgement run entirely in the client; the API only stores the definition and records the run.</p>
+      <pre class="code"><span class="c">scenario</span>  You are at a bakery in Rome. Order 2 cornetti and
+          1 caff&egrave;. The baker speaks only Italian.
+<span class="c">role</span>      A warm Italian baker who speaks ONLY Italian&hellip;
+<span class="c">success</span>   The customer clearly asked, in Italian, for 2
+          cornetti and 1 caff&egrave;.
+<span class="c">budget</span>    8 messages</pre>
+    </div>
+
+    <div class="typecard">
+      <h4><span class="tag">route</span> Map navigation task</h4>
+      <p class="desc">Navigate a graph from a start to a goal by picking edges &mdash; multiple choice, never free typing. Kilometres are summed <em>deterministically</em> from a bundled graph, never trusted to a model; the highscore is the fewest kilometres.</p>
+      <pre class="code"><span class="k">Q</span>  Drive from <b>M&uuml;nchen</b> to <b>Berlin</b> using as few km as possible.
+   <span class="c">graph</span> germany-autobahn   <span class="c">optimum</span> 595 km (Dijkstra)</pre>
+    </div>
+
+    <h3>How the next question is chosen</h3>
+    <p>Selection is server-side too, so all clients quiz identically. Cards are drawn by weighted sampling that favours the new, the often-wrong, and the long-unseen:</p>
+    <pre class="code"><span class="c"># from the reviews log, per candidate card</span>
+error_rate = (wrong + <span class="s">1</span>) / (asked + <span class="s">2</span>)      <span class="c"># Laplace-smoothed</span>
+staleness  = <span class="s">1</span> if never asked else min(days, <span class="s">30</span>) / <span class="s">30</span>
+weight     = error_rate &times; (<span class="s">1</span> + staleness)</pre>
+    <p>A brand-new card gets the maximum weight; a card answered right and seen yesterday sinks toward the floor. This is deliberately not a full Leitner or SM-2 scheduler &mdash; the endpoint is simply the place where one could later be dropped in.</p>
+  </section>
+
+  <!-- ============ CH 4 ============ -->
+  <section class="chapter" id="ch4">
+    <div class="chapter-head">
+      <span class="num">Chapter Four</span>
+      <h2>Deployment on IONOS</h2>
+      <p class="lede">The API runs on rented IONOS shared hosting &mdash; no root, no daemons, PHP invoked per request by Apache. Getting a clean REST API to behave there took a handful of specific accommodations.</p>
+    </div>
+
+    <p>The host serves PHP out of <code>~/web/pauk</code> and offers a managed MariaDB (2&nbsp;GB) reachable only from the webspace. There is no way to run a long-lived process, which is exactly why the API is PHP and not a Python or Go daemon: on this box, PHP-per-request is the only server model available.</p>
+
+    <h3>Layout on the server</h3>
+    <p>Only the front controller and uploaded media sit in the docroot; the application code, its vendored libraries, and the credentials live <em>outside</em> it, so they can never be served as text.</p>
+    <div class="tablewrap"><table class="schema"><caption>~/ on the IONOS webspace</caption>
+      <tr><th>Path</th><th>Role</th></tr>
+      <tr><td>web/pauk/</td><td>docroot &mdash; a tiny <code>index.php</code> stub + <code>media/</code></td></tr>
+      <tr><td>pauk-app/</td><td>application code + <code>vendor/</code>, not web-reachable</td></tr>
+      <tr><td>pauk.env</td><td>DB credentials, mode 600, never in git</td></tr>
+      <tr><td>pauk-backups/</td><td>nightly dumps + the prune script</td></tr>
+    </table></div>
+
+    <p>The docroot stub simply points the real front controller at the app directory and the credentials file:</p>
+    <pre class="code"><span class="c">// ~/web/pauk/index.php</span>
+<span class="k">putenv</span>(<span class="s">'PAUK_APP_DIR=…/pauk-app'</span>);
+<span class="k">putenv</span>(<span class="s">'PAUK_ENV_FILE=…/pauk.env'</span>);
+<span class="k">require</span> <span class="s">'…/pauk-app/public/index.php'</span>;</pre>
+
+    <h3>Two Apache quirks, and their fixes</h3>
+    <div class="note warn">
+      <span class="lbl">Quirk 1 — mod_rewrite 500s</span>
+      <p>This Apache returns a 500 on a per-directory <code>RewriteRule</code>. The router uses <code>FallbackResource /index.php</code> instead, which routes every not-a-real-file request to the front controller and still lets Apache serve <code>media/</code> directly.</p>
+    </div>
+    <div class="note warn">
+      <span class="lbl">Quirk 2 — the Authorization header vanishes</span>
+      <p>CGI PHP drops the <code>Authorization</code> header, so bearer tokens never arrive. A <code>SetEnvIf</code> in <code>.htaccess</code> re-exposes it, and the front controller promotes the <code>REDIRECT_</code>-prefixed variants that the FallbackResource internal redirect produces. Remove either and every authenticated endpoint 401s &mdash; in production only; the local dev server has neither quirk.</p>
+    </div>
+
+    <h3>Deploying</h3>
+    <p><code>make deploy</code> is the only path to production. It runs the full test suite and aborts on any failure; refuses a dirty or unpushed tree; builds <code>vendor/</code> with <code>--no-dev</code>; takes a database dump <em>before</em> migrating; rsyncs the app (keeping the previous version as <code>.prev</code> for <code>make rollback</code>); runs forward-only migrations; and finishes with a smoke test that the live <code>/health</code> returns the just-deployed version.</p>
+
+    <h3>Backups</h3>
+    <p>A nightly cron dumps and gzips the database, then prunes on a date-anchored grandfather-father-son schedule computable from filenames alone: keep everything from the last 7 days; keep the 1st, 8th, 15th and 22nd for 35 days; keep every 1st for a year. About twenty small dumps at any time. Media files are content-hashed and immutable, so a weekly rsync of <code>media/</code> is enough.</p>
+
+    <div class="note">
+      <span class="lbl">TLS</span>
+      <p>The domain <code>pauk.aao756.de</code> is covered by the hosting contract&rsquo;s wildcard certificate (<code>*.aao756.de</code>, auto-renewed), so a single certificate secures the app and every future subdomain at no extra cost.</p>
+    </div>
+  </section>
+
+  <!-- ============ CH 5 ============ -->
+  <section class="chapter" id="ch5">
+    <div class="chapter-head">
+      <span class="num">Chapter Five</span>
+      <h2>The Terminal Client</h2>
+      <p class="lede">Run <code>pauk</code> with no arguments and you are inside a full-screen application. Network calls happen on background threads, so the UI never blocks; status bars carry only the non-obvious keys.</p>
+    </div>
+
+    <p>You authenticate once &mdash; <code>pauk login https://pauk.aao756.de</code> stores a token in <code>~/.config/pauk/config.toml</code> &mdash; and every scripting subcommand (<code>import</code>, <code>stats</code>, <code>media</code>, <code>quiz&nbsp;--dir</code>) remains available for automation. What follows is the interactive path.</p>
+
+    <h4>The home screen</h4>
+    <div class="term"><div class="term-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="ttl">pauk</span></div><pre>       _ __   __ _ _   _ _
+      | '_ \ / _` | | | | |/ /
+      | |_) | (_| | |_| |   &lt;
+      | .__/ \__,_|\__,_|_|\_\
+      |_|
+      <span class="dim">the flashcard trainer</span>
+
+        <span class="sel"> Start a quiz </span>
+         Statistics
+         Settings
+         Quit</pre></div>
+
+    <h4>The deck picker &mdash; favourites, and a tree</h4>
+    <p>Favourites are sorted by how often you have started them; typing filters fuzzily. The number of questions is chosen here, not in a dialog: <code>[</code> and <code>]</code> change it.</p>
+    <div class="term"><div class="term-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="ttl">pauk &mdash; pick a quiz</span></div><pre>  <span class="sel"> italian/verbs/conjugation/present/essere  (6)  &middot; best 100% </span>
+   italian/verbs/core-verbs/part-1           (10) &middot; best 80%
+   germany/bundeslaender/capitals            (16)
+   greek/lowercase/alpha-to-mu               (12)
+
+  <span class="dim">25 questions &middot; [ ] &middot; Tab tree</span></pre></div>
+    <p>Pressing Tab switches to the directory tree, where <span class="mono">&rarr;</span> enters a deck and <span class="mono">&larr;</span> leaves it:</p>
+    <div class="term"><div class="term-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="ttl">pauk &mdash; tree</span></div><pre>  <span class="b">-</span> italian  (209 total)
+    <span class="b">-</span> verbs  (50 total)
+      <span class="b">+</span> core-verbs  (20)
+      <span class="sel"> + common-verbs  (30) </span>
+  <span class="b">+</span> germany  (109 total)
+  <span class="b">+</span> greek  (72 total)
+
+  <span class="dim">25 questions &middot; [ ] &middot; Tab list</span></pre></div>
+
+    <h4>A quiz in progress</h4>
+    <div class="term"><div class="term-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="ttl">pauk &mdash; quiz</span></div><pre>  Translate to Italian: <b>to speak</b>
+
+  &gt; parlare_
+
+  <span class="g">&#10003; correct</span>
+
+  <span class="dim">Q 3/25 &middot; score 2 &middot; best 80%</span></pre></div>
+    <p>A finished run shows the top three for that length; beating them raises a small trophy.</p>
+
+    <h4>A quest &mdash; ordering in Italian</h4>
+    <div class="term"><div class="term-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="ttl">pauk &mdash; quest</span></div><pre>  <span class="dim">You are at a bakery in Rome. Order 2 cornetti and 1 caff&egrave;.</span>
+
+  you: Buongiorno! Vorrei due cornetti, per favore.
+  &bull;   Buongiorno! Certo, due cornetti. Qualcos&rsquo;altro?
+  you: S&igrave;, anche un caff&egrave;.
+  &bull;   Perfetto &mdash; due cornetti e un caff&egrave;. Ecco a lei!
+
+  <span class="g">&#10003; succeeded in 2 messages &middot; best 2</span>
+  <span class="dim">message 2/8 &middot; it &middot; F2 finish</span></pre></div>
+
+    <h4>A route &mdash; driving the autobahn</h4>
+    <div class="term"><div class="term-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="ttl">pauk &mdash; route</span></div><pre>  You are in <b>N&uuml;rnberg</b>  (goal: Berlin)
+
+   A9 &rarr; Ingolstadt   (85 km)
+  <span class="sel"> A9 &rarr; Bayreuth     (75 km) </span>
+   A6 &rarr; Heilbronn    (150 km)
+
+  <span class="dim">240 km so far</span>
+  &hellip;
+  <span class="a">Arrived in 595 km &middot; best 595 km &mdash; new record!</span></pre></div>
+    <div class="note">
+      <span class="lbl">Field note</span>
+      <p>A hard-won lesson lives in the client: never name a Textual screen attribute <code>path</code>. It shadows a framework internal used during rendering and crashes the screen on <em>every</em> terminal. The route screen uses <code>node_path</code>.</p>
+    </div>
+  </section>
+
+  <!-- ============ CH 6 ============ -->
+  <section class="chapter" id="ch6">
+    <div class="chapter-head">
+      <span class="num">Chapter Six</span>
+      <h2>The HTTP API</h2>
+      <p class="lede">Base URL <code>https://pauk.aao756.de/api/v1</code>. JSON in and out; a bearer token on every endpoint but <code>/health</code>. Errors are always <code>{"error":{"code","message"}}</code> with a matching status.</p>
+    </div>
+
+    <p>The examples below are runnable; export your token first.</p>
+    <pre class="code">export <span class="k">TOK</span>=<span class="s">57db…855b1</span>
+export <span class="k">API</span>=<span class="s">https://pauk.aao756.de/api/v1</span></pre>
+
+    <h4>Health &mdash; the only unauthenticated route</h4>
+    <pre class="code">curl <span class="s">"$API/health"</span>
+<span class="c">&rarr; {"status":"ok","db":"ok","version":"0.7.0"}</span></pre>
+
+    <h4>Create a card</h4>
+    <pre class="code">curl -X POST <span class="s">"$API/cards"</span> -H <span class="s">"Authorization: Bearer $TOK"</span> \
+  -H <span class="s">"Content-Type: application/json"</span> -d <span class="s">'{
+    "type": "text",
+    "question_md": "Translate to Italian: **to be**",
+    "accepted_answers": ["essere"],
+    "dirs": [12]
+  }'</span></pre>
+
+    <h4>List &amp; filter cards</h4>
+    <pre class="code"><span class="c"># every match card under a deck, transitively</span>
+curl -G <span class="s">"$API/cards"</span> -H <span class="s">"Authorization: Bearer $TOK"</span> \
+  --data-urlencode <span class="s">"dir=12"</span> -d <span class="s">"recursive=1"</span> -d <span class="s">"type=match"</span></pre>
+
+    <h4>Answer a card &mdash; grading is server-side</h4>
+    <pre class="code">curl -X POST <span class="s">"$API/cards/42/answer"</span> -H <span class="s">"Authorization: Bearer $TOK"</span> \
+  -H <span class="s">"Content-Type: application/json"</span> -d <span class="s">'{"answer":"essre"}'</span>
+<span class="c">&rarr; {"correct":true,"match":"typo",
+     "expected":{"accepted_answers":["essere"]}}</span></pre>
+
+    <h4>Start &amp; finish a quiz run</h4>
+    <pre class="code">curl -X POST <span class="s">"$API/quiz/runs"</span> -H <span class="s">"Authorization: Bearer $TOK"</span> \
+  -H <span class="s">"Content-Type: application/json"</span> -d <span class="s">'{"dir_id":12,"total":20}'</span>
+<span class="c">&rarr; {"id":7,"best":{"correct":18,"total":20,"accuracy":0.9}}</span>
+
+curl -X PATCH <span class="s">"$API/quiz/runs/7"</span> -H <span class="s">"Authorization: Bearer $TOK"</span> \
+  -H <span class="s">"Content-Type: application/json"</span> -d <span class="s">'{"correct":19,"total":20}'</span>
+<span class="c">&rarr; {"rank":1,"top":[{"accuracy":0.95,"correct":19,"total":20,…}]}</span></pre>
+
+    <h4>Record a quest or route outcome</h4>
+    <pre class="code">curl -X POST <span class="s">"$API/cards/30/quest-run"</span> -H <span class="s">"Authorization: Bearer $TOK"</span> \
+  -d <span class="s">'{"success":true,"messages_used":6}'</span>
+<span class="c">&rarr; {"best_messages":6,"rank":1,…}</span>
+
+curl -X POST <span class="s">"$API/cards/31/route-run"</span> -H <span class="s">"Authorization: Bearer $TOK"</span> \
+  -d <span class="s">'{"success":true,"km":595}'</span>
+<span class="c">&rarr; {"best_km":595,"rank":1,…}</span></pre>
+
+    <h4>Directories &amp; the quiz picker</h4>
+    <pre class="code"><span class="c"># resolve a slash-path to a directory</span>
+curl -G <span class="s">"$API/dirs/resolve"</span> -H <span class="s">"Authorization: Bearer $TOK"</span> \
+  --data-urlencode <span class="s">"path=italian/verbs/core-verbs"</span>
+
+<span class="c"># the flat, popularity-sorted picker listing (batched, fast)</span>
+curl <span class="s">"$API/quiz/dirs"</span> -H <span class="s">"Authorization: Bearer $TOK"</span></pre>
+
+    <h4>Upload media</h4>
+    <pre class="code">curl -X POST <span class="s">"$API/media"</span> -H <span class="s">"Authorization: Bearer $TOK"</span> \
+  -F <span class="s">"file=@map.png"</span>
+<span class="c">&rarr; {"url":"https://pauk.aao756.de/media/&lt;sha256&gt;.png", …}</span></pre>
+    <p>The returned URL goes straight into a card&rsquo;s Markdown as <code>![map](&hellip;)</code>. Content imported from JSON can reference a not-yet-uploaded file as <code>media:maps/de-bayern.png</code>; <code>pauk import</code> uploads it and substitutes the URL, deduplicating by content hash.</p>
+  </section>
+
+  <!-- ============ COLOPHON ============ -->
+  <footer class="colophon">
+    <span class="eyebrow">Colophon</span>
+    <p>Set in the IBM&nbsp;Plex superfamily &mdash; Serif for chapter titles, Sans for text, Mono for code and terminal &mdash; the type designed for exactly this kind of engineering document. Slate-teal accent, warm-paper ground, with a dark theme for screen reading.</p>
+    <p>This handbook describes pauk at API&nbsp;v0.7.0 / CLI&nbsp;v0.10.0. Every schema table, endpoint, and terminal screen shown here is drawn from the live system and its migrations. The source of truth remains the code and the migrations; where this book and the code disagree, the code wins.</p>
+  </footer>
+
+</div>

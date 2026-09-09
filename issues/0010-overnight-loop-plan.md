@@ -43,3 +43,7 @@ Remaining, in priority order:
 (API 0.7.0 / CLI 0.10.0). route card type, bundled autobahn
 graph, deterministic km, Pillow route map, TUI RouteScreen.
 Only the printable book (issues/0011) remains.
+
+2026-09-09 (iteration 5): printable architecture book shipped
+(docs/handbook.html + Artifact). ALL roadmap items 1-4 done.
+Loop now in final review/polish mode.
