@@ -1,7 +1,8 @@
 """pauk command-line interface.
 
-`pauk` without a subcommand opens the interactive menu; every
-menu action is also a direct subcommand for scripting.
+`pauk` without a subcommand launches the full-screen app
+(home, deck picker, quiz, quest, route). The subcommands below
+are the scripting interface for automation and content import.
 """
 
 from __future__ import annotations
