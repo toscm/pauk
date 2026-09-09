@@ -1,5 +1,5 @@
 ---
-status: open
+status: in-progress
 kind: task
 ---
 
@@ -25,3 +25,8 @@ Python CLI (`pauk`) per docs/development.md:
 
 Acceptance: full create → quiz → export → reimport cycle
 works against the local test server and against production.
+
+2026-09-09: Menu, quiz, ls/--tree, mkdir, add, rm, import,
+config, health implemented and e2e-tested; greek + italian
+content imported to production through it. Still missing:
+edit ($EDITOR round-trip), export, link/unlink subcommands.

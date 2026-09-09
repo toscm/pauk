@@ -34,6 +34,20 @@ app with its own heavy toolchain ever materializes, it gets
 its own repo (`pauk-android`, named by platform — again not by
 language).
 
+## Using the CLI
+
+    make setup                 # or: pip install -e ./cli
+    pauk config https://pauk.aao756.de <your-token>
+    pauk                       # interactive menu
+    pauk quiz --dir greek      # quiz a folder (recursive)
+    pauk ls --tree             # browse all folders
+    pauk import content/greek.json
+
+Tokens are created on the server:
+
+    ssh ionos 'PAUK_ENV_FILE=$HOME/pauk.env \
+        /usr/bin/php8.4-cli ~/pauk-app/bin/create-token.php <user>'
+
 ## Hosting
 
 - API + media: https://pauk.aao756.de (IONOS webspace,
