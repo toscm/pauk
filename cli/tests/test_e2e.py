@@ -86,10 +86,19 @@ def test_quiz_via_menu(cli_env):
     path.write_text(json.dumps(sample))
     assert run_cli(cli_env, "import", str(path)).returncode == 0
 
+    # the quiz menu lists top-level dirs alphabetically; find
+    # menu-demo's number instead of hardcoding it
+    names = sorted(
+        line.split("/")[0]
+        for line in run_cli(cli_env, "ls").stdout.splitlines()
+        if "/" in line
+    )
+    demo_index = names.index("menu-demo") + 1
+
     # menu: 1 = quiz, then pick the folder, 1 question, answer, exit
     menu = run_cli(
         cli_env,
-        input_text="1\n1\n1\nhello\n4\n",
+        input_text=f"1\n{demo_index}\n1\nhello\n4\n",
     )
     assert menu.returncode == 0, menu.stderr
     assert "Start a new quiz" in menu.stdout
