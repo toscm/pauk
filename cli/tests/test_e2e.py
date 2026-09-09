@@ -15,6 +15,17 @@ def test_health(cli_env):
     assert "'status': 'ok'" in result.stdout
 
 
+BOX_CHARS = "╭─╮│╰╯┌┐└┘├┤┬┴"
+
+
+def test_help_has_no_box_chars(cli_env):
+    for args in ([], ["quiz"], ["stats"]):
+        result = run_cli(cli_env, *args, "--help")
+        assert result.returncode == 0
+        assert "Usage:" in result.stdout
+        assert not any(ch in result.stdout for ch in BOX_CHARS)
+
+
 def test_mkdir_add_ls_roundtrip(cli_env):
     assert run_cli(cli_env, "mkdir", "bio/cells").returncode == 0
     add = run_cli(
@@ -31,6 +42,7 @@ def test_mkdir_add_ls_roundtrip(cli_env):
 
     tree = run_cli(cli_env, "ls", "--tree")
     assert "cells/" in tree.stdout
+    assert not any(ch in tree.stdout for ch in BOX_CHARS)
 
     # rm deletes the card again
     ls = run_cli(cli_env, "ls", "bio/cells")
@@ -63,7 +75,7 @@ def test_import_greek_and_quiz(cli_env):
     # a finished run yields a ranking
     assert "Top runs:" in quiz.stdout
     # no box-drawing characters in quiz output
-    assert not any(ch in quiz.stdout for ch in "╭─╮│╰╯┌┐└┘")
+    assert not any(ch in quiz.stdout for ch in BOX_CHARS)
 
 
 def test_import_italian(cli_env):
@@ -74,6 +86,49 @@ def test_import_italian(cli_env):
     tree = run_cli(cli_env, "ls", "--tree")
     assert "a1/" in tree.stdout
     assert "core-verbs/" in tree.stdout
+
+
+def test_menu_tree_view(cli_env):
+    # menu -> quiz picker -> Tab to tree view -> Right expands the
+    # first deck (greek, alphabetically first with cards) -> Esc
+    # back -> exit. "\x1bx" is Esc for the piped-input key reader.
+    menu = run_cli(
+        cli_env,
+        input_text="1\n\t\x1b[C\x1bx4\n",
+    )
+    assert menu.returncode == 0, menu.stderr
+    assert "directory tree" in menu.stdout
+    assert "+ greek" in menu.stdout          # collapsed, expandable
+    assert "- greek" in menu.stdout          # expanded after Right
+    assert "lowercase" in menu.stdout        # its children became visible
+    assert not any(ch in menu.stdout for ch in BOX_CHARS)
+
+
+def test_quiz_repeat_wrong(cli_env):
+    sample = {
+        "dirs": ["repeat-demo"],
+        "dir_links": [],
+        "cards": [{
+            "dirs": ["repeat-demo"],
+            "type": "text",
+            "question_md": "Repeat question",
+            "accepted_answers": ["si"],
+        }],
+    }
+    path = Path(cli_env["XDG_CONFIG_HOME"]) / "repeat.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(sample))
+    assert run_cli(cli_env, "import", str(path)).returncode == 0
+
+    # wrong answer, repeat the wrong one, right answer, done
+    quiz = run_cli(
+        cli_env, "quiz", "--dir", "repeat-demo", "-n", "1",
+        input_text="no\nw\nsi\n\n",
+    )
+    assert quiz.returncode == 0, quiz.stderr
+    assert "repeat the 1 wrong" in quiz.stdout
+    assert "Result: 0/1 correct." in quiz.stdout
+    assert "Result: 1/1 correct." in quiz.stdout
 
 
 def test_quiz_via_menu(cli_env):
@@ -92,15 +147,17 @@ def test_quiz_via_menu(cli_env):
     path.write_text(json.dumps(sample))
     assert run_cli(cli_env, "import", str(path)).returncode == 0
 
-    # menu: 1 = quiz, fuzzy-search the folder, pick match 1,
-    # 1 question, answer with a typo, then exit
+    # menu: 1 = quiz, type to fuzzy-filter in the favorites view,
+    # Enter picks the top match, 1 question, typo answer, Enter at
+    # the repeat prompt, Esc leaves the picker, 4 exits the menu
     menu = run_cli(
         cli_env,
-        input_text="1\nmenu-demo\n1\n1\nhelo\n4\n",
+        input_text="1\nmenu-demo\r1\nhelo\n\n\x1bx4\n",
     )
     assert menu.returncode == 0, menu.stderr
     assert "Start a new quiz" in menu.stdout
-    assert "matching 'menu-demo'" in menu.stdout
+    assert "favorites first" in menu.stdout
+    assert "filter: menu-demo" in menu.stdout
     # a tolerated typo must show the correct spelling
     assert "correct spelling:" in menu.stdout
     assert "hello" in menu.stdout
@@ -152,13 +209,20 @@ def test_stats_command(cli_env):
     run_cli(cli_env, "quiz", "--dir", "stats-demo", "-n", "1", input_text="nope\n")
     run_cli(cli_env, "quiz", "--dir", "stats-demo", "-n", "1", input_text="yes\n")
 
-    stats = run_cli(cli_env, "stats", "stats-demo")
+    stats = run_cli(cli_env, "stats", "stats-demo", "--cards", "5")
     assert stats.returncode == 0, stats.stderr
     assert "cards: 1" in stats.stdout
     assert "answers: 2" in stats.stdout
     assert "accuracy: 50%" in stats.stdout
+    # top decks by started runs, with the deck's run count
+    assert "Top decks" in stats.stdout
+    assert "stats-demo" in stats.stdout
+    assert "2 runs" in stats.stdout
+    # hardest cards only on request (--cards)
     assert "Hardest cards" in stats.stdout
     assert "Stats question" in stats.stdout
+    bare = run_cli(cli_env, "stats", "stats-demo")
+    assert "Hardest cards" not in bare.stdout
 
 
 def test_trophy_on_top_run(cli_env):

@@ -19,16 +19,22 @@ except ImportError:  # pragma: no cover - Windows
 
 import typer
 from rich.console import Console
-from rich.tree import Tree
 
 import pauk
 from pauk import config as config_mod
+from pauk import picker
 from pauk.client import ApiError, Client
-from pauk.fuzzy import fuzzy_filter
 from pauk.importer import import_file
 from pauk.quiz import run_quiz
 
-app = typer.Typer(add_completion=False, invoke_without_command=True, no_args_is_help=False)
+# rich_markup_mode=None: plain Click help text instead of rich's
+# boxed panels — box-drawing output garbles on terminal resize.
+app = typer.Typer(
+    add_completion=False,
+    invoke_without_command=True,
+    no_args_is_help=False,
+    rich_markup_mode=None,
+)
 console = Console()
 _state: dict = {"server": None, "token": None}
 
@@ -101,9 +107,8 @@ def ls(
     """List directories (and their card counts)."""
     client = _client()
     if tree:
-        root = Tree(path or ".")
-        _fill_tree(client, root, None if path is None else client.resolve_dir(path)["id"])
-        console.print(root)
+        console.print(path or ".")
+        _print_tree(client, None if path is None else client.resolve_dir(path)["id"], 1)
         return
     if path is None:
         dirs = client.list_dirs()
@@ -120,17 +125,18 @@ def ls(
             console.print(f"[dim]#{card['id']}[/dim] {question[:70]}")
 
 
-def _fill_tree(client: Client, node: Tree, dir_id: int | None, depth: int = 0) -> None:
+def _print_tree(client: Client, dir_id: int | None, depth: int) -> None:
+    # plain indentation, no guide lines: box-drawing characters
+    # garble when the terminal is resized
     if depth > 10:
         return
     for directory in client.list_dirs(dir_id):
-        label = (
-            f"{directory['name']}/ "
-            f"({directory['cards']} cards, {directory['cards_total']} total)"
+        console.print(
+            f"{'  ' * depth}{directory['name']}/ "
+            f"[dim]({directory['cards']} cards, {directory['cards_total']} total)[/dim]"
         )
-        child = node.add(label)
         if directory["subdirs"]:
-            _fill_tree(client, child, directory["id"], depth + 1)
+            _print_tree(client, directory["id"], depth + 1)
 
 
 @app.command()
@@ -229,9 +235,9 @@ def login(server: str) -> None:
 def stats(
     path: Optional[str] = typer.Argument(None, help="Directory path (default: everything)"),
     recursive: bool = typer.Option(True, "--recursive/--no-recursive"),
-    worst: int = typer.Option(10, "--worst", help="How many worst cards to list"),
+    cards: int = typer.Option(0, "--cards", help="Also list the N hardest cards"),
 ) -> None:
-    """Show answer statistics for a directory (or everything)."""
+    """Show answer statistics and the top 5 decks."""
     client = _client()
     dir_id = client.resolve_dir(path)["id"] if path else None
     data = client.stats(dir_id, recursive)
@@ -242,9 +248,27 @@ def stats(
         f"cards: {summary['cards']} · asked at least once: {summary['asked_cards']} "
         f"· answers: {summary['reviews']} · accuracy: {accuracy}\n"
     )
-    if data["items"]:
-        console.print(f"[bold]Hardest cards[/bold] (worst {min(worst, len(data['items']))}):")
-        for item in data["items"][:worst]:
+    decks = client.quiz_dirs()
+    if path:
+        decks = [d for d in decks if d["path"] == path or d["path"].startswith(path + "/")]
+    decks = [d for d in decks if d["runs"] > 0][:5]
+    if decks:
+        console.print("[bold]Top decks[/bold] (most played):")
+        for deck in decks:
+            best = (
+                f"best {deck['best']['correct']}/{deck['best']['total']}"
+                if deck["best"] else "no finished run"
+            )
+            runs = "run" if deck["runs"] == 1 else "runs"
+            console.print(
+                f"  {deck['runs']:>3} {runs}  {deck['path']} "
+                f"[dim]({deck['cards_total']} cards, {best})[/dim]"
+            )
+    else:
+        console.print("[dim]No quiz runs yet.[/dim]")
+    if cards > 0 and data["items"]:
+        console.print(f"\n[bold]Hardest cards[/bold] (worst {min(cards, len(data['items']))}):")
+        for item in data["items"][:cards]:
             question = item["question_md"].replace("\n", " ")[:60]
             console.print(
                 f"  {item['accuracy']:>4.0%}  {item['correct']}/{item['asked']}  "
@@ -289,7 +313,10 @@ def _menu() -> None:
             "  [cyan]3[/cyan]) Configure settings\n"
             "  [cyan]4[/cyan]) Exit"
         )
-        choice = console.input("> ").strip()
+        try:
+            choice = console.input("> ").strip()
+        except EOFError:
+            return
         if choice == "1":
             _menu_quiz()
         elif choice == "2":
@@ -302,49 +329,29 @@ def _menu() -> None:
             console.print("[yellow]Please choose 1-4.[/yellow]")
 
 
+_picker_state = picker.PickerState()
+
+
 def _menu_quiz() -> None:
     client = _client()
-    all_dirs = [d for d in client.quiz_dirs() if d["cards_total"] > 0]
-    if not all_dirs:
-        console.print("[yellow]No quizzes yet — import some content first.[/yellow]")
-        return
-    shown = all_dirs
-    query = ""
     while True:
-        label = f"matching '{query}'" if query else "favorites first"
-        console.print(f"\nChoose a quiz ({label}):")
-        console.print("  [cyan]0[/cyan]) all cards")
-        for idx, entry in enumerate(shown[:9], start=1):
-            best = (
-                f", best {entry['best']['correct']}/{entry['best']['total']}"
-                if entry["best"] else ""
-            )
-            console.print(
-                f"  [cyan]{idx}[/cyan]) {entry['path']} "
-                f"({entry['cards_total']} cards{best})"
-            )
-        raw = console.input(
-            "[dim]number = start, text = search, Enter = back[/dim] > "
-        ).strip()
-        if raw == "":
+        entries = [d for d in client.quiz_dirs() if d["cards_total"] > 0]
+        if not entries:
+            console.print("[yellow]No quizzes yet — import some content first.[/yellow]")
             return
-        if raw.isdigit():
-            if int(raw) == 0:
-                path = None
-                break
-            if 1 <= int(raw) <= len(shown[:9]):
-                path = shown[int(raw) - 1]["path"]
-                break
-            continue
-        query = raw
-        shown = fuzzy_filter(query, all_dirs, key=lambda d: d["path"])
-        if not shown:
-            console.print("[yellow]No match.[/yellow]")
-            shown = all_dirs
-            query = ""
-    raw_n = console.input("How many questions? [20] ").strip()
-    n = int(raw_n) if raw_n.isdigit() and int(raw_n) > 0 else 20
-    run_quiz(client, path, recursive=True, n=n)
+        console.print()
+        # _picker_state is session-global: after a quiz the picker
+        # reopens exactly as it was left (view, expansion, filter).
+        selection = picker.pick(entries, _picker_state)
+        if selection is picker.BACK:
+            return
+        path = None if selection is picker.ALL_CARDS else selection
+        try:
+            raw_n = console.input("How many questions? [20] ").strip()
+        except EOFError:
+            return
+        n = int(raw_n) if raw_n.isdigit() and int(raw_n) > 0 else 20
+        run_quiz(client, path, recursive=True, n=n)
 
 
 def _menu_organize() -> None:

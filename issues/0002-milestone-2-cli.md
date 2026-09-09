@@ -44,3 +44,12 @@ header and end-of-run top-3 ranking (trophy on a podium
 place). pauk is now a toscpm-tracked tool (toscpm v1.24.0).
 Unchanged from the missing list: edit, export, link/unlink,
 moving cards/dirs, real organize menu.
+
+2026-09-09 (v0.3.0): Interactive picker with two views —
+favorites (most-started decks first, type-to-filter) and a
+collapsible directory tree (arrow keys: right enters, left
+leaves; view/expansion state survives a quiz). Repeat options
+after each run (r = all, w = only wrong answers). Plain Click
+help and plain ls --tree: no box-drawing characters anywhere
+(e2e-enforced). pauk stats now shows the top 5 decks by runs;
+hardest cards behind --cards N.

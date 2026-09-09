@@ -8,6 +8,8 @@ start; the ranking (with trophy) at the end.
 
 from __future__ import annotations
 
+import random
+
 from rich.console import Console
 from rich.markdown import Markdown
 
@@ -53,9 +55,33 @@ def run_quiz(client: Client, dir_path: str | None, recursive: bool, n: int) -> N
         f"· Best run: {best_text} · q = quit[/dim]\n"
     )
 
+    while True:
+        quit_early, wrong_cards = _run_once(client, dir_id, cards)
+        if quit_early:
+            return
+        prompt = "[bold]r[/bold] = repeat"
+        if wrong_cards:
+            prompt += f" · [bold]w[/bold] = repeat the {len(wrong_cards)} wrong"
+        try:
+            choice = console.input(f"{prompt} · Enter = done > ").strip().lower()
+        except EOFError:
+            return
+        if choice == "r":
+            cards = random.sample(cards, len(cards))
+        elif choice == "w" and wrong_cards:
+            cards = random.sample(wrong_cards, len(wrong_cards))
+        else:
+            return
+        console.print()
+
+
+def _run_once(client: Client, dir_id: int | None, cards: list[dict]) -> tuple[bool, list[dict]]:
+    """One pass over cards. Returns (quit_early, wrong_cards)."""
     run_id = client.start_run(dir_id, len(cards))
     score = 0
     answered = 0
+    wrong_cards = []
+    quit_early = False
     for i, card in enumerate(cards, start=1):
         console.print(f"[bold cyan]{i}/{len(cards)}[/bold cyan]")
         console.print(Markdown(card["question_md"]))
@@ -63,16 +89,20 @@ def run_quiz(client: Client, dir_path: str | None, recursive: bool, n: int) -> N
             result = _ask_mc(client, card)
         else:
             result = _ask_text(client, card)
-        if result is None:  # user quit
+        if result is None:
+            quit_early = True
             break
         answered += 1
         if result:
             score += 1
+        else:
+            wrong_cards.append(card)
         console.print()
 
     console.print(f"[bold]Result: {score}/{answered} correct.[/bold]")
     summary = client.finish_run(run_id, score, answered)
     _show_ranking(summary)
+    return quit_early, wrong_cards
 
 
 def _show_ranking(summary: dict) -> None:
@@ -88,11 +118,18 @@ def _show_ranking(summary: dict) -> None:
         console.print(f"[bold yellow]New top-{len(top)} run — place #{rank}![/bold yellow]\n")
 
 
+def _input(prompt: str) -> str:
+    try:
+        return console.input(prompt)
+    except EOFError:
+        return "q"
+
+
 def _ask_mc(client: Client, card: dict) -> bool | None:
     options = card["options"]
     for idx, option in enumerate(options, start=1):
         console.print(f"  [cyan]{idx}[/cyan]) {option['text_md']}")
-    raw = console.input("[bold]Your choice[/bold]: ").strip()
+    raw = _input("[bold]Your choice[/bold]: ").strip()
     if raw.lower() == "q":
         return None
     selected = []
@@ -105,7 +142,7 @@ def _ask_mc(client: Client, card: dict) -> bool | None:
 
 
 def _ask_text(client: Client, card: dict) -> bool | None:
-    raw = console.input("[bold]Your answer[/bold]: ").strip()
+    raw = _input("[bold]Your answer[/bold]: ").strip()
     if raw.lower() == "q":
         return None
     result = client.answer(card["id"], {"answer": raw})
