@@ -1,0 +1,1129 @@
+{
+  "dirs": [
+    "germany",
+    "germany/bundeslaender",
+    "germany/bundeslaender/capitals",
+    "germany/bundeslaender/states-by-capital",
+    "germany/cities",
+    "germany/cities/part-1",
+    "germany/cities/part-2",
+    "germany/autobahnen",
+    "germany/autobahnen/routes",
+    "germany/autobahnen/connections"
+  ],
+  "dir_links": [],
+  "cards": [
+    {
+      "dirs": [
+        "germany/bundeslaender/capitals"
+      ],
+      "type": "text",
+      "question_md": "What is the capital of **Baden-Württemberg**?",
+      "accepted_answers": [
+        "Stuttgart"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/capitals"
+      ],
+      "type": "text",
+      "question_md": "What is the capital of **Bayern**?",
+      "accepted_answers": [
+        "München",
+        "Muenchen",
+        "Munich"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/capitals"
+      ],
+      "type": "text",
+      "question_md": "What is the capital of **Berlin**?",
+      "accepted_answers": [
+        "Berlin"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/capitals"
+      ],
+      "type": "text",
+      "question_md": "What is the capital of **Brandenburg**?",
+      "accepted_answers": [
+        "Potsdam"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/capitals"
+      ],
+      "type": "text",
+      "question_md": "What is the capital of **Bremen**?",
+      "accepted_answers": [
+        "Bremen"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/capitals"
+      ],
+      "type": "text",
+      "question_md": "What is the capital of **Hamburg**?",
+      "accepted_answers": [
+        "Hamburg"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/capitals"
+      ],
+      "type": "text",
+      "question_md": "What is the capital of **Hessen**?",
+      "accepted_answers": [
+        "Wiesbaden"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/capitals"
+      ],
+      "type": "text",
+      "question_md": "What is the capital of **Mecklenburg-Vorpommern**?",
+      "accepted_answers": [
+        "Schwerin"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/capitals"
+      ],
+      "type": "text",
+      "question_md": "What is the capital of **Niedersachsen**?",
+      "accepted_answers": [
+        "Hannover",
+        "Hanover"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/capitals"
+      ],
+      "type": "text",
+      "question_md": "What is the capital of **Nordrhein-Westfalen**?",
+      "accepted_answers": [
+        "Düsseldorf",
+        "Duesseldorf"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/capitals"
+      ],
+      "type": "text",
+      "question_md": "What is the capital of **Rheinland-Pfalz**?",
+      "accepted_answers": [
+        "Mainz"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/capitals"
+      ],
+      "type": "text",
+      "question_md": "What is the capital of **Saarland**?",
+      "accepted_answers": [
+        "Saarbrücken",
+        "Saarbruecken"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/capitals"
+      ],
+      "type": "text",
+      "question_md": "What is the capital of **Sachsen**?",
+      "accepted_answers": [
+        "Dresden"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/capitals"
+      ],
+      "type": "text",
+      "question_md": "What is the capital of **Sachsen-Anhalt**?",
+      "accepted_answers": [
+        "Magdeburg"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/capitals"
+      ],
+      "type": "text",
+      "question_md": "What is the capital of **Schleswig-Holstein**?",
+      "accepted_answers": [
+        "Kiel"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/capitals"
+      ],
+      "type": "text",
+      "question_md": "What is the capital of **Thüringen**?",
+      "accepted_answers": [
+        "Erfurt"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/states-by-capital"
+      ],
+      "type": "text",
+      "question_md": "Which Bundesland has the capital **Stuttgart**?",
+      "accepted_answers": [
+        "Baden-Württemberg",
+        "Baden-Wuerttemberg",
+        "Baden Württemberg",
+        "Baden Wuerttemberg"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/states-by-capital"
+      ],
+      "type": "text",
+      "question_md": "Which Bundesland has the capital **München**?",
+      "accepted_answers": [
+        "Bayern",
+        "Bavaria"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/states-by-capital"
+      ],
+      "type": "text",
+      "question_md": "Which Bundesland has the capital **Berlin**?",
+      "accepted_answers": [
+        "Berlin"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/states-by-capital"
+      ],
+      "type": "text",
+      "question_md": "Which Bundesland has the capital **Potsdam**?",
+      "accepted_answers": [
+        "Brandenburg"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/states-by-capital"
+      ],
+      "type": "text",
+      "question_md": "Which Bundesland has the capital **Bremen**?",
+      "accepted_answers": [
+        "Bremen"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/states-by-capital"
+      ],
+      "type": "text",
+      "question_md": "Which Bundesland has the capital **Hamburg**?",
+      "accepted_answers": [
+        "Hamburg"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/states-by-capital"
+      ],
+      "type": "text",
+      "question_md": "Which Bundesland has the capital **Wiesbaden**?",
+      "accepted_answers": [
+        "Hessen",
+        "Hesse"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/states-by-capital"
+      ],
+      "type": "text",
+      "question_md": "Which Bundesland has the capital **Schwerin**?",
+      "accepted_answers": [
+        "Mecklenburg-Vorpommern",
+        "Mecklenburg Vorpommern",
+        "Mecklenburg-Western Pomerania",
+        "Mecklenburg Western Pomerania"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/states-by-capital"
+      ],
+      "type": "text",
+      "question_md": "Which Bundesland has the capital **Hannover**?",
+      "accepted_answers": [
+        "Niedersachsen",
+        "Lower Saxony"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/states-by-capital"
+      ],
+      "type": "text",
+      "question_md": "Which Bundesland has the capital **Düsseldorf**?",
+      "accepted_answers": [
+        "Nordrhein-Westfalen",
+        "Nordrhein Westfalen",
+        "North Rhine-Westphalia",
+        "North Rhine Westphalia",
+        "NRW"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/states-by-capital"
+      ],
+      "type": "text",
+      "question_md": "Which Bundesland has the capital **Mainz**?",
+      "accepted_answers": [
+        "Rheinland-Pfalz",
+        "Rheinland Pfalz",
+        "Rhineland-Palatinate",
+        "Rhineland Palatinate"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/states-by-capital"
+      ],
+      "type": "text",
+      "question_md": "Which Bundesland has the capital **Saarbrücken**?",
+      "accepted_answers": [
+        "Saarland"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/states-by-capital"
+      ],
+      "type": "text",
+      "question_md": "Which Bundesland has the capital **Dresden**?",
+      "accepted_answers": [
+        "Sachsen",
+        "Saxony"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/states-by-capital"
+      ],
+      "type": "text",
+      "question_md": "Which Bundesland has the capital **Magdeburg**?",
+      "accepted_answers": [
+        "Sachsen-Anhalt",
+        "Sachsen Anhalt",
+        "Saxony-Anhalt",
+        "Saxony Anhalt"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/states-by-capital"
+      ],
+      "type": "text",
+      "question_md": "Which Bundesland has the capital **Kiel**?",
+      "accepted_answers": [
+        "Schleswig-Holstein",
+        "Schleswig Holstein"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/states-by-capital"
+      ],
+      "type": "text",
+      "question_md": "Which Bundesland has the capital **Erfurt**?",
+      "accepted_answers": [
+        "Thüringen",
+        "Thueringen",
+        "Thuringia"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/cities/part-1"
+      ],
+      "type": "text",
+      "question_md": "In which Bundesland is **Köln (Cologne)**?",
+      "accepted_answers": [
+        "Nordrhein-Westfalen",
+        "Nordrhein Westfalen",
+        "North Rhine-Westphalia",
+        "North Rhine Westphalia",
+        "NRW"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/cities/part-1"
+      ],
+      "type": "text",
+      "question_md": "In which Bundesland is **Frankfurt am Main**?",
+      "accepted_answers": [
+        "Hessen",
+        "Hesse"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/cities/part-1"
+      ],
+      "type": "text",
+      "question_md": "In which Bundesland is **Essen**?",
+      "accepted_answers": [
+        "Nordrhein-Westfalen",
+        "Nordrhein Westfalen",
+        "North Rhine-Westphalia",
+        "North Rhine Westphalia",
+        "NRW"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/cities/part-1"
+      ],
+      "type": "text",
+      "question_md": "In which Bundesland is **Dortmund**?",
+      "accepted_answers": [
+        "Nordrhein-Westfalen",
+        "Nordrhein Westfalen",
+        "North Rhine-Westphalia",
+        "North Rhine Westphalia",
+        "NRW"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/cities/part-1"
+      ],
+      "type": "text",
+      "question_md": "In which Bundesland is **Leipzig**?",
+      "accepted_answers": [
+        "Sachsen",
+        "Saxony"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/cities/part-1"
+      ],
+      "type": "text",
+      "question_md": "In which Bundesland is **Duisburg**?",
+      "accepted_answers": [
+        "Nordrhein-Westfalen",
+        "Nordrhein Westfalen",
+        "North Rhine-Westphalia",
+        "North Rhine Westphalia",
+        "NRW"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/cities/part-1"
+      ],
+      "type": "text",
+      "question_md": "In which Bundesland is **Nürnberg (Nuremberg)**?",
+      "accepted_answers": [
+        "Bayern",
+        "Bavaria"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/cities/part-1"
+      ],
+      "type": "text",
+      "question_md": "In which Bundesland is **Bochum**?",
+      "accepted_answers": [
+        "Nordrhein-Westfalen",
+        "Nordrhein Westfalen",
+        "North Rhine-Westphalia",
+        "North Rhine Westphalia",
+        "NRW"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/cities/part-1"
+      ],
+      "type": "text",
+      "question_md": "In which Bundesland is **Wuppertal**?",
+      "accepted_answers": [
+        "Nordrhein-Westfalen",
+        "Nordrhein Westfalen",
+        "North Rhine-Westphalia",
+        "North Rhine Westphalia",
+        "NRW"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/cities/part-1"
+      ],
+      "type": "text",
+      "question_md": "In which Bundesland is **Bielefeld**?",
+      "accepted_answers": [
+        "Nordrhein-Westfalen",
+        "Nordrhein Westfalen",
+        "North Rhine-Westphalia",
+        "North Rhine Westphalia",
+        "NRW"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/cities/part-1"
+      ],
+      "type": "text",
+      "question_md": "In which Bundesland is **Bonn**?",
+      "accepted_answers": [
+        "Nordrhein-Westfalen",
+        "Nordrhein Westfalen",
+        "North Rhine-Westphalia",
+        "North Rhine Westphalia",
+        "NRW"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/cities/part-1"
+      ],
+      "type": "text",
+      "question_md": "In which Bundesland is **Mannheim**?",
+      "accepted_answers": [
+        "Baden-Württemberg",
+        "Baden-Wuerttemberg",
+        "Baden Württemberg",
+        "Baden Wuerttemberg"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/cities/part-2"
+      ],
+      "type": "text",
+      "question_md": "In which Bundesland is **Münster**?",
+      "accepted_answers": [
+        "Nordrhein-Westfalen",
+        "Nordrhein Westfalen",
+        "North Rhine-Westphalia",
+        "North Rhine Westphalia",
+        "NRW"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/cities/part-2"
+      ],
+      "type": "text",
+      "question_md": "In which Bundesland is **Karlsruhe**?",
+      "accepted_answers": [
+        "Baden-Württemberg",
+        "Baden-Wuerttemberg",
+        "Baden Württemberg",
+        "Baden Wuerttemberg"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/cities/part-2"
+      ],
+      "type": "text",
+      "question_md": "In which Bundesland is **Augsburg**?",
+      "accepted_answers": [
+        "Bayern",
+        "Bavaria"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/cities/part-2"
+      ],
+      "type": "text",
+      "question_md": "In which Bundesland is **Braunschweig**?",
+      "accepted_answers": [
+        "Niedersachsen",
+        "Lower Saxony"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/cities/part-2"
+      ],
+      "type": "text",
+      "question_md": "In which Bundesland is **Chemnitz**?",
+      "accepted_answers": [
+        "Sachsen",
+        "Saxony"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/cities/part-2"
+      ],
+      "type": "text",
+      "question_md": "In which Bundesland is **Aachen**?",
+      "accepted_answers": [
+        "Nordrhein-Westfalen",
+        "Nordrhein Westfalen",
+        "North Rhine-Westphalia",
+        "North Rhine Westphalia",
+        "NRW"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/cities/part-2"
+      ],
+      "type": "text",
+      "question_md": "In which Bundesland is **Halle (Saale)**?",
+      "accepted_answers": [
+        "Sachsen-Anhalt",
+        "Sachsen Anhalt",
+        "Saxony-Anhalt",
+        "Saxony Anhalt"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/cities/part-2"
+      ],
+      "type": "text",
+      "question_md": "In which Bundesland is **Freiburg im Breisgau**?",
+      "accepted_answers": [
+        "Baden-Württemberg",
+        "Baden-Wuerttemberg",
+        "Baden Württemberg",
+        "Baden Wuerttemberg"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/cities/part-2"
+      ],
+      "type": "text",
+      "question_md": "In which Bundesland is **Lübeck**?",
+      "accepted_answers": [
+        "Schleswig-Holstein",
+        "Schleswig Holstein"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/cities/part-2"
+      ],
+      "type": "text",
+      "question_md": "In which Bundesland is **Rostock**?",
+      "accepted_answers": [
+        "Mecklenburg-Vorpommern",
+        "Mecklenburg Vorpommern",
+        "Mecklenburg-Western Pomerania",
+        "Mecklenburg Western Pomerania"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/cities/part-2"
+      ],
+      "type": "text",
+      "question_md": "In which Bundesland is **Kassel**?",
+      "accepted_answers": [
+        "Hessen",
+        "Hesse"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/cities/part-2"
+      ],
+      "type": "text",
+      "question_md": "In which Bundesland is **Regensburg**?",
+      "accepted_answers": [
+        "Bayern",
+        "Bavaria"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/autobahnen/routes"
+      ],
+      "type": "mc",
+      "question_md": "The **A1** runs between which cities?",
+      "options": [
+        {
+          "text_md": "Lübeck – Saarbrücken",
+          "correct": true
+        },
+        {
+          "text_md": "Hamburg – München",
+          "correct": false
+        },
+        {
+          "text_md": "Kiel – Frankfurt am Main",
+          "correct": false
+        },
+        {
+          "text_md": "Bremen – Stuttgart",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/autobahnen/routes"
+      ],
+      "type": "mc",
+      "question_md": "The **A2** runs between which cities?",
+      "options": [
+        {
+          "text_md": "Oberhausen – Berlin",
+          "correct": true
+        },
+        {
+          "text_md": "Köln – Dresden",
+          "correct": false
+        },
+        {
+          "text_md": "Dortmund – Hamburg",
+          "correct": false
+        },
+        {
+          "text_md": "Hannover – München",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/autobahnen/routes"
+      ],
+      "type": "mc",
+      "question_md": "The **A3** runs between which cities?",
+      "options": [
+        {
+          "text_md": "Emmerich – Passau",
+          "correct": true
+        },
+        {
+          "text_md": "Aachen – Görlitz",
+          "correct": false
+        },
+        {
+          "text_md": "Flensburg – Füssen",
+          "correct": false
+        },
+        {
+          "text_md": "Saarbrücken – Berlin",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/autobahnen/routes"
+      ],
+      "type": "mc",
+      "question_md": "The **A4** runs between which cities?",
+      "options": [
+        {
+          "text_md": "Aachen – Görlitz",
+          "correct": true
+        },
+        {
+          "text_md": "Emmerich – Passau",
+          "correct": false
+        },
+        {
+          "text_md": "Köln – Berlin",
+          "correct": false
+        },
+        {
+          "text_md": "Dortmund – Dresden",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/autobahnen/routes"
+      ],
+      "type": "mc",
+      "question_md": "The **A5** runs between which cities?",
+      "options": [
+        {
+          "text_md": "Frankfurt am Main – Basel",
+          "correct": true
+        },
+        {
+          "text_md": "Frankfurt am Main – München",
+          "correct": false
+        },
+        {
+          "text_md": "Köln – Basel",
+          "correct": false
+        },
+        {
+          "text_md": "Kassel – Stuttgart",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/autobahnen/routes"
+      ],
+      "type": "mc",
+      "question_md": "The **A6** runs between which cities?",
+      "options": [
+        {
+          "text_md": "Saarbrücken – Nürnberg",
+          "correct": true
+        },
+        {
+          "text_md": "Karlsruhe – München",
+          "correct": false
+        },
+        {
+          "text_md": "Saarbrücken – Frankfurt am Main",
+          "correct": false
+        },
+        {
+          "text_md": "Mannheim – Berlin",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/autobahnen/routes"
+      ],
+      "type": "mc",
+      "question_md": "The **A7** runs between which cities?",
+      "options": [
+        {
+          "text_md": "Flensburg – Füssen",
+          "correct": true
+        },
+        {
+          "text_md": "Hamburg – Berlin",
+          "correct": false
+        },
+        {
+          "text_md": "Kiel – München",
+          "correct": false
+        },
+        {
+          "text_md": "Flensburg – Freiburg",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/autobahnen/routes"
+      ],
+      "type": "mc",
+      "question_md": "The **A8** runs between which cities?",
+      "options": [
+        {
+          "text_md": "Karlsruhe – Salzburg",
+          "correct": true
+        },
+        {
+          "text_md": "Stuttgart – Berlin",
+          "correct": false
+        },
+        {
+          "text_md": "Frankfurt am Main – Salzburg",
+          "correct": false
+        },
+        {
+          "text_md": "Karlsruhe – Basel",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/autobahnen/routes"
+      ],
+      "type": "mc",
+      "question_md": "The **A9** runs between which cities?",
+      "options": [
+        {
+          "text_md": "München – Berlin",
+          "correct": true
+        },
+        {
+          "text_md": "München – Hamburg",
+          "correct": false
+        },
+        {
+          "text_md": "Nürnberg – Dresden",
+          "correct": false
+        },
+        {
+          "text_md": "München – Frankfurt am Main",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/autobahnen/routes"
+      ],
+      "type": "mc",
+      "question_md": "The **A14** runs between which cities?",
+      "options": [
+        {
+          "text_md": "Magdeburg – Dresden",
+          "correct": true
+        },
+        {
+          "text_md": "Berlin – Dresden",
+          "correct": false
+        },
+        {
+          "text_md": "Magdeburg – Berlin",
+          "correct": false
+        },
+        {
+          "text_md": "Erfurt – Leipzig",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/autobahnen/routes"
+      ],
+      "type": "mc",
+      "question_md": "The **A24** runs between which cities?",
+      "options": [
+        {
+          "text_md": "Hamburg – Berlin",
+          "correct": true
+        },
+        {
+          "text_md": "Hamburg – Rostock",
+          "correct": false
+        },
+        {
+          "text_md": "Hannover – Berlin",
+          "correct": false
+        },
+        {
+          "text_md": "Bremen – Berlin",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/autobahnen/routes"
+      ],
+      "type": "mc",
+      "question_md": "The **A81** runs between which cities?",
+      "options": [
+        {
+          "text_md": "Würzburg – Singen",
+          "correct": true
+        },
+        {
+          "text_md": "Stuttgart – München",
+          "correct": false
+        },
+        {
+          "text_md": "Würzburg – Freiburg",
+          "correct": false
+        },
+        {
+          "text_md": "Heilbronn – Basel",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/autobahnen/routes"
+      ],
+      "type": "mc",
+      "question_md": "The **A93** runs through the Oberpfalz (eastern Bavaria) between which cities?",
+      "options": [
+        {
+          "text_md": "Hof – Regensburg",
+          "correct": true
+        },
+        {
+          "text_md": "Nürnberg – Passau",
+          "correct": false
+        },
+        {
+          "text_md": "Bayreuth – München",
+          "correct": false
+        },
+        {
+          "text_md": "Würzburg – Regensburg",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/autobahnen/routes"
+      ],
+      "type": "mc",
+      "question_md": "The **A99** forms a (partial) motorway ring around which city?",
+      "options": [
+        {
+          "text_md": "München",
+          "correct": true
+        },
+        {
+          "text_md": "Berlin",
+          "correct": false
+        },
+        {
+          "text_md": "Frankfurt am Main",
+          "correct": false
+        },
+        {
+          "text_md": "Köln",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/autobahnen/connections"
+      ],
+      "type": "text",
+      "question_md": "Which Autobahn connects **München** and **Berlin** (via Nürnberg and Leipzig)?",
+      "accepted_answers": [
+        "A9",
+        "A 9"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/autobahnen/connections"
+      ],
+      "type": "text",
+      "question_md": "Which Autobahn connects **Hamburg** and **Berlin** directly?",
+      "accepted_answers": [
+        "A24",
+        "A 24"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/autobahnen/connections"
+      ],
+      "type": "text",
+      "question_md": "Which Autobahn connects **Frankfurt am Main** and **Basel** (via Karlsruhe and Freiburg)?",
+      "accepted_answers": [
+        "A5",
+        "A 5"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/autobahnen/connections"
+      ],
+      "type": "text",
+      "question_md": "Which Autobahn connects **Karlsruhe** and **Salzburg** (via Stuttgart and München)?",
+      "accepted_answers": [
+        "A8",
+        "A 8"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/autobahnen/connections"
+      ],
+      "type": "text",
+      "question_md": "Which Autobahn is Germany's longest, running from **Flensburg** to **Füssen** (via Hamburg, Kassel and Würzburg)?",
+      "accepted_answers": [
+        "A7",
+        "A 7"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/autobahnen/connections"
+      ],
+      "type": "text",
+      "question_md": "Which Autobahn connects **Köln** and **Frankfurt am Main** (via Limburg)?",
+      "accepted_answers": [
+        "A3",
+        "A 3"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/autobahnen/connections"
+      ],
+      "type": "text",
+      "question_md": "Which Autobahn connects **Oberhausen** and **Berlin** (via Hannover, Braunschweig and Magdeburg)?",
+      "accepted_answers": [
+        "A2",
+        "A 2"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/autobahnen/connections"
+      ],
+      "type": "text",
+      "question_md": "Which Autobahn connects **Erfurt** and **Dresden** (continuing east to Görlitz)?",
+      "accepted_answers": [
+        "A4",
+        "A 4"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/autobahnen/connections"
+      ],
+      "type": "text",
+      "question_md": "Which Autobahn connects **Hamburg** and **Bremen** (continuing south-west towards Köln)?",
+      "accepted_answers": [
+        "A1",
+        "A 1"
+      ]
+    },
+    {
+      "dirs": [
+        "germany/autobahnen/connections"
+      ],
+      "type": "text",
+      "question_md": "Which Autobahn connects **Magdeburg** and **Leipzig** (via Halle, continuing to Dresden)?",
+      "accepted_answers": [
+        "A14",
+        "A 14"
+      ]
+    }
+  ]
+}

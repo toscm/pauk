@@ -1,0 +1,410 @@
+{
+  "dirs": [
+    "germany",
+    "germany/bundeslaender",
+    "germany/bundeslaender/maps"
+  ],
+  "dir_links": [],
+  "cards": [
+    {
+      "dirs": [
+        "germany/bundeslaender/maps"
+      ],
+      "type": "mc",
+      "question_md": "Which Bundesland is highlighted on this map?\n\n![map](media:maps/de-baden-wuerttemberg.png)",
+      "options": [
+        {
+          "text_md": "Baden-Württemberg",
+          "correct": true
+        },
+        {
+          "text_md": "Bayern",
+          "correct": false
+        },
+        {
+          "text_md": "Hessen",
+          "correct": false
+        },
+        {
+          "text_md": "Rheinland-Pfalz",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/maps"
+      ],
+      "type": "mc",
+      "question_md": "Which Bundesland is highlighted on this map?\n\n![map](media:maps/de-bayern.png)",
+      "options": [
+        {
+          "text_md": "Baden-Württemberg",
+          "correct": false
+        },
+        {
+          "text_md": "Bayern",
+          "correct": true
+        },
+        {
+          "text_md": "Thüringen",
+          "correct": false
+        },
+        {
+          "text_md": "Sachsen",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/maps"
+      ],
+      "type": "mc",
+      "question_md": "Which Bundesland is highlighted on this map?\n\n![map](media:maps/de-berlin.png)",
+      "options": [
+        {
+          "text_md": "Brandenburg",
+          "correct": false
+        },
+        {
+          "text_md": "Sachsen-Anhalt",
+          "correct": false
+        },
+        {
+          "text_md": "Berlin",
+          "correct": true
+        },
+        {
+          "text_md": "Mecklenburg-Vorpommern",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/maps"
+      ],
+      "type": "mc",
+      "question_md": "Which Bundesland is highlighted on this map?\n\n![map](media:maps/de-brandenburg.png)",
+      "options": [
+        {
+          "text_md": "Mecklenburg-Vorpommern",
+          "correct": false
+        },
+        {
+          "text_md": "Sachsen-Anhalt",
+          "correct": false
+        },
+        {
+          "text_md": "Sachsen",
+          "correct": false
+        },
+        {
+          "text_md": "Brandenburg",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/maps"
+      ],
+      "type": "mc",
+      "question_md": "Which Bundesland is highlighted on this map?\n\n![map](media:maps/de-bremen.png)",
+      "options": [
+        {
+          "text_md": "Bremen",
+          "correct": true
+        },
+        {
+          "text_md": "Niedersachsen",
+          "correct": false
+        },
+        {
+          "text_md": "Hamburg",
+          "correct": false
+        },
+        {
+          "text_md": "Schleswig-Holstein",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/maps"
+      ],
+      "type": "mc",
+      "question_md": "Which Bundesland is highlighted on this map?\n\n![map](media:maps/de-hamburg.png)",
+      "options": [
+        {
+          "text_md": "Schleswig-Holstein",
+          "correct": false
+        },
+        {
+          "text_md": "Hamburg",
+          "correct": true
+        },
+        {
+          "text_md": "Niedersachsen",
+          "correct": false
+        },
+        {
+          "text_md": "Mecklenburg-Vorpommern",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/maps"
+      ],
+      "type": "mc",
+      "question_md": "Which Bundesland is highlighted on this map?\n\n![map](media:maps/de-hessen.png)",
+      "options": [
+        {
+          "text_md": "Nordrhein-Westfalen",
+          "correct": false
+        },
+        {
+          "text_md": "Rheinland-Pfalz",
+          "correct": false
+        },
+        {
+          "text_md": "Hessen",
+          "correct": true
+        },
+        {
+          "text_md": "Thüringen",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/maps"
+      ],
+      "type": "mc",
+      "question_md": "Which Bundesland is highlighted on this map?\n\n![map](media:maps/de-mecklenburg-vorpommern.png)",
+      "options": [
+        {
+          "text_md": "Schleswig-Holstein",
+          "correct": false
+        },
+        {
+          "text_md": "Brandenburg",
+          "correct": false
+        },
+        {
+          "text_md": "Niedersachsen",
+          "correct": false
+        },
+        {
+          "text_md": "Mecklenburg-Vorpommern",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/maps"
+      ],
+      "type": "mc",
+      "question_md": "Which Bundesland is highlighted on this map?\n\n![map](media:maps/de-niedersachsen.png)",
+      "options": [
+        {
+          "text_md": "Niedersachsen",
+          "correct": true
+        },
+        {
+          "text_md": "Nordrhein-Westfalen",
+          "correct": false
+        },
+        {
+          "text_md": "Sachsen-Anhalt",
+          "correct": false
+        },
+        {
+          "text_md": "Schleswig-Holstein",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/maps"
+      ],
+      "type": "mc",
+      "question_md": "Which Bundesland is highlighted on this map?\n\n![map](media:maps/de-nordrhein-westfalen.png)",
+      "options": [
+        {
+          "text_md": "Niedersachsen",
+          "correct": false
+        },
+        {
+          "text_md": "Nordrhein-Westfalen",
+          "correct": true
+        },
+        {
+          "text_md": "Hessen",
+          "correct": false
+        },
+        {
+          "text_md": "Rheinland-Pfalz",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/maps"
+      ],
+      "type": "mc",
+      "question_md": "Which Bundesland is highlighted on this map?\n\n![map](media:maps/de-rheinland-pfalz.png)",
+      "options": [
+        {
+          "text_md": "Nordrhein-Westfalen",
+          "correct": false
+        },
+        {
+          "text_md": "Hessen",
+          "correct": false
+        },
+        {
+          "text_md": "Rheinland-Pfalz",
+          "correct": true
+        },
+        {
+          "text_md": "Saarland",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/maps"
+      ],
+      "type": "mc",
+      "question_md": "Which Bundesland is highlighted on this map?\n\n![map](media:maps/de-saarland.png)",
+      "options": [
+        {
+          "text_md": "Rheinland-Pfalz",
+          "correct": false
+        },
+        {
+          "text_md": "Baden-Württemberg",
+          "correct": false
+        },
+        {
+          "text_md": "Hessen",
+          "correct": false
+        },
+        {
+          "text_md": "Saarland",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/maps"
+      ],
+      "type": "mc",
+      "question_md": "Which Bundesland is highlighted on this map?\n\n![map](media:maps/de-sachsen.png)",
+      "options": [
+        {
+          "text_md": "Sachsen",
+          "correct": true
+        },
+        {
+          "text_md": "Thüringen",
+          "correct": false
+        },
+        {
+          "text_md": "Sachsen-Anhalt",
+          "correct": false
+        },
+        {
+          "text_md": "Brandenburg",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/maps"
+      ],
+      "type": "mc",
+      "question_md": "Which Bundesland is highlighted on this map?\n\n![map](media:maps/de-sachsen-anhalt.png)",
+      "options": [
+        {
+          "text_md": "Niedersachsen",
+          "correct": false
+        },
+        {
+          "text_md": "Sachsen-Anhalt",
+          "correct": true
+        },
+        {
+          "text_md": "Brandenburg",
+          "correct": false
+        },
+        {
+          "text_md": "Thüringen",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/maps"
+      ],
+      "type": "mc",
+      "question_md": "Which Bundesland is highlighted on this map?\n\n![map](media:maps/de-schleswig-holstein.png)",
+      "options": [
+        {
+          "text_md": "Hamburg",
+          "correct": false
+        },
+        {
+          "text_md": "Mecklenburg-Vorpommern",
+          "correct": false
+        },
+        {
+          "text_md": "Schleswig-Holstein",
+          "correct": true
+        },
+        {
+          "text_md": "Niedersachsen",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "germany/bundeslaender/maps"
+      ],
+      "type": "mc",
+      "question_md": "Which Bundesland is highlighted on this map?\n\n![map](media:maps/de-thueringen.png)",
+      "options": [
+        {
+          "text_md": "Hessen",
+          "correct": false
+        },
+        {
+          "text_md": "Bayern",
+          "correct": false
+        },
+        {
+          "text_md": "Sachsen",
+          "correct": false
+        },
+        {
+          "text_md": "Thüringen",
+          "correct": true
+        }
+      ]
+    }
+  ]
+}
