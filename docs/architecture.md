@@ -175,3 +175,13 @@ Directories form a DAG, not a tree:
 - Auth is static bearer tokens for now. No sessions, no
   OAuth; the web interface can move to something richer later
   without breaking the token scheme.
+
+### TUI gotchas
+
+- Never name a Textual widget/Screen instance attribute `path`.
+  It shadows a Textual internal used during rendering and makes
+  the screen crash with `'NoneType' has no attribute
+  'render_strips'` on every terminal (not just headless).
+  RouteScreen uses `node_path`. When adding a screen, prefer
+  prefixed attribute names to avoid colliding with framework
+  internals.

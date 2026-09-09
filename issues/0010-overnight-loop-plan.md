@@ -38,3 +38,8 @@ Remaining, in priority order:
    CLI "screenshots", curl API examples.
 
 5. Every round: deep UI-minimalism review; ruthless trimming.
+
+2026-09-09 (iteration 4): map-encoded route tasks shipped
+(API 0.7.0 / CLI 0.10.0). route card type, bundled autobahn
+graph, deterministic km, Pillow route map, TUI RouteScreen.
+Only the printable book (issues/0011) remains.
