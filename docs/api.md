@@ -98,8 +98,10 @@ Free text: `{"answer": "mitochondrium"}`. Grading:
 1. Normalize both sides: Unicode NFKD, casefold, strip
    diacritics and punctuation, collapse whitespace.
 2. Exact match against any accepted answer → `"exact"`.
-3. Levenshtein distance ≤ max(1, ⌊len/8⌋) (len = normalized
-   accepted answer) → `"typo"`.
+3. Levenshtein distance ≤ max(1, ⌊len/8⌋) (len = length of
+   the normalized accepted answer) → `"typo"`. Accepted
+   answers shorter than 4 characters allow no typo budget
+   (a 1-edit budget would accept any letter for any other).
 4. Otherwise → `"wrong"`.
 
 Response (identical shape for both types):
@@ -116,6 +118,37 @@ For mc cards `expected` contains
 `"correct_option_ids": [1, 3]` instead. `match` is
 `"exact"`, `"typo"`, or `"wrong"` (mc: `"exact"`/`"wrong"`).
 The answer is also appended to the `reviews` log.
+
+## Quiz selection
+
+`GET /quiz/cards?dir={id}&recursive=1&n=20`
+
+Returns up to `n` (default 20) cards in quiz form (like
+`quiz=1`: no `correct` flags, no `accepted_answers`),
+selected from the candidate set (same filters as
+`GET /cards`: `dir`, `recursive`, `unfiled`, `type`) by
+weighted random sampling without replacement. Weights favor
+cards that are new, rarely asked, often answered wrong, or
+long unasked. Per card, from the user's `reviews`:
+
+    error_rate = (wrong + 1) / (asked + 2)
+    staleness  = 1 if never asked
+                 else min(days_since_last_answer, 30) / 30
+    weight     = error_rate * (1 + staleness)
+
+The Laplace smoothing gives never-asked cards error_rate
+0.5, so a new card gets the maximum weight 1.0, while a
+frequently-correct, recently-seen card approaches the
+floor. An optional `seed` (integer) makes the sampling
+deterministic; it exists for tests.
+
+Response: `{"items": [ ...card objects... ]}` (no
+pagination; `n` is capped at 200).
+
+Selection is server-side because the reviews log lives
+here and all clients must quiz identically; real
+spaced-repetition scheduling can later replace the formula
+behind this same endpoint (issues/0005).
 
 ## Directories
 

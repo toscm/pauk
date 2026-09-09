@@ -1,0 +1,109 @@
+"""Thin typed wrapper around the pauk HTTP API."""
+
+from __future__ import annotations
+
+from typing import Any, Iterator
+
+import httpx
+
+
+class ApiError(Exception):
+    def __init__(self, status: int, code: str, message: str):
+        super().__init__(f"{code}: {message}")
+        self.status = status
+        self.code = code
+
+
+class Client:
+    def __init__(self, server: str, token: str):
+        self._http = httpx.Client(
+            base_url=server.rstrip("/") + "/api/v1",
+            headers={"Authorization": f"Bearer {token}"},
+            timeout=30.0,
+        )
+
+    def _call(self, method: str, path: str, **kwargs: Any) -> Any:
+        response = self._http.request(method, path, **kwargs)
+        if response.status_code == 204:
+            return None
+        try:
+            data = response.json()
+        except ValueError:
+            response.raise_for_status()
+            raise
+        if response.status_code >= 400:
+            error = data.get("error", {})
+            raise ApiError(
+                response.status_code,
+                error.get("code", "unknown"),
+                error.get("message", response.text),
+            )
+        return data
+
+    # --- health -----------------------------------------------------
+    def health(self) -> dict:
+        return self._call("GET", "/health")
+
+    # --- dirs -------------------------------------------------------
+    def list_dirs(self, parent_id: int | None = None) -> list[dict]:
+        params = {} if parent_id is None else {"parent": parent_id}
+        return self._call("GET", "/dirs", params=params)["items"]
+
+    def resolve_dir(self, path: str) -> dict:
+        return self._call("GET", "/dirs/resolve", params={"path": path})
+
+    def create_dir(self, name: str, parent_id: int | None = None) -> dict:
+        body: dict[str, Any] = {"name": name}
+        if parent_id is not None:
+            body["parent_id"] = parent_id
+        return self._call("POST", "/dirs", json=body)
+
+    def delete_dir(self, dir_id: int, force: bool = False) -> None:
+        params = {"force": "1"} if force else {}
+        self._call("DELETE", f"/dirs/{dir_id}", params=params)
+
+    def link_dir(self, parent_id: int, child_id: int) -> None:
+        self._call("PUT", f"/dirs/{parent_id}/dirs/{child_id}")
+
+    def link_card(self, dir_id: int, card_id: int) -> None:
+        self._call("PUT", f"/dirs/{dir_id}/cards/{card_id}")
+
+    def unlink_card(self, dir_id: int, card_id: int) -> None:
+        self._call("DELETE", f"/dirs/{dir_id}/cards/{card_id}")
+
+    # --- cards ------------------------------------------------------
+    def iter_cards(self, **filters: Any) -> Iterator[dict]:
+        cursor = None
+        while True:
+            params = {k: v for k, v in filters.items() if v is not None}
+            if cursor:
+                params["cursor"] = cursor
+            data = self._call("GET", "/cards", params=params)
+            yield from data["items"]
+            cursor = data["next_cursor"]
+            if cursor is None:
+                return
+
+    def get_card(self, card_id: int) -> dict:
+        return self._call("GET", f"/cards/{card_id}")
+
+    def create_card(self, body: dict) -> dict:
+        return self._call("POST", "/cards", json=body)
+
+    def update_card(self, card_id: int, body: dict) -> dict:
+        return self._call("PATCH", f"/cards/{card_id}", json=body)
+
+    def delete_card(self, card_id: int) -> None:
+        self._call("DELETE", f"/cards/{card_id}")
+
+    # --- quiz -------------------------------------------------------
+    def quiz_cards(self, dir_id: int | None, recursive: bool, n: int) -> list[dict]:
+        params: dict[str, Any] = {"n": n}
+        if dir_id is not None:
+            params["dir"] = dir_id
+            if recursive:
+                params["recursive"] = "1"
+        return self._call("GET", "/quiz/cards", params=params)["items"]
+
+    def answer(self, card_id: int, payload: dict) -> dict:
+        return self._call("POST", f"/cards/{card_id}/answer", json=payload)

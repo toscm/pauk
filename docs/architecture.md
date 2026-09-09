@@ -148,6 +148,15 @@ Directories form a DAG, not a tree:
   /cards/{id}/answer`), so every client grades identically
   and accepted answers never need to be exposed for quizzing.
 
+- Question selection is also server-side (`GET /quiz/cards`):
+  weighted random sampling favoring new, error-prone, and
+  stale cards, computed from the reviews log. Chosen over
+  plain random (ignores history) and over full SRS
+  scheduling like Leitner/SM-2/FSRS (due-date based,
+  overkill for v1, and it would refuse to quiz cards that
+  are "not due"); the endpoint is the seam where real SRS
+  can slot in later (issues/0005).
+
 - Auth is static bearer tokens for now. No sessions, no
   OAuth; the web interface can move to something richer later
   without breaking the token scheme.

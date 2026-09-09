@@ -1,0 +1,1103 @@
+{
+  "dirs": [
+    "greek",
+    "greek/lowercase",
+    "greek/uppercase",
+    "greek/multiple-choice"
+  ],
+  "dir_links": [],
+  "cards": [
+    {
+      "dirs": [
+        "greek/lowercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter: **α**",
+      "accepted_answers": [
+        "alpha"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/uppercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter (uppercase): **Α**",
+      "accepted_answers": [
+        "alpha"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/multiple-choice"
+      ],
+      "type": "mc",
+      "question_md": "Which Greek letter is this: **α**?",
+      "options": [
+        {
+          "text_md": "mu",
+          "correct": false
+        },
+        {
+          "text_md": "epsilon",
+          "correct": false
+        },
+        {
+          "text_md": "sigma",
+          "correct": false
+        },
+        {
+          "text_md": "alpha",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "greek/lowercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter: **β**",
+      "accepted_answers": [
+        "beta"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/uppercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter (uppercase): **Β**",
+      "accepted_answers": [
+        "beta"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/multiple-choice"
+      ],
+      "type": "mc",
+      "question_md": "Which Greek letter is this: **β**?",
+      "options": [
+        {
+          "text_md": "upsilon",
+          "correct": false
+        },
+        {
+          "text_md": "tau",
+          "correct": false
+        },
+        {
+          "text_md": "beta",
+          "correct": true
+        },
+        {
+          "text_md": "rho",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "greek/lowercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter: **γ**",
+      "accepted_answers": [
+        "gamma"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/uppercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter (uppercase): **Γ**",
+      "accepted_answers": [
+        "gamma"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/multiple-choice"
+      ],
+      "type": "mc",
+      "question_md": "Which Greek letter is this: **γ**?",
+      "options": [
+        {
+          "text_md": "epsilon",
+          "correct": false
+        },
+        {
+          "text_md": "phi",
+          "correct": false
+        },
+        {
+          "text_md": "gamma",
+          "correct": true
+        },
+        {
+          "text_md": "delta",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "greek/lowercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter: **δ**",
+      "accepted_answers": [
+        "delta"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/uppercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter (uppercase): **Δ**",
+      "accepted_answers": [
+        "delta"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/multiple-choice"
+      ],
+      "type": "mc",
+      "question_md": "Which Greek letter is this: **δ**?",
+      "options": [
+        {
+          "text_md": "rho",
+          "correct": false
+        },
+        {
+          "text_md": "alpha",
+          "correct": false
+        },
+        {
+          "text_md": "delta",
+          "correct": true
+        },
+        {
+          "text_md": "psi",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "greek/lowercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter: **ε**",
+      "accepted_answers": [
+        "epsilon"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/uppercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter (uppercase): **Ε**",
+      "accepted_answers": [
+        "epsilon"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/multiple-choice"
+      ],
+      "type": "mc",
+      "question_md": "Which Greek letter is this: **ε**?",
+      "options": [
+        {
+          "text_md": "epsilon",
+          "correct": true
+        },
+        {
+          "text_md": "sigma",
+          "correct": false
+        },
+        {
+          "text_md": "eta",
+          "correct": false
+        },
+        {
+          "text_md": "xi",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "greek/lowercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter: **ζ**",
+      "accepted_answers": [
+        "zeta"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/uppercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter (uppercase): **Ζ**",
+      "accepted_answers": [
+        "zeta"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/multiple-choice"
+      ],
+      "type": "mc",
+      "question_md": "Which Greek letter is this: **ζ**?",
+      "options": [
+        {
+          "text_md": "xi",
+          "correct": false
+        },
+        {
+          "text_md": "zeta",
+          "correct": true
+        },
+        {
+          "text_md": "sigma",
+          "correct": false
+        },
+        {
+          "text_md": "psi",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "greek/lowercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter: **η**",
+      "accepted_answers": [
+        "eta"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/uppercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter (uppercase): **Η**",
+      "accepted_answers": [
+        "eta"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/multiple-choice"
+      ],
+      "type": "mc",
+      "question_md": "Which Greek letter is this: **η**?",
+      "options": [
+        {
+          "text_md": "iota",
+          "correct": false
+        },
+        {
+          "text_md": "nu",
+          "correct": false
+        },
+        {
+          "text_md": "eta",
+          "correct": true
+        },
+        {
+          "text_md": "mu",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "greek/lowercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter: **θ**",
+      "accepted_answers": [
+        "theta"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/uppercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter (uppercase): **Θ**",
+      "accepted_answers": [
+        "theta"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/multiple-choice"
+      ],
+      "type": "mc",
+      "question_md": "Which Greek letter is this: **θ**?",
+      "options": [
+        {
+          "text_md": "epsilon",
+          "correct": false
+        },
+        {
+          "text_md": "lambda",
+          "correct": false
+        },
+        {
+          "text_md": "theta",
+          "correct": true
+        },
+        {
+          "text_md": "pi",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "greek/lowercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter: **ι**",
+      "accepted_answers": [
+        "iota",
+        "jota"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/uppercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter (uppercase): **Ι**",
+      "accepted_answers": [
+        "iota",
+        "jota"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/multiple-choice"
+      ],
+      "type": "mc",
+      "question_md": "Which Greek letter is this: **ι**?",
+      "options": [
+        {
+          "text_md": "omicron",
+          "correct": false
+        },
+        {
+          "text_md": "pi",
+          "correct": false
+        },
+        {
+          "text_md": "nu",
+          "correct": false
+        },
+        {
+          "text_md": "iota",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "greek/lowercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter: **κ**",
+      "accepted_answers": [
+        "kappa"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/uppercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter (uppercase): **Κ**",
+      "accepted_answers": [
+        "kappa"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/multiple-choice"
+      ],
+      "type": "mc",
+      "question_md": "Which Greek letter is this: **κ**?",
+      "options": [
+        {
+          "text_md": "kappa",
+          "correct": true
+        },
+        {
+          "text_md": "omicron",
+          "correct": false
+        },
+        {
+          "text_md": "delta",
+          "correct": false
+        },
+        {
+          "text_md": "sigma",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "greek/lowercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter: **λ**",
+      "accepted_answers": [
+        "lambda",
+        "lamda"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/uppercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter (uppercase): **Λ**",
+      "accepted_answers": [
+        "lambda",
+        "lamda"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/multiple-choice"
+      ],
+      "type": "mc",
+      "question_md": "Which Greek letter is this: **λ**?",
+      "options": [
+        {
+          "text_md": "omicron",
+          "correct": false
+        },
+        {
+          "text_md": "rho",
+          "correct": false
+        },
+        {
+          "text_md": "upsilon",
+          "correct": false
+        },
+        {
+          "text_md": "lambda",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "greek/lowercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter: **μ**",
+      "accepted_answers": [
+        "mu",
+        "my"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/uppercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter (uppercase): **Μ**",
+      "accepted_answers": [
+        "mu",
+        "my"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/multiple-choice"
+      ],
+      "type": "mc",
+      "question_md": "Which Greek letter is this: **μ**?",
+      "options": [
+        {
+          "text_md": "omega",
+          "correct": false
+        },
+        {
+          "text_md": "epsilon",
+          "correct": false
+        },
+        {
+          "text_md": "beta",
+          "correct": false
+        },
+        {
+          "text_md": "mu",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "greek/lowercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter: **ν**",
+      "accepted_answers": [
+        "nu",
+        "ny"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/uppercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter (uppercase): **Ν**",
+      "accepted_answers": [
+        "nu",
+        "ny"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/multiple-choice"
+      ],
+      "type": "mc",
+      "question_md": "Which Greek letter is this: **ν**?",
+      "options": [
+        {
+          "text_md": "eta",
+          "correct": false
+        },
+        {
+          "text_md": "upsilon",
+          "correct": false
+        },
+        {
+          "text_md": "nu",
+          "correct": true
+        },
+        {
+          "text_md": "mu",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "greek/lowercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter: **ξ**",
+      "accepted_answers": [
+        "xi"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/uppercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter (uppercase): **Ξ**",
+      "accepted_answers": [
+        "xi"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/multiple-choice"
+      ],
+      "type": "mc",
+      "question_md": "Which Greek letter is this: **ξ**?",
+      "options": [
+        {
+          "text_md": "chi",
+          "correct": false
+        },
+        {
+          "text_md": "psi",
+          "correct": false
+        },
+        {
+          "text_md": "xi",
+          "correct": true
+        },
+        {
+          "text_md": "zeta",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "greek/lowercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter: **ο**",
+      "accepted_answers": [
+        "omicron",
+        "omikron"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/uppercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter (uppercase): **Ο**",
+      "accepted_answers": [
+        "omicron",
+        "omikron"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/multiple-choice"
+      ],
+      "type": "mc",
+      "question_md": "Which Greek letter is this: **ο**?",
+      "options": [
+        {
+          "text_md": "omicron",
+          "correct": true
+        },
+        {
+          "text_md": "omega",
+          "correct": false
+        },
+        {
+          "text_md": "theta",
+          "correct": false
+        },
+        {
+          "text_md": "sigma",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "greek/lowercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter: **π**",
+      "accepted_answers": [
+        "pi"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/uppercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter (uppercase): **Π**",
+      "accepted_answers": [
+        "pi"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/multiple-choice"
+      ],
+      "type": "mc",
+      "question_md": "Which Greek letter is this: **π**?",
+      "options": [
+        {
+          "text_md": "pi",
+          "correct": true
+        },
+        {
+          "text_md": "tau",
+          "correct": false
+        },
+        {
+          "text_md": "psi",
+          "correct": false
+        },
+        {
+          "text_md": "nu",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "greek/lowercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter: **ρ**",
+      "accepted_answers": [
+        "rho"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/uppercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter (uppercase): **Ρ**",
+      "accepted_answers": [
+        "rho"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/multiple-choice"
+      ],
+      "type": "mc",
+      "question_md": "Which Greek letter is this: **ρ**?",
+      "options": [
+        {
+          "text_md": "phi",
+          "correct": false
+        },
+        {
+          "text_md": "rho",
+          "correct": true
+        },
+        {
+          "text_md": "pi",
+          "correct": false
+        },
+        {
+          "text_md": "beta",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "greek/lowercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter: **σ / ς**",
+      "accepted_answers": [
+        "sigma"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/uppercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter (uppercase): **Σ**",
+      "accepted_answers": [
+        "sigma"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/multiple-choice"
+      ],
+      "type": "mc",
+      "question_md": "Which Greek letter is this: **σ / ς**?",
+      "options": [
+        {
+          "text_md": "iota",
+          "correct": false
+        },
+        {
+          "text_md": "kappa",
+          "correct": false
+        },
+        {
+          "text_md": "alpha",
+          "correct": false
+        },
+        {
+          "text_md": "sigma",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "greek/lowercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter: **τ**",
+      "accepted_answers": [
+        "tau"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/uppercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter (uppercase): **Τ**",
+      "accepted_answers": [
+        "tau"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/multiple-choice"
+      ],
+      "type": "mc",
+      "question_md": "Which Greek letter is this: **τ**?",
+      "options": [
+        {
+          "text_md": "tau",
+          "correct": true
+        },
+        {
+          "text_md": "pi",
+          "correct": false
+        },
+        {
+          "text_md": "mu",
+          "correct": false
+        },
+        {
+          "text_md": "rho",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "greek/lowercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter: **υ**",
+      "accepted_answers": [
+        "upsilon",
+        "ypsilon"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/uppercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter (uppercase): **Υ**",
+      "accepted_answers": [
+        "upsilon",
+        "ypsilon"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/multiple-choice"
+      ],
+      "type": "mc",
+      "question_md": "Which Greek letter is this: **υ**?",
+      "options": [
+        {
+          "text_md": "upsilon",
+          "correct": true
+        },
+        {
+          "text_md": "nu",
+          "correct": false
+        },
+        {
+          "text_md": "gamma",
+          "correct": false
+        },
+        {
+          "text_md": "chi",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "greek/lowercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter: **φ**",
+      "accepted_answers": [
+        "phi"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/uppercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter (uppercase): **Φ**",
+      "accepted_answers": [
+        "phi"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/multiple-choice"
+      ],
+      "type": "mc",
+      "question_md": "Which Greek letter is this: **φ**?",
+      "options": [
+        {
+          "text_md": "psi",
+          "correct": false
+        },
+        {
+          "text_md": "phi",
+          "correct": true
+        },
+        {
+          "text_md": "theta",
+          "correct": false
+        },
+        {
+          "text_md": "chi",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "greek/lowercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter: **χ**",
+      "accepted_answers": [
+        "chi"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/uppercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter (uppercase): **Χ**",
+      "accepted_answers": [
+        "chi"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/multiple-choice"
+      ],
+      "type": "mc",
+      "question_md": "Which Greek letter is this: **χ**?",
+      "options": [
+        {
+          "text_md": "omicron",
+          "correct": false
+        },
+        {
+          "text_md": "lambda",
+          "correct": false
+        },
+        {
+          "text_md": "kappa",
+          "correct": false
+        },
+        {
+          "text_md": "chi",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "greek/lowercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter: **ψ**",
+      "accepted_answers": [
+        "psi"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/uppercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter (uppercase): **Ψ**",
+      "accepted_answers": [
+        "psi"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/multiple-choice"
+      ],
+      "type": "mc",
+      "question_md": "Which Greek letter is this: **ψ**?",
+      "options": [
+        {
+          "text_md": "xi",
+          "correct": false
+        },
+        {
+          "text_md": "phi",
+          "correct": false
+        },
+        {
+          "text_md": "psi",
+          "correct": true
+        },
+        {
+          "text_md": "chi",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "greek/lowercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter: **ω**",
+      "accepted_answers": [
+        "omega"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/uppercase"
+      ],
+      "type": "text",
+      "question_md": "Name this Greek letter (uppercase): **Ω**",
+      "accepted_answers": [
+        "omega"
+      ]
+    },
+    {
+      "dirs": [
+        "greek/multiple-choice"
+      ],
+      "type": "mc",
+      "question_md": "Which Greek letter is this: **ω**?",
+      "options": [
+        {
+          "text_md": "sigma",
+          "correct": false
+        },
+        {
+          "text_md": "omicron",
+          "correct": false
+        },
+        {
+          "text_md": "omega",
+          "correct": true
+        },
+        {
+          "text_md": "upsilon",
+          "correct": false
+        }
+      ]
+    }
+  ]
+}

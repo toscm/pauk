@@ -1,0 +1,2578 @@
+{
+  "dirs": [
+    "italian",
+    "italian/a1",
+    "italian/verbs",
+    "italian/verbs/core-verbs",
+    "italian/verbs/common-verbs",
+    "italian/nouns",
+    "italian/nouns/core-nouns",
+    "italian/nouns/common-nouns",
+    "italian/adjectives",
+    "italian/numbers",
+    "italian/phrases",
+    "italian/grammar"
+  ],
+  "dir_links": [
+    {
+      "parent": "italian/a1",
+      "child": "italian/verbs"
+    },
+    {
+      "parent": "italian/a1",
+      "child": "italian/nouns"
+    },
+    {
+      "parent": "italian/a1",
+      "child": "italian/adjectives"
+    },
+    {
+      "parent": "italian/a1",
+      "child": "italian/numbers"
+    },
+    {
+      "parent": "italian/a1",
+      "child": "italian/phrases"
+    },
+    {
+      "parent": "italian/a1",
+      "child": "italian/grammar"
+    }
+  ],
+  "cards": [
+    {
+      "dirs": [
+        "italian/verbs/core-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to be**",
+      "accepted_answers": [
+        "essere"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/core-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to have**",
+      "accepted_answers": [
+        "avere"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/core-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to do / to make**",
+      "accepted_answers": [
+        "fare"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/core-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to go**",
+      "accepted_answers": [
+        "andare"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/core-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to come**",
+      "accepted_answers": [
+        "venire"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/core-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to say**",
+      "accepted_answers": [
+        "dire"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/core-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to be able to (can)**",
+      "accepted_answers": [
+        "potere"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/core-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to want**",
+      "accepted_answers": [
+        "volere"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/core-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to have to (must)**",
+      "accepted_answers": [
+        "dovere"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/core-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to know (a fact)**",
+      "accepted_answers": [
+        "sapere"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/core-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to see**",
+      "accepted_answers": [
+        "vedere"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/core-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to give**",
+      "accepted_answers": [
+        "dare"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/core-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to stay**",
+      "accepted_answers": [
+        "stare",
+        "rimanere",
+        "restare"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/core-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to speak**",
+      "accepted_answers": [
+        "parlare"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/core-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to eat**",
+      "accepted_answers": [
+        "mangiare"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/core-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to drink**",
+      "accepted_answers": [
+        "bere"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/core-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to take**",
+      "accepted_answers": [
+        "prendere"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/core-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to put**",
+      "accepted_answers": [
+        "mettere"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/core-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to go out**",
+      "accepted_answers": [
+        "uscire"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/core-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to sleep**",
+      "accepted_answers": [
+        "dormire"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to work**",
+      "accepted_answers": [
+        "lavorare"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to study**",
+      "accepted_answers": [
+        "studiare"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to live (reside)**",
+      "accepted_answers": [
+        "abitare",
+        "vivere"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to love**",
+      "accepted_answers": [
+        "amare"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to help**",
+      "accepted_answers": [
+        "aiutare"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to open**",
+      "accepted_answers": [
+        "aprire"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to close**",
+      "accepted_answers": [
+        "chiudere"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to arrive**",
+      "accepted_answers": [
+        "arrivare"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to leave (depart)**",
+      "accepted_answers": [
+        "partire"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to listen**",
+      "accepted_answers": [
+        "ascoltare"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to wait**",
+      "accepted_answers": [
+        "aspettare",
+        "attendere"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to dance**",
+      "accepted_answers": [
+        "ballare"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to sing**",
+      "accepted_answers": [
+        "cantare"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to understand**",
+      "accepted_answers": [
+        "capire",
+        "comprendere"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to look for**",
+      "accepted_answers": [
+        "cercare"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to call**",
+      "accepted_answers": [
+        "chiamare",
+        "telefonare"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to buy**",
+      "accepted_answers": [
+        "comprare",
+        "acquistare"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to know (a person)**",
+      "accepted_answers": [
+        "conoscere"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to run**",
+      "accepted_answers": [
+        "correre"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to cook**",
+      "accepted_answers": [
+        "cucinare"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to play (a game)**",
+      "accepted_answers": [
+        "giocare"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to watch**",
+      "accepted_answers": [
+        "guardare"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to learn**",
+      "accepted_answers": [
+        "imparare"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to read**",
+      "accepted_answers": [
+        "leggere"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to pay**",
+      "accepted_answers": [
+        "pagare"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to think**",
+      "accepted_answers": [
+        "pensare"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to write**",
+      "accepted_answers": [
+        "scrivere"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to hear**",
+      "accepted_answers": [
+        "sentire"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to find**",
+      "accepted_answers": [
+        "trovare"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/verbs/common-verbs"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **to travel**",
+      "accepted_answers": [
+        "viaggiare"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the house**",
+      "accepted_answers": [
+        "la casa",
+        "casa"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the man**",
+      "accepted_answers": [
+        "l'uomo",
+        "uomo"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the woman**",
+      "accepted_answers": [
+        "la donna",
+        "donna"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the child**",
+      "accepted_answers": [
+        "il bambino",
+        "bambino",
+        "la bambina",
+        "bambina"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the water**",
+      "accepted_answers": [
+        "l'acqua",
+        "acqua"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the bread**",
+      "accepted_answers": [
+        "il pane",
+        "pane"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the book**",
+      "accepted_answers": [
+        "il libro",
+        "libro"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the day**",
+      "accepted_answers": [
+        "il giorno",
+        "giorno"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the night**",
+      "accepted_answers": [
+        "la notte",
+        "notte"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the year**",
+      "accepted_answers": [
+        "l'anno",
+        "anno"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the city**",
+      "accepted_answers": [
+        "la città",
+        "città"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the street**",
+      "accepted_answers": [
+        "la strada",
+        "strada",
+        "la via",
+        "via"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the car**",
+      "accepted_answers": [
+        "la macchina",
+        "macchina",
+        "l'auto",
+        "auto",
+        "l'automobile",
+        "automobile"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the train**",
+      "accepted_answers": [
+        "il treno",
+        "treno"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the school**",
+      "accepted_answers": [
+        "la scuola",
+        "scuola"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the work (job)**",
+      "accepted_answers": [
+        "il lavoro",
+        "lavoro"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the family**",
+      "accepted_answers": [
+        "la famiglia",
+        "famiglia"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the friend (male)**",
+      "accepted_answers": [
+        "l'amico",
+        "amico"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the mother**",
+      "accepted_answers": [
+        "la madre",
+        "madre",
+        "la mamma",
+        "mamma"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the father**",
+      "accepted_answers": [
+        "il padre",
+        "padre",
+        "il papà",
+        "papà"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the brother**",
+      "accepted_answers": [
+        "il fratello",
+        "fratello"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the sister**",
+      "accepted_answers": [
+        "la sorella",
+        "sorella"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the dog**",
+      "accepted_answers": [
+        "il cane",
+        "cane"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the cat**",
+      "accepted_answers": [
+        "il gatto",
+        "gatto"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the food**",
+      "accepted_answers": [
+        "il cibo",
+        "cibo"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the milk**",
+      "accepted_answers": [
+        "il latte",
+        "latte"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the coffee**",
+      "accepted_answers": [
+        "il caffè",
+        "caffè"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the wine**",
+      "accepted_answers": [
+        "il vino",
+        "vino"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the door**",
+      "accepted_answers": [
+        "la porta",
+        "porta"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/core-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the name**",
+      "accepted_answers": [
+        "il nome",
+        "nome"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the window**",
+      "accepted_answers": [
+        "la finestra",
+        "finestra"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the table**",
+      "accepted_answers": [
+        "il tavolo",
+        "tavolo",
+        "la tavola",
+        "tavola"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the chair**",
+      "accepted_answers": [
+        "la sedia",
+        "sedia"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the bed**",
+      "accepted_answers": [
+        "il letto",
+        "letto"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the kitchen**",
+      "accepted_answers": [
+        "la cucina",
+        "cucina"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the bathroom**",
+      "accepted_answers": [
+        "il bagno",
+        "bagno"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the bedroom**",
+      "accepted_answers": [
+        "la camera",
+        "camera",
+        "la camera da letto",
+        "camera da letto"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the key**",
+      "accepted_answers": [
+        "la chiave",
+        "chiave"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the telephone**",
+      "accepted_answers": [
+        "il telefono",
+        "telefono"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the money**",
+      "accepted_answers": [
+        "il denaro",
+        "denaro",
+        "i soldi",
+        "soldi"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the shop**",
+      "accepted_answers": [
+        "il negozio",
+        "negozio"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the market**",
+      "accepted_answers": [
+        "il mercato",
+        "mercato"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the restaurant**",
+      "accepted_answers": [
+        "il ristorante",
+        "ristorante"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the hotel**",
+      "accepted_answers": [
+        "l'albergo",
+        "albergo",
+        "l'hotel",
+        "hotel"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the beach**",
+      "accepted_answers": [
+        "la spiaggia",
+        "spiaggia"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the sea**",
+      "accepted_answers": [
+        "il mare",
+        "mare"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the mountain**",
+      "accepted_answers": [
+        "la montagna",
+        "montagna"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the sun**",
+      "accepted_answers": [
+        "il sole",
+        "sole"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the moon**",
+      "accepted_answers": [
+        "la luna",
+        "luna"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the rain**",
+      "accepted_answers": [
+        "la pioggia",
+        "pioggia"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the flower**",
+      "accepted_answers": [
+        "il fiore",
+        "fiore"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the tree**",
+      "accepted_answers": [
+        "l'albero",
+        "albero"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the fruit**",
+      "accepted_answers": [
+        "la frutta",
+        "frutta"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the meat**",
+      "accepted_answers": [
+        "la carne",
+        "carne"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the fish**",
+      "accepted_answers": [
+        "il pesce",
+        "pesce"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the cheese**",
+      "accepted_answers": [
+        "il formaggio",
+        "formaggio"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the egg**",
+      "accepted_answers": [
+        "l'uovo",
+        "uovo"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the apple**",
+      "accepted_answers": [
+        "la mela",
+        "mela"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the tomato**",
+      "accepted_answers": [
+        "il pomodoro",
+        "pomodoro"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/nouns/common-nouns"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the sugar**",
+      "accepted_answers": [
+        "lo zucchero",
+        "zucchero"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/adjectives"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **beautiful**",
+      "accepted_answers": [
+        "bello"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/adjectives"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **good**",
+      "accepted_answers": [
+        "buono",
+        "bravo"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/adjectives"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **big**",
+      "accepted_answers": [
+        "grande",
+        "grosso"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/adjectives"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **small**",
+      "accepted_answers": [
+        "piccolo"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/adjectives"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **new**",
+      "accepted_answers": [
+        "nuovo"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/adjectives"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **old**",
+      "accepted_answers": [
+        "vecchio"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/adjectives"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **young**",
+      "accepted_answers": [
+        "giovane"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/adjectives"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **tall**",
+      "accepted_answers": [
+        "alto"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/adjectives"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **short (in height)**",
+      "accepted_answers": [
+        "basso"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/adjectives"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **long**",
+      "accepted_answers": [
+        "lungo"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/adjectives"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **short (in length)**",
+      "accepted_answers": [
+        "corto",
+        "breve"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/adjectives"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **hot**",
+      "accepted_answers": [
+        "caldo"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/adjectives"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **cold**",
+      "accepted_answers": [
+        "freddo"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/adjectives"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **happy**",
+      "accepted_answers": [
+        "felice",
+        "contento"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/adjectives"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **sad**",
+      "accepted_answers": [
+        "triste"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/adjectives"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **easy**",
+      "accepted_answers": [
+        "facile",
+        "semplice"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/adjectives"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **difficult**",
+      "accepted_answers": [
+        "difficile"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/adjectives"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **fast**",
+      "accepted_answers": [
+        "veloce",
+        "rapido"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/adjectives"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **slow**",
+      "accepted_answers": [
+        "lento"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/adjectives"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **rich**",
+      "accepted_answers": [
+        "ricco"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/adjectives"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **poor**",
+      "accepted_answers": [
+        "povero"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/adjectives"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **strong**",
+      "accepted_answers": [
+        "forte"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/adjectives"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **clean**",
+      "accepted_answers": [
+        "pulito"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/adjectives"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **dirty**",
+      "accepted_answers": [
+        "sporco"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/adjectives"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **important**",
+      "accepted_answers": [
+        "importante"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/numbers"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **zero**",
+      "accepted_answers": [
+        "zero"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/numbers"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **one**",
+      "accepted_answers": [
+        "uno"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/numbers"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **two**",
+      "accepted_answers": [
+        "due"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/numbers"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **three**",
+      "accepted_answers": [
+        "tre"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/numbers"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **four**",
+      "accepted_answers": [
+        "quattro"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/numbers"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **five**",
+      "accepted_answers": [
+        "cinque"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/numbers"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **six**",
+      "accepted_answers": [
+        "sei"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/numbers"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **seven**",
+      "accepted_answers": [
+        "sette"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/numbers"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **eight**",
+      "accepted_answers": [
+        "otto"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/numbers"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **nine**",
+      "accepted_answers": [
+        "nove"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/numbers"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **ten**",
+      "accepted_answers": [
+        "dieci"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/numbers"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **eleven**",
+      "accepted_answers": [
+        "undici"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/numbers"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **twelve**",
+      "accepted_answers": [
+        "dodici"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/numbers"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **thirteen**",
+      "accepted_answers": [
+        "tredici"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/numbers"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **fourteen**",
+      "accepted_answers": [
+        "quattordici"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/numbers"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **fifteen**",
+      "accepted_answers": [
+        "quindici"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/numbers"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **sixteen**",
+      "accepted_answers": [
+        "sedici"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/numbers"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **seventeen**",
+      "accepted_answers": [
+        "diciassette"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/numbers"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **eighteen**",
+      "accepted_answers": [
+        "diciotto"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/numbers"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **nineteen**",
+      "accepted_answers": [
+        "diciannove"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/numbers"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **twenty**",
+      "accepted_answers": [
+        "venti"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/numbers"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **thirty**",
+      "accepted_answers": [
+        "trenta"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/numbers"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **forty**",
+      "accepted_answers": [
+        "quaranta"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/numbers"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **fifty**",
+      "accepted_answers": [
+        "cinquanta"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/numbers"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **sixty**",
+      "accepted_answers": [
+        "sessanta"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/numbers"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **seventy**",
+      "accepted_answers": [
+        "settanta"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/numbers"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **eighty**",
+      "accepted_answers": [
+        "ottanta"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/numbers"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **ninety**",
+      "accepted_answers": [
+        "novanta"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/numbers"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **one hundred**",
+      "accepted_answers": [
+        "cento"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/phrases"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **good morning**",
+      "accepted_answers": [
+        "buongiorno",
+        "buon giorno"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/phrases"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **good evening**",
+      "accepted_answers": [
+        "buonasera",
+        "buona sera"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/phrases"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **good night**",
+      "accepted_answers": [
+        "buonanotte",
+        "buona notte"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/phrases"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **hello**",
+      "accepted_answers": [
+        "ciao",
+        "salve"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/phrases"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **goodbye**",
+      "accepted_answers": [
+        "arrivederci",
+        "ciao",
+        "arrivederla"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/phrases"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **thank you**",
+      "accepted_answers": [
+        "grazie",
+        "grazie mille"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/phrases"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **you're welcome**",
+      "accepted_answers": [
+        "prego",
+        "di niente",
+        "di nulla"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/phrases"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **please**",
+      "accepted_answers": [
+        "per favore",
+        "per piacere",
+        "per cortesia"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/phrases"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **excuse me**",
+      "accepted_answers": [
+        "scusi",
+        "mi scusi",
+        "scusa",
+        "scusami"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/phrases"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **I'm sorry**",
+      "accepted_answers": [
+        "mi dispiace",
+        "mi spiace"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/phrases"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **How are you?**",
+      "accepted_answers": [
+        "come stai",
+        "come sta",
+        "come va",
+        "come stai?",
+        "come sta?",
+        "come va?"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/phrases"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **My name is Marco.**",
+      "accepted_answers": [
+        "mi chiamo Marco",
+        "il mio nome è Marco",
+        "sono Marco"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/phrases"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **I don't understand.**",
+      "accepted_answers": [
+        "non capisco",
+        "non ho capito"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/phrases"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **How much does it cost?**",
+      "accepted_answers": [
+        "quanto costa",
+        "quanto costa?",
+        "quanto viene",
+        "quanto viene?"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/phrases"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **Where is the bathroom?**",
+      "accepted_answers": [
+        "dov'è il bagno",
+        "dove è il bagno",
+        "dov'è il bagno?",
+        "dove è il bagno?"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/phrases"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **yes**",
+      "accepted_answers": [
+        "sì",
+        "si"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/phrases"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **I would like ... (polite)**",
+      "accepted_answers": [
+        "vorrei"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/phrases"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **Do you speak English?**",
+      "accepted_answers": [
+        "parla inglese",
+        "parli inglese",
+        "parla inglese?",
+        "parli inglese?"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/phrases"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **I don't speak Italian.**",
+      "accepted_answers": [
+        "non parlo italiano"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/phrases"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **Can you help me?**",
+      "accepted_answers": [
+        "può aiutarmi",
+        "puoi aiutarmi",
+        "mi può aiutare",
+        "mi puoi aiutare",
+        "può aiutarmi?",
+        "puoi aiutarmi?",
+        "mi può aiutare?",
+        "mi puoi aiutare?"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/phrases"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **see you later**",
+      "accepted_answers": [
+        "a dopo",
+        "a più tardi",
+        "ci vediamo",
+        "ci vediamo dopo"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/phrases"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **see you tomorrow**",
+      "accepted_answers": [
+        "a domani",
+        "ci vediamo domani"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/phrases"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **nice to meet you**",
+      "accepted_answers": [
+        "piacere",
+        "molto piacere",
+        "piacere di conoscerti",
+        "piacere di conoscerla"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/phrases"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **What time is it?**",
+      "accepted_answers": [
+        "che ore sono",
+        "che ora è",
+        "che ore sono?",
+        "che ora è?"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/phrases"
+      ],
+      "type": "text",
+      "question_md": "Translate to Italian: **the bill, please**",
+      "accepted_answers": [
+        "il conto, per favore",
+        "il conto per favore"
+      ]
+    },
+    {
+      "dirs": [
+        "italian/grammar"
+      ],
+      "type": "mc",
+      "question_md": "Which definite article is correct? ___ **zaino** (backpack)",
+      "options": [
+        {
+          "text_md": "lo",
+          "correct": true
+        },
+        {
+          "text_md": "il",
+          "correct": false
+        },
+        {
+          "text_md": "la",
+          "correct": false
+        },
+        {
+          "text_md": "l'",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/grammar"
+      ],
+      "type": "mc",
+      "question_md": "Which definite article is correct? ___ **amica** (female friend)",
+      "options": [
+        {
+          "text_md": "l'",
+          "correct": true
+        },
+        {
+          "text_md": "la",
+          "correct": false
+        },
+        {
+          "text_md": "lo",
+          "correct": false
+        },
+        {
+          "text_md": "il",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/grammar"
+      ],
+      "type": "mc",
+      "question_md": "Which definite article is correct? ___ **libri** (books)",
+      "options": [
+        {
+          "text_md": "i",
+          "correct": true
+        },
+        {
+          "text_md": "gli",
+          "correct": false
+        },
+        {
+          "text_md": "le",
+          "correct": false
+        },
+        {
+          "text_md": "il",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/grammar"
+      ],
+      "type": "mc",
+      "question_md": "Which definite article is correct? ___ **studenti** (students)",
+      "options": [
+        {
+          "text_md": "gli",
+          "correct": true
+        },
+        {
+          "text_md": "i",
+          "correct": false
+        },
+        {
+          "text_md": "le",
+          "correct": false
+        },
+        {
+          "text_md": "lo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/grammar"
+      ],
+      "type": "mc",
+      "question_md": "Which definite article is correct? ___ **case** (houses)",
+      "options": [
+        {
+          "text_md": "le",
+          "correct": true
+        },
+        {
+          "text_md": "la",
+          "correct": false
+        },
+        {
+          "text_md": "i",
+          "correct": false
+        },
+        {
+          "text_md": "gli",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/grammar"
+      ],
+      "type": "mc",
+      "question_md": "Which indefinite article is correct? ___ **zaino** (backpack)",
+      "options": [
+        {
+          "text_md": "uno",
+          "correct": true
+        },
+        {
+          "text_md": "un",
+          "correct": false
+        },
+        {
+          "text_md": "una",
+          "correct": false
+        },
+        {
+          "text_md": "un'",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/grammar"
+      ],
+      "type": "mc",
+      "question_md": "Which indefinite article is correct? ___ **amica** (female friend)",
+      "options": [
+        {
+          "text_md": "un'",
+          "correct": true
+        },
+        {
+          "text_md": "una",
+          "correct": false
+        },
+        {
+          "text_md": "un",
+          "correct": false
+        },
+        {
+          "text_md": "uno",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/grammar"
+      ],
+      "type": "mc",
+      "question_md": "Which indefinite article is correct? ___ **libro** (book)",
+      "options": [
+        {
+          "text_md": "un",
+          "correct": true
+        },
+        {
+          "text_md": "uno",
+          "correct": false
+        },
+        {
+          "text_md": "una",
+          "correct": false
+        },
+        {
+          "text_md": "un'",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/grammar"
+      ],
+      "type": "mc",
+      "question_md": "Which of these Italian nouns is **feminine**?",
+      "options": [
+        {
+          "text_md": "casa",
+          "correct": true
+        },
+        {
+          "text_md": "libro",
+          "correct": false
+        },
+        {
+          "text_md": "gatto",
+          "correct": false
+        },
+        {
+          "text_md": "treno",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/grammar"
+      ],
+      "type": "mc",
+      "question_md": "Which of these Italian nouns is **masculine**?",
+      "options": [
+        {
+          "text_md": "problema",
+          "correct": true
+        },
+        {
+          "text_md": "casa",
+          "correct": false
+        },
+        {
+          "text_md": "notte",
+          "correct": false
+        },
+        {
+          "text_md": "città",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/grammar"
+      ],
+      "type": "mc",
+      "question_md": "What is the plural of **ragazzo** (boy)?",
+      "options": [
+        {
+          "text_md": "ragazzi",
+          "correct": true
+        },
+        {
+          "text_md": "ragazze",
+          "correct": false
+        },
+        {
+          "text_md": "ragazza",
+          "correct": false
+        },
+        {
+          "text_md": "ragazzo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/grammar"
+      ],
+      "type": "mc",
+      "question_md": "What is the plural of **casa** (house)?",
+      "options": [
+        {
+          "text_md": "case",
+          "correct": true
+        },
+        {
+          "text_md": "casi",
+          "correct": false
+        },
+        {
+          "text_md": "caso",
+          "correct": false
+        },
+        {
+          "text_md": "casa",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/grammar"
+      ],
+      "type": "mc",
+      "question_md": "What is the plural of **amico** (friend)?",
+      "options": [
+        {
+          "text_md": "amici",
+          "correct": true
+        },
+        {
+          "text_md": "amiche",
+          "correct": false
+        },
+        {
+          "text_md": "amica",
+          "correct": false
+        },
+        {
+          "text_md": "amico",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/grammar"
+      ],
+      "type": "mc",
+      "question_md": "Complete the sentence: **Io ___ italiano.** (I am Italian — *essere*)",
+      "options": [
+        {
+          "text_md": "sono",
+          "correct": true
+        },
+        {
+          "text_md": "sei",
+          "correct": false
+        },
+        {
+          "text_md": "è",
+          "correct": false
+        },
+        {
+          "text_md": "siamo",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/grammar"
+      ],
+      "type": "mc",
+      "question_md": "Complete the sentence: **Tu ___ un libro.** (You have a book — *avere*)",
+      "options": [
+        {
+          "text_md": "hai",
+          "correct": true
+        },
+        {
+          "text_md": "ho",
+          "correct": false
+        },
+        {
+          "text_md": "ha",
+          "correct": false
+        },
+        {
+          "text_md": "hanno",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/grammar"
+      ],
+      "type": "mc",
+      "question_md": "Complete the sentence: **Lei ___ italiano.** (She speaks Italian — *parlare*)",
+      "options": [
+        {
+          "text_md": "parla",
+          "correct": true
+        },
+        {
+          "text_md": "parlo",
+          "correct": false
+        },
+        {
+          "text_md": "parli",
+          "correct": false
+        },
+        {
+          "text_md": "parlano",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/grammar"
+      ],
+      "type": "mc",
+      "question_md": "Complete the sentence: **Noi ___ il treno.** (We take the train — *prendere*)",
+      "options": [
+        {
+          "text_md": "prendiamo",
+          "correct": true
+        },
+        {
+          "text_md": "prendete",
+          "correct": false
+        },
+        {
+          "text_md": "prendono",
+          "correct": false
+        },
+        {
+          "text_md": "prende",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/grammar"
+      ],
+      "type": "mc",
+      "question_md": "Complete the sentence: **Loro ___ molto.** (They sleep a lot — *dormire*)",
+      "options": [
+        {
+          "text_md": "dormono",
+          "correct": true
+        },
+        {
+          "text_md": "dorme",
+          "correct": false
+        },
+        {
+          "text_md": "dormiamo",
+          "correct": false
+        },
+        {
+          "text_md": "dormite",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/grammar"
+      ],
+      "type": "mc",
+      "question_md": "Which preposition is correct? **Vado ___ Italia.** (I am going to Italy)",
+      "options": [
+        {
+          "text_md": "in",
+          "correct": true
+        },
+        {
+          "text_md": "a",
+          "correct": false
+        },
+        {
+          "text_md": "di",
+          "correct": false
+        },
+        {
+          "text_md": "da",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "italian/grammar"
+      ],
+      "type": "mc",
+      "question_md": "Which preposition is correct? **Abito ___ Roma.** (I live in Rome)",
+      "options": [
+        {
+          "text_md": "a",
+          "correct": true
+        },
+        {
+          "text_md": "in",
+          "correct": false
+        },
+        {
+          "text_md": "di",
+          "correct": false
+        },
+        {
+          "text_md": "da",
+          "correct": false
+        }
+      ]
+    }
+  ]
+}

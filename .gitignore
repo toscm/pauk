@@ -1,0 +1,10 @@
+api/vendor/
+api/var/
+api/.phpunit.result.cache
+api/composer.lock
+cli/.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+cli/pauk.egg-info/
+build/

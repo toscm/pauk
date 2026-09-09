@@ -1,0 +1,4 @@
+# Route everything except existing files (media/) through the API.
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [QSA,L]
