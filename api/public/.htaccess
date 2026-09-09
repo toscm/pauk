@@ -1,4 +1,4 @@
-# Route everything except existing files (media/) through the API.
-RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^ index.php [QSA,L]
+# Serve real files (media/) directly; everything else goes to
+# the API front controller. FallbackResource instead of
+# mod_rewrite: IONOS's Apache 500s on per-directory rewrites.
+FallbackResource /index.php
