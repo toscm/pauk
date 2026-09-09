@@ -6,16 +6,25 @@ menu action is also a direct subcommand for scripting.
 
 from __future__ import annotations
 
+import subprocess
 import sys
 from pathlib import Path
 from typing import Optional
+
+try:
+    # Enables arrow keys / line editing for every input() prompt.
+    import readline  # noqa: F401
+except ImportError:  # pragma: no cover - Windows
+    pass
 
 import typer
 from rich.console import Console
 from rich.tree import Tree
 
+import pauk
 from pauk import config as config_mod
 from pauk.client import ApiError, Client
+from pauk.fuzzy import fuzzy_filter
 from pauk.importer import import_file
 from pauk.quiz import run_quiz
 
@@ -44,11 +53,20 @@ def _client() -> Client:
     return Client(settings.server, settings.token)
 
 
+def _version_callback(value: bool) -> None:
+    if value:
+        print(f"pauk {pauk.__version__}")
+        raise typer.Exit()
+
+
 @app.callback()
 def main(
     ctx: typer.Context,
     server: Optional[str] = typer.Option(None, "--server", help="API base URL"),
     token: Optional[str] = typer.Option(None, "--token", help="API token"),
+    version: Optional[bool] = typer.Option(
+        None, "--version", callback=_version_callback, is_eager=True
+    ),
 ) -> None:
     _state["server"] = server
     _state["token"] = token
@@ -197,6 +215,71 @@ def health() -> None:
     console.print(_client().health())
 
 
+@app.command()
+def login(server: str) -> None:
+    """Store SERVER and an interactively entered token."""
+    token = typer.prompt("Token", hide_input=True).strip()
+    client = Client(server, token)
+    client.list_dirs()  # raises 401 on a bad token
+    config_mod.save(server, token)
+    console.print(f"[green]Logged in.[/green] Saved to {config_mod.CONFIG_PATH}")
+
+
+@app.command()
+def stats(
+    path: Optional[str] = typer.Argument(None, help="Directory path (default: everything)"),
+    recursive: bool = typer.Option(True, "--recursive/--no-recursive"),
+    worst: int = typer.Option(10, "--worst", help="How many worst cards to list"),
+) -> None:
+    """Show answer statistics for a directory (or everything)."""
+    client = _client()
+    dir_id = client.resolve_dir(path)["id"] if path else None
+    data = client.stats(dir_id, recursive)
+    summary = data["summary"]
+    accuracy = "-" if summary["accuracy"] is None else f"{summary['accuracy']:.0%}"
+    console.print(f"\n[bold]Stats: {path or 'all cards'}[/bold]")
+    console.print(
+        f"cards: {summary['cards']} · asked at least once: {summary['asked_cards']} "
+        f"· answers: {summary['reviews']} · accuracy: {accuracy}\n"
+    )
+    if data["items"]:
+        console.print(f"[bold]Hardest cards[/bold] (worst {min(worst, len(data['items']))}):")
+        for item in data["items"][:worst]:
+            question = item["question_md"].replace("\n", " ")[:60]
+            console.print(
+                f"  {item['accuracy']:>4.0%}  {item['correct']}/{item['asked']}  "
+                f"[dim]#{item['id']}[/dim] {question}"
+            )
+
+
+@app.command()
+def update() -> None:
+    """Update pauk to the newest version (git pull + reinstall)."""
+    repo = Path(pauk.__file__).resolve().parents[2]
+    if not (repo / ".git").is_dir():
+        console.print(
+            "[red]Not a git checkout.[/red] Reinstall via toscpm "
+            "(toscpm install) or pip."
+        )
+        raise typer.Exit(1)
+    console.print(f"Updating {repo} ...")
+    pull = subprocess.run(
+        ["git", "-C", str(repo), "pull", "--ff-only"],
+        capture_output=True, text=True,
+    )
+    console.print(pull.stdout.strip() or pull.stderr.strip())
+    if pull.returncode != 0:
+        raise typer.Exit(1)
+    subprocess.run(
+        [sys.executable, "-m", "pip", "install", "--quiet", "-e", str(repo / "cli")],
+        check=True,
+    )
+    result = subprocess.run(
+        [sys.executable, "-m", "pauk", "--version"], capture_output=True, text=True
+    )
+    console.print(f"[green]Now at {result.stdout.strip()}[/green]")
+
+
 def _menu() -> None:
     while True:
         console.print(
@@ -221,21 +304,44 @@ def _menu() -> None:
 
 def _menu_quiz() -> None:
     client = _client()
-    dirs = client.list_dirs()
-    if not dirs:
-        console.print("[yellow]No directories yet — import some content first.[/yellow]")
+    all_dirs = [d for d in client.quiz_dirs() if d["cards_total"] > 0]
+    if not all_dirs:
+        console.print("[yellow]No quizzes yet — import some content first.[/yellow]")
         return
-    console.print("\nChoose a folder:")
-    console.print("  [cyan]0[/cyan]) all cards")
-    for idx, directory in enumerate(dirs, start=1):
-        console.print(
-            f"  [cyan]{idx}[/cyan]) {directory['name']} "
-            f"({directory['cards_total']} cards)"
-        )
-    choice = console.input("> ").strip()
-    if not choice.isdigit() or int(choice) > len(dirs):
-        return
-    path = None if int(choice) == 0 else dirs[int(choice) - 1]["name"]
+    shown = all_dirs
+    query = ""
+    while True:
+        label = f"matching '{query}'" if query else "favorites first"
+        console.print(f"\nChoose a quiz ({label}):")
+        console.print("  [cyan]0[/cyan]) all cards")
+        for idx, entry in enumerate(shown[:9], start=1):
+            best = (
+                f", best {entry['best']['correct']}/{entry['best']['total']}"
+                if entry["best"] else ""
+            )
+            console.print(
+                f"  [cyan]{idx}[/cyan]) {entry['path']} "
+                f"({entry['cards_total']} cards{best})"
+            )
+        raw = console.input(
+            "[dim]number = start, text = search, Enter = back[/dim] > "
+        ).strip()
+        if raw == "":
+            return
+        if raw.isdigit():
+            if int(raw) == 0:
+                path = None
+                break
+            if 1 <= int(raw) <= len(shown[:9]):
+                path = shown[int(raw) - 1]["path"]
+                break
+            continue
+        query = raw
+        shown = fuzzy_filter(query, all_dirs, key=lambda d: d["path"])
+        if not shown:
+            console.print("[yellow]No match.[/yellow]")
+            shown = all_dirs
+            query = ""
     raw_n = console.input("How many questions? [20] ").strip()
     n = int(raw_n) if raw_n.isdigit() and int(raw_n) > 0 else 20
     run_quiz(client, path, recursive=True, n=n)

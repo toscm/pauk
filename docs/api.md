@@ -150,6 +150,62 @@ here and all clients must quiz identically; real
 spaced-repetition scheduling can later replace the formula
 behind this same endpoint (issues/0005).
 
+## Quiz picker and runs
+
+`GET /quiz/dirs` — flat list of all directories for quiz
+pickers, sorted by popularity (started runs) then path:
+
+    {"items": [{
+      "id": 3,
+      "path": "italian/verbs/core-verbs",
+      "name": "core-verbs",
+      "cards_total": 20,
+      "runs": 5,
+      "best": {"correct": 18, "total": 20}
+    }]}
+
+`path` is the canonical path (alphabetically first when a
+directory is reachable via several); `best` is the user's
+best finished run for the directory, or null.
+
+`POST /quiz/runs` — log a quiz start. Body: `dir_id`
+(integer or null for all-cards quizzes), `total` (planned
+question count). Returns 201 `{"id": ...}`. Run counts
+drive the popularity sorting above.
+
+`PATCH /quiz/runs/{id}` — finish a run. Body: `correct`,
+`total` (actually answered; may be less than planned when
+the user quits early). Response:
+
+    {"id": 7, "correct": 18, "total": 20,
+     "rank": 2,
+     "top": [{"correct": 19, "total": 20, "finished_at": ...},
+             {"correct": 18, "total": 20, "finished_at": ...},
+             {"correct": 15, "total": 20, "finished_at": ...}]}
+
+`top` is the user's top three finished runs for the same
+directory (score = correct/total, ties broken by larger
+total, then earlier finish); `rank` is this run's 1-based
+position among them, or null if not in the top three. Runs
+with `total` 0 are discarded, not ranked.
+
+## Statistics
+
+`GET /stats` — same filters as `GET /cards` (`dir`,
+`recursive`, `unfiled`, `type`, `q`):
+
+    {"summary": {"cards": 20, "asked_cards": 12,
+                 "reviews": 40, "correct": 30,
+                 "accuracy": 0.75},
+     "items": [{"id": 17, "question_md": "...",
+                "asked": 4, "correct": 1,
+                "accuracy": 0.25,
+                "last_answered": "2026-09-09T10:00:00Z"}]}
+
+`accuracy` is correct/asked. `items` contains only cards
+that were asked at least once, sorted worst accuracy first
+(ties: more recently asked first), capped at 200 rows.
+
 ## Directories
 
 Directory object:

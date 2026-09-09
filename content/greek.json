@@ -2,14 +2,20 @@
   "dirs": [
     "greek",
     "greek/lowercase",
+    "greek/lowercase/alpha-to-mu",
+    "greek/lowercase/nu-to-omega",
     "greek/uppercase",
-    "greek/multiple-choice"
+    "greek/uppercase/alpha-to-mu",
+    "greek/uppercase/nu-to-omega",
+    "greek/multiple-choice",
+    "greek/multiple-choice/alpha-to-mu",
+    "greek/multiple-choice/nu-to-omega"
   ],
   "dir_links": [],
   "cards": [
     {
       "dirs": [
-        "greek/lowercase"
+        "greek/lowercase/alpha-to-mu"
       ],
       "type": "text",
       "question_md": "Name this Greek letter: **α**",
@@ -19,7 +25,7 @@
     },
     {
       "dirs": [
-        "greek/uppercase"
+        "greek/uppercase/alpha-to-mu"
       ],
       "type": "text",
       "question_md": "Name this Greek letter (uppercase): **Α**",
@@ -29,7 +35,7 @@
     },
     {
       "dirs": [
-        "greek/multiple-choice"
+        "greek/multiple-choice/alpha-to-mu"
       ],
       "type": "mc",
       "question_md": "Which Greek letter is this: **α**?",
@@ -54,7 +60,7 @@
     },
     {
       "dirs": [
-        "greek/lowercase"
+        "greek/lowercase/alpha-to-mu"
       ],
       "type": "text",
       "question_md": "Name this Greek letter: **β**",
@@ -64,7 +70,7 @@
     },
     {
       "dirs": [
-        "greek/uppercase"
+        "greek/uppercase/alpha-to-mu"
       ],
       "type": "text",
       "question_md": "Name this Greek letter (uppercase): **Β**",
@@ -74,7 +80,7 @@
     },
     {
       "dirs": [
-        "greek/multiple-choice"
+        "greek/multiple-choice/alpha-to-mu"
       ],
       "type": "mc",
       "question_md": "Which Greek letter is this: **β**?",
@@ -99,7 +105,7 @@
     },
     {
       "dirs": [
-        "greek/lowercase"
+        "greek/lowercase/alpha-to-mu"
       ],
       "type": "text",
       "question_md": "Name this Greek letter: **γ**",
@@ -109,7 +115,7 @@
     },
     {
       "dirs": [
-        "greek/uppercase"
+        "greek/uppercase/alpha-to-mu"
       ],
       "type": "text",
       "question_md": "Name this Greek letter (uppercase): **Γ**",
@@ -119,7 +125,7 @@
     },
     {
       "dirs": [
-        "greek/multiple-choice"
+        "greek/multiple-choice/alpha-to-mu"
       ],
       "type": "mc",
       "question_md": "Which Greek letter is this: **γ**?",
@@ -144,7 +150,7 @@
     },
     {
       "dirs": [
-        "greek/lowercase"
+        "greek/lowercase/alpha-to-mu"
       ],
       "type": "text",
       "question_md": "Name this Greek letter: **δ**",
@@ -154,7 +160,7 @@
     },
     {
       "dirs": [
-        "greek/uppercase"
+        "greek/uppercase/alpha-to-mu"
       ],
       "type": "text",
       "question_md": "Name this Greek letter (uppercase): **Δ**",
@@ -164,7 +170,7 @@
     },
     {
       "dirs": [
-        "greek/multiple-choice"
+        "greek/multiple-choice/alpha-to-mu"
       ],
       "type": "mc",
       "question_md": "Which Greek letter is this: **δ**?",
@@ -189,7 +195,7 @@
     },
     {
       "dirs": [
-        "greek/lowercase"
+        "greek/lowercase/alpha-to-mu"
       ],
       "type": "text",
       "question_md": "Name this Greek letter: **ε**",
@@ -199,7 +205,7 @@
     },
     {
       "dirs": [
-        "greek/uppercase"
+        "greek/uppercase/alpha-to-mu"
       ],
       "type": "text",
       "question_md": "Name this Greek letter (uppercase): **Ε**",
@@ -209,7 +215,7 @@
     },
     {
       "dirs": [
-        "greek/multiple-choice"
+        "greek/multiple-choice/alpha-to-mu"
       ],
       "type": "mc",
       "question_md": "Which Greek letter is this: **ε**?",
@@ -234,7 +240,7 @@
     },
     {
       "dirs": [
-        "greek/lowercase"
+        "greek/lowercase/alpha-to-mu"
       ],
       "type": "text",
       "question_md": "Name this Greek letter: **ζ**",
@@ -244,7 +250,7 @@
     },
     {
       "dirs": [
-        "greek/uppercase"
+        "greek/uppercase/alpha-to-mu"
       ],
       "type": "text",
       "question_md": "Name this Greek letter (uppercase): **Ζ**",
@@ -254,7 +260,7 @@
     },
     {
       "dirs": [
-        "greek/multiple-choice"
+        "greek/multiple-choice/alpha-to-mu"
       ],
       "type": "mc",
       "question_md": "Which Greek letter is this: **ζ**?",
@@ -279,7 +285,7 @@
     },
     {
       "dirs": [
-        "greek/lowercase"
+        "greek/lowercase/alpha-to-mu"
       ],
       "type": "text",
       "question_md": "Name this Greek letter: **η**",
@@ -289,7 +295,7 @@
     },
     {
       "dirs": [
-        "greek/uppercase"
+        "greek/uppercase/alpha-to-mu"
       ],
       "type": "text",
       "question_md": "Name this Greek letter (uppercase): **Η**",
@@ -299,7 +305,7 @@
     },
     {
       "dirs": [
-        "greek/multiple-choice"
+        "greek/multiple-choice/alpha-to-mu"
       ],
       "type": "mc",
       "question_md": "Which Greek letter is this: **η**?",
@@ -324,7 +330,7 @@
     },
     {
       "dirs": [
-        "greek/lowercase"
+        "greek/lowercase/alpha-to-mu"
       ],
       "type": "text",
       "question_md": "Name this Greek letter: **θ**",
@@ -334,7 +340,7 @@
     },
     {
       "dirs": [
-        "greek/uppercase"
+        "greek/uppercase/alpha-to-mu"
       ],
       "type": "text",
       "question_md": "Name this Greek letter (uppercase): **Θ**",
@@ -344,7 +350,7 @@
     },
     {
       "dirs": [
-        "greek/multiple-choice"
+        "greek/multiple-choice/alpha-to-mu"
       ],
       "type": "mc",
       "question_md": "Which Greek letter is this: **θ**?",
@@ -369,7 +375,7 @@
     },
     {
       "dirs": [
-        "greek/lowercase"
+        "greek/lowercase/alpha-to-mu"
       ],
       "type": "text",
       "question_md": "Name this Greek letter: **ι**",
@@ -380,7 +386,7 @@
     },
     {
       "dirs": [
-        "greek/uppercase"
+        "greek/uppercase/alpha-to-mu"
       ],
       "type": "text",
       "question_md": "Name this Greek letter (uppercase): **Ι**",
@@ -391,7 +397,7 @@
     },
     {
       "dirs": [
-        "greek/multiple-choice"
+        "greek/multiple-choice/alpha-to-mu"
       ],
       "type": "mc",
       "question_md": "Which Greek letter is this: **ι**?",
@@ -416,7 +422,7 @@
     },
     {
       "dirs": [
-        "greek/lowercase"
+        "greek/lowercase/alpha-to-mu"
       ],
       "type": "text",
       "question_md": "Name this Greek letter: **κ**",
@@ -426,7 +432,7 @@
     },
     {
       "dirs": [
-        "greek/uppercase"
+        "greek/uppercase/alpha-to-mu"
       ],
       "type": "text",
       "question_md": "Name this Greek letter (uppercase): **Κ**",
@@ -436,7 +442,7 @@
     },
     {
       "dirs": [
-        "greek/multiple-choice"
+        "greek/multiple-choice/alpha-to-mu"
       ],
       "type": "mc",
       "question_md": "Which Greek letter is this: **κ**?",
@@ -461,7 +467,7 @@
     },
     {
       "dirs": [
-        "greek/lowercase"
+        "greek/lowercase/alpha-to-mu"
       ],
       "type": "text",
       "question_md": "Name this Greek letter: **λ**",
@@ -472,7 +478,7 @@
     },
     {
       "dirs": [
-        "greek/uppercase"
+        "greek/uppercase/alpha-to-mu"
       ],
       "type": "text",
       "question_md": "Name this Greek letter (uppercase): **Λ**",
@@ -483,7 +489,7 @@
     },
     {
       "dirs": [
-        "greek/multiple-choice"
+        "greek/multiple-choice/alpha-to-mu"
       ],
       "type": "mc",
       "question_md": "Which Greek letter is this: **λ**?",
@@ -508,7 +514,7 @@
     },
     {
       "dirs": [
-        "greek/lowercase"
+        "greek/lowercase/alpha-to-mu"
       ],
       "type": "text",
       "question_md": "Name this Greek letter: **μ**",
@@ -519,7 +525,7 @@
     },
     {
       "dirs": [
-        "greek/uppercase"
+        "greek/uppercase/alpha-to-mu"
       ],
       "type": "text",
       "question_md": "Name this Greek letter (uppercase): **Μ**",
@@ -530,7 +536,7 @@
     },
     {
       "dirs": [
-        "greek/multiple-choice"
+        "greek/multiple-choice/alpha-to-mu"
       ],
       "type": "mc",
       "question_md": "Which Greek letter is this: **μ**?",
@@ -555,7 +561,7 @@
     },
     {
       "dirs": [
-        "greek/lowercase"
+        "greek/lowercase/nu-to-omega"
       ],
       "type": "text",
       "question_md": "Name this Greek letter: **ν**",
@@ -566,7 +572,7 @@
     },
     {
       "dirs": [
-        "greek/uppercase"
+        "greek/uppercase/nu-to-omega"
       ],
       "type": "text",
       "question_md": "Name this Greek letter (uppercase): **Ν**",
@@ -577,7 +583,7 @@
     },
     {
       "dirs": [
-        "greek/multiple-choice"
+        "greek/multiple-choice/nu-to-omega"
       ],
       "type": "mc",
       "question_md": "Which Greek letter is this: **ν**?",
@@ -602,7 +608,7 @@
     },
     {
       "dirs": [
-        "greek/lowercase"
+        "greek/lowercase/nu-to-omega"
       ],
       "type": "text",
       "question_md": "Name this Greek letter: **ξ**",
@@ -612,7 +618,7 @@
     },
     {
       "dirs": [
-        "greek/uppercase"
+        "greek/uppercase/nu-to-omega"
       ],
       "type": "text",
       "question_md": "Name this Greek letter (uppercase): **Ξ**",
@@ -622,7 +628,7 @@
     },
     {
       "dirs": [
-        "greek/multiple-choice"
+        "greek/multiple-choice/nu-to-omega"
       ],
       "type": "mc",
       "question_md": "Which Greek letter is this: **ξ**?",
@@ -647,7 +653,7 @@
     },
     {
       "dirs": [
-        "greek/lowercase"
+        "greek/lowercase/nu-to-omega"
       ],
       "type": "text",
       "question_md": "Name this Greek letter: **ο**",
@@ -658,7 +664,7 @@
     },
     {
       "dirs": [
-        "greek/uppercase"
+        "greek/uppercase/nu-to-omega"
       ],
       "type": "text",
       "question_md": "Name this Greek letter (uppercase): **Ο**",
@@ -669,7 +675,7 @@
     },
     {
       "dirs": [
-        "greek/multiple-choice"
+        "greek/multiple-choice/nu-to-omega"
       ],
       "type": "mc",
       "question_md": "Which Greek letter is this: **ο**?",
@@ -694,7 +700,7 @@
     },
     {
       "dirs": [
-        "greek/lowercase"
+        "greek/lowercase/nu-to-omega"
       ],
       "type": "text",
       "question_md": "Name this Greek letter: **π**",
@@ -704,7 +710,7 @@
     },
     {
       "dirs": [
-        "greek/uppercase"
+        "greek/uppercase/nu-to-omega"
       ],
       "type": "text",
       "question_md": "Name this Greek letter (uppercase): **Π**",
@@ -714,7 +720,7 @@
     },
     {
       "dirs": [
-        "greek/multiple-choice"
+        "greek/multiple-choice/nu-to-omega"
       ],
       "type": "mc",
       "question_md": "Which Greek letter is this: **π**?",
@@ -739,7 +745,7 @@
     },
     {
       "dirs": [
-        "greek/lowercase"
+        "greek/lowercase/nu-to-omega"
       ],
       "type": "text",
       "question_md": "Name this Greek letter: **ρ**",
@@ -749,7 +755,7 @@
     },
     {
       "dirs": [
-        "greek/uppercase"
+        "greek/uppercase/nu-to-omega"
       ],
       "type": "text",
       "question_md": "Name this Greek letter (uppercase): **Ρ**",
@@ -759,7 +765,7 @@
     },
     {
       "dirs": [
-        "greek/multiple-choice"
+        "greek/multiple-choice/nu-to-omega"
       ],
       "type": "mc",
       "question_md": "Which Greek letter is this: **ρ**?",
@@ -784,7 +790,7 @@
     },
     {
       "dirs": [
-        "greek/lowercase"
+        "greek/lowercase/nu-to-omega"
       ],
       "type": "text",
       "question_md": "Name this Greek letter: **σ / ς**",
@@ -794,7 +800,7 @@
     },
     {
       "dirs": [
-        "greek/uppercase"
+        "greek/uppercase/nu-to-omega"
       ],
       "type": "text",
       "question_md": "Name this Greek letter (uppercase): **Σ**",
@@ -804,7 +810,7 @@
     },
     {
       "dirs": [
-        "greek/multiple-choice"
+        "greek/multiple-choice/nu-to-omega"
       ],
       "type": "mc",
       "question_md": "Which Greek letter is this: **σ / ς**?",
@@ -829,7 +835,7 @@
     },
     {
       "dirs": [
-        "greek/lowercase"
+        "greek/lowercase/nu-to-omega"
       ],
       "type": "text",
       "question_md": "Name this Greek letter: **τ**",
@@ -839,7 +845,7 @@
     },
     {
       "dirs": [
-        "greek/uppercase"
+        "greek/uppercase/nu-to-omega"
       ],
       "type": "text",
       "question_md": "Name this Greek letter (uppercase): **Τ**",
@@ -849,7 +855,7 @@
     },
     {
       "dirs": [
-        "greek/multiple-choice"
+        "greek/multiple-choice/nu-to-omega"
       ],
       "type": "mc",
       "question_md": "Which Greek letter is this: **τ**?",
@@ -874,7 +880,7 @@
     },
     {
       "dirs": [
-        "greek/lowercase"
+        "greek/lowercase/nu-to-omega"
       ],
       "type": "text",
       "question_md": "Name this Greek letter: **υ**",
@@ -885,7 +891,7 @@
     },
     {
       "dirs": [
-        "greek/uppercase"
+        "greek/uppercase/nu-to-omega"
       ],
       "type": "text",
       "question_md": "Name this Greek letter (uppercase): **Υ**",
@@ -896,7 +902,7 @@
     },
     {
       "dirs": [
-        "greek/multiple-choice"
+        "greek/multiple-choice/nu-to-omega"
       ],
       "type": "mc",
       "question_md": "Which Greek letter is this: **υ**?",
@@ -921,7 +927,7 @@
     },
     {
       "dirs": [
-        "greek/lowercase"
+        "greek/lowercase/nu-to-omega"
       ],
       "type": "text",
       "question_md": "Name this Greek letter: **φ**",
@@ -931,7 +937,7 @@
     },
     {
       "dirs": [
-        "greek/uppercase"
+        "greek/uppercase/nu-to-omega"
       ],
       "type": "text",
       "question_md": "Name this Greek letter (uppercase): **Φ**",
@@ -941,7 +947,7 @@
     },
     {
       "dirs": [
-        "greek/multiple-choice"
+        "greek/multiple-choice/nu-to-omega"
       ],
       "type": "mc",
       "question_md": "Which Greek letter is this: **φ**?",
@@ -966,7 +972,7 @@
     },
     {
       "dirs": [
-        "greek/lowercase"
+        "greek/lowercase/nu-to-omega"
       ],
       "type": "text",
       "question_md": "Name this Greek letter: **χ**",
@@ -976,7 +982,7 @@
     },
     {
       "dirs": [
-        "greek/uppercase"
+        "greek/uppercase/nu-to-omega"
       ],
       "type": "text",
       "question_md": "Name this Greek letter (uppercase): **Χ**",
@@ -986,7 +992,7 @@
     },
     {
       "dirs": [
-        "greek/multiple-choice"
+        "greek/multiple-choice/nu-to-omega"
       ],
       "type": "mc",
       "question_md": "Which Greek letter is this: **χ**?",
@@ -1011,7 +1017,7 @@
     },
     {
       "dirs": [
-        "greek/lowercase"
+        "greek/lowercase/nu-to-omega"
       ],
       "type": "text",
       "question_md": "Name this Greek letter: **ψ**",
@@ -1021,7 +1027,7 @@
     },
     {
       "dirs": [
-        "greek/uppercase"
+        "greek/uppercase/nu-to-omega"
       ],
       "type": "text",
       "question_md": "Name this Greek letter (uppercase): **Ψ**",
@@ -1031,7 +1037,7 @@
     },
     {
       "dirs": [
-        "greek/multiple-choice"
+        "greek/multiple-choice/nu-to-omega"
       ],
       "type": "mc",
       "question_md": "Which Greek letter is this: **ψ**?",
@@ -1056,7 +1062,7 @@
     },
     {
       "dirs": [
-        "greek/lowercase"
+        "greek/lowercase/nu-to-omega"
       ],
       "type": "text",
       "question_md": "Name this Greek letter: **ω**",
@@ -1066,7 +1072,7 @@
     },
     {
       "dirs": [
-        "greek/uppercase"
+        "greek/uppercase/nu-to-omega"
       ],
       "type": "text",
       "question_md": "Name this Greek letter (uppercase): **Ω**",
@@ -1076,7 +1082,7 @@
     },
     {
       "dirs": [
-        "greek/multiple-choice"
+        "greek/multiple-choice/nu-to-omega"
       ],
       "type": "mc",
       "question_md": "Which Greek letter is this: **ω**?",

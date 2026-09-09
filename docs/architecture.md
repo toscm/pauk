@@ -73,6 +73,11 @@
   was_correct. Append-only log a spaced-repetition scheduler
   can be built on.
 
+- `quiz_runs`: user_id, dir_id (nullable; a deleted dir
+  keeps its runs with NULL), total, correct, started_at,
+  finished_at. Started runs drive the picker's popularity
+  sorting, finished runs the per-directory top-3 ranking.
+
 ### Directory semantics
 
 Directories form a DAG, not a tree:

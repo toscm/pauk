@@ -24,18 +24,28 @@ def import_file(client: Client, path: Path, echo=print) -> tuple[int, int]:
             if e.code != "conflict":
                 raise
 
-    existing = {card["question_md"] for card in client.iter_cards()}
-    created = skipped = 0
+    existing = {card["question_md"]: card for card in client.iter_cards()}
+    created = skipped = linked = 0
     for card in data.get("cards", []):
-        if card["question_md"] in existing:
+        target_ids = [dir_ids[p] for p in card.get("dirs", [])]
+        present = existing.get(card["question_md"])
+        if present is not None:
             skipped += 1
+            # keep directory links up to date for existing cards
+            have = {d["id"] for d in present["dirs"]}
+            for dir_id in target_ids:
+                if dir_id not in have:
+                    client.link_card(dir_id, present["id"])
+                    linked += 1
             continue
         body = {k: v for k, v in card.items() if k != "dirs"}
-        body["dirs"] = [dir_ids[p] for p in card.get("dirs", [])]
+        body["dirs"] = target_ids
         client.create_card(body)
-        existing.add(card["question_md"])
+        existing[card["question_md"]] = {"id": None, "dirs": [
+            {"id": i} for i in target_ids
+        ]}
         created += 1
-    echo(f"imported {created} cards, skipped {skipped} existing")
+    echo(f"imported {created} cards, skipped {skipped} existing, added {linked} links")
     return created, skipped
 
 

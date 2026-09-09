@@ -107,3 +107,22 @@ class Client:
 
     def answer(self, card_id: int, payload: dict) -> dict:
         return self._call("POST", f"/cards/{card_id}/answer", json=payload)
+
+    def quiz_dirs(self) -> list[dict]:
+        return self._call("GET", "/quiz/dirs")["items"]
+
+    def start_run(self, dir_id: int | None, total: int) -> int:
+        return self._call("POST", "/quiz/runs", json={"dir_id": dir_id, "total": total})["id"]
+
+    def finish_run(self, run_id: int, correct: int, total: int) -> dict:
+        return self._call(
+            "PATCH", f"/quiz/runs/{run_id}", json={"correct": correct, "total": total}
+        )
+
+    def stats(self, dir_id: int | None = None, recursive: bool = True) -> dict:
+        params: dict[str, Any] = {}
+        if dir_id is not None:
+            params["dir"] = dir_id
+            if recursive:
+                params["recursive"] = "1"
+        return self._call("GET", "/stats", params=params)

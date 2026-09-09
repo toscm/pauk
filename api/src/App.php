@@ -108,6 +108,44 @@ final class App
                 return Http::json($response, ['items' => $items]);
             });
 
+            // --- quiz picker, runs, stats --------------------------------
+            $group->get('/quiz/dirs', function (Request $request, Response $response) use ($repos) {
+                [$pdo, $userId, $dirs] = $repos($request);
+                $runs = new \Pauk\Repo\QuizRuns($pdo);
+                return Http::json($response, ['items' => $runs->pickerDirs($userId, $dirs)]);
+            });
+
+            $group->post('/quiz/runs', function (Request $request, Response $response) use ($repos) {
+                [$pdo, $userId] = $repos($request);
+                $body = Http::body($request);
+                $dirId = $body['dir_id'] ?? null;
+                $total = $body['total'] ?? null;
+                if (($dirId !== null && !is_int($dirId)) || !is_int($total) || $total < 0) {
+                    throw new ApiError(400, 'validation', 'dir_id must be int|null, total a non-negative int');
+                }
+                $runs = new \Pauk\Repo\QuizRuns($pdo);
+                return Http::json($response, ['id' => $runs->start($userId, $dirId, $total)], 201);
+            });
+
+            $group->patch('/quiz/runs/{id:[0-9]+}', function (Request $request, Response $response, array $args) use ($repos) {
+                [$pdo, $userId] = $repos($request);
+                $body = Http::body($request);
+                $correct = $body['correct'] ?? null;
+                $total = $body['total'] ?? null;
+                if (!is_int($correct) || !is_int($total)) {
+                    throw new ApiError(400, 'validation', 'correct and total must be integers');
+                }
+                $runs = new \Pauk\Repo\QuizRuns($pdo);
+                return Http::json($response, $runs->finish($userId, (int) $args['id'], $correct, $total));
+            });
+
+            $group->get('/stats', function (Request $request, Response $response) use ($repos) {
+                [$pdo, $userId, , $cards] = $repos($request);
+                $candidates = $cards->candidateIds($userId, self::cardFilters($request));
+                $stats = new \Pauk\Repo\Stats($pdo);
+                return Http::json($response, $stats->forCards($userId, $candidates));
+            });
+
             // --- dirs ----------------------------------------------------
             $group->get('/dirs', function (Request $request, Response $response) use ($repos) {
                 [, $userId, $dirs] = $repos($request);

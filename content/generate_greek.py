@@ -57,22 +57,30 @@ CONFUSABLE = {
 def main() -> None:
     rng = random.Random(2026)
     names = [name for _, _, name, _ in LETTERS]
+    # two halves per style, so quizzes stay small (~12 cards)
     dirs = [
         "greek",
         "greek/lowercase",
+        "greek/lowercase/alpha-to-mu",
+        "greek/lowercase/nu-to-omega",
         "greek/uppercase",
+        "greek/uppercase/alpha-to-mu",
+        "greek/uppercase/nu-to-omega",
         "greek/multiple-choice",
+        "greek/multiple-choice/alpha-to-mu",
+        "greek/multiple-choice/nu-to-omega",
     ]
     cards = []
-    for lower, upper, name, variants in LETTERS:
+    for position, (lower, upper, name, variants) in enumerate(LETTERS):
+        half = "alpha-to-mu" if position < 12 else "nu-to-omega"
         cards.append({
-            "dirs": ["greek/lowercase"],
+            "dirs": [f"greek/lowercase/{half}"],
             "type": "text",
             "question_md": f"Name this Greek letter: **{lower}**",
             "accepted_answers": [name, *variants],
         })
         cards.append({
-            "dirs": ["greek/uppercase"],
+            "dirs": [f"greek/uppercase/{half}"],
             "type": "text",
             "question_md": f"Name this Greek letter (uppercase): **{upper}**",
             "accepted_answers": [name, *variants],
@@ -87,7 +95,7 @@ def main() -> None:
         ]
         rng.shuffle(options)
         cards.append({
-            "dirs": ["greek/multiple-choice"],
+            "dirs": [f"greek/multiple-choice/{half}"],
             "type": "mc",
             "question_md": f"Which Greek letter is this: **{lower}**?",
             "options": options,

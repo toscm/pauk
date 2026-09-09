@@ -11,7 +11,31 @@
     "italian/adjectives",
     "italian/numbers",
     "italian/phrases",
-    "italian/grammar"
+    "italian/grammar",
+    "italian/verbs/core-verbs/part-1",
+    "italian/verbs/core-verbs/part-2",
+    "italian/verbs/common-verbs/part-1",
+    "italian/verbs/common-verbs/part-2",
+    "italian/verbs/common-verbs/part-3",
+    "italian/nouns/core-nouns/part-1",
+    "italian/nouns/core-nouns/part-2",
+    "italian/nouns/core-nouns/part-3",
+    "italian/nouns/common-nouns/part-1",
+    "italian/nouns/common-nouns/part-2",
+    "italian/nouns/common-nouns/part-3",
+    "italian/adjectives/part-1",
+    "italian/adjectives/part-2",
+    "italian/adjectives/part-3",
+    "italian/numbers/zero-to-ten",
+    "italian/numbers/eleven-to-twenty",
+    "italian/numbers/tens",
+    "italian/phrases/greetings",
+    "italian/phrases/courtesy",
+    "italian/phrases/survival",
+    "italian/grammar/articles",
+    "italian/grammar/conjugation",
+    "italian/grammar/nouns-and-plurals",
+    "italian/grammar/prepositions"
   ],
   "dir_links": [
     {
@@ -42,7 +66,7 @@
   "cards": [
     {
       "dirs": [
-        "italian/verbs/core-verbs"
+        "italian/verbs/core-verbs/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to be**",
@@ -52,7 +76,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/core-verbs"
+        "italian/verbs/core-verbs/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to have**",
@@ -62,7 +86,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/core-verbs"
+        "italian/verbs/core-verbs/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to do / to make**",
@@ -72,7 +96,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/core-verbs"
+        "italian/verbs/core-verbs/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to go**",
@@ -82,7 +106,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/core-verbs"
+        "italian/verbs/core-verbs/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to come**",
@@ -92,7 +116,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/core-verbs"
+        "italian/verbs/core-verbs/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to say**",
@@ -102,7 +126,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/core-verbs"
+        "italian/verbs/core-verbs/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to be able to (can)**",
@@ -112,7 +136,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/core-verbs"
+        "italian/verbs/core-verbs/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to want**",
@@ -122,7 +146,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/core-verbs"
+        "italian/verbs/core-verbs/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to have to (must)**",
@@ -132,7 +156,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/core-verbs"
+        "italian/verbs/core-verbs/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to know (a fact)**",
@@ -142,7 +166,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/core-verbs"
+        "italian/verbs/core-verbs/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to see**",
@@ -152,7 +176,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/core-verbs"
+        "italian/verbs/core-verbs/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to give**",
@@ -162,7 +186,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/core-verbs"
+        "italian/verbs/core-verbs/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to stay**",
@@ -174,7 +198,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/core-verbs"
+        "italian/verbs/core-verbs/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to speak**",
@@ -184,7 +208,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/core-verbs"
+        "italian/verbs/core-verbs/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to eat**",
@@ -194,7 +218,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/core-verbs"
+        "italian/verbs/core-verbs/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to drink**",
@@ -204,7 +228,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/core-verbs"
+        "italian/verbs/core-verbs/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to take**",
@@ -214,7 +238,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/core-verbs"
+        "italian/verbs/core-verbs/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to put**",
@@ -224,7 +248,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/core-verbs"
+        "italian/verbs/core-verbs/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to go out**",
@@ -234,7 +258,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/core-verbs"
+        "italian/verbs/core-verbs/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to sleep**",
@@ -244,7 +268,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to work**",
@@ -254,7 +278,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to study**",
@@ -264,7 +288,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to live (reside)**",
@@ -275,7 +299,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to love**",
@@ -285,7 +309,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to help**",
@@ -295,7 +319,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to open**",
@@ -305,7 +329,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to close**",
@@ -315,7 +339,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to arrive**",
@@ -325,7 +349,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to leave (depart)**",
@@ -335,7 +359,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to listen**",
@@ -345,7 +369,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to wait**",
@@ -356,7 +380,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to dance**",
@@ -366,7 +390,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to sing**",
@@ -376,7 +400,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to understand**",
@@ -387,7 +411,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to look for**",
@@ -397,7 +421,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to call**",
@@ -408,7 +432,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to buy**",
@@ -419,7 +443,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to know (a person)**",
@@ -429,7 +453,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to run**",
@@ -439,7 +463,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to cook**",
@@ -449,7 +473,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to play (a game)**",
@@ -459,7 +483,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to watch**",
@@ -469,7 +493,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to learn**",
@@ -479,7 +503,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to read**",
@@ -489,7 +513,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to pay**",
@@ -499,7 +523,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to think**",
@@ -509,7 +533,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to write**",
@@ -519,7 +543,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to hear**",
@@ -529,7 +553,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to find**",
@@ -539,7 +563,7 @@
     },
     {
       "dirs": [
-        "italian/verbs/common-verbs"
+        "italian/verbs/common-verbs/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **to travel**",
@@ -549,7 +573,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the house**",
@@ -560,7 +584,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the man**",
@@ -571,7 +595,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the woman**",
@@ -582,7 +606,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the child**",
@@ -595,7 +619,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the water**",
@@ -606,7 +630,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the bread**",
@@ -617,7 +641,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the book**",
@@ -628,7 +652,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the day**",
@@ -639,7 +663,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the night**",
@@ -650,7 +674,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the year**",
@@ -661,7 +685,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the city**",
@@ -672,7 +696,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the street**",
@@ -685,7 +709,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the car**",
@@ -700,7 +724,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the train**",
@@ -711,7 +735,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the school**",
@@ -722,7 +746,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the work (job)**",
@@ -733,7 +757,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the family**",
@@ -744,7 +768,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the friend (male)**",
@@ -755,7 +779,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the mother**",
@@ -768,7 +792,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the father**",
@@ -781,7 +805,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the brother**",
@@ -792,7 +816,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the sister**",
@@ -803,7 +827,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the dog**",
@@ -814,7 +838,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the cat**",
@@ -825,7 +849,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the food**",
@@ -836,7 +860,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the milk**",
@@ -847,7 +871,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the coffee**",
@@ -858,7 +882,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the wine**",
@@ -869,7 +893,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the door**",
@@ -880,7 +904,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/core-nouns"
+        "italian/nouns/core-nouns/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the name**",
@@ -891,7 +915,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the window**",
@@ -902,7 +926,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the table**",
@@ -915,7 +939,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the chair**",
@@ -926,7 +950,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the bed**",
@@ -937,7 +961,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the kitchen**",
@@ -948,7 +972,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the bathroom**",
@@ -959,7 +983,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the bedroom**",
@@ -972,7 +996,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the key**",
@@ -983,7 +1007,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the telephone**",
@@ -994,7 +1018,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the money**",
@@ -1007,7 +1031,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the shop**",
@@ -1018,7 +1042,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the market**",
@@ -1029,7 +1053,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the restaurant**",
@@ -1040,7 +1064,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the hotel**",
@@ -1053,7 +1077,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the beach**",
@@ -1064,7 +1088,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the sea**",
@@ -1075,7 +1099,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the mountain**",
@@ -1086,7 +1110,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the sun**",
@@ -1097,7 +1121,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the moon**",
@@ -1108,7 +1132,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the rain**",
@@ -1119,7 +1143,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the flower**",
@@ -1130,7 +1154,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the tree**",
@@ -1141,7 +1165,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the fruit**",
@@ -1152,7 +1176,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the meat**",
@@ -1163,7 +1187,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the fish**",
@@ -1174,7 +1198,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the cheese**",
@@ -1185,7 +1209,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the egg**",
@@ -1196,7 +1220,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the apple**",
@@ -1207,7 +1231,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the tomato**",
@@ -1218,7 +1242,7 @@
     },
     {
       "dirs": [
-        "italian/nouns/common-nouns"
+        "italian/nouns/common-nouns/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the sugar**",
@@ -1229,7 +1253,7 @@
     },
     {
       "dirs": [
-        "italian/adjectives"
+        "italian/adjectives/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **beautiful**",
@@ -1239,7 +1263,7 @@
     },
     {
       "dirs": [
-        "italian/adjectives"
+        "italian/adjectives/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **good**",
@@ -1250,7 +1274,7 @@
     },
     {
       "dirs": [
-        "italian/adjectives"
+        "italian/adjectives/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **big**",
@@ -1261,7 +1285,7 @@
     },
     {
       "dirs": [
-        "italian/adjectives"
+        "italian/adjectives/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **small**",
@@ -1271,7 +1295,7 @@
     },
     {
       "dirs": [
-        "italian/adjectives"
+        "italian/adjectives/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **new**",
@@ -1281,7 +1305,7 @@
     },
     {
       "dirs": [
-        "italian/adjectives"
+        "italian/adjectives/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **old**",
@@ -1291,7 +1315,7 @@
     },
     {
       "dirs": [
-        "italian/adjectives"
+        "italian/adjectives/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **young**",
@@ -1301,7 +1325,7 @@
     },
     {
       "dirs": [
-        "italian/adjectives"
+        "italian/adjectives/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **tall**",
@@ -1311,7 +1335,7 @@
     },
     {
       "dirs": [
-        "italian/adjectives"
+        "italian/adjectives/part-1"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **short (in height)**",
@@ -1321,7 +1345,7 @@
     },
     {
       "dirs": [
-        "italian/adjectives"
+        "italian/adjectives/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **long**",
@@ -1331,7 +1355,7 @@
     },
     {
       "dirs": [
-        "italian/adjectives"
+        "italian/adjectives/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **short (in length)**",
@@ -1342,7 +1366,7 @@
     },
     {
       "dirs": [
-        "italian/adjectives"
+        "italian/adjectives/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **hot**",
@@ -1352,7 +1376,7 @@
     },
     {
       "dirs": [
-        "italian/adjectives"
+        "italian/adjectives/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **cold**",
@@ -1362,7 +1386,7 @@
     },
     {
       "dirs": [
-        "italian/adjectives"
+        "italian/adjectives/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **happy**",
@@ -1373,7 +1397,7 @@
     },
     {
       "dirs": [
-        "italian/adjectives"
+        "italian/adjectives/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **sad**",
@@ -1383,7 +1407,7 @@
     },
     {
       "dirs": [
-        "italian/adjectives"
+        "italian/adjectives/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **easy**",
@@ -1394,7 +1418,7 @@
     },
     {
       "dirs": [
-        "italian/adjectives"
+        "italian/adjectives/part-2"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **difficult**",
@@ -1404,7 +1428,7 @@
     },
     {
       "dirs": [
-        "italian/adjectives"
+        "italian/adjectives/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **fast**",
@@ -1415,7 +1439,7 @@
     },
     {
       "dirs": [
-        "italian/adjectives"
+        "italian/adjectives/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **slow**",
@@ -1425,7 +1449,7 @@
     },
     {
       "dirs": [
-        "italian/adjectives"
+        "italian/adjectives/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **rich**",
@@ -1435,7 +1459,7 @@
     },
     {
       "dirs": [
-        "italian/adjectives"
+        "italian/adjectives/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **poor**",
@@ -1445,7 +1469,7 @@
     },
     {
       "dirs": [
-        "italian/adjectives"
+        "italian/adjectives/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **strong**",
@@ -1455,7 +1479,7 @@
     },
     {
       "dirs": [
-        "italian/adjectives"
+        "italian/adjectives/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **clean**",
@@ -1465,7 +1489,7 @@
     },
     {
       "dirs": [
-        "italian/adjectives"
+        "italian/adjectives/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **dirty**",
@@ -1475,7 +1499,7 @@
     },
     {
       "dirs": [
-        "italian/adjectives"
+        "italian/adjectives/part-3"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **important**",
@@ -1485,7 +1509,7 @@
     },
     {
       "dirs": [
-        "italian/numbers"
+        "italian/numbers/zero-to-ten"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **zero**",
@@ -1495,7 +1519,7 @@
     },
     {
       "dirs": [
-        "italian/numbers"
+        "italian/numbers/zero-to-ten"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **one**",
@@ -1505,7 +1529,7 @@
     },
     {
       "dirs": [
-        "italian/numbers"
+        "italian/numbers/zero-to-ten"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **two**",
@@ -1515,7 +1539,7 @@
     },
     {
       "dirs": [
-        "italian/numbers"
+        "italian/numbers/zero-to-ten"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **three**",
@@ -1525,7 +1549,7 @@
     },
     {
       "dirs": [
-        "italian/numbers"
+        "italian/numbers/zero-to-ten"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **four**",
@@ -1535,7 +1559,7 @@
     },
     {
       "dirs": [
-        "italian/numbers"
+        "italian/numbers/zero-to-ten"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **five**",
@@ -1545,7 +1569,7 @@
     },
     {
       "dirs": [
-        "italian/numbers"
+        "italian/numbers/zero-to-ten"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **six**",
@@ -1555,7 +1579,7 @@
     },
     {
       "dirs": [
-        "italian/numbers"
+        "italian/numbers/zero-to-ten"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **seven**",
@@ -1565,7 +1589,7 @@
     },
     {
       "dirs": [
-        "italian/numbers"
+        "italian/numbers/zero-to-ten"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **eight**",
@@ -1575,7 +1599,7 @@
     },
     {
       "dirs": [
-        "italian/numbers"
+        "italian/numbers/zero-to-ten"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **nine**",
@@ -1585,7 +1609,7 @@
     },
     {
       "dirs": [
-        "italian/numbers"
+        "italian/numbers/zero-to-ten"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **ten**",
@@ -1595,7 +1619,7 @@
     },
     {
       "dirs": [
-        "italian/numbers"
+        "italian/numbers/eleven-to-twenty"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **eleven**",
@@ -1605,7 +1629,7 @@
     },
     {
       "dirs": [
-        "italian/numbers"
+        "italian/numbers/eleven-to-twenty"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **twelve**",
@@ -1615,7 +1639,7 @@
     },
     {
       "dirs": [
-        "italian/numbers"
+        "italian/numbers/eleven-to-twenty"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **thirteen**",
@@ -1625,7 +1649,7 @@
     },
     {
       "dirs": [
-        "italian/numbers"
+        "italian/numbers/eleven-to-twenty"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **fourteen**",
@@ -1635,7 +1659,7 @@
     },
     {
       "dirs": [
-        "italian/numbers"
+        "italian/numbers/eleven-to-twenty"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **fifteen**",
@@ -1645,7 +1669,7 @@
     },
     {
       "dirs": [
-        "italian/numbers"
+        "italian/numbers/eleven-to-twenty"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **sixteen**",
@@ -1655,7 +1679,7 @@
     },
     {
       "dirs": [
-        "italian/numbers"
+        "italian/numbers/eleven-to-twenty"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **seventeen**",
@@ -1665,7 +1689,7 @@
     },
     {
       "dirs": [
-        "italian/numbers"
+        "italian/numbers/eleven-to-twenty"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **eighteen**",
@@ -1675,7 +1699,7 @@
     },
     {
       "dirs": [
-        "italian/numbers"
+        "italian/numbers/eleven-to-twenty"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **nineteen**",
@@ -1685,7 +1709,7 @@
     },
     {
       "dirs": [
-        "italian/numbers"
+        "italian/numbers/eleven-to-twenty"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **twenty**",
@@ -1695,7 +1719,7 @@
     },
     {
       "dirs": [
-        "italian/numbers"
+        "italian/numbers/tens"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **thirty**",
@@ -1705,7 +1729,7 @@
     },
     {
       "dirs": [
-        "italian/numbers"
+        "italian/numbers/tens"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **forty**",
@@ -1715,7 +1739,7 @@
     },
     {
       "dirs": [
-        "italian/numbers"
+        "italian/numbers/tens"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **fifty**",
@@ -1725,7 +1749,7 @@
     },
     {
       "dirs": [
-        "italian/numbers"
+        "italian/numbers/tens"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **sixty**",
@@ -1735,7 +1759,7 @@
     },
     {
       "dirs": [
-        "italian/numbers"
+        "italian/numbers/tens"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **seventy**",
@@ -1745,7 +1769,7 @@
     },
     {
       "dirs": [
-        "italian/numbers"
+        "italian/numbers/tens"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **eighty**",
@@ -1755,7 +1779,7 @@
     },
     {
       "dirs": [
-        "italian/numbers"
+        "italian/numbers/tens"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **ninety**",
@@ -1765,7 +1789,7 @@
     },
     {
       "dirs": [
-        "italian/numbers"
+        "italian/numbers/tens"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **one hundred**",
@@ -1775,7 +1799,7 @@
     },
     {
       "dirs": [
-        "italian/phrases"
+        "italian/phrases/greetings"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **good morning**",
@@ -1786,7 +1810,7 @@
     },
     {
       "dirs": [
-        "italian/phrases"
+        "italian/phrases/greetings"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **good evening**",
@@ -1797,7 +1821,7 @@
     },
     {
       "dirs": [
-        "italian/phrases"
+        "italian/phrases/greetings"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **good night**",
@@ -1808,7 +1832,7 @@
     },
     {
       "dirs": [
-        "italian/phrases"
+        "italian/phrases/greetings"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **hello**",
@@ -1819,7 +1843,7 @@
     },
     {
       "dirs": [
-        "italian/phrases"
+        "italian/phrases/greetings"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **goodbye**",
@@ -1831,7 +1855,7 @@
     },
     {
       "dirs": [
-        "italian/phrases"
+        "italian/phrases/courtesy"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **thank you**",
@@ -1842,7 +1866,7 @@
     },
     {
       "dirs": [
-        "italian/phrases"
+        "italian/phrases/courtesy"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **you're welcome**",
@@ -1854,7 +1878,7 @@
     },
     {
       "dirs": [
-        "italian/phrases"
+        "italian/phrases/courtesy"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **please**",
@@ -1866,7 +1890,7 @@
     },
     {
       "dirs": [
-        "italian/phrases"
+        "italian/phrases/courtesy"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **excuse me**",
@@ -1879,7 +1903,7 @@
     },
     {
       "dirs": [
-        "italian/phrases"
+        "italian/phrases/courtesy"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **I'm sorry**",
@@ -1890,7 +1914,7 @@
     },
     {
       "dirs": [
-        "italian/phrases"
+        "italian/phrases/greetings"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **How are you?**",
@@ -1905,7 +1929,7 @@
     },
     {
       "dirs": [
-        "italian/phrases"
+        "italian/phrases/greetings"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **My name is Marco.**",
@@ -1917,7 +1941,7 @@
     },
     {
       "dirs": [
-        "italian/phrases"
+        "italian/phrases/survival"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **I don't understand.**",
@@ -1928,7 +1952,7 @@
     },
     {
       "dirs": [
-        "italian/phrases"
+        "italian/phrases/survival"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **How much does it cost?**",
@@ -1941,7 +1965,7 @@
     },
     {
       "dirs": [
-        "italian/phrases"
+        "italian/phrases/survival"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **Where is the bathroom?**",
@@ -1954,7 +1978,7 @@
     },
     {
       "dirs": [
-        "italian/phrases"
+        "italian/phrases/survival"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **yes**",
@@ -1965,7 +1989,7 @@
     },
     {
       "dirs": [
-        "italian/phrases"
+        "italian/phrases/survival"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **I would like ... (polite)**",
@@ -1975,7 +1999,7 @@
     },
     {
       "dirs": [
-        "italian/phrases"
+        "italian/phrases/survival"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **Do you speak English?**",
@@ -1988,7 +2012,7 @@
     },
     {
       "dirs": [
-        "italian/phrases"
+        "italian/phrases/survival"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **I don't speak Italian.**",
@@ -1998,7 +2022,7 @@
     },
     {
       "dirs": [
-        "italian/phrases"
+        "italian/phrases/survival"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **Can you help me?**",
@@ -2015,7 +2039,7 @@
     },
     {
       "dirs": [
-        "italian/phrases"
+        "italian/phrases/greetings"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **see you later**",
@@ -2028,7 +2052,7 @@
     },
     {
       "dirs": [
-        "italian/phrases"
+        "italian/phrases/greetings"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **see you tomorrow**",
@@ -2039,7 +2063,7 @@
     },
     {
       "dirs": [
-        "italian/phrases"
+        "italian/phrases/courtesy"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **nice to meet you**",
@@ -2052,7 +2076,7 @@
     },
     {
       "dirs": [
-        "italian/phrases"
+        "italian/phrases/survival"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **What time is it?**",
@@ -2065,7 +2089,7 @@
     },
     {
       "dirs": [
-        "italian/phrases"
+        "italian/phrases/survival"
       ],
       "type": "text",
       "question_md": "Translate to Italian: **the bill, please**",
@@ -2076,7 +2100,7 @@
     },
     {
       "dirs": [
-        "italian/grammar"
+        "italian/grammar/articles"
       ],
       "type": "mc",
       "question_md": "Which definite article is correct? ___ **zaino** (backpack)",
@@ -2101,7 +2125,7 @@
     },
     {
       "dirs": [
-        "italian/grammar"
+        "italian/grammar/articles"
       ],
       "type": "mc",
       "question_md": "Which definite article is correct? ___ **amica** (female friend)",
@@ -2126,7 +2150,7 @@
     },
     {
       "dirs": [
-        "italian/grammar"
+        "italian/grammar/articles"
       ],
       "type": "mc",
       "question_md": "Which definite article is correct? ___ **libri** (books)",
@@ -2151,7 +2175,7 @@
     },
     {
       "dirs": [
-        "italian/grammar"
+        "italian/grammar/articles"
       ],
       "type": "mc",
       "question_md": "Which definite article is correct? ___ **studenti** (students)",
@@ -2176,7 +2200,7 @@
     },
     {
       "dirs": [
-        "italian/grammar"
+        "italian/grammar/articles"
       ],
       "type": "mc",
       "question_md": "Which definite article is correct? ___ **case** (houses)",
@@ -2201,7 +2225,7 @@
     },
     {
       "dirs": [
-        "italian/grammar"
+        "italian/grammar/articles"
       ],
       "type": "mc",
       "question_md": "Which indefinite article is correct? ___ **zaino** (backpack)",
@@ -2226,7 +2250,7 @@
     },
     {
       "dirs": [
-        "italian/grammar"
+        "italian/grammar/articles"
       ],
       "type": "mc",
       "question_md": "Which indefinite article is correct? ___ **amica** (female friend)",
@@ -2251,7 +2275,7 @@
     },
     {
       "dirs": [
-        "italian/grammar"
+        "italian/grammar/articles"
       ],
       "type": "mc",
       "question_md": "Which indefinite article is correct? ___ **libro** (book)",
@@ -2276,7 +2300,7 @@
     },
     {
       "dirs": [
-        "italian/grammar"
+        "italian/grammar/nouns-and-plurals"
       ],
       "type": "mc",
       "question_md": "Which of these Italian nouns is **feminine**?",
@@ -2301,7 +2325,7 @@
     },
     {
       "dirs": [
-        "italian/grammar"
+        "italian/grammar/nouns-and-plurals"
       ],
       "type": "mc",
       "question_md": "Which of these Italian nouns is **masculine**?",
@@ -2326,7 +2350,7 @@
     },
     {
       "dirs": [
-        "italian/grammar"
+        "italian/grammar/nouns-and-plurals"
       ],
       "type": "mc",
       "question_md": "What is the plural of **ragazzo** (boy)?",
@@ -2351,7 +2375,7 @@
     },
     {
       "dirs": [
-        "italian/grammar"
+        "italian/grammar/nouns-and-plurals"
       ],
       "type": "mc",
       "question_md": "What is the plural of **casa** (house)?",
@@ -2376,7 +2400,7 @@
     },
     {
       "dirs": [
-        "italian/grammar"
+        "italian/grammar/nouns-and-plurals"
       ],
       "type": "mc",
       "question_md": "What is the plural of **amico** (friend)?",
@@ -2401,7 +2425,7 @@
     },
     {
       "dirs": [
-        "italian/grammar"
+        "italian/grammar/conjugation"
       ],
       "type": "mc",
       "question_md": "Complete the sentence: **Io ___ italiano.** (I am Italian — *essere*)",
@@ -2426,7 +2450,7 @@
     },
     {
       "dirs": [
-        "italian/grammar"
+        "italian/grammar/conjugation"
       ],
       "type": "mc",
       "question_md": "Complete the sentence: **Tu ___ un libro.** (You have a book — *avere*)",
@@ -2451,7 +2475,7 @@
     },
     {
       "dirs": [
-        "italian/grammar"
+        "italian/grammar/conjugation"
       ],
       "type": "mc",
       "question_md": "Complete the sentence: **Lei ___ italiano.** (She speaks Italian — *parlare*)",
@@ -2476,7 +2500,7 @@
     },
     {
       "dirs": [
-        "italian/grammar"
+        "italian/grammar/conjugation"
       ],
       "type": "mc",
       "question_md": "Complete the sentence: **Noi ___ il treno.** (We take the train — *prendere*)",
@@ -2501,7 +2525,7 @@
     },
     {
       "dirs": [
-        "italian/grammar"
+        "italian/grammar/conjugation"
       ],
       "type": "mc",
       "question_md": "Complete the sentence: **Loro ___ molto.** (They sleep a lot — *dormire*)",
@@ -2526,7 +2550,7 @@
     },
     {
       "dirs": [
-        "italian/grammar"
+        "italian/grammar/prepositions"
       ],
       "type": "mc",
       "question_md": "Which preposition is correct? **Vado ___ Italia.** (I am going to Italy)",
@@ -2551,7 +2575,7 @@
     },
     {
       "dirs": [
-        "italian/grammar"
+        "italian/grammar/prepositions"
       ],
       "type": "mc",
       "question_md": "Which preposition is correct? **Abito ___ Roma.** (I live in Rome)",
