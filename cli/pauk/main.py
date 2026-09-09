@@ -252,6 +252,29 @@ def health() -> None:
 
 
 @app.command()
+def doctor() -> None:
+    """Show detected hardware and the chosen LLM provider for quests."""
+    from pauk.llm.hardware import choose_provider, detect_hardware
+
+    hw = detect_hardware()
+    accel = {"metal": "Metal (Apple GPU)", "cuda": "NVIDIA CUDA", "none": "CPU only"}
+    console.print("[bold]Machine[/bold]")
+    console.print(f"  RAM: {hw.ram_gb:.0f} GB · {hw.arch} · {hw.system}")
+    console.print(f"  accelerator: {accel[hw.accelerator]}")
+    provider = choose_provider(hw)
+    console.print("\n[bold]Quest LLM[/bold]")
+    console.print(f"  provider: {provider.detail}")
+    if provider.model:
+        console.print(
+            f"  local model: {provider.model.label} "
+            f"(~{provider.model.params_b}B params)"
+        )
+        console.print(
+            "  [dim]install the `claude` CLI for a stronger model with no download[/dim]"
+        )
+
+
+@app.command()
 def login(server: str) -> None:
     """Store SERVER and an interactively entered token."""
     token = typer.prompt("Token", hide_input=True).strip()
