@@ -18,7 +18,8 @@ Done:
 
 Remaining, in priority order:
 
-1. LLM provider + hardware-based model selection (issues/0009).
+1. DONE — LLM provider + hardware model selection + quest card
+   type (issues/0009). Local llama runtime still to wire.
    Detect RAM + CPU/GPU, pick a default model tier; prefer the
    `claude` CLI when present, else a llama.cpp GGUF sized to the
    machine. M2/32GB → larger model than 16GB/no-GPU.

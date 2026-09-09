@@ -48,3 +48,14 @@ LLM provider (pluggable, in order of preference):
 Prereqs done: media (issues/0003), the autobahn graph, and the
 route renderer. Next: spec the quest data model and the
 provider interface in docs/api.md before implementing.
+
+2026-09-09 (loop iteration 3, API 0.6.0 / CLI 0.9.0): quest
+card type shipped. Dialog runs client-side via a pluggable
+Provider (claude CLI implemented; local llama placeholder).
+Scenario/role/criteria/max_messages stored in quest_specs;
+POST /cards/{id}/quest-run records success + messages_used
+(fewest-messages highscore) and logs to reviews. TUI
+QuestScreen plays it in-character inside the quiz flow. Italian
+quests (bakery/train/restaurant) live. Still open: wire the
+local llama runtime (download + inference); route/annotation
+map quests (next iteration).
