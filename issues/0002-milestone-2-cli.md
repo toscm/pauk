@@ -53,3 +53,10 @@ after each run (r = all, w = only wrong answers). Plain Click
 help and plain ls --tree: no box-drawing characters anywhere
 (e2e-enforced). pauk stats now shows the top 5 decks by runs;
 hardest cards behind --cards N.
+
+2026-09-09 (v0.4.0/v0.5.0): bare `pauk` is now a full-screen
+Textual app (home, deck picker with favorites+tree, quiz with
+inline images, results with repeat/repeat-wrong). The old
+line-based menu and picker were removed. media subcommands
+added. Still open from the body spec: edit ($EDITOR), export,
+link/unlink, moving cards/dirs.
