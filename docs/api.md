@@ -93,10 +93,13 @@ same `id`.
   `accepted_answers` (for quizzing UIs).
 
 - `POST /cards` — create. Body: `type`, `question_md`, plus
-  `options` (mc; each `text_md` + `correct`, at least one
-  correct) or `accepted_answers` (text; at least one
-  non-empty). Optional `dirs` (list of directory ids to link
-  into). Returns 201 + the card.
+  the type-specific fields shown in the card sections above:
+  `options` (mc), `accepted_answers` (text), `pairs` (match),
+  `scenario_md`/`role_prompt`/`success_criteria`/`max_messages`/
+  `lang` (quest — the scenario becomes `question_md`), or
+  `graph_name`/`start_node`/`goal_node` (route). Optional
+  `dirs` (list of directory ids to link into). Returns 201 +
+  the card.
 
 - `GET /cards/{id}` — single card. `?quiz=1` as above.
 

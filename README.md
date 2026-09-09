@@ -7,9 +7,12 @@ Questions are written in Markdown (images/videos via the usual
 `![name](url)` syntax) and organized into directories that form
 a DAG: a question can live in several directories, and
 directories can contain other directories (a "core verbs" quiz
-can be both standalone and part of "all verbs"). Supported card
-types: multiple choice and free text (with normalized,
-typo-tolerant answer matching done server-side).
+can be both standalone and part of "all verbs"). Five card
+types: multiple choice, free text (normalized, typo-tolerant
+matching), matching (connect each left to its right, e.g. a
+pronoun to a verb form), LLM dialog quests, and graph-route
+tasks with deterministic scoring. Grading and question
+selection are server-side.
 
 ## Layout
 
