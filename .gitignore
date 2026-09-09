@@ -8,3 +8,4 @@ __pycache__/
 .pytest_cache/
 cli/pauk.egg-info/
 build/
+api/.phpunit.cache/
