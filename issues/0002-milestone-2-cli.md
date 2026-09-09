@@ -35,3 +35,12 @@ from the body spec: edit ($EDITOR round-trip), export,
 link/unlink, moving cards/dirs, and a real 'Organize
 questions' menu (currently a stub that lists the
 subcommands).
+
+2026-09-09 (v0.2.0): Added fuzzy quiz picker sorted by
+favorites (started runs), stats subcommand, login (hidden
+token prompt), update (git pull + reinstall), --version,
+readline line editing, plain no-box quiz output with one-time
+header and end-of-run top-3 ranking (trophy on a podium
+place). pauk is now a toscpm-tracked tool (toscpm v1.24.0).
+Unchanged from the missing list: edit, export, link/unlink,
+moving cards/dirs, real organize menu.

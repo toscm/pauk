@@ -37,7 +37,7 @@ language).
 ## Using the CLI
 
     make setup                 # or: pip install -e ./cli
-    pauk config https://pauk.aao756.de <your-token>
+    pauk login https://pauk.aao756.de   # prompts for the token
     pauk                       # interactive menu
     pauk quiz --dir greek      # quiz a folder (recursive)
     pauk ls --tree             # browse all folders
