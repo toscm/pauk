@@ -339,14 +339,14 @@ class QuizScreen(Screen):
         with Vertical(id="quiz"):
             yield Markdown(id="question")
             yield Vertical(id="question-image")
-            yield Static(id="match-left")
+            yield Static("", id="match-left")
             yield OptionList(id="match-choices")
             yield Input(placeholder="answer", id="answer")
             yield SelectionList(id="choices")
             with Horizontal(id="quiz-buttons", classes="compact-buttons"):
                 yield Button("Submit", id="submit")
                 yield Button("Continue", id="continue")
-            yield Static(id="feedback")
+            yield Static("", id="feedback")
         yield StatusBar("Loading…", id="quiz-status")
 
     def on_mount(self) -> None:
@@ -397,6 +397,9 @@ class QuizScreen(Screen):
             # a quest is played in its own screen; the outcome counts
             # as one item of this quiz
             self.app.push_screen(QuestScreen(card), self._quest_done)
+            return
+        if card["type"] == "route":
+            self.app.push_screen(RouteScreen(card), self._quest_done)
             return
         self._status()
         question_md = self._show_images(card["question_md"])
@@ -684,9 +687,9 @@ class QuestScreen(Screen):
     def compose(self) -> ComposeResult:
         with Vertical(id="quest"):
             yield Markdown(self.card["scenario_md"], id="quest-scenario")
-            yield Static(id="quest-log")
+            yield Static("", id="quest-log")
             yield Input(placeholder="your message", id="quest-input")
-        yield StatusBar(id="quest-status")
+        yield StatusBar("", id="quest-status")
 
     def on_mount(self) -> None:
         self._update_status()
@@ -779,6 +782,122 @@ class QuestScreen(Screen):
             self.dismiss(self._pending_success)
         else:
             self.dismiss(False)
+
+
+class RouteScreen(Screen):
+    """Navigate a graph from start to goal by picking edges (multiple
+    choice). Kilometres are summed from the bundled graph; on arrival
+    the route is recorded (fewest-km highscore). Dismisses with the
+    success flag so the surrounding quiz can count it."""
+
+    BINDINGS = [Binding("escape", "leave", "Give up")]
+
+    def __init__(self, card: dict):
+        super().__init__()
+        self.card = card
+        self.graph = None
+        self.node_path: list[str] = []
+        self.km = 0
+        self.done = False
+        self.arrived = False
+        self.current_moves: list[dict] = []
+
+    def compose(self) -> ComposeResult:
+        with Vertical(id="route"):
+            yield Static("", id="route-here")
+            yield OptionList(id="route-moves")
+            yield Static("", id="route-outcome")
+        yield StatusBar("route", id="route-status")
+
+    def on_mount(self) -> None:
+        from pauk.route import load_graph
+
+        try:
+            self.graph = load_graph(self.card["graph_name"])
+        except Exception:  # noqa: BLE001
+            self.notify("Route graph not available.", severity="error")
+            self.dismiss(False)
+            return
+        self.node_path = [self.card["start_node"]]
+        self._refresh_moves()
+
+    def _refresh_moves(self) -> None:
+        node = self.node_path[-1]
+        self.query_one("#route-here", Static).update(
+            f"You are in {self.graph.name_of(node)}  "
+            f"(goal: {self.graph.name_of(self.card['goal_node'])})"
+        )
+        self.query_one("#route-status", StatusBar).update(f"{self.km} km so far")
+        self.current_moves = self.graph.moves(node)
+        moves = self.query_one("#route-moves", OptionList)
+        moves.clear_options()
+        moves.add_options([
+            Option(f"{m['autobahn']} → {self.graph.name_of(m['to'])}  ({m['km']} km)")
+            for m in self.current_moves
+        ])
+        if self.current_moves:
+            moves.highlighted = 0
+        moves.focus()
+
+    def on_option_list_option_selected(self, event: OptionList.OptionSelected) -> None:
+        if self.done:
+            return
+        move = self.current_moves[event.option_index]
+        self.node_path.append(move["to"])
+        self.km += int(move["km"])
+        if move["to"] == self.card["goal_node"]:
+            self._arrive()
+        else:
+            self._refresh_moves()
+
+    def _arrive(self) -> None:
+        self.done = True
+        self.arrived = True
+        self.query_one("#route-moves", OptionList).display = False
+        self._show_map()
+        self._record()
+
+    def _show_map(self) -> None:
+        if getattr(self.app, "is_headless", False):
+            return
+        try:
+            import io
+
+            from PIL import Image as PILImage
+            from textual_image.widget import Image as ImageWidget
+
+            from pauk.route import render_route_png
+
+            png = render_route_png(self.graph, self.node_path)
+            widget = ImageWidget(PILImage.open(io.BytesIO(png)))
+            widget.styles.height = 18
+            widget.styles.width = "auto"
+            self.mount(widget)
+        except Exception:  # noqa: BLE001 - map is best-effort
+            pass
+
+    @work(thread=True)
+    def _record(self) -> None:
+        try:
+            result = self.app.client.route_run(self.card["id"], True, self.km)
+        except Exception as exc:  # noqa: BLE001
+            self.app.call_from_thread(
+                self.notify, f"Could not save route: {exc}", severity="error"
+            )
+            return
+        self.app.call_from_thread(self._outcome, result)
+
+    def _outcome(self, result: dict) -> None:
+        best = result.get("best_km")
+        extra = f" · best {best} km" if best is not None else ""
+        record = " — new record!" if result.get("rank") == 1 else ""
+        self.query_one("#route-outcome", Static).update(
+            f"Arrived in {self.km} km{extra}{record}"
+        )
+        self.query_one("#route-status", StatusBar).update("done")
+
+    def action_leave(self) -> None:
+        self.dismiss(self.arrived)
 
 
 class StatsScreen(Screen):

@@ -131,6 +131,12 @@ class Client:
             json={"success": success, "messages_used": messages_used},
         )
 
+    def route_run(self, card_id: int, success: bool, km: int) -> dict:
+        return self._call(
+            "POST", f"/cards/{card_id}/route-run",
+            json={"success": success, "km": km},
+        )
+
     def close(self) -> None:
         self._http.close()
 

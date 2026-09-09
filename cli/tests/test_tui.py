@@ -15,6 +15,7 @@ from pauk.tui.screens import (
     HomeScreen,
     PickerScreen,
     QuestScreen,
+    RouteScreen,
     QuizScreen,
     ResultScreen,
     SettingsScreen,
@@ -419,3 +420,35 @@ async def test_quest_give_up_counts_as_wrong(server, tmp_path):
         await _settle(pilot)
         # back in the quiz, which finishes (only card) → ResultScreen
         assert isinstance(app.screen, ResultScreen)
+
+
+async def test_route_flow_reaches_goal(server):
+    client = Client(server["url"], server["token"])
+    dir_id = client.create_dir("routedemo")["id"]
+    client.create_card({
+        "type": "route",
+        "question_md": "Drive Ingolstadt to Nürnberg.",
+        "graph_name": "germany-autobahn",
+        "start_node": "ingolstadt",
+        "goal_node": "nuernberg",
+        "dirs": [dir_id],
+    })
+    app = PaukApp(client)
+    async with app.run_test(size=(100, 40)) as pilot:
+        await pilot.press("enter")
+        await _settle(pilot)
+        await pilot.press(*"routedemo", "enter")
+        await _settle(pilot)
+        await pilot.pause()
+        assert isinstance(app.screen, RouteScreen)
+        moves = app.screen.query_one("#route-moves")
+        target = next(
+            i for i in range(moves.option_count)
+            if "Nürnberg" in moves.get_option_at_index(i).prompt
+        )
+        moves.highlighted = target
+        await pilot.press("enter")
+        await _settle(pilot)
+        assert app.screen.arrived
+        assert app.screen.km > 0
+        assert "Arrived" in str(app.screen.query_one("#route-outcome").render())

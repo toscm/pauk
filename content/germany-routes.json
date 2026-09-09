@@ -1,0 +1,38 @@
+{
+  "dirs": ["germany", "germany/autobahnen", "germany/autobahnen/routes-game"],
+  "dir_links": [],
+  "cards": [
+    {
+      "dirs": ["germany/autobahnen/routes-game"],
+      "type": "route",
+      "question_md": "Drive from **München** to **Berlin** using as few kilometres as possible. Pick the autobahns one leg at a time.",
+      "graph_name": "germany-autobahn",
+      "start_node": "muenchen",
+      "goal_node": "berlin"
+    },
+    {
+      "dirs": ["germany/autobahnen/routes-game"],
+      "type": "route",
+      "question_md": "Drive from **Hamburg** to **München** with the fewest kilometres.",
+      "graph_name": "germany-autobahn",
+      "start_node": "hamburg",
+      "goal_node": "muenchen"
+    },
+    {
+      "dirs": ["germany/autobahnen/routes-game"],
+      "type": "route",
+      "question_md": "Drive from **Köln** to **Berlin** with the fewest kilometres.",
+      "graph_name": "germany-autobahn",
+      "start_node": "koeln",
+      "goal_node": "berlin"
+    },
+    {
+      "dirs": ["germany/autobahnen/routes-game"],
+      "type": "route",
+      "question_md": "Drive from **Frankfurt** to **Dresden** with the fewest kilometres.",
+      "graph_name": "germany-autobahn",
+      "start_node": "frankfurt",
+      "goal_node": "dresden"
+    }
+  ]
+}

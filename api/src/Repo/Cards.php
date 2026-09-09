@@ -86,16 +86,20 @@ final class Cards
     public function create(int $userId, array $body): array
     {
         $type = $body['type'] ?? null;
-        if (!in_array($type, ['mc', 'text', 'match', 'quest'], true)) {
-            throw new ApiError(400, 'validation', "type must be 'mc', 'text', 'match' or 'quest'");
+        if (!in_array($type, ['mc', 'text', 'match', 'quest', 'route'], true)) {
+            throw new ApiError(400, 'validation', "type must be 'mc', 'text', 'match', 'quest' or 'route'");
         }
         // quest cards carry no question_md of their own; the scenario
         // is the prompt. Synthesize one from the scenario so the
         // shared question_md/search/media machinery still applies.
         $spec = null;
+        $routeSpec = null;
         if ($type === 'quest') {
             $spec = $this->validateQuest($body);
             $question = $spec['scenario_md'];
+        } elseif ($type === 'route') {
+            $routeSpec = $this->validateRoute($body);
+            $question = $body['question_md'] ?? null;
         } else {
             $question = $body['question_md'] ?? null;
         }
@@ -132,6 +136,9 @@ final class Cards
             }
             if ($spec !== null) {
                 $this->replaceQuest($cardId, $spec);
+            }
+            if ($routeSpec !== null) {
+                $this->replaceRoute($cardId, $routeSpec);
             }
             foreach ($dirIds as $dirId) {
                 $stmt = $this->pdo->prepare(
@@ -329,7 +336,7 @@ final class Cards
         }
         if (isset($filters['type'])) {
             if (!in_array($filters['type'], ['mc', 'text', 'match', 'quest'], true)) {
-                throw new ApiError(400, 'validation', "type must be 'mc', 'text', 'match' or 'quest'");
+                throw new ApiError(400, 'validation', "type must be mc, text, match, quest or route");
             }
             $where[] = 'c.type = ?';
             $params[] = $filters['type'];
@@ -402,6 +409,36 @@ final class Cards
             'max_messages' => $maxMessages,
             'lang' => $lang,
         ];
+    }
+
+    /** @return array{graph_name: string, start_node: string, goal_node: string} */
+    private function validateRoute(array $body): array
+    {
+        foreach (['graph_name', 'start_node', 'goal_node'] as $field) {
+            if (!isset($body[$field]) || !is_string($body[$field])
+                || !preg_match('/^[a-z0-9-]{1,64}$/', $body[$field])) {
+                throw new ApiError(400, 'validation', "$field must match ^[a-z0-9-]{1,64}$");
+            }
+        }
+        if (!isset($body['question_md']) || !is_string($body['question_md'])
+            || trim($body['question_md']) === '') {
+            throw new ApiError(400, 'validation', 'route needs a question_md');
+        }
+        return [
+            'graph_name' => $body['graph_name'],
+            'start_node' => $body['start_node'],
+            'goal_node' => $body['goal_node'],
+        ];
+    }
+
+    /** @param array<string, mixed> $spec */
+    private function replaceRoute(int $cardId, array $spec): void
+    {
+        $stmt = $this->pdo->prepare(
+            'REPLACE INTO route_specs (card_id, graph_name, start_node, goal_node)
+             VALUES (?, ?, ?, ?)'
+        );
+        $stmt->execute([$cardId, $spec['graph_name'], $spec['start_node'], $spec['goal_node']]);
     }
 
     /** @param array<string, mixed> $spec */
@@ -576,6 +613,17 @@ final class Cards
                 $card['success_criteria'] = $spec['success_criteria'];
                 $card['max_messages'] = (int) $spec['max_messages'];
                 $card['lang'] = $spec['lang'];
+            }
+        } elseif ($row['type'] === 'route') {
+            $stmt = $this->pdo->prepare(
+                'SELECT graph_name, start_node, goal_node FROM route_specs WHERE card_id = ?'
+            );
+            $stmt->execute([$cardId]);
+            $spec = $stmt->fetch();
+            if ($spec !== false) {
+                $card['graph_name'] = $spec['graph_name'];
+                $card['start_node'] = $spec['start_node'];
+                $card['goal_node'] = $spec['goal_node'];
             }
         } elseif (!$quiz) {
             $stmt = $this->pdo->prepare(

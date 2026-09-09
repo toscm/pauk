@@ -341,3 +341,32 @@ def test_media_upload_and_import_substitution(cli_env, tmp_path):
     removed = run_cli(cli_env, "media", "rm", media_id)
     assert removed.returncode == 0, removed.stdout
     assert "deleted" in removed.stdout
+
+
+def test_route_run_and_graph(cli_env):
+    """The deterministic route core: bundled graph + km + recording."""
+    from pauk.route import load_graph
+    from pauk.client import Client
+
+    g = load_graph("germany-autobahn")
+    assert g.shortest_km("muenchen", "berlin") == 595
+
+    client = Client(cli_env["PAUK_SERVER"], cli_env["PAUK_TOKEN"])
+    dir_id = client.create_dir("routee2e")["id"]
+    card = client.create_card({
+        "type": "route",
+        "question_md": "Ingolstadt to Nürnberg",
+        "graph_name": "germany-autobahn",
+        "start_node": "ingolstadt",
+        "goal_node": "nuernberg",
+        "dirs": [dir_id],
+    })
+    # a real one-hop route, km summed from the graph
+    km = g.edge_km("ingolstadt", "nuernberg")
+    assert km and km > 0
+    result = client.route_run(card["id"], True, km)
+    assert result["best_km"] == km
+    assert result["rank"] == 1
+    # a longer run does not beat it
+    worse = client.route_run(card["id"], True, km + 200)
+    assert worse["best_km"] == km

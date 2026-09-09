@@ -106,6 +106,18 @@ final class App
                 return Http::json($response, $quests->record($userId, (int) $args['id'], $success, $messagesUsed));
             });
 
+            $group->post('/cards/{id:[0-9]+}/route-run', function (Request $request, Response $response, array $args) use ($repos) {
+                [$pdo, $userId] = $repos($request);
+                $body = Http::body($request);
+                $success = $body['success'] ?? null;
+                $km = $body['km'] ?? null;
+                if (!is_bool($success) || !is_int($km)) {
+                    throw new ApiError(400, 'validation', 'success bool, km int required');
+                }
+                $routes = new \Pauk\Repo\RouteRuns($pdo);
+                return Http::json($response, $routes->record($userId, (int) $args['id'], $success, $km));
+            });
+
             // --- quiz selection ------------------------------------------
             $group->get('/quiz/cards', function (Request $request, Response $response) use ($repos) {
                 [$pdo, $userId, , $cards] = $repos($request);
