@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      mariadb:
+        image: mariadb:11.8
+        env:
+          MARIADB_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=5s --health-timeout=5s --health-retries=10
+    env:
+      PAUK_DB_HOST: 127.0.0.1
+      PAUK_DB_PORT: "3306"
+      PAUK_DB_USER: root
+      PAUK_DB_PASS: root
+      PAUK_PHP: php
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          extensions: pdo_mysql, mbstring
+          tools: composer
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install PHP dependencies
+        run: composer install --no-interaction
+        working-directory: api
+
+      - name: PHP tests (unit + integration)
+        run: php vendor/bin/phpunit
+        working-directory: api
+
+      - name: Install CLI
+        run: |
+          python -m pip install --quiet -e './cli[dev]'
+
+      - name: CLI e2e tests
+        run: pytest cli/tests -q
