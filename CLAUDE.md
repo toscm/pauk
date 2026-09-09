@@ -16,6 +16,9 @@ mobile later). Read `README.md` for the repo layout.
 
 ## Rules
 
+- Design principle: as simple as possible, follow mainstream
+  conventions wherever one exists (naming, layout, tooling).
+
 - The API spec in `docs/api.md` is the contract. Change the
   spec first, then the implementation, then the clients.
 

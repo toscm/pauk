@@ -102,7 +102,30 @@ Directories form a DAG, not a tree:
   directory is readable by others), which multi-membership
   makes cheap — sharing is linking. Not part of milestone 1.
 
+### Schema conventions
+
+- Names: all-lowercase snake_case everywhere (sidesteps
+  MariaDB's filesystem-dependent table-name case
+  sensitivity). Tables plural (`cards`, `dirs`), columns
+  singular, PK `id` (BIGINT UNSIGNED AUTO_INCREMENT), FKs
+  `<singular>_id`, role-named on self-references
+  (`parent_id`, `child_id`). Junction tables are named
+  container-first (`dir_cards`, `dir_dirs`) and use a
+  composite PK over their two columns, no surrogate id.
+
+- InnoDB, utf8mb4. FK constraints with ON DELETE CASCADE on
+  junction tables, so deleting an entity cleans up its edges.
+
+- The directory DAG is stored as an edge table and traversed
+  with recursive CTEs (`WITH RECURSIVE`); `UNION` dedup makes
+  traversal diamond-safe and loop-safe. No closure table —
+  unnecessary at this scale.
+
 ## Decisions
+
+- Design principle: as simple as possible, follow mainstream
+  conventions wherever one exists, so that code and app feel
+  familiar from the first minute.
 
 - Name components by role, not language (`api`, not
   `pauk-php`): the contract outlives the implementation.
