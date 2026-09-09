@@ -44,6 +44,10 @@ abstract class ApiTestCase extends TestCase
         putenv("PAUK_DB_USER=$user");
         putenv("PAUK_DB_PASS=$pass");
         putenv("PAUK_DB_NAME=$name");
+        $mediaDir = sys_get_temp_dir() . '/pauk-test-media-' . getmypid();
+        @mkdir($mediaDir, 0755, true);
+        putenv("PAUK_MEDIA_DIR=$mediaDir");
+        putenv('PAUK_BASE_URL=http://localhost');
         self::$pdo = Db::connect();
         Db::migrate(self::$pdo, dirname(__DIR__, 2) . '/migrations');
         self::$app = App::build(fn () => self::$pdo);
@@ -70,9 +74,10 @@ abstract class ApiTestCase extends TestCase
 
     /**
      * @param array<string, mixed>|null $body
+     * @param array<string, \Psr\Http\Message\UploadedFileInterface>|null $files
      * @return array{0: int, 1: mixed} [status, decoded json|null]
      */
-    protected function request(string $method, string $path, ?array $body = null, ?string $token = ''): array
+    protected function request(string $method, string $path, ?array $body = null, ?string $token = '', ?array $files = null): array
     {
         $request = (new ServerRequestFactory())
             ->createServerRequest($method, 'http://localhost/api/v1' . $path);
@@ -81,6 +86,9 @@ abstract class ApiTestCase extends TestCase
                 'Authorization',
                 'Bearer ' . ($token === '' ? self::$token : $token)
             );
+        }
+        if ($files !== null) {
+            $request = $request->withUploadedFiles($files);
         }
         if ($body !== null) {
             $stream = (new StreamFactory())->createStream(

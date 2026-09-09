@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import io
 import random
+import re
 
 from textual.app import ComposeResult
 from textual.binding import Binding
@@ -307,6 +309,11 @@ class CountDialog(ModalScreen[int]):
         self.dismiss(None)
 
 
+IMAGE_MD_RE = re.compile(
+    r"!\[[^\]]*\]\((https?://[^)\s]+\.(?:png|jpe?g|gif|webp))\)"
+)
+
+
 class QuizScreen(Screen):
     BINDINGS = [Binding("escape", "quit_quiz", "End quiz")]
 
@@ -327,6 +334,7 @@ class QuizScreen(Screen):
         with Vertical(id="quiz"):
             yield Static(id="quiz-header")
             yield Markdown(id="question")
+            yield Vertical(id="question-image")
             yield Input(placeholder="your answer ...", id="answer")
             yield SelectionList(id="choices")
             yield Button("Submit answer", id="submit", variant="primary")
@@ -349,7 +357,8 @@ class QuizScreen(Screen):
             f"{self.deck_title} · question {self.index + 1}/{len(self.cards)} "
             f"· score {self.score} · {best_text} · Esc ends the quiz"
         )
-        self.query_one("#question", Markdown).update(card["question_md"])
+        question_md = self._show_images(card["question_md"])
+        self.query_one("#question", Markdown).update(question_md)
         answer_input = self.query_one("#answer", Input)
         choices = self.query_one("#choices", SelectionList)
         submit = self.query_one("#submit", Button)
@@ -371,6 +380,33 @@ class QuizScreen(Screen):
             answer_input.display = True
             answer_input.value = ""
             answer_input.focus()
+
+    def _show_images(self, question_md: str) -> str:
+        """Render image references as terminal images (kitty/sixel
+        with a unicode half-cell fallback); on success the markdown
+        image line is dropped from the text. Any failure leaves the
+        markdown untouched."""
+        holder = self.query_one("#question-image", Vertical)
+        holder.remove_children()
+        for url in IMAGE_MD_RE.findall(question_md)[:2]:
+            try:
+                from PIL import Image as PILImage
+                from textual_image.widget import Image as ImageWidget
+
+                data = self.app.client.get_bytes(url)
+                pil = PILImage.open(io.BytesIO(data))
+                pil.load()
+                widget = ImageWidget(pil)
+                widget.styles.height = 14
+                widget.styles.width = "auto"
+                holder.mount(widget)
+                question_md = IMAGE_MD_RE.sub(
+                    lambda m: "" if m.group(1) == url else m.group(0),
+                    question_md,
+                )
+            except Exception:  # noqa: BLE001 - image display is best-effort
+                pass
+        return question_md
 
     # --- answering ------------------------------------------------
     def on_input_submitted(self, event: Input.Submitted) -> None:

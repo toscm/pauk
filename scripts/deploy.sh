@@ -51,6 +51,7 @@ echo "==> writing docroot front controller"
 ssh $SSH_HOST "REMOTE_HOME=$REMOTE_HOME bash -s" <<'EOS'
 set -euo pipefail
 mkdir -p ~/web/pauk
+mkdir -p ~/web/pauk/media
 cat > ~/web/pauk/index.php <<EOF
 <?php
 putenv('PAUK_APP_DIR=$REMOTE_HOME/pauk-app');

@@ -9,3 +9,4 @@ __pycache__/
 cli/pauk.egg-info/
 build/
 api/.phpunit.cache/
+api/public/media/

@@ -119,6 +119,27 @@ class Client:
             "PATCH", f"/quiz/runs/{run_id}", json={"correct": correct, "total": total}
         )
 
+    # --- media ------------------------------------------------------
+    def upload_media(self, path) -> dict:
+        from pathlib import Path
+
+        path = Path(path)
+        with open(path, "rb") as fh:
+            return self._call(
+                "POST", "/media", files={"file": (path.name, fh.read())}
+            )
+
+    def list_media(self) -> list[dict]:
+        return self._call("GET", "/media")["items"]
+
+    def delete_media(self, media_id: int) -> None:
+        self._call("DELETE", f"/media/{media_id}")
+
+    def get_bytes(self, url: str) -> bytes:
+        response = httpx.get(url, timeout=30.0)
+        response.raise_for_status()
+        return response.content
+
     def stats(self, dir_id: int | None = None, recursive: bool = True) -> dict:
         params: dict[str, Any] = {}
         if dir_id is not None:

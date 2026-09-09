@@ -152,3 +152,32 @@ async def test_favorites_filter_and_repeat_wrong(client):
         assert isinstance(app.screen, PickerScreen)
         # filter text survived the quiz
         assert app.picker_memory["filter"] == "tuidemo/inner"
+
+
+async def test_quiz_shows_image(client, server, tmp_path):
+    from PIL import Image as PILImage
+
+    img_path = tmp_path / "map.png"
+    PILImage.new("RGB", (40, 30), (200, 30, 30)).save(img_path)
+    media = client.upload_media(img_path)
+    client.create_card({
+        "type": "text",
+        "question_md": f"Where is this? ![map]({media['url']})",
+        "accepted_answers": ["nowhere"],
+        "dirs": [client.create_dir("imagedemo")["id"]],
+    })
+
+    app = PaukApp(client)
+    async with app.run_test(size=(100, 40)) as pilot:
+        await pilot.press("enter")
+        await pilot.press(*"imagedemo", "enter")
+        await pilot.press("backspace", "backspace", "1", "enter")
+        assert isinstance(app.screen, QuizScreen)
+        await pilot.pause()
+        from textual_image.widget import Image as ImageWidget
+
+        images = app.screen.query(ImageWidget)
+        assert len(images) == 1
+        # the markdown no longer contains the raw image link
+        markdown = app.screen.query_one("#question")
+        assert "![map]" not in str(markdown.source if hasattr(markdown, "source") else "")

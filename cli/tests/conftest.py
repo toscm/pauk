@@ -59,6 +59,10 @@ def server() -> dict:
     token = re.search(r"token: ([0-9a-f]+)", out).group(1)
 
     port = _free_port()
+    # media files must land inside public/ so the dev server can
+    # serve them statically, exactly as Apache does in production
+    env["PAUK_MEDIA_DIR"] = str(REPO / "api" / "public" / "media")
+    env["PAUK_BASE_URL"] = f"http://127.0.0.1:{port}"
     proc = subprocess.Popen(
         [PHP, "-S", f"127.0.0.1:{port}", "public/index.php"],
         cwd=REPO / "api", env=env,

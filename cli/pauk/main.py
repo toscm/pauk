@@ -216,6 +216,35 @@ def import_cmd(file: Path) -> None:
     import_file(_client(), file, echo=console.print)
 
 
+media_app = typer.Typer(add_completion=False, rich_markup_mode=None)
+app.add_typer(media_app, name="media", help="Manage uploaded media files.")
+
+
+@media_app.command("add")
+def media_add(file: Path) -> None:
+    """Upload a file; prints the URL and a markdown snippet."""
+    result = _client().upload_media(file)
+    console.print(f"url: {result['url']}")
+    console.print(f"markdown: ![{file.stem}]({result['url']})")
+
+
+@media_app.command("ls")
+def media_ls() -> None:
+    """List uploaded media files."""
+    for item in _client().list_media():
+        console.print(
+            f"[dim]#{item['id']}[/dim] {item['original_name']} "
+            f"({item['mime']}, {item['size']} bytes) {item['url']}"
+        )
+
+
+@media_app.command("rm")
+def media_rm(media_id: int) -> None:
+    """Delete an uploaded media file (fails if referenced)."""
+    _client().delete_media(media_id)
+    console.print(f"deleted media #{media_id}")
+
+
 @app.command()
 def health() -> None:
     """Check the server."""

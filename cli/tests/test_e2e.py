@@ -254,3 +254,56 @@ def test_config_file(cli_env, tmp_path):
     assert saved.returncode == 0
     result = run_cli(env, "health")
     assert result.returncode == 0
+
+
+def test_media_upload_and_import_substitution(cli_env, tmp_path):
+    png = (
+        b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01"
+        b"\x08\x06\x00\x00\x00\x1f\x15\xc4\x89\x00\x00\x00\nIDATx\x9cc\x00\x01"
+        b"\x00\x00\x05\x00\x01\x0d\x0a\x2d\xb4\x00\x00\x00\x00IEND\xaeB`\x82"
+    )
+    img = tmp_path / "pixel.png"
+    img.write_bytes(png)
+
+    added = run_cli(cli_env, "media", "add", str(img))
+    assert added.returncode == 0, added.stderr
+    assert "url: http" in added.stdout
+    url = re.search(r"url: (\S+)", added.stdout).group(1)
+
+    # the file is actually served
+    import httpx
+
+    assert httpx.get(url, timeout=10).content == png
+
+    # import with media: substitution, idempotent on re-run
+    sample = {
+        "dirs": ["media-demo"],
+        "dir_links": [],
+        "cards": [{
+            "dirs": ["media-demo"],
+            "type": "text",
+            "question_md": "What is this? ![p](media:pixel.png)",
+            "accepted_answers": ["a pixel"],
+        }],
+    }
+    content = tmp_path / "media-demo.json"
+    content.write_text(json.dumps(sample))
+    result = run_cli(cli_env, "import", str(content))
+    assert result.returncode == 0, result.stderr
+    assert "uploaded 1 media files" in result.stdout
+    assert "imported 1 cards" in result.stdout
+    again = run_cli(cli_env, "import", str(content))
+    assert "imported 0 cards" in again.stdout
+
+    ls = run_cli(cli_env, "ls", "media-demo")
+    assert "media:" not in ls.stdout
+    assert "/media/" in ls.stdout
+
+    listed = run_cli(cli_env, "media", "ls")
+    assert "pixel.png" in listed.stdout
+
+    # deletion refused while referenced
+    media_id = re.search(r"#(\d+) pixel", listed.stdout).group(1)
+    refused = run_cli(cli_env, "media", "rm", media_id)
+    assert refused.returncode == 1
+    assert "referenced" in refused.stdout

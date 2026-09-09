@@ -7,13 +7,21 @@ when a card with the same question_md already exists.
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 from pauk.client import ApiError, Client
 
+# "media:<relative path>" inside a markdown link target: the file
+# (relative to the content JSON) is uploaded and the reference is
+# replaced by the served URL. Server-side sha256 dedup makes this
+# idempotent.
+MEDIA_RE = re.compile(r"media:([^)\s]+)")
+
 
 def import_file(client: Client, path: Path, echo=print) -> tuple[int, int]:
     data = json.loads(path.read_text(encoding="utf-8"))
+    _resolve_media(client, data.get("cards", []), path.parent, echo)
     dir_ids = _ensure_dirs(client, data.get("dirs", []))
     for link in data.get("dir_links", []):
         parent_id = dir_ids.get(link["parent"]) or client.resolve_dir(link["parent"])["id"]
@@ -47,6 +55,22 @@ def import_file(client: Client, path: Path, echo=print) -> tuple[int, int]:
         created += 1
     echo(f"imported {created} cards, skipped {skipped} existing, added {linked} links")
     return created, skipped
+
+
+def _resolve_media(client: Client, cards: list[dict], base: Path, echo) -> None:
+    uploaded: dict[str, str] = {}
+    for card in cards:
+        for rel in set(MEDIA_RE.findall(card["question_md"])):
+            if rel not in uploaded:
+                file = (base / rel).resolve()
+                if not file.is_file():
+                    raise FileNotFoundError(f"media file not found: {file}")
+                uploaded[rel] = client.upload_media(file)["url"]
+            card["question_md"] = card["question_md"].replace(
+                f"media:{rel}", uploaded[rel]
+            )
+    if uploaded:
+        echo(f"uploaded {len(uploaded)} media files")
 
 
 def _ensure_dirs(client: Client, paths: list[str]) -> dict[str, int]:

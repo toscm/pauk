@@ -146,6 +146,35 @@ final class App
                 return Http::json($response, $stats->forCards($userId, $candidates));
             });
 
+            // --- media ---------------------------------------------------
+            $group->post('/media', function (Request $request, Response $response) use ($repos) {
+                [$pdo, $userId] = $repos($request);
+                $files = $request->getUploadedFiles();
+                if (!isset($files['file'])) {
+                    throw new ApiError(400, 'validation', "multipart field 'file' required");
+                }
+                $media = new \Pauk\Repo\Media($pdo);
+                [$object, $created] = $media->upload($userId, $files['file']);
+                return Http::json($response, $object, $created ? 201 : 200);
+            });
+
+            $group->get('/media', function (Request $request, Response $response) use ($repos) {
+                [$pdo, $userId] = $repos($request);
+                $media = new \Pauk\Repo\Media($pdo);
+                return Http::json($response, $media->list(
+                    $userId,
+                    Http::intQuery($request, 'limit', 50, 1, 200),
+                    $request->getQueryParams()['cursor'] ?? null,
+                ));
+            });
+
+            $group->delete('/media/{id:[0-9]+}', function (Request $request, Response $response, array $args) use ($repos) {
+                [$pdo, $userId] = $repos($request);
+                $media = new \Pauk\Repo\Media($pdo);
+                $media->delete($userId, (int) $args['id']);
+                return $response->withStatus(204);
+            });
+
             // --- dirs ----------------------------------------------------
             $group->get('/dirs', function (Request $request, Response $response) use ($repos) {
                 [, $userId, $dirs] = $repos($request);
