@@ -285,7 +285,7 @@
     <h2>Contents</h2>
     <ol>
       <li><a href="#ch1"><span class="t">What pauk Is</span><span class="d">the API is the product</span></a></li>
-      <li><a href="#ch2"><span class="t">The Data Model</span><span class="d">14 tables · a directory DAG</span></a></li>
+      <li><a href="#ch2"><span class="t">The Data Model</span><span class="d">16 tables · a directory DAG</span></a></li>
       <li><a href="#ch3"><span class="t">Five Kinds of Card</span><span class="d">mc · text · match · quest · route</span></a></li>
       <li><a href="#ch4"><span class="t">Deployment on IONOS</span><span class="d">shared hosting, made to behave</span></a></li>
       <li><a href="#ch5"><span class="t">The Terminal Client</span><span class="d">a walk through the screens</span></a></li>
@@ -306,7 +306,7 @@
     <p>The governing decision is that <strong>the API is the product</strong>. The database is touched by nothing but the API; the CLI, and any future web or mobile client, speak only HTTP. That keeps the clients disposable and the contract durable &mdash; the implementation language (PHP, chosen because it runs on already-paid shared hosting) is an implementation detail behind the spec.</p>
 
     <div class="statgrid">
-      <div><div class="n">14</div><div class="l">Tables</div></div>
+      <div><div class="n">16</div><div class="l">Tables</div></div>
       <div><div class="n">5</div><div class="l">Card types</div></div>
       <div><div class="n">91</div><div class="l">Live decks</div></div>
       <div><div class="n">400+</div><div class="l">Live cards</div></div>
@@ -331,7 +331,7 @@
     <div class="chapter-head">
       <span class="num">Chapter Two</span>
       <h2>The Data Model</h2>
-      <p class="lede">Fourteen tables in MariaDB. Everything owned by a user carries <code>user_id</code> from the first migration; decks form a directed acyclic graph, not a tree; leaderboards are per question count.</p>
+      <p class="lede">Sixteen tables in MariaDB. Everything owned by a user carries <code>user_id</code> from the first migration; decks form a directed acyclic graph, not a tree; leaderboards are per question count.</p>
     </div>
 
     <h3>Identity</h3>

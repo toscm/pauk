@@ -699,7 +699,7 @@ class QuestScreen(Screen):
         maxm = self.card["max_messages"]
         lang = f" · {self.card['lang']}" if self.card.get("lang") else ""
         self.query_one("#quest-status", StatusBar).update(
-            f"message {self.user_messages}/{maxm}{lang} · F2 finish · Esc give up"
+            f"message {self.user_messages}/{maxm}{lang} · F2 finish"
         )
 
     def _render_log(self) -> None:
@@ -905,7 +905,7 @@ class StatsScreen(Screen):
 
     def compose(self) -> ComposeResult:
         yield Static("Loading…", id="stats-text")
-        yield StatusBar("Esc back")
+        yield StatusBar("")
 
     def on_mount(self) -> None:
         self._load()

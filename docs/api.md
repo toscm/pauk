@@ -125,6 +125,21 @@ The dialog and the success judgement run entirely client-side
 the API never calls an LLM. Quiz mode returns the same fields
 (a user owns their own quest content).
 
+Route cards have `"type": "route"` and navigate a named graph
+from a start node to a goal node (the graph itself is bundled
+in the client). Kilometres are summed client-side from the
+graph, never trusted to a model.
+
+    {"id": 31, "type": "route",
+     "question_md": "Drive from München to Berlin ...",
+     "graph_name": "germany-autobahn",
+     "start_node": "muenchen", "goal_node": "berlin",
+     "dirs": [...], ...}
+
+quest and route cards are not answered via
+`POST /cards/{id}/answer` (that returns 400 for them); they
+are recorded via `/quest-run` and `/route-run` below.
+
 ## Answering
 
 `POST /cards/{id}/answer`
@@ -183,6 +198,12 @@ quests feed the weighted selection and stats) and to
 successful runs of this quest (null if none); `top` is the
 best three successful runs (fewest messages, ties by earlier
 finish); `rank` is this run's place among them, or null.
+
+`POST /cards/{id}/route-run` — record a finished route
+attempt. Body: `success` (boolean), `km` (integer). Logged
+to `reviews` and `route_runs`. Response mirrors quest-run
+with `best_km` (fewest km among successful runs) and a `top`
+of `{km, finished_at}`. The highscore is the fewest km.
 
 ## Quiz selection
 

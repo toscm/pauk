@@ -81,6 +81,16 @@ final class QuestTest extends ApiTestCase
         $this->assertSame([1], array_map('intval', $stmt->fetchAll(\PDO::FETCH_COLUMN)));
     }
 
+    public function testAnswerOnQuestIs400NotCrash(): void
+    {
+        $card = $this->makeQuest();
+        [$status, $body] = $this->request('POST', "/cards/{$card['id']}/answer", [
+            'answer' => 'anything',
+        ]);
+        $this->assertSame(400, $status);
+        $this->assertSame('validation', $body['error']['code']);
+    }
+
     public function testQuestRunOnNonQuestIs404(): void
     {
         $textId = $this->makeTextCard('Q', ['a']);

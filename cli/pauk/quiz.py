@@ -44,8 +44,18 @@ def run_quiz(client: Client, dir_path: str | None, recursive: bool, n: int) -> N
                 best = entry["best"]
                 break
     cards = client.quiz_cards(dir_id, recursive, n)
+    # the line-based scripting quiz only grades mc and text; match,
+    # quest, and route are interactive types for the full-screen app
+    playable = [c for c in cards if c["type"] in ("mc", "text")]
+    if len(playable) < len(cards):
+        skipped = len(cards) - len(playable)
+        console.print(
+            f"[dim]skipping {skipped} match/quest/route card(s) — "
+            f"play those in the full-screen app (run 'pauk')[/dim]"
+        )
+    cards = playable
     if not cards:
-        console.print("[yellow]No cards found for this selection.[/yellow]")
+        console.print("[yellow]No text/mc cards found for this selection.[/yellow]")
         return
 
     best_text = f"{round(best['accuracy'] * 100)}%" if best else "none yet"

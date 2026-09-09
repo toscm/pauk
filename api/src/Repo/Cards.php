@@ -244,6 +244,13 @@ final class Cards
     public function answer(int $userId, int $cardId, array $body): array
     {
         $card = $this->get($userId, $cardId);
+        if ($card['type'] === 'quest' || $card['type'] === 'route') {
+            throw new ApiError(
+                400,
+                'validation',
+                "{$card['type']} cards are recorded via /cards/{id}/{$card['type']}-run, not /answer"
+            );
+        }
         if ($card['type'] === 'mc') {
             $selected = $body['selected'] ?? null;
             if (!is_array($selected) || array_filter($selected, fn ($v) => !is_int($v)) !== []) {

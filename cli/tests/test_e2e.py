@@ -370,3 +370,10 @@ def test_route_run_and_graph(cli_env):
     # a longer run does not beat it
     worse = client.route_run(card["id"], True, km + 200)
     assert worse["best_km"] == km
+
+
+def test_quest_import_is_idempotent(cli_env):
+    r1 = run_cli(cli_env, "import", str(REPO / "content" / "italian-quests.json"))
+    assert r1.returncode == 0, r1.stderr
+    r2 = run_cli(cli_env, "import", str(REPO / "content" / "italian-quests.json"))
+    assert "imported 0 cards" in r2.stdout   # deduped by scenario_md

@@ -452,3 +452,29 @@ async def test_route_flow_reaches_goal(server):
         assert app.screen.arrived
         assert app.screen.km > 0
         assert "Arrived" in str(app.screen.query_one("#route-outcome").render())
+
+
+async def test_route_give_up_records_nothing(server):
+    client = Client(server["url"], server["token"])
+    dir_id = client.create_dir("routegiveup")["id"]
+    card = client.create_card({
+        "type": "route",
+        "question_md": "Ingolstadt to Nürnberg.",
+        "graph_name": "germany-autobahn",
+        "start_node": "ingolstadt",
+        "goal_node": "nuernberg",
+        "dirs": [dir_id],
+    })
+    app = PaukApp(client)
+    async with app.run_test(size=(100, 40)) as pilot:
+        await pilot.press("enter")
+        await _settle(pilot)
+        await pilot.press(*"routegiveup", "enter")
+        await _settle(pilot)
+        await pilot.pause()
+        assert isinstance(app.screen, RouteScreen)
+        await pilot.press("escape")             # give up before arriving
+        await _settle(pilot)
+    # no successful route run should have been recorded
+    result = client.route_run(card["id"], True, 1)  # this is the first run
+    assert result["rank"] == 1                       # nothing preceded it

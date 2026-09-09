@@ -77,6 +77,16 @@ final class RouteTest extends ApiTestCase
         $this->assertSame([595, 700, 900], array_column($r3['top'], 'km'));
     }
 
+    public function testAnswerOnRouteIs400NotCrash(): void
+    {
+        $card = $this->makeRoute();
+        [$status, $body] = $this->request('POST', "/cards/{$card['id']}/answer", [
+            'answer' => 'anything',
+        ]);
+        $this->assertSame(400, $status);
+        $this->assertSame('validation', $body['error']['code']);
+    }
+
     public function testFailedRouteNotRanked(): void
     {
         $card = $this->makeRoute();

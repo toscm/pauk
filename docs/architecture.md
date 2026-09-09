@@ -50,15 +50,30 @@
   last_used_at. Tokens are random 32-byte values, stored
   hashed (SHA-256).
 
-- `cards`: id, user_id, type (`mc` | `text`), question_md,
-  created_at, updated_at. Cards carry no path; where they
-  appear is defined solely by directory links.
+- `cards`: id, user_id, type (`mc` | `text` | `match` |
+  `quest` | `route`), question_md, created_at, updated_at.
+  Cards carry no path; where they appear is defined solely by
+  directory links.
 
 - `mc_options`: id, card_id, position, text_md, is_correct.
   Multiple correct options are allowed.
 
 - `text_answers`: id, card_id, accepted_answer. Several rows
   mean several accepted phrasings.
+
+- `match_pairs`: id, card_id, position, left_md, right_md.
+  The shared row id is the correct connection; quiz mode
+  shuffles the right side.
+
+- `quest_specs` / `quest_runs`: an LLM-dialog task (scenario,
+  role prompt, success criteria, max_messages, lang) and its
+  finished attempts (success, messages_used) — fewest
+  messages wins.
+
+- `route_specs` / `route_runs`: a graph-navigation task
+  (graph_name, start_node, goal_node) and its attempts
+  (success, km) — fewest km wins. The graph is bundled in
+  the client; km are summed client-side, never by an LLM.
 
 - `dirs`: id, user_id, name, created_at, updated_at. A
   directory is a collection, not a filesystem node.
