@@ -772,7 +772,7 @@ class QuestScreen(Screen):
             (str(self.query_one("#quest-log", Static).render()) + "\n\n")
             + f"{verdict} in {self.user_messages} messages{extra}"
         )
-        self.query_one("#quest-status", StatusBar).update("Esc to continue")
+        self.query_one("#quest-status", StatusBar).update("done")
         self._pending_success = success
         self.set_focus(None)
 
