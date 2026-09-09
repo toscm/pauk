@@ -37,7 +37,7 @@ document wins until the discrepancy is fixed.
 
 `GET /health` (no auth)
 
-    {"status": "ok", "db": "ok", "version": "0.1.0"}
+    {"status": "ok", "db": "ok", "version": "0.5.0"}
 
 `db` is `"ok"` or `"error"`; on error the HTTP status is 503.
 Used by the post-deploy smoke test.

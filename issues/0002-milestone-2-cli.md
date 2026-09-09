@@ -60,3 +60,10 @@ inline images, results with repeat/repeat-wrong). The old
 line-based menu and picker were removed. media subcommands
 added. Still open from the body spec: edit ($EDITOR), export,
 link/unlink, moving cards/dirs.
+
+2026-09-09 (v0.7.0): match card type added (pronoun→verb-form
+mappings, rendered as one pick per left); quit-early runs now
+unranked; answer/finish moved to worker threads; UI minimalism
+pass (status bars carry only non-obvious keys). Italian
+conjugations (24 verbs) and German match/facts content
+imported. Still open: edit ($EDITOR), export, link/unlink.
