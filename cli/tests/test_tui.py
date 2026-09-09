@@ -111,10 +111,10 @@ async def test_tree_navigation_and_full_quiz(client):
             else:
                 await pilot.press("space")
                 await pilot.click("#submit")
-            await pilot.pause()
+            await _settle(pilot)
             assert app.screen.in_feedback
             await pilot.press("enter")              # Continue
-            await pilot.pause()
+            await _settle(pilot)
 
         assert isinstance(app.screen, ResultScreen)
         text = str(app.screen.query_one("#result-text").render())
@@ -157,9 +157,9 @@ async def test_repeat_wrong_is_unranked(client):
                 await pilot.press(*"xxx", "enter")
             else:
                 await pilot.click("#submit")        # nothing selected
-            await pilot.pause()
+            await _settle(pilot)
             await pilot.press("enter")
-            await pilot.pause()
+            await _settle(pilot)
 
         assert isinstance(app.screen, ResultScreen)
         assert app.screen.wrong_cards
@@ -308,9 +308,9 @@ async def test_repeat_full_deck_is_unranked(client):
             else:
                 await pilot.press("space")
                 await pilot.click("#submit")
-            await pilot.pause()
+            await _settle(pilot)
             await pilot.press("enter")
-            await pilot.pause()
+            await _settle(pilot)
         assert isinstance(app.screen, ResultScreen)
         await pilot.press("r")                  # repeat whole deck
         await _settle(pilot)
