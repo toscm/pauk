@@ -4,9 +4,12 @@ Flashcard app ("Karteikarten") with an HTTP API as the single
 source of truth and thin clients on top of it.
 
 Questions are written in Markdown (images/videos via the usual
-`![name](url)` syntax), organized into folder-like paths, and
-taggable. Supported card types: multiple choice and free text
-(with normalized, typo-tolerant answer matching done server-side).
+`![name](url)` syntax) and organized into directories that form
+a DAG: a question can live in several directories, and
+directories can contain other directories (a "core verbs" quiz
+can be both standalone and part of "all verbs"). Supported card
+types: multiple choice and free text (with normalized,
+typo-tolerant answer matching done server-side).
 
 ## Layout
 

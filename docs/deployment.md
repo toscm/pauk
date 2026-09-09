@@ -44,9 +44,26 @@ previous app version (add, don't repurpose).
 
 - Nightly cron on the server:
   `mysqldump | gzip > ~/pauk-backups/pauk-YYYY-MM-DD.sql.gz`,
-  keeping the last 14 dumps. Media files are content-hashed
-  and immutable, so a weekly rsync of `media/` to the local
-  machine suffices.
+  followed by a prune step.
+
+- Retention (grandfather-father-son, date-anchored so it is
+  computable from filenames alone). A dump is kept iff:
+
+  - it is at most 7 days old, or
+  - its day of month is 1, 8, 15, or 22 and it is at most
+    35 days old, or
+  - its day of month is 1 and it is at most 366 days old.
+
+  That yields ~7 dailies, ~4 weekly anchors, ~12 monthly
+  anchors — roughly 20 small gzipped dumps at any time. The
+  prune logic lives in a script with unit tests (pure
+  filename → keep/drop decision).
+
+- `make deploy` additionally takes a dump right before
+  running migrations (kept alongside, pruned like a daily).
+
+- Media files are content-hashed and immutable, so a weekly
+  rsync of `media/` to the local machine suffices.
 
 - `make backup-fetch` pulls the latest dump + media to
   `~/pauk-local-backups/` on this machine.

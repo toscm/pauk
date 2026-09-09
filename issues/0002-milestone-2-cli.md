@@ -8,10 +8,17 @@ kind: task
 Python CLI (`pauk`) per docs/development.md:
 
 - config resolution: flags > env > ~/.config/pauk/config.toml
-- commands: config, add, edit ($EDITOR round-trip), ls
-  (--tree), mv, rm, tag
-- quiz mode: interactive session with filters (--path, --tag,
-  -n), markdown rendering via rich, graded results
+- interactive start menu when run without arguments:
+  1. Start a new quiz (pick a directory, then quiz its
+     cards, transitively including subdirectories)
+  2. Organize questions (browse dirs, add/edit/move/link)
+  3. Configure settings
+  4. Exit
+- every menu action also exists as a direct subcommand:
+  config, add, edit ($EDITOR round-trip), ls (--tree), link,
+  unlink, rm, quiz
+- quiz mode: filters (--dir, --recursive, -n), markdown
+  rendering via rich, graded results
 - import/export as markdown files with frontmatter
 - pytest e2e suite against a locally spawned API (see
   docs/testing.md level 3)

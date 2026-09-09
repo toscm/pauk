@@ -19,9 +19,10 @@ mobile later). Read `README.md` for the repo layout.
 - The API spec in `docs/api.md` is the contract. Change the
   spec first, then the implementation, then the clients.
 
-- All development and testing happens locally against SQLite;
-  the live IONOS database is never used for tests. See
-  `docs/testing.md`.
+- All development and testing happens locally against
+  scratch MariaDB instances (user-space install, same engine
+  and version as production); the live IONOS database is
+  never used for tests. See `docs/testing.md`.
 
 - Deploy only via `make deploy`, which runs the full test
   suite first and aborts if anything is red. Never rsync to

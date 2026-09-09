@@ -29,9 +29,9 @@ document wins until the discrepancy is fixed.
   200) and `?cursor=`; responses contain `items` and
   `next_cursor` (null when exhausted).
 
-- Card paths must match `^(/[a-z0-9-]+)+$` (lowercase,
-  digits, hyphens; no trailing slash). Tags must match
-  `^[a-z0-9-]+$`.
+- Directory names must match `^[a-z0-9-]+$`. Directory
+  semantics (DAG, uniqueness, cycle rules) are defined in
+  docs/architecture.md.
 
 ## Health
 
@@ -48,14 +48,13 @@ Card object (as returned to its owner):
 
     {
       "id": 17,
-      "path": "/bio/zellbiologie",
       "type": "mc",
       "question_md": "What does ![m](https://.../m.png) show?",
       "options": [
         {"id": 1, "text_md": "Mitochondrium", "correct": true},
         {"id": 2, "text_md": "Ribosom", "correct": false}
       ],
-      "tags": ["exam", "bio"],
+      "dirs": [{"id": 3, "name": "zellbiologie"}],
       "created_at": "2026-09-09T10:00:00Z",
       "updated_at": "2026-09-09T10:00:00Z"
     }
@@ -63,25 +62,28 @@ Card object (as returned to its owner):
 Free-text cards have `"type": "text"` and, instead of
 `options`, `"accepted_answers": ["Mitochondrium"]`.
 
-- `GET /cards` — list. Filters: `path` (exact),
-  `path_prefix`, `tag` (repeatable, AND), `type`, `q`
-  (substring search in question_md). Add `quiz=1` to omit
-  `correct` flags and `accepted_answers` (for quizzing UIs).
+- `GET /cards` — list. Filters: `dir` (directory id;
+  add `recursive=1` to include all transitive
+  subdirectories, deduplicated), `unfiled=1` (cards in no
+  directory), `type`, `q` (substring search in question_md).
+  Add `quiz=1` to omit `correct` flags and
+  `accepted_answers` (for quizzing UIs).
 
-- `POST /cards` — create. Body: `path`, `type`,
-  `question_md`, plus `options` (mc; each `text_md` +
-  `correct`, at least one correct) or `accepted_answers`
-  (text; at least one non-empty). Optional `tags` (created
-  on the fly). Returns 201 + the card.
+- `POST /cards` — create. Body: `type`, `question_md`, plus
+  `options` (mc; each `text_md` + `correct`, at least one
+  correct) or `accepted_answers` (text; at least one
+  non-empty). Optional `dirs` (list of directory ids to link
+  into). Returns 201 + the card.
 
 - `GET /cards/{id}` — single card. `?quiz=1` as above.
 
 - `PATCH /cards/{id}` — partial update; any subset of the
-  POST fields. Sending `options` or `accepted_answers`
-  replaces the whole set. Returns the updated card.
+  POST fields. Sending `options`, `accepted_answers`, or
+  `dirs` replaces the whole respective set. Returns the
+  updated card.
 
-- `DELETE /cards/{id}` — 204. Does not delete referenced
-  media.
+- `DELETE /cards/{id}` — 204. Removes its directory links;
+  does not delete referenced media.
 
 ## Answering
 
@@ -115,26 +117,54 @@ For mc cards `expected` contains
 `"exact"`, `"typo"`, or `"wrong"` (mc: `"exact"`/`"wrong"`).
 The answer is also appended to the `reviews` log.
 
-## Paths
+## Directories
 
-`GET /paths` — all distinct paths with card counts,
-sorted:
+Directory object:
 
-    {"items": [
-      {"path": "/bio", "cards": 0, "total": 12},
-      {"path": "/bio/zellbiologie", "cards": 12, "total": 12}
-    ]}
+    {
+      "id": 3,
+      "name": "italian-core-verbs",
+      "parents": [{"id": 2, "name": "italian-verbs"}],
+      "subdirs": [],
+      "cards": 20,
+      "cards_total": 20
+    }
 
-`cards` counts cards exactly at the path, `total` includes
-all descendants. Intermediate prefixes appear even if no
-card sits on them directly.
+`cards` counts directly linked cards, `cards_total` counts
+the transitive closure (deduplicated).
 
-## Tags
+- `GET /dirs` — top-level directories (those without
+  parents). `?parent={id}` lists the children of a
+  directory instead.
 
-- `GET /tags` — `{"items": [{"name": "exam", "cards": 5}]}`
-- `DELETE /tags/{name}` — removes the tag from all cards, 204.
+- `GET /dirs/{id}` — single directory as above.
 
-Tags are created implicitly via card create/update.
+- `GET /dirs/resolve?path=italian-verbs/italian-core-verbs`
+  — resolve a slash-separated name path from the top level;
+  returns the directory object or 404. (Unique by the
+  sibling-uniqueness rule, though other paths may reach the
+  same directory.)
+
+- `POST /dirs` — create. Body: `name`, optional `parent_id`.
+  409 on a name clash among the new siblings.
+
+- `PATCH /dirs/{id}` — rename. 409 on a clash under any of
+  its parents.
+
+- `DELETE /dirs/{id}` — delete the directory and all its
+  edges; cards are never deleted. If a child directory would
+  become unreachable (no other parent), the request fails
+  with 409 unless `?force=1`, which recursively deletes such
+  child directories (again keeping all cards). 204 on
+  success.
+
+Membership edges (all idempotent, 204; `PUT` returns 409 on
+a cycle or sibling name clash):
+
+- `PUT    /dirs/{id}/cards/{card_id}` — link a card
+- `DELETE /dirs/{id}/cards/{card_id}` — unlink a card
+- `PUT    /dirs/{id}/dirs/{child_id}` — link a subdirectory
+- `DELETE /dirs/{id}/dirs/{child_id}` — unlink it
 
 ## Media
 

@@ -8,12 +8,14 @@ kind: task
 Implement the API per docs/api.md, minus media:
 
 - project scaffolding (Slim 4, PSR-4, PHPUnit, Makefile)
-- migrations + runner (SQLite/MariaDB variants where needed)
+- local MariaDB tooling (make setup/db-start/db-stop)
+- migrations + runner
 - bearer-token auth + token creation script
-- endpoints: health, cards CRUD, answer/grading, paths, tags
+- endpoints: health, cards CRUD, answer/grading, dirs
+  (DAG: CRUD, resolve, link/unlink, cycle rejection)
 - grading logic with exhaustive unit tests
 - integration tests for every endpoint
-- CI workflow (SQLite + MariaDB parity)
+- CI workflow (mariadb:11.8 service container)
 - deploy scripts (make deploy, rollback, smoke test) and the
   first production deploy
 

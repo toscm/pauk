@@ -10,7 +10,10 @@
 
 - `cli`: Python 3 client (Typer + httpx + rich). Talks HTTP
   only, so it is independent of the API's implementation
-  language.
+  language. Started without arguments it shows an interactive
+  menu (quiz / organize / settings / exit); every menu action
+  is also available as a direct subcommand for scripting and
+  tests.
 
 - `web` (later): static single-page app served from the same
   webspace, talking to the same API.
@@ -45,10 +48,9 @@
   last_used_at. Tokens are random 32-byte values, stored
   hashed (SHA-256).
 
-- `cards`: id, user_id, path, type (`mc` | `text`),
-  question_md, created_at, updated_at. `path` is a
-  folder-like string such as `/bio/zellbiologie`; folders
-  exist only as path prefixes, there is no folder table.
+- `cards`: id, user_id, type (`mc` | `text`), question_md,
+  created_at, updated_at. Cards carry no path; where they
+  appear is defined solely by directory links.
 
 - `mc_options`: id, card_id, position, text_md, is_correct.
   Multiple correct options are allowed.
@@ -56,7 +58,12 @@
 - `text_answers`: id, card_id, accepted_answer. Several rows
   mean several accepted phrasings.
 
-- `tags`: id, user_id, name. `card_tags`: card_id, tag_id.
+- `dirs`: id, user_id, name, created_at, updated_at. A
+  directory is a collection, not a filesystem node.
+
+- `dir_dirs`: parent_id, child_id — directory nesting edges.
+
+- `dir_cards`: dir_id, card_id — card membership edges.
 
 - `media`: id, user_id, sha256, original_name, mime, size,
   created_at. The file on disk is `<sha256>.<ext>`; uploading
@@ -66,6 +73,35 @@
   was_correct. Append-only log a spaced-repetition scheduler
   can be built on.
 
+### Directory semantics
+
+Directories form a DAG, not a tree:
+
+- A card can be linked into any number of directories; a
+  directory can be linked into any number of parent
+  directories. Example: `italian-core-verbs` is both a
+  quiz of its own and a subdirectory of `italian-verbs`;
+  quizzing the latter includes the former's cards
+  transitively.
+
+- Cycles are forbidden and rejected when a nesting edge is
+  created (the API walks the would-be ancestors).
+
+- A directory has one name (`^[a-z0-9-]+$`), the same under
+  every parent. Siblings must have distinct names, and
+  top-level directories (those without parents) must have
+  distinct names per user, so a path like
+  `italian-verbs/italian-core-verbs` resolves uniquely —
+  though a directory may be reachable via several paths.
+
+- Cards linked into no directory are "unfiled" and listable
+  as such; deleting a directory never deletes cards.
+
+- Sharing later: visibility will be a property of
+  directories (e.g. everything under a user's `public`
+  directory is readable by others), which multi-membership
+  makes cheap — sharing is linking. Not part of milestone 1.
+
 ## Decisions
 
 - Name components by role, not language (`api`, not
@@ -74,23 +110,16 @@
 - Monorepo while the project is small; a native mobile app
   would get its own repo because of its toolchain.
 
-- Two SQL dialects, one schema: production runs MariaDB,
-  development and tests run SQLite. Consequences:
+- One database engine everywhere: MariaDB 11.8 in
+  production, in CI, and locally (user-space install from
+  the official binary tarball, scratch datadirs under
+  `api/var/`). No SQLite, no dialect-portability rules —
+  plain MariaDB SQL is fine. See docs/development.md.
 
-  - All queries stick to the portable SQL subset. No
-    dialect-specific features (no `INSERT ... ON DUPLICATE
-    KEY`, no FULLTEXT; search uses `LIKE` for now).
-
-  - Migrations are plain SQL files in `api/migrations/`,
-    numbered `NNN_name.sql`. Where the dialects must differ
-    (e.g. auto-increment syntax), a migration exists as
-    `NNN_name.mariadb.sql` plus `NNN_name.sqlite.sql` instead
-    of the shared file. The migration runner picks the right
-    variant.
-
-  - CI additionally runs the test suite against a real
-    MariaDB 11.8 service container to catch dialect drift
-    (see docs/testing.md).
+- Directories are a DAG of collections (see above); cards
+  have no intrinsic path. Tags from an earlier draft were
+  dropped: a multi-membership directory does everything a
+  tag did (issues/0008 tracks whether they are ever missed).
 
 - Answer grading happens server-side (`POST
   /cards/{id}/answer`), so every client grades identically
