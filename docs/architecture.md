@@ -119,7 +119,11 @@ Directories form a DAG, not a tree:
 - The directory DAG is stored as an edge table and traversed
   with recursive CTEs (`WITH RECURSIVE`); `UNION` dedup makes
   traversal diamond-safe and loop-safe. No closure table —
-  unnecessary at this scale.
+  unnecessary at this scale. Caution: the CTE's column type
+  is inferred from the anchor query, and a bare bound
+  parameter is typed as a short string that silently
+  truncates deeper ids — always write the anchor as
+  `SELECT CAST(? AS UNSIGNED)`.
 
 ## Decisions
 

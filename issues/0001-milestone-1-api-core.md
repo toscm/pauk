@@ -24,9 +24,14 @@ Acceptance: `make test` green locally, CI green,
 card creatable and answerable via curl with a real token.
 
 2026-09-09: Done. Deployed as 0.1.0 to
-https://pauk.aao756.de. IONOS quirks worth remembering:
+https://pauk.aao756.de. Implementation landed in commits
+6aa891e (API core + CLI + content), 1ef0a2f (CI + deploy
+tooling), and the two IONOS fixes below; this issue was
+closed in a follow-up docs commit, in violation of the
+same-commit rule — commit refs recorded here instead. IONOS quirks worth remembering:
 per-directory mod_rewrite 500s (FallbackResource used
 instead), CGI PHP drops the Authorization header (SetEnvIf +
 REDIRECT_ promotion in the front controller), and recursive
 CTE anchors need CAST or the CTE column is typed as a short
-string.
+string. All three are now documented in docs/deployment.md
+(IONOS quirks) and docs/architecture.md (CTE caution).

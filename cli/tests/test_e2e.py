@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 from conftest import REPO, run_cli
@@ -30,6 +31,14 @@ def test_mkdir_add_ls_roundtrip(cli_env):
 
     tree = run_cli(cli_env, "ls", "--tree")
     assert "cells/" in tree.stdout
+
+    # rm deletes the card again
+    ls = run_cli(cli_env, "ls", "bio/cells")
+    card_id = re.search(r"#(\d+)", ls.stdout).group(1)
+    removed = run_cli(cli_env, "rm", card_id)
+    assert removed.returncode == 0
+    assert f"deleted card #{card_id}" in removed.stdout
+    assert "DNA" not in run_cli(cli_env, "ls", "bio/cells").stdout
 
 
 def test_import_greek_and_quiz(cli_env):

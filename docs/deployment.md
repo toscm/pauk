@@ -16,6 +16,21 @@ Target: IONOS shared webhosting, `ssh ionos`.
 
 - `~/pauk-backups/` — database dumps (see Backups).
 
+## IONOS quirks (do not "clean up")
+
+- Per-directory mod_rewrite returns 500 on this Apache;
+  `api/public/.htaccess` therefore uses
+  `FallbackResource /index.php`. Real files (media/) are
+  still served directly.
+
+- CGI PHP drops the `Authorization` header. Two measures
+  re-expose it: `SetEnvIf Authorization ...` in the
+  .htaccess, and the front controller promotes
+  `REDIRECT_`-prefixed variants that the FallbackResource
+  internal redirect produces. Removing either breaks every
+  authenticated endpoint in production only — the local dev
+  server has neither quirk.
+
 ## Process (`make deploy`)
 
 1. `make test` — levels 1–3 locally; abort on any failure.
@@ -42,9 +57,10 @@ previous app version (add, don't repurpose).
 
 ## Backups
 
-- Nightly cron on the server:
+- Nightly cron on the server (03:14, installed by
+  deploy.sh): `~/pauk-backups/backup.sh` runs
   `mysqldump | gzip > ~/pauk-backups/pauk-YYYY-MM-DD.sql.gz`,
-  followed by a prune step.
+  then `prune_backups.py` (deployed from `scripts/`).
 
 - Retention (grandfather-father-son, date-anchored so it is
   computable from filenames alone). A dump is kept iff:

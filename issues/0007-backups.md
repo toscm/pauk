@@ -15,5 +15,8 @@ procedure here.
 
 2026-09-09: Nightly cron (03:14) installed on the server,
 prune_backups.py deployed with unit-tested GFS retention,
-manual run verified (dump ~10 KB). Still open: verify a dump
-restores cleanly, then document the restore procedure here.
+manual run verified (~10 KB gzipped, complete dump of the
+seeded database). make backup-fetch verified: pulls the
+latest dump to ~/pauk-local-backups/. Still open: verify a
+dump restores cleanly, then document the restore procedure
+here.

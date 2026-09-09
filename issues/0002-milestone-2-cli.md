@@ -26,7 +26,12 @@ Python CLI (`pauk`) per docs/development.md:
 Acceptance: full create → quiz → export → reimport cycle
 works against the local test server and against production.
 
-2026-09-09: Menu, quiz, ls/--tree, mkdir, add, rm, import,
-config, health implemented and e2e-tested; greek + italian
-content imported to production through it. Still missing:
-edit ($EDITOR round-trip), export, link/unlink subcommands.
+2026-09-09: Implemented and e2e-tested: menu (quiz path),
+quiz, ls/--tree, add, rm, import, config, health; plus
+mkdir (added beyond the original spec, replacing the
+spec's implicit dir creation). Greek + italian content
+imported to production through the CLI. Still missing
+from the body spec: edit ($EDITOR round-trip), export,
+link/unlink, moving cards/dirs, and a real 'Organize
+questions' menu (currently a stub that lists the
+subcommands).
