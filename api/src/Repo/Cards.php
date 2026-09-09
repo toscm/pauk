@@ -335,7 +335,7 @@ final class Cards
             $where[] = 'dc.card_id IS NULL';
         }
         if (isset($filters['type'])) {
-            if (!in_array($filters['type'], ['mc', 'text', 'match', 'quest'], true)) {
+            if (!in_array($filters['type'], ['mc', 'text', 'match', 'quest', 'route'], true)) {
                 throw new ApiError(400, 'validation', "type must be mc, text, match, quest or route");
             }
             $where[] = 'c.type = ?';

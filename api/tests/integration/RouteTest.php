@@ -28,6 +28,16 @@ final class RouteTest extends ApiTestCase
         $this->assertSame('berlin', $card['goal_node']);
     }
 
+    public function testFilterByRouteType(): void
+    {
+        $this->makeRoute();
+        $this->makeTextCard('a text card', ['x']);
+        [$status, $data] = $this->request('GET', '/cards?type=route');
+        $this->assertSame(200, $status);
+        $this->assertCount(1, $data['items']);
+        $this->assertSame('route', $data['items'][0]['type']);
+    }
+
     public function testValidationRejectsBadNode(): void
     {
         [$status] = $this->request('POST', '/cards', [
