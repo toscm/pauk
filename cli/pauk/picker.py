@@ -13,6 +13,8 @@ it. Favorites view: typing filters (fuzzy), Backspace deletes.
 
 from __future__ import annotations
 
+import os
+import select
 import sys
 from dataclasses import dataclass, field
 
@@ -31,20 +33,53 @@ class PickerState:
 
 
 def _read_key(stream) -> str:
+    if stream.isatty():
+        return _read_key_tty(stream)
+    # pipe path (tests): buffered reads; a bare \x1b deliberately
+    # consumes one following char ("\x1bx" is the test Esc sentinel)
     ch = stream.read(1)
     if ch == "":
         return "esc"  # EOF: leave instead of spinning
     if ch == "\x1b":
-        if stream.isatty():
-            import select
-
-            if not select.select([stream], [], [], 0.05)[0]:
-                return "esc"  # lone Escape key
         nxt = stream.read(1)
         if nxt != "[":
             return "esc"
         code = stream.read(1)
         return {"A": "up", "B": "down", "C": "right", "D": "left"}.get(code, "esc")
+    return _classify(ch)
+
+
+def _read_key_tty(stream) -> str:
+    # os.read on the raw fd: a terminal delivers "\x1b[C" as one
+    # chunk, and sys.stdin.read(1) would slurp the whole sequence
+    # into Python's buffer — after which select() on the fd
+    # truthfully reports "no data" and a real arrow key would be
+    # mistaken for a lone Escape.
+    fd = stream.fileno()
+    data = os.read(fd, 1)
+    if data == b"":
+        return "esc"
+    if data == b"\x1b":
+        seq = b""
+        while len(seq) < 8 and select.select([fd], [], [], 0.05)[0]:
+            seq += os.read(fd, 1)
+            if seq[:1] == b"[" and (seq[-1:].isalpha() or seq[-1:] == b"~"):
+                break
+        mapping = {b"A": "up", b"B": "down", b"C": "right", b"D": "left"}
+        if seq[:1] == b"[" and seq[-1:] in mapping:
+            return mapping[seq[-1:]]
+        return "esc"  # lone Escape or unknown sequence
+    first = data[0]
+    length = 4 if first >= 0xF0 else 3 if first >= 0xE0 else 2 if first >= 0xC0 else 1
+    while len(data) < length:
+        data += os.read(fd, length - len(data))
+    try:
+        return _classify(data.decode("utf-8"))
+    except UnicodeDecodeError:
+        return "esc"
+
+
+def _classify(ch: str) -> str:
     if ch in ("\r", "\n"):
         return "enter"
     if ch in ("\x7f", "\x08"):
