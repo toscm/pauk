@@ -299,6 +299,26 @@ def test_media_upload_and_import_substitution(cli_env, tmp_path):
     assert "media:" not in ls.stdout
     assert "/media/" in ls.stdout
 
+    # media: also substituted inside an mc option's text_md
+    mc_sample = {
+        "dirs": ["media-mc"],
+        "dir_links": [],
+        "cards": [{
+            "dirs": ["media-mc"],
+            "type": "mc",
+            "question_md": "Pick the image option",
+            "options": [
+                {"text_md": "this ![p](media:pixel.png)", "correct": True},
+                {"text_md": "plain", "correct": False},
+            ],
+        }],
+    }
+    mc_content = tmp_path / "media-mc.json"
+    mc_content.write_text(json.dumps(mc_sample))
+    mc_result = run_cli(cli_env, "import", str(mc_content))
+    assert mc_result.returncode == 0, mc_result.stderr
+    assert "imported 1 cards" in mc_result.stdout
+
     listed = run_cli(cli_env, "media", "ls")
     assert "pixel.png" in listed.stdout
 

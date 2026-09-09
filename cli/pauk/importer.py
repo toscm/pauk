@@ -58,17 +58,26 @@ def import_file(client: Client, path: Path, echo=print) -> tuple[int, int]:
 
 
 def _resolve_media(client: Client, cards: list[dict], base: Path, echo) -> None:
+    """Upload every `media:<path>` reference (path relative to the
+    content JSON's directory) and replace it with the served URL,
+    in question_md and in mc option text_md. Idempotent via
+    server-side sha256 dedup."""
     uploaded: dict[str, str] = {}
-    for card in cards:
-        for rel in set(MEDIA_RE.findall(card["question_md"])):
+
+    def substitute(text: str) -> str:
+        for rel in set(MEDIA_RE.findall(text)):
             if rel not in uploaded:
                 file = (base / rel).resolve()
                 if not file.is_file():
                     raise FileNotFoundError(f"media file not found: {file}")
                 uploaded[rel] = client.upload_media(file)["url"]
-            card["question_md"] = card["question_md"].replace(
-                f"media:{rel}", uploaded[rel]
-            )
+            text = text.replace(f"media:{rel}", uploaded[rel])
+        return text
+
+    for card in cards:
+        card["question_md"] = substitute(card["question_md"])
+        for option in card.get("options", []):
+            option["text_md"] = substitute(option["text_md"])
     if uploaded:
         echo(f"uploaded {len(uploaded)} media files")
 

@@ -285,5 +285,7 @@ Media URLs are meant to be pasted into `question_md` as
 see issues/0006. In production Apache serves them from the
 docroot `media/` directory; under the dev server the front
 controller emits them from `PAUK_MEDIA_DIR`. Content JSON may
-reference a not-yet-uploaded file as `media:<relative path>`;
-`pauk import` uploads it and substitutes the returned URL.
+reference a not-yet-uploaded file as `media:<relative path>`
+(resolved against the content file's own directory) in a
+card's `question_md` or an mc option's `text_md`; `pauk
+import` uploads it and substitutes the returned URL.
