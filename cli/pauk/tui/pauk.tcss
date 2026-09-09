@@ -1,0 +1,104 @@
+#home {
+    align: center middle;
+    height: 100%;
+}
+
+#logo {
+    width: auto;
+    color: $primary;
+    text-style: bold;
+}
+
+#tagline {
+    width: auto;
+    color: $text-muted;
+    margin-bottom: 1;
+}
+
+#home-menu {
+    width: 40;
+    max-height: 10;
+}
+
+#picker-tabs {
+    height: 100%;
+}
+
+#filter {
+    margin: 0 1;
+}
+
+#count-dialog {
+    align: center middle;
+    background: $surface;
+    border: solid $primary;
+    width: 44;
+    height: 6;
+    padding: 1 2;
+}
+
+CountDialog {
+    align: center middle;
+}
+
+#quiz {
+    padding: 1 2;
+}
+
+#quiz-header {
+    color: $text-muted;
+    margin-bottom: 1;
+}
+
+#question {
+    margin-bottom: 1;
+}
+
+#choices {
+    max-height: 12;
+}
+
+#feedback {
+    margin-top: 1;
+    text-style: bold;
+}
+
+#feedback.good {
+    color: $success;
+    margin-top: 1;
+    text-style: bold;
+}
+
+#feedback.bad {
+    color: $error;
+    margin-top: 1;
+    text-style: bold;
+}
+
+#result {
+    padding: 1 2;
+}
+
+#trophy {
+    color: $warning;
+    text-style: bold;
+}
+
+#rank-line {
+    color: $warning;
+    text-style: bold;
+    margin-bottom: 1;
+}
+
+#result-buttons {
+    height: 3;
+    margin-top: 1;
+}
+
+#result-buttons Button {
+    margin-right: 2;
+}
+
+#stats-text {
+    padding: 1 2;
+}

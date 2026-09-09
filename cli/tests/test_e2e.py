@@ -88,22 +88,6 @@ def test_import_italian(cli_env):
     assert "core-verbs/" in tree.stdout
 
 
-def test_menu_tree_view(cli_env):
-    # menu -> quiz picker -> Tab to tree view -> Right expands the
-    # first deck (greek, alphabetically first with cards) -> Esc
-    # back -> exit. "\x1bx" is Esc for the piped-input key reader.
-    menu = run_cli(
-        cli_env,
-        input_text="1\n\t\x1b[C\x1bx4\n",
-    )
-    assert menu.returncode == 0, menu.stderr
-    assert "directory tree" in menu.stdout
-    assert "+ greek" in menu.stdout          # collapsed, expandable
-    assert "- greek" in menu.stdout          # expanded after Right
-    assert "lowercase" in menu.stdout        # its children became visible
-    assert not any(ch in menu.stdout for ch in BOX_CHARS)
-
-
 def test_quiz_repeat_wrong(cli_env):
     sample = {
         "dirs": ["repeat-demo"],
@@ -131,36 +115,30 @@ def test_quiz_repeat_wrong(cli_env):
     assert "Result: 1/1 correct." in quiz.stdout
 
 
-def test_quiz_via_menu(cli_env):
+def test_quiz_typo_shows_spelling(cli_env):
     sample = {
-        "dirs": ["menu-demo"],
+        "dirs": ["typo-demo"],
         "dir_links": [],
         "cards": [{
-            "dirs": ["menu-demo"],
+            "dirs": ["typo-demo"],
             "type": "text",
             "question_md": "Say hello",
             "accepted_answers": ["hello"],
         }],
     }
-    path = Path(cli_env["XDG_CONFIG_HOME"]) / "sample.json"
+    path = Path(cli_env["XDG_CONFIG_HOME"]) / "typo.json"
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(sample))
     assert run_cli(cli_env, "import", str(path)).returncode == 0
 
-    # menu: 1 = quiz, type to fuzzy-filter in the favorites view,
-    # Enter picks the top match, 1 question, typo answer, Enter at
-    # the repeat prompt, Esc leaves the picker, 4 exits the menu
-    menu = run_cli(
-        cli_env,
-        input_text="1\nmenu-demo\r1\nhelo\n\n\x1bx4\n",
+    quiz = run_cli(
+        cli_env, "quiz", "--dir", "typo-demo", "-n", "1",
+        input_text="helo\n\n",
     )
-    assert menu.returncode == 0, menu.stderr
-    assert "Start a new quiz" in menu.stdout
-    assert "favorites first" in menu.stdout
-    assert "filter: menu-demo" in menu.stdout
+    assert quiz.returncode == 0, quiz.stderr
     # a tolerated typo must show the correct spelling
-    assert "correct spelling:" in menu.stdout
-    assert "hello" in menu.stdout
+    assert "correct spelling:" in quiz.stdout
+    assert "hello" in quiz.stdout
 
 
 def test_mc_quiz_answer(cli_env):

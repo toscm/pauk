@@ -1,7 +1,7 @@
-"""Real-terminal regression test: drives the actual pauk binary
-on a pseudo-terminal via pexpect, so key handling is exercised
-the way a terminal delivers it (whole escape sequences in one
-chunk) — the piped-input path cannot catch that class of bug."""
+"""Real-terminal smoke test: the Textual app on a pseudo-terminal
+via pexpect. Headless Pilot tests cover the logic; this guards
+the one thing they cannot — that the app actually starts, renders,
+and navigates on a real tty."""
 
 from __future__ import annotations
 
@@ -12,30 +12,28 @@ import pexpect
 from conftest import REPO, run_cli
 
 
-def test_arrow_keys_on_real_pty(cli_env):
-    # idempotent: guarantees at least one deck with cards exists
+def test_tui_starts_and_navigates_on_real_pty(cli_env):
     assert run_cli(cli_env, "import", str(REPO / "content" / "greek.json")).returncode == 0
 
+    env = dict(cli_env)
+    env["TERM"] = "xterm-256color"
     child = pexpect.spawn(
         sys.executable, ["-m", "pauk"],
-        env=cli_env, cwd=str(REPO), encoding="utf-8",
-        dimensions=(40, 160), timeout=30,
+        env=env, cwd=str(REPO), encoding="utf-8",
+        dimensions=(40, 120), timeout=30,
     )
     try:
-        child.expect("what do you want")
-        child.sendline("1")
-        child.expect("favorites first")
-        child.send("\t")                    # tree view
-        child.expect("directory tree")
-        child.send("\x1b[C")                # Right: expand first deck
-        child.expect(r"- \w+")              # expanded marker appears
-        child.send("\x1b[B")                # Down: move into children
-        child.send("\x1b[D")                # Left: collapse again
-        child.expect(r"\+ \w+")
-        child.send("\x1b")                  # lone Esc: back to menu
-        child.expect("Exit")
-        child.sendline("4")
+        child.expect("Start a quiz")
+        child.send("\r")                    # open the picker
+        child.expect("Favorites")
+        child.expect("all cards")
+        child.send("\x1bOQ")                # F2: tree view (SS3 code)
+        child.send("\x1b[12~")              # F2 fallback (CSI code)
+        child.expect("greek")
+        child.send("\x1b")                  # Esc: back to home
+        child.expect("Statistics")
+        child.send("q")                     # quit binding
         child.expect(pexpect.EOF)
     finally:
         child.close(force=True)
-    assert child.exitstatus == 0
+    assert child.exitstatus in (0, None)

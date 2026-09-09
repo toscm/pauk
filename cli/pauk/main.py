@@ -22,7 +22,6 @@ from rich.console import Console
 
 import pauk
 from pauk import config as config_mod
-from pauk import picker
 from pauk.client import ApiError, Client
 from pauk.importer import import_file
 from pauk.quiz import run_quiz
@@ -77,7 +76,9 @@ def main(
     _state["server"] = server
     _state["token"] = token
     if ctx.invoked_subcommand is None:
-        _menu()
+        from pauk.tui.app import run_tui
+
+        run_tui(_client())
 
 
 @app.command()
@@ -302,64 +303,3 @@ def update() -> None:
         [sys.executable, "-m", "pauk", "--version"], capture_output=True, text=True
     )
     console.print(f"[green]Now at {result.stdout.strip()}[/green]")
-
-
-def _menu() -> None:
-    while True:
-        console.print(
-            "\n[bold]pauk[/bold] — what do you want to do?\n"
-            "  [cyan]1[/cyan]) Start a new quiz\n"
-            "  [cyan]2[/cyan]) Organize questions\n"
-            "  [cyan]3[/cyan]) Configure settings\n"
-            "  [cyan]4[/cyan]) Exit"
-        )
-        try:
-            choice = console.input("> ").strip()
-        except EOFError:
-            return
-        if choice == "1":
-            _menu_quiz()
-        elif choice == "2":
-            _menu_organize()
-        elif choice == "3":
-            config(None, None)
-        elif choice in {"4", "q", ""}:
-            return
-        else:
-            console.print("[yellow]Please choose 1-4.[/yellow]")
-
-
-_picker_state = picker.PickerState()
-
-
-def _menu_quiz() -> None:
-    client = _client()
-    while True:
-        entries = [d for d in client.quiz_dirs() if d["cards_total"] > 0]
-        if not entries:
-            console.print("[yellow]No quizzes yet — import some content first.[/yellow]")
-            return
-        console.print()
-        # _picker_state is session-global: after a quiz the picker
-        # reopens exactly as it was left (view, expansion, filter).
-        selection = picker.pick(entries, _picker_state)
-        if selection is picker.BACK:
-            return
-        path = None if selection is picker.ALL_CARDS else selection
-        try:
-            raw_n = console.input("How many questions? [20] ").strip()
-        except EOFError:
-            return
-        n = int(raw_n) if raw_n.isdigit() and int(raw_n) > 0 else 20
-        run_quiz(client, path, recursive=True, n=n)
-
-
-def _menu_organize() -> None:
-    console.print(
-        "\nOrganizing works via subcommands for now:\n"
-        "  pauk ls --tree          show all folders\n"
-        "  pauk mkdir PATH         create a folder path\n"
-        "  pauk add --dir PATH     add a card\n"
-        "  pauk rm ID              delete a card\n"
-        "  pauk import FILE.json   import content"
-    )
