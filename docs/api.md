@@ -282,4 +282,8 @@ a cycle or sibling name clash):
 Media URLs are meant to be pasted into `question_md` as
 `![name](url)`. The files themselves are served statically
 (no auth) — obscurity via hash filename is accepted for now;
-see issues/0006.
+see issues/0006. In production Apache serves them from the
+docroot `media/` directory; under the dev server the front
+controller emits them from `PAUK_MEDIA_DIR`. Content JSON may
+reference a not-yet-uploaded file as `media:<relative path>`;
+`pauk import` uploads it and substitutes the returned URL.
