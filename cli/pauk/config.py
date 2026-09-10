@@ -19,7 +19,6 @@ CONFIG_PATH = Path(
 
 DEFAULTS = {
     "statusbar_position": "bottom",   # "bottom" | "top"
-    "default_questions": 25,
 }
 
 

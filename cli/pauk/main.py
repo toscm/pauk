@@ -309,14 +309,12 @@ def stats(
     if decks:
         console.print("[bold]Top decks[/bold] (most played):")
         for deck in decks:
-            best = (
-                f"best {round(deck['best']['accuracy'] * 100)}%"
-                if deck["best"] else "no ranked run"
-            )
+            p = deck.get("performance")
+            perf = f"{round(p * 100):+d}%" if p is not None else "no data"
             runs = "run" if deck["runs"] == 1 else "runs"
             console.print(
                 f"  {deck['runs']:>3} {runs}  {deck['path']} "
-                f"[dim]({deck['cards_total']} cards, {best})[/dim]"
+                f"[dim]({deck['cards_total']} cards, performance {perf})[/dim]"
             )
     else:
         console.print("[dim]No quiz runs yet.[/dim]")

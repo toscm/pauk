@@ -133,10 +133,29 @@ final class QuizRunsAndStatsTest extends ApiTestCase
         $this->assertSame('italian/verbs', $first['path']);
         $this->assertSame(3, $first['runs']);
         $this->assertSame(1, $first['cards_total']);
-        $this->assertEqualsWithDelta(1.0, $first['best']['accuracy'], 1e-9);
         // unstarted dirs follow, alphabetically by path
         $this->assertSame(['italian', 'unused'], array_column(array_slice($data['items'], 1), 'path'));
-        $this->assertNull($data['items'][1]['best']);
+        // the 'unused' deck has no reviews → null performance
+        $this->assertNull($data['items'][2]['performance']);
+
+    }
+
+    public function testPerformanceMetricOverSubtree(): void
+    {
+        $parent = $this->makeDir('lang');
+        $child = $this->makeDir('sub', $parent);
+        $card = $this->makeTextCard('Q', ['si'], [$child]);
+        // 3 correct, 1 wrong → (3-1)/4 = 0.5; parent sees it via the subtree
+        foreach (['si', 'si', 'si', 'no'] as $ans) {
+            $this->request('POST', "/cards/$card/answer", ['answer' => $ans]);
+        }
+        [, $data] = $this->request('GET', '/quiz/dirs');
+        $byPath = [];
+        foreach ($data['items'] as $it) {
+            $byPath[$it['path']] = $it['performance'];
+        }
+        $this->assertEqualsWithDelta(0.5, $byPath['lang/sub'], 1e-9);
+        $this->assertEqualsWithDelta(0.5, $byPath['lang'], 1e-9);  // subtree aggregation
     }
 
     public function testPickerPathIsCanonicalUnderMultipleParents(): void

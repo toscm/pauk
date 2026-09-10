@@ -253,14 +253,18 @@ pickers, sorted by popularity (started runs) then path:
       "name": "core-verbs",
       "cards_total": 20,
       "runs": 5,
-      "best": {"accuracy": 0.9}
+      "performance": 0.62
     }]}
 
 `path` is the canonical path (alphabetically first when a
-directory is reachable via several); `best` is the user's
-best ranked accuracy for the directory across any question
-count, or null. This endpoint is batched: a fixed number of
-queries regardless of directory count.
+directory is reachable via several). `performance` is a
+rolling metric over the last 500 reviews of the directory's
+transitive card set: `(correct - wrong) / total`, in
+`[-1, 1]` (equivalently `2·mean(was_correct) - 1`), or null
+when the subtree has no reviews. Because it aggregates over
+the subtree, training `greek/lowercase` also moves `greek`.
+This endpoint is batched: a fixed number of queries
+regardless of directory count.
 
 `POST /quiz/runs` — log a quiz start. Body: `dir_id`
 (integer or null for all-cards quizzes), `total` (planned

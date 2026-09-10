@@ -1,4 +1,4 @@
-"""Screens of the pauk TUI: Home → Picker → Quiz → Result.
+"""Screens of the pauk TUI: Home → Picker → Quiz (open-ended).
 
 Network calls run in background threads (Textual @work) so the UI
 never blocks: every screen paints immediately with a "Loading…"
@@ -20,9 +20,28 @@ from textual.screen import Screen
 from textual.widgets import Button, Input, Markdown, OptionList, SelectionList, Static, Tree
 from textual.widgets.option_list import Option
 from textual.widgets.selection_list import Selection
+from rich.text import Text
 
 from pauk import config as config_mod
 from pauk.fuzzy import fuzzy_filter
+
+
+def _perf_color(value: float) -> str:
+    """Red (all wrong, -1) → amber (0) → green (all correct, +1)."""
+    red, amber, green = (0xC0, 0x39, 0x2B), (0xC8, 0xA2, 0x1F), (0x2E, 0x8B, 0x57)
+    lo, hi, t = (red, amber, value + 1) if value < 0 else (amber, green, value)
+    r = round(lo[0] + (hi[0] - lo[0]) * t)
+    g = round(lo[1] + (hi[1] - lo[1]) * t)
+    b = round(lo[2] + (hi[2] - lo[2]) * t)
+    return f"#{r:02x}{g:02x}{b:02x}"
+
+
+def _perf_text(entry: dict) -> Text:
+    """A colored performance badge, or an empty 'no data' marker."""
+    p = entry.get("performance")
+    if p is None:
+        return Text(" ·", style="dim")
+    return Text(f" · {round(p * 100):+d}%", style=_perf_color(p))
 
 ASSETS = Path(__file__).parent / "assets"
 
@@ -115,8 +134,9 @@ class DeckTree(Tree):
 
 class PickerScreen(Screen):
     """Deck selection with a favorites list and a directory tree.
-    View/expansion/filter state and the chosen question count live
-    on the app, so they survive leaving and re-entering."""
+    View, expansion, and filter state live on the app, so they
+    survive leaving and re-entering. Each deck shows a rolling
+    red→green performance metric."""
 
     BINDINGS = [
         Binding("escape", "app.pop_screen", "Back"),
@@ -133,7 +153,6 @@ class PickerScreen(Screen):
                 "view": "fav",
                 "expanded": set(),
                 "filter": "",
-                "n": config_mod.get("default_questions"),
             }
         return app.picker_memory
 
@@ -174,10 +193,6 @@ class PickerScreen(Screen):
         # move focus, and typed filter characters would be swallowed
         if event.key == "tab":
             self.action_toggle_view(); event.stop(); return
-        if event.key == "right_square_bracket":
-            self.action_more_questions(); event.stop(); return
-        if event.key == "left_square_bracket":
-            self.action_fewer_questions(); event.stop(); return
         if self._memory["view"] != "fav":
             return
         if event.key == "backspace":
@@ -202,26 +217,13 @@ class PickerScreen(Screen):
         self._apply_view()
         self._update_status()
 
-    def action_more_questions(self) -> None:
-        self._memory["n"] = min(200, self._memory["n"] + 5)
-        self._update_status()
-
-    def action_fewer_questions(self) -> None:
-        self._memory["n"] = max(1, self._memory["n"] - 5)
-        self._update_status()
-
     def _update_status(self) -> None:
-        n = self._memory["n"]
         if self._memory["view"] == "tree":
-            self.query_one("#picker-status", StatusBar).update(
-                f"{n} questions · [ ] · Tab list"
-            )
+            self.query_one("#picker-status", StatusBar).update("Tab list")
         else:
             flt = self._memory["filter"]
-            typed = f" · /{flt}" if flt else ""
-            self.query_one("#picker-status", StatusBar).update(
-                f"{n} questions · [ ] · Tab tree{typed}"
-            )
+            typed = f"/{flt} · " if flt else ""
+            self.query_one("#picker-status", StatusBar).update(f"{typed}Tab tree")
 
     def _rebuild_favorites(self) -> None:
         query = self._memory["filter"]
@@ -232,7 +234,9 @@ class PickerScreen(Screen):
         if not query:
             options.append(Option("all cards", id="__all__"))
         for entry in ordered[:30]:
-            options.append(Option(f"{entry['path']}  {_best_tag(entry)}", id=entry["path"]))
+            label = Text(entry["path"])
+            label.append(_perf_text(entry))
+            options.append(Option(label, id=entry["path"]))
         option_list = self.query_one("#fav-list", OptionList)
         option_list.clear_options()
         option_list.add_options(options)
@@ -254,7 +258,8 @@ class PickerScreen(Screen):
             )
 
         def add(parent_node, entry: dict) -> None:
-            label = f"{entry['name']}  ({entry['cards_total']} cards) {_best_tag(entry)}"
+            label = Text(f"{entry['name']}  ({entry['cards_total']} cards)")
+            label.append(_perf_text(entry))
             kids = children_of(entry["path"])
             if kids:
                 node = parent_node.add(
@@ -296,13 +301,7 @@ class PickerScreen(Screen):
                 if entry["path"] == path:
                     dir_id = entry["id"]
                     break
-        self.app.push_screen(QuizScreen(dir_id, title, self._memory["n"]))
-
-
-def _best_tag(entry: dict) -> str:
-    if entry.get("best"):
-        return f"· best {round(entry['best']['accuracy'] * 100)}%"
-    return ""
+        self.app.push_screen(QuizScreen(dir_id, title))
 
 
 IMAGE_MD_RE = re.compile(
@@ -311,44 +310,48 @@ IMAGE_MD_RE = re.compile(
 
 
 class QuizScreen(Screen):
-    """A quiz session. Cards are fetched in the background; the
-    screen paints immediately."""
+    """An open-ended practice session. Cards are drawn (weighted) from
+    the server and asked until you press Escape; a card answered wrong
+    resurfaces a few cards later and keeps coming back until you get it
+    right. No fixed length, no score ratio â the deck view's rolling
+    performance metric is the signal."""
 
     BINDINGS = [
-        Binding("escape", "quit_quiz", "End quiz"),
+        Binding("escape", "leave", "End"),
         Binding("enter", "advance", "Continue", show=False),
     ]
 
-    def __init__(self, dir_id: int | None, title: str, n: int, ranked: bool = True,
-                 cards: list[dict] | None = None):
+    BATCH = 20          # cards fetched per server round
+    RETRY_GAP = 3       # cards to wait before re-asking a wrong one
+
+    def __init__(self, dir_id: int | None, title: str):
         super().__init__()
         self.dir_id = dir_id
         self.deck_title = title
-        self.n = n
-        self.ranked = ranked
-        self.preset_cards = cards
-        self.cards: list[dict] = []
-        self.index = 0
-        self.score = 0
+        self.queue: list[dict] = []            # upcoming cards from the server
+        self.retry: list[tuple[int, dict]] = []  # (due_turn, card) for wrong cards
+        self.turn = 0
         self.answered = 0
-        self.wrong_cards: list[dict] = []
+        self.current: dict | None = None
         self.run_id: int | None = None
-        self.best = None
         self.in_feedback = False
 
     def compose(self) -> ComposeResult:
         with Vertical(id="quiz"):
             yield Markdown(id="question")
+            # image sits with the question (so map questions show the
+            # map before the choices); it is hidden when there is none,
+            # leaving the answer directly under the question text
             yield Vertical(id="question-image")
-            yield Static("", id="match-left")
-            yield OptionList(id="match-choices")
             yield Input(placeholder="answer", id="answer")
             yield SelectionList(id="choices")
+            yield Static("", id="match-left")
+            yield OptionList(id="match-choices")
             with Horizontal(id="quiz-buttons", classes="compact-buttons"):
                 yield Button("Submit", id="submit")
                 yield Button("Continue", id="continue")
             yield Static("", id="feedback")
-        yield StatusBar("Loading…", id="quiz-status")
+        yield StatusBar("Loadingâ¦", id="quiz-status")
 
     def on_mount(self) -> None:
         self._begin()
@@ -356,58 +359,85 @@ class QuizScreen(Screen):
     @work(exclusive=True, thread=True)
     def _begin(self) -> None:
         try:
-            cards = self.preset_cards
-            if cards is None:
-                cards = self.app.client.quiz_cards(self.dir_id, True, self.n)
-            if not cards:
-                self.app.call_from_thread(
-                    self.notify, "No cards for this selection.", severity="warning"
-                )
-                self.app.call_from_thread(self.app.pop_screen)
-                return
-            run = self.app.client.start_run(self.dir_id, len(cards), self.ranked)
-            # warm the image cache up front so no card paint blocks on
-            # a download later
-            for card in cards:
-                for url in IMAGE_MD_RE.findall(card["question_md"]):
-                    try:
-                        self.app.image_for(url)
-                    except Exception:  # noqa: BLE001
-                        pass
+            # a zero-length, unranked run records the deck as "started"
+            # so the picker's favourites sort still reflects use
+            self.run_id = self.app.client.start_run(self.dir_id, 0, ranked=False)["id"]
+            batch = self.app.client.quiz_cards(self.dir_id, True, self.BATCH)
+            self._warm_images(batch)
         except Exception as exc:  # noqa: BLE001
             self.app.call_from_thread(
                 self.notify, f"Could not start quiz: {exc}", severity="error"
             )
             self.app.call_from_thread(self.app.pop_screen)
             return
-        self.cards = cards
-        self.run_id = run["id"]
-        self.best = run.get("best")
-        self.app.call_from_thread(self.show_card)
+        if not batch:
+            self.app.call_from_thread(
+                self.notify, "No cards for this selection.", severity="warning"
+            )
+            self.app.call_from_thread(self.app.pop_screen)
+            return
+        self.queue.extend(batch)
+        self.app.call_from_thread(self._advance)
+
+    def _warm_images(self, cards: list[dict]) -> None:
+        for card in cards:
+            for url in IMAGE_MD_RE.findall(card.get("question_md", "")):
+                try:
+                    self.app.image_for(url)
+                except Exception:  # noqa: BLE001
+                    pass
 
     def _status(self) -> None:
-        best = f" · best {round(self.best['accuracy'] * 100)}%" if self.best else ""
-        self.query_one("#quiz-status", StatusBar).update(
-            f"Q {self.index + 1}/{len(self.cards)} · score {self.score}{best}"
-        )
+        self.query_one("#quiz-status", StatusBar).update(f"{self.answered} answered")
+
+    # --- card stream ---------------------------------------------
+    def _advance(self) -> None:
+        """Show the next card, fetching another batch if we run dry."""
+        self.turn += 1
+        card = None
+        for i, (due, c) in enumerate(self.retry):
+            if due <= self.turn:
+                card = self.retry.pop(i)[1]
+                break
+        if card is None and self.queue:
+            card = self.queue.pop(0)
+        if card is None:
+            self._refill()
+            return
+        self.current = card
+        self.show_card()
+
+    @work(exclusive=True, thread=True)
+    def _refill(self) -> None:
+        try:
+            batch = self.app.client.quiz_cards(self.dir_id, True, self.BATCH)
+            self._warm_images(batch)
+        except Exception as exc:  # noqa: BLE001
+            self.app.call_from_thread(
+                self.notify, f"Could not load more cards: {exc}", severity="error"
+            )
+            return
+        self.queue.extend(batch)
+        if not self.queue and not self.retry:
+            # nothing left at all â end gracefully
+            self.app.call_from_thread(self.app.pop_screen)
+            return
+        self.app.call_from_thread(self._advance)
 
     def show_card(self) -> None:
         self.in_feedback = False
-        card = self.cards[self.index]
+        card = self.current
         if card["type"] == "quest":
-            # a quest is played in its own screen; the outcome counts
-            # as one item of this quiz
-            self.app.push_screen(QuestScreen(card), self._quest_done)
+            self.app.push_screen(QuestScreen(card), self._task_done)
             return
         if card["type"] == "route":
-            self.app.push_screen(RouteScreen(card), self._quest_done)
+            self.app.push_screen(RouteScreen(card), self._task_done)
             return
         self._status()
         question_md = self._show_images(card["question_md"])
         self.query_one("#question", Markdown).update(question_md)
         self.query_one("#feedback", Static).update("")
         self.query_one("#continue", Button).display = False
-        # hide every answer widget, then show the ones this type needs
         for wid in ("#answer", "#choices", "#submit", "#match-left", "#match-choices"):
             self.query_one(wid).display = False
 
@@ -431,22 +461,21 @@ class QuizScreen(Screen):
             answer.focus()
 
     def _show_match_left(self) -> None:
-        card = self.cards[self.index]
+        card = self.current
         left = card["lefts"][self._match_idx]
         self.query_one("#match-left", Static).update(
             f"[{self._match_idx + 1}/{len(card['lefts'])}]  {left['left_md']}  →"
         )
         choices = self.query_one("#match-choices", OptionList)
         choices.clear_options()
-        choices.add_options([
-            Option(c["right_md"], id=str(c["id"])) for c in card["choices"]
-        ])
+        choices.add_options([Option(c["right_md"], id=str(c["id"])) for c in card["choices"]])
         choices.highlighted = 0
         choices.focus()
 
     def _show_images(self, question_md: str) -> str:
         holder = self.query_one("#question-image", Vertical)
         holder.remove_children()
+        shown = 0
         for url in IMAGE_MD_RE.findall(question_md)[:2]:
             try:
                 from textual_image.widget import Image as ImageWidget
@@ -456,11 +485,13 @@ class QuizScreen(Screen):
                 widget.styles.height = 14
                 widget.styles.width = "auto"
                 holder.mount(widget)
+                shown += 1
                 question_md = IMAGE_MD_RE.sub(
                     lambda m: "" if m.group(1) == url else m.group(0), question_md
                 )
             except Exception:  # noqa: BLE001 - image display is best-effort
                 pass
+        holder.display = shown > 0   # no empty slot when there is no image
         return question_md
 
     # --- answering ------------------------------------------------
@@ -470,19 +501,19 @@ class QuizScreen(Screen):
 
     def action_advance(self) -> None:
         if self.in_feedback:
-            self._next()
+            self._advance()
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         if event.button.id == "submit" and not self.in_feedback:
             selected = list(self.query_one("#choices", SelectionList).selected)
             self._grade({"selected": selected})
         elif event.button.id == "continue":
-            self._next()
+            self._advance()
 
     def on_option_list_option_selected(self, event: OptionList.OptionSelected) -> None:
-        if self.in_feedback or self.cards[self.index]["type"] != "match":
+        if self.in_feedback or self.current["type"] != "match":
             return
-        card = self.cards[self.index]
+        card = self.current
         left_id = card["lefts"][self._match_idx]["id"]
         self._match_answers[str(left_id)] = int(event.option.id)
         self._match_idx += 1
@@ -494,7 +525,7 @@ class QuizScreen(Screen):
     @work(thread=True)
     def _grade(self, payload: dict) -> None:
         try:
-            result = self.app.client.answer(self.cards[self.index]["id"], payload)
+            result = self.app.client.answer(self.current["id"], payload)
         except Exception as exc:  # noqa: BLE001
             self.app.call_from_thread(
                 self.notify, f"Could not submit answer: {exc}", severity="error"
@@ -504,12 +535,9 @@ class QuizScreen(Screen):
 
     def _feedback(self, result: dict) -> None:
         self.in_feedback = True
-        card = self.cards[self.index]
+        card = self.current
         self.answered += 1
-        if result["correct"]:
-            self.score += 1
-        else:
-            self.wrong_cards.append(card)
+        self._reinforce(card, result["correct"])
         expected = result["expected"]
         feedback = self.query_one("#feedback", Static)
         if result["correct"]:
@@ -524,9 +552,7 @@ class QuizScreen(Screen):
                 names = [o["text_md"] for o in card["options"] if o["id"] in ids]
                 text = f"✗ wrong — correct: {', '.join(names)}"
             elif card["type"] == "match":
-                pairs = ", ".join(
-                    f"{p['left_md']}→{p['right_md']}" for p in expected["pairs"]
-                )
+                pairs = ", ".join(f"{p['left_md']}→{p['right_md']}" for p in expected["pairs"])
                 text = f"✗ wrong — {pairs}"
             else:
                 text = f"✗ wrong — accepted: {', '.join(expected['accepted_answers'])}"
@@ -538,134 +564,26 @@ class QuizScreen(Screen):
         cont.display = True
         cont.focus()
 
-    def _quest_done(self, success: bool | None) -> None:
-        # returning from a quest: count it, then move on
-        card = self.cards[self.index]
+    def _reinforce(self, card: dict, correct: bool) -> None:
+        """Wrong cards come back a few turns later; answering one right
+        clears any pending repeat for it."""
+        self.retry = [(d, c) for (d, c) in self.retry if c["id"] != card["id"]]
+        if not correct:
+            self.retry.append((self.turn + self.RETRY_GAP, card))
+
+    def _task_done(self, success: bool | None) -> None:
+        # a quest/route played in its own screen counts as one item
         self.answered += 1
-        if success:
-            self.score += 1
-        else:
-            self.wrong_cards.append(card)
-        self._next()
+        self._reinforce(self.current, bool(success))
+        self._advance()
 
-    def _next(self) -> None:
-        self.index += 1
-        if self.index < len(self.cards):
-            self.show_card()
-        else:
-            self._finish()
-
-    @work(thread=True)
-    def _finish(self) -> None:
-        try:
-            summary = self.app.client.finish_run(self.run_id, self.score, self.answered)
-        except Exception as exc:  # noqa: BLE001
-            self.app.call_from_thread(
-                self.notify, f"Could not save result: {exc}", severity="error"
-            )
-            self.app.call_from_thread(self.app.pop_screen)
-            return
-        self.app.call_from_thread(self._show_result, summary)
-
-    def _show_result(self, summary: dict) -> None:
-        self.app.switch_screen(ResultScreen(
-            summary, self.cards, self.wrong_cards, self.dir_id, self.deck_title, self.n
-        ))
-
-    def action_quit_quiz(self) -> None:
-        # an abandoned run is finished as unranked so a partial score
-        # never enters a per-n leaderboard
+    def action_leave(self) -> None:
         if self.run_id is not None:
             try:
-                self.app.client.finish_run(
-                    self.run_id, self.score, self.answered, ranked=False
-                )
+                self.app.client.finish_run(self.run_id, 0, 0, ranked=False)
             except Exception:  # noqa: BLE001 - leaving anyway
                 pass
         self.app.pop_screen()
-
-
-class ResultScreen(Screen):
-    BINDINGS = [
-        Binding("escape", "app.pop_screen", "Back"),
-        Binding("r", "repeat", "Repeat"),
-        Binding("w", "repeat_wrong", "Repeat wrong"),
-    ]
-
-    def __init__(self, summary, cards, wrong_cards, dir_id, title, n):
-        super().__init__()
-        self.summary = summary
-        self.cards = cards
-        self.wrong_cards = wrong_cards
-        self.dir_id = dir_id
-        self.deck_title = title
-        self.n = n
-
-    def compose(self) -> ComposeResult:
-        summary = self.summary
-        pct = round(summary["correct"] / summary["total"] * 100) if summary["total"] else 0
-        lines = [
-            f"Quiz finished: {self.deck_title}",
-            "",
-            f"Result: {summary['correct']}/{summary['total']} correct ({pct}%)",
-        ]
-        top = summary.get("top") or []
-        if top:
-            lines.append("")
-            lines.append(f"Top runs for n={self.n}:")
-            for i, run in enumerate(top, start=1):
-                marker = "  ← this run" if summary.get("rank") == i else ""
-                lines.append(
-                    f"  {i}. {round(run['accuracy'] * 100)}%  "
-                    f"({run['correct']}/{run['total']}, {run['finished_at'][:10]}){marker}"
-                )
-        with Vertical(id="result"):
-            if summary.get("rank") is not None:
-                yield self._trophy()
-                yield Static(f"New record — #{summary['rank']}!", id="rank-line")
-            yield Static("\n".join(lines), id="result-text")
-            with Horizontal(id="result-buttons", classes="compact-buttons"):
-                yield Button("Repeat", id="repeat")
-                if self.wrong_cards:
-                    yield Button(f"Repeat {len(self.wrong_cards)} wrong", id="repeat-wrong")
-                yield Button("Done", id="done")
-        yield StatusBar("r repeat · w wrong")
-
-    def _trophy(self):
-        try:
-            from PIL import Image as PILImage
-            from textual_image.widget import Image as ImageWidget
-
-            widget = ImageWidget(PILImage.open(ASSETS / "trophy.png"))
-            widget.styles.height = 12
-            widget.styles.width = "auto"
-            return widget
-        except Exception:  # noqa: BLE001 - ascii fallback
-            return Static(TROPHY, id="trophy")
-
-    def action_repeat(self) -> None:
-        self._repeat(self.cards)
-
-    def action_repeat_wrong(self) -> None:
-        if self.wrong_cards:
-            self._repeat(self.wrong_cards)
-
-    def _repeat(self, cards: list[dict]) -> None:
-        # repeats are practice, not ranked — a 1/1 repeat-wrong must
-        # never become a "best run"
-        shuffled = random.sample(cards, len(cards))
-        self.app.switch_screen(
-            QuizScreen(self.dir_id, self.deck_title, len(shuffled),
-                       ranked=False, cards=shuffled)
-        )
-
-    def on_button_pressed(self, event: Button.Pressed) -> None:
-        if event.button.id == "repeat":
-            self.action_repeat()
-        elif event.button.id == "repeat-wrong":
-            self.action_repeat_wrong()
-        else:
-            self.app.pop_screen()
 
 
 class QuestScreen(Screen):
@@ -937,14 +855,12 @@ class StatsScreen(Screen):
         if top:
             lines.append("Top decks (most played):")
             for deck in top:
-                best = (
-                    f"best {round(deck['best']['accuracy'] * 100)}%"
-                    if deck["best"] else "no ranked run"
-                )
+                p = deck.get("performance")
+                perf = f"{round(p * 100):+d}%" if p is not None else "no data"
                 runs = "run" if deck["runs"] == 1 else "runs"
                 lines.append(
                     f"  {deck['runs']:>3} {runs}  {deck['path']}  "
-                    f"({deck['cards_total']} cards, {best})"
+                    f"({deck['cards_total']} cards, performance {perf})"
                 )
         else:
             lines.append("No quiz runs yet.")
@@ -963,22 +879,8 @@ class SettingsScreen(Screen):
                 Option("top", id="top"),
                 id="pos-list",
             )
-            yield Static("Default questions per quiz:")
-            yield Input(
-                value=str(config_mod.get("default_questions")),
-                id="default-n", type="integer",
-            )
         yield StatusBar("")
 
     def on_option_list_option_selected(self, event: OptionList.OptionSelected) -> None:
         config_mod.set_value("statusbar_position", event.option.id)
         self.notify(f"Status bar: {event.option.id} (applies on next screen)")
-
-    def on_input_submitted(self, event: Input.Submitted) -> None:
-        if event.input.id == "default-n":
-            try:
-                n = max(1, min(200, int(event.value)))
-            except ValueError:
-                n = 25
-            config_mod.set_value("default_questions", n)
-            self.notify(f"Default questions: {n}")

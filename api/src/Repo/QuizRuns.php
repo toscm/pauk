@@ -171,12 +171,18 @@ final class QuizRuns
         );
         $stmt->execute([$userId]);
         $runCounts = [];
-        $bestAcc = [];
         foreach ($stmt->fetchAll() as $row) {
-            $id = (int) $row['dir_id'];
-            $runCounts[$id] = (int) $row['runs'];
-            $bestAcc[$id] = $row['best_acc'] === null ? null : (float) $row['best_acc'];
+            $runCounts[(int) $row['dir_id']] = (int) $row['runs'];
         }
+
+        // 5) recent reviews (newest first) to compute a rolling
+        // performance metric per directory over its subtree
+        $stmt = $this->pdo->prepare(
+            'SELECT card_id, was_correct FROM reviews
+             WHERE user_id = ? ORDER BY answered_at DESC, id DESC LIMIT 5000'
+        );
+        $stmt->execute([$userId]);
+        $recent = $stmt->fetchAll();   // list of {card_id, was_correct}, newest first
 
         // transitive card counts, computed in PHP (memoized DFS) so
         // there is no recursive CTE per directory
@@ -221,16 +227,35 @@ final class QuizRuns
             return $paths[$id];
         };
 
+        // performance over the last 500 reviews of a dir's subtree:
+        // (correct - wrong) / total, i.e. 2*mean(was_correct) - 1,
+        // in [-1, 1]; null when the subtree has no reviews
+        $performance = function (int $id) use ($resolveCards, $recent): ?float {
+            $inSubtree = array_fill_keys($resolveCards($id), true);
+            $n = 0;
+            $correct = 0;
+            foreach ($recent as $r) {
+                if (!isset($inSubtree[(int) $r['card_id']])) {
+                    continue;
+                }
+                $correct += (int) $r['was_correct'];
+                $n++;
+                if ($n >= 500) {
+                    break;
+                }
+            }
+            return $n === 0 ? null : round((2 * $correct - $n) / $n, 3);
+        };
+
         $items = [];
         foreach ($names as $id => $name) {
-            $best = $bestAcc[$id] ?? null;
             $items[] = [
                 'id' => $id,
                 'path' => $resolvePath($id),
                 'name' => $name,
                 'cards_total' => count($resolveCards($id)),
                 'runs' => $runCounts[$id] ?? 0,
-                'best' => $best === null ? null : ['accuracy' => round($best, 3)],
+                'performance' => $performance($id),
             ];
         }
         usort($items, fn ($a, $b) => [$b['runs'], $a['path']] <=> [$a['runs'], $b['path']]);

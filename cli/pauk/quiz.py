@@ -34,14 +34,14 @@ TROPHY = "\n".join([
 def run_quiz(client: Client, dir_path: str | None, recursive: bool, n: int) -> None:
     dir_id = None
     title = "all cards"
-    best = None
+    perf = None
     if dir_path:
         directory = client.resolve_dir(dir_path)
         dir_id = directory["id"]
         title = dir_path
         for entry in client.quiz_dirs():
             if entry["id"] == dir_id:
-                best = entry["best"]
+                perf = entry.get("performance")
                 break
     cards = client.quiz_cards(dir_id, recursive, n)
     # the line-based scripting quiz only grades mc and text; match,
@@ -58,11 +58,11 @@ def run_quiz(client: Client, dir_path: str | None, recursive: bool, n: int) -> N
         console.print("[yellow]No text/mc cards found for this selection.[/yellow]")
         return
 
-    best_text = f"{round(best['accuracy'] * 100)}%" if best else "none yet"
+    perf_text = f"{round(perf * 100):+d}%" if perf is not None else "no data"
     console.print(f"\n[bold]Quiz: {title}[/bold] — {len(cards)} questions")
     console.print(
         "[dim]Mode: weighted pick (new, often-wrong, and stale cards first) "
-        f"· Best run: {best_text} · q = quit[/dim]\n"
+        f"· performance: {perf_text} · q = quit[/dim]\n"
     )
 
     ranked = True
