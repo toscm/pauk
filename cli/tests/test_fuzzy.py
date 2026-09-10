@@ -37,3 +37,16 @@ def test_fuzzy_filter_orders_by_tightness():
 def test_fuzzy_filter_keeps_input_order_on_ties():
     items = ["bb-a", "aa-b"]
     assert fuzzy_filter("a", items, key=lambda s: s) == ["bb-a", "aa-b"]
+
+
+def test_multiword_is_and_order_independent():
+    items = ["italian/verbs/core-verbs", "italian/nouns", "german/autobahnen"]
+    # both tokens must match; order does not matter
+    assert fuzzy_filter("verb ital", items, key=lambda s: s) == ["italian/verbs/core-verbs"]
+    assert fuzzy_filter("ital verb", items, key=lambda s: s) == ["italian/verbs/core-verbs"]
+    # a token that matches nothing excludes the item
+    assert fuzzy_filter("ital xyz", items, key=lambda s: s) == []
+    # single token still works
+    assert set(fuzzy_filter("ital", items, key=lambda s: s)) == {
+        "italian/verbs/core-verbs", "italian/nouns"
+    }

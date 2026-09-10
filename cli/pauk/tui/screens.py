@@ -169,10 +169,11 @@ class PickerScreen(Screen):
 
     # --- input ----------------------------------------------------
     def on_key(self, event) -> None:
-        # handled here rather than via bindings so that bracket keys
-        # and typed filter characters both reach the screen (a
-        # focused Input would swallow them); arrows/enter/tab are
-        # left for the focused list or tree
+        # handled here rather than via bindings so the keys reach the
+        # screen instead of the focused list/tree: Tab would otherwise
+        # move focus, and typed filter characters would be swallowed
+        if event.key == "tab":
+            self.action_toggle_view(); event.stop(); return
         if event.key == "right_square_bracket":
             self.action_more_questions(); event.stop(); return
         if event.key == "left_square_bracket":

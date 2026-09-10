@@ -1,5 +1,11 @@
-"""Tiny fuzzy matcher for the quiz picker: case-insensitive
-subsequence match, tighter matches rank first."""
+"""Fuzzy matcher for the quiz picker.
+
+A query is split on whitespace into independent tokens; an item
+matches only if EVERY token is a (case-insensitive) subsequence of
+its text, in any order. So "verb ital" keeps only items matching
+both "verb" and "ital". Results rank by total tightness (the sum
+of each token's shortest matching window), tightest first.
+"""
 
 from __future__ import annotations
 
@@ -33,11 +39,26 @@ def match_span(query: str, text: str) -> int | None:
     return best
 
 
+def match_score(query: str, text: str) -> int | None:
+    """Total tightness if every whitespace-separated token of query
+    matches text as a subsequence (order-independent); else None."""
+    tokens = query.split()
+    if not tokens:
+        return 0
+    total = 0
+    for token in tokens:
+        span = match_span(token, text)
+        if span is None:
+            return None
+        total += span
+    return total
+
+
 def fuzzy_filter(query: str, items: list[T], key: Callable[[T], str]) -> list[T]:
     scored = []
     for index, item in enumerate(items):
-        span = match_span(query, key(item))
-        if span is not None:
-            scored.append((span, index, item))
+        score = match_score(query, key(item))
+        if score is not None:
+            scored.append((score, index, item))
     scored.sort(key=lambda entry: (entry[0], entry[1]))
     return [item for _, _, item in scored]

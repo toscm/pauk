@@ -89,7 +89,7 @@ async def test_tree_navigation_and_full_quiz(client):
         await pilot.press("enter")                  # Start a quiz
         assert isinstance(app.screen, PickerScreen)
         await _settle(pilot)
-        await pilot.press("f2")                     # tree view
+        await pilot.press("tab")                    # tree view (the advertised key)
         await pilot.pause()
         tree = app.screen.query_one("#deck-tree")
         node = next(
