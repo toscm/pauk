@@ -226,8 +226,11 @@ async def test_all_cards_quiz(client):
         fav.highlighted = 0
         await pilot.press("enter")
         await _settle(pilot)
-        assert isinstance(app.screen, QuizScreen)
-        assert app.screen.dir_id is None
+        # an all-cards session starts; the first card may be a task,
+        # so the screen is the quiz or a task sub-screen it launched
+        assert isinstance(app.screen, (QuizScreen, QuestScreen, RouteScreen))
+        if isinstance(app.screen, QuizScreen):
+            assert app.screen.dir_id is None
 
 
 async def test_wrong_card_resurfaces(client):
