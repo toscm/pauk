@@ -3,9 +3,9 @@
 Base URL: `https://pauk.aao756.de/api/v1`
 
 This document is the contract between the API and all
-clients. A machine-readable `spec/openapi.yaml` is derived
-from it during milestone 1; if the two ever disagree, this
-document wins until the discrepancy is fixed.
+clients. (A machine-readable `spec/openapi.yaml` was planned
+but not yet generated; until it exists, this document and the
+integration tests are the contract.)
 
 ## Conventions
 
@@ -37,7 +37,10 @@ document wins until the discrepancy is fixed.
 
 `GET /health` (no auth)
 
-    {"status": "ok", "db": "ok", "version": "0.5.0"}
+    {"status": "ok", "db": "ok", "version": "0.7.1"}
+
+`version` is the deployed API version (currently 0.7.1); the
+example tracks it only loosely.
 
 `db` is `"ok"` or `"error"`; on error the HTTP status is 503.
 Used by the post-deploy smoke test.
