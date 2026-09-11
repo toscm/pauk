@@ -38,7 +38,7 @@ app = typer.Typer(
     rich_markup_mode=None,
 )
 console = Console()
-_state: dict = {"server": None, "token": None}
+_state: dict = {"server": None, "token": None, "no_cache": False}
 
 
 def run() -> None:
@@ -58,7 +58,7 @@ def _client() -> Client:
             "(or set PAUK_SERVER / PAUK_TOKEN)."
         )
         raise typer.Exit(1)
-    return Client(settings.server, settings.token)
+    return Client(settings.server, settings.token, cache=not _state["no_cache"])
 
 
 def _version_callback(value: bool) -> None:
@@ -72,12 +72,16 @@ def main(
     ctx: typer.Context,
     server: Optional[str] = typer.Option(None, "--server", help="API base URL"),
     token: Optional[str] = typer.Option(None, "--token", help="API token"),
+    no_cache: bool = typer.Option(
+        False, "--no-cache", help="Bypass the local read cache (always hit the API)"
+    ),
     version: Optional[bool] = typer.Option(
         None, "--version", callback=_version_callback, is_eager=True
     ),
 ) -> None:
     _state["server"] = server
     _state["token"] = token
+    _state["no_cache"] = no_cache
     if ctx.invoked_subcommand is None:
         from pauk.tui.app import run_tui
 
@@ -229,6 +233,19 @@ def clone(directory: Path = typer.Argument(..., help="Target directory to write 
 def upload(directory: Path = typer.Argument(..., help="Directory produced by `pauk clone`")) -> None:
     """Create NEW cards authored locally (create-only; existing cards are skipped)."""
     upload_collection(_client(), directory, echo=console.print)
+
+
+cache_app = typer.Typer(add_completion=False, rich_markup_mode=None)
+app.add_typer(cache_app, name="cache", help="Manage the local read cache.")
+
+
+@cache_app.command("clear")
+def cache_clear() -> None:
+    """Delete the local read cache (all servers/users)."""
+    from pauk import cache as cache_mod
+
+    path = cache_mod.clear_all()
+    console.print(f"cleared cache: {path}")
 
 
 media_app = typer.Typer(add_completion=False, rich_markup_mode=None)
