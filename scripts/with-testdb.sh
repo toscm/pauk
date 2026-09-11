@@ -12,7 +12,10 @@ fi
 MARIADB="${PAUK_MARIADB_DIR:-$HOME/.local/mariadb-11.8}"
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 VAR="$ROOT/api/var"
-PORT="${PAUK_TEST_DB_PORT:-33068}"
+# Default to a free ephemeral port so concurrent runs (e.g. several
+# worktree agents) never collide on a fixed port. Override with
+# PAUK_TEST_DB_PORT for a deterministic port.
+PORT="${PAUK_TEST_DB_PORT:-$(python3 -c 'import socket; s=socket.socket(); s.bind(("127.0.0.1",0)); print(s.getsockname()[1]); s.close()')}"
 DATADIR="$VAR/testdb-$PORT"
 TEMPLATE="$VAR/db-template"
 mkdir -p "$VAR"
