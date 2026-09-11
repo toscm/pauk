@@ -1,5 +1,13 @@
 # pauk
 
+> [!WARNING]
+> This is a private hobby project, published for convenience (so I
+> can `pip install` it on my own machines) and not intended for use
+> by anyone else. There is no support, no stability guarantee, and
+> no promise it works anywhere but on my own setups. The hosted API
+> at pauk.aao756.de is my personal instance — please do not rely on
+> it. Use at your own risk.
+
 Flashcard app ("Karteikarten") with an HTTP API as the single
 source of truth and thin clients on top of it.
 
