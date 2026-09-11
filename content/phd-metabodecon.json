@@ -1,0 +1,336 @@
+{
+  "dirs": [
+    "PhD",
+    "PhD/metabodecon"
+  ],
+  "dir_links": [],
+  "cards": [
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "What gap does metabodeconplus fill relative to its predecessor MetaboDecon1D, and why is closing that gap non-trivial?",
+      "answer_md": "MetaboDecon1D only *deconvoluted a single spectrum* into Lorentzian signals with integrals; it produced, per spectrum, a peak list of positions and areas but nothing more. To get from there to a statistically analysable feature matrix you still had to (i) align corresponding peaks across samples, since the same metabolite drifts in chemical shift, and (ii) condense the aligned peaks into a table, and then classify. That path was previously stitched together from several separate tools, which is cumbersome, slow and not reproducible.\n\nmetabodeconplus is **not** a new version of MetaboDecon1D but a substantially broader package that unifies the whole path — deconvolution, cross-sample alignment (adapted CluPA + snap_to_ref), feature-matrix construction, and built-in random-forest classification — into one automated, reproducible end-to-end workflow, with automated parameter optimization and a fast Rust backend so it scales to several hundred spectra. The hard part is not any single step but making them interoperate automatically (no manual per-spectrum tuning) and fast enough to be practical at cohort scale."
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "metabodeconplus aims to quantify peaks 'regardless of whether the corresponding metabolites are known.' Why is this deliberate design choice important, and what downstream advantage does it give over library-fitting approaches such as BATMAN, ASICS or Chenomx?",
+      "answer_md": "Library/target-fitting tools (BATMAN, ASICS, rDolphin, Chenomx, Bayesil) fit a spectrum as a combination of *known* reference metabolite spectra, so they can only report metabolites already in their library — unknown or unassigned signals are lost. metabodeconplus instead deconvolutes *every* resolvable signal into a Lorentzian with an accurate integral, whether or not the underlying molecule is identified.\n\nThe advantage: unidentified signals still become features and can drive classification and biomarker discovery. This matters because in untargeted metabolomics the metabolome is largely 'dark matter' — only a small fraction of signals can be confidently annotated. By not requiring annotation, metabodeconplus keeps all discriminatory information, and because each feature is a single peak it can be annotated *later* or transferred to another assay (e.g. clinical chemistry) if it turns out to be predictive."
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "Describe the four stages of the metabodeconplus deconvolution algorithm and what each stage is responsible for.",
+      "answer_md": "The deconvolution was restructured into a modular four-stage pipeline (following Koh et al. 2009):\n\n1. **Smoothing** — a moving-average filter (user-defined window `smws` and iteration count `smit`) applied to suppress noise so that noise does not create spurious peak detections. Crucially this is used for detection only.\n2. **Peak detection** — a curvature-based method on the *smoothed* signal: peaks are found as local minima of the second derivative S''. Each peak is a triplet (left ω1, centre ω2, right ω3) and is scored by min of the two cumulative |S''| sums over its left and right halves, so sharp/prominent peaks score higher.\n3. **Peak filtering** — peaks in the signal-free region estimate the noise score distribution (mean μ, sd σ); only peaks scoring above μ + δ·σ are kept (δ = `delta`, default 6.4). Peaks in user-defined ignore regions (e.g. water artifact) are also dropped.\n4. **Lorentzian fitting** — each peak's (ω_i, y_i) triplet determines an initial Lorentzian (centre ω0, half-width λ, amplitude A) in closed form; the superposition is then iteratively refined (`nfit` passes) against the *raw* intensities by a rule-of-proportion rescaling."
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "metabodeconplus models each NMR signal as a Lorentzian line. Write the functional form it fits and explain why the Lorentzian is the physically correct choice for a liquid-state 1D NMR peak.",
+      "answer_md": "It fits\n\n$$f(\\omega;\\omega_0,\\lambda,A) = A\\cdot\\frac{\\lambda}{(\\omega-\\omega_0)^2+\\lambda^2}$$\n\nwhere ω0 is the centre, λ the half-width at half-maximum and A an amplitude factor (the plain Lorentzian is the Cauchy pdf, normalised by 1/π; replacing 1/π by A frees the amplitude). Its integral is πA (∝ A, used for quantification) and its peak height is A/λ.\n\nThe Lorentzian is correct because the time-domain NMR signal (the FID) decays exponentially, governed by transverse relaxation with time constant T2* (exp(−t/T2*)). The Fourier transform of an exponentially decaying sinusoid is exactly a Lorentzian centred at the resonance frequency with full width at half maximum 1/(πT2*). So a clean liquid-state line *is* a Lorentzian. (Real lines can acquire a Gaussian component from field inhomogeneity, giving a Voigt profile; metabodeconplus uses pure Lorentzians for analytic tractability.)"
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "In metabodeconplus the Lorentzian parameters for each peak are obtained in closed form from three observed points rather than by nonlinear least squares. How does this work, and what numerical pitfall does the implementation specifically guard against?",
+      "answer_md": "Each detected peak gives three observed points (ω_i, y_i), i=1,2,3. Substituting them into the Lorentzian y_i = A·λ/((ω_i−ω0)²+λ²) gives three equations in three unknowns (ω0, λ, A). Eliminating A and λ yields a *closed-form* expression for ω0 (a ratio of sums of ω_i²·y_i and y_i·(ω differences)). With ω0 known, λ² can be solved from any pair of points, and then A·λ from the central point. This is Koh's derivative-free approach: no partial derivatives, and runtime independent of the number of spectral data points — unlike Levenberg–Marquardt.\n\nNumerical pitfall: computing λ² from the *outer* pair (j=1, k=3) divides by (y1 − y3), which is near zero for quasi-symmetric peaks where y1 ≈ y3, causing instability. The implementation instead computes λ²₁₂ and λ²₂₃ (inner pairs) and averages them, avoiding the small denominator. It also keeps A·λ, ω0 and λ² together (enough to evaluate the curve) without resolving A and λ separately, and discards |A|, λ below a multiple of machine precision to suppress artifacts."
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "When the initial Lorentzian estimates for all detected peaks are superimposed, their sum systematically *exceeds* the observed spectrum. Why, and how does the algorithm correct it?",
+      "answer_md": "Each peak's Lorentzian is estimated independently from its own three points, but neighbouring peaks overlap: at any given position the observed intensity already contains spill-over contributions from adjacent peaks' tails. So estimating each peak's height as if it alone produced the local intensity over-counts that shared intensity, and the superposition overshoots the raw spectrum.\n\nCorrection (Koh's 'rule of proportion'): each peak's intensity stencil is rescaled by the ratio of observed to reconstructed intensity, iteratively reducing heights until the superposition matches the raw spectrum. This is repeated for `nfit` refinement passes. It is a cheap multiplicative update rather than a gradient-based fit, which is why it is fast."
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "A key change from MetaboDecon1D is that metabodeconplus smooths the spectrum only for peak *detection* and fits the Lorentzians to the raw intensities. Why does this matter, and whose observation motivated it?",
+      "answer_md": "Smoothing (moving average) is needed so that noise does not generate spurious curvature minima during detection. But smoothing a narrow peak disproportionately lowers its apparent height and broadens it, because a sharp feature is averaged with its lower-intensity neighbours. MetaboDecon1D propagated the smoothed intensities into the *fitting* stage, so these distortions biased the estimated A and λ of narrow peaks.\n\nmetabodeconplus fits parameters to the *raw* (unsmoothed) intensities and uses smoothing only to locate peaks, removing this systematic bias. This addresses exactly the open problem Koh himself flagged — that the impact of mean-filtering on subsequent parameter approximation is 'presumably not neglectable.' (Gronwald, last author of MetaboDecon1D, is a co-author here, so it is framed as completing Koh's method.)"
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "What is the role of the peak *score* and the δ (delta) parameter in filtering, and what failure modes lie at the two extremes of δ?",
+      "answer_md": "The score of a peak is min(Σ|S''| over its left half, Σ|S''| over its right half) — the smaller of the two cumulative absolute second-derivative sums; sharp, prominent peaks score high, shallow noise bumps score low. Peaks located in the signal-free region estimate the *noise* score distribution (mean μ, sd σ). A peak is retained only if its score exceeds μ + δ·σ, i.e. δ sets how many noise standard deviations above the noise mean a peak must be.\n\nδ too low: the threshold sits in the noise, so many spurious noise peaks are accepted (false positives, over-fitting). δ too high: the threshold is so strict that genuine small/weak metabolite signals fall below it and are missed (false negatives). The default δ = 6.4 was a hand-tuned compromise; in the automated grid it is swept over {1.6, 3.2, 4.8, 6.4, 8.0}."
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "Why does metabodeconplus provide an optional Rust backend, and what is the honest caveat about its results?",
+      "answer_md": "The Rust backend implements the same four-stage algorithm with extra refinements for numerical stability and speed, reachable from R via the `use_rust` flag of `deconvolute()`. Its purpose is throughput: the dramatic runtime reduction makes a *systematic grid search* of optimal deconvolution parameters tractable even for datasets of several hundred spectra, which is the enabling step for the automated parameter optimization.\n\nHonest caveat: the Rust results are numerically *very close but not identical* to the pure-R implementation, because of different floating-point refinements. The speed-up is most pronounced for densely peaked spectra (e.g. ~2.4 s vs ~3.7 s at 2¹⁷ points and 4096 peaks); at the typical ~1000 peaks per spectrum the two backends are essentially indistinguishable on a single spectrum. (The Rust code lives in a separate package, mdrb, written by M. Sombke.)"
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "Quantify the runtime gains metabodeconplus achieves over MetaboDecon1D, and explain how parallelization was designed and why.",
+      "answer_md": "A typical 1D ¹H biofluid spectrum has ~2¹⁶–2¹⁷ data points and ~1000 peaks. At 2¹⁷ points MetaboDecon1D took ~40 s per spectrum; the new R implementation is well under 1 s, and the Rust backend faster still for dense spectra. For all 106 AKI spectra, the Rust backend finishes the batch in under 6 s and R in under 8 s at 10 workers, scaling close to the ideal 1/k reference.\n\nParallelization is done **across spectra, not across grid rows**, with per-spectrum deconvolution kept single-threaded. The reason is memory: parallelizing over grid rows would force every worker to hold a copy of *all* spectra, whereas parallelizing over spectra means each worker only holds the spectra it is currently processing. These short runtimes are what make per-dataset grid search of optimal parameters practical."
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "List the four tunable deconvolution parameters and describe the unsupervised parameter-optimization procedure, including why minimizing the area ratio alone is not enough.",
+      "answer_md": "The four parameters: `nfit` (number of iterative Lorentzian-refinement passes), `smit` (number of moving-average smoothing passes), `smws` (smoothing window size in data points), `delta` (noise-threshold multiplier δ).\n\nWithout class labels, each spectrum is optimized individually by minimizing the **area ratio** AR = Σ|y_i − ŷ_i| / Σ|y_i| (mean absolute residual over mean absolute signal). Problem: AR keeps *decreasing* as more Lorentzians are added, so minimizing AR alone drifts toward over-fit reconstructions with many spurious peaks. The fix is a user-set **npmax** (maximum expected number of peaks): the search sweeps a 60-cell grid (smit ∈ {1,2,3}, smws ∈ {3,5,7,9}, delta ∈ {1.6,3.2,4.8,6.4,8.0}, nfit = 10) and picks the *smallest-AR cell whose peak count does not exceed npmax*. So the user only has to set npmax, from domain knowledge (e.g. ~1000 for human urine) or visual inspection."
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "Why is npmax the single most critical parameter a user must set, and how should it be chosen for, say, blood plasma versus urine?",
+      "answer_md": "npmax is the ceiling on the number of peaks the optimizer may accept, and it is what prevents the AR-minimizing search from over-fitting into hundreds of spurious signals (because AR always improves with more peaks). Set npmax too low and genuine metabolite peaks are excluded; too high and noise gets fitted as signal.\n\nIt is set from prior knowledge of the matrix: urine spectra typically contain *more* resolvable metabolites/peaks than blood plasma, so urine takes a larger npmax (the paper fixes npmax = 1000 for the AKI urine cohort). Plasma is simpler (and with a CPMG filter the broad macromolecule background is already suppressed), so a smaller npmax suffices. Alternatively, if class labels exist, npmax can be chosen by maximizing downstream classification performance. A practical route is visual inspection of a representative deconvolution — pick the npmax at which the Lorentzian superposition reconstructs every visually resolvable peak while leaving the residual free of obvious unfit signal."
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "In supervised parameter optimization, why does metabodeconplus use a random forest (ranger) rather than a linear classifier, and what does the out-of-bag error buy?",
+      "answer_md": "The feature matrix is sparse with structural zeros: because a given metabolite's peak may be absent (or dropped) in some spectra, a zero encodes 'missing peak', not 'measured area of zero'. Linear models confound these two meanings — they treat the zero as a small numeric value on the same scale as real integrals — which makes them unstable. A non-linear **random forest** can split on *presence/absence* as well as on magnitude, so it handles the missing-vs-small distinction naturally.\n\nThe out-of-bag (OOB) error is a generalization-error estimate computed during training itself, from each tree's prediction on the samples not in its bootstrap sample. It lets metabodeconplus score a parameter combination without an extra held-out split or an inner cross-validation loop — important because the parameter search already reruns the expensive deconvolution/alignment many times."
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "maxShift and maxCombine are the two alignment parameters. Why does the paper argue tuning them is 'in general not redundant,' yet recommend *not* tuning all three parameters (npmax, maxShift, maxCombine) jointly in practice?",
+      "answer_md": "They control different sources of positional error, so their optima need not coincide: `maxShift` is the CluPA tolerance on the coarse integer-datapoint segment shifts (how far a whole segment may be moved by FFT cross-correlation); `maxCombine` is the snap_to_ref window — the *residual* per-peak positional uncertainty that remains *after* CluPA, within which a peak is snapped to a reference column. Because one corrects bulk segment drift and the other residual per-peak mismatch, tuning both can genuinely help.\n\nBut a full 3-D grid (npmax × maxShift × maxCombine) is expensive: runtime grows multiplicatively and the deconvolution and CluPA stages dominate that cost. So the recommended procedure is: (1) fix npmax from domain knowledge/visual inspection; (2) let CluPA self-tune maxShift via the sentinel `maxShift = -1`; (3) sweep only maxCombine (the cheapest stage to rerun) on the labelled data. This gets the benefit without the multiplicative cost."
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "What does the sentinel value maxShift = -1 trigger, and how does the adaptive sweep decide when to stop?",
+      "answer_md": "maxShift = -1 triggers CluPA's internal adaptive optimum instead of a fixed tolerance. It doubles maxShift through {1, 2, 4, 8, …}, runs CluPA at each value, and after each run computes the **average pairwise Pearson correlation** of the aligned Lorentzian superpositions (a measure of how well the spectra now agree). It stops *one step before* that correlation first decreases — i.e. it keeps widening the allowed shift while alignment keeps improving, and backs off once a larger shift starts to hurt (over-shifting segments into worse agreement). This removes maxShift from the grid entirely."
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "Describe the three optimizations that keep fit_mdm()'s runtime reasonable.",
+      "answer_md": "1. **Per-npmax cached deconvolution parameters.** Each npmax has an associated set of per-spectrum (nfit, smit, smws, delta) giving the lowest reconstruction error. These are found by an internal grid search once at function entry and attached to each spectrum, so when npmax changes the optimal parameters are looked up, not recomputed.\n2. **Grid traversal order with reuse.** The grid is traversed in (npmax, maxShift, maxCombine) order so npmax varies slowest. If npmax is unchanged between two rows, the previous row's deconvolution is reused; if npmax *and* maxShift are both unchanged, the CluPA alignment is reused too. Only the cheap snap step is redone.\n3. **Parallelization over spectra.** Deconvolution, alignment and fitting each use several workers, parallelized across spectra (not grid rows) to keep per-worker memory low."
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "Why is alignment needed at all after deconvolution, and why does metabodeconplus need *two* alignment steps (CluPA then snap_to_ref) rather than one?",
+      "answer_md": "The same metabolite does not appear at exactly the same chemical shift in every spectrum — peak positions drift with pH, temperature, ionic strength and solvent composition. So before building a feature matrix, corresponding peaks across samples must be matched to a common grid, otherwise statistics would compare different columns.\n\nOne step is not enough because **CluPA shifts whole spectral segments by a single integer-datapoint offset** — all peaks in a segment move together. This brings segments roughly into register but one peak in a segment may end up well-aligned while another in the same segment is still slightly off; peaks are still not guaranteed to share an exact common shift. **snap_to_ref** then removes this residual mismatch by snapping each remaining peak individually onto the nearest reference peak column (within maxCombine), enforcing a truly common peak grid. CluPA does the coarse bulk correction; snap_to_ref does the fine per-peak correction."
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "Explain how CluPA works: what defines its segments, how the optimal shift per segment is found, and when the recursion stops.",
+      "answer_md": "CluPA (hierarchical Cluster-based Peak Alignment, from speaq/Vu et al.) aligns a target spectrum to a fixed reference in two phases: first a global shift of the whole spectrum, then iterative splitting into smaller local segments each aligned individually.\n\nSegment boundaries come from **hierarchical clustering** of the *combined* peak list of reference + target: peaks are grouped into a dendrogram by distance, and at each iteration every segment is bisected according to the tree. For each segment the optimal **integer-datapoint shift** is found by **FFT cross-correlation** between target and reference, bounded by the tolerance maxShift. Iterations stop when a segment contains peaks from only one spectrum or has fewer than three peaks. CluPA changes peak *centres* but never the *number* of peaks per spectrum."
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "What exactly does snap_to_ref do, what is the meaning of maxCombine, and what information can be lost?",
+      "answer_md": "snap_to_ref collapses each spectrum's peak list onto the discrete peak grid of the reference spectrum chosen by CluPA. For each target peak it finds the nearest reference peak within `maxCombine` columns and moves it there; peaks farther than maxCombine from *every* reference peak are **dropped**. maxCombine is therefore the residual positional uncertainty that remains *after* CluPA — the window within which peaks are considered the 'same' signal.\n\nWhat can be lost: rare peaks present in only a few spectra (and hence not in the reference) get dropped. There is also a trade-off hidden in maxCombine's width: too small and correct peaks fail to snap; too large and on a *crowded* spectrum a wrong neighbouring peak can be swept into a reference column (a wrong-label intrusion). On Sim2 no such valley appears because the 25 peaks are spaced tens of data points apart, but on dense real spectra widening maxCombine past the optimum trades correct snaps for wrong-label intrusions."
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "Both clupa() and snap_to_ref() align toward a *fixed reference* spectrum. Why is this design choice valuable in practice?",
+      "answer_md": "Because alignment is always *to a fixed reference*, the whole alignment is reproducible and, crucially, *extensible*: a newly measured sample is simply aligned and snapped to the same reference spectrum that the training data used. There is no need to recompute a pairwise or all-to-all alignment of the whole cohort when one sample arrives. This makes application of a trained model to new samples trivial and keeps the feature columns stable — a new sample's peaks land on exactly the same reference columns, so its feature vector is directly comparable to the training matrix."
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "Define PRARPX and explain why it was devised — what do PR alone and AR alone each fail to capture?",
+      "answer_md": "PRARPX = PRX · (1 − AR), combining two factors, each in [0,1]:\n\n- **Extended Peak Ratio** PRX = c / (t + i): correctly identified peaks c over true peaks t plus incorrectly identified peaks i.\n- **Area Ratio** AR = R / S: total absolute residual R over total absolute observed signal S (so 1 − AR rewards good reconstruction).\n\nPRARPX → 1 only when the correct peaks are recovered *and* the reconstruction matches the observed spectrum.\n\nWhy needed: **AR alone** monotonically improves as more Lorentzians are added, even far past the true peak count — it rewards over-fitting and says nothing about whether the *right* peaks were found. The plain **Peak Ratio** (detected/true count) can be satisfied by the right *number* of peaks that are nonetheless wrong, and the ordinary PR does not penalize *incorrect* detections; PRX fixes this by putting incorrect peaks i in the denominator. Neither captures both correctness and fidelity; their product does. Because PRARPX needs ground-truth peaks, it is only usable on simulated data or spiked controls, not ordinary experimental spectra."
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "Why can PRARPX never reach 1 on a realistic (noisy) spectrum, even with optimal parameters? Name the two distinct ceilings.",
+      "answer_md": "Two intrinsic upper bounds keep PRARPX below 1:\n\n1. **Noise floor → AR > 0.** The fitted Lorentzians are noiseless; even the *true* Lorentzian superposition cannot reproduce the additive measurement noise in the observed spectrum. So the residual (and hence AR) is strictly positive, pulling (1 − AR) below 1 — this holds even when every true peak is recovered (PRX = 1).\n2. **Shadowed peaks → PRX < 1.** A small peak completely overlapped/shadowed by a much larger neighbour produces no detectable curvature minimum (no second-derivative local minimum of its own), so the detector cannot find it and it is never fitted. Missing true peaks lowers c, so PRX < 1.\n\nTogether the noise-floor ceiling and the shadowed-peak ceiling mean an ideal PRARPX = 1 is unreachable on ordinary noisy spectra."
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "The Sim2 benchmark dataset was carefully engineered. How is it constructed, what realistic perturbations does it include, and what is the purpose of the three 'discriminating peaks'?",
+      "answer_md": "Sim2 is 100 simulated spectra (2048 points, 3.59–3.28 ppm, spacing 0.00015 ppm), split 50/50 into groups A and B. All share the *same 25 underlying Lorentzian peaks* (a fixed reference set of positions, intensities, half-widths derived from a manually optimized deconvolution of real Blood plasma, so the simulated spectra resemble real plasma). Per-spectrum variability is injected by (i) a scalar global ppm shift ~N(0, 0.00120²) (8 data points sd), (ii) per-peak ppm jitter ~N(0, 0.00060²) (4 data points sd), (iii) per-peak amplitude scaling ~U[0.4,1.6], (iv) per-peak half-width scaling ~U[0.9,1.1], and (v) additive Gaussian noise.\n\nThe three **discriminating peaks**: in group A the amplitudes of 3 of the 25 peaks are scaled by fixed factors 1.25, 1.25 and 1/1.25 (~0.80); group B is unmodified. These provide a *known* ground-truth class signal of only moderate effect size, partly overlapping other peaks — so a classifier that recovers them is genuinely resolving a hard, realistic signal. The first spectrum has no shift/jitter and serves as the clean unshifted reference. Sim2 thus gives exact ground truth for peak parameters, class labels and noise while remaining realistic."
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "What is 'snap purity' and how was it measured on Sim2 to evaluate alignment quality directly?",
+      "answer_md": "Snap purity directly measures whether alignment puts the *right* peak in the *right* reference column. Exploiting Sim2's known 25 peaks (labelled A–Y), each extracted deconvolution peak is assigned the identity of the nearest simulated peak if its fitted centre lies within ±2 data points of a simulated position (else labelled Z, spurious). Labels are fixed on the raw deconvolution output, before alignment, so each peak carries its true source identity through the pipeline.\n\nAfter CluPA + snap_to_ref, for each of the 100 spectra × 25 true peaks one asks: is the reference column belonging to that peak populated by the correctly-labelled peak, with no wrong-label peak in that column? The fraction of correct (spectrum, peak) pairs over the 100×25 grid is the snap purity. It is highest where CluPA has already brought peaks within a small maxCombine window of their reference columns."
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "On the real AKI cohort, metabodeconplus was benchmarked against an equidistant-binning baseline. Summarise the comparison and the headline result.",
+      "answer_md": "Setup: 106 urinary ¹H NMR spectra (34 AKI vs 72 control, creatinine-normalised). The **binning baseline** mirrors Zacharias (2013): a 700-bin feature matrix (300 bins over 6.5–9.5 ppm + 400 bins over 0.5–4.5 ppm, fixed 0.01 ppm bins). To make the comparison fair, the original SVM was replaced by the *same* ranger random forest (probability mode) used in the metabodeconplus pipeline. The **metabodeconplus** model is the full pipeline: deconvolute → CluPA → snap_to_ref → ranger, with npmax fixed at 1000, maxShift auto-tuned (−1), and only maxCombine swept on each training fold. Performance was estimated by stratified 10-fold CV repeated over 3 seeds.\n\nHeadline: metabodeconplus **matched** the binning baseline in accuracy and AUC — no loss in predictive performance — while operating on a higher-resolution, per-peak feature matrix instead of fixed-width bins."
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "If metabodeconplus only *matches* the binning baseline on accuracy, what is the actual advantage of the peak-based feature matrix, and why does it matter scientifically and clinically?",
+      "answer_md": "The advantage is *interpretability and transferability*, not raw accuracy. Each selected feature is a single deconvoluted peak that contributes to only one metabolite, so a discriminatory feature can be assigned unambiguously to an individual metabolite. A coarse 0.01 ppm bin, by contrast, can mix contributions from several overlapping peaks/metabolites, so an important bin cannot be cleanly attributed.\n\nWhy it matters: (1) biological interpretation — you can say *which* metabolite drives the signature (keeping in mind these are correlations, not causal relationships); (2) assay transfer — a single-peak signature can be re-measured by a targeted method (e.g. clinical chemistry) to build a practical diagnostic, which a mixed bin cannot support. So metabodeconplus buys scientific and clinical usability at no cost in predictive performance."
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "Why must deconvolution precede alignment in the metabodeconplus pipeline, rather than aligning the raw spectra first (as e.g. speaq/CluPA is normally used)?",
+      "answer_md": "metabodeconplus aligns *peak lists*, not raw intensity vectors. Deconvolution first reduces each spectrum to a sparse list of Lorentzian peaks (centre, width, area); CluPA and snap_to_ref then operate on these discrete peak grids. Aligning peaks has two benefits over aligning raw spectra: the alignment acts on the quantities that actually become features (so the feature columns correspond to individually localised peaks), and snap_to_ref can enforce an *exact* common peak grid that raw-spectrum warping cannot. It also means the CluPA segmentation clusters real detected peaks rather than every data point. The adaptation of CluPA to the MetaboDecon1D peak-list output format was in fact one of the specific engineering steps needed to integrate it. (Contrast: speaq 2.0 represents signals as wavelets/peaks and aligns those; pure binning tools align or bucket the raw axis.)"
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "How does metabodeconplus differ from deep-learning deconvolution tools such as DEEP Picker1D or Bruker's mldecon, and what are the respective trade-offs?",
+      "answer_md": "DEEP Picker1D (a CNN trained on synthetic spectra, peaks refined by a Voigt least-squares fitter) and mldecon (a deep-learning deconvolution in TopSpin 4.2, also trained on synthetic spectra) learn peak detection/parameter estimation from large synthetic training sets and can do well on crowded, high-dynamic-range and shoulder-peak regions. metabodeconplus instead uses a deterministic, analytic curvature + closed-form Lorentzian method (Koh), with no training data.\n\nTrade-offs: the analytic method is transparent, reproducible, has no training-data or model-drift dependency, runs with a handful of interpretable parameters, and is fast; but a shadowed peak with no curvature minimum is simply invisible to it, whereas a learned model might infer such a peak from shape priors. Conversely the learned models depend on how representative their synthetic training spectra are, and are less transparent. Importantly, metabodeconplus is also broader in *scope* — it adds cross-sample alignment and classification, whereas DEEP Picker1D and mldecon are deconvolution-only."
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "Contrast metabodeconplus's peak-based feature extraction with spectral binning (bucketing) as a general strategy. Give at least two advantages and one situation where binning might still be preferred.",
+      "answer_md": "Binning divides the chemical-shift axis into fixed-width buckets and integrates intensity in each — simple, robust and alignment-tolerant (small shifts stay within a bucket), but each bucket can mix several metabolites, and features have no physical identity.\n\nPeak-based (deconvolution) advantages: (1) each feature is one Lorentzian peak contributing to a single metabolite → unambiguous assignment, biological interpretation, and transfer to targeted assays; (2) higher effective spectral resolution — peaks are localised rather than smeared over a 0.01 ppm window, so adjacent metabolites stay separated; (3) accurate integrals even for overlapping signals, which raw binning cannot disentangle.\n\nBinning might still be preferred when spectra are very noisy or poorly resolved (so deconvolution is unreliable), when speed/simplicity matters more than interpretation, or as a robust baseline — as the AKI benchmark shows, binning can match peak-based accuracy, just without the interpretability."
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "recall",
+      "question_md": "What are the stated limitations of metabodeconplus that you would want to acknowledge at a defense?",
+      "answer_md": "From the discussion: (1) **File formats** — native readers only for Bruker and JCAMP-DX; other vendor formats are not parsed natively (though any format can be handed in as a chemical-shift vector + intensity vector). (2) **No multiplet grouping** — it provides no routine to group deconvoluted peaks into multiplet structures (a metabolite's coupled peaks are treated as independent features). (3) **No automatic peak-to-metabolite assignment** — there is no library matching against reference spectra, so annotation is left to the user. (4) **PRARPX has a hard ceiling below 1** on noisy spectra (noise floor keeps AR>0; shadowed peaks keep PRX<1) — and, more generally, AR-based unsupervised tuning is not guaranteed to find the true optimum on complex experimental spectra. (5) The supervised 3-D parameter search is expensive, which is why the two-step npmax/maxShift-auto/maxCombine recommendation exists."
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "mc",
+      "question_md": "In metabodeconplus's Lorentzian A·λ/((ω−ω0)²+λ²), which quantity is proportional to the *integral* used for metabolite quantification?",
+      "options": [
+        {
+          "text_md": "The amplitude factor A (the integral equals πA)",
+          "correct": true
+        },
+        {
+          "text_md": "The half-width λ",
+          "correct": false
+        },
+        {
+          "text_md": "The peak height A/λ",
+          "correct": false
+        },
+        {
+          "text_md": "The centre position ω0",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "mc",
+      "question_md": "Which statement about the feature matrix zeros that motivates the random-forest classifier is correct?",
+      "options": [
+        {
+          "text_md": "A zero means 'peak missing', not 'area measured as zero', which linear models confound",
+          "correct": true
+        },
+        {
+          "text_md": "Zeros are genuine measured areas and are handled fine by linear models",
+          "correct": false
+        },
+        {
+          "text_md": "Zeros are imputed by the mean before classification",
+          "correct": false
+        },
+        {
+          "text_md": "Zeros only occur in the reference spectrum",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "text",
+      "question_md": "What pulse sequence was used for the Blood plasma spectra, and what is its key property for plasma? (Name the acronym.)",
+      "accepted_answers": [
+        "CPMG",
+        "Carr-Purcell-Meiboom-Gill",
+        "Carr Purcell Meiboom Gill"
+      ]
+    },
+    {
+      "dirs": [
+        "PhD/metabodecon"
+      ],
+      "type": "mc",
+      "question_md": "Why does CluPA alone fail to guarantee that corresponding peaks across spectra share an exact chemical shift?",
+      "options": [
+        {
+          "text_md": "It shifts whole spectral segments by one integer offset, so peaks within a segment all move together and one may stay slightly off",
+          "correct": true
+        },
+        {
+          "text_md": "It warps the axis non-linearly, distorting peak positions",
+          "correct": false
+        },
+        {
+          "text_md": "It changes the number of peaks per spectrum",
+          "correct": false
+        },
+        {
+          "text_md": "It aligns each spectrum to a different reference",
+          "correct": false
+        }
+      ]
+    }
+  ]
+}
