@@ -1,0 +1,335 @@
+{
+  "dirs": [
+    "PhD",
+    "PhD/NMR"
+  ],
+  "dir_links": [],
+  "cards": [
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "recall",
+      "question_md": "What is the physical origin of the NMR signal? Define the quantities that decide whether a nucleus is NMR-observable.",
+      "answer_md": "NMR exploits nuclear spin. A nucleus has a spin quantum number I; its angular momentum is P = √(I(I+1))·ħ, and the associated magnetic moment is μ = γ·P, where γ (the gyromagnetic ratio) is isotope-specific. Only nuclei with I ≠ 0 have a magnetic moment and are observable. Nuclei with even numbers of both protons and neutrons have I = 0 (e.g. ¹²C, ¹⁶O) and are *invisible* to NMR. ¹H and ¹³C have I = ½; ²H and ¹⁴N have I = 1.\n\nIn a static field B0 the moment's z-component is quantized, μ_z = m·γ·ħ with m = −I,…,+I. For a spin-½ nucleus there are two states (m = ±½), split in energy by the field — this Zeeman splitting is what NMR measures."
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "recall",
+      "question_md": "State the resonance (Larmor) condition and explain why it makes NMR a frequency measurement of the chemical environment.",
+      "answer_md": "In a field B0 the spin energy levels are E = −m·γ·ħ·B0. For spin-½ the gap between the two levels is ΔE = γ·ħ·B0, and a transition is induced by radiofrequency radiation at the **Larmor frequency** ν0 = γ·B0 / (2π) (equivalently ΔE = hν0). At 14.1 T, ¹H resonates near 600 MHz — hence '600 MHz spectrometer.'\n\nThe key point: the field a nucleus actually experiences is B0 reduced by electronic *shielding*, B_eff = B0(1 − σ), where σ depends on the local electron density set by the chemical environment. So different chemically inequivalent nuclei resonate at slightly different frequencies, and measuring those frequencies reports on molecular structure. NMR is therefore a precise frequency measurement whose small shifts encode chemistry."
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "recall",
+      "question_md": "Define the chemical shift δ in ppm. Why is it expressed in ppm relative to a reference rather than in Hz, and what reference compounds are used in aqueous metabolomics?",
+      "answer_md": "δ = (ν_sample − ν_ref) / ν_ref × 10⁶, in parts per million.\n\nIt is expressed in ppm because the *absolute* frequency separation (in Hz) scales with B0: the same two protons are ~2× farther apart in Hz on a 600 MHz magnet than on a 300 MHz one. Dividing by the spectrometer frequency removes this field dependence, so δ in ppm is **field-independent** and spectra from different instruments are directly comparable. (J-couplings, by contrast, are constant in Hz and so *shrink* in ppm at higher field — part of why higher fields resolve multiplets better.)\n\nReference: the signal is referenced to 0 ppm using TSP (3-(trimethylsilyl)propionate) or DSS in aqueous biofluid work (the analogue of TMS in organic solvents), whose ⁹ equivalent protons give a single sharp line defined as 0."
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "recall",
+      "question_md": "NMR is often described as an intrinsically insensitive technique. What is the quantitative reason, and how is sensitivity improved instrumentally?",
+      "answer_md": "The signal comes from the tiny *population difference* between the two Zeeman levels, set by the Boltzmann distribution: ΔN/N ≈ ΔE/(2kT) = γħB0/(2kT). Because ΔE is minuscule compared with thermal energy kT, the excess population in the lower state is only of order 1 in 10⁴–10⁵ at room temperature and ordinary fields. Only that small net excess contributes to the observable magnetization, so NMR is inherently far less sensitive than, say, mass spectrometry.\n\nSensitivity is improved by: (1) higher B0 (larger ΔE, larger ΔN/N — and better dispersion); (2) cryogenically cooled probes (cryoprobes), which reduce thermal/electronic noise in the detection coil; (3) microprobes for mass-limited samples; (4) signal averaging over many scans (S/N ∝ √n); and advanced methods like dynamic nuclear polarization (DNP)."
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "recall",
+      "question_md": "Why is ¹H the workhorse nucleus for NMR-based metabolomics, and what do ¹³C, ³¹P and ¹⁵N offer or lack by comparison?",
+      "answer_md": "¹H is used because it combines the highest practical sensitivity of the common nuclei — high gyromagnetic ratio and ~100% natural abundance — and nearly all metabolites contain hydrogen, so a single 1D ¹H experiment profiles most of the metabolome quickly.\n\nIts drawback is a narrow chemical-shift range (~10 ppm), which causes extensive signal overlap. Other nuclei trade sensitivity for dispersion: ¹³C spans >200 ppm (far less overlap, very informative structurally) but has only 1.1% natural abundance and low sensitivity, so it is rarely used alone for metabolomics; ³¹P has 100% abundance, wide range and good sensitivity but most metabolites contain no phosphorus (useful mainly for phospholipids/energy metabolism); ¹⁵N has wide dispersion but only 0.37% abundance and low sensitivity, so it is mostly for structural biology, not metabolomics."
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "recall",
+      "question_md": "Distinguish T1 and T2 relaxation, and explain which one governs the linewidth of an NMR peak.",
+      "answer_md": "After an RF pulse tips the magnetization, it returns to equilibrium by two processes:\n\n- **T1 (spin–lattice / longitudinal) relaxation** restores the *z*-magnetization (the Boltzmann population difference) by exchanging energy with the surroundings ('lattice'). It sets how long you must wait between scans to avoid saturation.\n- **T2 (spin–spin / transverse) relaxation** is the decay of the *xy* (transverse) magnetization as individual spins lose phase coherence. It requires no net energy exchange.\n\nThe **linewidth** is governed by transverse decay: the FID decays as exp(−t/T2), and a faster decay (shorter T2) gives a broader line. In practice the observed decay constant is T2*, which also includes dephasing from magnetic-field inhomogeneity, so the observed linewidth is usually broader than the 'natural' 1/(πT2)."
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "recall",
+      "question_md": "Why does a liquid-state NMR peak have a Lorentzian line shape, and what is the relationship between its width and T2*?",
+      "answer_md": "The detected time-domain signal (FID) is an oscillation at the Larmor frequency whose amplitude decays exponentially, ∝ exp(−t/T2*)·cos(ω0 t). The spectrum is the Fourier transform of the FID, and the Fourier transform of an exponentially decaying cosine is exactly a **Lorentzian** centred at ω0. So the line shape is Lorentzian because transverse relaxation is (to first order) a single-exponential decay.\n\nThe full width at half maximum is Δν = 1/(π·T2*): short T2* (fast dephasing, e.g. from poor shimming or large molecules) → broad lines; long T2* → sharp lines. This is the mechanistic justification for modelling metabolite signals as Lorentzians in deconvolution."
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "recall",
+      "question_md": "What physical factors cause NMR peak *broadening* (overlap), and how do they connect to the deconvolution problem in biofluids?",
+      "answer_md": "Broadening shortens the effective T2* and widens lines, which is what makes peaks overlap in crowded biofluid spectra. Contributing factors: (1) intrinsic **T2 relaxation** (faster for larger/slower-tumbling molecules); (2) **magnetic-field inhomogeneity** (imperfect shimming) — a non-relaxation dephasing that adds to T2*; (3) **chemical exchange** processes (e.g. labile protons exchanging between environments); (4) sample **viscosity** and **molecular interactions**, which slow tumbling and shorten T2; and (5) the measurement/processing itself.\n\nCombined with the narrow ¹H chemical-shift range (~10 ppm) and hundreds of metabolites, these linewidths cause extensive overlap in urine and plasma spectra, so individual signals cannot be read off directly — which is precisely why computational deconvolution (fitting overlapping Lorentzians) is required."
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "recall",
+      "question_md": "What causes the *chemical-shift drift* (peak shifts) of the same metabolite across samples, and why is it a problem distinct from peak overlap?",
+      "answer_md": "The resonance frequency depends on the local electronic environment, which is perturbed by sample conditions even for the identical metabolite. The main causes are variations in **pH** (protonation state of nearby groups, strongly affects titratable metabolites like citrate, histidine), **temperature**, and differences in **ionic strength / salt** and solvent composition. These shift a metabolite's peaks slightly left or right from one sample to the next.\n\nIt is distinct from overlap: overlap is about resolving co-located peaks *within* one spectrum (a deconvolution problem), whereas drift is about matching the *same* peak *across* spectra (an alignment problem). A feature matrix built without correcting drift would place one metabolite's intensity in different columns for different samples, corrupting any statistical comparison — hence the need for alignment (e.g. CluPA) after deconvolution."
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "recall",
+      "question_md": "Why is NMR considered an intrinsically *quantitative* technique, and what experimental condition must be satisfied for peak areas to be truly proportional to concentration?",
+      "answer_md": "Under proper conditions the integrated area of a ¹H signal is proportional to the *number of protons* giving rise to it — independent of the chemical environment and identical for all ¹H nuclei (same γ). So one internal standard of known concentration (e.g. TSP) calibrates the entire spectrum: every metabolite can be quantified from its integral without a compound-specific response factor. This is a major advantage over MS, where ionization efficiency varies enormously between compounds.\n\nThe condition: spins must be allowed to relax essentially fully between scans, i.e. the relaxation delay + acquisition must be long enough (rule of thumb ≥ 5·T1) so that slowly relaxing protons are not *saturated* and under-counted. If the recycle delay is too short, signals from long-T1 protons are attenuated relative to short-T1 ones and areas no longer reflect concentration. (90° pulses with short delays bias quantification; this is why quantitative NMR uses adequate relaxation delays.)"
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "recall",
+      "question_md": "A metabolite typically gives *several* peaks (a multiplet, and multiple chemically distinct groups). Explain why, and the implications for feature extraction.",
+      "answer_md": "Two effects multiply the number of peaks. (1) A molecule has several *chemically inequivalent* proton groups, each at its own chemical shift (e.g. the CH3, CH2 and OH of an alcohol). (2) **Scalar (J-) coupling**: protons on neighbouring carbons split each other's signals into multiplets (doublets, triplets, …) following the n+1 rule, with splittings constant in Hz (field-independent). So one metabolite produces a characteristic *pattern* of peaks across the spectrum.\n\nImplications: a single metabolite contributes many features, and those features are correlated. A deconvolution tool that treats peaks independently (as metabodeconplus does — it offers no multiplet grouping) will represent each component of a multiplet as its own feature; this is fine for classification but means interpretation must re-group peaks into metabolites manually, and redundant correlated features appear in the matrix."
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "recall",
+      "question_md": "Why is water suppression essential in biofluid ¹H NMR, and how does presaturation achieve it?",
+      "answer_md": "An aqueous biofluid is ~55 M in water protons, versus micromolar–millimolar metabolites — a dynamic range of ~10⁴–10⁵. Without suppression the enormous water resonance dominates the receiver's dynamic range and its tails/baseline distortions swamp the metabolite signals of interest.\n\n**Presaturation** applies a weak, selective, continuous RF field at the water frequency during the relaxation delay, saturating the water spins (equalizing their populations) so they give little or no net signal when the observe pulse is applied, while off-resonance metabolite spins are largely unaffected. It is simple and robust, which is why it underlies standard sequences like 1D NOESY-presat. (Downsides: it also attenuates exchangeable protons near the water line and can leave a residual hump.)"
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "recall",
+      "question_md": "The Blood plasma spectra were acquired with a CPMG sequence and the urine spectra with a 1D NOESY sequence. Explain why each matrix calls for its sequence.",
+      "answer_md": "**Plasma/serum → CPMG (Carr–Purcell–Meiboom–Gill).** Plasma contains abundant proteins and lipoproteins — large, slowly tumbling macromolecules with very *short T2* and hence very broad signals that form a rolling background obscuring small-metabolite peaks. CPMG is a spin-echo train that acts as a **T2 filter**: during the echo period the fast-decaying (short-T2) macromolecule magnetization dies away, while sharp small-metabolite signals (long T2) survive. The result is a clean small-molecule spectrum on a flat baseline.\n\n**Urine → 1D NOESY (with presaturation).** Urine has essentially no macromolecular background, so no T2 filter is needed; the 1D NOESY-presat experiment is used chiefly for its excellent, robust water suppression and flat baseline, giving reproducible quantitative profiles of the many small metabolites urine contains."
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "recall",
+      "question_md": "How do 2D NMR experiments (COSY, TOCSY, HSQC, HMBC) help with the overlap problem, and why is 1D ¹H still the default in metabolomics despite them?",
+      "answer_md": "2D experiments spread the signal over a second frequency axis, resolving peaks that overlap in 1D and adding connectivity information for assignment:\n- **COSY**: ¹H–¹H cross-peaks between *directly* J-coupled protons (3-bond neighbours).\n- **TOCSY**: cross-peaks across an entire coupled spin system (a whole chain of couplings), so all protons of one molecule correlate — powerful for separating overlapping molecules.\n- **HSQC**: one-bond ¹H–¹³C correlation; spreads protons by their attached carbon's shift (>200 ppm range), resolving peaks overlapped at one ¹H shift.\n- **HMBC**: long-range (2–3 bond) ¹H–¹³C correlations, reaching quaternary/carbonyl carbons.\n\nBut 1D ¹H remains the default because 2D costs much more acquisition time, produces larger and more complex data, and is harder to quantify and to process at cohort scale. For large studies the speed, reproducibility and quantitative simplicity of 1D ¹H win — which is exactly why computational deconvolution of the overlapped 1D spectrum (rather than 2D separation) is the pragmatic route."
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "recall",
+      "question_md": "Compare NMR and mass spectrometry as metabolomics platforms: give the principal strengths and weaknesses of each.",
+      "answer_md": "**NMR strengths:** highly reproducible and quantitative (areas ∝ concentration, one calibrant for all); non-destructive (sample recoverable); minimal sample preparation (no derivatization or chromatographic separation); unbiased/untargeted detection of any ¹H-bearing metabolite; excellent structural information.\n**NMR weaknesses:** low sensitivity (detects ~µM–mM, misses low-abundance metabolites); severe signal overlap in 1D ¹H due to the narrow ~10 ppm range; expensive high-field instruments.\n\n**MS strengths:** very high sensitivity and selectivity; wide metabolite coverage; can detect species with no observable NMR nucleus.\n**MS weaknesses:** often destructive; usually needs a pre-separation (LC or GC, GC requiring derivatization and volatile analytes); ionization efficiency varies between compounds so quantification needs compound-specific standards; matrix/ion-suppression effects; detector dynamic range (~3–4 orders) narrower than the metabolite concentration range; generally less reproducible across labs than NMR.\n\nThey are complementary, which is why metabolomics uses both."
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "recall",
+      "question_md": "Why is the metabolome often said to be 'closest to the phenotype,' and what does this imply for biomarker discovery?",
+      "answer_md": "The metabolome — the complete set of small molecules produced by metabolism — lies *downstream* of the genome, transcriptome and proteome. Genes encode transcripts, transcripts make enzymes, and enzymes act on metabolites, so metabolite levels are the integrated end-read-out of gene expression, protein activity *and* environmental inputs (diet, drugs, microbiome, disease). It is therefore the molecular layer most directly reflecting the organism's actual physiological state, or phenotype, and it changes measurably with disease, diet and environment.\n\nImplication: metabolite profiles are sensitive, close-to-phenotype reporters, well suited to biomarker discovery, disease-risk assessment and pathway analysis. The caveat is that metabolomic signatures capture *correlation* with phenotype, not causation, and the metabolome is dynamic and influenced by many non-disease factors, so confounders must be controlled."
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "recall",
+      "question_md": "Outline the standard NMR-metabolomics data-processing workflow from raw signal to statistical analysis, naming the key steps.",
+      "answer_md": "1. **Acquisition** → the raw time-domain FID.\n2. **Apodization** (window function) to improve S/N or resolution, and **zero-filling** to interpolate the frequency axis.\n3. **Fourier transformation** of the FID to the frequency-domain spectrum.\n4. **Phase correction** and **baseline correction** to give absorption-mode, flat-baseline peaks.\n5. **Chemical-shift referencing** (e.g. TSP/DSS to 0 ppm); removal of the residual water region.\n6. **Feature extraction** — either *binning/bucketing* into fixed intervals or *deconvolution* into individual peaks; integration to get areas.\n7. **Alignment** of corresponding signals across samples to correct chemical-shift drift.\n8. **Normalization** (e.g. to total area or, for urine, to creatinine) and scaling.\n9. (Optional) **annotation** of signals to metabolites — not a prerequisite; statistics can run on unassigned signals.\n10. **Statistical analysis / modelling** (PCA, PLS-DA, random forests, etc.)."
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "recall",
+      "question_md": "What does 'annotation is not a prerequisite' mean in NMR metabolomics, and how does this relate to targeted vs untargeted/fingerprinting approaches?",
+      "answer_md": "It means statistical modelling can be performed directly on the *resolved signals* (peaks or bins), so signals of unknown chemical origin still contribute to the models and can be discriminatory biomarkers — you do not have to know which metabolite a signal belongs to before using it.\n\nThis is the essence of **untargeted fingerprinting**: treat the whole spectrum as a pattern and let statistics find discriminating signals, annotating only the important ones afterwards (if at all). It contrasts with **targeted profiling**, which fits/quantifies a predefined list of known metabolites against reference spectra or standards. Fingerprinting is faster and loses no information to incomplete libraries (important because only a small fraction of signals can be confidently annotated), but its features need later identification to be biologically or clinically actionable — which is easier when each feature is a single deconvoluted peak rather than a mixed bin."
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "recall",
+      "question_md": "Why does higher magnetic field strength improve NMR spectra in *two* distinct ways, and what is the cost?",
+      "answer_md": "Higher B0 helps both sensitivity and resolution, for different reasons:\n\n1. **Sensitivity**: the energy gap ΔE = γħB0 grows with B0, so the Boltzmann population difference ΔN/N ∝ B0 increases, giving more net magnetization and signal (S/N rises roughly with B0^{3/2}).\n2. **Resolution/dispersion**: chemical shifts measured in *Hz* scale with B0 (δ in ppm is constant, but ppm × MHz = Hz), so peaks spread farther apart in frequency, while J-couplings stay fixed in Hz. This separates peaks that overlap at low field and simplifies multiplet patterns relative to chemical-shift spacing.\n\nCost: very high-field magnets (e.g. 600–1200 MHz) are extremely expensive to buy and maintain (superconducting, cryogen-cooled), which limits access — a practical weakness of NMR."
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "recall",
+      "question_md": "What are the roles of the deuterated solvent, the field/frequency lock, and shimming in obtaining a good NMR spectrum?",
+      "answer_md": "**Deuterated solvent (e.g. D2O added to biofluids):** provides deuterium (²H) nuclei whose resonance is monitored by the **lock** channel. The spectrometer continuously adjusts B0 to keep the ²H frequency constant, correcting slow field drift during long experiments and multi-scan averaging. Using a deuterated solvent also reduces the solvent ¹H signal.\n\n**Shimming:** fine adjustment of auxiliary coil currents to make B0 as *homogeneous* as possible over the sample volume. Field inhomogeneity dephases spins (shortens T2*) and broadens/distorts lines, so good shimming is what gives sharp, symmetric (truly Lorentzian) peaks and a flat baseline — directly improving resolution and the validity of Lorentzian deconvolution."
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "recall",
+      "question_md": "What is chemical-exchange broadening, and why does it make certain metabolite signals especially troublesome?",
+      "answer_md": "When a proton (or a molecule) exchanges between two environments with different chemical shifts — e.g. a labile OH/NH proton exchanging with water, or a molecule titrating between protonation states — the observed line shape depends on the exchange rate relative to the shift difference. In the *intermediate* exchange regime the line broadens substantially (and can even coalesce), because spins sample both frequencies within the detection time and lose phase coherence. This is an additional, non-relaxation source of broadening (and of apparent shift, pH-dependent).\n\nIt is troublesome because affected signals (exchangeable protons, titratable metabolites such as citrate, histidine) are broad, may be partly suppressed by water presaturation, and shift with pH/temperature — so they both overlap more and drift more across samples, stressing both the deconvolution and the alignment steps."
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "recall",
+      "question_md": "What is HRMAS NMR and when is it used instead of solution-state NMR?",
+      "answer_md": "High-Resolution Magic-Angle Spinning NMR spins an intact sample at the 'magic angle' of 54.74° to B0 (and at high speed). In solids and semi-solids (like tissue), anisotropic interactions — dipolar couplings, chemical-shift anisotropy, susceptibility effects — broaden lines badly; these terms scale with (3cos²θ − 1), which is exactly zero at 54.74°, so spinning at that angle averages them out and recovers near-solution-state linewidths.\n\nIt is used for **intact tissue biopsies** (brain, kidney, liver, tumour), giving a metabolic profile directly from a small tissue sample without extraction, and allowing metabolic profiles to be correlated with histology. Solution-state NMR remains the choice for liquid biofluids (urine, plasma) where tumbling already averages the anisotropic terms."
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "recall",
+      "question_md": "Deconvolution was 'not new' — Koh et al. proposed the core method. Summarise Koh's two-stage approach and the feature that distinguishes it from classical curve fitting.",
+      "answer_md": "Koh's approach (2008/2009, later implemented as MetaboDecon1D) is two stages: (1) **identify and filter peaks from noise using curvature** — a candidate peak is a negative local minimum of the spectrum's second derivative S'', and peaks are kept/rejected by a noise-based score threshold; (2) **approximate each peak analytically as a Lorentzian**, based on the closed-form (analytical) solution for the Lorentzian through sampled points, with iterative proportional rescaling to match the superposition to the spectrum.\n\nDistinguishing feature: unlike classical least-squares curve fitting (e.g. Levenberg–Marquardt), it does **not** rely on partial derivatives/iterative gradient optimization, its runtime is essentially *independent of the number of spectral data points*, and in simulations it outperformed Levenberg–Marquardt. This derivative-free, analytic character is what makes it fast enough for high-throughput spectra with tens of thousands of points."
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "recall",
+      "question_md": "Metabolite identification in metabolomics is graded by confidence levels (Sumner/MSI). What is the gold-standard criterion for confident identification, and how does a database lookup differ from it?",
+      "answer_md": "A **database lookup** (e.g. matching an observed chemical shift or m/z against HMDB) yields a *set of candidate* compounds — it is consistent with an identity but does not confirm it, because many compounds can share a shift/mass. This is a *putative* annotation.\n\nThe gold standard (MSI/Sumner Level 1) requires matching a measured property to an **authentic chemical standard analysed under identical conditions** on *two independent, orthogonal* measurements — e.g. matching both the retention time (or chemical shift pattern) and a second property of a purchased pure standard run on the same instrument. Confirming identity therefore means re-measuring a standard, which is slow and expensive; this cost is why retention-time prediction and spectral libraries are active research areas. In NMR fingerprinting many discriminatory signals stay putatively annotated or unannotated, which is acceptable because statistics do not require identification."
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "recall",
+      "question_md": "What is spectral binning (bucketing), and what are its advantages and its principal disadvantage as a feature-extraction method?",
+      "answer_md": "Binning divides the chemical-shift axis into contiguous intervals (buckets, e.g. fixed 0.01 ppm or adaptive widths) and sums/integrates the intensity within each bucket to form one feature per bucket.\n\nAdvantages: simple, fast, robust to noise, and *tolerant of small peak shifts* — a peak that drifts a little usually stays within the same bucket, partly absorbing alignment error; it needs no peak model or assignment.\n\nPrincipal disadvantage: a single bucket can contain contributions from **several overlapping peaks/metabolites**, so a discriminatory bin cannot be attributed to one metabolite, and resolution is limited by bucket width. Peak-based deconvolution avoids this by giving each feature a single localised peak — which is the interpretability advantage metabodeconplus demonstrates over binning."
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "mc",
+      "question_md": "At the 'magic angle' used in HRMAS NMR, the factor (3cos²θ − 1) is zero. What is that angle?",
+      "options": [
+        {
+          "text_md": "54.74°",
+          "correct": true
+        },
+        {
+          "text_md": "45°",
+          "correct": false
+        },
+        {
+          "text_md": "90°",
+          "correct": false
+        },
+        {
+          "text_md": "0°",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "mc",
+      "question_md": "Which relaxation process directly determines the natural linewidth of an NMR signal?",
+      "options": [
+        {
+          "text_md": "Transverse (T2 / T2*) relaxation",
+          "correct": true
+        },
+        {
+          "text_md": "Longitudinal (T1) relaxation",
+          "correct": false
+        },
+        {
+          "text_md": "Dielectric relaxation",
+          "correct": false
+        },
+        {
+          "text_md": "Quadrupolar relaxation only",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "mc",
+      "question_md": "Why is the chemical shift reported in ppm rather than Hz?",
+      "options": [
+        {
+          "text_md": "Dividing by the spectrometer frequency makes it field-independent, so spectra from different magnets are comparable",
+          "correct": true
+        },
+        {
+          "text_md": "Hz values are too large to print conveniently",
+          "correct": false
+        },
+        {
+          "text_md": "ppm directly gives the metabolite concentration",
+          "correct": false
+        },
+        {
+          "text_md": "J-couplings are also measured in ppm",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "mc",
+      "question_md": "A nucleus is NMR-invisible when:",
+      "options": [
+        {
+          "text_md": "Its spin quantum number I = 0 (e.g. ¹²C, ¹⁶O), so it has no magnetic moment",
+          "correct": true
+        },
+        {
+          "text_md": "It has an odd mass number",
+          "correct": false
+        },
+        {
+          "text_md": "Its gyromagnetic ratio is positive",
+          "correct": false
+        },
+        {
+          "text_md": "It is a spin-½ nucleus",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "text",
+      "question_md": "Give the approximate chemical-shift range (in ppm) of the ¹H NMR window whose narrowness is the main cause of signal overlap in biofluids.",
+      "accepted_answers": [
+        "10",
+        "10 ppm",
+        "about 10",
+        "~10",
+        "0-10",
+        "0 to 10"
+      ]
+    },
+    {
+      "dirs": [
+        "PhD/NMR"
+      ],
+      "type": "text",
+      "question_md": "Name the reference compound (one acronym) commonly set to 0 ppm for chemical-shift referencing in aqueous metabolomics.",
+      "accepted_answers": [
+        "TSP",
+        "DSS"
+      ]
+    }
+  ]
+}
