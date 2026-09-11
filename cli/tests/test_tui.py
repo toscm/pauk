@@ -390,7 +390,7 @@ async def test_statusbar_shows_model(client):
     async with app.run_test(size=(100, 40)) as pilot:
         await pilot.press("enter")
         await _settle(pilot)
-        await pilot.press(*"tuidemo/inner", "enter")
+        await _pick(pilot, "tuidemo/inner")
         await _settle(pilot)
         assert isinstance(app.screen, QuizScreen)
         status = str(app.screen.query_one("#quiz-status").render())
@@ -421,7 +421,10 @@ async def test_tip_logs_no_review(server, tmp_path):
     async with app.run_test(size=(100, 40)) as pilot:
         await pilot.press("enter")
         await _settle(pilot)
-        await pilot.press(*"tipdemo", "enter")
+        # the picker lands in the tree view, where typed letters go
+        # nowhere and Enter starts whatever deck the cursor is on:
+        # _pick switches to the filter view first
+        await _pick(pilot, "tipdemo")
         await _settle(pilot)
         assert isinstance(app.screen, QuizScreen)
         screen = app.screen
