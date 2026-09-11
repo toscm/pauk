@@ -305,6 +305,61 @@ def doctor() -> None:
             "  [dim]install the `claude` CLI for a stronger model with no download[/dim]"
         )
 
+    _report_image_support()
+
+
+def _report_image_support() -> None:
+    """Terminal image capability + which renderer pauk will use. Run
+    this in the terminal where images look wrong (e.g. over SSH in
+    Windows Terminal) to see whether crisp images (sixel/kitty) are
+    available or pauk is falling back to the half-block renderer."""
+    import os
+
+    in_tmux = bool(os.environ.get("TMUX"))
+    is_tty = sys.stdout.isatty()
+    console.print("\n[bold]Terminal images[/bold]")
+    console.print(f"  TERM={os.environ.get('TERM', '?')} · tty={is_tty} · tmux={in_tmux}")
+
+    sixel_ok = tgp_ok = False
+    try:
+        from textual_image.renderable import sixel, tgp
+
+        sixel_ok = bool(is_tty and sixel.query_terminal_support())
+        tgp_ok = bool(is_tty and tgp.query_terminal_support())
+    except Exception as exc:  # noqa: BLE001 - diagnostic only
+        console.print(f"  (could not probe terminal: {exc})")
+
+    console.print(f"  sixel: {'yes' if sixel_ok else 'no'} · "
+                  f"kitty/TGP: {'yes' if tgp_ok else 'no'}")
+
+    mode = os.environ.get("PAUK_IMAGE_MODE") or config_mod.get("image_mode") or "auto"
+    passthrough = config_mod.get("tmux_image_passthrough")
+    if mode != "auto":
+        chosen = mode
+    elif in_tmux and not passthrough:
+        chosen = "halfcell (tmux without passthrough)"
+    elif tgp_ok:
+        chosen = "kitty/TGP"
+    elif sixel_ok:
+        chosen = "sixel"
+    else:
+        chosen = "halfcell (no high-fidelity protocol detected)"
+    console.print(f"  image_mode={mode} · tmux_image_passthrough={passthrough}")
+    console.print(f"  renderer: {chosen}")
+
+    if "halfcell" in chosen and (sixel_ok or tgp_ok):
+        console.print(
+            "  [dim]a crisp protocol is available but unused; in tmux set "
+            "tmux_image_passthrough=true (docs/images.md) or "
+            "PAUK_IMAGE_MODE=sixel[/dim]"
+        )
+    elif "halfcell" in chosen:
+        console.print(
+            "  [dim]no sixel/kitty advertised, so images use half-blocks. "
+            "Windows Terminal needs v1.22+ for sixel (kitty isn't supported "
+            "there); try PAUK_IMAGE_MODE=sixel to test anyway[/dim]"
+        )
+
 
 @app.command()
 def login(server: str) -> None:
