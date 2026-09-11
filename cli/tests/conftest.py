@@ -15,6 +15,10 @@ from pathlib import Path
 import httpx
 import pytest
 
+# Safety net: never let a test download a multi-GB model, even if one
+# accidentally builds a real local provider. Tests mock the provider.
+os.environ.setdefault("PAUK_NO_MODEL_DOWNLOAD", "1")
+
 REPO = Path(__file__).resolve().parents[2]
 PHP = os.environ.get("PAUK_PHP", str(Path.home() / ".local" / "bin" / "php"))
 

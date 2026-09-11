@@ -191,6 +191,25 @@ Directories form a DAG, not a tree:
   OAuth; the web interface can move to something richer later
   without breaking the token scheme.
 
+- The quest/tip LLM runs locally by default: an in-process
+  GGUF model via llama.cpp, packaged as the optional
+  `pauk[local]` extra (no API key, no subscription, no
+  always-on daemon). `pauk.llm.hardware` picks a model tier
+  from RAM + accelerator (a small curated table, 0.5B–32B
+  Q4_K_M) and the model is fetched lazily into
+  `~/.cache/pauk/models/` on first use. `default_provider()`
+  prefers the local runtime, falls back to the `claude` CLI,
+  then errors. Chosen over an API key (cost, opt-in) and an
+  always-running Ollama daemon (extra infra) for a single-user
+  hobby app. The wrapped model id shows in the status bar.
+
+- A tip is scored as neither right nor wrong: requesting a
+  hint for a card suppresses the `POST /cards/{id}/answer`
+  call entirely, so no review is logged and the card is not
+  rescheduled. Grading stays server-side for everything
+  actually answered; the client simply declines to submit a
+  tipped card.
+
 ### TUI gotchas
 
 - Never name a Textual widget/Screen instance attribute `path`.

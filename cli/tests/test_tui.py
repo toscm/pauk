@@ -273,14 +273,17 @@ async def test_error_toast_on_load_failure(client, monkeypatch):
 
 
 class FakeProvider:
-    """Deterministic provider for quest tests — no real LLM."""
-    name = "fake"
+    """Deterministic provider for quest/tip tests — no real LLM."""
+    name = "fake-model"
 
     def chat(self, system, messages):
         return "Prego! (fake reply)"
 
     def judge(self, criteria, transcript):
         return any("cornetti" in m["content"] for m in transcript if m["role"] == "user")
+
+    def tip(self, question):
+        return "think about the first letter"
 
 
 async def test_quest_flow_success(server, tmp_path):
@@ -319,7 +322,22 @@ async def test_quest_flow_success(server, tmp_path):
         assert "succeeded" in str(app.screen.query_one("#quest-log").render())
 
 
-async def test_quest_give_up_returns_to_quiz(server, tmp_path):
+async def test_task_escape_exits_quiz_completion_advances():
+    # tri-state task dismiss: None (escaped) exits the whole quiz;
+    # True/False (completed) counts the item and advances
+    screen = QuizScreen(None, "t")
+    calls = []
+    screen._advance = lambda: calls.append("advance")
+    screen.action_leave = lambda: calls.append("leave")
+    screen.current = {"id": 1}
+    screen._task_done(None)          # user bailed out of the task
+    assert calls == ["leave"]
+    screen._task_done(True)          # task completed → advance
+    assert calls == ["leave", "advance"]
+    assert screen.answered == 1
+
+
+async def test_quest_give_up_returns_to_picker(server, tmp_path):
     client = Client(server["url"], server["token"])
     quest = {
         "dirs": ["questgiveup"],
@@ -345,11 +363,65 @@ async def test_quest_give_up_returns_to_quiz(server, tmp_path):
         await pilot.press(*"questgiveup", "enter")
         await _settle(pilot)
         assert isinstance(app.screen, QuestScreen)
-        await pilot.press("escape")                     # give up
+        await pilot.press("escape")                     # give up mid-quest
         await _settle(pilot)
-        # open-ended: the only card resurfaces → back on a QuestScreen,
-        # not a crash and not a (removed) result screen
-        assert isinstance(app.screen, (QuestScreen, QuizScreen))
+        # Escape inside a task bails out of the whole quiz back to the
+        # picker, rather than advancing to the next card
+        assert isinstance(app.screen, PickerScreen)
+
+
+async def test_statusbar_shows_model(client):
+    app = PaukApp(client, provider=FakeProvider())
+    async with app.run_test(size=(100, 40)) as pilot:
+        await pilot.press("enter")
+        await _settle(pilot)
+        await pilot.press(*"tuidemo/inner", "enter")
+        await _settle(pilot)
+        assert isinstance(app.screen, QuizScreen)
+        status = str(app.screen.query_one("#quiz-status").render())
+        assert "fake-model" in status          # the wrapped model id
+        assert "tip" in status                  # the tip affordance
+
+
+async def test_tip_logs_no_review(server, tmp_path):
+    client = Client(server["url"], server["token"])
+    deck = {
+        "dirs": ["tipdemo"],
+        "dir_links": [],
+        "cards": [{
+            "dirs": ["tipdemo"],
+            "type": "text",
+            "question_md": "Capital of France?",
+            "accepted_answers": ["Paris"],
+        }],
+    }
+    path = tmp_path / "tip.json"
+    path.write_text(json.dumps(deck))
+    import_file(client, path, echo=lambda *_: None)
+
+    before = client.stats()["summary"]["reviews"]
+    app = PaukApp(client, provider=FakeProvider())
+    async with app.run_test(size=(100, 40)) as pilot:
+        await pilot.press("enter")
+        await _settle(pilot)
+        await pilot.press(*"tipdemo", "enter")
+        await _settle(pilot)
+        assert isinstance(app.screen, QuizScreen)
+        screen = app.screen
+        assert screen.current["type"] == "text"
+        await pilot.press("question_mark")         # request a tip
+        await _settle(pilot)
+        assert screen.tipped
+        assert "hint" in str(screen.query_one("#feedback").render())
+        assert "tipped" in str(screen.query_one("#quiz-status").render())
+        # answer (even correctly) — a tipped card must NOT be scored,
+        # so it logs no review and does not resurface
+        await pilot.press(*"Paris", "enter")
+        await _settle(pilot)
+        assert "not scored" in str(screen.query_one("#feedback").render())
+        assert screen.retry == []
+    after = client.stats()["summary"]["reviews"]
+    assert after == before                          # no review was logged
 
 
 async def test_route_flow_reaches_goal(server):

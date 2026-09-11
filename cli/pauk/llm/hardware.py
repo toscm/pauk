@@ -1,12 +1,17 @@
 """Detect the local machine's capacity and choose a default LLM.
 
-Quests need a language model. The best provider, when present, is
-the `claude` CLI (uses the user's existing login, no download).
-Otherwise pauk can run a local GGUF model via llama.cpp — but the
-model must fit the machine, so we pick a tier from RAM and whether
-a GPU/accelerator is available. Example: an Apple-silicon Mac with
-32 GB gets a 7B model; a 16 GB laptop without a GPU gets a 3B; a
-tiny box gets a 1B.
+Quests and tips need a language model. pauk runs one locally by
+default via llama.cpp (the `pauk[local]` extra) so there is no API
+key, no subscription, and no always-on daemon. The model must fit
+the machine, so we pick a tier from RAM and whether a GPU/Metal
+accelerator is available; the core count sets how many threads
+llama.cpp uses, not the tier. Example: an Apple-silicon Mac with
+32 GB gets a 14B model on Metal; a 16 GB laptop without a GPU gets
+a 3B; a tiny box gets a 0.5B; a 1 TB workstation gets the largest
+curated tier.
+
+When no local runtime is installed, the `claude` CLI is used as a
+fallback (see pauk.llm.provider.default_provider).
 
 This module is pure and testable: `choose_model` is a function of
 a `Hardware` value, and `detect_hardware` is the only part that
@@ -25,6 +30,7 @@ from dataclasses import dataclass
 @dataclass(frozen=True)
 class Hardware:
     ram_gb: float
+    cores: int               # logical CPU cores
     accelerator: str          # "metal" | "cuda" | "none"
     arch: str                 # "arm64" | "x86_64" | ...
     system: str               # "Darwin" | "Linux" | "Windows"
@@ -36,25 +42,54 @@ class Model:
     label: str                # human name
     params_b: float           # billions of parameters
     min_ram_gb: float         # RAM the quantized model needs comfortably
-    # a resumable download URL is filled in when we actually wire
-    # llama.cpp; kept out of the selection logic on purpose
-    gguf: str | None = None
+    # Hugging Face GGUF source (repo + file). A Q4_K_M quant balances
+    # size and quality; downloaded lazily on first use (see provider).
+    repo: str | None = None
+    filename: str | None = None
 
 
-# Ordered small → large. Selection walks from the largest model
-# the machine can comfortably run downwards.
+# Ordered small → large. Selection walks from the largest model the
+# machine can comfortably run downwards. All are instruction-tuned
+# Q4_K_M GGUFs from bartowski's well-known Hugging Face mirrors.
+# Small, explicit, and easy to edit — add or retune a row here.
 MODELS: list[Model] = [
-    Model("qwen2.5-0.5b", "Qwen2.5 0.5B Instruct", 0.5, 2),
-    Model("llama3.2-1b", "Llama 3.2 1B Instruct", 1.0, 4),
-    Model("llama3.2-3b", "Llama 3.2 3B Instruct", 3.0, 8),
-    Model("qwen2.5-7b", "Qwen2.5 7B Instruct", 7.0, 16),
-    Model("qwen2.5-14b", "Qwen2.5 14B Instruct", 14.0, 28),
+    Model(
+        "qwen2.5-0.5b", "Qwen2.5 0.5B Instruct", 0.5, 2,
+        "bartowski/Qwen2.5-0.5B-Instruct-GGUF",
+        "Qwen2.5-0.5B-Instruct-Q4_K_M.gguf",
+    ),
+    Model(
+        "llama3.2-1b", "Llama 3.2 1B Instruct", 1.0, 4,
+        "bartowski/Llama-3.2-1B-Instruct-GGUF",
+        "Llama-3.2-1B-Instruct-Q4_K_M.gguf",
+    ),
+    Model(
+        "llama3.2-3b", "Llama 3.2 3B Instruct", 3.0, 8,
+        "bartowski/Llama-3.2-3B-Instruct-GGUF",
+        "Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+    ),
+    Model(
+        "qwen2.5-7b", "Qwen2.5 7B Instruct", 7.0, 16,
+        "bartowski/Qwen2.5-7B-Instruct-GGUF",
+        "Qwen2.5-7B-Instruct-Q4_K_M.gguf",
+    ),
+    Model(
+        "qwen2.5-14b", "Qwen2.5 14B Instruct", 14.0, 28,
+        "bartowski/Qwen2.5-14B-Instruct-GGUF",
+        "Qwen2.5-14B-Instruct-Q4_K_M.gguf",
+    ),
+    Model(
+        "qwen2.5-32b", "Qwen2.5 32B Instruct", 32.0, 64,
+        "bartowski/Qwen2.5-32B-Instruct-GGUF",
+        "Qwen2.5-32B-Instruct-Q4_K_M.gguf",
+    ),
 ]
 
 
 def detect_hardware() -> Hardware:
     return Hardware(
         ram_gb=_total_ram_gb(),
+        cores=os.cpu_count() or 1,
         accelerator=_accelerator(),
         arch=platform.machine().lower(),
         system=platform.system(),
@@ -131,6 +166,14 @@ def choose_model(hw: Hardware) -> Model:
     return fitting[-1] if fitting else MODELS[0]
 
 
+def recommended_threads(hw: Hardware) -> int:
+    """Threads for llama.cpp on CPU. More cores help, but scaling
+    flattens past ~16, so cap there to avoid oversubscription on a
+    many-core box (the user's 112-core machine would gain nothing
+    from 112 threads)."""
+    return max(1, min(hw.cores, 16))
+
+
 @dataclass(frozen=True)
 class Provider:
     kind: str                 # "claude-cli" | "llama"
@@ -139,9 +182,10 @@ class Provider:
 
 
 def choose_provider(hw: Hardware | None = None, prefer_local: bool = False) -> Provider:
-    """Pick the quest LLM provider. The `claude` CLI wins when
-    available (no download, strongest model) unless the user forces
-    local; otherwise a local model sized to the machine."""
+    """Describe the quest LLM provider for a machine. Historically the
+    `claude` CLI won when present; `prefer_local` (and the runtime
+    priority in pauk.llm.provider.default_provider) favours the local
+    model. This stays a pure describer used by `pauk doctor`."""
     hw = hw or detect_hardware()
     if not prefer_local and claude_cli_available():
         return Provider("claude-cli", "the installed `claude` CLI", None)
@@ -149,6 +193,7 @@ def choose_provider(hw: Hardware | None = None, prefer_local: bool = False) -> P
     accel = {"metal": "Metal", "cuda": "CUDA", "none": "CPU"}[hw.accelerator]
     return Provider(
         "llama",
-        f"local {model.label} on {accel} ({hw.ram_gb:.0f} GB RAM)",
+        f"local {model.label} on {accel} "
+        f"({hw.ram_gb:.0f} GB RAM, {hw.cores} cores)",
         model,
     )

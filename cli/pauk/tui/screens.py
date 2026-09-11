@@ -43,6 +43,16 @@ def _perf_text(entry: dict) -> Text:
         return Text(" ·", style="dim")
     return Text(f" · {round(p * 100):+d}%", style=_perf_color(p))
 
+def _model_name(app) -> str | None:
+    """The currently wrapped LLM/model id for the status bar (the llama
+    model id, or "claude-cli" on fallback). None when no provider can
+    be built, so a status bar never crashes over it."""
+    try:
+        return app.provider.name
+    except Exception:  # noqa: BLE001 - status bar is best-effort
+        return None
+
+
 ASSETS = Path(__file__).parent / "assets"
 
 LOGO = r"""
@@ -65,6 +75,18 @@ TROPHY = "\n".join([
     "        _.' '._",
     "       `\"\"\"\"\"\"\"`",
 ])
+
+
+class QuizInput(Input):
+    """The quiz answer box, but it lets "?" through to the screen so
+    the Tip binding fires instead of "?" being typed as an answer
+    (a focused Input otherwise swallows every printable key, even a
+    priority screen binding)."""
+
+    def check_consume_key(self, key: str, character: str | None = None) -> bool:
+        if key == "question_mark":
+            return False
+        return super().check_consume_key(key, character)
 
 
 class StatusBar(Static):
@@ -319,6 +341,9 @@ class QuizScreen(Screen):
     BINDINGS = [
         Binding("escape", "leave", "End"),
         Binding("enter", "advance", "Continue", show=False),
+        # priority so it fires even while the answer Input is focused
+        # (otherwise the Input would swallow "?" as typed text)
+        Binding("question_mark", "tip", "Tip", show=False, priority=True),
     ]
 
     BATCH = 20          # cards fetched per server round
@@ -335,6 +360,7 @@ class QuizScreen(Screen):
         self.current: dict | None = None
         self.run_id: int | None = None
         self.in_feedback = False
+        self.tipped = False   # a tip was shown for the current card
 
     def compose(self) -> ComposeResult:
         with Vertical(id="quiz"):
@@ -343,7 +369,7 @@ class QuizScreen(Screen):
             # map before the choices); it is hidden when there is none,
             # leaving the answer directly under the question text
             yield Vertical(id="question-image")
-            yield Input(placeholder="answer", id="answer")
+            yield QuizInput(placeholder="answer", id="answer")
             yield SelectionList(id="choices")
             yield Static("", id="match-left")
             yield OptionList(id="match-choices")
@@ -388,7 +414,14 @@ class QuizScreen(Screen):
                     pass
 
     def _status(self) -> None:
-        self.query_one("#quiz-status", StatusBar).update(f"{self.answered} answered")
+        parts = [f"{self.answered} answered"]
+        model = _model_name(self.app)
+        if model:
+            parts.append(model)
+        if self.tipped:
+            parts.append("tipped")
+        parts.append("? tip")
+        self.query_one("#quiz-status", StatusBar).update(" · ".join(parts))
 
     # --- card stream ---------------------------------------------
     def _advance(self) -> None:
@@ -426,6 +459,7 @@ class QuizScreen(Screen):
 
     def show_card(self) -> None:
         self.in_feedback = False
+        self.tipped = False
         card = self.current
         if card["type"] == "quest":
             self.app.push_screen(QuestScreen(card), self._task_done)
@@ -497,7 +531,7 @@ class QuizScreen(Screen):
     # --- answering ------------------------------------------------
     def on_input_submitted(self, event: Input.Submitted) -> None:
         if event.input.id == "answer" and not self.in_feedback:
-            self._grade({"answer": event.value})
+            self._answer({"answer": event.value})
 
     def action_advance(self) -> None:
         if self.in_feedback:
@@ -506,7 +540,7 @@ class QuizScreen(Screen):
     def on_button_pressed(self, event: Button.Pressed) -> None:
         if event.button.id == "submit" and not self.in_feedback:
             selected = list(self.query_one("#choices", SelectionList).selected)
-            self._grade({"selected": selected})
+            self._answer({"selected": selected})
         elif event.button.id == "continue":
             self._advance()
 
@@ -520,7 +554,63 @@ class QuizScreen(Screen):
         if self._match_idx < len(card["lefts"]):
             self._show_match_left()
         else:
-            self._grade({"matches": self._match_answers})
+            self._answer({"matches": self._match_answers})
+
+    def _answer(self, payload: dict) -> None:
+        # a tipped card is neither right nor wrong: it logs NO review to
+        # the API, so skip grading entirely and show a neutral outcome
+        if self.tipped:
+            self._tipped_outcome()
+        else:
+            self._grade(payload)
+
+    # --- tips -----------------------------------------------------
+    def action_tip(self) -> None:
+        """Ask the LLM for a hint for the current question. Requesting a
+        tip marks the card so it will not be scored (no review logged)."""
+        if self.in_feedback or self.current is None:
+            return
+        if self.current["type"] in ("quest", "route"):
+            return
+        self.tipped = True
+        self._status()
+        feedback = self.query_one("#feedback", Static)
+        feedback.set_classes("")
+        feedback.update("thinking of a hint…")
+        self._fetch_tip(self.current["question_md"])
+
+    @work(thread=True)
+    def _fetch_tip(self, question: str) -> None:
+        try:
+            hint = self.app.provider.tip(question)
+        except Exception as exc:  # noqa: BLE001
+            self.app.call_from_thread(
+                self.notify, f"Could not get a tip: {exc}", severity="error"
+            )
+            self.app.call_from_thread(
+                self.query_one("#feedback", Static).update, ""
+            )
+            return
+        self.app.call_from_thread(self._show_tip, hint)
+
+    def _show_tip(self, hint: str) -> None:
+        feedback = self.query_one("#feedback", Static)
+        feedback.set_classes("")
+        feedback.update(f"hint: {hint}")
+
+    def _tipped_outcome(self) -> None:
+        """Advance a tipped card without grading: no review is logged and
+        it is not scheduled to resurface (neither right nor wrong)."""
+        self.in_feedback = True
+        self.answered += 1
+        feedback = self.query_one("#feedback", Static)
+        feedback.set_classes("")
+        feedback.update("tipped — not scored")
+        for wid in ("#answer", "#choices", "#submit", "#match-left", "#match-choices"):
+            self.query_one(wid).display = False
+        cont = self.query_one("#continue", Button)
+        cont.display = True
+        cont.focus()
 
     @work(thread=True)
     def _grade(self, payload: dict) -> None:
@@ -571,10 +661,16 @@ class QuizScreen(Screen):
         if not correct:
             self.retry.append((self.turn + self.RETRY_GAP, card))
 
-    def _task_done(self, success: bool | None) -> None:
-        # a quest/route played in its own screen counts as one item
+    def _task_done(self, result: bool | None) -> None:
+        # tri-state dismiss from a task sub-screen:
+        #   None        → the user escaped/gave up, wants out → exit the
+        #                 whole quiz (Escape chains back to the picker)
+        #   True/False  → the task completed → count it and advance
+        if result is None:
+            self.action_leave()
+            return
         self.answered += 1
-        self._reinforce(self.current, bool(success))
+        self._reinforce(self.current, bool(result))
         self._advance()
 
     def action_leave(self) -> None:
@@ -617,8 +713,10 @@ class QuestScreen(Screen):
     def _update_status(self) -> None:
         maxm = self.card["max_messages"]
         lang = f" · {self.card['lang']}" if self.card.get("lang") else ""
+        model = _model_name(self.app)
+        model = f" · {model}" if model else ""
         self.query_one("#quest-status", StatusBar).update(
-            f"message {self.user_messages}/{maxm}{lang} · F2 finish"
+            f"message {self.user_messages}/{maxm}{lang}{model} · F2 finish"
         )
 
     def _render_log(self) -> None:
@@ -696,11 +794,12 @@ class QuestScreen(Screen):
         self.set_focus(None)
 
     def action_give_up(self) -> None:
-        # Esc after the outcome continues; Esc mid-quest gives up
+        # Esc after the outcome continues (advance with the outcome);
+        # Esc mid-quest bails out of the whole quiz (None → exit)
         if getattr(self, "_pending_success", None) is not None:
             self.dismiss(self._pending_success)
         else:
-            self.dismiss(False)
+            self.dismiss(None)
 
 
 class RouteScreen(Screen):
@@ -746,7 +845,9 @@ class RouteScreen(Screen):
             f"You are in {self.graph.name_of(node)}  "
             f"(goal: {self.graph.name_of(self.card['goal_node'])})"
         )
-        self.query_one("#route-status", StatusBar).update(f"{self.km} km so far")
+        model = _model_name(self.app)
+        model = f" · {model}" if model else ""
+        self.query_one("#route-status", StatusBar).update(f"{self.km} km so far{model}")
         self.current_moves = self.graph.moves(node)
         moves = self.query_one("#route-moves", OptionList)
         moves.clear_options()
@@ -816,7 +917,9 @@ class RouteScreen(Screen):
         self.query_one("#route-status", StatusBar).update("done")
 
     def action_leave(self) -> None:
-        self.dismiss(self.arrived)
+        # arrived → advance with success; gave up mid-route → None exits
+        # the whole quiz rather than skipping to the next card
+        self.dismiss(True if self.arrived else None)
 
 
 class StatsScreen(Screen):
