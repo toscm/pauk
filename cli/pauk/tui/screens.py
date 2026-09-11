@@ -150,7 +150,7 @@ class PickerScreen(Screen):
         app = self.app
         if not hasattr(app, "picker_memory"):
             app.picker_memory = {
-                "view": "fav",
+                "view": "tree",   # the tree is the default landing view
                 "expanded": set(),
                 "filter": "",
             }
@@ -308,6 +308,22 @@ IMAGE_MD_RE = re.compile(
     r"!\[[^\]]*\]\((https?://[^)\s]+\.(?:png|jpe?g|gif|webp))\)"
 )
 
+# one muted glyph per card type, so a mixed deck shows what you are
+# answering without a full-color tint
+TYPE_GLYPH = {"text": "∷", "mc": "▤", "match": "⇄", "quest": "◇", "route": "➤"}
+
+
+def _streak_style(streak: int) -> str:
+    """Momentum: muted until it's worth noticing, then a cue color,
+    then a bold green as it gets impressive. ANSI names (not Textual
+    $tokens, which are CSS-only) so they're valid in a Rich Text and
+    adapt to the terminal's light/dark palette."""
+    if streak >= 7:
+        return "bold green"
+    if streak >= 3:
+        return "cyan"
+    return "dim"
+
 
 class QuizScreen(Screen):
     """An open-ended practice session. Cards are drawn (weighted) from
@@ -332,6 +348,7 @@ class QuizScreen(Screen):
         self.retry: list[tuple[int, dict]] = []  # (due_turn, card) for wrong cards
         self.turn = 0
         self.answered = 0
+        self.streak = 0
         self.current: dict | None = None
         self.run_id: int | None = None
         self.in_feedback = False
@@ -388,7 +405,12 @@ class QuizScreen(Screen):
                     pass
 
     def _status(self) -> None:
-        self.query_one("#quiz-status", StatusBar).update(f"{self.answered} answered")
+        glyph = TYPE_GLYPH.get(self.current["type"], "") if self.current else ""
+        line = Text(f"{glyph}  {self.answered} answered")
+        if self.streak >= 2:
+            line.append("  ·  ")
+            line.append(f"streak {self.streak}", style=_streak_style(self.streak))
+        self.query_one("#quiz-status", StatusBar).update(line)
 
     # --- card stream ---------------------------------------------
     def _advance(self) -> None:
@@ -537,15 +559,18 @@ class QuizScreen(Screen):
         self.in_feedback = True
         card = self.current
         self.answered += 1
+        self.streak = self.streak + 1 if result["correct"] else 0
         self._reinforce(card, result["correct"])
         expected = result["expected"]
         feedback = self.query_one("#feedback", Static)
         if result["correct"]:
             if result["match"] == "typo":
+                # accepted, but not perfect — amber, distinct from clean green
                 text = f"✓ correct — typo tolerated, correct spelling: {expected['accepted_answers'][0]}"
+                feedback.set_classes("typo")
             else:
                 text = "✓ correct"
-            feedback.set_classes("good")
+                feedback.set_classes("good")
         else:
             if card["type"] == "mc":
                 ids = set(expected["correct_option_ids"])
@@ -574,6 +599,7 @@ class QuizScreen(Screen):
     def _task_done(self, success: bool | None) -> None:
         # a quest/route played in its own screen counts as one item
         self.answered += 1
+        self.streak = self.streak + 1 if success else 0
         self._reinforce(self.current, bool(success))
         self._advance()
 
@@ -621,12 +647,22 @@ class QuestScreen(Screen):
             f"message {self.user_messages}/{maxm}{lang} · F2 finish"
         )
 
+    def _log_text(self) -> Text:
+        # color only the speaker marker so the two voices are easy to
+        # skim; message bodies stay in the default text color
+        log = Text()
+        for i, m in enumerate(self.messages):
+            if i:
+                log.append("\n\n")
+            if m["role"] == "user":
+                log.append("you", style="cyan")
+            else:
+                log.append("•", style="green")
+            log.append(f": {m['content']}")
+        return log
+
     def _render_log(self) -> None:
-        lines = []
-        for m in self.messages:
-            who = "you" if m["role"] == "user" else "•"
-            lines.append(f"{who}: {m['content']}")
-        self.query_one("#quest-log", Static).update("\n\n".join(lines))
+        self.query_one("#quest-log", Static).update(self._log_text())
 
     def on_input_submitted(self, event: Input.Submitted) -> None:
         if self.finished or event.input.id != "quest-input":
@@ -683,14 +719,17 @@ class QuestScreen(Screen):
 
     def _show_outcome(self, success: bool, result: dict) -> None:
         best = result.get("best_messages")
-        verdict = "✓ succeeded" if success else "✗ not this time"
         extra = ""
         if success and result.get("rank"):
             extra = f" · best {best} messages (#{result['rank']})"
-        self.query_one("#quest-log", Static).update(
-            (str(self.query_one("#quest-log", Static).render()) + "\n\n")
-            + f"{verdict} in {self.user_messages} messages{extra}"
+        log = self._log_text()
+        log.append("\n\n")
+        log.append(
+            "✓ succeeded" if success else "✗ not this time",
+            style="bold green" if success else "bold red",
         )
+        log.append(f" in {self.user_messages} messages{extra}")
+        self.query_one("#quest-log", Static).update(log)
         self.query_one("#quest-status", StatusBar).update("done")
         self._pending_success = success
         self.set_focus(None)
@@ -742,10 +781,11 @@ class RouteScreen(Screen):
 
     def _refresh_moves(self) -> None:
         node = self.node_path[-1]
-        self.query_one("#route-here", Static).update(
-            f"You are in {self.graph.name_of(node)}  "
-            f"(goal: {self.graph.name_of(self.card['goal_node'])})"
-        )
+        here = Text("You are in ")
+        here.append(self.graph.name_of(node), style="bold cyan")
+        here.append("   goal ")
+        here.append(self.graph.name_of(self.card["goal_node"]), style="yellow")
+        self.query_one("#route-here", Static).update(here)
         self.query_one("#route-status", StatusBar).update(f"{self.km} km so far")
         self.current_moves = self.graph.moves(node)
         moves = self.query_one("#route-moves", OptionList)
@@ -808,11 +848,12 @@ class RouteScreen(Screen):
 
     def _outcome(self, result: dict) -> None:
         best = result.get("best_km")
-        extra = f" · best {best} km" if best is not None else ""
-        record = " — new record!" if result.get("rank") == 1 else ""
-        self.query_one("#route-outcome", Static).update(
-            f"Arrived in {self.km} km{extra}{record}"
-        )
+        out = Text(f"Arrived in {self.km} km", style="bold green")
+        if best is not None:
+            out.append(f" · best {best} km")
+        if result.get("rank") == 1:
+            out.append(" — new record!", style="bold yellow")
+        self.query_one("#route-outcome", Static).update(out)
         self.query_one("#route-status", StatusBar).update("done")
 
     def action_leave(self) -> None:

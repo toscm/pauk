@@ -28,7 +28,8 @@ def test_tui_starts_and_navigates_on_real_pty(cli_env):
         # like an attribute shadowing a framework internal); the
         # detailed navigation is covered by the headless Pilot tests
         child.expect("Start a quiz")
-        child.send("\r")                    # open the picker
+        child.send("\r")                    # open the picker (tree view by default)
+        child.send("\t")                    # Tab: switch to the favorites view
         child.expect("all cards")           # picker rendered on a real tty
         child.send("\x1b")                  # Esc: back to home
         child.expect("Statistics")

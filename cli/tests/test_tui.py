@@ -72,6 +72,14 @@ async def _settle(pilot):
     await pilot.pause()
 
 
+async def _pick(pilot, query):
+    """Filtering lives in the favorites view; switch there (tree is the
+    default landing view), type the query, and start the top match."""
+    if pilot.app.picker_memory.get("view") == "tree":
+        await pilot.press("tab")
+    await pilot.press(*query, "enter")
+
+
 async def _answer_current(pilot, correct: bool):
     """Answer whatever card is showing, then advance past the feedback."""
     screen = pilot.app.screen
@@ -120,9 +128,12 @@ async def test_tab_tree_navigation_and_open_ended_quiz(client):
         await pilot.press("enter")                  # Start a quiz
         assert isinstance(app.screen, PickerScreen)
         await _settle(pilot)
-        await pilot.press("tab")                    # Tab → tree view
-        await pilot.pause()
+        assert app.picker_memory["view"] == "tree"  # tree is the default
+        await pilot.press("tab")                    # Tab toggles to favorites
+        assert app.picker_memory["view"] == "fav"
+        await pilot.press("tab")                    # and back to the tree
         assert app.picker_memory["view"] == "tree"
+        await pilot.pause()
         tree = app.screen.query_one("#deck-tree")
         node = next(
             n for n in tree.root.children if n.data and n.data["path"] == "tuidemo"
@@ -151,6 +162,7 @@ async def test_filter_and_status(client):
     async with app.run_test(size=(100, 40)) as pilot:
         await pilot.press("enter")
         await _settle(pilot)
+        await pilot.press("tab")                    # tree → favorites (filterable)
         await pilot.press(*"match")                 # fuzzy filter
         await pilot.pause()
         status = str(app.screen.query_one("#picker-status").render())
@@ -193,7 +205,7 @@ async def test_quiz_shows_image(client, tmp_path):
     async with app.run_test(size=(100, 40)) as pilot:
         await pilot.press("enter")
         await _settle(pilot)
-        await pilot.press(*"imagedemo", "enter")
+        await _pick(pilot, "imagedemo")
         await _settle(pilot)
         assert isinstance(app.screen, QuizScreen)
         from textual_image.widget import Image as ImageWidget
@@ -207,7 +219,7 @@ async def test_match_card_flow(client):
     async with app.run_test(size=(100, 40)) as pilot:
         await pilot.press("enter")
         await _settle(pilot)
-        await pilot.press(*"tuidemo/match", "enter")
+        await _pick(pilot, "tuidemo/match")
         await _settle(pilot)
         assert isinstance(app.screen, QuizScreen)
         assert app.screen.current["type"] == "match"
@@ -221,6 +233,7 @@ async def test_all_cards_quiz(client):
     async with app.run_test(size=(100, 40)) as pilot:
         await pilot.press("enter")
         await _settle(pilot)
+        await pilot.press("tab")                    # tree → favorites ("all cards")
         fav = app.screen.query_one("#fav-list")
         assert fav.get_option_at_index(0).id == "__all__"
         fav.highlighted = 0
@@ -238,7 +251,7 @@ async def test_wrong_card_resurfaces(client):
     async with app.run_test(size=(100, 40)) as pilot:
         await pilot.press("enter")
         await _settle(pilot)
-        await pilot.press(*"tuidemo/inner", "enter")
+        await _pick(pilot, "tuidemo/inner")
         await _settle(pilot)
         assert isinstance(app.screen, QuizScreen)
         # answer the first card wrong → it should be scheduled to return
@@ -251,7 +264,7 @@ async def test_escape_returns_to_picker(client):
     async with app.run_test(size=(100, 40)) as pilot:
         await pilot.press("enter")
         await _settle(pilot)
-        await pilot.press(*"tuidemo/inner", "enter")
+        await _pick(pilot, "tuidemo/inner")
         await _settle(pilot)
         assert isinstance(app.screen, QuizScreen)
         await pilot.press("escape")
@@ -306,7 +319,7 @@ async def test_quest_flow_success(server, tmp_path):
     async with app.run_test(size=(100, 40)) as pilot:
         await pilot.press("enter")
         await _settle(pilot)
-        await pilot.press(*"questdemo", "enter")
+        await _pick(pilot, "questdemo")
         await _settle(pilot)
         assert isinstance(app.screen, QuestScreen)
         app.screen.query_one("#quest-input").focus()
@@ -342,7 +355,7 @@ async def test_quest_give_up_returns_to_quiz(server, tmp_path):
     async with app.run_test(size=(100, 40)) as pilot:
         await pilot.press("enter")
         await _settle(pilot)
-        await pilot.press(*"questgiveup", "enter")
+        await _pick(pilot, "questgiveup")
         await _settle(pilot)
         assert isinstance(app.screen, QuestScreen)
         await pilot.press("escape")                     # give up
@@ -367,7 +380,7 @@ async def test_route_flow_reaches_goal(server):
     async with app.run_test(size=(100, 40)) as pilot:
         await pilot.press("enter")
         await _settle(pilot)
-        await pilot.press(*"routedemo", "enter")
+        await _pick(pilot, "routedemo")
         await _settle(pilot)
         await pilot.pause()
         assert isinstance(app.screen, RouteScreen)
@@ -399,7 +412,7 @@ async def test_route_give_up_records_nothing(server):
     async with app.run_test(size=(100, 40)) as pilot:
         await pilot.press("enter")
         await _settle(pilot)
-        await pilot.press(*"routegiveup", "enter")
+        await _pick(pilot, "routegiveup")
         await _settle(pilot)
         await pilot.pause()
         assert isinstance(app.screen, RouteScreen)

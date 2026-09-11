@@ -51,6 +51,7 @@ StatusBar {
 }
 
 #feedback.good { color: $success; }
+#feedback.typo { color: $warning; }
 #feedback.bad { color: $error; }
 
 /* compact, text-only buttons: one row tall, no heavy border */
