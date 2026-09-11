@@ -398,7 +398,9 @@ async def test_statusbar_shows_model(client):
 
 
 async def test_tip_logs_no_review(server, tmp_path):
-    client = Client(server["url"], server["token"])
+    # cache off: this test asserts a database invariant (no review was
+    # logged), so it must read the real review count, not a cached one.
+    client = Client(server["url"], server["token"], cache=False)
     deck = {
         "dirs": ["tipdemo"],
         "dir_links": [],
