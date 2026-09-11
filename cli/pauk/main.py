@@ -26,6 +26,8 @@ from pauk import config as config_mod
 from pauk.client import ApiError, Client
 from pauk.importer import import_file
 from pauk.quiz import run_quiz
+from pauk.sync import clone as clone_collection
+from pauk.sync import upload as upload_collection
 
 # rich_markup_mode=None: plain Click help text instead of rich's
 # boxed panels — box-drawing output garbles on terminal resize.
@@ -215,6 +217,18 @@ def quiz(
 def import_cmd(file: Path) -> None:
     """Import a content JSON file (dirs + cards)."""
     import_file(_client(), file, echo=console.print)
+
+
+@app.command()
+def clone(directory: Path = typer.Argument(..., help="Target directory to write to")) -> None:
+    """Dump the whole collection to editable markdown files."""
+    clone_collection(_client(), directory, echo=console.print)
+
+
+@app.command()
+def upload(directory: Path = typer.Argument(..., help="Directory produced by `pauk clone`")) -> None:
+    """Create NEW cards authored locally (create-only; existing cards are skipped)."""
+    upload_collection(_client(), directory, echo=console.print)
 
 
 media_app = typer.Typer(add_completion=False, rich_markup_mode=None)
