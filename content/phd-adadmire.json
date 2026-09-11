@@ -1,201 +1,201 @@
 {
-  "dirs": ["PhD", "PhD/adadmire"],
+  "dirs": ["phd", "phd/adadmire"],
   "dir_links": [],
   "cards": [
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "What problem does ADMIRE/adadmire solve, and how does it differ from classical anomaly detection methods such as LOF, stray or Isolation Forest?",
       "answer_md": "ADMIRE (Anomaly Detection using MIxed gRaphical modEls) detects and corrects **single, one-dimensional data errors** in individual entries of a mixed (continuous + categorical) molecular data matrix. Its key conceptual departure is the *granularity* of what it flags. LOF, stray and Isolation Forest all identify whole **samples** as anomalous. But in molecular data usually only a *few measurements within a sample* are wrong (a pipetting error affecting one metabolite, a mis-entered genotype), while the rest of the sample is fine. ADMIRE therefore scores each individual entry $x_{ij}$ or $y_{ij}$ against its model-based conditional distribution given all other features of the same sample. A second difference: it jointly models continuous OMICS features together with discrete phenotype/design variables (sex, diagnosis, treatment, batch), so it can catch anomalies that are only visible *conditional* on the categorical context. It also offers correction (imputation of the flagged value) and missing-value imputation, not just detection."
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "Distinguish an 'outlier' from an 'anomaly' in the ADMIRE framework, and give the motivating example.",
       "answer_md": "An **outlier** is a value that is suspiciously high or low relative to the *marginal* (univariate) distribution of its own feature; it can in principle be caught feature-by-feature. An **anomaly** is more general: a value that may be perfectly typical for the marginal distribution of its feature but atypical given the *joint/conditional* distribution of all other features in that sample. Outliers are a special case of anomalies and are easier to detect. The motivating example: if a gene is expressed at 4-6 in men and 8-14 in women, a value of 12 in a man is not a univariate outlier (12 is a normal expression value overall) but it *is* an anomaly once you condition on sex. Such 'hidden' anomalies are exactly what demand a model of the joint distribution including the categorical variables, and are where ADMIRE's advantage over sample-level / univariate methods is largest."
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "Write down the joint density of a Mixed Graphical Model as used by ADMIRE and name every parameter.",
       "answer_md": "The data are modelled as a pairwise Markov random field (pairwise MGM, following Lee & Hastie 2015) with density\n\n$$p(x,y;\\Theta) \\propto \\exp\\Big( -\\tfrac12 \\sum_{j,s} \\beta_{js} x_j x_s + \\sum_j \\alpha_j x_j + \\sum_{j,s}\\rho_{js}(y_s)x_j + \\sum_{j,s}\\phi_{js}(y_j,y_s)\\Big)$$\n\nwhere $x_1,\\dots,x_p$ are continuous features and $y_1,\\dots,y_q$ discrete features ($y_j$ has $L_j$ states). The parameters are:\n- $\\beta_{js}$: continuous-continuous couplings (edge weights between continuous nodes); $\\beta_{jj}$ governs the conditional precision/variance of $x_j$.\n- $\\alpha_j$: continuous node potentials.\n- $\\rho_{js}(y_s)$: continuous-discrete couplings (how the state of discrete $y_s$ shifts continuous $x_j$).\n- $\\phi_{js}(y_j,y_s)$: discrete-discrete couplings.\n\nThe full set is $\\Theta=\\{\\{\\beta_{js}\\},\\{\\alpha_j\\},\\{\\rho_{jt}\\},\\{\\phi_{rt}\\}\\}$. A **missing edge encodes conditional independence** of the two nodes given all others, so the graph is the conditional-independence structure and is pairwise Markov."
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "Why a Mixed Graphical Model rather than a Gaussian Graphical Model, and what is an MGM a generalisation of?",
       "answer_md": "A Gaussian Graphical Model (GGM) assumes all variables are jointly Gaussian and encodes conditional independence in the zeros of the inverse covariance (precision) matrix. That only works for continuous data. Real molecular datasets are **mixed**: continuous OMICS profiles are complemented by discrete phenotype variables (sex, diagnosis, treatment), experimental conditions (groups, controls) and technical design (batch, replicate). MGMs (Lee & Hastie 2015; Cheng et al.) generalise GGMs to this mixed setting by combining Gaussian conditionals for continuous nodes with multinomial/logistic conditionals for discrete nodes in one pairwise Markov random field. This matters for ADMIRE because the categorical phenotype information is exactly what reveals conditional anomalies (the man/woman gene-expression example) and what lets it also flag mislabelled categorical entries. An ordinary GGM would have to discard or ignore the discrete variables."
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "What is the conditional distribution of a continuous feature $x_j$ in an MGM, and how is its mean computed?",
       "answer_md": "Conditional on all other continuous features $x_{\\setminus j}$ and all discrete features $y$, a continuous node is **Gaussian**:\n\n$$x_j \\mid (x_{\\setminus j}, y; \\Theta) \\sim \\mathcal{N}(\\hat{x}_j, \\beta_{jj}^{-1})$$\n\nwith mean given by a **linear regression on the neighbours**\n\n$$\\hat{x}_j = \\alpha_j + \\sum_s \\rho_{js}(y_s) - \\sum_{s\\neq j}\\beta_{js}x_s$$\n\nand variance $\\beta_{jj}^{-1}$ (the reciprocal of the diagonal coupling). So the model gives, for every cell, a regression-based re-estimate $\\hat{x}_{ij}$ of what that value *should* be given everything else in the sample, plus a conditional spread. This is the object ADMIRE compares the observed value against. (In the implementation the precision used is $0.5\\,|\\mathrm{diag}(B)|$ because the symmetrised coupling matrix $B=\\beta+\\beta^{T}$ is used.)"
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "What is the conditional distribution of a discrete feature $y_j$ in an MGM, and what familiar model does it correspond to?",
       "answer_md": "The conditional distribution of a discrete node with $L_j$ states is a softmax / **multiclass (multinomial) logistic regression** on all other features:\n\n$$p(y_j=l \\mid y_{\\setminus j}, x; \\Theta) = \\frac{\\exp\\big(\\sum_s \\rho_{sj}(l)x_s + \\phi_{jj}(l,l) + \\sum_{s\\neq j}\\phi_{js}(l,y_s)\\big)}{\\sum_{k=1}^{L_j}\\exp\\big(\\sum_s \\rho_{sj}(k)x_s + \\phi_{jj}(k,k) + \\sum_{s\\neq j}\\phi_{js}(k,y_s)\\big)}$$\n\nThe continuous features enter through the $\\rho$ couplings and the other discrete features through the $\\phi$ couplings. This gives a probability for each possible state, which is what ADMIRE needs to judge whether an observed categorical label (e.g. a genotype or MYC status) is plausible given the rest of the sample."
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "How does ADMIRE turn the conditional distribution of a continuous feature into an anomaly score and a p-value?",
       "answer_md": "Let $x_{ij}$ be the observed value, $\\hat{x}_{ij}$ the conditional mean, and $\\epsilon=|x_{ij}-\\hat{x}_{ij}|$ the absolute deviation. The probability of seeing a deviation at least this large under the conditional $\\mathcal{N}(\\hat{x}_{ij},\\beta_{jj}^{-1})$ is\n\n$$p = \\mathbb{P}(x\\le \\hat{x}-\\epsilon)+\\mathbb{P}(x\\ge \\hat{x}+\\epsilon)=2F(\\hat{x}-\\epsilon),$$\n\na two-sided tail probability ($F$ the normal CDF). Small $p$ = unlikely value = candidate anomaly. Equivalently, and giving the **same ranking**, ADMIRE uses a standardised score\n\n$$s^{o}_{ij} = \\frac{|x_{ij}-\\hat{x}_{ij}|}{\\sqrt{\\beta_{jj}^{-1}}},$$\n\ni.e. the deviation in units of the conditional standard deviation. Large score = top of the anomaly list. Ranking by $p$ and by $s^o$ are monotone transforms of each other, so the score is used for convenience."
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "How does ADMIRE decide the threshold that separates anomalies from normal values? Why not just use a fixed p-value cutoff?",
       "answer_md": "ADMIRE thresholds by comparing observed scores against an empirically simulated **anomaly-free** score distribution, rank by rank. Procedure: for every cell, draw a random value $r_{ij}$ from its own conditional distribution $Q_{ij}=\\mathcal{N}(\\hat{x}_{ij},\\beta_{jj}^{-1})$ and compute its score $s^{r}_{ij}=|r_{ij}-\\hat{x}_{ij}|/\\sqrt{\\beta_{jj}^{-1}}$. These simulated points contain *no* anomalies by construction. Sort observed scores and random scores separately (descending) and align them rank-by-rank. If the data contain anomalies, the top observed scores exceed their rank-matched random scores. The threshold is set at the **first rank where the random score exceeds its matched observed score**; everything above is flagged. To stabilise the random distribution the draw is repeated (100 times in the implementation) and averaged rank-by-rank. \n\nWhy not a fixed cutoff: a fixed p-value/score cutoff ignores multiple testing across tens of thousands of cells and the actual shape of the conditional distributions; the rank-matched simulation is a self-calibrating, data-driven null that adapts to how many extreme values you'd expect by chance in *this* model."
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "How is the discrete anomaly score defined and thresholded?",
       "answer_md": "For a discrete entry $y_{ij}=k$ with conditional probability $p_{ij}(k)$ from the multinomial logistic conditional, the **observed score is the surprisal** $s^{o}_{ij} = -\\log\\big(p_{ij}(k)\\big)$. If observing state $k$ is unlikely given the rest of the sample, $p_{ij}(k)$ is small and the score is high, marking a probable mislabelling. Thresholding mirrors the continuous case: for each cell draw a random state $r_{ij}$ from the conditional $p_{ij}$ and score it $s^{r}_{ij}=-\\log(p_{ij}(r_{ij}))$, giving an anomaly-free reference. Draw repeatedly, average rank-by-rank, sort, and set the threshold at the first random score that exceeds its rank-matched observed score. This is how ADMIRE catches e.g. a swapped treatment label or a wrong genotype."
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "Why does ADMIRE fit the MGM in a leave-one-out fashion, one model per left-out sample?",
       "answer_md": "The score for sample $i$ must be an *honest, out-of-sample* re-estimate: if the model that produces $\\hat{x}_{ij}$ were fit on data that included sample $i$ itself, an anomalous value would pull its own prediction toward it, masking the anomaly and deflating the residual. So for each sample $i$ ADMIRE fits the MGM on all other samples ($X_{\\setminus i}$), then uses those parameters $\\Theta_i$ to predict the held-out sample via the conditional-mean regression. This leave-one-out (LOO) re-estimation is the 'cross-validated re-estimation' half of the method: the MGM learns the inherent data structure, and LOO checks whether each individual point is consistent with structure it did not help define. The same LOO loop is reused to calibrate the penalty $\\lambda$."
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "How are the MGM parameters estimated, and why a pseudo-likelihood rather than the full likelihood?",
       "answer_md": "$\\Theta$ is estimated by minimising a penalised **negative pseudo log-likelihood**\n\n$$\\tilde{l}(\\Theta\\mid x,y) = -\\sum_{j=1}^{p}\\log Q(x_j\\mid x_{\\setminus j},y;\\Theta) -\\sum_{j=1}^{q}\\log p(y_j\\mid x,y_{\\setminus j};\\Theta) + \\lambda\\lVert\\Theta\\rVert_1.$$\n\nInstead of the true joint likelihood, the pseudo-likelihood is the product of each node's conditional given all others. The reason: the full MGM joint density has an intractable normalising constant (partition function) that would require summing/integrating over all configurations of all variables. The conditionals (Gaussian for continuous, multinomial-logistic for discrete) are available in closed form and need no global normaliser, so the pseudo-likelihood is computationally feasible and, under standard regularity, a consistent estimator. Minimisation uses a **proximal gradient descent** algorithm, appropriate for the non-smooth $\\ell_1$ term."
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "What role does the $\\lambda\\lVert\\Theta\\rVert_1$ term play, and why is group/variance weighting needed?",
       "answer_md": "The $\\ell_1$ (lasso) penalty induces **sparsity** in $\\Theta$: it drives many edge weights exactly to zero, so the learned graph keeps only genuine conditional dependencies. This is essential in the high-dimensional, $p\\gg n$ molecular setting where an unpenalised MGM would be unidentifiable and overfit. Sparsity also makes the conditional-independence graph interpretable (the GGM rationale of Meinshausen & Buhlmann carries over). The **group/variance weighting** adjusts the penalty per parameter block: discrete variables contribute groups of parameters whose size depends on the number of states $L_j$, and features differ in variance/scale. Without reweighting, the single $\\lambda$ would penalise large groups or high-variance features unfairly, biasing which edges survive. The scheme (following Altenbuchinger 2019 / Lee & Hastie) equalises the effective penalty across heterogeneous parameter groups. Continuous features are standardised (mean 0, variance 1) before fitting for the same reason."
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "How is the sparseness parameter $\\lambda$ calibrated, and how does this differ from the Altenbuchinger 2019 MGM framework that adadmire's code descends from?",
       "answer_md": "$\\lambda$ is calibrated by **leave-one-out cross-validation minimising reconstruction MSE**. For a sequence $\\lambda_1,\\dots,\\lambda_m$ and each sample $i$, fit the MGM leaving out $i$, re-estimate the held-out continuous values $\\hat{x}_{ij}$ via the conditional-mean regression, and form a full matrix of predictions. For each $\\lambda_k$ compute the mean squared error between original and re-estimated continuous data; pick the $\\lambda_k$ with the smallest MSE. Those parameters and CV estimators are then used for detection. \n\nThis is precisely where adadmire parts company with the Altenbuchinger et al. 2019 MGM data-integration framework (whose Python MGM code `mgm.py` descends from, and still carries its copyright header): that work selected the penalty by an **Extended Bayesian Information Criterion (EBIC)**, an information-theoretic penalty on model complexity, whereas adadmire uses predictive LOO-CV MSE because its goal is accurate per-cell re-estimation, not just structure recovery. (The penalty sequence is built as scaled powers of two times $\\lambda_0=\\sqrt{\\log(p+q/2)/n}$.)"
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "A predicted value $\\hat{x}_{ij}$ is computed from all other features of the same sample. What goes wrong if those other features are themselves anomalous, and how does ADMIRE guard against it?",
       "answer_md": "Because $\\hat{x}_{ij}$ is a regression on the sample's *other* features, a second anomaly among those regressors can corrupt the prediction and hence the score for $x_{ij}$ (error propagation within a sample, e.g. sample 7 had 11 bad amino-acid values that could distort each other's re-estimates). ADMIRE's safeguard: before computing $\\hat{x}_{ij}$ (and $\\hat{y}_{ij}$), it checks each regressor $x_{ik}$, $y_{ik}$ ($k\\neq j$) for being a potential anomaly (two-sided probability $<5\\%$). If a continuous regressor is suspect, it is replaced by the **group mean** $\\bar{x}_{lk}$ over samples sharing the same discrete states as sample $i$; if a discrete regressor is suspect, its state is replaced by the **most probable** state. The prediction is then recomputed from these cleaned regressors. This makes the re-estimation robust to multiple co-occurring anomalies in the same sample."
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "Describe ADMIRE's two-step imputation of missing values.",
       "answer_md": "Step 1 (pre-imputation): for a sample with missing entries, find its nearest neighbour by **pairwise Euclidean distance computed ignoring features missing in either sample** (with the remaining features up-weighted), and fill the missing value from that neighbour; if the neighbour is also missing that feature, go to the second-nearest, etc. This works identically for continuous and categorical features and yields a complete matrix. After pre-imputation the affected features are re-scaled. Step 2 (model-based re-estimation): fit an MGM on the pre-imputed complete data (including $\\lambda$ calibration), then re-estimate each originally-missing cell using the continuous conditional-mean regression or the discrete conditional, and use those as the final imputations. So pre-imputation only bootstraps a complete matrix for the MGM; the actual imputed values come from the fitted conditional distributions."
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "How does ADMIRE's imputation compare to MissForest, and what does that comparison reveal about ADMIRE's operating range?",
       "answer_md": "Benchmarked on the Higuera mouse proteomics data with 5%-50% artificially introduced missing values, ADMIRE beat MissForest (a non-parametric random-forest imputer that also handles mixed data) on **continuous** MAPE for 5%-35% missingness, while MissForest won at higher missingness (40%+). For **discrete** features ADMIRE had fewer wrongly imputed states in *all* tested settings. The takeaway: ADMIRE's parametric MGM imputation is strongest when missingness is moderate and the conditional-dependence structure is still estimable; when too much data is missing the MGM can no longer recover structure and a fully non-parametric method degrades more gracefully on the continuous side. Separate experiments showed anomaly detection survives surprisingly high missingness *if missing values are spread uniformly*: it only broke down around 80% missing in a single feature (or ~50% with half the samples), and interestingly AUC could even rise slightly at low missingness because imputation corrected some intrinsic anomalies."
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "What dataset was used for the simulation study, and how were artificial continuous anomalies generated?",
       "answer_md": "The simulation used the Higuera et al. mouse-brain **proteomics** dataset: 77 proteins measured by reverse-phase protein arrays (RPPA) in mice characterised by three discrete features - genotype (control/trisomic, i.e. Down-syndrome model), treatment (saline/memantine) and behaviour (shock-context/context-shock). After dropping proteins with missing values (68 continuous features) and subsampling to 400 samples (50 per each of 8 groups), this gave 400x68 = 27,200 continuous and 3x400 = 1,200 discrete data points; analyses used log-transformed values. \n\nArtificial continuous anomalies were placed following an approach adapted from a hidden-outlier generator: min-max scale each feature to [0,1], pick $n_a$ random cells, and shift each up or down by $\\epsilon\\times$ a random amount relative to the feature range, ensuring at least a 15% deviation. The **strength parameter $\\epsilon$** controls magnitude: for $\\epsilon<1$ the perturbed value stays within the feature's range (a 'hidden' anomaly, typical-looking, hard to detect), for $\\epsilon>1$ it can exceed the range and become a visible outlier. Discrete anomalies were introduced by swapping states (e.g. saline to memantine)."
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "What is a 'hidden' anomaly in the simulation, and why is the fraction of hidden anomalies the crux of ADMIRE's advantage over competitors?",
       "answer_md": "A hidden anomaly is a perturbed value that still lies **within the interquartile range** of its feature - it looks like a perfectly ordinary value marginally, and is only detectable conditional on other features (or in certain subspaces). The fraction of hidden anomalies rises as $\\epsilon$ shrinks (e.g. ~15% hidden at $\\epsilon=0.6$ vs ~2% at $\\epsilon=1.4$). This is the crux because univariate/sample-level methods (LOF, stray, and feature-wise Isolation Forest) can only catch values that stand out marginally; they are blind to hidden anomalies. ADMIRE, by conditioning on all other continuous *and categorical* features, detects them. Accordingly ADMIRE's margin over the baselines is largest at small $\\epsilon$ (many hidden anomalies) and the benefit of feeding categorical variables into Isolation Forest is most visible there too - demonstrating that phenotype-conditioned detection is what buys the performance."
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "Summarise how ADMIRE performed against LOF, stray and Isolation Forest, and why those baselines had to be adapted to even compete.",
       "answer_md": "On the 10 log-transformed simulations (2.5% and 5% contamination, varying $\\epsilon$), ADMIRE reached AUCs around 0.89-0.91 at $\\epsilon=1.4$ and stayed good down to low $\\epsilon$; after correcting for intrinsic anomalies, AUCs rose to ~0.85-0.98. The baselines trailed: stray peaked ~0.63/0.747, LOF ~0.701/0.789 (2.5%/5%), and Isolation Forest did best of the three (~0.828/0.888) but only on scaled raw data. \n\nCrucially, all three are **sample-level** detectors, so to score individual cells they had to be applied **feature-by-feature**, reducing the problem to the univariate case - which discards the joint structure that is ADMIRE's whole point. Isolation Forest could partly use categorical info via one-hot encoding (trained on each continuous feature plus the three discrete features), and its AUC rose when the categorical variables were added - direct evidence that conditioning on phenotype matters. ADMIRE outperformed all of them in every simulation, with the largest gaps at low $\\epsilon$ (many hidden anomalies)."
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "Briefly state how LOF, stray and Isolation Forest each define an anomaly.",
       "answer_md": "- **LOF (Local Outlier Factor):** a density-based, k-nearest-neighbour method. Each point gets a score comparing its local density to the local densities of its neighbours; a point in a much sparser region than its neighbours (LOF $\\gg 1$) is a local outlier. It gives a degree of outlierness, not a binary label, and is local (sensitive to varying density).\n- **stray (Search and TRace AnomalY):** flags a point when the k-NN distance with the maximum gap is significantly large under extreme-value theory - it models the tail of nearest-neighbour distances as being in the maximum domain of attraction of the Gumbel distribution and thresholds accordingly.\n- **Isolation Forest:** model-based isolation. Build random trees that recursively split on a random feature at a random value; anomalies, being 'few and different', are isolated with **short average path length** from the root. The anomaly score is the average path length over the forest. It uses no distance or density measure and is near-linear time."
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "How well does ADMIRE correct anomalies (not just detect them), and what happens to false positives during correction?",
       "answer_md": "Correction replaces each flagged cell with its model re-estimate $\\hat{x}_{ij}$. In simulation, this sharply reduced the mean absolute percentage error versus ground truth - e.g. MAPE dropped from the perturbation-induced level to a fraction of it across all 10 scenarios. Importantly, correction was applied to *all* detected anomalies including false positives, yet data quality still improved, because when ADMIRE falsely flags a correct value, its re-estimate is close to the true value anyway (the value was consistent with the model, so the model reproduces it). So false-positive corrections do little harm. On the real metabolomics data, correcting sample 7's 11 NMR-confirmable anomalies cut the MAPE versus validated values from 76.6 to 12.3; over all 46 flagged metabolites MAPE fell from 23.0 to 10.8, a ~2.5-fold improvement. This justifies using ADMIRE as a data-normalisation / preprocessing step."
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "Describe the real-data metabolomics application: what biological system, what platforms, and what were the features?",
       "answer_md": "ADMIRE was applied to the authors' own metabolomics dataset (Feist/GOT lineage) studying **B-cell metabolism in response to tumour-microenvironment stimuli, and how it changes when the oncogene MYC is activated** - MYC activation being a hallmark of many B-cell lymphomas. They used human **P493/6 B-cells** carrying an inducible MYC construct (doxycycline represses MYC -> MYC-low; no dox -> MYC-high) and stimulated them with cocktails of microenvironmental factors. Metabolites in the culture **supernatants** were profiled by two orthogonal platforms: NMR spectroscopy (11 metabolites) and mass spectrometry (38 metabolites), giving 49 continuous features over 100 samples. The discrete features were MYC status (high/low) and the 10 processing batches. (The earlier Feist et al. 2018 paper had analysed only cell pellets; this work used the supernatants.)"
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "What did ADMIRE find in the metabolomics data, and how was the finding validated?",
       "answer_md": "No discrete anomalies were found (MYC status and batch labels all consistent). Among 4,900 continuous cells, ADMIRE flagged 46 (0.94%). These were not spread evenly across samples: 75% of samples had none, but **sample 7 had 11 flagged features and sample 92 had 7** - a per-sample clustering that pointed to a sample-specific error rather than a bad feature. In sample 7 all anomalies were amino acids quantified by MS. \n\nValidation used **NMR as a completely independent method** (different platform, crucially a *different internal standard mix*). For 10 of sample 7's 11 flagged metabolites (cystine's NMR signal was too weak), NMR confirmed the MS values were wrong, deviating >15%. The diagnosis: a **pipetting error in the internal-standard preparation** for the amino-acid MS method - since quantification is relative to a spiked internal standard, a pipetting error in that standard falsifies exactly those measurements. Sample 92's anomalies clustered in the tryptophan MS method (its own dedicated internal standard), consistent with a similar preparation mishap."
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "Why could NMR serve as an independent validator of the MS-flagged anomalies, and why does this example showcase the MGM's strength?",
       "answer_md": "The MS quantification is *relative to a spiked stable-isotope internal standard*, and each MS method (amino-acid method, tryptophan method, methionine/polyamine method) uses its **own separate internal-standard mix**. A pipetting error in one standard mix systematically falsifies every metabolite quantified by that method, but leaves metabolites from other methods - and NMR - untouched, because NMR quantifies against a different reference (TSP) and a completely different physical principle. So NMR is an orthogonal ground truth. It showcases the MGM because ADMIRE, knowing nothing about the lab workflow, flagged anomalies that **clustered by measurement method within a sample** (all amino acids in sample 7; all tryptophan-pathway metabolites in sample 92). That pattern - a coherent block of co-affected features in one sample - is exactly the signature of a single upstream technical error, and only a model of the joint structure surfaces it. NMR then confirmed the flagged values were genuinely wrong and that ADMIRE's corrections were close to truth."
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "ADMIRE assumes conditional normality for continuous features and multinomial conditionals for discrete ones. Are these assumptions met in practice, and does it matter?",
       "answer_md": "They are *not* strictly met. QQ-plots showed the Higuera proteomics data - and the residuals of ADMIRE's conditional-mean fits - are not normal but have **higher kurtosis / heavier tails** than Gaussian, and are not log-normal either. The metabolomics data also had heavy tails, though less extreme. Despite this, ADMIRE performed well (high AUCs, good correction). The robustness argument: the method only needs the conditional mean (a linear regression) to be a good re-estimate and the relative ranking of standardised residuals to be informative; the rank-matched *simulated* null absorbs some mis-specification because the reference scores are drawn from the same (possibly wrong) conditional model, so both observed and random scores share the bias. Heavy tails mainly cost some detection power (more borderline cases), not validity. This is an honest limitation a defense should acknowledge: a heavier-tailed conditional (e.g. t) could in principle improve calibration."
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "What is ADMIRE's computational complexity, what drives it, and why?",
       "answer_md": "Runtime is dominated by **fitting the MGMs**, repeated across the LOO loop and the $\\lambda$ grid. Fitting estimates $\\Theta$; because the coupling matrices $\\beta_{js}$ and $\\phi_{sj}$ are symmetric, the number of parameters is $\\tfrac{p^2}{2}+pq+\\tfrac{q^2}{2}=\\tfrac12(p+q)^2$, giving a **quadratic complexity $O((p+q)^2)$** in the total number of features (per Lee & Hastie). On top of that, leave-one-out multiplies the cost by $n$ (one fit per held-out sample) and the penalty search by the grid length, so wall-clock scales roughly as $O(n\\cdot m\\cdot \\text{fit})$. In the runtime experiment (84-sample, up-to-780-protein proteomics data on a dual-Xeon server) the per-feature-count timing grew consistent with the quadratic feature dependence. This quadratic-in-features cost is the main scalability limit for very wide OMICS matrices."
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "At what contamination level does ADMIRE break down, and why is that the expected behaviour?",
       "answer_md": "In simulations placing 10%-70% artificial anomalies (at $\\epsilon=1.0$), ADMIRE stayed stable up to about **45% contamination** (balanced accuracy ~0.72-0.80, a consistent ratio of detected to true positives). From **50% onward it collapsed**: balanced accuracy fell to ~0.5 (chance) and the number of detected anomalies dropped toward zero (only 12 detected at 70%). This is expected and not a flaw: ADMIRE learns the *normal* data structure from the bulk of the data and flags departures from it. Once half or more of the entries are anomalous, the 'anomalies' become the majority - the MGM fits the predominating noise as if it were the true structure, so genuine structure is masked and nothing stands out. Anomaly detection is fundamentally premised on anomalies being a minority ('few and different'), so a breakdown past ~50% contamination is the correct theoretical limit."
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "Besides data-quality control, what other legitimate uses does ADMIRE have, and what is the key caveat about what an 'anomaly' means?",
       "answer_md": "Three uses beyond detection: (1) **correction / normalisation** - replacing flagged cells with model re-estimates yields cleaner datasets, so ADMIRE can be a preprocessing step; (2) **missing-value imputation** via its two-step MGM routine; (3) **data mining / discovery** - a self-test routine lets users simulate anomalies in their own data. The key caveat: an anomaly is merely a value *inconsistent with the structure of the rest of the data*; it need not be an error. It can be a **rare but genuine, scientifically interesting observation** (a real biological outlier, an unusual-but-correct measurement). ADMIRE cannot by itself decide which - that requires domain follow-up (as the NMR re-measurement did for the metabolomics data). So flags are hypotheses to investigate, not verdicts."
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "What are the intrinsic anomalies in the RPPA proteomics data, and why do they complicate the precision-recall evaluation?",
       "answer_md": "The Higuera RPPA dataset was not created by the authors and, like any real measurement, contains its own **pre-existing ('intrinsic') errors** - RPPA is robust but suffers from limited image resolution, faulty background subtraction, and array saturation. When ADMIRE is run on the scaled log data *without* adding artificial anomalies, it already flags ~1,031 cells (3.79%). In the simulation, these intrinsic anomalies get detected alongside the artificial ones, but since they are not part of the injected ground-truth set they are counted as **false positives**, deflating precision and AUC. To separate method performance from this artefact, the authors also report PR curves after excluding the 1,031 intrinsically flagged cells; AUCs then rise substantially (e.g. into the 0.85-0.98 range). This is both a caveat (you can't have perfect ground truth in real data) and evidence that many 'false positives' were in fact real errors the method correctly found."
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "What is your (the candidate's) specific contribution to adadmire versus the first author's, and how is the package engineered?",
       "answer_md": "The method ADMIRE and its algorithmic implementation - the MGM functions, examples, data, imputation and docstrings - were authored by the first author (Lena Buck), who was responsible for developing and implementing the algorithm and all computational analyses. My (~20%) contribution was to **turn the method into distributable open-source software**: the package scaffolding and dependency handling, the release of `adadmire` on PyPI under the MIT licence (source on GitHub, spang-lab/adadmire), the Sphinx-based documentation, and the automated **GitHub Actions CI pipeline** that tests it across Python versions and operating systems, plus the test suite itself. I was also involved in conceiving the method in regular meetings. In short: algorithm hers, package/engineering/CI/docs/tests mine - a division corroborated independently in her own thesis's acknowledgements and author-contribution statement."
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "Contrast what ADMIRE inherited from Altenbuchinger et al. 2019 with what it genuinely contributes.",
       "answer_md": "Inherited: the **MGM machinery itself**. adadmire's `mgm.py` descends directly from (and carries the copyright header of) the Altenbuchinger et al. 2019 multi-source data-integration framework, which used a Lee-&-Hastie-style pairwise MGM with pseudo-likelihood estimation, an $\\ell_1$ penalty and proximal-gradient fitting to learn conditional-independence networks across mixed molecular and clinical data. That paper contained **no anomaly detection at all** (zero mentions of outliers/erroneous/QC). \n\nADMIRE's genuine contributions: (1) the whole **anomaly-detection framework** - per-cell scoring from conditional distributions, the two-sided tail p-value / standardised score, and the rank-matched simulated-null thresholding; (2) **correction** of flagged cells by model re-estimation and the robustness fix for co-occurring anomalies; (3) the **two-step MGM imputation**; (4) switching penalty selection from EBIC to **leave-one-out CV on reconstruction MSE**, and the per-sample LOO re-estimation that makes honest out-of-sample scoring possible; (5) packaging it as reusable software. Knowing this split is important for a defense: the statistical model is established; the novelty is using it as an anomaly detector/corrector at the level of individual matrix entries."
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "recall",
       "question_md": "Why does a missing edge in the MGM graph mean conditional independence, and how does that connect to the regression view of the conditionals?",
       "answer_md": "In a pairwise Markov random field the joint density factorises into node and pairwise-edge potentials only. If there is no edge between nodes $j$ and $s$ (the coupling $\\beta_{js}$, or the relevant $\\rho$/$\\phi$, is zero), then $x_j$ and $x_s$ do not appear together in any potential, so by the Hammersley-Clifford / pairwise Markov property $x_j \\perp x_s \\mid \\text{rest}$ - they are **conditionally independent given all other variables**. Connection to the regression view: the conditional mean of $x_j$ is $\\hat{x}_j=\\alpha_j+\\sum_s\\rho_{js}(y_s)-\\sum_{s\\neq j}\\beta_{js}x_s$, a regression whose coefficient on $x_s$ is exactly $-\\beta_{js}$. A zero coupling = zero regression coefficient = $x_s$ carries no information about $x_j$ once the others are known. This is the same neighbourhood-selection idea as Meinshausen-Buhlmann for GGMs: estimating the graph is estimating which variables each node regresses on, and the $\\ell_1$ penalty selects those neighbourhoods."
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "mc",
       "question_md": "Against which three competing anomaly-detection methods was ADMIRE benchmarked in the paper?",
       "options": [
@@ -206,7 +206,7 @@
       ]
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "mc",
       "question_md": "In the MGM, the conditional distribution of a discrete feature given all other features takes the form of a:",
       "options": [
@@ -217,13 +217,13 @@
       ]
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "text",
       "question_md": "adadmire selects its penalty parameter $\\lambda$ by minimising, over a leave-one-out cross-validation, the mean squared error between original and re-estimated continuous data. In contrast, the Altenbuchinger 2019 framework selected the penalty using which information criterion (acronym)?",
       "accepted_answers": ["EBIC", "Extended Bayesian Information Criterion", "extended BIC"]
     },
     {
-      "dirs": ["PhD/adadmire"],
+      "dirs": ["phd/adadmire"],
       "type": "text",
       "question_md": "ADMIRE fits the MGM for each sample in what kind of re-estimation scheme (so that a sample's own anomalous value cannot pull its prediction toward itself)? Give the common three-letter abbreviation.",
       "accepted_answers": ["LOO", "leave-one-out", "leave one out", "LOOCV", "leave-one-out cross-validation"]

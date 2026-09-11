@@ -98,11 +98,11 @@ same `id`.
 - `POST /cards` — create. Body: `type`, `question_md`, plus
   the type-specific fields shown in the card sections above:
   `options` (mc), `accepted_answers` (text), `pairs` (match),
-  `scenario_md`/`role_prompt`/`success_criteria`/`max_messages`/
-  `lang` (quest — the scenario becomes `question_md`), or
-  `graph_name`/`start_node`/`goal_node` (route). Optional
-  `dirs` (list of directory ids to link into). Returns 201 +
-  the card.
+  `answer_md` (recall — the reference answer), `scenario_md`/
+  `role_prompt`/`success_criteria`/`max_messages`/`lang` (quest
+  — the scenario becomes `question_md`), or `graph_name`/
+  `start_node`/`goal_node` (route). Optional `dirs` (list of
+  directory ids to link into). Returns 201 + the card.
 
 - `GET /cards/{id}` — single card. `?quiz=1` as above.
 
@@ -142,9 +142,28 @@ graph, never trusted to a model.
      "start_node": "muenchen", "goal_node": "berlin",
      "dirs": [...], ...}
 
-quest and route cards are not answered via
-`POST /cards/{id}/answer` (that returns 400 for them); they
-are recorded via `/quest-run` and `/route-run` below.
+Recall cards have `"type": "recall"` and are self-graded: the
+learner reads a (possibly long) question, thinks or writes an
+answer, then reveals a stored reference answer and decides for
+themselves whether they were right. There is no automatic
+string matching, so questions can require several sentences.
+
+    {"id": 40, "type": "recall",
+     "question_md": "Explain why the EM algorithm converges.",
+     "answer_md": "Each E-step/M-step pair cannot decrease the
+       likelihood because ...",
+     "dirs": [...], ...}
+
+`answer_md` is required on create and can be updated via PATCH.
+Unlike mc/text/match, a recall card keeps `answer_md` in quiz
+form (`quiz=1`): there is no server-side grading to protect, so
+the client reveals the reference answer for the learner to
+assess themselves.
+
+quest, route, and recall cards are not answered via
+`POST /cards/{id}/answer` (that returns 400 for them); quest
+and route are recorded via `/quest-run` and `/route-run`, and
+recall via `/self-grade`, below.
 
 ## Answering
 
@@ -210,6 +229,21 @@ attempt. Body: `success` (boolean), `km` (integer). Logged
 to `reviews` and `route_runs`. Response mirrors quest-run
 with `best_km` (fewest km among successful runs) and a `top`
 of `{km, finished_at}`. The highscore is the fewest km.
+
+## Self-grading (recall)
+
+`POST /cards/{id}/self-grade` — record a self-assessed recall
+attempt. Body: `correct` (boolean — the learner's own verdict
+after revealing the reference answer). The verdict is appended
+to the `reviews` log (`was_correct = correct`, so recall feeds
+the weighted selection and the performance metric). Returns:
+
+    {"correct": true}
+
+Returns 404 if the card is not a recall card (mirroring
+quest-run/route-run on the wrong type; recall has no highscore,
+so there is no `top`/`rank`). Recall is client-graded and is
+therefore never sent to `POST /cards/{id}/answer`.
 
 ## Quiz selection
 

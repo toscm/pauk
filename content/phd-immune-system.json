@@ -1,189 +1,189 @@
 {
-  "dirs": ["PhD", "PhD/immune-system"],
+  "dirs": ["phd", "phd/immune-system"],
   "dir_links": [],
   "cards": [
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "The adadmire metabolomics application used P493/6 B-cells stimulated with α-IgM F(ab)₂ fragments. What signalling does this mimic, and why use F(ab)₂ rather than whole IgG?",
       "answer_md": "Anti-IgM targets the membrane IgM B-cell receptor (BCR). Crosslinking surface IgM with anti-IgM **mimics antigen engagement of the BCR**, triggering the BCR signalling cascade (Lyn/Syk kinases, phosphorylation of the Igα/Igβ ITAMs, assembly of the BLNK/SLP-65 signalosome, activation of PLCγ2, PI3K, and downstream Ca²⁺ flux, PKC, and the NF-κB, NFAT and MAPK pathways). The outcome depends on context: proliferation/activation, anergy, or apoptosis. **F(ab)₂ fragments** are used (rather than whole antibody) because they retain the two antigen-binding arms needed to crosslink and cluster the BCR but **lack the Fc region**. Removing Fc avoids engaging inhibitory FcγRIIB on the same B cell (which would deliver an ITIM-based 'off' signal via co-crosslinking BCR to FcγRIIB) and avoids Fc binding to Fc receptors on other cells - so the stimulus is a clean BCR agonist."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "CD40L (CD154) was one of the microenvironmental stimuli. What is the CD40-CD40L interaction, which cells provide each partner, and what does it accomplish in a B cell?",
       "answer_md": "CD40 is a TNF-receptor-superfamily member constitutively expressed on B cells (and other APCs); CD40L (CD154) is expressed mainly on **activated CD4⁺ helper T cells** (and platelets, some others). Engagement delivers the classic 'T-cell help' signal (signal 2) to B cells. CD40 ligation recruits TRAF adaptors and activates the canonical and non-canonical **NF-κB** pathways plus MAPK/JNK, driving B-cell survival, proliferation, upregulation of costimulatory molecules, **germinal-centre formation, class-switch recombination (inducing AID), and affinity maturation**. It is essential for T-dependent antibody responses. Its importance is shown by **Hyper-IgM syndrome**: loss-of-function in CD40L (X-linked) or CD40 blocks class switching, so patients make IgM but little IgG/IgA/IgE. In the P493/6 experiment sCD40L models this T-help input to lymphoma B cells."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "CpG oligodeoxynucleotides were used as a stimulus. What receptor do they engage, where is it located, and why are CpG motifs immunostimulatory?",
       "answer_md": "CpG DNA is a ligand for **Toll-like receptor 9 (TLR9)**, an endosomal pattern-recognition receptor. Unmethylated CpG dinucleotides are abundant in bacterial and viral genomes but rare and usually methylated in vertebrate DNA, so unmethylated CpG is a **pathogen-associated molecular pattern (PAMP)** signalling 'infection'. TLR9 is expressed in the endosomal compartment of (in humans) plasmacytoid dendritic cells and **B cells**. On ligand binding it signals through the adaptor **MyD88 -> IRAK -> TRAF6 -> NF-κB** and IRF7, driving type-I interferon and proinflammatory cytokines in pDCs, and in B cells promoting activation, proliferation, survival and antibody production. In the tumour-microenvironment model, CpG represents an innate/TLR activation input to the B cells."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "IL-10 was one of the stimuli applied to the B-cell cultures. What is IL-10's principal immunological role and signalling pathway, and what is its relevance in tumours?",
       "answer_md": "IL-10 is the prototypical **anti-inflammatory / immunoregulatory cytokine**. It is produced by regulatory T cells, regulatory B cells, Th2 cells, monocytes/macrophages and others, and it dampens immune responses: it suppresses proinflammatory cytokines (TNF, IL-1, IL-6, IL-12), downregulates MHC II and costimulatory molecules on antigen-presenting cells, and thereby limits T-cell activation - a key brake preventing immunopathology. It signals through the IL-10R and the **JAK1/Tyk2 - STAT3** pathway. On B cells IL-10 also has direct effects supporting survival, proliferation and differentiation toward antibody-secreting cells. In tumours IL-10 is double-edged: it contributes to an **immunosuppressive, tolerogenic microenvironment** that helps tumours evade immunity, and for lymphoma B cells it can act as a growth/survival factor - which is why it is a relevant microenvironmental stimulus here."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "IGF-1 was included among the stimuli. What is it, what receptor does it use, and why is it relevant to B-cell lymphoma?",
       "answer_md": "IGF-1 (insulin-like growth factor 1) is a systemic and locally produced growth factor structurally related to insulin. It signals through the **IGF-1 receptor (IGF-1R)**, a receptor tyrosine kinase, activating the **PI3K-AKT-mTOR** and **RAS-MAPK** pathways - canonical pro-survival, pro-proliferation and pro-growth signalling. It is not a classical immune cytokine but is an important microenvironmental factor: IGF-1/IGF-1R signalling supports cell growth and metabolic anabolism and is implicated in many cancers. For lymphoma B cells it provides a survival/proliferation and metabolic input (feeding into the same PI3K/mTOR axis that drives nutrient uptake and biosynthesis), making it a relevant tumour-microenvironment stimulus alongside the immune signals (BCR, CD40L, CpG, IL-10)."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "The experiment centred on switching the MYC oncogene on and off. Why is MYC central to B-cell lymphoma, and what does it do to metabolism?",
       "answer_md": "MYC is a master transcription factor controlling a very large program of genes for cell growth, proliferation and biosynthesis. Its deregulation is a hallmark of many B-cell lymphomas - most famously **Burkitt lymphoma**, where a t(8;14) translocation places MYC under the immunoglobulin heavy-chain enhancer, causing constitutive overexpression; MYC is also a driver in 'double-hit' diffuse large B-cell lymphomas. Metabolically, MYC is a master **anabolic switch**: it upregulates glucose uptake and glycolysis, glutamine uptake and glutaminolysis, nucleotide and amino-acid biosynthesis, ribosome biogenesis and mitochondrial mass - reprogramming the cell to support rapid proliferation (a Warburg-like phenotype). That is precisely why the P493/6 model (inducible MYC) was used: toggling MYC high/low and profiling the metabolome reveals MYC-driven metabolic dependencies of lymphoma B cells, and how microenvironmental stimuli modulate them."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "The P493/6 model uses an inducible MYC controlled by doxycycline. What cell of origin and viral context do P493/6 cells have, and what does doxycycline do here?",
       "answer_md": "P493/6 are human **EBV-immortalised B cells** engineered with a **tetracycline-regulated (tet-off) conditional MYC** transgene and a conditional (estrogen-dependent) EBNA2 system. In the adadmire experiments, adding **doxycycline represses the MYC transgene (MYC-low)**; withdrawing it de-represses MYC (MYC-high). Experiments were done in the absence of the EBNA2 latency-III proliferation program (no estrogen), so proliferation is driven by MYC rather than by EBV latency genes. The EBV/EBNA2 context is biologically apt: Epstein-Barr virus is causally linked to several B-cell lymphomas (endemic Burkitt, a subset of DLBCL, post-transplant lymphoproliferative disease), and EBNA2 normally mimics constitutive Notch/activation signalling. P493/6 thus provides a controllable human B-cell system to isolate MYC's contribution to the lymphoma phenotype and metabolism."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "Many of the measured metabolites lie on the tryptophan-kynurenine pathway (kynurenine, kynurenic acid, 3-hydroxyanthranilic acid, quinolinic acid, etc.). Outline this pathway and its immunological importance.",
       "answer_md": "The kynurenine pathway is the major route of tryptophan catabolism. The rate-limiting, immunologically key step is oxidation of tryptophan to N-formylkynurenine by **IDO1/IDO2 (indoleamine 2,3-dioxygenase)** or hepatic TDO; this yields kynurenine, which is further metabolised to 3-hydroxykynurenine, 3-hydroxyanthranilic acid, quinolinic acid (and on to NAD⁺), and via a branch to kynurenic acid and xanthurenic acid. IDO is strongly induced by **IFN-γ** and inflammatory signals. Its immunosuppressive effect is twofold: (1) **local tryptophan depletion** starves effector T cells (sensed via GCN2/mTOR), arresting their proliferation; and (2) **kynurenine and downstream metabolites are bioactive** - kynurenine is an endogenous agonist of the **aryl hydrocarbon receptor (AhR)**, promoting regulatory T-cell (Treg) differentiation and tolerogenic dendritic cells. This makes the IDO-kynurenine axis a central mechanism of peripheral tolerance and of **tumour immune evasion**, and a drug target (IDO inhibitors). Its prominence among the flagged/measured metabolites reflects its relevance to lymphoma B-cell immunometabolism."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "What is the aryl hydrocarbon receptor (AhR), and why does its activation by kynurenine matter immunologically?",
       "answer_md": "AhR is a ligand-activated transcription factor (a cytosolic receptor that translocates to the nucleus and dimerises with ARNT). Classically known for sensing xenobiotics such as dioxin, it also has endogenous ligands - notably **kynurenine and other tryptophan catabolites** (and dietary indoles). AhR activation shapes immune cell fate: it promotes differentiation of **regulatory T cells (Tregs)** and **IL-22-producing / Th17-related responses** depending on context, induces tolerogenic dendritic cells, and modulates innate lymphoid and epithelial barrier immunity. Because tumours and IDO-expressing cells generate kynurenine, the **kynurenine->AhR axis is an immunosuppressive, tolerogenic circuit** exploited in cancer immune evasion. This links the measured tryptophan-pathway metabolites directly to immune regulation in the tumour microenvironment."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "Serotonin and melatonin were among the tryptophan-derived standards. How do these relate to tryptophan metabolism, and which branch dominates quantitatively?",
       "answer_md": "Tryptophan has two major catabolic fates. The **kynurenine pathway** (via IDO/TDO) consumes the large majority (~95%) of tryptophan, especially under inflammatory conditions. The minor **serotonin branch** begins with tryptophan hydroxylase (TPH) converting tryptophan to 5-hydroxytryptophan, then decarboxylation to **serotonin (5-HT)**; serotonin can be N-acetylated and O-methylated to **melatonin**. Serotonin is best known as a neurotransmitter and gut signalling molecule but also modulates immune cells (it is released by platelets and affects T cells, DCs and inflammation). Because IDO induction by IFN-γ diverts tryptophan into kynurenine, inflammation can deplete the substrate available for serotonin/melatonin synthesis - a link between immune activation and neuro/endocrine tryptophan metabolites that motivates measuring both branches."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "The methionine/polyamine metabolites measured included S-adenosylmethionine (SAM), 5'-methylthioadenosine (MTA), spermidine, spermine and putrescine. How are these connected, and why are polyamines relevant to proliferating immune/tumour cells?",
       "answer_md": "They sit on one interconnected pathway. Methionine + ATP -> **SAM**, the universal methyl donor (for DNA/histone/protein methylation, i.e. epigenetic and signalling control). SAM is decarboxylated and donates an aminopropyl group for polyamine synthesis: **putrescine** (from ornithine via ODC) -> **spermidine** -> **spermine**, each step producing **MTA** as a by-product (MTA is recycled back to methionine via the methionine-salvage pathway). Polyamines are small polycations essential for **cell proliferation**: they stabilise nucleic acids, support translation, and spermidine is the substrate for **hypusination of eIF5A** and a known inducer of **autophagy**. Rapidly dividing cells - activated lymphocytes and tumour cells alike - have high polyamine demand, and MYC upregulates ODC and polyamine synthesis. Immunologically, polyamine metabolism also influences macrophage and T-cell differentiation. So these metabolites are sensitive readouts of the proliferative/anabolic state driven by MYC in the lymphoma B cells."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "Give the core division between innate and adaptive immunity, with the defining properties of each.",
       "answer_md": "**Innate immunity** is the rapid, germline-encoded first line of defence. It uses a fixed repertoire of **pattern-recognition receptors (PRRs)** - e.g. TLRs, NLRs, RIG-I-like receptors - to detect conserved **PAMPs** (microbial) and **DAMPs** (damage signals). It acts within minutes to hours, has **no antigen specificity to individual epitopes and no lasting memory** (though 'trained immunity' is an emerging nuance). Components: physical/chemical barriers, complement, phagocytes (neutrophils, macrophages), dendritic cells, NK cells, and innate lymphoid cells. \n\n**Adaptive immunity** is slower (days) but highly **antigen-specific** and generates **immunological memory**. It rests on lymphocytes bearing receptors created by **somatic V(D)J recombination**: B cells (antibodies/BCR, humoral immunity) and T cells (TCR; CD4 helper and CD8 cytotoxic, cell-mediated immunity). Clonal selection expands antigen-specific clones. The two arms are linked: dendritic cells bridge them by presenting antigen and providing instructive signals that shape the adaptive response."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "Contrast MHC class I and MHC class II: what they present, to which T cells, and via which processing pathway.",
       "answer_md": "**MHC class I** is expressed on virtually all nucleated cells. It presents **endogenous/cytosolic** peptides (typically 8-10 aa) generated by the **proteasome** and transported into the ER by TAP. It is recognised by **CD8⁺ cytotoxic T cells**, whose CD8 co-receptor binds the conserved α3 domain. This pathway lets the immune system survey the cell's internal state and kill virus-infected or tumour cells. Loss of MHC I also licenses NK-cell killing ('missing-self'). \n\n**MHC class II** is expressed mainly on **professional antigen-presenting cells** (dendritic cells, macrophages, B cells). It presents **exogenous** peptides (longer, ~13-25 aa) taken up by endocytosis and degraded in the endosomal/lysosomal pathway; the invariant chain and HLA-DM manage peptide loading. It is recognised by **CD4⁺ helper T cells** (CD4 binds the β2 domain). This pathway orchestrates help for B cells and macrophages. Mnemonic: CD8 x MHC-I = 8; CD4 x MHC-II = 8."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "Outline the major CD4⁺ helper T-cell subsets, their signature cytokines, and their functions.",
       "answer_md": "Naive CD4⁺ T cells differentiate based on the cytokine milieu at priming (the 'signal 3'):\n- **Th1** (driven by IL-12/IFN-γ; master TF T-bet): secrete **IFN-γ**; activate macrophages and support CD8/CTL responses; defence against intracellular pathogens.\n- **Th2** (IL-4; GATA3): secrete **IL-4, IL-5, IL-13**; help B cells (esp. IgE), eosinophils; defence against helminths; drive allergy.\n- **Th17** (TGF-β + IL-6/IL-23; RORγt): secrete **IL-17, IL-22**; recruit neutrophils, mucosal/barrier defence against extracellular bacteria and fungi; implicated in autoimmunity.\n- **Treg** (TGF-β, IL-2; **FoxP3**): secrete **IL-10, TGF-β**; suppress immune responses, maintain tolerance.\n- **Tfh** (IL-6/IL-21; Bcl-6): reside in germinal centres, provide CD40L and IL-21 to B cells for affinity maturation and class switching.\nThe subsets cross-regulate (e.g. IFN-γ and IL-4 are mutually inhibitory), and their balance determines the character of an immune response."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "What is the germinal centre reaction, and which molecular events there are relevant to B-cell lymphomagenesis?",
       "answer_md": "After a T-dependent antigen encounter, activated B cells enter follicles and form **germinal centres (GCs)** with a dark zone (proliferation + mutation) and light zone (selection). Two B-cell-specific genome-editing processes occur, both initiated by the enzyme **AID (activation-induced cytidine deaminase)**: (1) **somatic hypermutation (SHM)** introduces point mutations into the immunoglobulin variable regions, enabling affinity maturation as high-affinity clones are selected by Tfh help and antigen on follicular dendritic cells; (2) **class-switch recombination (CSR)** swaps the antibody constant region (IgM -> IgG/IgA/IgE) via double-strand breaks. Relevance to lymphoma: the GC is a dangerous place - AID creates DNA breaks and can act off-target, and the rapid proliferation plus error-prone editing predispose to **chromosomal translocations** (e.g. MYC-IgH in Burkitt lymphoma, BCL2/BCL6 rearrangements). Most B-cell lymphomas (Burkitt, follicular, GC-type DLBCL) are of germinal-centre or post-GC origin, reflecting this mutagenic environment."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "Describe immunometabolism in T-cell activation: how does metabolism shift between naive, effector and memory states?",
       "answer_md": "Metabolism is not just fuel - it instructs immune cell fate. **Naive/quiescent T cells** rely on oxidative phosphorylation (OXPHOS) and fatty-acid oxidation for maintenance. On activation (TCR + costimulation, with PI3K-AKT-mTOR and MYC as central drivers), **effector T cells switch to aerobic glycolysis (a Warburg-like phenotype)** even with oxygen present, plus glutaminolysis, to rapidly supply biosynthetic precursors and allow fast proliferation and effector cytokine production (glycolysis also licenses IFN-γ translation via GAPDH). **Memory T cells** revert to fatty-acid oxidation and spare mitochondrial capacity, which supports their longevity. **Tregs** favour OXPHOS/lipid oxidation and can use the metabolically hostile tumour environment to their advantage. This parallels the MYC-driven anabolic reprogramming studied in the lymphoma B-cell model: proliferating immune and tumour cells converge on glycolysis, glutaminolysis and biosynthesis, which is exactly what metabolomic profiling reads out."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "IL-1β (the protein IL1B_N appears in the simulation proteomics dataset) is produced via the inflammasome. Explain inflammasome activation and why it is distinctive.",
       "answer_md": "IL-1β is a potent proinflammatory cytokine, but it is produced through an unusual two-signal, protease-dependent route. **Signal 1 (priming):** a PRR/NF-κB stimulus (e.g. LPS via TLR4) induces transcription of pro-IL-1β (and NLRP3). **Signal 2 (activation):** a danger signal (ATP, crystals, pore-forming toxins, ionic flux) triggers assembly of the **inflammasome** - typically NLRP3 + the adaptor ASC + **pro-caspase-1**. Clustered caspase-1 autoactivates and cleaves pro-IL-1β (and pro-IL-18) into their mature, secreted forms, and cleaves **gasdermin D**, whose N-terminal fragment forms membrane pores, releasing IL-1β and often causing the inflammatory cell death **pyroptosis**. What's distinctive: IL-1β lacks a signal peptide and is not secreted conventionally; its release is gated by proteolytic maturation and pore formation. Dysregulated inflammasome/IL-1β underlies autoinflammatory syndromes and is targeted therapeutically (e.g. anakinra, canakinumab)."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "Summarise the JAK-STAT pathway and why it is the canonical signalling route for many cytokines (e.g. IL-10 via STAT3).",
       "answer_md": "Many cytokine receptors (type I/II cytokine receptors, including interferons, IL-6 family, IL-10, and common-γ-chain cytokines) have no intrinsic kinase activity. Instead their cytoplasmic tails are constitutively associated with **Janus kinases (JAK1-3, TYK2)**. Ligand binding dimerises/reorients the receptor, bringing JAKs together so they **trans-phosphorylate** each other and then tyrosines on the receptor tail. These phosphotyrosines recruit **STAT** transcription factors via their SH2 domains; JAKs phosphorylate the STATs, which dimerise, translocate to the nucleus and drive target-gene transcription. Specificity comes from which JAK/STAT combination a receptor uses (e.g. IL-10R -> JAK1/TYK2 -> **STAT3**; IFN-γ -> JAK1/2 -> STAT1; IL-4 -> STAT6). The pathway is negatively regulated by **SOCS** proteins (feedback), PIAS and phosphatases. Its centrality is shown clinically by JAK inhibitors (ruxolitinib, tofacitinib) and by the fact that activating JAK/STAT mutations drive several leukaemias/lymphomas and myeloproliferative disease."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "What are regulatory T cells (Tregs), how are they defined and maintained, and how do they enforce tolerance?",
       "answer_md": "Tregs are a CD4⁺ suppressive subset defined by high **CD25** (IL-2Rα) and the lineage master transcription factor **FoxP3** (mutations in FoxP3 cause the fatal autoimmune syndrome IPEX, proving their non-redundant role). They arise in the thymus (natural/tTreg) or are induced peripherally (pTreg/iTreg) under TGF-β. Because they express high-affinity CD25 but make little IL-2 themselves, they **depend on IL-2 produced by other cells** - a built-in dependency that couples their survival to ongoing immune activity. Suppression mechanisms: (1) **IL-2 consumption** (cytokine sink starving effectors); (2) secretion of **inhibitory cytokines IL-10, TGF-β, IL-35**; (3) **CTLA-4** on Tregs strips CD80/CD86 from APCs, removing costimulation; (4) generation of adenosine (CD39/CD73); (5) direct cytolysis. Tregs are essential for peripheral tolerance and restraining autoimmunity, but in tumours they are co-opted to create an immunosuppressive microenvironment that blunts anti-tumour immunity."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "How does the immune system avoid attacking self? Distinguish central and peripheral tolerance.",
       "answer_md": "**Central tolerance** operates in the primary lymphoid organs during lymphocyte development. In the **thymus**, developing T cells undergo **negative selection**: thymocytes whose TCR binds self-peptide-MHC too strongly are deleted (or diverted to the Treg lineage). The transcription factor **AIRE** drives 'promiscuous' expression of peripheral-tissue self-antigens in thymic medullary epithelium so that tissue-restricted self is represented (AIRE loss causes APECED/APS-1). B cells are similarly purged/edited in the **bone marrow** (clonal deletion, receptor editing, anergy). \n\n**Peripheral tolerance** catches self-reactive lymphocytes that escape. Mechanisms: **anergy** (TCR signal without costimulation leaves the cell unresponsive), **deletion** by activation-induced cell death, **suppression by Tregs**, ignorance, and inhibitory checkpoint receptors (**CTLA-4, PD-1**) that raise the activation threshold. Failure of these layers causes **autoimmunity**; conversely, tumours exploit peripheral tolerance (PD-L1, Tregs, IDO) to evade immunity, which is why checkpoint blockade works."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "What is macrophage polarisation (M1 vs M2), and why is the 'tumour-associated macrophage' phenotype important?",
       "answer_md": "Macrophages are plastic and adopt functional states along a spectrum. **M1 ('classically activated')** macrophages are induced by IFN-γ + LPS/TNF; they are proinflammatory and microbicidal, produce TNF, IL-1, IL-6, IL-12 and reactive oxygen/nitrogen species (via iNOS, metabolising arginine to NO), favour glycolysis, and support Th1/anti-tumour responses. **M2 ('alternatively activated')** macrophages are induced by IL-4/IL-13 (and IL-10, TGF-β); they are anti-inflammatory and pro-repair, metabolise arginine via **arginase-1** to polyamines/proline (tissue remodelling), favour OXPHOS/fatty-acid oxidation, and promote wound healing, fibrosis and angiogenesis. **Tumour-associated macrophages (TAMs)** are usually skewed toward an M2-like, immunosuppressive phenotype: they suppress T-cell responses, promote angiogenesis and metastasis, and correlate with poor prognosis. The arginine/polyamine metabolic divergence (iNOS vs arginase) directly ties macrophage phenotype to the kind of metabolite readouts used in immunometabolic studies."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "Describe the structure of an antibody and the functional consequences of the different heavy-chain isotypes.",
       "answer_md": "An antibody (immunoglobulin) is a Y-shaped glycoprotein of two identical **heavy chains** and two identical **light chains** (κ or λ), linked by disulfide bonds. Each chain has **variable (V)** and **constant (C)** regions. The two **Fab arms** carry the antigen-binding sites formed by the V domains' hypervariable **CDR loops** (generated by V(D)J recombination + SHM), giving specificity. The **Fc stem** (heavy-chain constant region) determines effector function: binding to Fc receptors on immune cells, complement activation, and transport. Isotypes (set by the heavy-chain constant region, switched by CSR):\n- **IgM**: first made, pentameric, strong complement activator, low affinity.\n- **IgG**: main serum isotype, high affinity, opsonisation, complement, ADCC, crosses placenta; several subclasses.\n- **IgA**: dimeric at mucosa/secretions, neutralisation.\n- **IgE**: binds mast cells/basophils via FcεRI, allergy and anti-parasite.\n- **IgD**: mostly membrane BCR on naive B cells.\nThus Fab = what it binds; Fc = what it does."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "What is the complement system, what are its three activation pathways, and what effector functions does it produce?",
       "answer_md": "Complement is a cascade of ~30 plasma/membrane proteins that amplifies and executes innate (and links to adaptive) defence. Three activation pathways converge on cleaving **C3**: \n- **Classical:** C1q binds antibody (IgG/IgM) on a surface (antibody-dependent).\n- **Lectin:** mannose-binding lectin/ficolins bind microbial sugars.\n- **Alternative:** spontaneous C3 'tickover' that is amplified on microbial surfaces lacking regulators (and forms a positive-feedback amplification loop for all pathways).\nThey form **C3 convertases**, cleaving C3 to C3a + C3b. Effector outputs: (1) **opsonisation** - C3b coats microbes for phagocytosis via CR1; (2) **anaphylatoxins** C3a and C5a - recruit and activate inflammatory cells, increase vascular permeability; (3) the **membrane attack complex (MAC, C5b-9)** - forms lytic pores in membranes. Tight regulation (CD55/DAF, CD59, factor H, C1-INH) protects host cells; their deficiency causes diseases (e.g. PNH, hereditary angioedema, aHUS)."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "How is immunological/metabolomic data like that in the adadmire B-cell study actually generated? Contrast NMR and mass spectrometry.",
       "answer_md": "Both platforms quantify small-molecule metabolites in a biological sample (here B-cell culture supernatants and pellets), but differently:\n\n**NMR spectroscopy** exploits the magnetic resonance of nuclei (¹H here) in a strong field; each proton environment gives peaks at characteristic chemical shifts, and peak areas are proportional to concentration. It is **highly reproducible, quantitative, non-destructive, needs little sample prep, and requires an internal standard (TSP)** for referencing - but is relatively **insensitive** (micromolar+) and suffers heavy **signal overlap** in 1D spectra, limiting the number of resolvable metabolites (11 here). \n\n**Mass spectrometry (often LC-MS/MS)** ionises analytes and separates them by mass-to-charge ratio, usually after chromatographic separation; it is far more **sensitive and can resolve many more metabolites** (38 here), and targeted MS uses **multiple-reaction monitoring (MRM)** with **stable-isotope-labelled internal standards** for each analyte to quantify by peak-area ratio. Its weakness: it is more sensitive to sample-prep and ionisation artefacts - e.g. a pipetting error in an internal-standard mix systematically biases every metabolite in that method, which is exactly the error adadmire detected and NMR (orthogonal standard) validated."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "Why is an internal standard used in targeted metabolite quantification, and what is the significance of stable-isotope-labelled ([¹³C/¹⁵N]) standards?",
       "answer_md": "Absolute quantification by MS is confounded by variable extraction recovery, evaporation, injection volume and, especially, **ion suppression/enhancement in the electrospray source** (matrix effects). An **internal standard** spiked at a known amount into every sample corrects for this: the analyte is quantified from the **peak-area ratio (analyte/internal standard)** against a calibration curve, so losses and matrix effects that affect both equally cancel out. The ideal internal standard is a **stable-isotope-labelled (¹³C, ¹⁵N, ²H) version of the analyte itself** ('isotope-dilution MS'): being chemically identical, it co-elutes and ionises identically, but is distinguishable by its mass shift in the mass spectrometer. This gives the most accurate correction. The flip side, central to the adadmire finding: because quantification is *relative to the spiked standard*, a **pipetting error in preparing the internal-standard mix** falsifies every metabolite measured against that particular mix - producing a coherent, method-specific block of wrong values in one sample, which is the anomaly pattern ADMIRE detected."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "What are natural killer (NK) cells and how do they decide whether to kill a target, contrasting with cytotoxic T cells?",
       "answer_md": "NK cells are innate lymphocytes that kill virus-infected and tumour cells and secrete IFN-γ, using the same cytotoxic machinery as CTLs (perforin + granzymes, and death-receptor ligands). But their targeting logic differs. They do **not use antigen-specific, MHC-restricted TCRs**; instead they integrate signals from **germline-encoded activating and inhibitory receptors**. Inhibitory receptors (e.g. human KIRs, NKG2A) recognise **self MHC class I**; healthy cells displaying normal MHC I deliver a dominant 'don't kill' signal. **'Missing self':** cells that downregulate MHC I (a common immune-evasion tactic of viruses and tumours that hides them from CD8 T cells) lose this inhibition and become NK targets. **'Induced self':** stress-induced ligands (e.g. MICA/B, ULBPs recognised by NKG2D) provide activating signals. A kill occurs when activating outweighs inhibitory signalling. So NK and CTL are complementary: tumours escaping CTLs by losing MHC I become vulnerable to NK cells."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "Summarise the two signals (and a third) required to fully activate a naive T cell, and what happens if signal 2 is missing.",
       "answer_md": "**Signal 1 (specificity):** the TCR engages its cognate **peptide-MHC** on an antigen-presenting cell (with CD4 or CD8 co-receptor), giving antigen specificity. **Signal 2 (costimulation):** **CD28** on the T cell binds **CD80/CD86 (B7)** on the APC; B7 is upregulated on APCs only when they have sensed danger (PAMPs via PRRs), so costimulation certifies that the antigen came in a context of real threat. **Signal 3 (polarisation):** cytokines from the APC/milieu (IL-12, IFN-γ, IL-4, TGF-β+IL-6, etc.) direct the effector differentiation (Th1/Th2/Th17/Treg). If **signal 1 occurs without signal 2**, the T cell does not activate but becomes **anergic** (functionally unresponsive) or is deleted - a key peripheral-tolerance mechanism that prevents responses to self-antigens presented by resting, non-inflamed tissue. Inhibitory receptor **CTLA-4** competes with CD28 for B7 to raise the threshold; this two-signal logic is the basis of checkpoint-blockade immunotherapy."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "Name key proinflammatory cytokines of acute inflammation and what each does.",
       "answer_md": "The central early ('alarm') cytokines, mainly from activated macrophages/monocytes:\n- **TNF-α:** activates endothelium (adhesion molecules), increases vascular permeability, recruits neutrophils, induces fever and the acute-phase response; at high systemic levels drives septic shock.\n- **IL-1β:** similar endothelial activation and fever (endogenous pyrogen), amplifies inflammation; inflammasome-dependent.\n- **IL-6:** major inducer of the hepatic **acute-phase proteins** (CRP, fibrinogen, hepcidin), fever, drives B-cell/plasma-cell differentiation and Th17 polarisation; a key target in cytokine-release syndrome and rheumatoid arthritis (tocilizumab).\n- **Chemokines (e.g. IL-8/CXCL8):** chemotactic recruitment of neutrophils and other leukocytes.\n- **IFN-γ** (from NK/Th1): activates macrophages, induces IDO and MHC upregulation.\nThese act locally (vasodilation, permeability, leukocyte recruitment - the classic rubor/calor/tumor/dolor) and systemically (fever, acute-phase response, leukocytosis). They are counter-balanced by anti-inflammatory cytokines such as IL-10 and TGF-β to resolve inflammation."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "Why are metabolomic measurements said to be 'closest to the phenotype', and what does that imply for studying immune/lymphoma biology?",
       "answer_md": "The layers of molecular information form a cascade: genome -> transcriptome -> proteome -> **metabolome**. Each downstream layer integrates regulation from the ones above plus environmental and enzymatic activity. The metabolome - the set of small-molecule intermediates and products - is the **most downstream, functional readout**, reflecting what the cell is actually *doing* metabolically right now, integrating genetic state, enzyme activity, nutrient availability and signalling. Hence it is considered closest to the phenotype. For immune/lymphoma biology this matters because cell fate and function are tightly coupled to metabolism (immunometabolism): an activated effector T cell, a Treg, an M1 vs M2 macrophage, or a MYC-high lymphoma B cell each have distinctive metabolic signatures (glycolysis, glutaminolysis, polyamine/tryptophan flux). Profiling the metabolome therefore directly reports the functional consequence of an oncogenic or microenvironmental perturbation - but because metabolite levels are dynamic and sensitive, the data are also noisy and error-prone, which is precisely why anomaly detection/correction (adadmire) is valuable."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "recall",
       "question_md": "What are regulatory B cells (Bregs), and how do they relate to the IL-10 stimulus used in the study?",
       "answer_md": "Regulatory B cells are an immunosuppressive B-cell functional state (not a single fixed lineage) whose hallmark is production of the anti-inflammatory cytokine **IL-10** (some also make TGF-β or IL-35). They restrain excessive inflammation and autoimmunity by suppressing effector T-cell and dendritic-cell responses and promoting Tregs. They are induced by signals including TLR engagement (e.g. CpG/TLR9), CD40 ligation, BCR signalling and inflammatory cytokines - notably the same stimuli applied to the P493/6 cells (α-IgM, CD40L, CpG). This is relevant because it shows B cells are not only antibody factories but active immunoregulators, and because IL-10 both defines Bregs and was supplied exogenously as a stimulus/growth factor. In the tumour context, IL-10-producing regulatory B cells can contribute to the immunosuppressive microenvironment that protects the tumour, linking the study's stimuli to tolerance and immune evasion."
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "mc",
       "question_md": "Which cytokine is primarily anti-inflammatory / immunoregulatory and signals mainly through STAT3?",
       "options": [
@@ -194,7 +194,7 @@
       ]
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "mc",
       "question_md": "CpG oligodeoxynucleotides stimulate immune cells by engaging which receptor?",
       "options": [
@@ -205,7 +205,7 @@
       ]
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "mc",
       "question_md": "Cytotoxic CD8⁺ T cells recognise antigen presented on which molecule?",
       "options": [
@@ -216,13 +216,13 @@
       ]
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "text",
       "question_md": "Which IFN-γ-inducible enzyme catabolises tryptophan down the kynurenine pathway and is a key mediator of immune tolerance and tumour immune evasion? (Give the acronym.)",
       "accepted_answers": ["IDO", "IDO1", "indoleamine 2,3-dioxygenase", "indoleamine-2,3-dioxygenase"]
     },
     {
-      "dirs": ["PhD/immune-system"],
+      "dirs": ["phd/immune-system"],
       "type": "text",
       "question_md": "What transcription factor is the defining lineage master regulator of regulatory T cells (Tregs), whose mutation causes the IPEX autoimmune syndrome?",
       "accepted_answers": ["FoxP3", "FOXP3", "Foxp3"]

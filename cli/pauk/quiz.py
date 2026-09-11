@@ -45,12 +45,13 @@ def run_quiz(client: Client, dir_path: str | None, recursive: bool, n: int) -> N
                 break
     cards = client.quiz_cards(dir_id, recursive, n)
     # the line-based scripting quiz only grades mc and text; match,
-    # quest, and route are interactive types for the full-screen app
+    # quest, route, and recall are interactive types for the
+    # full-screen app
     playable = [c for c in cards if c["type"] in ("mc", "text")]
     if len(playable) < len(cards):
         skipped = len(cards) - len(playable)
         console.print(
-            f"[dim]skipping {skipped} match/quest/route card(s) — "
+            f"[dim]skipping {skipped} match/quest/route/recall card(s) — "
             f"play those in the full-screen app (run 'pauk')[/dim]"
         )
     cards = playable

@@ -16,6 +16,7 @@ from textual import work
 from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.containers import Horizontal, Vertical
+from textual.message import Message
 from textual.screen import Screen
 from textual.widgets import Button, Input, Markdown, OptionList, SelectionList, Static, Tree
 from textual.widgets.option_list import Option
@@ -332,7 +333,7 @@ IMAGE_MD_RE = re.compile(
 
 # one muted glyph per card type, so a mixed deck shows what you are
 # answering without a full-color tint
-TYPE_GLYPH = {"text": "∷", "mc": "▤", "match": "⇄", "quest": "◇", "route": "➤"}
+TYPE_GLYPH = {"text": "∷", "mc": "▤", "match": "⇄", "quest": "◇", "route": "➤", "recall": "✎"}
 
 
 def _streak_style(streak: int) -> str:
@@ -487,6 +488,9 @@ class QuizScreen(Screen):
             return
         if card["type"] == "route":
             self.app.push_screen(RouteScreen(card), self._task_done)
+            return
+        if card["type"] == "recall":
+            self.app.push_screen(RecallScreen(card), self._task_done)
             return
         self._status()
         question_md = self._show_images(card["question_md"])
@@ -957,6 +961,120 @@ class RouteScreen(Screen):
         # arrived → advance with success; gave up mid-route → None exits
         # the whole quiz rather than skipping to the next card
         self.dismiss(True if self.arrived else None)
+
+
+class RecallScreen(Screen):
+    """Play one self-graded recall card: read the question, optionally
+    type an attempt, reveal the stored reference answer, then judge
+    yourself right or wrong. The verdict is logged via the API
+    self-grade endpoint (so recall feeds selection and stats).
+
+    Dismisses with the verdict so the surrounding quiz can count it;
+    Escape before grading dismisses None (exit the whole quiz)."""
+
+    BINDINGS = [
+        Binding("escape", "give_up", "Give up"),
+        Binding("space", "reveal", "Reveal", show=False),
+        Binding("y", "grade_right", "I was right", show=False),
+        Binding("n", "grade_wrong", "I was wrong", show=False),
+    ]
+
+    def __init__(self, card: dict):
+        super().__init__()
+        self.card = card
+        self.revealed = False
+        self.graded = False
+
+    def compose(self) -> ComposeResult:
+        with Vertical(id="recall"):
+            yield Markdown(self.card["question_md"], id="recall-question")
+            yield Input(placeholder="your answer (optional)", id="recall-input")
+            yield Markdown("", id="recall-answer")
+            with Horizontal(id="recall-buttons", classes="compact-buttons"):
+                yield Button("I was right", id="recall-right")
+                yield Button("I was wrong", id="recall-wrong")
+        yield StatusBar("", id="recall-status")
+
+    def on_mount(self) -> None:
+        self.query_one("#recall-answer").display = False
+        self.query_one("#recall-buttons").display = False
+        self._status()
+        self.query_one("#recall-input", Input).focus()
+
+    def _status(self) -> None:
+        self.query_one("#recall-status", StatusBar).update(
+            "y right · n wrong" if self.revealed else "Enter reveal"
+        )
+
+    # Enter in the answer box reveals the reference answer.
+    def on_input_submitted(self, event: Input.Submitted) -> None:
+        if event.input.id == "recall-input":
+            self.action_reveal()
+
+    def action_reveal(self) -> None:
+        if self.revealed:
+            return
+        self.revealed = True
+        self.query_one("#recall-input", Input).disabled = True
+        answer = self.query_one("#recall-answer", Markdown)
+        answer.update(self.card.get("answer_md", ""))
+        answer.display = True
+        self.query_one("#recall-buttons").display = True
+        self._status()
+        self.query_one("#recall-right", Button).focus()
+
+    def on_button_pressed(self, event: Button.Pressed) -> None:
+        if event.button.id == "recall-right":
+            self._grade(True)
+        elif event.button.id == "recall-wrong":
+            self._grade(False)
+
+    def action_grade_right(self) -> None:
+        if self.revealed:
+            self._grade(True)
+
+    def action_grade_wrong(self) -> None:
+        if self.revealed:
+            self._grade(False)
+
+    def _grade(self, correct: bool) -> None:
+        if self.graded or not self.revealed:
+            return
+        self.graded = True
+        self._record(correct)
+
+    class Graded(Message):
+        """The verdict has been recorded (or recording failed and was
+        reported); the screen can now be dismissed with it."""
+
+        def __init__(self, correct: bool) -> None:
+            super().__init__()
+            self.correct = correct
+
+    @work(thread=True)
+    def _record(self, correct: bool) -> None:
+        try:
+            self.app.client.self_grade(self.card["id"], correct)
+        except Exception as exc:  # noqa: BLE001
+            self.app.call_from_thread(
+                self.notify, f"Could not save verdict: {exc}", severity="error"
+            )
+        # Hand the dismiss to the main thread as a message rather than
+        # dismissing via call_from_thread: dismissing pops the screen and
+        # cancels this very worker while it is still blocked waiting for
+        # the callback, which never returns in headless (Pilot) runs.
+        # post_message is thread-safe and is processed after the worker
+        # has finished.
+        self.post_message(self.Graded(correct))
+
+    def on_recall_screen_graded(self, event: "RecallScreen.Graded") -> None:
+        self.dismiss(event.correct)
+
+    def action_give_up(self) -> None:
+        # Escape before grading bails out of the whole quiz (None exits,
+        # per the task-exit convention in QuizScreen._task_done).
+        if not self.graded:
+            self.dismiss(None)
 
 
 class StatsScreen(Screen):

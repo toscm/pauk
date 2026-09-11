@@ -1,183 +1,183 @@
 {
-  "dirs": ["PhD", "PhD/Liquid-Chromatography"],
+  "dirs": ["phd", "phd/liquid-chromatography"],
   "dir_links": [],
   "cards": [
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "What is the fundamental principle by which liquid chromatography separates analytes?",
       "answer_md": "LC separates a mixture by the differential distribution (partitioning/adsorption) of analytes between two phases: a stationary phase packed in the column and a liquid mobile phase flowing through it. Each analyte continuously exchanges between the two phases; the more time a compound spends associated with the stationary phase relative to the mobile phase, the more it is retarded. Because different compounds interact with the stationary phase to different degrees — via hydrophobic, polar, hydrogen-bonding, electrostatic, or size interactions depending on the phase chemistry — they travel at different effective velocities and emerge from the column at different times. Separation is thus thermodynamic (governed by the equilibrium distribution constant / retention) combined with kinetic band-broadening that limits how sharply resolved neighbouring peaks can be. In LC-MS the column provides the first, time-resolved dimension and the mass spectrometer the second, mass-resolved dimension."
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "Define the retention factor k (capacity factor). Give its formula and explain what it measures and why it is preferred over raw retention time for comparisons.",
       "answer_md": "The retention factor is k = (t_R - t_0) / t_0, where t_R is the analyte's retention time and t_0 (also t_M) is the column dead time — the time for an unretained component to pass through (the void-volume transit time). Equivalently k = K·(V_s/V_m), the distribution constant times the stationary/mobile phase volume ratio, so k is the ratio of time the analyte spends in the stationary phase to time in the mobile phase. It measures how strongly the analyte is retained, normalised by the system's dead time. It is preferred over raw t_R because it is (under isocratic conditions) independent of flow rate and column dimensions, making retention comparable across instruments and runs; raw t_R changes if you change flow rate or column length even though the underlying chemistry is identical. Typical useful k values are roughly 1-10; k near 0 means no retention (co-elutes with the void)."
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "What are the dead time (t_0 / t_M) and void volume, and why do they matter for RT prediction and comparison?",
       "answer_md": "The void (dead) volume V_0 is the volume of mobile phase inside the column system not occupied by stationary phase — the interstitial + pore liquid plus extra-column tubing volume. The dead time t_0 = V_0 / flow rate is the time an unretained solute takes to traverse it; it sets the earliest any compound can elute. It matters because retention is properly expressed relative to it (retention factor k uses t_0), and because the void volume is one of the system-specific factors that make raw RTs non-transferable between instruments. An RT predictor trained on one system's absolute RTs implicitly encodes that system's void volume and flow, so a change in either shifts all RTs — part of why RT models are setup-specific and why FastRet must retrain or adjust per system. Measuring t_0 (e.g. with an unretained marker) is needed to convert RT to k."
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "Define selectivity (α) and resolution (Rs), and explain the three factors that control resolution.",
       "answer_md": "Selectivity α = k_2/k_1 is the ratio of retention factors of two adjacent peaks — it measures how differently the column chemistry treats the two compounds (α>1; α=1 means no separation is possible however efficient the column). Resolution Rs quantifies how well two peaks are actually separated, combining peak spacing and peak width; Rs ≈ 1.5 is baseline separation. The purnell/master resolution equation shows Rs depends on three multiplicative terms: efficiency (√N/4, the plate number), selectivity ((α-1)/α), and retention (k/(1+k)). Practically: increasing N (smaller particles, longer column) sharpens peaks but with diminishing square-root returns and higher backpressure; increasing α (changing stationary phase, mobile-phase composition, pH, temperature) is the most powerful lever because even small α gains help a lot; and increasing k (less eluent strength) helps until k is large, after which returns plateau while run time grows. Selectivity is usually where the real separation problem is solved."
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "State the van Deemter equation, name its three terms, and explain why sub-2 µm (UHPLC) particles improve efficiency.",
       "answer_md": "The van Deemter equation relates plate height H (HETP) to linear mobile-phase velocity u: H = A + B/u + C·u. A (eddy diffusion / multipath) arises from analyte molecules taking different-length paths through the packed bed; it scales with particle diameter and packing uniformity and is roughly velocity-independent. B (longitudinal molecular diffusion) dominates at low velocity as analytes diffuse along the column axis during slow transit. C (resistance to mass transfer) dominates at high velocity: analytes cannot equilibrate between phases fast enough, broadening peaks, and it scales with the square of particle diameter (and with film thickness / pore diffusion). Smaller H means more theoretical plates and sharper peaks. Sub-2 µm particles shrink both the A term (shorter, more uniform flow paths) and especially the C term (faster mass transfer, shorter diffusion distances), and they flatten the H-vs-u curve so high flow rates can be used without losing efficiency — the basis of UHPLC — at the cost of much higher backpressure (pressure ∝ 1/d_p²)."
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "What is the theoretical plate number N (and HETP), and what does it tell you about a column?",
       "answer_md": "The plate number N is a measure of column efficiency — how narrow peaks are relative to their retention. It is computed from a peak as N = (t_R / σ)², commonly N = 16·(t_R/w)² using baseline width or N = 5.54·(t_R/w_1/2)² using width at half height; higher N means sharper peaks and better resolving power. HETP (height equivalent to a theoretical plate) H = L/N, where L is column length, normalises efficiency per unit length so columns of different lengths can be compared — a smaller H is better. The 'plate' concept derives from an analogy to distillation equilibrium stages. N increases with column length (linearly) and with smaller, well-packed particles (which lower H), while peak broadening from poor packing, slow mass transfer, or extra-column dead volume reduces it. N is an isocratic concept; for gradient separations peak capacity is the more relevant efficiency metric."
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "What is peak capacity, and why is it the relevant performance metric for gradient elution (rather than plate number)?",
       "answer_md": "Peak capacity n_c is the maximum number of peaks that can theoretically be fit, at a specified resolution (usually Rs=1), side by side within a defined retention window (e.g. the gradient time). It is the natural figure of merit for gradient separations because in gradient mode the eluent strength changes during the run, so peaks are compressed to similar widths across the chromatogram and the classic plate number (an isocratic, single-peak concept tied to constant conditions) no longer describes the whole separation. Peak capacity roughly scales as n_c ≈ 1 + (t_gradient) / (average peak width); it improves with longer/shallower gradients, higher efficiency columns (smaller particles), and optimised flow. For complex samples like metabolomics extracts, maximising peak capacity (separating thousands of features) matters more than maximising N for any single pair, because it reduces co-elution and ion suppression at the MS."
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "Describe reversed-phase liquid chromatography (RPLC): the phases, the retention mechanism, and the elution order.",
       "answer_md": "In reversed-phase LC the stationary phase is non-polar — typically silica particles with bonded long alkyl chains (C18/ODS, or C8) — and the mobile phase is polar, an aqueous buffer mixed with a water-miscible organic modifier (acetonitrile or methanol). 'Reversed' is historical: it inverts the original normal-phase polarity arrangement. Retention is driven by hydrophobic interaction: non-polar regions of the analyte associate with the alkyl layer to minimise contact with the polar mobile phase (the solvophobic effect). Consequently polar/hydrophilic compounds interact weakly and elute early (near the void), while non-polar/lipophilic compounds are retained and elute late; retention correlates with lipophilicity (logP/XLogP), which is exactly why logP-type descriptors dominate RP QSRR/RT models. Increasing the organic fraction strengthens the eluent and reduces retention. RPLC is the workhorse of small-molecule LC-MS because it is robust, reproducible, and well suited to semi-polar and lipophilic metabolites."
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "In RPLC, how does changing the percentage of organic modifier (%B) affect retention, and what does a typical gradient do?",
       "answer_md": "In reversed phase, the organic modifier (acetonitrile or methanol, 'B') is the strong solvent: increasing %B makes the mobile phase less polar, weakens the solvophobic driving force, and so *decreases* retention (lower k, earlier elution). Retention factor falls roughly log-linearly with increasing organic fraction (the linear-solvent-strength relationship: log k ≈ log k_w - S·φ, where φ is the organic volume fraction). A typical RP gradient therefore *increases* %B over time — e.g. the thesis 'Norm' gradient ramps 3% to 50% B over 8 min, then to 100%, holds, and re-equilibrates — so that early-eluting polar compounds separate at low organic strength while strongly retained lipophilic compounds are pushed off in reasonable time at high organic strength. Gradient steepness (how fast %B rises) tunes the trade-off between run time, peak capacity and selectivity; a shallower gradient generally spreads peaks out and improves resolution at the cost of time."
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "Describe HILIC (hydrophilic interaction liquid chromatography): the phases, the retention mechanism, and how its elution order differs from RPLC.",
       "answer_md": "HILIC uses a polar stationary phase (bare silica, or bonded amide, diol, zwitterionic, amino phases) with a mobile phase that is high in organic solvent (typically >70-90% acetonitrile) plus a smaller aqueous/buffer fraction. The accepted mechanism is multimodal: a water-enriched liquid layer adsorbs on the polar stationary phase, and polar analytes partition from the bulk (mostly organic) mobile phase into this water layer, with additional contributions from direct adsorption/hydrogen-bonding and, for charged analytes, electrostatic interactions. Retention therefore increases with analyte polarity and H-bonding/charge character — the *opposite* of reversed phase: polar/hydrophilic compounds are strongly retained and elute late, while non-polar compounds elute early. The gradient runs the *reverse* direction of RP — it *increases* the aqueous (water) fraction over time to elute analytes. HILIC's value is retaining and separating very polar, hydrophilic metabolites (sugars, amino acids, nucleotides, organic acids) that are poorly retained in RP, and it gives MS-friendly high-organic eluent that aids electrospray sensitivity."
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "Why are RPLC and HILIC considered orthogonal and complementary, and why does comprehensive metabolomics often need both?",
       "answer_md": "RP and HILIC retain compounds by opposite polarity trends: RP retains by hydrophobicity (polar compounds elute early, often unretained in the void where they co-elute and suffer ion suppression), whereas HILIC retains by hydrophilicity (polar compounds are well retained and separated). A single RP method therefore leaves the very polar fraction of the metabolome — amino acids, sugars, nucleotides, small organic acids, central-carbon-metabolism intermediates — poorly resolved, while those same compounds are HILIC's strength. The metabolome spans an enormous polarity range, so no single column chemistry covers it all; running RP and HILIC (orthogonal selectivities) maximises metabolite coverage and reduces the 'dark matter' of undetected/unresolved features. This orthogonality is also why an RT model trained for RP cannot predict HILIC RTs (different mechanism, weak RT correlation) — each separation mode needs its own model."
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "Contrast isocratic and gradient elution, and explain the 'general elution problem' that gradients solve.",
       "answer_md": "In isocratic elution the mobile-phase composition is held constant throughout the run; in gradient elution the eluent strength is changed over time (e.g. rising %organic in RP, rising %water in HILIC). The general elution problem: for a sample spanning a wide range of polarities, no single isocratic composition works well — a strong eluent rushes weakly retained compounds out together (poor early resolution, k too small), while the same composition leaves strongly retained compounds on the column for far too long as very broad, low peaks (k too large). A gradient resolves this by starting weak (so early, weakly retained analytes are spread out and resolved) and progressively strengthening (so strongly retained analytes are eluted in reasonable time as sharp peaks). The cost is added complexity: gradient runs need re-equilibration between injections, have a system dwell/delay volume, and their retention depends on gradient shape, making RTs harder to transfer between instruments."
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "How does gradient steepness (slope) affect a separation, and what practical trade-offs does it create?",
       "answer_md": "Gradient steepness is how fast the strong-solvent fraction changes per unit time (e.g. %B/min). A steeper (faster) gradient shortens the run and sharpens/compresses peaks, but reduces peak spacing and thus resolution and peak capacity, increasing co-elution. A shallower (slower) gradient spreads peaks over more time, increasing peak capacity and usually resolution, at the cost of longer analysis time and broader late peaks. Steepness also changes apparent *selectivity*, because different compound pairs respond differently to the changing eluent — so altering the gradient profile can re-order or better separate specific pairs. In RT-prediction terms, gradient steepness is one of the chromatographic parameters that shift retention; FastRet's adjustment experiments deliberately varied gradient steepness (Flat / Norm / Steep) among the modified conditions, and a column run with a much longer/shallower gradient than anything in training remained hard to predict — illustrating that gradient shape is part of the setup a model is tied to."
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "Why are mobile-phase additives like formic acid and ammonium formate used in LC-MS, and why must buffers be volatile?",
       "answer_md": "Additives control mobile-phase pH and ionic strength, which governs the ionisation state of ionisable analytes and hence their retention and peak shape — e.g. suppressing silanol interactions, sharpening peaks, and fixing a reproducible charge state. In the thesis methods, 0.1-0.125% formic acid lowers pH and aids positive-mode electrospray by protonating analytes, while ammonium formate (e.g. 10 mM) provides buffering capacity and controls ionic strength (important in HILIC and for the anion-exchange component of mixed-mode). Crucially, because the column is coupled to an electrospray mass spectrometer, only *volatile* buffers may be used: formic acid and ammonium formate/acetate evaporate in the ESI source, whereas non-volatile buffers like phosphate or involatile ion-pairing salts would precipitate in the source, contaminate the interface, and cause severe ion suppression. So additive choice balances chromatographic performance against MS compatibility."
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "How is LC coupled to mass spectrometry via electrospray ionisation (ESI), and what are ion suppression and matrix effects?",
       "answer_md": "The column eluent flows into an electrospray source, where a high voltage applied at the capillary tip disperses the liquid into charged droplets; as solvent evaporates (aided by heated drying gas/nebuliser gas), the droplets shrink and eject gas-phase analyte ions (often [M+H]+ or [M-H]-) that enter the mass spectrometer and are separated by m/z. ESI is a soft ionisation producing mostly intact molecular ions, ideal for intact metabolites, but it is concentration-sensitive and competitive. Ion suppression (or enhancement) is a matrix effect: co-eluting compounds, salts, or additives compete for charge and droplet surface, so the signal of an analyte depends on what else elutes at the same RT — reducing sensitivity and harming quantitation and reproducibility. Good chromatographic separation (high peak capacity, avoiding co-elution with the void and with abundant matrix) and volatile additives mitigate suppression; this is another reason separation quality (RT) matters beyond just providing an identification dimension."
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "Describe the chemistry of a typical silica-based bonded stationary phase: silica support, bonded ligands, endcapping, and BEH hybrid particles.",
       "answer_md": "The classic support is porous silica, chosen for mechanical strength, high surface area and a reactive surface of silanol (Si-OH) groups. For reversed phase, alkyl ligands (C18, C8) are bonded to these silanols via silane chemistry (mono-, di-, or trifunctional silanes). Residual unreacted silanols remain polar and acidic and can cause unwanted secondary interactions (peak tailing for basic analytes, pH sensitivity); 'endcapping' reacts these leftover silanols with small silanes (e.g. trimethylsilyl) to mask them and improve peak shape. Pure silica is limited to roughly pH 2-8 (it dissolves at high pH and bonded phases hydrolyse at low pH). BEH (bridged ethylene hybrid) particles incorporate ethylene bridges (=Si-CH2-CH2-Si=) into the silica matrix, giving greater mechanical and chemical (pH) stability, lower silanol activity, and better efficiency — the basis of many modern UHPLC columns (the thesis used ACQUITY Premier BEH/HSS columns)."
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "What is special about a 'T3' (e.g. HSS T3) reversed-phase column, and why is it useful in metabolomics?",
       "answer_md": "A T3 phase is a C18 reversed-phase column designed with a ligand density / bonding (trifunctionally bonded, lower-coverage C18) and often without aggressive endcapping, engineered to be compatible with highly aqueous (even 100% aqueous) mobile phases. Standard densely-bonded C18 phases can suffer 'phase collapse' (dewetting/pore retraction) in near-100% water, losing retention and reproducibility; T3 phases resist this. The practical benefit is that they retain and separate small, polar and hydrophilic compounds better than a conventional C18, while still retaining mid-polarity and lipophilic compounds — extending the polarity coverage of a single RP method toward the polar end. That is why an HSS T3 column was chosen for the reversed-phase dataset in the thesis: it gives good retention across the broad polarity range of metabolites using fully aqueous starting conditions."
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "What is mixed-mode (e.g. reversed-phase/anion-exchange, RP-AX) chromatography, and what advantage and complication does it bring?",
       "answer_md": "A mixed-mode stationary phase deliberately combines two retention mechanisms on one column — for RP-AX, hydrophobic C18 character plus charged anion-exchange groups. Retention of a given analyte is then the sum of a hydrophobic contribution (like RP, driven by lipophilicity) and an electrostatic contribution (ionic attraction/repulsion between the analyte's charge and the fixed charges of the phase, tunable via mobile-phase pH, ionic strength and counter-ion/salt gradient). Advantage: it can retain and resolve both neutral/hydrophobic and charged/polar (e.g. acidic) compounds in one run, and offers extra selectivity handles (salt and pH gradients) unavailable to pure RP. Complication: retention is a more complex, multi-parameter function of structure and mobile phase, harder to predict and transfer — in the thesis RP-AXMM was the hardest mode to model (R²≈0.66 vs 0.86 for RP), precisely because the anion-exchange (charge-dependent) component is captured less well by structure descriptors chosen on RP data."
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "How does column temperature affect an LC separation (retention, efficiency, pressure), and what is the van 't Hoff relationship?",
       "answer_md": "Raising temperature generally decreases retention (lower k) because retention is usually exothermic, so the distribution shifts toward the mobile phase; the dependence is described by a van 't Hoff plot, ln k vs 1/T, which is typically linear with slope -ΔH/R (giving the enthalpy of transfer). Temperature also lowers mobile-phase viscosity, which reduces backpressure (allowing higher flow or smaller particles) and speeds mass transfer (the C term in van Deemter), often improving efficiency and sharpening peaks. Importantly, temperature can change *selectivity*, because different analytes have different transfer enthalpies, so a temperature change can re-order peaks — it is a genuine method-optimisation variable, not just a retention shift. Because it shifts RTs, temperature is one of the chromatographic conditions an RT model is tied to; the thesis adjustment experiments varied column temperature (e.g. 25 vs 35 °C) among the modified conditions to test model adjustment."
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "How does changing the flow rate affect retention time versus retention factor, and why does the distinction matter?",
       "answer_md": "Under isocratic conditions, increasing flow rate decreases the dead time t_0 and proportionally decreases retention time t_R, but it leaves the retention factor k = (t_R - t_0)/t_0 essentially unchanged — because k is a thermodynamic partition property independent of how fast the mobile phase moves. So flow rate changes *when* a peak elutes (RT) without changing *how strongly* it is retained (k). This is why k (not raw RT) is the transferable quantity between runs. The distinction matters for RT prediction: a model trained on absolute RTs at one flow rate will mispredict at another flow rate even though the chemistry is identical, which is one reason RT models are setup-specific. Flow rate also sits on the van Deemter curve, so it trades off efficiency (too slow increases B-term diffusion broadening, too fast increases C-term mass-transfer broadening); the thesis varied flow rate (e.g. 0.3 vs 0.25 mL/min) among its modified-condition adjustment experiments."
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "List the main factors that determine an analyte's retention time on an LC system, and explain why this makes RTs non-transferable between setups.",
       "answer_md": "Retention time depends on: stationary-phase chemistry (ligand type, bonding density, particle size, endcapping, pore size), column dimensions (length, internal diameter), the mobile-phase composition and any additives/pH/ionic strength, the gradient profile (shape and steepness), flow rate, column temperature, the separation mechanism (RP vs HILIC vs mixed-mode), and the system void/dead volume and dwell volume. Because RT is the convolution of all these system-specific parameters with the analyte's chemistry, the *same* molecule gives different RTs on different systems — and even on the same system as the column ages or between batches. This is the core reason RTs, unlike accurate masses or MS/MS spectra, cannot be stored in universal databases and looked up, and why QSRR/RT-prediction models must be trained per chromatographic setup and retrained or adjusted whenever a factor changes (the central motivation for FastRet's per-system training and adjustment workflows)."
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "Why is retention time treated as a second, orthogonal dimension for metabolite identification, and what are its limits?",
       "answer_md": "In LC-MS each feature is characterised by at least two independent properties: its m/z (from the MS) and its RT (from the chromatography). Accurate mass alone is usually insufficient for identification because many metabolites share a formula or are isomeric/isobaric, yielding multiple candidates per mass. RT adds orthogonal, structure-dependent information: it reflects physicochemical interactions (polarity, lipophilicity, charge) largely independent of mass, so comparing a candidate's RT (measured from a standard, or predicted) against the observed RT filters out candidates whose retention behaviour is inconsistent. Under the MSI framework, matching RT and mass spectrum to an authentic standard under identical conditions supports level-1 identification. Limits: RT is system-specific (must be measured/predicted on the same setup), its discriminating power is modest (a ±0.5 min window still admits several candidates), co-eluting isomers share RT, and predicted RTs carry model error — so RT prunes and prioritises candidates rather than proving identity on its own."
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "What distinguishes UHPLC from conventional HPLC, and what does it buy you?",
       "answer_md": "UHPLC (ultra-high-performance LC) uses sub-2 µm packing particles (and correspondingly stronger instrumentation) rather than the 3-5 µm particles of conventional HPLC. Smaller particles lower the plate height H (van Deemter A and C terms) and, critically, flatten the H-vs-velocity curve, so high linear velocities can be used with little efficiency loss. The payoff is faster separations, sharper/narrower peaks, higher efficiency (more plates per unit length), greater peak capacity and better sensitivity — all valuable for resolving complex metabolomics samples and reducing co-elution/ion suppression at the MS. The cost is that backpressure scales with 1/particle-diameter² (and with flow and column length), so UHPLC requires pumps and fittings rated for very high pressures (hundreds to >1000 bar) and well-packed, mechanically robust particles (e.g. BEH hybrids). The thesis work used a UHPLC system with 1.7-1.8 µm BEH/HSS columns."
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "How do logP / hydrophobicity descriptors relate to reversed-phase retention, and why does this underpin QSRR RT modelling?",
       "answer_md": "logP is the logarithm of the octanol-water partition coefficient, a quantitative measure of a compound's lipophilicity. Reversed-phase retention is itself a partitioning/solvophobic process between a non-polar stationary phase and a polar mobile phase — mechanistically analogous to octanol-water partition — so more lipophilic compounds (higher logP) partition more into the C18 layer and are retained longer. Empirically, RP retention (log k) correlates strongly and often near-linearly with logP and related lipophilicity estimates (XLogP, ALogP). This chemical relationship is the foundation of QSRR RT prediction: because retention is largely governed by properties that structural descriptors encode (lipophilicity first, then polar surface area, H-bonding, charge), a statistical model can map descriptors to RT. It is exactly why lipophilicity descriptors dominate the importance in FastRet's RP models, and why descriptor-based prediction works better for RP (lipophilicity-driven) than for mixed-mode (additional charge interactions)."
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "How does mobile-phase pH affect the retention of ionisable analytes, and why is pH control important?",
       "answer_md": "For acids and bases, retention depends strongly on charge state, which pH controls via the analyte's pKa. In reversed phase, the neutral (protonated acid, or deprotonated-to-neutral base) form is more lipophilic and better retained, while the charged form is more hydrophilic and elutes earlier; so retention changes sharply around pH ≈ pKa, and small pH fluctuations there cause large RT shifts and poor reproducibility. Operating well away from analyte pKa (buffering to a stable pH) fixes a single dominant species, giving reproducible retention and sharp peaks. pH also affects the stationary phase (silanol ionisation) and, in mixed-mode/ion-exchange, the charge of both analyte and fixed groups, directly tuning the electrostatic retention component. Because charge state is pH-dependent and pH is a method parameter, it is another setup variable an RT model is tied to — and a reason charged-analyte retention (HILIC, mixed-mode) is harder to predict than neutral hydrophobic retention."
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "What practical challenges does HILIC have compared with reversed phase, especially regarding reproducibility?",
       "answer_md": "HILIC is more finicky than RP. Its retention relies on a stabilised water-enriched layer on the polar stationary phase, which takes a long time to establish, so columns need extended equilibration after injections and especially after gradient cycling — inadequate re-equilibration is a leading cause of RT drift. Retention is highly sensitive to the exact water content, buffer concentration, pH and ionic strength of the mobile phase, and to sample solvent (injecting in a too-aqueous solvent distorts peaks), making run-to-run and lab-to-lab reproducibility harder to achieve than in RP. The retention mechanism is multimodal (partition + adsorption + electrostatics), so it is less predictable and method development is more empirical. These factors make HILIC RTs noisier and harder to model/transfer — consistent with the thesis finding that HILIC prediction (R²≈0.81) trailed RP (≈0.86), and with RT variability that motivates retraining/adjustment per system."
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "What is the system dwell (delay) volume in gradient LC, and why does it matter for reproducibility and RT transfer?",
       "answer_md": "The dwell (gradient delay) volume is the volume between the point where the gradient is formed (the pump/mixer or proportioning valve) and the column head. Because of it, a programmed change in composition reaches the column only after this volume has been swept out — effectively an initial isocratic hold whose duration = dwell volume / flow rate. Different instruments have different dwell volumes (high-pressure vs low-pressure mixing systems differ markedly), so the *same* gradient program produces slightly different effective gradients and hence shifted RTs on different instruments. This is a major, often under-appreciated source of non-transferability of gradient retention times between labs and systems, separate from column chemistry. It matters for RT prediction because a model encodes the dwell characteristics of the training instrument; moving to another instrument shifts RTs and is part of why per-system retraining or adjustment (as in FastRet) is needed even with nominally identical methods."
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "What are the main sources of band broadening (peak width) in LC, including extra-column contributions?",
       "answer_md": "On-column broadening comes from the van Deemter processes: eddy diffusion / multiple flow paths (A), longitudinal molecular diffusion (B, worse at low flow), and resistance to mass transfer between and within phases (C, worse at high flow and with larger particles / thicker films / wider pores). Slow intra-particle (pore) diffusion and non-uniform packing add to these. Extra-column broadening comes from every volume the analyte band traverses outside the packed bed — the injector, connecting tubing (length and internal diameter), unions and frits, and the detector/MS interface cell — where the band disperses without being separated; this is especially damaging for UHPLC, where intrinsic peaks are tiny, so narrow-bore, short, well-swept tubing is essential. A heterogeneous or poorly packed bed, void formation with age, and overloading (too much sample) further broaden and distort peaks. Broadening lowers N, resolution and sensitivity, so minimising extra-column volume and using small uniform particles are key to sharp peaks."
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "Contrast fully porous particles with superficially porous (core-shell / fused-core) particles. Why can core-shell particles rival sub-2 µm performance at lower backpressure?",
       "answer_md": "Fully porous particles are porous throughout, giving high surface area but relatively long intra-particle diffusion paths. Superficially porous (core-shell / fused-core) particles have a solid, impermeable core surrounded by a thin porous shell, so analytes diffuse only through the shallow shell. This shortens the diffusion distance and reduces the C term (resistance to mass transfer), and the narrow particle-size distribution plus solid core also reduces the A term (eddy diffusion). The result is efficiency approaching that of sub-2 µm fully porous particles, but because the particles themselves are larger (e.g. 2.6-2.7 µm), the backpressure is much lower — so comparable performance can be obtained on conventional HPLC instruments not rated for UHPLC pressures. The trade-off is somewhat lower surface area/loading capacity per particle. Several RepoRT cross-lab columns in the FastRet validation were core-shell phases (e.g. Kinetex, CORTECS, Ascentis Express)."
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "mc",
       "question_md": "In reversed-phase LC with a water/acetonitrile gradient, which class of compound generally elutes FIRST?",
       "options": [
@@ -188,7 +188,7 @@
       ]
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "mc",
       "question_md": "Which statement about HILIC versus reversed-phase elution order is correct?",
       "options": [
@@ -199,13 +199,13 @@
       ]
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "text",
       "question_md": "Write the formula for the retention (capacity) factor k in terms of retention time t_R and dead time t_0. (Use t0 for t_0.)",
       "accepted_answers": ["k = (tR - t0) / t0", "(tR - t0)/t0", "k=(t_R-t_0)/t_0", "(t_R - t_0)/t_0", "(tr-t0)/t0"]
     },
     {
-      "dirs": ["PhD/Liquid-Chromatography"],
+      "dirs": ["phd/liquid-chromatography"],
       "type": "recall",
       "question_md": "Why, given all the complications of chromatography, has there been strong interest in computationally PREDICTING retention times for metabolomics? Tie the LC fundamentals to the motivation for tools like FastRet.",
       "answer_md": "Confident metabolite identification (MSI level 1) needs orthogonal evidence — typically RT plus mass spectrum — matched to an authentic standard. But authentic standards are expensive, slow, and often not commercially available, and RT is system-specific: it depends on column chemistry, mobile phase, gradient, flow, temperature and void/dwell volume, so it cannot be read from a universal database the way accurate mass can, and it even drifts as a column ages. Measuring every candidate standard on every system is therefore impractical. Computational RT prediction (QSRR) breaks this bottleneck: because RT is largely governed by physicochemical interactions (lipophilicity in RP, polarity/H-bonding/charge in HILIC) that molecular descriptors encode, a model trained on the lab's own measured compounds can predict RTs for unmeasured candidates on that exact system, filtering database hits without buying standards. The remaining problem is that such models are tied to one setup and must be rebuilt when conditions change — which is precisely what FastRet addresses with fast per-system training, selective measuring to minimise how many standards must be run, and model adjustment to port a model to new conditions from a handful of re-measured compounds."

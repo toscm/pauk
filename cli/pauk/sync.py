@@ -40,6 +40,7 @@ TYPE_FIELDS = {
     "match": ["pairs"],
     "quest": ["role_prompt", "success_criteria", "max_messages", "lang"],
     "route": ["graph_name", "start_node", "goal_node"],
+    "recall": ["answer_md"],
 }
 
 
@@ -314,7 +315,7 @@ Frontmatter fields:
 
 - `id` — the server id. Leave it out (or set `id: new`) to
   create a NEW card on upload.
-- `type` — one of mc, text, match, quest, route.
+- `type` — one of mc, text, match, quest, route, recall.
 - `dirs` — list of directory paths the card belongs to
   (created mkdir -p style on upload).
 - type-specific fields:
@@ -324,6 +325,8 @@ Frontmatter fields:
   - quest: `role_prompt`, `success_criteria`, `max_messages`,
     `lang` (the body is the scenario)
   - route: `graph_name`, `start_node`, `goal_node`
+  - recall: `answer_md` (the reference answer; the body is the
+    question)
 
 Image links use a relative `media/<file>` path so the tree is
 self-contained. When authoring a new card you may also use the

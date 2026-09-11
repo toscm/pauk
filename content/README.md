@@ -13,6 +13,15 @@ Importable content files, one JSON per topic:
   multiple choice. The `italian/a1` directory bundles all
   topic directories via extra DAG links.
 
+- `phd-*.json` — six PhD-defense decks (adadmire, FastRet,
+  immune system, liquid chromatography, metabodecon, NMR),
+  mostly self-graded recall cards with a few mc/text checks,
+  all under the `phd` directory.
+
+Directory names must match `^[a-z0-9-]+$` (docs/api.md), so
+keep paths lowercase (`phd/nmr`, not `PhD/NMR`). The e2e suite
+imports every file here (`cli/tests/test_content.py`).
+
 Import format (see docs/api.md for card shapes):
 
     {

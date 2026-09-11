@@ -20,6 +20,7 @@ from pauk.tui.screens import (
     PickerScreen,
     QuestScreen,
     QuizScreen,
+    RecallScreen,
     RouteScreen,
     SettingsScreen,
     StatsScreen,
@@ -495,3 +496,56 @@ async def test_route_give_up_records_nothing(server):
         await _settle(pilot)
     result = client.route_run(card["id"], True, 1)
     assert result["rank"] == 1
+
+
+async def test_recall_flow_self_grade_right(server):
+    client = Client(server["url"], server["token"])
+    dir_id = client.create_dir("recalldemo")["id"]
+    client.create_card({
+        "type": "recall",
+        "question_md": "Define a martingale.",
+        "answer_md": "A process whose expected next value equals its current value.",
+        "dirs": [dir_id],
+    })
+    app = PaukApp(client)
+    async with app.run_test(size=(100, 40)) as pilot:
+        await pilot.press("enter")
+        await _settle(pilot)
+        await _pick(pilot, "recalldemo")
+        await _settle(pilot)
+        assert isinstance(app.screen, RecallScreen)
+        # Enter in the answer box reveals the reference answer
+        await pilot.press("enter")
+        await pilot.pause()
+        assert app.screen.revealed
+        assert app.screen.query_one("#recall-answer").display
+        # judge myself right → logs a correct review and advances
+        await pilot.click("#recall-right")
+        await _settle(pilot)
+    summary = Client(server["url"], server["token"]).stats(dir_id)["summary"]
+    assert summary["reviews"] == 1
+    assert summary["correct"] == 1
+
+
+async def test_recall_escape_exits_quiz(server):
+    client = Client(server["url"], server["token"])
+    dir_id = client.create_dir("recallescape")["id"]
+    client.create_card({
+        "type": "recall",
+        "question_md": "What is a sufficient statistic?",
+        "answer_md": "One that captures all information about the parameter.",
+        "dirs": [dir_id],
+    })
+    app = PaukApp(client)
+    async with app.run_test(size=(100, 40)) as pilot:
+        await pilot.press("enter")
+        await _settle(pilot)
+        await _pick(pilot, "recallescape")
+        await _settle(pilot)
+        assert isinstance(app.screen, RecallScreen)
+        # Escape before grading exits the whole quiz back to the picker
+        await pilot.press("escape")
+        await _settle(pilot)
+        assert isinstance(app.screen, PickerScreen)
+    summary = Client(server["url"], server["token"]).stats(dir_id)["summary"]
+    assert summary["reviews"] == 0

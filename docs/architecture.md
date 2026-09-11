@@ -51,7 +51,8 @@
   hashed (SHA-256).
 
 - `cards`: id, user_id, type (`mc` | `text` | `match` |
-  `quest` | `route`), question_md, created_at, updated_at.
+  `quest` | `route` | `recall`), question_md, created_at,
+  updated_at.
   Cards carry no path; where they appear is defined solely by
   directory links.
 
@@ -64,6 +65,10 @@
 - `match_pairs`: id, card_id, position, left_md, right_md.
   The shared row id is the correct connection; quiz mode
   shuffles the right side.
+
+- `recall_cards`: card_id, answer_md.
+  A self-graded free-recall card: the client reveals the reference answer and the learner's own verdict reaches the API via `POST /cards/{id}/self-grade`, which logs it to `reviews`.
+  No server-side grading, no highscore.
 
 - `quest_specs` / `quest_runs`: an LLM-dialog task (scenario,
   role prompt, success criteria, max_messages, lang) and its
@@ -213,6 +218,10 @@ Directories form a DAG, not a tree:
   then errors. Chosen over an API key (cost, opt-in) and an
   always-running Ollama daemon (extra infra) for a single-user
   hobby app. The wrapped model id shows in the status bar.
+
+- Recall cards are the one exception to server-side grading, by design.
+  Their answers are several sentences of prose that no string matcher can judge, so the reference answer travels to the client and the learner decides.
+  The API still owns the review log: the verdict is submitted through `POST /cards/{id}/self-grade`, never through `/answer`, so selection weighting and deck performance treat recall like any other card.
 
 - A tip is scored as neither right nor wrong: requesting a
   hint for a card suppresses the `POST /cards/{id}/answer`

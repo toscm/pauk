@@ -1,13 +1,13 @@
 {
   "dirs": [
-    "PhD",
-    "PhD/NMR"
+    "phd",
+    "phd/nmr"
   ],
   "dir_links": [],
   "cards": [
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "recall",
       "question_md": "What is the physical origin of the NMR signal? Define the quantities that decide whether a nucleus is NMR-observable.",
@@ -15,7 +15,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "recall",
       "question_md": "State the resonance (Larmor) condition and explain why it makes NMR a frequency measurement of the chemical environment.",
@@ -23,7 +23,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "recall",
       "question_md": "Define the chemical shift δ in ppm. Why is it expressed in ppm relative to a reference rather than in Hz, and what reference compounds are used in aqueous metabolomics?",
@@ -31,7 +31,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "recall",
       "question_md": "NMR is often described as an intrinsically insensitive technique. What is the quantitative reason, and how is sensitivity improved instrumentally?",
@@ -39,7 +39,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "recall",
       "question_md": "Why is ¹H the workhorse nucleus for NMR-based metabolomics, and what do ¹³C, ³¹P and ¹⁵N offer or lack by comparison?",
@@ -47,7 +47,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "recall",
       "question_md": "Distinguish T1 and T2 relaxation, and explain which one governs the linewidth of an NMR peak.",
@@ -55,7 +55,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "recall",
       "question_md": "Why does a liquid-state NMR peak have a Lorentzian line shape, and what is the relationship between its width and T2*?",
@@ -63,7 +63,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "recall",
       "question_md": "What physical factors cause NMR peak *broadening* (overlap), and how do they connect to the deconvolution problem in biofluids?",
@@ -71,7 +71,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "recall",
       "question_md": "What causes the *chemical-shift drift* (peak shifts) of the same metabolite across samples, and why is it a problem distinct from peak overlap?",
@@ -79,7 +79,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "recall",
       "question_md": "Why is NMR considered an intrinsically *quantitative* technique, and what experimental condition must be satisfied for peak areas to be truly proportional to concentration?",
@@ -87,7 +87,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "recall",
       "question_md": "A metabolite typically gives *several* peaks (a multiplet, and multiple chemically distinct groups). Explain why, and the implications for feature extraction.",
@@ -95,7 +95,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "recall",
       "question_md": "Why is water suppression essential in biofluid ¹H NMR, and how does presaturation achieve it?",
@@ -103,7 +103,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "recall",
       "question_md": "The Blood plasma spectra were acquired with a CPMG sequence and the urine spectra with a 1D NOESY sequence. Explain why each matrix calls for its sequence.",
@@ -111,7 +111,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "recall",
       "question_md": "How do 2D NMR experiments (COSY, TOCSY, HSQC, HMBC) help with the overlap problem, and why is 1D ¹H still the default in metabolomics despite them?",
@@ -119,7 +119,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "recall",
       "question_md": "Compare NMR and mass spectrometry as metabolomics platforms: give the principal strengths and weaknesses of each.",
@@ -127,7 +127,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "recall",
       "question_md": "Why is the metabolome often said to be 'closest to the phenotype,' and what does this imply for biomarker discovery?",
@@ -135,7 +135,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "recall",
       "question_md": "Outline the standard NMR-metabolomics data-processing workflow from raw signal to statistical analysis, naming the key steps.",
@@ -143,7 +143,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "recall",
       "question_md": "What does 'annotation is not a prerequisite' mean in NMR metabolomics, and how does this relate to targeted vs untargeted/fingerprinting approaches?",
@@ -151,7 +151,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "recall",
       "question_md": "Why does higher magnetic field strength improve NMR spectra in *two* distinct ways, and what is the cost?",
@@ -159,7 +159,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "recall",
       "question_md": "What are the roles of the deuterated solvent, the field/frequency lock, and shimming in obtaining a good NMR spectrum?",
@@ -167,7 +167,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "recall",
       "question_md": "What is chemical-exchange broadening, and why does it make certain metabolite signals especially troublesome?",
@@ -175,7 +175,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "recall",
       "question_md": "What is HRMAS NMR and when is it used instead of solution-state NMR?",
@@ -183,7 +183,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "recall",
       "question_md": "Deconvolution was 'not new' — Koh et al. proposed the core method. Summarise Koh's two-stage approach and the feature that distinguishes it from classical curve fitting.",
@@ -191,7 +191,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "recall",
       "question_md": "Metabolite identification in metabolomics is graded by confidence levels (Sumner/MSI). What is the gold-standard criterion for confident identification, and how does a database lookup differ from it?",
@@ -199,7 +199,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "recall",
       "question_md": "What is spectral binning (bucketing), and what are its advantages and its principal disadvantage as a feature-extraction method?",
@@ -207,7 +207,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "mc",
       "question_md": "At the 'magic angle' used in HRMAS NMR, the factor (3cos²θ − 1) is zero. What is that angle?",
@@ -232,7 +232,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "mc",
       "question_md": "Which relaxation process directly determines the natural linewidth of an NMR signal?",
@@ -257,7 +257,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "mc",
       "question_md": "Why is the chemical shift reported in ppm rather than Hz?",
@@ -282,7 +282,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "mc",
       "question_md": "A nucleus is NMR-invisible when:",
@@ -307,7 +307,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "text",
       "question_md": "Give the approximate chemical-shift range (in ppm) of the ¹H NMR window whose narrowness is the main cause of signal overlap in biofluids.",
@@ -322,7 +322,7 @@
     },
     {
       "dirs": [
-        "PhD/NMR"
+        "phd/nmr"
       ],
       "type": "text",
       "question_md": "Name the reference compound (one acronym) commonly set to 0 ppm for chemical-shift referencing in aqueous metabolomics.",

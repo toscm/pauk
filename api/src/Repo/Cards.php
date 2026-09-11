@@ -86,8 +86,8 @@ final class Cards
     public function create(int $userId, array $body): array
     {
         $type = $body['type'] ?? null;
-        if (!in_array($type, ['mc', 'text', 'match', 'quest', 'route'], true)) {
-            throw new ApiError(400, 'validation', "type must be 'mc', 'text', 'match', 'quest' or 'route'");
+        if (!in_array($type, ['mc', 'text', 'match', 'quest', 'route', 'recall'], true)) {
+            throw new ApiError(400, 'validation', "type must be 'mc', 'text', 'match', 'quest', 'route' or 'recall'");
         }
         // quest cards carry no question_md of their own; the scenario
         // is the prompt. Synthesize one from the scenario so the
@@ -109,12 +109,15 @@ final class Cards
         $options = null;
         $answers = null;
         $pairs = null;
+        $recallAnswer = null;
         if ($type === 'mc') {
             $options = $this->validateOptions($body['options'] ?? null);
         } elseif ($type === 'match') {
             $pairs = $this->validatePairs($body['pairs'] ?? null);
         } elseif ($type === 'text') {
             $answers = $this->validateAnswers($body['accepted_answers'] ?? null);
+        } elseif ($type === 'recall') {
+            $recallAnswer = $this->validateRecallAnswer($body['answer_md'] ?? null);
         }
         $dirIds = $this->validateDirIds($userId, $body['dirs'] ?? []);
 
@@ -139,6 +142,9 @@ final class Cards
             }
             if ($routeSpec !== null) {
                 $this->replaceRoute($cardId, $routeSpec);
+            }
+            if ($recallAnswer !== null) {
+                $this->replaceRecall($cardId, $recallAnswer);
             }
             foreach ($dirIds as $dirId) {
                 $stmt = $this->pdo->prepare(
@@ -188,6 +194,12 @@ final class Cards
                     throw new ApiError(400, 'validation', 'pairs only apply to match cards');
                 }
                 $this->replacePairs($cardId, $this->validatePairs($body['pairs']), true);
+            }
+            if (array_key_exists('answer_md', $body)) {
+                if ($card['type'] !== 'recall') {
+                    throw new ApiError(400, 'validation', 'answer_md only applies to recall cards');
+                }
+                $this->replaceRecall($cardId, $this->validateRecallAnswer($body['answer_md']));
             }
             $questFields = ['scenario_md', 'role_prompt', 'success_criteria', 'max_messages', 'lang'];
             if (array_intersect($questFields, array_keys($body)) !== []) {
@@ -251,6 +263,13 @@ final class Cards
                 "{$card['type']} cards are recorded via /cards/{id}/{$card['type']}-run, not /answer"
             );
         }
+        if ($card['type'] === 'recall') {
+            throw new ApiError(
+                400,
+                'validation',
+                'recall cards are self-graded via /cards/{id}/self-grade, not /answer'
+            );
+        }
         if ($card['type'] === 'mc') {
             $selected = $body['selected'] ?? null;
             if (!is_array($selected) || array_filter($selected, fn ($v) => !is_int($v)) !== []) {
@@ -283,6 +302,36 @@ final class Cards
             $result['detail'] = $detail;
         }
         return $result;
+    }
+
+    /**
+     * Record a self-assessed recall verdict: the learner revealed the
+     * reference answer and decided whether they were right. The verdict
+     * is logged to reviews (so recall feeds the weighted selection and
+     * the performance metric). Mirrors quest-run/route-run, but recall
+     * has no highscore, so the response is just the verdict.
+     *
+     * @param array<string, mixed> $body
+     * @return array{correct: bool}
+     */
+    public function selfGrade(int $userId, int $cardId, array $body): array
+    {
+        $stmt = $this->pdo->prepare(
+            "SELECT id FROM cards WHERE id = ? AND user_id = ? AND type = 'recall'"
+        );
+        $stmt->execute([$cardId, $userId]);
+        if ($stmt->fetch() === false) {
+            throw new ApiError(404, 'not_found', "Recall card $cardId not found");
+        }
+        $correct = $body['correct'] ?? null;
+        if (!is_bool($correct)) {
+            throw new ApiError(400, 'validation', 'correct must be a boolean');
+        }
+        $stmt = $this->pdo->prepare(
+            'INSERT INTO reviews (card_id, user_id, was_correct) VALUES (?, ?, ?)'
+        );
+        $stmt->execute([$cardId, $userId, $correct ? 1 : 0]);
+        return ['correct' => $correct];
     }
 
     /**
@@ -342,8 +391,8 @@ final class Cards
             $where[] = 'dc.card_id IS NULL';
         }
         if (isset($filters['type'])) {
-            if (!in_array($filters['type'], ['mc', 'text', 'match', 'quest', 'route'], true)) {
-                throw new ApiError(400, 'validation', "type must be mc, text, match, quest or route");
+            if (!in_array($filters['type'], ['mc', 'text', 'match', 'quest', 'route', 'recall'], true)) {
+                throw new ApiError(400, 'validation', "type must be mc, text, match, quest, route or recall");
             }
             $where[] = 'c.type = ?';
             $params[] = $filters['type'];
@@ -416,6 +465,22 @@ final class Cards
             'max_messages' => $maxMessages,
             'lang' => $lang,
         ];
+    }
+
+    private function validateRecallAnswer(mixed $answer): string
+    {
+        if (!is_string($answer) || trim($answer) === '') {
+            throw new ApiError(400, 'validation', 'answer_md must be a non-empty string');
+        }
+        return $answer;
+    }
+
+    private function replaceRecall(int $cardId, string $answerMd): void
+    {
+        $stmt = $this->pdo->prepare(
+            'REPLACE INTO recall_cards (card_id, answer_md) VALUES (?, ?)'
+        );
+        $stmt->execute([$cardId, $answerMd]);
     }
 
     /** @return array{graph_name: string, start_node: string, goal_node: string} */
@@ -631,6 +696,18 @@ final class Cards
                 $card['graph_name'] = $spec['graph_name'];
                 $card['start_node'] = $spec['start_node'];
                 $card['goal_node'] = $spec['goal_node'];
+            }
+        } elseif ($row['type'] === 'recall') {
+            // recall keeps answer_md even in quiz form: there is no
+            // server-side grading to protect, and the client reveals
+            // the reference answer for the learner to self-assess.
+            $stmt = $this->pdo->prepare(
+                'SELECT answer_md FROM recall_cards WHERE card_id = ?'
+            );
+            $stmt->execute([$cardId]);
+            $answer = $stmt->fetchColumn();
+            if ($answer !== false) {
+                $card['answer_md'] = $answer;
             }
         } elseif (!$quiz) {
             $stmt = $this->pdo->prepare(

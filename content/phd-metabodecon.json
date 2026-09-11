@@ -1,13 +1,13 @@
 {
   "dirs": [
-    "PhD",
-    "PhD/metabodecon"
+    "phd",
+    "phd/metabodecon"
   ],
   "dir_links": [],
   "cards": [
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "What gap does metabodeconplus fill relative to its predecessor MetaboDecon1D, and why is closing that gap non-trivial?",
@@ -15,7 +15,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "metabodeconplus aims to quantify peaks 'regardless of whether the corresponding metabolites are known.' Why is this deliberate design choice important, and what downstream advantage does it give over library-fitting approaches such as BATMAN, ASICS or Chenomx?",
@@ -23,7 +23,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "Describe the four stages of the metabodeconplus deconvolution algorithm and what each stage is responsible for.",
@@ -31,7 +31,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "metabodeconplus models each NMR signal as a Lorentzian line. Write the functional form it fits and explain why the Lorentzian is the physically correct choice for a liquid-state 1D NMR peak.",
@@ -39,7 +39,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "In metabodeconplus the Lorentzian parameters for each peak are obtained in closed form from three observed points rather than by nonlinear least squares. How does this work, and what numerical pitfall does the implementation specifically guard against?",
@@ -47,7 +47,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "When the initial Lorentzian estimates for all detected peaks are superimposed, their sum systematically *exceeds* the observed spectrum. Why, and how does the algorithm correct it?",
@@ -55,7 +55,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "A key change from MetaboDecon1D is that metabodeconplus smooths the spectrum only for peak *detection* and fits the Lorentzians to the raw intensities. Why does this matter, and whose observation motivated it?",
@@ -63,7 +63,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "What is the role of the peak *score* and the δ (delta) parameter in filtering, and what failure modes lie at the two extremes of δ?",
@@ -71,7 +71,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "Why does metabodeconplus provide an optional Rust backend, and what is the honest caveat about its results?",
@@ -79,7 +79,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "Quantify the runtime gains metabodeconplus achieves over MetaboDecon1D, and explain how parallelization was designed and why.",
@@ -87,7 +87,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "List the four tunable deconvolution parameters and describe the unsupervised parameter-optimization procedure, including why minimizing the area ratio alone is not enough.",
@@ -95,7 +95,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "Why is npmax the single most critical parameter a user must set, and how should it be chosen for, say, blood plasma versus urine?",
@@ -103,7 +103,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "In supervised parameter optimization, why does metabodeconplus use a random forest (ranger) rather than a linear classifier, and what does the out-of-bag error buy?",
@@ -111,7 +111,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "maxShift and maxCombine are the two alignment parameters. Why does the paper argue tuning them is 'in general not redundant,' yet recommend *not* tuning all three parameters (npmax, maxShift, maxCombine) jointly in practice?",
@@ -119,7 +119,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "What does the sentinel value maxShift = -1 trigger, and how does the adaptive sweep decide when to stop?",
@@ -127,7 +127,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "Describe the three optimizations that keep fit_mdm()'s runtime reasonable.",
@@ -135,7 +135,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "Why is alignment needed at all after deconvolution, and why does metabodeconplus need *two* alignment steps (CluPA then snap_to_ref) rather than one?",
@@ -143,7 +143,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "Explain how CluPA works: what defines its segments, how the optimal shift per segment is found, and when the recursion stops.",
@@ -151,7 +151,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "What exactly does snap_to_ref do, what is the meaning of maxCombine, and what information can be lost?",
@@ -159,7 +159,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "Both clupa() and snap_to_ref() align toward a *fixed reference* spectrum. Why is this design choice valuable in practice?",
@@ -167,7 +167,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "Define PRARPX and explain why it was devised — what do PR alone and AR alone each fail to capture?",
@@ -175,7 +175,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "Why can PRARPX never reach 1 on a realistic (noisy) spectrum, even with optimal parameters? Name the two distinct ceilings.",
@@ -183,7 +183,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "The Sim2 benchmark dataset was carefully engineered. How is it constructed, what realistic perturbations does it include, and what is the purpose of the three 'discriminating peaks'?",
@@ -191,7 +191,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "What is 'snap purity' and how was it measured on Sim2 to evaluate alignment quality directly?",
@@ -199,7 +199,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "On the real AKI cohort, metabodeconplus was benchmarked against an equidistant-binning baseline. Summarise the comparison and the headline result.",
@@ -207,7 +207,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "If metabodeconplus only *matches* the binning baseline on accuracy, what is the actual advantage of the peak-based feature matrix, and why does it matter scientifically and clinically?",
@@ -215,7 +215,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "Why must deconvolution precede alignment in the metabodeconplus pipeline, rather than aligning the raw spectra first (as e.g. speaq/CluPA is normally used)?",
@@ -223,7 +223,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "How does metabodeconplus differ from deep-learning deconvolution tools such as DEEP Picker1D or Bruker's mldecon, and what are the respective trade-offs?",
@@ -231,7 +231,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "Contrast metabodeconplus's peak-based feature extraction with spectral binning (bucketing) as a general strategy. Give at least two advantages and one situation where binning might still be preferred.",
@@ -239,7 +239,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "recall",
       "question_md": "What are the stated limitations of metabodeconplus that you would want to acknowledge at a defense?",
@@ -247,7 +247,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "mc",
       "question_md": "In metabodeconplus's Lorentzian A·λ/((ω−ω0)²+λ²), which quantity is proportional to the *integral* used for metabolite quantification?",
@@ -272,7 +272,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "mc",
       "question_md": "Which statement about the feature matrix zeros that motivates the random-forest classifier is correct?",
@@ -297,7 +297,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "text",
       "question_md": "What pulse sequence was used for the Blood plasma spectra, and what is its key property for plasma? (Name the acronym.)",
@@ -309,7 +309,7 @@
     },
     {
       "dirs": [
-        "PhD/metabodecon"
+        "phd/metabodecon"
       ],
       "type": "mc",
       "question_md": "Why does CluPA alone fail to guarantee that corresponding peaks across spectra share an exact chemical shift?",

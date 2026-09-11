@@ -29,11 +29,11 @@ def _free_port() -> int:
         return sock.getsockname()[1]
 
 
-@pytest.fixture(scope="session")
-def server() -> dict:
-    """Start the API on a random port with a fresh database."""
+def start_api(db_name: str):
+    """Create a fresh database, migrate it, seed a token, and start the
+    API on a random port. Returns (process, {"url", "token"}); the
+    caller terminates the process."""
     env = os.environ.copy()
-    db_name = "pauk_cli_test"
     env.setdefault("PAUK_DB_HOST", "127.0.0.1")
     env.setdefault("PAUK_DB_PORT", "33068")
     env.setdefault("PAUK_DB_USER", "root")
@@ -82,7 +82,14 @@ def server() -> dict:
     else:
         proc.terminate()
         raise RuntimeError("API server did not come up")
-    yield {"url": base, "token": token}
+    return proc, {"url": base, "token": token}
+
+
+@pytest.fixture(scope="session")
+def server() -> dict:
+    """The shared API for the session, on a fresh database."""
+    proc, info = start_api("pauk_cli_test")
+    yield info
     proc.terminate()
     proc.wait(timeout=10)
 

@@ -254,6 +254,14 @@ class Client:
         self._invalidate()
         return result
 
+    def self_grade(self, card_id: int, correct: bool) -> dict:
+        result = self._call(
+            "POST", f"/cards/{card_id}/self-grade",
+            json={"correct": correct},
+        )
+        self._invalidate()
+        return result
+
     def close(self) -> None:
         self._http.close()
 

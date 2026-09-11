@@ -125,6 +125,18 @@ StatusBar {
     text-style: bold;
 }
 
+#recall {
+    padding: 1 2;
+}
+
+#recall-question {
+    margin-bottom: 1;
+}
+
+#recall-answer {
+    margin-top: 1;
+}
+
 #settings {
     padding: 1 2;
 }

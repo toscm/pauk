@@ -94,6 +94,11 @@ final class App
                 return Http::json($response, $cards->answer($userId, (int) $args['id'], Http::body($request)));
             });
 
+            $group->post('/cards/{id:[0-9]+}/self-grade', function (Request $request, Response $response, array $args) use ($repos) {
+                [, $userId, , $cards] = $repos($request);
+                return Http::json($response, $cards->selfGrade($userId, (int) $args['id'], Http::body($request)));
+            });
+
             $group->post('/cards/{id:[0-9]+}/quest-run', function (Request $request, Response $response, array $args) use ($repos) {
                 [$pdo, $userId] = $repos($request);
                 $body = Http::body($request);
