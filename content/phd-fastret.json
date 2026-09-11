@@ -1,0 +1,214 @@
+{
+  "dirs": ["PhD", "PhD/FastRet"],
+  "dir_links": [],
+  "cards": [
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "What is FastRet, what problem does it solve, and which three related tasks does it implement?",
+      "answer_md": "FastRet is an R package (on CRAN, plus a bundled Shiny web app at fastret.spang-lab.de) that predicts liquid-chromatography retention times (RT) from molecular structure, to support feature annotation in LC-MS untargeted metabolomics. Because RTs depend on the chromatographic setup and cannot be looked up in databases like accurate masses can, FastRet lets a lab build its own predictor and use the predicted RT as a second, orthogonal filter on candidate identities (excluding candidates whose predicted RT deviates strongly from the observed one). It implements three tasks: (1) training an RT model from scratch from a list of SMILES + measured RTs; (2) selective measuring — recommending the most informative subset of compounds to (re)measure under a limited budget; and (3) model adjustment — adapting an existing model to slightly modified chromatographic conditions from a small set of re-measured compounds. Training and prediction complete in seconds on a single CPU core."
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "Why can retention times not simply be retrieved from a database the way accurate masses and MS/MS spectra can, and what does this imply for RT prediction?",
+      "answer_md": "Unlike an accurate mass or a fragmentation spectrum, which are intrinsic to a molecule, an RT is a property of the molecule *on a particular chromatographic system*. It depends on numerous, constantly changing factors: stationary-phase properties (particle size, bonded functional groups), mobile-phase conditions (composition, gradient, flow rate), column dimensions, temperature, the separation mechanism (RP vs HILIC vs mixed-mode), and the system void volume. Even batch-to-batch column ageing shifts RTs. Measuring every candidate standard on every system is impractical and expensive, and suitable standards are not always commercially available. This means an RT predictor is inherently tied to one setup — a model must be retrained or adjusted whenever the column or conditions change — and it is why FastRet frames RT prediction as a per-system modelling problem rather than a universal lookup."
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "How does RT prediction fit into the metabolite-identification confidence framework (MSI levels), and why is it valuable in untargeted metabolomics?",
+      "answer_md": "Untargeted LC-MS metabolomics detects far more features than can be confidently identified — da Silva et al. estimated only ~1.8% of spectra in an untargeted experiment get annotated. The Metabolomics Standards Initiative (Sumner et al. 2007) defines four confidence levels; level 1 requires two orthogonal data (e.g. RT and mass spectrum) matched against an authentic standard measured under identical conditions. A meta-analysis (Kodra et al. 2022) of 1770 papers found only ~20% reached level 1, the limiting factor being the cost and availability of authentic standards. Tentative annotation from accurate mass alone yields many isobaric/isomeric candidates. A predicted RT provides the orthogonal second dimension computationally: candidates whose predicted RT is far from the observed RT can be excluded, prioritising candidates and reducing false positives without needing every standard in hand. It accelerates annotation and cuts cost, though it does not by itself give definitive identification."
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "What features does FastRet use to predict RT, how are they computed, and why are they chemically meaningful?",
+      "answer_md": "FastRet represents each compound by a vector of chemical (molecular) descriptors computed from its SMILES string. It uses 241 descriptors from the Chemistry Development Kit via the rcdk R wrapper (the set is all rcdk/rcdklibs descriptors minus those that errored on any library compound). They span constitutional, topological, electrotopological and physicochemical families: molecular weight and molar refractivity; lipophilicity estimates (XLogP, ALogP, MLogP); topological polar surface area (TopoPSA); hydrogen-bond donor/acceptor counts (nHBDon, nHBAcc); counts of rotatable bonds, rings, aromatic atoms, acid/base groups; Kier-Hall electrotopological-state (E-state) atom-type counts; Kier shape (kappa) and chi connectivity indices; BCUT descriptors; Moreau-Broto autocorrelations; etc. These are chemically meaningful because RT on a given column is governed by the same physicochemical interactions the descriptors encode — e.g. lipophilicity (logP) drives hydrophobic retention in reversed phase, while polar surface area and H-bonding capacity govern HILIC retention — so they act as surrogates for the molecule-stationary-phase interactions that determine elution."
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "Why did FastRet use rcdk/CDK for descriptor computation rather than PaDEL, Mordred, RDKit or Dragon/alvaDesc?",
+      "answer_md": "The driving criterion was keeping FastRet a single, easy-to-install R dependency. rcdk is, to the authors' knowledge, the only molecular-descriptor engine callable directly from within R; the apparent R-native alternative Rcpi itself just delegates to rcdk. PaDEL, Mordred, RDKit and the commercial Dragon/alvaDesc all require a separate Python or Java toolchain. CDK is written in Java, but rcdk fully abstracts that away, so the user never manages a second toolchain. This is a deliberate usability/maintainability trade-off: richer or more modern descriptor sets exist, but they would complicate installation and the package's reproducibility, which conflicts with FastRet's goal of a fast, practical, low-friction metabolomics tool."
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "How does FastRet handle descriptor computation efficiency and missing descriptor values?",
+      "answer_md": "For speed, FastRet caches descriptor values keyed by SMILES string, so repeated requests for known compounds become cache lookups and only previously unseen SMILES are evaluated with rcdk; computation for new compounds can also be parallelised across workers. Together with the models' fast fitting this keeps typical training to a few seconds. Some descriptors cannot be computed for every structure, giving missing values, which are mean-imputed using the training-data mean of that descriptor. This is defensible because the affected fraction is tiny: across 1317 compounds only ~0.43% of the 241 x n cells were undefined, and nearly all of those belong to a single descriptor that needs a 3D geometry FastRet does not generate — being undefined for every compound it is always dropped during training, never imputed. Only 35 values (0.011%), across 13 descriptors and 4 compounds, are actually imputed. Descriptors with near-zero variance are also filtered (≈101 removed), leaving ~139 retained for modelling."
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "Which two model families does FastRet offer for from-scratch training, and why provide both rather than a single 'best' model?",
+      "answer_md": "FastRet offers a linear model — Lasso (L1-penalised linear regression via glmnet) — and a non-linear model — Boosted Regression Trees (BRT, via xgboost, i.e. gradient-boosted trees). Both are offered because the optimal model depends on the column chemistry and conditions: some retention relationships are approximately linear in the descriptors (favouring Lasso's interpretable, sparse linear fit), while others are non-linear or involve feature interactions (favouring BRT). Both families are well suited to the high-dimensional p-greater-than-n regime with built-in feature selection, so no separate descriptor pre-selection or dimensionality reduction is needed: Lasso's L1 penalty shrinks most coefficients to zero, and BRT weights features by their split-gain contribution and is robust to correlated and uninformative descriptors. Offering both lets the user (or cross-validated comparison) pick what fits their data."
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "Describe how FastRet fits its Lasso and BRT models, including hyperparameter selection and the nested cross-validation used for performance estimation.",
+      "answer_md": "Lasso is fit with glmnet: the L1 penalty parameter λ is chosen by internal (ten-fold) cross-validation over 100 candidate values, then the model is refit at the selected λ (lambda.min). BRT is fit with xgboost using default hyperparameters except nrounds (number of boosting iterations), which is optimised by internal cross-validation with early stopping — training halts once the cross-validated error stops improving, avoiding wasted boosting rounds. By default FastRet also returns an outer cross-validated performance estimate; because the inner fits themselves use CV for hyperparameter selection, this is a nested cross-validation, which gives an unbiased estimate of generalisation. Outer folds can be trained in parallel via the number-of-workers (nw) parameter. For the dataset sizes here, Lasso fitting typically finishes in under a second; full training with default CV performance estimation is ~2.6-2.8 s."
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "In FastRet's experiments, how do BRT and Lasso compare, and why is BRT described as the more stable choice?",
+      "answer_md": "At small training sizes (up to ~50 metabolites) BRT and Lasso perform similarly in R² and MAE. As training sets grow, BRT consistently pulls ahead: on the full training sets BRT reached test R² of 0.86 (RP), 0.81 (HILIC) and 0.66 (RP-AXMM) versus Lasso's 0.75, 0.73 and 0.40, with RP/HILIC BRT performance plateauing around ~100 metabolites. Even where median differences at n=25 are small, BRT is more stable: its R² distribution across random subsets is narrower with far fewer negative outliers, and it achieves a significantly higher mean R² on all three datasets (paired t-test). The mechanistic reason is extrapolation: Lasso is linear and can produce extreme outlier predictions for compounds whose descriptor values fall outside the training range, whereas BRT predictions are naturally bounded to the range of RTs seen in training, so it degrades gracefully rather than catastrophically."
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "Why does FastRet train a single global model rather than local models restricted to structurally similar compounds?",
+      "answer_md": "In untargeted metabolomics the analytes are, by definition, unknown and chemically diverse — you do not have a known target around which to build a neighbourhood of structurally similar training compounds. A local-modelling (read-across) strategy needs a per-target training set of similar molecules, which is unavailable when the very goal is to annotate unidentified features spanning many compound classes. FastRet therefore trains one global model per chromatographic setup, covering the whole descriptor space, accepting that this requires the model's integrated feature selection and regularisation to handle heterogeneity. The trade-off is that prediction is only reliable for compound classes represented in the training data — a point the paper stresses: training-set *composition* matters as much as size."
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "Explain FastRet's selective measuring strategy: the goal, the two-step algorithm, and why Ridge (not Lasso) is used for feature weighting.",
+      "answer_md": "Goal: under a limited measurement budget, pick the k most informative compounds (from a pool of N measured under similar conditions) to measure on a new setup, since each measurement costs time and reagents. Two-step algorithm: (1) fit a Ridge regression of RT on the chemical descriptors and use the coefficients to scale (weight) each feature, emphasising descriptors relevant to RT; (2) cluster the compounds in this weighted descriptor-plus-RT space with k-medoids (PAM, Euclidean distance) and select one representative (the medoid) per cluster. Ridge is used rather than Lasso because Ridge only shrinks less-informative features rather than eliminating them: under a *different* chromatographic condition the set of informative features may change, so zeroing features that look uninformative in the base data would be premature. The selection spans the observed RT range and the relevant descriptor variation, both important for training."
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "What are the selective-measuring variants SM0, SM1, SMmax and SMinf, and which is recommended for practice?",
+      "answer_md": "They differ in how much weight the (standardized) RT feature gets during clustering, controlled by rt_coef. SM0 (rt_coef=0) drops RT entirely and clusters on descriptors only. SM1 (rt_coef=1) keeps the standardized RT unchanged alongside the weighted descriptors. SMmax scales RT by the largest absolute Ridge coefficient, so RT is weighted comparably to the most important descriptor. SMinf zeroes all other features so RT is 'infinitely' more important — clustering is effectively on RT alone. Empirically, SM1 gave the best gains over random selection for training *from scratch* with 25 compounds; SMinf did best on the RP/RPB pair (whose conditions differ only in gradient start, so RT alone is highly informative). However, SMmax gives the most robust performance when selective measuring is combined with model adjustment, so SMmax is the recommended strategy for practical use. All SM variants produce much narrower R² distributions than random selection."
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "Why does selective measuring use k-medoids (PAM) rather than k-means for choosing compounds to measure?",
+      "answer_md": "The deliverable of selective measuring is a list of *actual compounds to physically measure*. k-medoids (Partitioning Around Medoids, from the R cluster package) chooses real data points as cluster centres (medoids), so each cluster centre is itself a concrete metabolite that can be ordered and run on the instrument. k-means centres are arithmetic means in feature space and generally correspond to no real molecule, so they could not be measured. Using medoids therefore directly yields representative, measurable metabolites that span the chemical/RT diversity of the pool. PAM is run on the Ridge-weighted descriptor-plus-RT feature space using Euclidean distances."
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "What is the model adjustment problem, and in what TWO ways does FastRet's adjustment go beyond prior projection methods (PredRet, Osipenko, Zhang)?",
+      "answer_md": "Model adjustment adapts an existing RT model for an original setup to slightly modified chromatographic conditions using a small set of compounds re-measured under both. When the condition change is minor, original-setup RTs remain informative about the new ones. Prior projection methods (Stanstrup/PredRet, Osipenko, Zhang) learn a mapping from base RT directly to adjusted RT (RT-to-RT). FastRet extends this in two ways: (1) its adjustment model predicts the new RT from the base RT *together with the compound's chemical descriptors*, g(x,y) using both — hence 'adjustment' rather than 'projection' — which lets it capture compound-specific shifts the base RT alone cannot. (2) At prediction time it operates on a *predicted* base RT (from the base model applied to descriptors), not a measured one, so it can adjust predictions even for compounds that were never measured under the original conditions — whereas pure projection requires every query compound to have a measured base RT. The adjustment model itself can be linear (α+βy, base RT only), Lasso, or BRT."
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "When does a descriptor-aware adjustment (Lasso/BRT) outperform a plain linear (base-RT-only) adjustment, and what does this reveal about the information content of the base RT?",
+      "answer_md": "It depends on how strongly base and target RTs correlate. For the RP/RPB pair the base RT almost perfectly predicts the target RT (r=0.994); there the Lasso/BRT adjustments only match the linear model and select almost no descriptors beyond the base RT — confirming regularisation adds features only when they improve on the base RT. For weakly correlated pairs — most clearly RP to RP-AXMM (r=0.797, different retention mechanism), and to a lesser extent HILIC-Retip to HILIC (r=0.926) — the descriptor-based models increasingly beat the linear adjustment as the training set grows, showing the descriptors carry retention-relevant information the base RT alone lacks. So: when the setup change merely rescales retention, base RT is near-sufficient; when it changes the retention mechanism, molecular structure must be reintroduced. This is exactly the behaviour that lets one framework span the projection regime (few compounds, linear) and the structural regime (more compounds, descriptors)."
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "For adjustment from a small re-measurement set (~25 compounds), which adjustment model does FastRet recommend and why?",
+      "answer_md": "For small adjustment sets such as 25 compounds, FastRet recommends the linear/Lasso adjustment rather than a BRT adjustment. The best-performing combination was a BRT base model with SMmax-selected compounds and a Lasso (descriptor-aware) adjustment; a plain linear fit (intercept + slope on base RT) is already competitive because it estimates only two parameters and so needs very few compounds for a stable fit, performing well when the base-to-adjusted RT relationship is approximately linear. BRT as the *adjustment* model needs more data to fit reliably and tends to overfit tiny adjustment sets. When the RT shift is non-linear or compound-specific, the Lasso adjustment (base RT + descriptors) beats the plain linear one while still being stable. Crucially, adjusting a full base model with only 25 re-measured compounds approached full from-scratch performance (e.g. median R² ≈0.87 RP, 0.70 HILIC, 0.54 RP-AXMM), far better than training from scratch on 25 compounds."
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "Why does FastRet evaluate performance with dedicated train/test datasets instead of plain cross-validation?",
+      "answer_md": "Because adjusted-model performance depends on predictions from *both* the base model and the adjustment model, an unbiased estimate requires that test compounds appear in neither the base set nor the adjustment-training set. Plain cross-validation would need paired folds of both base and training data, greatly increasing complexity and reducing interpretability. The evaluation is further constrained by the selective-measuring simulation: every compound in the base set (the pool for selective measuring) must also be available in the training set because any base compound might be recommended for re-measurement at a given subset size, and every training compound must be in the base set to evaluate adjustment. Together these force the base and training datasets to contain identical compound sets, with a disjoint test set — a constraint that dedicated splits express cleanly but folded cross-validation would not."
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "How does FastRet clip its predicted RTs, and why is clipping needed?",
+      "answer_md": "Predicted RTs are clipped to a plausible range derived from the training data. FastRet fits a log-normal distribution to the observed training RTs and takes lower/upper bounds as extreme quantiles (≈0.0005 and 0.9995) of that fit, then adjusts them so the lower bound lies between 0 and the observed minimum (and not below 1% of it) and the upper bound is at least the observed maximum; predictions are then clamped into [lower, upper]. Clipping is needed chiefly to contain the linear model's extrapolation failures: Lasso can output physically implausible (even negative) RTs for compounds whose descriptors fall outside the training range. For adjusted models the base prediction is clipped, fed to the adjustment model, and the adjustment output is clipped again using the adjustment model's own training data. (BRT is naturally bounded, so clipping matters most for Lasso.)"
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "Summarise the independent adjustment-validation experiment (datasets 6-18) and its main finding.",
+      "answer_md": "To validate adjustment independently of the paired-split simulation, 25 metabolites were selected from an early version of the RP dataset with the SM1 strategy and re-measured under six modified conditions (datasets 6-11) differing in flow rate, temperature and gradient steepness. A separate validation set of 22 *new* metabolites (not in the original RP dataset) was measured under the same six conditions (datasets 12-18). The model trained on the full RP dataset was adjusted using the 25 re-measured compounds (BRT base + Lasso adjustment) and evaluated on the 22 unseen validation metabolites. Main finding: the adjusted BRT-Lasso model outperformed a BRT trained from scratch on just the 25 re-measured compounds, and except for one condition reached R² ≈0.81-0.84 — comparable to full from-scratch RP training (R²≈0.86) — while using only 25 re-measured compounds. This demonstrates robust within-lab adjustment to new conditions from a handful of measurements, on truly held-out molecules."
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "How does FastRet compare against Retip, DeepGCN-RT and a PredRet-like projection, both from scratch and in the low-data transfer setting?",
+      "answer_md": "Trained from scratch on full training sets, all descriptor- and graph-based methods are competitive: FastRet-BRT and the more heavily tuned Retip-xgboost differ only marginally (both fit boosted trees on CDK descriptors), and enabling FastRet's built-in grid search (FastRet-BRT-GS) reproduces Retip-xgboost (e.g. R²=0.74 vs 0.74 on RP-AXMM). In the low-data transfer/adjustment regime (25-50 selected compounds for a new setup), FastRet is the strongest structure-based method and, with the PredRet-like projection, the only one applicable to the cross-library HILIC pair where target compounds were never measured in the base setup. Methods trained from scratch on so few compounds fail badly: Retip's grid search degenerates to near-constant predictions and Retip-keras gives wildly negative R²; DeepGCN-RT (fine-tuned on ~70-410 compounds normally) stays competitive on RP pairs but turns negative on HILIC transfer. FastRet is also by far the most economical — 1-2 s on a single core, versus competitors needing 16 cores and tens (Retip) to thousands (DeepGCN-RT) of seconds."
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "What is the PredRet-like baseline in the benchmark, and what fundamental limitation of projection methods does it illustrate?",
+      "answer_md": "The PredRet-like baseline keeps PredRet's idea of a monotone-spline projection of RTs between datasets, but because the published PredRet requires every query compound to have been *measured* in the base dataset — which was not the case here — the baseline was fed base-dataset RTs *predicted* by a FastRet BRT model from descriptors, rather than measured ones. This illustrates the core limitation of pure projection methods: they use RT as the only input, so a molecule never measured on the source system has no base RT to project and is simply out of scope. The PredRet-like projection helps only on the highly correlated reversed-phase pairs and can even degrade where elution order is less conserved; FastRet's descriptor-aware adjustment avoids the coverage limitation entirely (it predicts the base RT) and wins once more anchor compounds are available."
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "What did the cross-lab RepoRT validation (12 RP + 2 HILIC datasets) show about how FastRet generalises, and how should generalisation claims be framed?",
+      "answer_md": "FastRet was validated on 14 public RepoRT datasets (12 reversed-phase columns from five manufacturers, 2 amide-HILIC), from independent labs and instruments, keeping only columns sharing enough molecules with the in-house library. Trained from scratch on shared compounds it reached median held-out R² of 0.60 (RP) and 0.58 (HILIC); adjusting an in-house model from only 25-50 re-measured compounds performed comparably (e.g. adjust-50 median RP R²=0.65). Performance varied — predictions degraded for compound classes underrepresented in the training data, and a column run with a much longer gradient than any in training stayed hard to predict. The correct framing: FastRet generalises across labs and platforms as a *method* to be retrained or adjusted per chromatographic system (typically from a handful of re-measured compounds), not as a single portable model. A new lab can get a working model from a few measurements rather than a full retraining."
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "What do the fitted models' descriptor signatures reveal, and how does this address the high descriptor-to-sample ratio?",
+      "answer_md": "Despite 241 input descriptors, the fitted models are sparse. From-scratch Lasso models retained only 15-41 descriptors with non-zero coefficients (e.g. 18 for RP), and gradient boosting concentrated its importance (split gain) on a comparably small set. Across models the dominant features are lipophilicity indices — XLogP and ALogP — which is mechanistically expected for reversed-phase retention, where hydrophobic interaction with the C18 phase governs elution order. This sparsity shows the models' integrated feature selection (Lasso's L1 penalty; BRT's gain-based weighting) effectively controls the high descriptor-to-sample ratio without any separate pre-selection step, and it gives interpretable, chemically sensible signatures. For the strongly correlated RP adjustment, the models select essentially only the base RT, confirming they add structural features only when these genuinely improve prediction."
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "Describe the three in-house datasets and the external dataset used to validate FastRet, and why performance differs across them.",
+      "answer_md": "Four core datasets come from measuring metabolite standards on columns with different separation mechanisms on a Dionex UHPLC / Bruker Maxis QTOF-MS: RP (reversed phase, HSS-T3 column, N=458), RP-AXMM (reversed-phase/anion-exchange mixed-mode, BEH C18 AX, N=436), and HILIC (BEH-Amide, N=388). A fifth, external dataset is HILIC-Retip (from Bonini et al.'s Retip package, same BEH-Amide chemistry, N=970). Dataset sizes differ because not all metabolites are detectable under every condition. Performance differs by mechanism: RP is easiest (R²≈0.86) because retention is dominated by lipophilicity, which descriptors capture well; HILIC is intermediate (≈0.81); RP-AXMM is hardest (≈0.66) because its mixed-mode retention adds electrostatic (anion-exchange) interactions driven by analyte charge that the structure descriptors — and the RP-based compound selection — capture less well. Further validation used 25 re-measured + 22 new metabolites under six conditions, plus 14 external RepoRT datasets."
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "Why is RP-AXMM (reversed-phase / anion-exchange mixed-mode) the hardest of the three separation modes for FastRet to predict?",
+      "answer_md": "RP-AXMM combines two retention mechanisms on one column: hydrophobic (reversed-phase) interaction and electrostatic anion-exchange interaction. Hydrophobic retention is well captured by lipophilicity descriptors (XLogP/ALogP), but the anion-exchange component depends on analyte charge state and ionic interactions with the grafted anion-exchange groups, which the CDK descriptor set encodes less directly and which are sensitive to mobile-phase pH and ionic strength. As a result RT is a more complex, partly non-monotone function of structure (test R²≈0.66 vs 0.86 for RP). This also hurts transfer: the compound preselection for RP-AXMM in the experiments was based on RP data that do not account for electrostatic interactions, and the RP-to-RP-AXMM base RT correlation is weak (r=0.797), so adjustment from RP is harder than between RP variants. It is consistent with the general point that mixed-mode retention is intrinsically more challenging to model."
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "What are FastRet's stated limitations and the proposed directions for future work?",
+      "answer_md": "Limitations: model quality is fundamentally constrained by (1) descriptor quality — the CDK descriptors are approximate surrogates and one descriptor requiring 3D geometry is unavailable — and (2) measurement coverage — predictions are only reliable for compound classes represented in the training data, so training-set composition matters as much as size, and sparsely represented classes (and very different gradients) predict poorly. FastRet is a method to retrain/adjust per system, not a universal portable model. Proposed future work: adjustment using multiple base datasets simultaneously; and training the adjustment model on *predicted* rather than matched base-model RTs when paired measurements are unavailable. More generally, better molecular descriptors and larger high-quality RT libraries would directly improve both prediction and adjustment in future releases."
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "How is FastRet made accessible to non-programmers, and what do the web-GUI tabs do?",
+      "answer_md": "FastRet ships both as an R package (console API) and as a bundled Shiny web application, hosted at fastret.spang-lab.de and launchable locally with FastRet::start_gui(). The GUI has four tabs matching the workflows. Train: upload an Excel file with NAME, SMILES and RT columns, pick the model family (XGBoost/BRT or Lasso) and a seed, and train; it shows cross-validation and training performance (measured vs predicted RT with R², MSE, MAE) and the descriptor table, and the model is downloadable. Select: upload candidate compounds and get the k most representative medoids (ridge-weighted PAM clustering) to measure, exportable to Excel. Adjust: upload an existing model plus compounds re-measured under new conditions and choose the adjustment family (Lasso recommended, XGBoost, or linear) to produce an adjusted model. Predict: apply a trained/adjusted model to a single SMILES or a batch Excel file and export predicted RTs. A fixed default seed makes runs reproducible."
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "Give the worked example from the paper showing FastRet used for real annotation.",
+      "answer_md": "A NIST SRM1905 plasma extract was analysed by RP-UHPLC-QTOF-MS with electrospray ionisation in negative mode, and two peaks were examined. For m/z 236.093 (assumed [M-H]-), an HMDB search within 1 ppm gave eight candidates; three had a predicted RT within ±0.5 min of the observed 7.11 min, and among those N-lactoylphenylalanine was confirmed as the correct identity using an authentic standard spiked into the extract. For m/z 263.1048 (assumed [M-H]-), an HMDB search within 4 ppm gave four candidates; one, phenylacetylglutamine, had a predicted RT within ±0.5 min of the observed 5.795 min and was likewise confirmed with an authentic standard. This illustrates the intended use: accurate-mass database search produces candidates, and the predicted RT narrows them to a short list (or a single candidate) for targeted confirmation."
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "Within the thesis author's own contribution, what parts of FastRet are claimed, and what deliberately is not?",
+      "answer_md": "The thesis declares roughly a 50% share, with F. Fadil and the author contributing equally. The author's specific methodological claim is narrow and deliberate: he proposed the *inclusion of chemical descriptors in the model adjustment* — i.e. the design of the descriptor-aware adjustment model, the first of the two adjustment extensions. He also developed the FastRet R package (all 135 commits are his), deployed the web application for versions after 0.90.1, submitted the package to CRAN, and conducted the performance and runtime benchmarks, and co-wrote the paper. What is explicitly *not* claimed: the second adjustment extension (using a predicted rather than measured base RT), and the selective-measuring contribution, which was a group effort first implemented by C. Amesoeder. Being clear about this boundary is exactly the kind of thing to have straight for a defense."
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "mc",
+      "question_md": "For adjusting a FastRet model to a new chromatographic condition using only ~25 re-measured compounds, which adjustment model does the paper recommend?",
+      "options": [
+        {"text_md": "A BRT (gradient-boosted trees) adjustment, because it is the most stable from-scratch learner", "correct": false},
+        {"text_md": "A Lasso (descriptor-aware, regularised linear) adjustment on top of a BRT base model", "correct": true},
+        {"text_md": "A deep graph neural network fine-tuned on the 25 compounds", "correct": false},
+        {"text_md": "No adjustment model — retrain entirely from scratch on the 25 compounds", "correct": false}
+      ]
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "mc",
+      "question_md": "Which molecular descriptors most dominate FastRet's model importance on reversed-phase data, and why does that make chemical sense?",
+      "options": [
+        {"text_md": "Lipophilicity indices (XLogP, ALogP), because RP retention is governed by hydrophobic interaction with the nonpolar stationary phase", "correct": true},
+        {"text_md": "Hydrogen-bond donor/acceptor counts, because RP retention is governed by H-bonding to silanols", "correct": false},
+        {"text_md": "Ring counts, because aromatic systems are the only things retained in RP", "correct": false},
+        {"text_md": "Molecular weight alone, because larger molecules always elute later in RP", "correct": false}
+      ]
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "text",
+      "question_md": "How many CDK molecular descriptors does FastRet compute per compound (the headline descriptor count used throughout the paper)?",
+      "accepted_answers": ["241"]
+    },
+    {
+      "dirs": ["PhD/FastRet"],
+      "type": "recall",
+      "question_md": "What is a QSRR model, and how does FastRet relate to the broader taxonomy of RT-prediction approaches?",
+      "answer_md": "QSRR = Quantitative Structure-Retention Relationship modelling: an empirical/statistical approach that derives numerical descriptors from molecular structure and fits a statistical or machine-learning model to predict retention, without needing a mechanistic model of the chromatography. Haddad et al. split RT prediction into physicochemical (mechanistic) models and statistical models; statistical models in turn use either experimental-design approaches (systematically varying chromatographic conditions) or QSRR (structure-based). FastRet is a QSRR method — it maps chemical descriptors to RT for a fixed setup. Separately, the literature has projection/transfer methods (PredRet, Osipenko, Zhang, Kretschmer) that move RTs between setups, and learned-representation methods (GNNs, transformers, Chemprop, DeepGCN-RT) that replace hand-crafted descriptors with learned ones. FastRet's distinctive position is combining classic descriptor-based QSRR with a descriptor-aware *adjustment* step, so one framework covers both de-novo training and low-data transfer, while staying fast and installable as a single R dependency."
+    }
+  ]
+}
