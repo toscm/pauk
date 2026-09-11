@@ -42,5 +42,17 @@ full-screen TUI. Tracked together; landed incrementally.
    prewarm + LLM streaming; keep IONOS; advise against
    SQLite-over-GitHub sync.
 
-9. [ ] Windows recipe + maps fallback/passthrough docs +
-   journey feature + upload. In progress.
+9. Windows recipe + maps fallback/passthrough docs + journey
+   feature + upload:
+   - [x] Upload + clone (`pauk upload` / `pauk clone`).
+   - [x] Reliable image fallback: `auto` mode drops to the
+     half-block renderer under tmux; configurable via
+     `image_mode` / `PAUK_IMAGE_MODE` / `tmux_image_passthrough`.
+     Passthrough setup documented in `docs/images.md`.
+   - [ ] Windows recipe — blocked on a design decision: toscpm
+     runs recipes through cmd.exe (`shell=True`), and has no
+     path that runs a shell/PowerShell script on Windows at all
+     (Windows no-admin installs go through in-process PyStep or
+     winget). So the drafted PowerShell recipe cannot run.
+     Options: (a) in-process PyStep recipe, (b) document WSL.
+   - [ ] Journey feature — needs a data-model design pass.

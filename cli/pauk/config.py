@@ -19,6 +19,13 @@ CONFIG_PATH = Path(
 
 DEFAULTS = {
     "statusbar_position": "bottom",   # "bottom" | "top"
+    # how card images are drawn: "auto" picks the best protocol the
+    # terminal supports, but inside tmux it falls back to the reliable
+    # half-block renderer unless tmux_image_passthrough is turned on
+    # (see docs/images.md). Force a specific renderer with "halfcell",
+    # "sixel", "tgp" or "unicode". Override per-run with PAUK_IMAGE_MODE.
+    "image_mode": "auto",
+    "tmux_image_passthrough": False,
 }
 
 

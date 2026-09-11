@@ -208,9 +208,10 @@ async def test_quiz_shows_image(client, tmp_path):
         await _pick(pilot, "imagedemo")
         await _settle(pilot)
         assert isinstance(app.screen, QuizScreen)
-        from textual_image.widget import Image as ImageWidget
+        # any renderer (auto / half-block under tmux / sixel) is fine
+        from textual_image.widget import BaseImage
 
-        assert len(app.screen.query(ImageWidget)) == 1
+        assert len(app.screen.query(BaseImage)) == 1
         assert media["url"] in app._image_cache
 
 

@@ -500,10 +500,8 @@ class QuizScreen(Screen):
         shown = 0
         for url in IMAGE_MD_RE.findall(question_md)[:2]:
             try:
-                from textual_image.widget import Image as ImageWidget
-
                 pil = self.app.image_for(url)
-                widget = ImageWidget(pil)
+                widget = self.app.image_widget_class()(pil)
                 widget.styles.height = 14
                 widget.styles.width = "auto"
                 holder.mount(widget)
@@ -823,12 +821,11 @@ class RouteScreen(Screen):
             import io
 
             from PIL import Image as PILImage
-            from textual_image.widget import Image as ImageWidget
 
             from pauk.route import render_route_png
 
             png = render_route_png(self.graph, self.node_path)
-            widget = ImageWidget(PILImage.open(io.BytesIO(png)))
+            widget = self.app.image_widget_class()(PILImage.open(io.BytesIO(png)))
             widget.styles.height = 18
             widget.styles.width = "auto"
             self.mount(widget)
