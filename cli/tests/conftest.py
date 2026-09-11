@@ -83,6 +83,15 @@ def server() -> dict:
     proc.wait(timeout=10)
 
 
+@pytest.fixture(autouse=True)
+def _isolate_cache(tmp_path, monkeypatch) -> None:
+    """Point the client's read cache at a fresh per-test directory so
+    tests never pollute (or read) the real ~/.cache and never leak
+    cached payloads into one another. In-process Clients read this via
+    cache_root(); subprocess CLIs inherit it through os.environ.copy()."""
+    monkeypatch.setenv("XDG_CACHE_HOME", str(tmp_path / "xdg-cache"))
+
+
 @pytest.fixture()
 def cli_env(server, tmp_path) -> dict:
     """Environment for running the CLI as a subprocess."""
@@ -90,6 +99,7 @@ def cli_env(server, tmp_path) -> dict:
     env["PAUK_SERVER"] = server["url"]
     env["PAUK_TOKEN"] = server["token"]
     env["XDG_CONFIG_HOME"] = str(tmp_path / "config")
+    env["XDG_CACHE_HOME"] = str(tmp_path / "xdg-cache")
     # rich: deterministic, uncolored output
     env["TERM"] = "dumb"
     env["NO_COLOR"] = "1"

@@ -36,11 +36,30 @@ full-screen TUI. Tracked together; landed incrementally.
    center, answers on the right; reveal toggleable by a key
    (current question or all at once).
 
-8. [ ] Speed. Load-up and LLM interactions are slow.
-   Investigation done (see below); implementation pending user
-   decisions: local stale-while-revalidate cache + connection
-   prewarm + LLM streaming; keep IONOS; advise against
-   SQLite-over-GitHub sync.
+8. [~] Speed. Load-up and LLM interactions are slow.
+   Decision: keep IONOS, add client-side caching + connection
+   prewarm (no hosting migration, no SQLite sync).
+
+   Done (CLI 0.14.0):
+   - Local stale-while-revalidate cache (`cli/pauk/cache.py`) for
+     the read-heavy GETs the picker/quiz/stats repeat (`/quiz/dirs`,
+     `/dirs`, `/quiz/cards`, `/stats`): a hit returns the last
+     payload instantly and a stale entry refreshes in the
+     background. One small JSON file per entry under
+     `~/.cache/pauk/` (honours `XDG_CACHE_HOME`), keyed by a hash of
+     server URL + token so servers/users never cross-contaminate.
+     TTLs 15–60 s; every write busts the cache (a started run only
+     busts `/quiz/dirs`, keeping the card batch warm for the quiz it
+     precedes). Escape hatches: `--no-cache`, `PAUK_NO_CACHE`,
+     `pauk cache clear`.
+   - Connection keep-alive: the httpx client now holds the TLS
+     connection open (60 s expiry, up from httpx's 5 s default) so
+     the first quiz reuses it instead of a cold handshake.
+   - Prewarm: `run_tui` fires `health` + `quiz_dirs` in the
+     background before the UI starts, so the picker paints from a
+     warm connection and a primed cache.
+
+   Still pending: LLM streaming (tracked with items 3/4).
 
 9. Windows recipe + maps fallback/passthrough docs + journey
    feature + upload:

@@ -191,6 +191,17 @@ Directories form a DAG, not a tree:
   OAuth; the web interface can move to something richer later
   without breaking the token scheme.
 
+- Client responsiveness is an accelerator layer, not a second
+  source of truth: the CLI keeps its API connection warm
+  (keep-alive, startup prewarm) and serves the read-heavy picker
+  and quiz GETs from a small stale-while-revalidate file cache
+  (`cli/pauk/cache.py`, under `~/.cache/pauk/`, keyed per
+  server+token). The API stays authoritative — every write busts
+  the cache, and `--no-cache` / `PAUK_NO_CACHE` turn it off.
+  Chosen over migrating hosting or syncing a local SQLite copy
+  (issues/0012 item 8): caching is the simplest change that makes
+  the TUI feel instant without duplicating the data model.
+
 ### TUI gotchas
 
 - Never name a Textual widget/Screen instance attribute `path`.

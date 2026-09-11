@@ -81,6 +81,9 @@ class PaukApp(App):
 
 
 def run_tui(client: Client) -> None:
+    # fire health + the picker's data in the background before the UI
+    # starts, so the first screen isn't waiting on a cold connection
+    client.prewarm()
     try:
         PaukApp(client).run()
     finally:
