@@ -286,23 +286,37 @@ def health() -> None:
 @app.command()
 def doctor() -> None:
     """Show detected hardware and the chosen LLM provider for quests."""
-    from pauk.llm.hardware import choose_provider, detect_hardware
+    from pauk.llm.hardware import (
+        choose_model,
+        claude_cli_available,
+        detect_hardware,
+        recommended_threads,
+    )
+    from pauk.llm.provider import _local_runtime_available
 
     hw = detect_hardware()
     accel = {"metal": "Metal (Apple GPU)", "cuda": "NVIDIA CUDA", "none": "CPU only"}
     console.print("[bold]Machine[/bold]")
-    console.print(f"  RAM: {hw.ram_gb:.0f} GB · {hw.arch} · {hw.system}")
+    console.print(f"  RAM: {hw.ram_gb:.0f} GB · {hw.cores} cores · {hw.arch} · {hw.system}")
     console.print(f"  accelerator: {accel[hw.accelerator]}")
-    provider = choose_provider(hw)
-    console.print("\n[bold]Quest LLM[/bold]")
-    console.print(f"  provider: {provider.detail}")
-    if provider.model:
+    console.print("\n[bold]Quest/tip LLM[/bold]")
+    if _local_runtime_available():
+        model = choose_model(hw)
+        console.print(f"  provider: local {model.label} (~{model.params_b}B params)")
         console.print(
-            f"  local model: {provider.model.label} "
-            f"(~{provider.model.params_b}B params)"
+            f"  [dim]{recommended_threads(hw)} threads, "
+            f"downloaded on first use to ~/.cache/pauk/models/[/dim]"
         )
+    elif claude_cli_available():
+        console.print("  provider: the installed `claude` CLI (no local runtime)")
         console.print(
-            "  [dim]install the `claude` CLI for a stronger model with no download[/dim]"
+            r"  [dim]install the local model with `pip install 'pauk\[local]'`[/dim]"
+        )
+    else:
+        console.print("  provider: [red]none available[/red]")
+        console.print(
+            r"  [dim]install the local model with `pip install 'pauk\[local]'` "
+            "or the `claude` CLI[/dim]"
         )
 
     _report_image_support()

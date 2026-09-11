@@ -59,3 +59,10 @@ QuestScreen plays it in-character inside the quiz flow. Italian
 quests (bakery/train/restaurant) live. Still open: wire the
 local llama runtime (download + inference); route/annotation
 map quests (next iteration).
+
+2026-09-11 (CLI 0.13.0): the local llama runtime is wired (see
+issues/0012 item 4). A local GGUF model via llama.cpp (optional
+`pauk[local]` extra) is now the default provider, sized to the
+machine by pauk.llm.hardware and downloaded lazily into
+~/.cache/pauk/models/; the `claude` CLI is the fallback. The
+provider also gained a `tip` method for on-request hints.

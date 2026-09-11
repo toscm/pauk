@@ -5,11 +5,14 @@ from pauk.llm.hardware import (
     choose_model,
     choose_provider,
     detect_hardware,
+    recommended_threads,
 )
 
 
-def hw(ram, accel, arch="arm64", system="Darwin"):
-    return Hardware(ram_gb=ram, accelerator=accel, arch=arch, system=system)
+def hw(ram, accel, cores=8, arch="arm64", system="Darwin"):
+    return Hardware(
+        ram_gb=ram, cores=cores, accelerator=accel, arch=arch, system=system
+    )
 
 
 def test_macbook_m2_32gb_gets_a_large_model():
@@ -57,7 +60,28 @@ def test_prefer_local_ignores_claude(monkeypatch):
     assert provider.kind == "llama"
 
 
+def test_big_workstation_gets_the_largest_tier():
+    # the user's box: 1 TB RAM, 112 cores, no GPU → the top curated tier
+    model = choose_model(hw(1024, "none", cores=112, arch="x86_64", system="Linux"))
+    assert model.key == "qwen2.5-32b"
+
+
+def test_every_model_has_a_download_source():
+    from pauk.llm.hardware import MODELS
+
+    for m in MODELS:
+        assert m.repo and m.filename and m.filename.endswith(".gguf")
+
+
+def test_recommended_threads_caps_on_many_cores():
+    # scaling flattens, so a 112-core box should not spawn 112 threads
+    assert recommended_threads(hw(1024, "none", cores=112)) == 16
+    assert recommended_threads(hw(16, "none", cores=4)) == 4
+    assert recommended_threads(hw(8, "none", cores=1)) == 1
+
+
 def test_detect_hardware_runs():
     detected = detect_hardware()
     assert detected.ram_gb > 0
+    assert detected.cores >= 1
     assert detected.accelerator in ("metal", "cuda", "none")
