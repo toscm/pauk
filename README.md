@@ -65,6 +65,10 @@ language).
     pauk profile greek         # knowledge profile + what to practise next
     pauk export -o me.jsonl    # items + evidence; `pauk import me.jsonl` restores
     pauk reports               # problem reports filed from tutor sessions
+    pauk items dedup           # an agent suggests merges of duplicate items
+    pauk triage                # an agent turns new reports into issues/ files (triage branch)
+    pauk --server http://127.0.0.1:8080 --token ... simulate --persona cli/pauk/tutor/personas/italian-beginner.md
+                               # LLM teacher + LLM learner against a scratch API, then a review
 
 The tutor's teacher is the `claude` CLI by default (it must be installed and logged in); it uses only `pauk teach` commands.
 Another agent can be plugged in with `--agent-cmd` or `PAUK_TUTOR_AGENT` (a command line with `{prompt}`).

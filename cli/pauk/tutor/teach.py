@@ -37,8 +37,7 @@ def _session(role: str) -> tuple[str, str]:
     parsed = urlparse(url)
     if parsed.hostname not in ("127.0.0.1", "localhost", "::1"):
         _fail("not_local", "pauk teach only talks to a local session host (127.0.0.1)")
-    key = (parse_qs(parsed.query).get("key") or [None])[0] or os.environ.get(
-        "PAUK_TEACHER_KEY" if role == "teacher" else "PAUK_OBSERVER_KEY")
+    key = (parse_qs(parsed.query).get("key") or [None])[0] or os.environ.get(f"PAUK_{role.upper()}_KEY")
     if not key:
         _fail("no_key", f"No {role} key: append ?key=... to the session URL or set the environment variable")
     base = f"{parsed.scheme}://{parsed.netloc}{parsed.path.rstrip('/')}"

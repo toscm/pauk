@@ -116,6 +116,10 @@ def create_app(session: Session, base_url: str = "", restart_agent: Optional[Cal
         return StreamingResponse(stream(), media_type="text/event-stream",
                                  headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
 
+    @app.get(api + "/learner/wait", dependencies=[learner])
+    def learner_wait(after: int = 0, timeout: float = Query(default=60, ge=0, le=110)):
+        return session.wait(LEARNER, after, timeout)
+
     @app.get(api + "/learner/status", dependencies=[learner])
     def learner_status():
         return session.status()

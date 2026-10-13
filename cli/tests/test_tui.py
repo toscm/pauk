@@ -243,7 +243,7 @@ async def test_all_cards_quiz(client):
         await _settle(pilot)
         # an all-cards session starts; the first card may be a task,
         # so the screen is the quiz or a task sub-screen it launched
-        assert isinstance(app.screen, (QuizScreen, QuestScreen, RouteScreen))
+        assert isinstance(app.screen, (QuizScreen, QuestScreen, RouteScreen, RecallScreen))
         if isinstance(app.screen, QuizScreen):
             assert app.screen.dir_id is None
 

@@ -277,6 +277,18 @@ def test_pauk_teach_cli_against_a_live_host(tmp_path):
         again = json.loads(teach("wait", "--timeout", "0").stdout)
         assert again["events"] == []   # the cursor continues where the last wait stopped
         assert json.loads(teach("help", "--json").stdout)["ask"]["properties"]["exercise"]
+
+        learner_url = f"http://127.0.0.1:{port}/s/{session.sid}?key={session.keys['learner']}"
+
+        def learn(*args):
+            return subprocess.run([sys.executable, "-m", "pauk", "learn", "--session", learner_url, *args],
+                                  capture_output=True, text=True, env={**__import__("os").environ, **env}, timeout=60)
+        assert learn("start", "--dir", "italian", "--minutes", "10").returncode == 0
+        exercise = [e for e in json.loads(learn("state").stdout)["events"] if e["type"] == "exercise"][0]
+        assert "correct" not in exercise
+        answered = learn("answer", exercise["exercise_id"], "--selected", "a")
+        assert json.loads(answered.stdout)["correct"] is True, answered.stdout
+        assert "pauk simulated learner instructions" in learn("instructions").stdout
     finally:
         server.should_exit = True
 
@@ -373,3 +385,20 @@ def test_pauk_teach_refuses_remote_hosts(tmp_path):
     out = subprocess.run([sys.executable, "-m", "pauk", "teach", "--session", "https://example.com/s/x?key=k", "state"],
                          capture_output=True, text=True, timeout=60)
     assert out.returncode == 1 and json.loads(out.stdout)["error"]["code"] == "not_local"
+
+
+def test_simulate_refuses_the_real_server(tmp_path):
+    persona = tmp_path / "p.md"
+    persona.write_text("# Persona", encoding="utf-8")
+    out = subprocess.run([sys.executable, "-m", "pauk", "--server", "https://pauk.aao756.de", "--token", "x",
+                          "simulate", "--persona", str(persona)], capture_output=True, text=True, timeout=60)
+    assert out.returncode == 1 and "scratch API" in out.stdout
+
+
+def test_simulation_marks_its_evidence(tmp_path):
+    api = FakeApi()
+    session = Session(api, store_dir=tmp_path, simulation=True)
+    client = TestClient(create_app(session))
+    client.post(f"/s/{session.sid}/api/teacher/introduce", json={"ref": "it/ape"},
+                headers={"Authorization": f"Bearer {session.keys['teacher']}"})
+    assert api.interactions[-1]["source"] == "simulation"

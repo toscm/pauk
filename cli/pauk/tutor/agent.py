@@ -37,6 +37,12 @@ OBSERVER_PROMPT = (
 
 DEFAULT_COMMAND = ["claude", "-p", "{prompt}", "--allowedTools", "Bash(pauk teach:*)",
                    "--output-format", "stream-json", "--verbose"]
+LEARNER_PROMPT = (
+    "You play a simulated learner in a pauk tutor session. Run `pauk learn instructions` first "
+    "(they include your persona) and follow them; use only `pauk learn` commands."
+)
+LEARNER_COMMAND = ["claude", "-p", "{prompt}", "--allowedTools", "Bash(pauk learn:*)",
+                   "--output-format", "stream-json", "--verbose"]
 OBSERVER_COMMAND = ["claude", "-p", "{prompt}", "--allowedTools", "Bash(pauk observe:*)",
                     "--output-format", "stream-json", "--verbose"]
 
@@ -152,3 +158,11 @@ def start_observer(session, env: dict[str, str], log_path: Path, template: Optio
                  stdout=log, stderr=subprocess.STDOUT)
     session.emit("system", "review_started", {"log": str(log_path)}, learner=None)
     return proc
+
+
+def start_learner(env: dict[str, str], log_path: Path) -> subprocess.Popen:
+    """A simulated learner (docs/tutor.md 15.2)."""
+    command = build_command(os.environ.get("PAUK_LEARNER_AGENT"), LEARNER_PROMPT, LEARNER_COMMAND)
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    return popen(command, env={**os.environ, **env}, stdin=subprocess.DEVNULL,
+                 stdout=log_path.open("ab"), stderr=subprocess.STDOUT)

@@ -11,7 +11,10 @@ from typing import Callable, Optional
 
 import uvicorn
 
-from pauk.tutor.agent import TeacherAgent, default_log_dir, kill_tree, python_teach_env, start_observer
+from pathlib import Path
+
+from pauk.tutor.agent import (TeacherAgent, default_log_dir, kill_tree, python_teach_env, start_learner,
+                              start_observer)
 from pauk.tutor.host import create_app
 from pauk.tutor.session import Session
 
@@ -30,9 +33,13 @@ def free_port(preferred: int = DEFAULT_PORT) -> int:
 
 
 def run_tutor(api, port: int = 0, agent: bool = True, agent_cmd: Optional[str] = None,
-              open_browser: bool = False, echo: Callable[[str], None] = print) -> Session:
+              open_browser: bool = False, echo: Callable[[str], None] = print,
+              persona: Optional[Path] = None, review_timeout: float = 900) -> Session:
+    """Run a session until Ctrl-C. With a persona (simulation), a learner
+    agent plays the learner and the function returns once the session
+    and its review are over."""
     store = default_log_dir()
-    session = Session(api, store_dir=store)
+    session = Session(api, store_dir=store, simulation=persona is not None)
     port = port or free_port()
     base = f"http://127.0.0.1:{port}"
     session_url = f"{base}/s/{session.sid}"
@@ -63,6 +70,12 @@ def run_tutor(api, port: int = 0, agent: bool = True, agent_cmd: Optional[str] =
         except FileNotFoundError as e:
             echo(f"  teacher:  {e}; start one manually with "
                  f"{session_url}/teach?key={session.keys['teacher']}")
+    learner_proc = None
+    if persona is not None:
+        learner_proc = start_learner({"PAUK_SESSION": session_url, "PAUK_LEARNER_KEY": session.keys["learner"],
+                                      "PAUK_PERSONA": str(persona.resolve()), **python_teach_env()},
+                                     store / f"{session.sid}.learner.log")
+        echo(f"  learner:  simulated ({persona.name}; log: {store / (session.sid + '.learner.log')})")
     echo("Ctrl-C to stop.")
     if open_browser:
         webbrowser.open(learner_link)
@@ -85,6 +98,10 @@ def run_tutor(api, port: int = 0, agent: bool = True, agent_cmd: Optional[str] =
                         echo(f"  review:   an observer agent is reviewing the session (log: {store / (session.sid + '.review.log')})")
             if ended_at is not None and teacher is not None and time.monotonic() - ended_at > 60:
                 teacher.stop()
+            if persona is not None and ended_at is not None:
+                review_done = reviewer is None or reviewer.poll() is not None
+                if review_done or time.monotonic() - ended_at > review_timeout:
+                    break
     except KeyboardInterrupt:
         pass
     finally:
@@ -93,5 +110,7 @@ def run_tutor(api, port: int = 0, agent: bool = True, agent_cmd: Optional[str] =
             teacher.stop()
         if reviewer is not None:
             kill_tree(reviewer)
+        if learner_proc is not None:
+            kill_tree(learner_proc)
         server.should_exit = True
     return session

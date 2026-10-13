@@ -1079,7 +1079,7 @@ Turning a report into a proper issue needs the code, so triage runs in the repos
    Tests drive the host with a scripted fake teacher, as the quest tests fake the provider.
 
 3. Implemented on the same branch: auto-spawned agent, restart/resume, drills, session summaries; `pauk` without arguments starts the tutor, the TUI moved to `pauk tui` and is frozen (issues/0015).
-   Pulled forward from phases 4–5: the observer role with the post-session review, `pauk items dedup` (the LLM sweep), and `pauk triage`.
+   Pulled forward from phases 4–5: the observer role with the post-session review, `pauk items dedup` (the LLM sweep), `pauk triage`, `pauk learn` and `pauk simulate` (LLM teacher + LLM learner playing a persona + review; refuses non-local APIs unless `--allow-remote`, and marks its evidence `source: simulation`), and the activity framework with the autobahn route.
 
 4. Activity design doc, activity framework and the autobahn route; observer role with post-session review; `pauk learn` and `pauk simulate`.
 

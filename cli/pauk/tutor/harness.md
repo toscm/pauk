@@ -111,6 +111,7 @@ Do not invent keys for words, phrases and terms; send `space`, `kind`, `label_md
 If pauk answers with candidates (`possible_duplicates`), decide for each one: `--same-as REF` when it is the same thing under another name or spelling (the new name becomes an alias), `--distinct-from REF` with a one-line `--reason` when it is genuinely different (another sense, a related but distinct concept).
 When unsure, prefer `--same-as` for different names of one thing and `--distinct-from` for different things that share a name; a wrong call is cheap to fix later, a missing reason is not.
 With `on_request`, pass `--requested-seq` with the seq of the learner message that asked for it.
+A proposal is decided by the learner in the browser: before you mention it again, check the events for `item_proposal_resolved` (the learner may already have accepted or dismissed it).
 Never record an error against a made-up item.
 If you notice two existing items that are the same, use `merge` with a reason.
 

@@ -112,6 +112,34 @@ def tutor(
 
 
 @app.command()
+def simulate(
+    persona: Path = typer.Option(..., "--persona", help="Persona markdown (see cli/pauk/tutor/personas/)"),
+    fake: bool = typer.Option(False, "--fake", help="Use the in-memory fake API"),
+    allow_remote: bool = typer.Option(False, "--allow-remote", help="Allow a non-local API server"),
+    port: int = typer.Option(0, "--port"),
+) -> None:
+    """Run a session with an LLM teacher, an LLM learner playing PERSONA and a review afterwards."""
+    from urllib.parse import urlparse
+
+    from pauk.tutor.launch import run_tutor
+
+    if fake:
+        from pauk.tutor.fake import FakeApi
+
+        api = FakeApi()
+    else:
+        settings = config_mod.load(_state["server"], _state["token"])
+        host = urlparse(settings.server or "").hostname
+        if host not in ("127.0.0.1", "localhost", "::1") and not allow_remote:
+            console.print("[red]Simulations write evidence; run them against a scratch API "
+                          "(--server http://127.0.0.1:...) or --fake, never your real profile.[/red]")
+            raise typer.Exit(1)
+        api = _client()
+    session = run_tutor(api, port=port, persona=persona, echo=print)
+    print(f"simulation {session.sid} finished; transcript and logs in ~/.local/share/pauk/sessions/")
+
+
+@app.command()
 def tui() -> None:
     """The terminal quiz app (frozen; see issues/0015)."""
     from pauk.tui.app import run_tui
@@ -292,6 +320,9 @@ app.add_typer(items_app, name="items", help="Knowledge items: list, show, merge,
 app.add_typer(reports_app, name="reports", help="Problem reports from tutor sessions (no subcommand: list).")
 app.command("triage")(triage)
 
+from pauk.tutor.learn import learn_app  # noqa: E402
+
+app.add_typer(learn_app, name="learn", help="Learner commands for a running tutor session (simulations).")
 app.add_typer(teach_app, name="teach", help="Teacher commands for a running tutor session (used by the agent).")
 app.add_typer(observe_app, name="observe", help="Observer commands for a running tutor session.")
 

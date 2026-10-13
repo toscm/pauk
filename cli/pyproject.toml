@@ -38,7 +38,7 @@ include = ["pauk*"]
 "pauk.tui" = ["*.tcss", "assets/*.png"]
 "pauk" = ["*.md"]
 "pauk.data" = ["*.json"]
-"pauk.tutor" = ["*.md", "static/*", "static/**/*"]
+"pauk.tutor" = ["*.md", "personas/*.md", "static/*", "static/**/*"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

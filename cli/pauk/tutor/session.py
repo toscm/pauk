@@ -99,8 +99,10 @@ def locked(method):
 
 class Session:
     def __init__(self, api, sid: str | None = None, store_dir: Path | None = None,
-                 clock: Callable[[], float] = _now, rng: random.Random | None = None):
+                 clock: Callable[[], float] = _now, rng: random.Random | None = None, simulation: bool = False):
         self.api = api
+        # simulated sessions mark their evidence, so it can be told apart
+        self.source = "simulation" if simulation else "tutor"
         self.sid = sid or "s-" + secrets.token_hex(4)
         self.keys = {LEARNER: secrets.token_urlsafe(16), TEACHER: secrets.token_urlsafe(16),
                      OBSERVER: secrets.token_urlsafe(16)}
@@ -442,7 +444,7 @@ class Session:
         if unseen:
             self.new_refs.add(item["ref"])
         result = self._api(lambda: self.api.record_interaction({
-            "uuid": str(uuidlib.uuid4()), "mode": "introduce", "source": "tutor", "session_id": self.sid,
+            "uuid": str(uuidlib.uuid4()), "mode": "introduce", "source": self.source, "session_id": self.sid,
             "items": [{"ref": item["ref"]}], "prompt_md": body.text_md,
         }))
         self._touch(result)
@@ -810,7 +812,7 @@ class Session:
 
     def _record_keyed(self, s: ExerciseState, response: dict, shown: str) -> dict:
         body = {
-            "uuid": str(uuidlib.uuid4()), "mode": s.ex.mode, "source": "tutor", "session_id": self.sid,
+            "uuid": str(uuidlib.uuid4()), "mode": s.ex.mode, "source": self.source, "session_id": self.sid,
             "exercise": self._exercise_payload(s), "response": response, "hinted": s.hinted,
             "prompt_md": s.ex.prompt_md, "response_md": shown, "items": [{"ref": r} for r in s.ex.items],
         }
@@ -825,7 +827,7 @@ class Session:
     def _record(self, s: ExerciseState, outcomes: dict, grader: str, response: dict | None,
                 response_md: str | None, feedback_md: str | None = None, notes: dict | None = None) -> dict:
         body = {
-            "uuid": str(uuidlib.uuid4()), "mode": s.ex.mode, "source": "tutor", "session_id": self.sid,
+            "uuid": str(uuidlib.uuid4()), "mode": s.ex.mode, "source": self.source, "session_id": self.sid,
             "exercise": self._exercise_payload(s), "hinted": s.hinted, "grader": grader,
             "prompt_md": s.ex.prompt_md, "response_md": response_md, "feedback_md": feedback_md,
             "items": [{"ref": r, "outcome": o, **({"note": notes[r]} if notes and r in notes else {})}
