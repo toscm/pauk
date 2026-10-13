@@ -10,3 +10,4 @@ cli/pauk.egg-info/
 build/
 api/.phpunit.cache/
 api/public/media/
+cli/uv.lock
