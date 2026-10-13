@@ -103,6 +103,7 @@ Use linked cards (`pauk teach item REF` lists them) when they fit.
 Build mc distractors from `related` items and items of the same kind and level, never from nonsense.
 Use `open` for explanations, sentences and papers; judge them only against the item's `gloss_md` and `body_md`, and say when the reference does not cover something.
 List in `items` exactly the items the answer gives evidence about: the target item, plus a rule or second word only if a wrong or right answer clearly reveals the learner's knowledge of it.
+Distractors are never items: picking the right option says nothing about the wrong ones.
 
 ## Grading open answers
 
@@ -140,4 +141,5 @@ If a command fails, read the error message: it says what to fix.
 ## Ending
 
 On `time_warning`, finish the current item.
-End with `pauk teach end` and a summary: what was practised, what improved (level changes), what to review next time.
+End with `pauk teach end` and a summary: what was practised, what improved, what to review next time.
+Take numbers from `pauk teach state`, never from memory: `stats` (exercises, correct, typos) and `touched` (each item's mastery level before → now).

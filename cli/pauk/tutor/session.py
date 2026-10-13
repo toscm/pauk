@@ -201,8 +201,19 @@ class Session:
             "teacher_agent": self.teacher_agent,
             "agent_running": self.agent_running,
             "touched": [{"ref": r, **v} for r, v in self.touched.items()],
+            "stats": self.stats(),
             "settings": self.settings,
         }
+
+    def stats(self) -> dict:
+        """Exact counts for summaries: graded exercises, correct ones, typos, unanswered."""
+        graded = [s for s in self.exercises.values() if s.status == "graded"]
+        correct = [s for s in graded if (s.result or {}).get("correct") and not s.dont_know
+                   or s.ex.kind in ("open", "recall") and s.result
+                   and all((i.get("outcome") or "fail") != "fail" for i in s.result.get("items", []))]
+        return {"exercises": len(self.exercises), "graded": len(graded), "correct": len(correct),
+                "typos": sum(1 for s in graded if (s.result or {}).get("match") == "typo"),
+                "open": sum(1 for s in self.exercises.values() if s.status != "graded")}
 
     def teacher_state(self) -> dict:
         self.audit("state")

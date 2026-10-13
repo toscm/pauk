@@ -17,3 +17,5 @@ Options:
 
 Whatever is chosen, the result should tell the learner about a near-miss ("almost: *fare*, not *faro*") instead of silently accepting it.
 Needs a decision before changing the documented grading.
+
+2026-10-13: Second simulation: `por favore` was accepted as a typo for `per favore` (Spanish interference) without any hint to the learner.

@@ -410,3 +410,12 @@ def test_after_the_learner_ends_the_teacher_can_only_wrap_up(env):
     assert err["error"]["code"] == "learner_ended"
     env.T("POST", "say", {"text_md": "Ciao!"})
     env.T("POST", "end", {"summary_md": "Short session."})
+
+
+def test_state_has_exact_session_stats(env):
+    ex = env.T("POST", "ask", {"exercise": MC})["exercise_id"]
+    env.L("POST", "answer", {"exercise_id": ex, "selected": ["b"]})
+    ex = env.T("POST", "ask", {"exercise": {**MC, "items": ["it/ape"]}})["exercise_id"]
+    env.L("POST", "answer", {"exercise_id": ex, "selected": ["a"]})
+    stats = env.T("GET", "state")["stats"]
+    assert stats == {"exercises": 2, "graded": 2, "correct": 1, "typos": 0, "open": 0}
