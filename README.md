@@ -13,7 +13,7 @@ The knowledge base holds everything you know or want to learn, from Italian verb
 The LLM reads it, picks what is due or worth learning next, teaches and quizzes you in a browser chat with exercises, images, maps and small games, and every answer flows back into the knowledge base.
 pauk itself is the glue: it stores the knowledge, computes the memory scores, and gives the LLM a clear, narrow set of actions, so learning stays fun, personal and effective.
 
-Status: the knowledge profile and the tutor chat are being designed (docs/tutor.md, issues/0014).
+Status: the knowledge profile is live; the tutor chat (`pauk`) is new and evolving (docs/tutor.md, issues/0014).
 What exists today is the flashcard ("Karteikarten") foundation described below: an HTTP API as the single source of truth and thin clients on top of it.
 
 Questions are written in Markdown (images/videos via the usual
@@ -55,13 +55,19 @@ language).
 
     make setup                 # or: pip install -e ./cli
     pauk login https://pauk.aao756.de   # prompts for the token
-    pauk                       # interactive menu
+    pauk                       # tutor: local web chat + LLM teacher (prints the link)
+    pauk tutor --no-agent      # same, but attach the teacher yourself
+    pauk tui                   # the older terminal quiz app
     pauk quiz --dir greek      # quiz a folder (recursive)
     pauk ls --tree             # browse all folders
     pauk import content/greek.json
     pauk import content/items-greek.json   # knowledge items, linked to the cards
     pauk profile greek         # knowledge profile + what to practise next
     pauk export -o me.jsonl    # items + evidence; `pauk import me.jsonl` restores
+    pauk reports               # problem reports filed from tutor sessions
+
+The tutor's teacher is the `claude` CLI by default (it must be installed and logged in); it uses only `pauk teach` commands.
+Another agent can be plugged in with `--agent-cmd` or `PAUK_TUTOR_AGENT` (a command line with `{prompt}`).
 
 Tokens are created on the server:
 

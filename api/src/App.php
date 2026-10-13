@@ -11,7 +11,9 @@ use Pauk\Repo\Interactions;
 use Pauk\Repo\Items;
 use Pauk\Repo\Merges;
 use Pauk\Repo\Profile;
+use Pauk\Repo\Reports;
 use Pauk\Repo\Settings;
+use Pauk\Repo\TutorSessions;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
@@ -73,6 +75,8 @@ final class App
                     'profile' => new Profile($pdo, $items),
                     'settings' => $settings,
                     'export' => new Export($pdo, $items, $interactions, $settings),
+                    'sessions' => new TutorSessions($pdo),
+                    'reports' => new Reports($pdo),
                 ];
             };
             self::knowledgeRoutes($group, $kb);
@@ -488,6 +492,58 @@ final class App
         $group->post('/interactions/{uuid:[0-9a-f-]{36}}/amendments', function (Request $request, Response $response, array $args) use ($kb) {
             $k = $kb($request);
             return Http::json($response, $k->interactions->amend($k->userId, $args['uuid'], Http::body($request)));
+        });
+
+        // --- tutor sessions and reports (docs/tutor.md 8, 16) ------------
+        $group->post('/tutor-sessions', function (Request $request, Response $response) use ($kb) {
+            $k = $kb($request);
+            [$status, $session] = $k->sessions->create($k->userId, Http::body($request));
+            return Http::json($response, $session, $status);
+        });
+
+        $group->get('/tutor-sessions', function (Request $request, Response $response) use ($kb) {
+            $k = $kb($request);
+            return Http::json($response, $k->sessions->list(
+                $k->userId, Http::intQuery($request, 'limit', 50, 1, 200), $request->getQueryParams()['cursor'] ?? null
+            ));
+        });
+
+        $group->get('/tutor-sessions/{uid:[a-z0-9-]{1,64}}', function (Request $request, Response $response, array $args) use ($kb) {
+            $k = $kb($request);
+            return Http::json($response, $k->sessions->get($k->userId, $args['uid']));
+        });
+
+        $group->patch('/tutor-sessions/{uid:[a-z0-9-]{1,64}}', function (Request $request, Response $response, array $args) use ($kb) {
+            $k = $kb($request);
+            return Http::json($response, $k->sessions->update($k->userId, $args['uid'], Http::body($request)));
+        });
+
+        $group->post('/reports', function (Request $request, Response $response) use ($kb) {
+            $k = $kb($request);
+            return Http::json($response, $k->reports->create($k->userId, Http::body($request)), 201);
+        });
+
+        $group->get('/reports', function (Request $request, Response $response) use ($kb) {
+            $k = $kb($request);
+            $params = $request->getQueryParams();
+            $filters = array_filter([
+                'status' => $params['status'] ?? null,
+                'category' => $params['category'] ?? null,
+                'session_uid' => $params['session_uid'] ?? null,
+            ], fn ($v) => is_string($v) && $v !== '');
+            return Http::json($response, $k->reports->list(
+                $k->userId, $filters, Http::intQuery($request, 'limit', 50, 1, 200), $params['cursor'] ?? null
+            ));
+        });
+
+        $group->get('/reports/{id:[0-9]+}', function (Request $request, Response $response, array $args) use ($kb) {
+            $k = $kb($request);
+            return Http::json($response, $k->reports->get($k->userId, (int) $args['id']));
+        });
+
+        $group->patch('/reports/{id:[0-9]+}', function (Request $request, Response $response, array $args) use ($kb) {
+            $k = $kb($request);
+            return Http::json($response, $k->reports->update($k->userId, (int) $args['id'], Http::body($request)));
         });
 
         // --- profile, settings, export, maintenance ----------------------

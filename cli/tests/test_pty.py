@@ -18,7 +18,7 @@ def test_tui_starts_and_navigates_on_real_pty(cli_env):
     env = dict(cli_env)
     env["TERM"] = "xterm-256color"
     child = pexpect.spawn(
-        sys.executable, ["-m", "pauk"],
+        sys.executable, ["-m", "pauk", "tui"],
         env=env, cwd=str(REPO), encoding="utf-8",
         dimensions=(40, 120), timeout=30,
     )

@@ -1,0 +1,274 @@
+// Exercise widgets (mc, match, text, open, recall) and drills.
+// A widget only sends requests; what it shows after answering comes
+// from the transcript events (answered, graded, hint, reveal, ...),
+// so a reload renders exactly the same as the live session.
+
+import { post } from './api.js';
+import { md, plain } from './md.js';
+import { h, showError, toast } from './ui.js';
+
+// Tells the composer that which exercise is answerable may have changed.
+const changed = () => document.dispatchEvent(new Event('exercisechange'));
+
+function mark(correct, partial = false) {
+  const [cls, sign, label] = correct ? ['ok', '✓', 'correct'] : partial ? ['partial', '◐', 'partly correct'] : ['bad', '✗', 'wrong'];
+  return h('span', {class: `mark ${cls}`, role: 'img', 'aria-label': label}, sign);
+}
+
+export class ExerciseWidget {
+  constructor(ex, onResult = () => {}) {
+    this.id = ex.exercise_id;
+    this.kind = ex.kind;
+    this.locked = false;
+    this.onResult = onResult;
+    this.hints = h('div', {class: 'hints'});
+    this.result = h('div', {class: 'result', 'aria-live': 'polite'});
+    this.controls = this.buildControls(ex);
+    this.actions = h('div', {class: 'buttons'}, this.buildButtons());
+    this.el = h('section', {class: `exercise kind-${ex.kind}`, 'aria-label': 'Exercise'},
+      md(ex.prompt_md), this.controls, this.hints, this.actions, this.result);
+  }
+
+  get acceptsText() {
+    return !this.locked && (this.kind === 'text' || this.kind === 'open') && this.el.isConnected;
+  }
+
+  buildControls(ex) {
+    const name = `answer-${this.id}`;
+    if (ex.kind === 'mc') {
+      const type = ex.multiple ? 'checkbox' : 'radio';
+      return h('fieldset', {class: 'options'},
+        h('legend', {class: ex.multiple ? 'muted small' : 'sr-only'}, ex.multiple ? 'Choose all that apply.' : 'Choose one.'),
+        ex.options.map((o) => h('label', {class: 'option'},
+          h('input', {type, name, value: o.id}), md(o.text_md, true))));
+    }
+    if (ex.kind === 'match') {
+      return h('div', {class: 'match'}, ex.lefts.map((left) => {
+        const id = `${name}-${left.index}`;
+        return h('div', {class: 'match-row'},
+          h('label', {for: id}, md(left.left_md, true)),
+          h('select', {id, 'data-left': left.index},
+            h('option', {value: ''}, '—'),
+            ex.rights.map((r) => h('option', {value: r.token}, plain(r.right_md)))));
+      }));
+    }
+    if (ex.kind === 'text') {
+      this.input = h('input', {type: 'text', 'aria-label': 'Your answer', autocomplete: 'off', autocapitalize: 'off', spellcheck: 'false'});
+    } else if (ex.kind === 'open') {
+      this.input = h('textarea', {rows: 3, 'aria-label': 'Your answer'});
+    } else {
+      return h('div', {class: 'reveal'});   // recall: filled by revealed()
+    }
+    this.input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) {
+        e.preventDefault();
+        this.submit();
+      }
+    });
+    return this.input;
+  }
+
+  buildButtons() {
+    const hint = h('button', {type: 'button', class: 'secondary', onclick: () => this.requestHint()}, 'Hint');
+    const dontKnow = h('button', {type: 'button', class: 'secondary', onclick: () => this.dontKnow()}, "I don't know");
+    this.hintButton = hint;
+    if (this.kind === 'recall') {
+      return [h('button', {type: 'button', onclick: () => this.reveal()}, 'Reveal'), hint, dontKnow];
+    }
+    return [h('button', {type: 'button', onclick: () => this.submit()}, 'Submit'), hint, dontKnow];
+  }
+
+  focus() {
+    const target = this.el.querySelector('input, textarea, select, button');
+    target?.focus({preventScroll: true});
+  }
+
+  async send(path, body = {}) {
+    try {
+      return await post(`learner/${path}`, {exercise_id: this.id, ...body});
+    } catch (e) {
+      if (e.code === 'answered') this.lock();
+      showError(e);
+      return null;
+    }
+  }
+
+  response() {
+    if (this.kind === 'mc') {
+      const selected = [...this.controls.querySelectorAll('input:checked')].map((i) => i.value);
+      return selected.length ? {selected} : null;
+    }
+    if (this.kind === 'match') {
+      const matches = {};
+      for (const select of this.controls.querySelectorAll('select')) {
+        if (!select.value) return null;
+        matches[select.dataset.left] = select.value;
+      }
+      return {matches};
+    }
+    const text = this.input.value.trim();
+    return text ? {text} : null;
+  }
+
+  async submit() {
+    if (this.locked) return;
+    const answer = this.response();
+    if (!answer) {
+      toast(this.kind === 'match' ? 'Match every row first.' : this.kind === 'mc' ? 'Choose an option first.' : 'Type an answer first.');
+      return;
+    }
+    if (await this.send('answer', answer)) this.lock();
+  }
+
+  // Used by the composer: answer this text/open exercise with `text`.
+  async submitText(text) {
+    this.input.value = text;
+    await this.submit();
+    return this.locked;
+  }
+
+  async requestHint() {
+    if (await this.send('hint-request')) this.hintRequested();
+  }
+
+  async dontKnow() {
+    if (await this.send('dont-know')) this.lock();
+  }
+
+  async reveal() {
+    const result = await this.send('reveal');
+    if (result) this.revealed(result.reference_md);
+  }
+
+  async selfGrade(correct) {
+    if (await this.send('self-grade', {correct})) this.lock();
+  }
+
+  // Once only: the answered event may arrive before the POST response,
+  // and buttons added after the first lock (Next) must stay usable.
+  lock() {
+    if (this.locked) return;
+    this.locked = true;
+    for (const el of this.el.querySelectorAll('input, textarea, select, button')) el.disabled = true;
+    changed();
+  }
+
+  setResult(...nodes) {
+    this.result.replaceChildren(...nodes.filter(Boolean));
+  }
+
+  // --- updates from transcript events ---------------------------------
+
+  answered(ev, live) {
+    this.lock();
+    if (ev.awaiting === 'grade') {
+      this.setResult(h('p', {class: 'pending'}, 'Your answer: ', md(ev.response_md, true), ' — waiting for the teacher…'));
+      return;
+    }
+    this.showResponse(ev.response);
+    const verdict = ev.correct ? (ev.match === 'typo' ? 'Correct, with a small typo.' : 'Correct.') : 'Not quite.';
+    const showExpected = ev.expected_md && (!ev.correct || ev.match === 'typo') && !this.referenceShown;
+    this.setResult(h('p', {}, mark(ev.correct), ' ', verdict),
+      this.kind === 'match' && ev.response_md ? h('div', {}, h('span', {class: 'muted'}, 'Yours: '), md(ev.response_md, true)) : null,
+      showExpected ? h('div', {class: 'expected'}, h('span', {class: 'muted'}, 'Answer: '), md(ev.expected_md, true)) : null);
+    this.onResult(this, ev.correct, live);
+  }
+
+  // The learner's own answer, so a reload shows what was chosen. Match
+  // responses come back as pair indices (tokens are secret), so match
+  // shows response_md instead.
+  showResponse(response) {
+    if (!response) return;
+    if (this.kind === 'mc') {
+      for (const input of this.controls.querySelectorAll('input')) input.checked = (response.selected || []).includes(input.value);
+    } else if (this.input && typeof response.text === 'string') {
+      this.input.value = response.text;
+    }
+  }
+
+  graded(ev) {
+    this.lock();
+    const verdict = ev.correct ? 'Correct.' : ev.partial ? 'Partly right.' : 'Not quite.';
+    this.setResult(h('p', {}, mark(ev.correct, ev.partial), ' ', verdict),
+      ev.feedback_md ? md(ev.feedback_md) : null,
+      ev.reference_md ? h('div', {class: 'expected'}, h('span', {class: 'muted'}, 'Reference: '), md(ev.reference_md)) : null);
+  }
+
+  overridden(ev) {
+    this.result.append(h('p', {class: 'override'}, 'Corrected by the teacher: ', mark(ev.correct), ' ', ev.reason));
+  }
+
+  hinted(ev) {
+    this.hints.append(h('div', {class: 'hint'}, h('span', {class: 'muted'}, 'Hint: '), md(ev.text_md)));
+  }
+
+  hintRequested() {
+    this.hintButton.disabled = true;
+    this.hintButton.textContent = 'Hint requested';
+  }
+
+  revealed(referenceMd) {
+    if (this.referenceShown) return;
+    this.referenceShown = true;
+    this.controls.append(h('div', {class: 'expected'}, h('span', {class: 'muted'}, 'Reference: '), md(referenceMd)));
+    if (this.locked) return;
+    const knew = h('button', {type: 'button', onclick: () => this.selfGrade(true)}, 'I knew it');
+    this.actions.replaceChildren(knew, h('button', {type: 'button', class: 'secondary', onclick: () => this.selfGrade(false)}, "I didn't"));
+    knew.focus({preventScroll: true});
+  }
+}
+
+// A drill: keyed exercises one at a time with a progress indicator,
+// instant feedback, then the next; a short summary at the end.
+export class Drill {
+  constructor(ev, register) {
+    this.id = ev.drill_id;
+    this.widgets = ev.exercises.map((ex) => register(new ExerciseWidget(ex, (w, correct, live) => this.answered(w, correct, live))));
+    this.results = new Map();
+    this.index = 0;
+    this.dots = this.widgets.map(() => h('span', {class: 'dot'}));
+    this.counter = h('span', {class: 'muted'});
+    this.stage = h('div', {class: 'stage'});
+    this.el = h('section', {class: 'drill', 'aria-label': 'Drill'},
+      h('header', {class: 'drill-head'}, h('strong', {}, 'Drill'), this.counter, h('span', {class: 'dots', 'aria-hidden': 'true'}, this.dots)),
+      this.stage);
+    this.show(0, false);
+  }
+
+  show(index, focus) {
+    this.index = index;
+    if (index >= this.widgets.length) return this.finish();
+    this.counter.textContent = `${index + 1} / ${this.widgets.length}`;
+    this.dots.forEach((d, i) => d.classList.toggle('current', i === index));
+    this.stage.replaceChildren(this.widgets[index].el);
+    if (focus) this.widgets[index].focus();
+    changed();
+  }
+
+  answered(widget, correct, live) {
+    const i = this.widgets.indexOf(widget);
+    this.results.set(i, correct);
+    this.dots[i].classList.add(correct ? 'ok' : 'bad');
+    if (i !== this.index) return;
+    if (!live) return this.show(i + 1, false);
+    if (correct) {
+      setTimeout(() => this.index === i && this.show(i + 1, true), 900);
+      return;
+    }
+    const next = h('button', {type: 'button', class: 'next', onclick: () => this.show(i + 1, true)},
+      i + 1 < this.widgets.length ? 'Next' : 'Finish');
+    widget.result.append(next);
+    next.focus({preventScroll: true});
+  }
+
+  finish() {
+    const right = [...this.results.values()].filter(Boolean).length;
+    this.counter.textContent = `done · ${right} / ${this.widgets.length} correct`;
+    this.dots.forEach((d) => d.classList.remove('current'));
+    this.stage.replaceChildren(h('ol', {class: 'drill-summary'}, this.widgets.map((w) => {
+      const result = w.result.cloneNode(true);
+      result.querySelectorAll('button').forEach((b) => b.remove());
+      return h('li', {}, w.el.querySelector('.md').cloneNode(true), result);
+    })));
+  }
+}

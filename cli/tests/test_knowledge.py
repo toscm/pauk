@@ -78,3 +78,37 @@ def test_duplicate_candidates_reach_the_client(server):
         assert e.data["candidates"][0]["ref"] == "it/kn-ape"
     else:
         raise AssertionError("expected possible_duplicates")
+
+
+def test_item_import_creates_missing_parent_dirs(cli_env, server, tmp_path):
+    file = tmp_path / "deep.json"
+    file.write_text(json.dumps({
+        "space": "it", "dirs": ["kn-deep/a/b/c"],
+        "items": [{"key": "kn-profondo", "kind": "word", "label_md": "kn-profondo", "dirs": ["kn-deep/a/b/c"]}],
+    }), encoding="utf-8")
+    result = run_cli(cli_env, "import", str(file))
+    assert result.returncode == 0, result.stdout + result.stderr
+    client = Client(server["url"], server["token"], cache=False)
+    assert client.resolve_dir("kn-deep/a/b")["name"] == "b"
+
+
+def test_items_and_reports_commands(cli_env, server):
+    client = Client(server["url"], server["token"], cache=False)
+    for label in ("kn-t-cell", "kn-t-lymphocyte"):
+        client.create_item({"space": "concepts", "kind": "term", "label_md": label, "distinct_from": [], "reason": "x"})
+    listed = run_cli(cli_env, "items", "list", "--space", "concepts", "--json")
+    assert listed.returncode == 0, listed.stdout + listed.stderr
+    assert {"concepts/kn-t-cell", "concepts/kn-t-lymphocyte"} <= {i["ref"] for i in json.loads(listed.stdout)}
+    suggested = run_cli(cli_env, "items", "suggest-merge", "concepts/kn-t-cell", "concepts/kn-t-lymphocyte", "--reason", "synonyms")
+    assert suggested.returncode == 0, suggested.stdout + suggested.stderr
+    merges = run_cli(cli_env, "items", "merges")
+    assert "concepts/kn-t-lymphocyte → concepts/kn-t-cell" in merges.stdout
+    assert "pauk duplicate sweep instructions" in run_cli(cli_env, "items", "dedup-instructions").stdout
+
+    client.create_report({"reporter": "learner", "category": "ux", "text_md": "KN: the timer is hard to see"})
+    listed = run_cli(cli_env, "reports")
+    assert "KN: the timer is hard to see" in listed.stdout
+    report_id = listed.stdout.split("#", 1)[1].split(" ", 1)[0]
+    marked = run_cli(cli_env, "reports", "mark", report_id, "--status", "triaged", "--issue", "issues/9999-x.md")
+    assert json.loads(marked.stdout)["status"] == "triaged"
+    assert "pauk triage instructions" in run_cli(cli_env, "reports", "triage-instructions").stdout

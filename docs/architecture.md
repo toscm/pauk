@@ -261,6 +261,16 @@ Directories form a DAG, not a tree:
 - All timestamps are UTC: every connection sets `time_zone = '+00:00'`.
   Before 0.10.0 the session used the server zone (Europe/Berlin locally, likely also on IONOS) while the API labelled times with `Z`; rows written before that are off by the zone offset, which is harmless for quiz staleness and leaderboards.
 
+- The tutor chat runs in a local session host (`cli/pauk/tutor/`, FastAPI + uvicorn on 127.0.0.1), not on IONOS: shared PHP hosting cannot hold long-lived connections, and the teacher is a local agent anyway.
+  The host owns the live transcript (also appended to `~/.local/share/pauk/sessions/<sid>.jsonl`) and the session rules (exercise keys hidden from the learner, open answers graded before the next question, new-item budget, item-creation and merge settings); the remote API owns everything persistent and all scoring.
+  Roles authenticate with per-session random keys; the API token never leaves the host.
+
+- The teacher talks to the host through a shell CLI (`pauk teach`, JSON in and out) rather than MCP: it works with any agent CLI, the permission rule is one pattern (`Bash(pauk teach:*)`), and the harness text ships with the host and is read at runtime (`pauk teach instructions`), so agent and host never drift apart; `attach` checks a protocol number.
+  The default agent is `claude -p` with only that tool allowed; `PAUK_TUTOR_AGENT` / `--agent-cmd` plug in others.
+  Prompts passed to the agent stay on one line: on Windows the `claude` shim is a `.cmd`, and `cmd.exe` cuts arguments at newlines.
+
+- Unit and host tests drive the session against `pauk.tutor.fake.FakeApi`, an in-memory stand-in with deliberately simple scoring; `pauk tutor --fake` uses it for UI development. End-to-end runs with a real teacher go against a scratch API, never the live profile.
+
 ### TUI gotchas
 
 - Never name a Textual widget/Screen instance attribute `path`.

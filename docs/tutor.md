@@ -1075,10 +1075,11 @@ Turning a report into a proper issue needs the code, so triage runs in the repos
    `pauk import` and `pauk export` for items.
    Cards answered in the existing TUI start feeding the profile without any TUI work.
 
-2. Session host, browser UI (chat, exercises, KaTeX, profile with maintenance actions, settings, problem reports), `pauk teach`, harness text, audit log; teacher attached manually (`pauk --no-agent`).
+2. Implemented on branch tutor-phase-2 (API 0.11.0 / CLI 0.18.0): session host, browser UI (chat, exercises, KaTeX, profile with merge suggestions, settings, problem reports), `pauk teach`, harness text, audit log; teacher attached manually with `pauk tutor --no-agent`.
    Tests drive the host with a scripted fake teacher, as the quest tests fake the provider.
 
-3. Auto-spawned agent, restart/resume, drills, session summaries; `pauk` without arguments starts the tutor, the TUI moves to `pauk tui` and is frozen (issues/0015).
+3. Implemented on the same branch: auto-spawned agent, restart/resume, drills, session summaries; `pauk` without arguments starts the tutor, the TUI moved to `pauk tui` and is frozen (issues/0015).
+   Pulled forward from phases 4–5: the observer role with the post-session review, `pauk items dedup` (the LLM sweep), and `pauk triage`.
 
 4. Activity design doc, activity framework and the autobahn route; observer role with post-session review; `pauk learn` and `pauk simulate`.
 

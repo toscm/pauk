@@ -1,8 +1,10 @@
 """pauk command-line interface.
 
-`pauk` without a subcommand launches the full-screen app
-(home, deck picker, quiz, quest, route). The subcommands below
-are the scripting interface for automation and content import.
+`pauk` without a subcommand starts a tutor session: a local web chat
+with an LLM teacher (docs/tutor.md). `pauk tui` is the older
+full-screen quiz app. The other subcommands are the scripting
+interface for automation and content import; `pauk teach` is what the
+teacher agent uses.
 """
 
 from __future__ import annotations
@@ -84,9 +86,37 @@ def main(
     _state["token"] = token
     _state["no_cache"] = no_cache
     if ctx.invoked_subcommand is None:
-        from pauk.tui.app import run_tui
+        from pauk.tutor.launch import run_tutor
 
-        run_tui(_client())
+        run_tutor(_client(), echo=print)   # plain print: links must never wrap
+
+
+@app.command()
+def tutor(
+    no_agent: bool = typer.Option(False, "--no-agent", help="Do not spawn a teacher; print how to attach one"),
+    port: int = typer.Option(0, "--port", help="Local port (default 8765, or a free one)"),
+    agent_cmd: Optional[str] = typer.Option(None, "--agent-cmd", help="Teacher command line; {prompt} is replaced"),
+    open_browser: bool = typer.Option(False, "--open", help="Open the learner page in the browser"),
+    fake: bool = typer.Option(False, "--fake", help="Use an in-memory fake API (development)"),
+) -> None:
+    """Start a tutor session: local web chat + teacher agent (also what `pauk` alone does)."""
+    from pauk.tutor.launch import run_tutor
+
+    if fake:
+        from pauk.tutor.fake import FakeApi
+
+        api = FakeApi()
+    else:
+        api = _client()
+    run_tutor(api, port=port, agent=not no_agent, agent_cmd=agent_cmd, open_browser=open_browser, echo=print)
+
+
+@app.command()
+def tui() -> None:
+    """The terminal quiz app (frozen; see issues/0015)."""
+    from pauk.tui.app import run_tui
+
+    run_tui(_client())
 
 
 @app.command()
@@ -254,6 +284,16 @@ def upload(directory: Path = typer.Argument(..., help="Directory produced by `pa
     """Create NEW cards authored locally (create-only; existing cards are skipped)."""
     upload_collection(_client(), directory, echo=console.print)
 
+
+from pauk.maintenance import items_app, reports_app, triage  # noqa: E402
+from pauk.tutor.teach import observe_app, teach_app  # noqa: E402
+
+app.add_typer(items_app, name="items", help="Knowledge items: list, show, merge, duplicate sweep.")
+app.add_typer(reports_app, name="reports", help="Problem reports from tutor sessions (no subcommand: list).")
+app.command("triage")(triage)
+
+app.add_typer(teach_app, name="teach", help="Teacher commands for a running tutor session (used by the agent).")
+app.add_typer(observe_app, name="observe", help="Observer commands for a running tutor session.")
 
 cache_app = typer.Typer(add_completion=False, rich_markup_mode=None)
 app.add_typer(cache_app, name="cache", help="Manage the local read cache.")

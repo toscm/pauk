@@ -41,9 +41,9 @@ integration tests are the contract.)
 
 `GET /health` (no auth)
 
-    {"status": "ok", "db": "ok", "version": "0.10.0"}
+    {"status": "ok", "db": "ok", "version": "0.11.0"}
 
-`version` is the deployed API version (currently 0.10.0); the
+`version` is the deployed API version (currently 0.11.0); the
 example tracks it only loosely.
 
 `db` is `"ok"` or `"error"`; on error the HTTP status is 503.
@@ -512,6 +512,9 @@ Items are addressed as `/items/{space}/{key}` or `/items/{id}`; an alias or the 
    - `"same_as": REF` (+ optional `reason`): nothing is created; the label (and key) become aliases of REF. 200 `{"created": false, "via": "same_as", "item": ...}`.
    - `"distinct_from": [REF, ...]` + `"reason"`: must cover every candidate; the item is created and each pair stored as a `related` link with the reason.
 
+`"dry_run": true` runs the whole protocol (validation, exact identity, candidates, `same_as`, `distinct_from` with its reason, subjects and links) but writes nothing.
+Every response is the one a real request would give, except that `same_as` adds no aliases and a create returns 200 `{"created": false, "would_create": true, "item": ...}` with a preview of the item without `id`.
+
 ### Interactions
 
 An interaction is one observed learner event with an outcome per item; the log is append-only.
@@ -579,3 +582,38 @@ Settings: `tutor.language` (BCP 47, default `de`), `tutor.immersion` (per space 
 - `GET /export` — `application/x-ndjson`: a header `{"format": "pauk-export", "version": 1, ...}`, then `dir`, `item` (with aliases, outgoing links, subject ids, card ids, flags), `interaction` (raw evidence, outcomes, amendments) and `settings` records. States are not exported; they are recomputed on import.
 
 - `POST /admin/rebuild-states` — recompute every state of the user from the log; `{"items": N}`.
+
+### Tutor sessions
+
+A tutor session is addressed by its `uid`, the id the session host chose locally (`^[a-z0-9-]{1,64}$`, unique per user).
+
+Session object:
+
+    {"uid": "s-42", "goal": {"dir": "italian", "minutes": 15}, "teacher": "claude",
+     "started_at": "2026-10-13T10:00:00.000Z", "ended_at": null, "summary_md": null,
+     "created_at": "...", "updated_at": "..."}
+
+- `POST /tutor-sessions` `{uid, goal?, teacher?, started_at?}` — 201 with the session; `goal` is an object or null, `teacher` at most 128 characters, `started_at` defaults to now.
+  Idempotent on `uid`: an existing uid returns 200 with the stored session, unchanged.
+
+- `GET /tutor-sessions` — newest first, paginated.
+
+- `GET /tutor-sessions/{uid}`, `PATCH /tutor-sessions/{uid}` `{goal?, teacher?, ended_at?, summary_md?}` — absent fields are kept, null clears a field.
+
+### Reports
+
+Problem reports (docs/tutor.md section 16).
+
+Report object:
+
+    {"id": 7, "session_uid": "s-42", "seq": 17, "reporter": "learner", "category": "content",
+     "text_md": "Gloss of *pesca* is wrong", "context": {...}, "status": "new", "issue_ref": null,
+     "created_at": "...", "updated_at": "..."}
+
+- `POST /reports` `{session_uid?, seq?, reporter, category, text_md, context?}` — 201 with the report.
+  `reporter`: `learner`, `teacher`, `observer`, `simulation`; `category`: `bug`, `content`, `teacher`, `ux`, `idea`; `context` is an object (default `{}`) collected by the host.
+  `text_md` must be non-empty; more than 20000 characters, or a `context` over 200 KB as JSON, is 413 `too_large`.
+
+- `GET /reports?status=&category=&session_uid=` — newest first, paginated.
+
+- `GET /reports/{id}`, `PATCH /reports/{id}` `{status?, issue_ref?}` — `status`: `new`, `triaged`, `closed`; `issue_ref` (at most 255 characters) names the issue a report was triaged into, e.g. `issues/0042-pesca-gloss.md`.

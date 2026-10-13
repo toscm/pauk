@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pauk tutor</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="static/style.css">
+<script type="module" src="static/app.js"></script>
+</head>
+<body>
+<header class="top">
+  <h1>pauk</h1>
+  <p id="status" class="status" role="status" aria-live="polite">
+    <span id="status-text">Loading…</span>
+    <button id="btn-restart" type="button" class="small" hidden>Restart teacher</button>
+  </p>
+  <span id="timer" class="timer" aria-label="Time"></span>
+  <nav class="actions" aria-label="Session">
+    <button id="btn-profile" type="button" class="secondary">Profile</button>
+    <button id="btn-settings" type="button" class="secondary">Settings</button>
+    <button id="btn-report" type="button" class="secondary" title="Report a problem (!)">Report a problem</button>
+    <button id="btn-end" type="button" class="secondary">End</button>
+  </nav>
+</header>
+<div class="layout">
+  <main class="chat">
+    <div class="scroller">
+      <div id="start-slot"></div>
+      <div id="transcript" class="transcript" aria-label="Conversation"></div>
+    </div>
+    <form id="composer" class="composer" aria-label="Write">
+      <label for="input" class="sr-only">Message</label>
+      <textarea id="input" rows="2"></textarea>
+      <div class="composer-side">
+        <button id="send" type="submit">Send</button>
+        <label id="ask-toggle" class="small" hidden><input type="checkbox" id="ask-teacher"> ask the teacher instead</label>
+      </div>
+    </form>
+  </main>
+  <aside class="side" aria-label="Session details">
+    <section><h2>Goal</h2><p id="side-goal" class="small">No goal yet.</p></section>
+    <section><h2>Time</h2><p id="side-timer" class="small">–</p></section>
+    <section><h2>Status</h2><p id="side-status" class="small"></p></section>
+    <section><h2>Items this session</h2><div id="side-touched"></div></section>
+  </aside>
+</div>
+<div id="toasts" class="toasts" aria-live="polite"></div>
+</body>
+</html>

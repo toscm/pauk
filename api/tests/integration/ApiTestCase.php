@@ -61,7 +61,7 @@ abstract class ApiTestCase extends TestCase
                   'item_links', 'item_states', 'card_items', 'dir_items', 'items', 'user_settings',
                   'route_runs', 'quest_runs', 'quiz_runs', 'reviews', 'dir_cards', 'dir_dirs', 'dirs',
                   'text_answers', 'mc_options', 'match_pairs', 'quest_specs', 'route_specs', 'cards', 'media',
-                  'api_tokens', 'users'] as $table) {
+                  'tutor_sessions', 'reports', 'api_tokens', 'users'] as $table) {
             self::$pdo->exec("TRUNCATE TABLE $table");
         }
         self::$pdo->exec('SET FOREIGN_KEY_CHECKS = 1');

@@ -40,6 +40,11 @@ read-only post-deploy smoke check.
    state. This exercises exactly what a user runs, including
    the interactive menu and quiz flows (with piped stdin).
 
+   The tutor session host (`cli/tests/test_tutor.py`) is tested in-process with FastAPI's TestClient against `pauk.tutor.fake.FakeApi`, so its rules (hidden keys, grading order, budgets, settings, activities, concurrency) need no PHP; one test runs `pauk teach` as a subprocess against a live host.
+
+   Not automated: runs with a real LLM teacher.
+   For those, start a scratch API (never the live one), run `pauk tutor` against it, and drive the learner side by hand in the browser or with a script; the session transcript (`~/.local/share/pauk/sessions/<sid>.jsonl`) and the agent log next to it show what the teacher did.
+
 4. CI (GitHub Actions)
 
    Runs levels 1–3 on every push, using a `mariadb:11.8`

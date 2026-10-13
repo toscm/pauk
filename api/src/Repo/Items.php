@@ -147,6 +147,12 @@ final class Items
     {
         $item = $this->validate($body, false);
         $space = $item['space'];
+        // dry_run runs the whole protocol but keeps nothing: same_as
+        // skips the aliases, a create is rolled back after the preview
+        $dryRun = $body['dry_run'] ?? false;
+        if (!is_bool($dryRun)) {
+            throw new ApiError(400, 'validation', 'dry_run must be a boolean');
+        }
 
         $existing = $this->exactIdentity($userId, $item);
         if ($existing !== null) {
@@ -160,9 +166,11 @@ final class Items
             }
             $target = $this->resolve($userId, $body['same_as']);
             $reason = is_string($body['reason'] ?? null) ? $body['reason'] : null;
-            $this->addAlias($userId, $space, $item['key'], $item['label_md'], (int) $target['id'], 'same_as', $reason);
+            if (!$dryRun) {
+                $this->addAlias($userId, $space, $item['key'], $item['label_md'], (int) $target['id'], 'same_as', $reason);
+            }
             $slug = Norm::slug($item['label_md']);
-            if ($slug !== '' && $slug !== $item['key']) {
+            if (!$dryRun && $slug !== '' && $slug !== $item['key']) {
                 $this->addAlias($userId, $space, $slug, $item['label_md'], (int) $target['id'], 'same_as', $reason);
             }
             $target = $this->resolve($userId, (int) $target['id']);
@@ -199,6 +207,12 @@ final class Items
                 $this->insertLink($id, $otherId, 'related', mb_substr((string) $body['reason'], 0, 255));
             }
             $this->applyRelations($userId, $id, $item, $body);
+            if ($dryRun) {
+                $preview = $this->get($userId, $id);
+                unset($preview['id']);
+                $this->pdo->rollBack();
+                return [200, ['created' => false, 'would_create' => true, 'item' => $preview]];
+            }
             $this->pdo->commit();
         } catch (\Throwable $e) {
             $this->pdo->rollBack();

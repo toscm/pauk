@@ -323,6 +323,43 @@ class Client:
             if cursor is None:
                 return
 
+    def list_items(self, **filters: Any) -> list[dict]:
+        """One page of GET /items (filters with None values are dropped)."""
+        params = {k: v for k, v in filters.items() if v is not None}
+        return self._call("GET", "/items", params=params)["items"]
+
+    def merge_items(self, into: str | int, body: dict) -> dict:
+        return self._call("POST", self._item_path(into) + "/merge", json=body)
+
+    def unmerge_item(self, ref: str | int) -> dict:
+        return self._call("POST", self._item_path(ref) + "/unmerge")
+
+    def suggest_merge(self, body: dict) -> dict:
+        return self._call("POST", "/merges", json=body)
+
+    def list_merges(self, status: str | None = None) -> list[dict]:
+        params = {"status": status} if status else {}
+        return self._call("GET", "/merges", params=params)["items"]
+
+    def decide_merge(self, merge_id: int, action: str) -> dict:
+        return self._call("POST", f"/merges/{merge_id}/{action}")
+
+    def create_report(self, body: dict) -> dict:
+        return self._call("POST", "/reports", json=body)
+
+    def list_reports(self, **filters: Any) -> list[dict]:
+        params = {k: v for k, v in filters.items() if v is not None}
+        return self._call("GET", "/reports", params=params)["items"]
+
+    def update_report(self, report_id: int, body: dict) -> dict:
+        return self._call("PATCH", f"/reports/{report_id}", json=body)
+
+    def start_tutor_session(self, body: dict) -> dict:
+        return self._call("POST", "/tutor-sessions", json=body)
+
+    def update_tutor_session(self, uid: str, body: dict) -> dict:
+        return self._call("PATCH", f"/tutor-sessions/{uid}", json=body)
+
     def set_item_flags(self, ref: str | int, status: str | None = None, note: str | None = None) -> dict:
         body = {k: v for k, v in {"status": status, "note": note}.items() if v is not None}
         return self._call("PUT", self._item_path(ref) + "/state", json=body)

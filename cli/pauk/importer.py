@@ -103,7 +103,9 @@ def _resolve_media(client: Client, cards: list[dict], base: Path, echo) -> None:
 def _ensure_dirs(client: Client, paths: list[str]) -> dict[str, int]:
     """Create missing dirs mkdir -p style; return path -> id."""
     ids: dict[str, int] = {}
-    for path in sorted(paths, key=lambda p: p.count("/")):
+    # every ancestor too, so a path's parents need not be listed
+    with_parents = {"/".join(path.split("/")[:i]) for path in paths for i in range(1, path.count("/") + 2)}
+    for path in sorted(with_parents, key=lambda p: p.count("/")):
         parent_path, _, name = path.rpartition("/")
         parent_id = ids.get(parent_path) if parent_path else None
         if parent_path and parent_id is None:
