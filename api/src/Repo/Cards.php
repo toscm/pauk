@@ -12,6 +12,8 @@ final class Cards
     public function __construct(
         private readonly \PDO $pdo,
         private readonly Dirs $dirs,
+        /** Linked items get the answer as evidence (docs/tutor.md 5). */
+        private readonly ?Interactions $interactions = null,
     ) {
     }
 
@@ -297,6 +299,7 @@ final class Cards
             'INSERT INTO reviews (card_id, user_id, was_correct) VALUES (?, ?, ?)'
         );
         $stmt->execute([$cardId, $userId, $correct ? 1 : 0]);
+        $this->interactions?->recordCardReview($userId, $cardId, $card['type'], (int) $this->pdo->lastInsertId(), $match);
         $result = ['correct' => $correct, 'match' => $match, 'expected' => $expected];
         if (isset($detail)) {
             $result['detail'] = $detail;
@@ -331,6 +334,7 @@ final class Cards
             'INSERT INTO reviews (card_id, user_id, was_correct) VALUES (?, ?, ?)'
         );
         $stmt->execute([$cardId, $userId, $correct ? 1 : 0]);
+        $this->interactions?->recordCardReview($userId, $cardId, 'recall', (int) $this->pdo->lastInsertId(), $correct ? 'exact' : 'wrong');
         return ['correct' => $correct];
     }
 

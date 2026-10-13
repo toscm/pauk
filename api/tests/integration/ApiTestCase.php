@@ -57,7 +57,9 @@ abstract class ApiTestCase extends TestCase
     protected function setUp(): void
     {
         self::$pdo->exec('SET FOREIGN_KEY_CHECKS = 0');
-        foreach (['route_runs', 'quest_runs', 'quiz_runs', 'reviews', 'dir_cards', 'dir_dirs', 'dirs',
+        foreach (['interaction_amendments', 'interaction_items', 'interactions', 'item_merges', 'item_aliases',
+                  'item_links', 'item_states', 'card_items', 'dir_items', 'items', 'user_settings',
+                  'route_runs', 'quest_runs', 'quiz_runs', 'reviews', 'dir_cards', 'dir_dirs', 'dirs',
                   'text_answers', 'mc_options', 'match_pairs', 'quest_specs', 'route_specs', 'cards', 'media',
                   'api_tokens', 'users'] as $table) {
             self::$pdo->exec("TRUNCATE TABLE $table");

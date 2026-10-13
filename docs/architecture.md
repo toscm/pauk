@@ -91,9 +91,19 @@
   created_at. The file on disk is `<sha256>.<ext>`; uploading
   the same content twice deduplicates naturally.
 
-- `reviews` (later): card_id, user_id, answered_at,
-  was_correct. Append-only log a spaced-repetition scheduler
-  can be built on.
+- `reviews`: card_id, user_id, answered_at, was_correct.
+  Append-only log of card answers; drives quiz selection.
+
+- Knowledge profile (docs/tutor.md, migration 008):
+
+  - `items`: one piece of knowledge per row, identity `(space, key)` (binary collation), kind, label/gloss/body, attrs JSON with generated unique columns for the strong identifiers `doi`/`isbn`/`wikidata`, `label_norm` and the generated `key_base` for duplicate candidates, priority, level, `archived_at`, `merged_into`.
+  - `item_aliases`: old keys and alternate names (key form) per space, with origin and reason.
+  - `item_links`: `form_of` / `requires` / `part_of` / `related` edges, with a note (e.g. why two similar items are distinct).
+  - `dir_items` (subjects) and `card_items` (cards as exercises for items).
+  - `interactions` + `interaction_items`: the append-only evidence log, raw exercise and response, grader version, `occurred_at` with millisecond precision, per-item outcome and `origin_item_id`; `interaction_amendments` for corrections.
+  - `item_states`: cache of the memory model over the log (stability, difficulty, reps, lapses, best mode, model version) plus the two learner flags status and note.
+  - `item_merges`: suggested and executed merges with what they moved, so unmerge is exact.
+  - `user_settings`: one JSON value per setting name.
 
 - `quiz_runs`: user_id, dir_id (nullable; a deleted dir
   keeps its runs with NULL), total, correct, started_at,
@@ -229,6 +239,27 @@ Directories form a DAG, not a tree:
   rescheduled. Grading stays server-side for everything
   actually answered; the client simply declines to submit a
   tipped card.
+
+- Knowledge over cards: pauk moves from static cards to a per-user knowledge profile and an LLM tutor (docs/tutor.md, issues/0014).
+  The profile is added beside cards and directories, not instead of them: cards become exercises linked to items, directories become subjects that hold items too, and answering a linked card is evidence for its items.
+  Chosen over a restructure because the card schema is orthogonal to the new one and every migration must stay additive.
+
+- Computations are deterministic, judgements of meaning belong to the LLM.
+  Scores, keyed grading and selection are code in the API; whether two names denote the same thing, whether an open answer is right, or what the learner intends are decided by the LLM.
+  The API makes those decisions cheap to get right and cheap to undo: it resolves only exact identity (key, alias, DOI/ISBN/Wikidata), returns lexical candidates that the caller must answer with `same_as` or `distinct_from` plus a reason, and keeps merges reversible.
+
+- Identity spaces are separate from subjects.
+  An item lives in exactly one space (a language, or `concepts`), which only prevents false collisions; subjects are directories with many-to-many membership, so `concepts/linear-regression` exists once and belongs to statistics, bioinformatics and phd-defense.
+
+- The interaction log is the truth and is never rewritten: corrections are amendment rows, items are archived rather than deleted, merges repoint rows while keeping `origin_item_id`.
+  Item states are a cache of a versioned, pure memory model (`Pauk\Knowledge\MemoryModel`, v1 `pauk-mm@1`, FSRS-inspired stability/difficulty with a power forgetting curve); `POST /admin/rebuild-states` recomputes them, and a test asserts that a rebuild reproduces the incremental states.
+  The model constants are not part of the API contract, so retuning or replacing the model is a code change plus a rebuild.
+  v1 constants: mode factors recognize 0.6, recall 1.0, produce 1.2, explain 1.0, self_report 0.5; first stability 1/3/8 days (hard/good/easy, times the mode factor) or 0.2 on fail; growth `1 + m·k·((11−D)/10)·S^−0.15·(e^(2(1−R))−1)` with k = 4/10/16; after a fail `max(0.2, min(S/2, 0.5 + 0.1·S))`.
+
+- Open value sets (item kind, link rel, interaction mode and source, best mode, grader, merge status) are VARCHAR validated by the API; ENUM only for closed sets (outcome, flag status). `cards.type` needed four ENUM migrations.
+
+- All timestamps are UTC: every connection sets `time_zone = '+00:00'`.
+  Before 0.10.0 the session used the server zone (Europe/Berlin locally, likely also on IONOS) while the API labelled times with `Z`; rows written before that are off by the zone offset, which is harmless for quiz staleness and leaderboards.
 
 ### TUI gotchas
 

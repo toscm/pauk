@@ -32,10 +32,12 @@ _DEFAULT_TTL = 30.0
 
 
 class ApiError(Exception):
-    def __init__(self, status: int, code: str, message: str):
+    def __init__(self, status: int, code: str, message: str, data: dict | None = None):
         super().__init__(f"{code}: {message}")
         self.status = status
         self.code = code
+        # the full error body, e.g. `candidates` of possible_duplicates
+        self.data = data or {}
 
 
 class Client:
@@ -70,6 +72,7 @@ class Client:
                 response.status_code,
                 error.get("code", "unknown"),
                 error.get("message", response.text),
+                data,
             )
         return data
 
@@ -290,6 +293,74 @@ class Client:
         response = self._http.get(url, headers={})
         response.raise_for_status()
         return response.content
+
+    # --- knowledge profile (docs/api.md, "Knowledge profile") -------
+    @staticmethod
+    def _item_path(ref: str | int) -> str:
+        return f"/items/{ref}"
+
+    def create_item(self, body: dict) -> dict:
+        """POST /items. Returns {'created', 'item', 'via'?}; raises
+        ApiError(409, 'possible_duplicates') with e.data['candidates']."""
+        return self._call("POST", "/items", json=body)
+
+    def bulk_items(self, items: list[dict]) -> dict:
+        return self._call("PUT", "/items/bulk", json={"items": items})
+
+    def get_item(self, ref: str | int) -> dict:
+        return self._call("GET", self._item_path(ref))
+
+    def iter_items(self, **filters: Any) -> Iterator[dict]:
+        cursor = None
+        while True:
+            params = {k: v for k, v in filters.items() if v is not None}
+            params["limit"] = 200
+            if cursor:
+                params["cursor"] = cursor
+            data = self._call("GET", "/items", params=params)
+            yield from data["items"]
+            cursor = data["next_cursor"]
+            if cursor is None:
+                return
+
+    def set_item_flags(self, ref: str | int, status: str | None = None, note: str | None = None) -> dict:
+        body = {k: v for k, v in {"status": status, "note": note}.items() if v is not None}
+        return self._call("PUT", self._item_path(ref) + "/state", json=body)
+
+    def link_item_dir(self, dir_id: int, ref: str | int) -> None:
+        self._call("PUT", f"/dirs/{dir_id}/items/{ref}")
+
+    def link_card_item(self, card_id: int, ref: str | int) -> None:
+        self._call("PUT", f"/cards/{card_id}/items/{ref}")
+
+    def record_interaction(self, body: dict) -> dict:
+        return self._call("POST", "/interactions", json=body)
+
+    def amend_interaction(self, uuid: str, body: dict) -> dict:
+        return self._call("POST", f"/interactions/{uuid}/amendments", json=body)
+
+    def profile(self, dir_id: int | None = None, space: str | None = None) -> dict:
+        params = {k: v for k, v in {"dir": dir_id, "space": space}.items() if v is not None}
+        return self._call("GET", "/profile", params=params)
+
+    def next_items(self, dir_id: int | None = None, space: str | None = None, n: int = 10, new: int | None = None) -> dict:
+        params = {k: v for k, v in {"dir": dir_id, "space": space, "n": n, "new": new}.items() if v is not None}
+        return self._call("GET", "/profile/next", params=params)
+
+    def settings(self) -> dict:
+        return self._call("GET", "/settings")
+
+    def update_settings(self, changes: dict) -> dict:
+        return self._call("PATCH", "/settings", json=changes)
+
+    def export_lines(self) -> Iterator[str]:
+        """The JSON-lines export, line by line."""
+        with self._http.stream("GET", "/export") as response:
+            if response.status_code >= 400:
+                response.read()
+                error = response.json().get("error", {})
+                raise ApiError(response.status_code, error.get("code", "unknown"), error.get("message", ""))
+            yield from (line for line in response.iter_lines() if line)
 
     def stats(self, dir_id: int | None = None, recursive: bool = True) -> dict:
         params: dict[str, Any] = {}

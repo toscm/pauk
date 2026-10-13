@@ -1,0 +1,706 @@
+{
+  "space": "el",
+  "dirs": [
+    "greek"
+  ],
+  "items": [
+    {
+      "key": "alpha",
+      "kind": "symbol",
+      "label_md": "α",
+      "gloss_md": "alpha",
+      "body_md": "Letter 1 of 24. Uppercase **Α**, lowercase **α**.",
+      "attrs": {
+        "uppercase": "Α",
+        "position": 1,
+        "source": "greek.json"
+      },
+      "priority": 80,
+      "level": 1,
+      "dirs": [
+        "greek"
+      ]
+    },
+    {
+      "key": "beta",
+      "kind": "symbol",
+      "label_md": "β",
+      "gloss_md": "beta",
+      "body_md": "Letter 2 of 24. Uppercase **Β**, lowercase **β**.",
+      "attrs": {
+        "uppercase": "Β",
+        "position": 2,
+        "source": "greek.json"
+      },
+      "priority": 80,
+      "level": 1,
+      "dirs": [
+        "greek"
+      ]
+    },
+    {
+      "key": "gamma",
+      "kind": "symbol",
+      "label_md": "γ",
+      "gloss_md": "gamma",
+      "body_md": "Letter 3 of 24. Uppercase **Γ**, lowercase **γ**.",
+      "attrs": {
+        "uppercase": "Γ",
+        "position": 3,
+        "source": "greek.json"
+      },
+      "priority": 80,
+      "level": 1,
+      "dirs": [
+        "greek"
+      ]
+    },
+    {
+      "key": "delta",
+      "kind": "symbol",
+      "label_md": "δ",
+      "gloss_md": "delta",
+      "body_md": "Letter 4 of 24. Uppercase **Δ**, lowercase **δ**.",
+      "attrs": {
+        "uppercase": "Δ",
+        "position": 4,
+        "source": "greek.json"
+      },
+      "priority": 80,
+      "level": 1,
+      "dirs": [
+        "greek"
+      ]
+    },
+    {
+      "key": "epsilon",
+      "kind": "symbol",
+      "label_md": "ε",
+      "gloss_md": "epsilon",
+      "body_md": "Letter 5 of 24. Uppercase **Ε**, lowercase **ε**.",
+      "attrs": {
+        "uppercase": "Ε",
+        "position": 5,
+        "source": "greek.json"
+      },
+      "priority": 80,
+      "level": 1,
+      "dirs": [
+        "greek"
+      ]
+    },
+    {
+      "key": "zeta",
+      "kind": "symbol",
+      "label_md": "ζ",
+      "gloss_md": "zeta",
+      "body_md": "Letter 6 of 24. Uppercase **Ζ**, lowercase **ζ**.",
+      "attrs": {
+        "uppercase": "Ζ",
+        "position": 6,
+        "source": "greek.json"
+      },
+      "priority": 80,
+      "level": 1,
+      "dirs": [
+        "greek"
+      ]
+    },
+    {
+      "key": "eta",
+      "kind": "symbol",
+      "label_md": "η",
+      "gloss_md": "eta",
+      "body_md": "Letter 7 of 24. Uppercase **Η**, lowercase **η**.",
+      "attrs": {
+        "uppercase": "Η",
+        "position": 7,
+        "source": "greek.json"
+      },
+      "priority": 80,
+      "level": 1,
+      "dirs": [
+        "greek"
+      ]
+    },
+    {
+      "key": "theta",
+      "kind": "symbol",
+      "label_md": "θ",
+      "gloss_md": "theta",
+      "body_md": "Letter 8 of 24. Uppercase **Θ**, lowercase **θ**.",
+      "attrs": {
+        "uppercase": "Θ",
+        "position": 8,
+        "source": "greek.json"
+      },
+      "priority": 80,
+      "level": 1,
+      "dirs": [
+        "greek"
+      ]
+    },
+    {
+      "key": "iota",
+      "kind": "symbol",
+      "label_md": "ι",
+      "gloss_md": "iota",
+      "body_md": "Letter 9 of 24. Uppercase **Ι**, lowercase **ι**. Also spelled jota.",
+      "attrs": {
+        "uppercase": "Ι",
+        "position": 9,
+        "source": "greek.json"
+      },
+      "priority": 80,
+      "level": 1,
+      "dirs": [
+        "greek"
+      ]
+    },
+    {
+      "key": "kappa",
+      "kind": "symbol",
+      "label_md": "κ",
+      "gloss_md": "kappa",
+      "body_md": "Letter 10 of 24. Uppercase **Κ**, lowercase **κ**.",
+      "attrs": {
+        "uppercase": "Κ",
+        "position": 10,
+        "source": "greek.json"
+      },
+      "priority": 80,
+      "level": 1,
+      "dirs": [
+        "greek"
+      ]
+    },
+    {
+      "key": "lambda",
+      "kind": "symbol",
+      "label_md": "λ",
+      "gloss_md": "lambda",
+      "body_md": "Letter 11 of 24. Uppercase **Λ**, lowercase **λ**. Also spelled lamda.",
+      "attrs": {
+        "uppercase": "Λ",
+        "position": 11,
+        "source": "greek.json"
+      },
+      "priority": 80,
+      "level": 1,
+      "dirs": [
+        "greek"
+      ]
+    },
+    {
+      "key": "mu",
+      "kind": "symbol",
+      "label_md": "μ",
+      "gloss_md": "mu",
+      "body_md": "Letter 12 of 24. Uppercase **Μ**, lowercase **μ**. Also spelled my.",
+      "attrs": {
+        "uppercase": "Μ",
+        "position": 12,
+        "source": "greek.json"
+      },
+      "priority": 80,
+      "level": 1,
+      "dirs": [
+        "greek"
+      ]
+    },
+    {
+      "key": "nu",
+      "kind": "symbol",
+      "label_md": "ν",
+      "gloss_md": "nu",
+      "body_md": "Letter 13 of 24. Uppercase **Ν**, lowercase **ν**. Also spelled ny.",
+      "attrs": {
+        "uppercase": "Ν",
+        "position": 13,
+        "source": "greek.json"
+      },
+      "priority": 80,
+      "level": 1,
+      "dirs": [
+        "greek"
+      ]
+    },
+    {
+      "key": "xi",
+      "kind": "symbol",
+      "label_md": "ξ",
+      "gloss_md": "xi",
+      "body_md": "Letter 14 of 24. Uppercase **Ξ**, lowercase **ξ**.",
+      "attrs": {
+        "uppercase": "Ξ",
+        "position": 14,
+        "source": "greek.json"
+      },
+      "priority": 80,
+      "level": 1,
+      "dirs": [
+        "greek"
+      ]
+    },
+    {
+      "key": "omicron",
+      "kind": "symbol",
+      "label_md": "ο",
+      "gloss_md": "omicron",
+      "body_md": "Letter 15 of 24. Uppercase **Ο**, lowercase **ο**. Also spelled omikron.",
+      "attrs": {
+        "uppercase": "Ο",
+        "position": 15,
+        "source": "greek.json"
+      },
+      "priority": 80,
+      "level": 1,
+      "dirs": [
+        "greek"
+      ]
+    },
+    {
+      "key": "pi",
+      "kind": "symbol",
+      "label_md": "π",
+      "gloss_md": "pi",
+      "body_md": "Letter 16 of 24. Uppercase **Π**, lowercase **π**.",
+      "attrs": {
+        "uppercase": "Π",
+        "position": 16,
+        "source": "greek.json"
+      },
+      "priority": 80,
+      "level": 1,
+      "dirs": [
+        "greek"
+      ]
+    },
+    {
+      "key": "rho",
+      "kind": "symbol",
+      "label_md": "ρ",
+      "gloss_md": "rho",
+      "body_md": "Letter 17 of 24. Uppercase **Ρ**, lowercase **ρ**.",
+      "attrs": {
+        "uppercase": "Ρ",
+        "position": 17,
+        "source": "greek.json"
+      },
+      "priority": 80,
+      "level": 1,
+      "dirs": [
+        "greek"
+      ]
+    },
+    {
+      "key": "sigma",
+      "kind": "symbol",
+      "label_md": "σ / ς",
+      "gloss_md": "sigma",
+      "body_md": "Letter 18 of 24. Uppercase **Σ**, lowercase **σ / ς**.",
+      "attrs": {
+        "uppercase": "Σ",
+        "position": 18,
+        "source": "greek.json"
+      },
+      "priority": 80,
+      "level": 1,
+      "dirs": [
+        "greek"
+      ]
+    },
+    {
+      "key": "tau",
+      "kind": "symbol",
+      "label_md": "τ",
+      "gloss_md": "tau",
+      "body_md": "Letter 19 of 24. Uppercase **Τ**, lowercase **τ**.",
+      "attrs": {
+        "uppercase": "Τ",
+        "position": 19,
+        "source": "greek.json"
+      },
+      "priority": 80,
+      "level": 1,
+      "dirs": [
+        "greek"
+      ]
+    },
+    {
+      "key": "upsilon",
+      "kind": "symbol",
+      "label_md": "υ",
+      "gloss_md": "upsilon",
+      "body_md": "Letter 20 of 24. Uppercase **Υ**, lowercase **υ**. Also spelled ypsilon.",
+      "attrs": {
+        "uppercase": "Υ",
+        "position": 20,
+        "source": "greek.json"
+      },
+      "priority": 80,
+      "level": 1,
+      "dirs": [
+        "greek"
+      ]
+    },
+    {
+      "key": "phi",
+      "kind": "symbol",
+      "label_md": "φ",
+      "gloss_md": "phi",
+      "body_md": "Letter 21 of 24. Uppercase **Φ**, lowercase **φ**.",
+      "attrs": {
+        "uppercase": "Φ",
+        "position": 21,
+        "source": "greek.json"
+      },
+      "priority": 80,
+      "level": 1,
+      "dirs": [
+        "greek"
+      ]
+    },
+    {
+      "key": "chi",
+      "kind": "symbol",
+      "label_md": "χ",
+      "gloss_md": "chi",
+      "body_md": "Letter 22 of 24. Uppercase **Χ**, lowercase **χ**.",
+      "attrs": {
+        "uppercase": "Χ",
+        "position": 22,
+        "source": "greek.json"
+      },
+      "priority": 80,
+      "level": 1,
+      "dirs": [
+        "greek"
+      ]
+    },
+    {
+      "key": "psi",
+      "kind": "symbol",
+      "label_md": "ψ",
+      "gloss_md": "psi",
+      "body_md": "Letter 23 of 24. Uppercase **Ψ**, lowercase **ψ**.",
+      "attrs": {
+        "uppercase": "Ψ",
+        "position": 23,
+        "source": "greek.json"
+      },
+      "priority": 80,
+      "level": 1,
+      "dirs": [
+        "greek"
+      ]
+    },
+    {
+      "key": "omega",
+      "kind": "symbol",
+      "label_md": "ω",
+      "gloss_md": "omega",
+      "body_md": "Letter 24 of 24. Uppercase **Ω**, lowercase **ω**.",
+      "attrs": {
+        "uppercase": "Ω",
+        "position": 24,
+        "source": "greek.json"
+      },
+      "priority": 80,
+      "level": 1,
+      "dirs": [
+        "greek"
+      ]
+    }
+  ],
+  "card_links": [
+    {
+      "card": "Name this Greek letter: **α**",
+      "item": "alpha"
+    },
+    {
+      "card": "Name this Greek letter (uppercase): **Α**",
+      "item": "alpha"
+    },
+    {
+      "card": "Which Greek letter is this: **α**?",
+      "item": "alpha"
+    },
+    {
+      "card": "Name this Greek letter: **β**",
+      "item": "beta"
+    },
+    {
+      "card": "Name this Greek letter (uppercase): **Β**",
+      "item": "beta"
+    },
+    {
+      "card": "Which Greek letter is this: **β**?",
+      "item": "beta"
+    },
+    {
+      "card": "Name this Greek letter: **γ**",
+      "item": "gamma"
+    },
+    {
+      "card": "Name this Greek letter (uppercase): **Γ**",
+      "item": "gamma"
+    },
+    {
+      "card": "Which Greek letter is this: **γ**?",
+      "item": "gamma"
+    },
+    {
+      "card": "Name this Greek letter: **δ**",
+      "item": "delta"
+    },
+    {
+      "card": "Name this Greek letter (uppercase): **Δ**",
+      "item": "delta"
+    },
+    {
+      "card": "Which Greek letter is this: **δ**?",
+      "item": "delta"
+    },
+    {
+      "card": "Name this Greek letter: **ε**",
+      "item": "epsilon"
+    },
+    {
+      "card": "Name this Greek letter (uppercase): **Ε**",
+      "item": "epsilon"
+    },
+    {
+      "card": "Which Greek letter is this: **ε**?",
+      "item": "epsilon"
+    },
+    {
+      "card": "Name this Greek letter: **ζ**",
+      "item": "zeta"
+    },
+    {
+      "card": "Name this Greek letter (uppercase): **Ζ**",
+      "item": "zeta"
+    },
+    {
+      "card": "Which Greek letter is this: **ζ**?",
+      "item": "zeta"
+    },
+    {
+      "card": "Name this Greek letter: **η**",
+      "item": "eta"
+    },
+    {
+      "card": "Name this Greek letter (uppercase): **Η**",
+      "item": "eta"
+    },
+    {
+      "card": "Which Greek letter is this: **η**?",
+      "item": "eta"
+    },
+    {
+      "card": "Name this Greek letter: **θ**",
+      "item": "theta"
+    },
+    {
+      "card": "Name this Greek letter (uppercase): **Θ**",
+      "item": "theta"
+    },
+    {
+      "card": "Which Greek letter is this: **θ**?",
+      "item": "theta"
+    },
+    {
+      "card": "Name this Greek letter: **ι**",
+      "item": "iota"
+    },
+    {
+      "card": "Name this Greek letter (uppercase): **Ι**",
+      "item": "iota"
+    },
+    {
+      "card": "Which Greek letter is this: **ι**?",
+      "item": "iota"
+    },
+    {
+      "card": "Name this Greek letter: **κ**",
+      "item": "kappa"
+    },
+    {
+      "card": "Name this Greek letter (uppercase): **Κ**",
+      "item": "kappa"
+    },
+    {
+      "card": "Which Greek letter is this: **κ**?",
+      "item": "kappa"
+    },
+    {
+      "card": "Name this Greek letter: **λ**",
+      "item": "lambda"
+    },
+    {
+      "card": "Name this Greek letter (uppercase): **Λ**",
+      "item": "lambda"
+    },
+    {
+      "card": "Which Greek letter is this: **λ**?",
+      "item": "lambda"
+    },
+    {
+      "card": "Name this Greek letter: **μ**",
+      "item": "mu"
+    },
+    {
+      "card": "Name this Greek letter (uppercase): **Μ**",
+      "item": "mu"
+    },
+    {
+      "card": "Which Greek letter is this: **μ**?",
+      "item": "mu"
+    },
+    {
+      "card": "Name this Greek letter: **ν**",
+      "item": "nu"
+    },
+    {
+      "card": "Name this Greek letter (uppercase): **Ν**",
+      "item": "nu"
+    },
+    {
+      "card": "Which Greek letter is this: **ν**?",
+      "item": "nu"
+    },
+    {
+      "card": "Name this Greek letter: **ξ**",
+      "item": "xi"
+    },
+    {
+      "card": "Name this Greek letter (uppercase): **Ξ**",
+      "item": "xi"
+    },
+    {
+      "card": "Which Greek letter is this: **ξ**?",
+      "item": "xi"
+    },
+    {
+      "card": "Name this Greek letter: **ο**",
+      "item": "omicron"
+    },
+    {
+      "card": "Name this Greek letter (uppercase): **Ο**",
+      "item": "omicron"
+    },
+    {
+      "card": "Which Greek letter is this: **ο**?",
+      "item": "omicron"
+    },
+    {
+      "card": "Name this Greek letter: **π**",
+      "item": "pi"
+    },
+    {
+      "card": "Name this Greek letter (uppercase): **Π**",
+      "item": "pi"
+    },
+    {
+      "card": "Which Greek letter is this: **π**?",
+      "item": "pi"
+    },
+    {
+      "card": "Name this Greek letter: **ρ**",
+      "item": "rho"
+    },
+    {
+      "card": "Name this Greek letter (uppercase): **Ρ**",
+      "item": "rho"
+    },
+    {
+      "card": "Which Greek letter is this: **ρ**?",
+      "item": "rho"
+    },
+    {
+      "card": "Name this Greek letter: **σ / ς**",
+      "item": "sigma"
+    },
+    {
+      "card": "Name this Greek letter (uppercase): **Σ**",
+      "item": "sigma"
+    },
+    {
+      "card": "Which Greek letter is this: **σ / ς**?",
+      "item": "sigma"
+    },
+    {
+      "card": "Name this Greek letter: **τ**",
+      "item": "tau"
+    },
+    {
+      "card": "Name this Greek letter (uppercase): **Τ**",
+      "item": "tau"
+    },
+    {
+      "card": "Which Greek letter is this: **τ**?",
+      "item": "tau"
+    },
+    {
+      "card": "Name this Greek letter: **υ**",
+      "item": "upsilon"
+    },
+    {
+      "card": "Name this Greek letter (uppercase): **Υ**",
+      "item": "upsilon"
+    },
+    {
+      "card": "Which Greek letter is this: **υ**?",
+      "item": "upsilon"
+    },
+    {
+      "card": "Name this Greek letter: **φ**",
+      "item": "phi"
+    },
+    {
+      "card": "Name this Greek letter (uppercase): **Φ**",
+      "item": "phi"
+    },
+    {
+      "card": "Which Greek letter is this: **φ**?",
+      "item": "phi"
+    },
+    {
+      "card": "Name this Greek letter: **χ**",
+      "item": "chi"
+    },
+    {
+      "card": "Name this Greek letter (uppercase): **Χ**",
+      "item": "chi"
+    },
+    {
+      "card": "Which Greek letter is this: **χ**?",
+      "item": "chi"
+    },
+    {
+      "card": "Name this Greek letter: **ψ**",
+      "item": "psi"
+    },
+    {
+      "card": "Name this Greek letter (uppercase): **Ψ**",
+      "item": "psi"
+    },
+    {
+      "card": "Which Greek letter is this: **ψ**?",
+      "item": "psi"
+    },
+    {
+      "card": "Name this Greek letter: **ω**",
+      "item": "omega"
+    },
+    {
+      "card": "Name this Greek letter (uppercase): **Ω**",
+      "item": "omega"
+    },
+    {
+      "card": "Which Greek letter is this: **ω**?",
+      "item": "omega"
+    }
+  ]
+}

@@ -19,6 +19,9 @@ touched by `make deploy` and for reading logs.
 
 - Python ≥ 3.10 with a project venv under `cli/.venv`.
 
+- On Windows the toolchain runs inside WSL (Ubuntu), installed the same way into the WSL home (`~/.local/bin/php`, `~/.local/mariadb-11.8`, plus `uv` for the venv).
+  Run the suite from a WSL-side copy of the checkout (the MariaDB datadirs do not work well on the `/mnt/c` mount), and start pytest under `setsid` when WSL is launched from a Windows terminal: otherwise the hidden token prompt in `test_version_and_login` reads from the terminal instead of stdin and the test hangs.
+
 `make setup` installs/verifies all of the above and the
 PHP/Python dependencies. Candidate for toscpm registration
 once stable.

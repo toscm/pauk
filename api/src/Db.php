@@ -15,11 +15,16 @@ final class Db
             Env::get('PAUK_DB_PORT', '3306'),
             Env::get('PAUK_DB_NAME'),
         );
-        return new \PDO($dsn, Env::get('PAUK_DB_USER'), Env::get('PAUK_DB_PASS', ''), [
+        $pdo = new \PDO($dsn, Env::get('PAUK_DB_USER'), Env::get('PAUK_DB_PASS', ''), [
             \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
             \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
             \PDO::ATTR_EMULATE_PREPARES => false,
         ]);
+        // All timestamps are UTC: the API labels them with 'Z', and the
+        // interaction log mixes DB defaults with client-supplied times.
+        // Without this, CURRENT_TIMESTAMP follows the server's zone.
+        $pdo->exec("SET time_zone = '+00:00'");
+        return $pdo;
     }
 
     /**

@@ -1,0 +1,5305 @@
+{
+  "space": "it",
+  "dirs": [
+    "italian/adjectives/part-1",
+    "italian/adjectives/part-2",
+    "italian/adjectives/part-3",
+    "italian/grammar",
+    "italian/nouns/common-nouns/part-1",
+    "italian/nouns/common-nouns/part-2",
+    "italian/nouns/common-nouns/part-3",
+    "italian/nouns/core-nouns/part-1",
+    "italian/nouns/core-nouns/part-2",
+    "italian/nouns/core-nouns/part-3",
+    "italian/numbers/eleven-to-twenty",
+    "italian/numbers/tens",
+    "italian/numbers/zero-to-ten",
+    "italian/phrases/courtesy",
+    "italian/phrases/greetings",
+    "italian/phrases/survival",
+    "italian/verbs",
+    "italian/verbs/common-verbs/part-1",
+    "italian/verbs/common-verbs/part-2",
+    "italian/verbs/common-verbs/part-3",
+    "italian/verbs/conjugation/present/andare",
+    "italian/verbs/conjugation/present/avere",
+    "italian/verbs/conjugation/present/dare",
+    "italian/verbs/conjugation/present/dire",
+    "italian/verbs/conjugation/present/dovere",
+    "italian/verbs/conjugation/present/essere",
+    "italian/verbs/conjugation/present/fare",
+    "italian/verbs/conjugation/present/potere",
+    "italian/verbs/conjugation/present/sapere",
+    "italian/verbs/conjugation/present/stare",
+    "italian/verbs/conjugation/present/uscire",
+    "italian/verbs/conjugation/present/venire",
+    "italian/verbs/conjugation/present/volere",
+    "italian/verbs/core-verbs/part-1",
+    "italian/verbs/core-verbs/part-2"
+  ],
+  "items": [
+    {
+      "key": "present-are",
+      "kind": "rule",
+      "label_md": "present tense of -are verbs",
+      "gloss_md": "-o, -i, -a, -iamo, -ate, -ano",
+      "body_md": "Regular -are verbs drop -are and add -o, -i, -a, -iamo, -ate, -ano: *parlo, parli, parla, parliamo, parlate, parlano*. Verbs in -care/-gare add an h before i (*cerchi*), verbs in -iare keep a single i (*mangi*).",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/grammar"
+      ]
+    },
+    {
+      "key": "present-ere",
+      "kind": "rule",
+      "label_md": "present tense of -ere verbs",
+      "gloss_md": "-o, -i, -e, -iamo, -ete, -ono",
+      "body_md": "Regular -ere verbs drop -ere and add -o, -i, -e, -iamo, -ete, -ono: *prendo, prendi, prende, prendiamo, prendete, prendono*.",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/grammar"
+      ]
+    },
+    {
+      "key": "present-ire",
+      "kind": "rule",
+      "label_md": "present tense of -ire verbs",
+      "gloss_md": "-o, -i, -e, -iamo, -ite, -ono",
+      "body_md": "Regular -ire verbs drop -ire and add -o, -i, -e, -iamo, -ite, -ono: *dormo, dormi, dorme, dormiamo, dormite, dormono*.",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 80,
+      "level": 1,
+      "dirs": [
+        "italian/grammar"
+      ]
+    },
+    {
+      "key": "present-isc",
+      "kind": "rule",
+      "label_md": "present tense of -ire verbs with -isc-",
+      "gloss_md": "-isco, -isci, -isce, -iamo, -ite, -iscono",
+      "body_md": "Many -ire verbs insert -isc- in all persons except noi and voi: *finisco, finisci, finisce, finiamo, finite, finiscono*.",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 70,
+      "level": 1,
+      "dirs": [
+        "italian/grammar"
+      ]
+    },
+    {
+      "key": "noun-gender",
+      "kind": "rule",
+      "label_md": "gender of nouns",
+      "gloss_md": "-o mostly masculine, -a mostly feminine, -e either",
+      "body_md": "Nouns in -o are usually masculine, in -a usually feminine (exceptions: *il problema*, *la mano*); nouns in -e can be either and must be learnt.",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/grammar"
+      ]
+    },
+    {
+      "key": "noun-plural",
+      "kind": "rule",
+      "label_md": "plural of nouns",
+      "gloss_md": "-o → -i, -a → -e, -e → -i",
+      "body_md": "Masculine -o becomes -i (*ragazzo → ragazzi*), feminine -a becomes -e (*casa → case*), -e becomes -i; -co/-go and -ca/-ga often add h (*amica → amiche*, but *amico → amici*).",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 80,
+      "level": 1,
+      "dirs": [
+        "italian/grammar"
+      ]
+    },
+    {
+      "key": "definite-article",
+      "kind": "rule",
+      "label_md": "definite article",
+      "gloss_md": "il, lo, l', la, i, gli, le",
+      "body_md": "Masculine: *il* (before most consonants), *lo* (before s+consonant, z, gn, ps), *l'* (before a vowel); plural *i* / *gli*. Feminine: *la*, *l'* before a vowel; plural *le*.",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/grammar"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "noun-gender"
+        }
+      ]
+    },
+    {
+      "key": "indefinite-article",
+      "kind": "rule",
+      "label_md": "indefinite article",
+      "gloss_md": "un, uno, una, un'",
+      "body_md": "Masculine *un*, or *uno* before s+consonant, z, gn, ps; feminine *una*, or *un'* before a vowel.",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 80,
+      "level": 1,
+      "dirs": [
+        "italian/grammar"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "noun-gender"
+        }
+      ]
+    },
+    {
+      "key": "preposition-a-in",
+      "kind": "rule",
+      "label_md": "a vs in for places",
+      "gloss_md": "a + city, in + country/region",
+      "body_md": "Use *a* with cities (*Abito a Roma*, *Vado a Milano*) and *in* with countries and regions (*Vado in Italia*).",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 70,
+      "level": 1,
+      "dirs": [
+        "italian/grammar"
+      ]
+    },
+    {
+      "key": "essere",
+      "kind": "word",
+      "label_md": "essere",
+      "gloss_md": "to be",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/core-verbs/part-1"
+      ]
+    },
+    {
+      "key": "avere",
+      "kind": "word",
+      "label_md": "avere",
+      "gloss_md": "to have",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/core-verbs/part-1"
+      ]
+    },
+    {
+      "key": "fare",
+      "kind": "word",
+      "label_md": "fare",
+      "gloss_md": "to do / to make",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/core-verbs/part-1"
+      ]
+    },
+    {
+      "key": "andare",
+      "kind": "word",
+      "label_md": "andare",
+      "gloss_md": "to go",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/core-verbs/part-1"
+      ]
+    },
+    {
+      "key": "venire",
+      "kind": "word",
+      "label_md": "venire",
+      "gloss_md": "to come",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/core-verbs/part-1"
+      ]
+    },
+    {
+      "key": "dire",
+      "kind": "word",
+      "label_md": "dire",
+      "gloss_md": "to say",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/core-verbs/part-1"
+      ]
+    },
+    {
+      "key": "potere",
+      "kind": "word",
+      "label_md": "potere",
+      "gloss_md": "to be able to (can)",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/core-verbs/part-1"
+      ]
+    },
+    {
+      "key": "volere",
+      "kind": "word",
+      "label_md": "volere",
+      "gloss_md": "to want",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/core-verbs/part-1"
+      ]
+    },
+    {
+      "key": "dovere",
+      "kind": "word",
+      "label_md": "dovere",
+      "gloss_md": "to have to (must)",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/core-verbs/part-1"
+      ]
+    },
+    {
+      "key": "sapere",
+      "kind": "word",
+      "label_md": "sapere",
+      "gloss_md": "to know (a fact)",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/core-verbs/part-1"
+      ]
+    },
+    {
+      "key": "vedere",
+      "kind": "word",
+      "label_md": "vedere",
+      "gloss_md": "to see",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/core-verbs/part-2"
+      ]
+    },
+    {
+      "key": "dare",
+      "kind": "word",
+      "label_md": "dare",
+      "gloss_md": "to give",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/core-verbs/part-2"
+      ]
+    },
+    {
+      "key": "stare",
+      "kind": "word",
+      "label_md": "stare",
+      "gloss_md": "to stay",
+      "body_md": "Also: restare, rimanere.",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/core-verbs/part-2"
+      ]
+    },
+    {
+      "key": "parlare",
+      "kind": "word",
+      "label_md": "parlare",
+      "gloss_md": "to speak",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/core-verbs/part-2"
+      ]
+    },
+    {
+      "key": "mangiare",
+      "kind": "word",
+      "label_md": "mangiare",
+      "gloss_md": "to eat",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/core-verbs/part-2"
+      ]
+    },
+    {
+      "key": "bere",
+      "kind": "word",
+      "label_md": "bere",
+      "gloss_md": "to drink",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/core-verbs/part-2"
+      ]
+    },
+    {
+      "key": "prendere",
+      "kind": "word",
+      "label_md": "prendere",
+      "gloss_md": "to take",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/core-verbs/part-2"
+      ]
+    },
+    {
+      "key": "mettere",
+      "kind": "word",
+      "label_md": "mettere",
+      "gloss_md": "to put",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/core-verbs/part-2"
+      ]
+    },
+    {
+      "key": "uscire",
+      "kind": "word",
+      "label_md": "uscire",
+      "gloss_md": "to go out",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/core-verbs/part-2"
+      ]
+    },
+    {
+      "key": "dormire",
+      "kind": "word",
+      "label_md": "dormire",
+      "gloss_md": "to sleep",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/core-verbs/part-2"
+      ]
+    },
+    {
+      "key": "lavorare",
+      "kind": "word",
+      "label_md": "lavorare",
+      "gloss_md": "to work",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-1"
+      ]
+    },
+    {
+      "key": "studiare",
+      "kind": "word",
+      "label_md": "studiare",
+      "gloss_md": "to study",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-1"
+      ]
+    },
+    {
+      "key": "abitare",
+      "kind": "word",
+      "label_md": "abitare",
+      "gloss_md": "to live (reside)",
+      "body_md": "Also: vivere.",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-1"
+      ]
+    },
+    {
+      "key": "amare",
+      "kind": "word",
+      "label_md": "amare",
+      "gloss_md": "to love",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-1"
+      ]
+    },
+    {
+      "key": "aiutare",
+      "kind": "word",
+      "label_md": "aiutare",
+      "gloss_md": "to help",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-1"
+      ]
+    },
+    {
+      "key": "aprire",
+      "kind": "word",
+      "label_md": "aprire",
+      "gloss_md": "to open",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-1"
+      ]
+    },
+    {
+      "key": "chiudere",
+      "kind": "word",
+      "label_md": "chiudere",
+      "gloss_md": "to close",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-1"
+      ]
+    },
+    {
+      "key": "arrivare",
+      "kind": "word",
+      "label_md": "arrivare",
+      "gloss_md": "to arrive",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-1"
+      ]
+    },
+    {
+      "key": "partire",
+      "kind": "word",
+      "label_md": "partire",
+      "gloss_md": "to leave (depart)",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-1"
+      ]
+    },
+    {
+      "key": "ascoltare",
+      "kind": "word",
+      "label_md": "ascoltare",
+      "gloss_md": "to listen",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-1"
+      ]
+    },
+    {
+      "key": "aspettare",
+      "kind": "word",
+      "label_md": "aspettare",
+      "gloss_md": "to wait",
+      "body_md": "Also: attendere.",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-2"
+      ]
+    },
+    {
+      "key": "ballare",
+      "kind": "word",
+      "label_md": "ballare",
+      "gloss_md": "to dance",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-2"
+      ]
+    },
+    {
+      "key": "cantare",
+      "kind": "word",
+      "label_md": "cantare",
+      "gloss_md": "to sing",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-2"
+      ]
+    },
+    {
+      "key": "capire",
+      "kind": "word",
+      "label_md": "capire",
+      "gloss_md": "to understand",
+      "body_md": "Also: comprendere.",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-2"
+      ]
+    },
+    {
+      "key": "cercare",
+      "kind": "word",
+      "label_md": "cercare",
+      "gloss_md": "to look for",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-2"
+      ]
+    },
+    {
+      "key": "chiamare",
+      "kind": "word",
+      "label_md": "chiamare",
+      "gloss_md": "to call",
+      "body_md": "Also: telefonare.",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-2"
+      ]
+    },
+    {
+      "key": "comprare",
+      "kind": "word",
+      "label_md": "comprare",
+      "gloss_md": "to buy",
+      "body_md": "Also: acquistare.",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-2"
+      ]
+    },
+    {
+      "key": "conoscere",
+      "kind": "word",
+      "label_md": "conoscere",
+      "gloss_md": "to know (a person)",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-2"
+      ]
+    },
+    {
+      "key": "correre",
+      "kind": "word",
+      "label_md": "correre",
+      "gloss_md": "to run",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-2"
+      ]
+    },
+    {
+      "key": "cucinare",
+      "kind": "word",
+      "label_md": "cucinare",
+      "gloss_md": "to cook",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-2"
+      ]
+    },
+    {
+      "key": "giocare",
+      "kind": "word",
+      "label_md": "giocare",
+      "gloss_md": "to play (a game)",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-3"
+      ]
+    },
+    {
+      "key": "guardare",
+      "kind": "word",
+      "label_md": "guardare",
+      "gloss_md": "to watch",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-3"
+      ]
+    },
+    {
+      "key": "imparare",
+      "kind": "word",
+      "label_md": "imparare",
+      "gloss_md": "to learn",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-3"
+      ]
+    },
+    {
+      "key": "leggere",
+      "kind": "word",
+      "label_md": "leggere",
+      "gloss_md": "to read",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-3"
+      ]
+    },
+    {
+      "key": "pagare",
+      "kind": "word",
+      "label_md": "pagare",
+      "gloss_md": "to pay",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-3"
+      ]
+    },
+    {
+      "key": "pensare",
+      "kind": "word",
+      "label_md": "pensare",
+      "gloss_md": "to think",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-3"
+      ]
+    },
+    {
+      "key": "scrivere",
+      "kind": "word",
+      "label_md": "scrivere",
+      "gloss_md": "to write",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-3"
+      ]
+    },
+    {
+      "key": "sentire",
+      "kind": "word",
+      "label_md": "sentire",
+      "gloss_md": "to hear",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-3"
+      ]
+    },
+    {
+      "key": "trovare",
+      "kind": "word",
+      "label_md": "trovare",
+      "gloss_md": "to find",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-3"
+      ]
+    },
+    {
+      "key": "viaggiare",
+      "kind": "word",
+      "label_md": "viaggiare",
+      "gloss_md": "to travel",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "verb"
+      },
+      "priority": 65,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/common-verbs/part-3"
+      ]
+    },
+    {
+      "key": "casa",
+      "kind": "word",
+      "label_md": "casa",
+      "gloss_md": "the house",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "f"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-1"
+      ]
+    },
+    {
+      "key": "uomo",
+      "kind": "word",
+      "label_md": "uomo",
+      "gloss_md": "the man",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-1"
+      ]
+    },
+    {
+      "key": "donna",
+      "kind": "word",
+      "label_md": "donna",
+      "gloss_md": "the woman",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "f"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-1"
+      ]
+    },
+    {
+      "key": "bambino",
+      "kind": "word",
+      "label_md": "bambino",
+      "gloss_md": "the child",
+      "body_md": "Also: bambina.",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-1"
+      ]
+    },
+    {
+      "key": "acqua",
+      "kind": "word",
+      "label_md": "acqua",
+      "gloss_md": "the water",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-1"
+      ]
+    },
+    {
+      "key": "pane",
+      "kind": "word",
+      "label_md": "pane",
+      "gloss_md": "the bread",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-1"
+      ]
+    },
+    {
+      "key": "libro",
+      "kind": "word",
+      "label_md": "libro",
+      "gloss_md": "the book",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-1"
+      ]
+    },
+    {
+      "key": "giorno",
+      "kind": "word",
+      "label_md": "giorno",
+      "gloss_md": "the day",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-1"
+      ]
+    },
+    {
+      "key": "notte",
+      "kind": "word",
+      "label_md": "notte",
+      "gloss_md": "the night",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "f"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-1"
+      ]
+    },
+    {
+      "key": "anno",
+      "kind": "word",
+      "label_md": "anno",
+      "gloss_md": "the year",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-1"
+      ]
+    },
+    {
+      "key": "citta",
+      "kind": "word",
+      "label_md": "città",
+      "gloss_md": "the city",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "f"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-2"
+      ]
+    },
+    {
+      "key": "strada",
+      "kind": "word",
+      "label_md": "strada",
+      "gloss_md": "the street",
+      "body_md": "Also: via.",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "f"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-2"
+      ]
+    },
+    {
+      "key": "macchina",
+      "kind": "word",
+      "label_md": "macchina",
+      "gloss_md": "the car",
+      "body_md": "Also: auto, automobile.",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "f"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-2"
+      ]
+    },
+    {
+      "key": "treno",
+      "kind": "word",
+      "label_md": "treno",
+      "gloss_md": "the train",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-2"
+      ]
+    },
+    {
+      "key": "scuola",
+      "kind": "word",
+      "label_md": "scuola",
+      "gloss_md": "the school",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "f"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-2"
+      ]
+    },
+    {
+      "key": "lavoro",
+      "kind": "word",
+      "label_md": "lavoro",
+      "gloss_md": "the work (job)",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-2"
+      ]
+    },
+    {
+      "key": "famiglia",
+      "kind": "word",
+      "label_md": "famiglia",
+      "gloss_md": "the family",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "f"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-2"
+      ]
+    },
+    {
+      "key": "amico",
+      "kind": "word",
+      "label_md": "amico",
+      "gloss_md": "the friend (male)",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-2"
+      ]
+    },
+    {
+      "key": "madre",
+      "kind": "word",
+      "label_md": "madre",
+      "gloss_md": "the mother",
+      "body_md": "Also: mamma.",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "f"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-2"
+      ]
+    },
+    {
+      "key": "padre",
+      "kind": "word",
+      "label_md": "padre",
+      "gloss_md": "the father",
+      "body_md": "Also: papà.",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-2"
+      ]
+    },
+    {
+      "key": "fratello",
+      "kind": "word",
+      "label_md": "fratello",
+      "gloss_md": "the brother",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-3"
+      ]
+    },
+    {
+      "key": "sorella",
+      "kind": "word",
+      "label_md": "sorella",
+      "gloss_md": "the sister",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "f"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-3"
+      ]
+    },
+    {
+      "key": "cane",
+      "kind": "word",
+      "label_md": "cane",
+      "gloss_md": "the dog",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-3"
+      ]
+    },
+    {
+      "key": "gatto",
+      "kind": "word",
+      "label_md": "gatto",
+      "gloss_md": "the cat",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-3"
+      ]
+    },
+    {
+      "key": "cibo",
+      "kind": "word",
+      "label_md": "cibo",
+      "gloss_md": "the food",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-3"
+      ]
+    },
+    {
+      "key": "latte",
+      "kind": "word",
+      "label_md": "latte",
+      "gloss_md": "the milk",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-3"
+      ]
+    },
+    {
+      "key": "caffe",
+      "kind": "word",
+      "label_md": "caffè",
+      "gloss_md": "the coffee",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-3"
+      ]
+    },
+    {
+      "key": "vino",
+      "kind": "word",
+      "label_md": "vino",
+      "gloss_md": "the wine",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-3"
+      ]
+    },
+    {
+      "key": "porta",
+      "kind": "word",
+      "label_md": "porta",
+      "gloss_md": "the door",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "f"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-3"
+      ]
+    },
+    {
+      "key": "nome",
+      "kind": "word",
+      "label_md": "nome",
+      "gloss_md": "the name",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/core-nouns/part-3"
+      ]
+    },
+    {
+      "key": "finestra",
+      "kind": "word",
+      "label_md": "finestra",
+      "gloss_md": "the window",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "f"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-1"
+      ]
+    },
+    {
+      "key": "tavolo",
+      "kind": "word",
+      "label_md": "tavolo",
+      "gloss_md": "the table",
+      "body_md": "Also: tavola.",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-1"
+      ]
+    },
+    {
+      "key": "sedia",
+      "kind": "word",
+      "label_md": "sedia",
+      "gloss_md": "the chair",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "f"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-1"
+      ]
+    },
+    {
+      "key": "letto",
+      "kind": "word",
+      "label_md": "letto",
+      "gloss_md": "the bed",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-1"
+      ]
+    },
+    {
+      "key": "cucina",
+      "kind": "word",
+      "label_md": "cucina",
+      "gloss_md": "the kitchen",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "f"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-1"
+      ]
+    },
+    {
+      "key": "bagno",
+      "kind": "word",
+      "label_md": "bagno",
+      "gloss_md": "the bathroom",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-1"
+      ]
+    },
+    {
+      "key": "camera",
+      "kind": "word",
+      "label_md": "camera",
+      "gloss_md": "the bedroom",
+      "body_md": "Also: camera da letto.",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "f"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-1"
+      ]
+    },
+    {
+      "key": "chiave",
+      "kind": "word",
+      "label_md": "chiave",
+      "gloss_md": "the key",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "f"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-1"
+      ]
+    },
+    {
+      "key": "telefono",
+      "kind": "word",
+      "label_md": "telefono",
+      "gloss_md": "the telephone",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-1"
+      ]
+    },
+    {
+      "key": "denaro",
+      "kind": "word",
+      "label_md": "denaro",
+      "gloss_md": "the money",
+      "body_md": "Also: soldi.",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-1"
+      ]
+    },
+    {
+      "key": "negozio",
+      "kind": "word",
+      "label_md": "negozio",
+      "gloss_md": "the shop",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-2"
+      ]
+    },
+    {
+      "key": "mercato",
+      "kind": "word",
+      "label_md": "mercato",
+      "gloss_md": "the market",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-2"
+      ]
+    },
+    {
+      "key": "ristorante",
+      "kind": "word",
+      "label_md": "ristorante",
+      "gloss_md": "the restaurant",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-2"
+      ]
+    },
+    {
+      "key": "albergo",
+      "kind": "word",
+      "label_md": "albergo",
+      "gloss_md": "the hotel",
+      "body_md": "Also: hotel.",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-2"
+      ]
+    },
+    {
+      "key": "spiaggia",
+      "kind": "word",
+      "label_md": "spiaggia",
+      "gloss_md": "the beach",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "f"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-2"
+      ]
+    },
+    {
+      "key": "mare",
+      "kind": "word",
+      "label_md": "mare",
+      "gloss_md": "the sea",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-2"
+      ]
+    },
+    {
+      "key": "montagna",
+      "kind": "word",
+      "label_md": "montagna",
+      "gloss_md": "the mountain",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "f"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-2"
+      ]
+    },
+    {
+      "key": "sole",
+      "kind": "word",
+      "label_md": "sole",
+      "gloss_md": "the sun",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-2"
+      ]
+    },
+    {
+      "key": "luna",
+      "kind": "word",
+      "label_md": "luna",
+      "gloss_md": "the moon",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "f"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-2"
+      ]
+    },
+    {
+      "key": "pioggia",
+      "kind": "word",
+      "label_md": "pioggia",
+      "gloss_md": "the rain",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "f"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-2"
+      ]
+    },
+    {
+      "key": "fiore",
+      "kind": "word",
+      "label_md": "fiore",
+      "gloss_md": "the flower",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-3"
+      ]
+    },
+    {
+      "key": "albero",
+      "kind": "word",
+      "label_md": "albero",
+      "gloss_md": "the tree",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-3"
+      ]
+    },
+    {
+      "key": "frutta",
+      "kind": "word",
+      "label_md": "frutta",
+      "gloss_md": "the fruit",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "f"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-3"
+      ]
+    },
+    {
+      "key": "carne",
+      "kind": "word",
+      "label_md": "carne",
+      "gloss_md": "the meat",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "f"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-3"
+      ]
+    },
+    {
+      "key": "pesce",
+      "kind": "word",
+      "label_md": "pesce",
+      "gloss_md": "the fish",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-3"
+      ]
+    },
+    {
+      "key": "formaggio",
+      "kind": "word",
+      "label_md": "formaggio",
+      "gloss_md": "the cheese",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-3"
+      ]
+    },
+    {
+      "key": "uovo",
+      "kind": "word",
+      "label_md": "uovo",
+      "gloss_md": "the egg",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-3"
+      ]
+    },
+    {
+      "key": "mela",
+      "kind": "word",
+      "label_md": "mela",
+      "gloss_md": "the apple",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "f"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-3"
+      ]
+    },
+    {
+      "key": "pomodoro",
+      "kind": "word",
+      "label_md": "pomodoro",
+      "gloss_md": "the tomato",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-3"
+      ]
+    },
+    {
+      "key": "zucchero",
+      "kind": "word",
+      "label_md": "zucchero",
+      "gloss_md": "the sugar",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/nouns/common-nouns/part-3"
+      ]
+    },
+    {
+      "key": "bello",
+      "kind": "word",
+      "label_md": "bello",
+      "gloss_md": "beautiful",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "adj"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/adjectives/part-1"
+      ]
+    },
+    {
+      "key": "buono",
+      "kind": "word",
+      "label_md": "buono",
+      "gloss_md": "good",
+      "body_md": "Also: bravo.",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "adj"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/adjectives/part-1"
+      ]
+    },
+    {
+      "key": "grande",
+      "kind": "word",
+      "label_md": "grande",
+      "gloss_md": "big",
+      "body_md": "Also: grosso.",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "adj"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/adjectives/part-1"
+      ]
+    },
+    {
+      "key": "piccolo",
+      "kind": "word",
+      "label_md": "piccolo",
+      "gloss_md": "small",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "adj"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/adjectives/part-1"
+      ]
+    },
+    {
+      "key": "nuovo",
+      "kind": "word",
+      "label_md": "nuovo",
+      "gloss_md": "new",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "adj"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/adjectives/part-1"
+      ]
+    },
+    {
+      "key": "vecchio",
+      "kind": "word",
+      "label_md": "vecchio",
+      "gloss_md": "old",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "adj"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/adjectives/part-1"
+      ]
+    },
+    {
+      "key": "giovane",
+      "kind": "word",
+      "label_md": "giovane",
+      "gloss_md": "young",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "adj"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/adjectives/part-1"
+      ]
+    },
+    {
+      "key": "alto",
+      "kind": "word",
+      "label_md": "alto",
+      "gloss_md": "tall",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "adj"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/adjectives/part-1"
+      ]
+    },
+    {
+      "key": "basso",
+      "kind": "word",
+      "label_md": "basso",
+      "gloss_md": "short (in height)",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "adj"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/adjectives/part-1"
+      ]
+    },
+    {
+      "key": "lungo",
+      "kind": "word",
+      "label_md": "lungo",
+      "gloss_md": "long",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "adj"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/adjectives/part-2"
+      ]
+    },
+    {
+      "key": "corto",
+      "kind": "word",
+      "label_md": "corto",
+      "gloss_md": "short (in length)",
+      "body_md": "Also: breve.",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "adj"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/adjectives/part-2"
+      ]
+    },
+    {
+      "key": "caldo",
+      "kind": "word",
+      "label_md": "caldo",
+      "gloss_md": "hot",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "adj"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/adjectives/part-2"
+      ]
+    },
+    {
+      "key": "freddo",
+      "kind": "word",
+      "label_md": "freddo",
+      "gloss_md": "cold",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "adj"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/adjectives/part-2"
+      ]
+    },
+    {
+      "key": "felice",
+      "kind": "word",
+      "label_md": "felice",
+      "gloss_md": "happy",
+      "body_md": "Also: contento.",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "adj"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/adjectives/part-2"
+      ]
+    },
+    {
+      "key": "triste",
+      "kind": "word",
+      "label_md": "triste",
+      "gloss_md": "sad",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "adj"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/adjectives/part-2"
+      ]
+    },
+    {
+      "key": "facile",
+      "kind": "word",
+      "label_md": "facile",
+      "gloss_md": "easy",
+      "body_md": "Also: semplice.",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "adj"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/adjectives/part-2"
+      ]
+    },
+    {
+      "key": "difficile",
+      "kind": "word",
+      "label_md": "difficile",
+      "gloss_md": "difficult",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "adj"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/adjectives/part-2"
+      ]
+    },
+    {
+      "key": "veloce",
+      "kind": "word",
+      "label_md": "veloce",
+      "gloss_md": "fast",
+      "body_md": "Also: rapido.",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "adj"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/adjectives/part-3"
+      ]
+    },
+    {
+      "key": "lento",
+      "kind": "word",
+      "label_md": "lento",
+      "gloss_md": "slow",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "adj"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/adjectives/part-3"
+      ]
+    },
+    {
+      "key": "ricco",
+      "kind": "word",
+      "label_md": "ricco",
+      "gloss_md": "rich",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "adj"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/adjectives/part-3"
+      ]
+    },
+    {
+      "key": "povero",
+      "kind": "word",
+      "label_md": "povero",
+      "gloss_md": "poor",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "adj"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/adjectives/part-3"
+      ]
+    },
+    {
+      "key": "forte",
+      "kind": "word",
+      "label_md": "forte",
+      "gloss_md": "strong",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "adj"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/adjectives/part-3"
+      ]
+    },
+    {
+      "key": "pulito",
+      "kind": "word",
+      "label_md": "pulito",
+      "gloss_md": "clean",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "adj"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/adjectives/part-3"
+      ]
+    },
+    {
+      "key": "sporco",
+      "kind": "word",
+      "label_md": "sporco",
+      "gloss_md": "dirty",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "adj"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/adjectives/part-3"
+      ]
+    },
+    {
+      "key": "importante",
+      "kind": "word",
+      "label_md": "importante",
+      "gloss_md": "important",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "adj"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/adjectives/part-3"
+      ]
+    },
+    {
+      "key": "zero",
+      "kind": "word",
+      "label_md": "zero",
+      "gloss_md": "zero",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "num"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/numbers/zero-to-ten"
+      ]
+    },
+    {
+      "key": "uno",
+      "kind": "word",
+      "label_md": "uno",
+      "gloss_md": "one",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "num"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/numbers/zero-to-ten"
+      ]
+    },
+    {
+      "key": "due",
+      "kind": "word",
+      "label_md": "due",
+      "gloss_md": "two",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "num"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/numbers/zero-to-ten"
+      ]
+    },
+    {
+      "key": "tre",
+      "kind": "word",
+      "label_md": "tre",
+      "gloss_md": "three",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "num"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/numbers/zero-to-ten"
+      ]
+    },
+    {
+      "key": "quattro",
+      "kind": "word",
+      "label_md": "quattro",
+      "gloss_md": "four",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "num"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/numbers/zero-to-ten"
+      ]
+    },
+    {
+      "key": "cinque",
+      "kind": "word",
+      "label_md": "cinque",
+      "gloss_md": "five",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "num"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/numbers/zero-to-ten"
+      ]
+    },
+    {
+      "key": "sei",
+      "kind": "word",
+      "label_md": "sei",
+      "gloss_md": "six",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "num"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/numbers/zero-to-ten"
+      ]
+    },
+    {
+      "key": "sette",
+      "kind": "word",
+      "label_md": "sette",
+      "gloss_md": "seven",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "num"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/numbers/zero-to-ten"
+      ]
+    },
+    {
+      "key": "otto",
+      "kind": "word",
+      "label_md": "otto",
+      "gloss_md": "eight",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "num"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/numbers/zero-to-ten"
+      ]
+    },
+    {
+      "key": "nove",
+      "kind": "word",
+      "label_md": "nove",
+      "gloss_md": "nine",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "num"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/numbers/zero-to-ten"
+      ]
+    },
+    {
+      "key": "dieci",
+      "kind": "word",
+      "label_md": "dieci",
+      "gloss_md": "ten",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "num"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/numbers/zero-to-ten"
+      ]
+    },
+    {
+      "key": "undici",
+      "kind": "word",
+      "label_md": "undici",
+      "gloss_md": "eleven",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "num"
+      },
+      "priority": 70,
+      "level": 1,
+      "dirs": [
+        "italian/numbers/eleven-to-twenty"
+      ]
+    },
+    {
+      "key": "dodici",
+      "kind": "word",
+      "label_md": "dodici",
+      "gloss_md": "twelve",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "num"
+      },
+      "priority": 70,
+      "level": 1,
+      "dirs": [
+        "italian/numbers/eleven-to-twenty"
+      ]
+    },
+    {
+      "key": "tredici",
+      "kind": "word",
+      "label_md": "tredici",
+      "gloss_md": "thirteen",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "num"
+      },
+      "priority": 70,
+      "level": 1,
+      "dirs": [
+        "italian/numbers/eleven-to-twenty"
+      ]
+    },
+    {
+      "key": "quattordici",
+      "kind": "word",
+      "label_md": "quattordici",
+      "gloss_md": "fourteen",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "num"
+      },
+      "priority": 70,
+      "level": 1,
+      "dirs": [
+        "italian/numbers/eleven-to-twenty"
+      ]
+    },
+    {
+      "key": "quindici",
+      "kind": "word",
+      "label_md": "quindici",
+      "gloss_md": "fifteen",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "num"
+      },
+      "priority": 70,
+      "level": 1,
+      "dirs": [
+        "italian/numbers/eleven-to-twenty"
+      ]
+    },
+    {
+      "key": "sedici",
+      "kind": "word",
+      "label_md": "sedici",
+      "gloss_md": "sixteen",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "num"
+      },
+      "priority": 70,
+      "level": 1,
+      "dirs": [
+        "italian/numbers/eleven-to-twenty"
+      ]
+    },
+    {
+      "key": "diciassette",
+      "kind": "word",
+      "label_md": "diciassette",
+      "gloss_md": "seventeen",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "num"
+      },
+      "priority": 70,
+      "level": 1,
+      "dirs": [
+        "italian/numbers/eleven-to-twenty"
+      ]
+    },
+    {
+      "key": "diciotto",
+      "kind": "word",
+      "label_md": "diciotto",
+      "gloss_md": "eighteen",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "num"
+      },
+      "priority": 70,
+      "level": 1,
+      "dirs": [
+        "italian/numbers/eleven-to-twenty"
+      ]
+    },
+    {
+      "key": "diciannove",
+      "kind": "word",
+      "label_md": "diciannove",
+      "gloss_md": "nineteen",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "num"
+      },
+      "priority": 70,
+      "level": 1,
+      "dirs": [
+        "italian/numbers/eleven-to-twenty"
+      ]
+    },
+    {
+      "key": "venti",
+      "kind": "word",
+      "label_md": "venti",
+      "gloss_md": "twenty",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "num"
+      },
+      "priority": 70,
+      "level": 1,
+      "dirs": [
+        "italian/numbers/eleven-to-twenty"
+      ]
+    },
+    {
+      "key": "trenta",
+      "kind": "word",
+      "label_md": "trenta",
+      "gloss_md": "thirty",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "num"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/numbers/tens"
+      ]
+    },
+    {
+      "key": "quaranta",
+      "kind": "word",
+      "label_md": "quaranta",
+      "gloss_md": "forty",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "num"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/numbers/tens"
+      ]
+    },
+    {
+      "key": "cinquanta",
+      "kind": "word",
+      "label_md": "cinquanta",
+      "gloss_md": "fifty",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "num"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/numbers/tens"
+      ]
+    },
+    {
+      "key": "sessanta",
+      "kind": "word",
+      "label_md": "sessanta",
+      "gloss_md": "sixty",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "num"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/numbers/tens"
+      ]
+    },
+    {
+      "key": "settanta",
+      "kind": "word",
+      "label_md": "settanta",
+      "gloss_md": "seventy",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "num"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/numbers/tens"
+      ]
+    },
+    {
+      "key": "ottanta",
+      "kind": "word",
+      "label_md": "ottanta",
+      "gloss_md": "eighty",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "num"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/numbers/tens"
+      ]
+    },
+    {
+      "key": "novanta",
+      "kind": "word",
+      "label_md": "novanta",
+      "gloss_md": "ninety",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "num"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/numbers/tens"
+      ]
+    },
+    {
+      "key": "cento",
+      "kind": "word",
+      "label_md": "cento",
+      "gloss_md": "one hundred",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json",
+        "pos": "num"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/numbers/tens"
+      ]
+    },
+    {
+      "key": "buongiorno",
+      "kind": "phrase",
+      "label_md": "buongiorno",
+      "gloss_md": "good morning",
+      "body_md": "Also: buon giorno.",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/phrases/greetings"
+      ]
+    },
+    {
+      "key": "buonasera",
+      "kind": "phrase",
+      "label_md": "buonasera",
+      "gloss_md": "good evening",
+      "body_md": "Also: buona sera.",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/phrases/greetings"
+      ]
+    },
+    {
+      "key": "buonanotte",
+      "kind": "phrase",
+      "label_md": "buonanotte",
+      "gloss_md": "good night",
+      "body_md": "Also: buona notte.",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/phrases/greetings"
+      ]
+    },
+    {
+      "key": "ciao",
+      "kind": "phrase",
+      "label_md": "ciao",
+      "gloss_md": "hello",
+      "body_md": "Also: salve.",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/phrases/greetings"
+      ]
+    },
+    {
+      "key": "arrivederci",
+      "kind": "phrase",
+      "label_md": "arrivederci",
+      "gloss_md": "goodbye",
+      "body_md": "Also: arrivederla, ciao.",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/phrases/greetings"
+      ]
+    },
+    {
+      "key": "grazie",
+      "kind": "phrase",
+      "label_md": "grazie",
+      "gloss_md": "thank you",
+      "body_md": "Also: grazie mille.",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/phrases/courtesy"
+      ]
+    },
+    {
+      "key": "prego",
+      "kind": "phrase",
+      "label_md": "prego",
+      "gloss_md": "you're welcome",
+      "body_md": "Also: di niente, di nulla.",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/phrases/courtesy"
+      ]
+    },
+    {
+      "key": "per-favore",
+      "kind": "phrase",
+      "label_md": "per favore",
+      "gloss_md": "please",
+      "body_md": "Also: per cortesia, per piacere.",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/phrases/courtesy"
+      ]
+    },
+    {
+      "key": "scusi",
+      "kind": "phrase",
+      "label_md": "scusi",
+      "gloss_md": "excuse me",
+      "body_md": "Also: mi scusi, scusa, scusami.",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/phrases/courtesy"
+      ]
+    },
+    {
+      "key": "mi-dispiace",
+      "kind": "phrase",
+      "label_md": "mi dispiace",
+      "gloss_md": "I'm sorry",
+      "body_md": "Also: mi spiace.",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/phrases/courtesy"
+      ]
+    },
+    {
+      "key": "come-stai",
+      "kind": "phrase",
+      "label_md": "come stai",
+      "gloss_md": "How are you?",
+      "body_md": "Also: come sta, come sta?, come stai?, come va, come va?.",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/phrases/greetings"
+      ]
+    },
+    {
+      "key": "mi-chiamo-marco",
+      "kind": "phrase",
+      "label_md": "mi chiamo Marco",
+      "gloss_md": "My name is Marco.",
+      "body_md": "Also: il mio nome è Marco, sono Marco.",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/phrases/greetings"
+      ]
+    },
+    {
+      "key": "non-capisco",
+      "kind": "phrase",
+      "label_md": "non capisco",
+      "gloss_md": "I don't understand.",
+      "body_md": "Also: non ho capito.",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/phrases/survival"
+      ]
+    },
+    {
+      "key": "quanto-costa",
+      "kind": "phrase",
+      "label_md": "quanto costa",
+      "gloss_md": "How much does it cost?",
+      "body_md": "Also: quanto costa?, quanto viene, quanto viene?.",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/phrases/survival"
+      ]
+    },
+    {
+      "key": "dov-e-il-bagno",
+      "kind": "phrase",
+      "label_md": "dov'è il bagno",
+      "gloss_md": "Where is the bathroom?",
+      "body_md": "Also: dov'è il bagno?, dove è il bagno, dove è il bagno?.",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/phrases/survival"
+      ]
+    },
+    {
+      "key": "si",
+      "kind": "phrase",
+      "label_md": "sì",
+      "gloss_md": "yes",
+      "body_md": "Also: si.",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/phrases/survival"
+      ]
+    },
+    {
+      "key": "vorrei",
+      "kind": "phrase",
+      "label_md": "vorrei",
+      "gloss_md": "I would like ... (polite)",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/phrases/survival"
+      ]
+    },
+    {
+      "key": "parla-inglese",
+      "kind": "phrase",
+      "label_md": "parla inglese",
+      "gloss_md": "Do you speak English?",
+      "body_md": "Also: parla inglese?, parli inglese, parli inglese?.",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/phrases/survival"
+      ]
+    },
+    {
+      "key": "non-parlo-italiano",
+      "kind": "phrase",
+      "label_md": "non parlo italiano",
+      "gloss_md": "I don't speak Italian.",
+      "body_md": "",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/phrases/survival"
+      ]
+    },
+    {
+      "key": "puo-aiutarmi",
+      "kind": "phrase",
+      "label_md": "può aiutarmi",
+      "gloss_md": "Can you help me?",
+      "body_md": "Also: mi puoi aiutare, mi puoi aiutare?, mi può aiutare, mi può aiutare?, puoi aiutarmi, puoi aiutarmi?, può aiutarmi?.",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/phrases/survival"
+      ]
+    },
+    {
+      "key": "a-dopo",
+      "kind": "phrase",
+      "label_md": "a dopo",
+      "gloss_md": "see you later",
+      "body_md": "Also: a più tardi, ci vediamo, ci vediamo dopo.",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/phrases/greetings"
+      ]
+    },
+    {
+      "key": "a-domani",
+      "kind": "phrase",
+      "label_md": "a domani",
+      "gloss_md": "see you tomorrow",
+      "body_md": "Also: ci vediamo domani.",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/phrases/greetings"
+      ]
+    },
+    {
+      "key": "piacere",
+      "kind": "phrase",
+      "label_md": "piacere",
+      "gloss_md": "nice to meet you",
+      "body_md": "Also: molto piacere, piacere di conoscerla, piacere di conoscerti.",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 90,
+      "level": 1,
+      "dirs": [
+        "italian/phrases/courtesy"
+      ]
+    },
+    {
+      "key": "che-ore-sono",
+      "kind": "phrase",
+      "label_md": "che ore sono",
+      "gloss_md": "What time is it?",
+      "body_md": "Also: che ora è, che ora è?, che ore sono?.",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/phrases/survival"
+      ]
+    },
+    {
+      "key": "il-conto-per-favore",
+      "kind": "phrase",
+      "label_md": "il conto, per favore",
+      "gloss_md": "the bill, please",
+      "body_md": "Also: il conto per favore.",
+      "attrs": {
+        "source": "italian.json"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/phrases/survival"
+      ]
+    },
+    {
+      "key": "finire",
+      "kind": "word",
+      "label_md": "finire",
+      "gloss_md": "to finish",
+      "body_md": "",
+      "attrs": {
+        "pos": "verb",
+        "source": "italian-verbs-conjugated.json"
+      },
+      "priority": 80,
+      "level": 1,
+      "dirs": [
+        "italian/verbs"
+      ]
+    },
+    {
+      "key": "vivere",
+      "kind": "word",
+      "label_md": "vivere",
+      "gloss_md": "to live",
+      "body_md": "",
+      "attrs": {
+        "pos": "verb",
+        "source": "italian-verbs-conjugated.json"
+      },
+      "priority": 80,
+      "level": 1,
+      "dirs": [
+        "italian/verbs"
+      ]
+    },
+    {
+      "key": "andare.pres",
+      "kind": "form",
+      "label_md": "andare — present tense",
+      "gloss_md": "io vado; tu vai; lui/lei va; noi andiamo; voi andate; loro vanno",
+      "body_md": "",
+      "attrs": {
+        "tense": "present",
+        "source": "italian-verbs-conjugated.json"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/conjugation/present/andare"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "andare"
+        }
+      ]
+    },
+    {
+      "key": "avere.pres",
+      "kind": "form",
+      "label_md": "avere — present tense",
+      "gloss_md": "io ho; tu hai; lui/lei ha; noi abbiamo; voi avete; loro hanno",
+      "body_md": "",
+      "attrs": {
+        "tense": "present",
+        "source": "italian-verbs-conjugated.json"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/conjugation/present/avere"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "avere"
+        }
+      ]
+    },
+    {
+      "key": "dare.pres",
+      "kind": "form",
+      "label_md": "dare — present tense",
+      "gloss_md": "io do; tu dai; lui/lei dà; noi diamo; voi date; loro danno",
+      "body_md": "",
+      "attrs": {
+        "tense": "present",
+        "source": "italian-verbs-conjugated.json"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/conjugation/present/dare"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "dare"
+        }
+      ]
+    },
+    {
+      "key": "dire.pres",
+      "kind": "form",
+      "label_md": "dire — present tense",
+      "gloss_md": "io dico; tu dici; lui/lei dice; noi diciamo; voi dite; loro dicono",
+      "body_md": "",
+      "attrs": {
+        "tense": "present",
+        "source": "italian-verbs-conjugated.json"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/conjugation/present/dire"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "dire"
+        }
+      ]
+    },
+    {
+      "key": "dovere.pres",
+      "kind": "form",
+      "label_md": "dovere — present tense",
+      "gloss_md": "io devo; tu devi; lui/lei deve; noi dobbiamo; voi dovete; loro devono",
+      "body_md": "",
+      "attrs": {
+        "tense": "present",
+        "source": "italian-verbs-conjugated.json"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/conjugation/present/dovere"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "dovere"
+        }
+      ]
+    },
+    {
+      "key": "essere.pres",
+      "kind": "form",
+      "label_md": "essere — present tense",
+      "gloss_md": "io sono; tu sei; lui/lei è; noi siamo; voi siete",
+      "body_md": "",
+      "attrs": {
+        "tense": "present",
+        "source": "italian-verbs-conjugated.json"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/conjugation/present/essere"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "essere"
+        }
+      ]
+    },
+    {
+      "key": "fare.pres",
+      "kind": "form",
+      "label_md": "fare — present tense",
+      "gloss_md": "io faccio; tu fai; lui/lei fa; noi facciamo; voi fate; loro fanno",
+      "body_md": "",
+      "attrs": {
+        "tense": "present",
+        "source": "italian-verbs-conjugated.json"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/conjugation/present/fare"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "fare"
+        }
+      ]
+    },
+    {
+      "key": "potere.pres",
+      "kind": "form",
+      "label_md": "potere — present tense",
+      "gloss_md": "io posso; tu puoi; lui/lei può; noi possiamo; voi potete; loro possono",
+      "body_md": "",
+      "attrs": {
+        "tense": "present",
+        "source": "italian-verbs-conjugated.json"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/conjugation/present/potere"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "potere"
+        }
+      ]
+    },
+    {
+      "key": "sapere.pres",
+      "kind": "form",
+      "label_md": "sapere — present tense",
+      "gloss_md": "io so; tu sai; lui/lei sa; noi sappiamo; voi sapete; loro sanno",
+      "body_md": "",
+      "attrs": {
+        "tense": "present",
+        "source": "italian-verbs-conjugated.json"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/conjugation/present/sapere"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "sapere"
+        }
+      ]
+    },
+    {
+      "key": "stare.pres",
+      "kind": "form",
+      "label_md": "stare — present tense",
+      "gloss_md": "io sto; tu stai; lui/lei sta; noi stiamo; voi state; loro stanno",
+      "body_md": "",
+      "attrs": {
+        "tense": "present",
+        "source": "italian-verbs-conjugated.json"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/conjugation/present/stare"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "stare"
+        }
+      ]
+    },
+    {
+      "key": "uscire.pres",
+      "kind": "form",
+      "label_md": "uscire — present tense",
+      "gloss_md": "io esco; tu esci; lui/lei esce; noi usciamo; voi uscite; loro escono",
+      "body_md": "",
+      "attrs": {
+        "tense": "present",
+        "source": "italian-verbs-conjugated.json"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/conjugation/present/uscire"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "uscire"
+        }
+      ]
+    },
+    {
+      "key": "venire.pres",
+      "kind": "form",
+      "label_md": "venire — present tense",
+      "gloss_md": "io vengo; tu vieni; lui/lei viene; noi veniamo; voi venite; loro vengono",
+      "body_md": "",
+      "attrs": {
+        "tense": "present",
+        "source": "italian-verbs-conjugated.json"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/conjugation/present/venire"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "venire"
+        }
+      ]
+    },
+    {
+      "key": "volere.pres",
+      "kind": "form",
+      "label_md": "volere — present tense",
+      "gloss_md": "io voglio; tu vuoi; lui/lei vuole; noi vogliamo; voi volete; loro vogliono",
+      "body_md": "",
+      "attrs": {
+        "tense": "present",
+        "source": "italian-verbs-conjugated.json"
+      },
+      "priority": 85,
+      "level": 1,
+      "dirs": [
+        "italian/verbs/conjugation/present/volere"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "volere"
+        }
+      ]
+    }
+  ],
+  "card_links": [
+    {
+      "card": "Translate to Italian: **to be**",
+      "item": "essere"
+    },
+    {
+      "card": "Translate to Italian: **to have**",
+      "item": "avere"
+    },
+    {
+      "card": "Translate to Italian: **to do / to make**",
+      "item": "fare"
+    },
+    {
+      "card": "Translate to Italian: **to go**",
+      "item": "andare"
+    },
+    {
+      "card": "Translate to Italian: **to come**",
+      "item": "venire"
+    },
+    {
+      "card": "Translate to Italian: **to say**",
+      "item": "dire"
+    },
+    {
+      "card": "Translate to Italian: **to be able to (can)**",
+      "item": "potere"
+    },
+    {
+      "card": "Translate to Italian: **to want**",
+      "item": "volere"
+    },
+    {
+      "card": "Translate to Italian: **to have to (must)**",
+      "item": "dovere"
+    },
+    {
+      "card": "Translate to Italian: **to know (a fact)**",
+      "item": "sapere"
+    },
+    {
+      "card": "Translate to Italian: **to see**",
+      "item": "vedere"
+    },
+    {
+      "card": "Translate to Italian: **to give**",
+      "item": "dare"
+    },
+    {
+      "card": "Translate to Italian: **to stay**",
+      "item": "stare"
+    },
+    {
+      "card": "Translate to Italian: **to speak**",
+      "item": "parlare"
+    },
+    {
+      "card": "Translate to Italian: **to eat**",
+      "item": "mangiare"
+    },
+    {
+      "card": "Translate to Italian: **to drink**",
+      "item": "bere"
+    },
+    {
+      "card": "Translate to Italian: **to take**",
+      "item": "prendere"
+    },
+    {
+      "card": "Translate to Italian: **to put**",
+      "item": "mettere"
+    },
+    {
+      "card": "Translate to Italian: **to go out**",
+      "item": "uscire"
+    },
+    {
+      "card": "Translate to Italian: **to sleep**",
+      "item": "dormire"
+    },
+    {
+      "card": "Translate to Italian: **to work**",
+      "item": "lavorare"
+    },
+    {
+      "card": "Translate to Italian: **to study**",
+      "item": "studiare"
+    },
+    {
+      "card": "Translate to Italian: **to live (reside)**",
+      "item": "abitare"
+    },
+    {
+      "card": "Translate to Italian: **to love**",
+      "item": "amare"
+    },
+    {
+      "card": "Translate to Italian: **to help**",
+      "item": "aiutare"
+    },
+    {
+      "card": "Translate to Italian: **to open**",
+      "item": "aprire"
+    },
+    {
+      "card": "Translate to Italian: **to close**",
+      "item": "chiudere"
+    },
+    {
+      "card": "Translate to Italian: **to arrive**",
+      "item": "arrivare"
+    },
+    {
+      "card": "Translate to Italian: **to leave (depart)**",
+      "item": "partire"
+    },
+    {
+      "card": "Translate to Italian: **to listen**",
+      "item": "ascoltare"
+    },
+    {
+      "card": "Translate to Italian: **to wait**",
+      "item": "aspettare"
+    },
+    {
+      "card": "Translate to Italian: **to dance**",
+      "item": "ballare"
+    },
+    {
+      "card": "Translate to Italian: **to sing**",
+      "item": "cantare"
+    },
+    {
+      "card": "Translate to Italian: **to understand**",
+      "item": "capire"
+    },
+    {
+      "card": "Translate to Italian: **to look for**",
+      "item": "cercare"
+    },
+    {
+      "card": "Translate to Italian: **to call**",
+      "item": "chiamare"
+    },
+    {
+      "card": "Translate to Italian: **to buy**",
+      "item": "comprare"
+    },
+    {
+      "card": "Translate to Italian: **to know (a person)**",
+      "item": "conoscere"
+    },
+    {
+      "card": "Translate to Italian: **to run**",
+      "item": "correre"
+    },
+    {
+      "card": "Translate to Italian: **to cook**",
+      "item": "cucinare"
+    },
+    {
+      "card": "Translate to Italian: **to play (a game)**",
+      "item": "giocare"
+    },
+    {
+      "card": "Translate to Italian: **to watch**",
+      "item": "guardare"
+    },
+    {
+      "card": "Translate to Italian: **to learn**",
+      "item": "imparare"
+    },
+    {
+      "card": "Translate to Italian: **to read**",
+      "item": "leggere"
+    },
+    {
+      "card": "Translate to Italian: **to pay**",
+      "item": "pagare"
+    },
+    {
+      "card": "Translate to Italian: **to think**",
+      "item": "pensare"
+    },
+    {
+      "card": "Translate to Italian: **to write**",
+      "item": "scrivere"
+    },
+    {
+      "card": "Translate to Italian: **to hear**",
+      "item": "sentire"
+    },
+    {
+      "card": "Translate to Italian: **to find**",
+      "item": "trovare"
+    },
+    {
+      "card": "Translate to Italian: **to travel**",
+      "item": "viaggiare"
+    },
+    {
+      "card": "Translate to Italian: **the house**",
+      "item": "casa"
+    },
+    {
+      "card": "Translate to Italian: **the man**",
+      "item": "uomo"
+    },
+    {
+      "card": "Translate to Italian: **the woman**",
+      "item": "donna"
+    },
+    {
+      "card": "Translate to Italian: **the child**",
+      "item": "bambino"
+    },
+    {
+      "card": "Translate to Italian: **the water**",
+      "item": "acqua"
+    },
+    {
+      "card": "Translate to Italian: **the bread**",
+      "item": "pane"
+    },
+    {
+      "card": "Translate to Italian: **the book**",
+      "item": "libro"
+    },
+    {
+      "card": "Translate to Italian: **the day**",
+      "item": "giorno"
+    },
+    {
+      "card": "Translate to Italian: **the night**",
+      "item": "notte"
+    },
+    {
+      "card": "Translate to Italian: **the year**",
+      "item": "anno"
+    },
+    {
+      "card": "Translate to Italian: **the city**",
+      "item": "citta"
+    },
+    {
+      "card": "Translate to Italian: **the street**",
+      "item": "strada"
+    },
+    {
+      "card": "Translate to Italian: **the car**",
+      "item": "macchina"
+    },
+    {
+      "card": "Translate to Italian: **the train**",
+      "item": "treno"
+    },
+    {
+      "card": "Translate to Italian: **the school**",
+      "item": "scuola"
+    },
+    {
+      "card": "Translate to Italian: **the work (job)**",
+      "item": "lavoro"
+    },
+    {
+      "card": "Translate to Italian: **the family**",
+      "item": "famiglia"
+    },
+    {
+      "card": "Translate to Italian: **the friend (male)**",
+      "item": "amico"
+    },
+    {
+      "card": "Translate to Italian: **the mother**",
+      "item": "madre"
+    },
+    {
+      "card": "Translate to Italian: **the father**",
+      "item": "padre"
+    },
+    {
+      "card": "Translate to Italian: **the brother**",
+      "item": "fratello"
+    },
+    {
+      "card": "Translate to Italian: **the sister**",
+      "item": "sorella"
+    },
+    {
+      "card": "Translate to Italian: **the dog**",
+      "item": "cane"
+    },
+    {
+      "card": "Translate to Italian: **the cat**",
+      "item": "gatto"
+    },
+    {
+      "card": "Translate to Italian: **the food**",
+      "item": "cibo"
+    },
+    {
+      "card": "Translate to Italian: **the milk**",
+      "item": "latte"
+    },
+    {
+      "card": "Translate to Italian: **the coffee**",
+      "item": "caffe"
+    },
+    {
+      "card": "Translate to Italian: **the wine**",
+      "item": "vino"
+    },
+    {
+      "card": "Translate to Italian: **the door**",
+      "item": "porta"
+    },
+    {
+      "card": "Translate to Italian: **the name**",
+      "item": "nome"
+    },
+    {
+      "card": "Translate to Italian: **the window**",
+      "item": "finestra"
+    },
+    {
+      "card": "Translate to Italian: **the table**",
+      "item": "tavolo"
+    },
+    {
+      "card": "Translate to Italian: **the chair**",
+      "item": "sedia"
+    },
+    {
+      "card": "Translate to Italian: **the bed**",
+      "item": "letto"
+    },
+    {
+      "card": "Translate to Italian: **the kitchen**",
+      "item": "cucina"
+    },
+    {
+      "card": "Translate to Italian: **the bathroom**",
+      "item": "bagno"
+    },
+    {
+      "card": "Translate to Italian: **the bedroom**",
+      "item": "camera"
+    },
+    {
+      "card": "Translate to Italian: **the key**",
+      "item": "chiave"
+    },
+    {
+      "card": "Translate to Italian: **the telephone**",
+      "item": "telefono"
+    },
+    {
+      "card": "Translate to Italian: **the money**",
+      "item": "denaro"
+    },
+    {
+      "card": "Translate to Italian: **the shop**",
+      "item": "negozio"
+    },
+    {
+      "card": "Translate to Italian: **the market**",
+      "item": "mercato"
+    },
+    {
+      "card": "Translate to Italian: **the restaurant**",
+      "item": "ristorante"
+    },
+    {
+      "card": "Translate to Italian: **the hotel**",
+      "item": "albergo"
+    },
+    {
+      "card": "Translate to Italian: **the beach**",
+      "item": "spiaggia"
+    },
+    {
+      "card": "Translate to Italian: **the sea**",
+      "item": "mare"
+    },
+    {
+      "card": "Translate to Italian: **the mountain**",
+      "item": "montagna"
+    },
+    {
+      "card": "Translate to Italian: **the sun**",
+      "item": "sole"
+    },
+    {
+      "card": "Translate to Italian: **the moon**",
+      "item": "luna"
+    },
+    {
+      "card": "Translate to Italian: **the rain**",
+      "item": "pioggia"
+    },
+    {
+      "card": "Translate to Italian: **the flower**",
+      "item": "fiore"
+    },
+    {
+      "card": "Translate to Italian: **the tree**",
+      "item": "albero"
+    },
+    {
+      "card": "Translate to Italian: **the fruit**",
+      "item": "frutta"
+    },
+    {
+      "card": "Translate to Italian: **the meat**",
+      "item": "carne"
+    },
+    {
+      "card": "Translate to Italian: **the fish**",
+      "item": "pesce"
+    },
+    {
+      "card": "Translate to Italian: **the cheese**",
+      "item": "formaggio"
+    },
+    {
+      "card": "Translate to Italian: **the egg**",
+      "item": "uovo"
+    },
+    {
+      "card": "Translate to Italian: **the apple**",
+      "item": "mela"
+    },
+    {
+      "card": "Translate to Italian: **the tomato**",
+      "item": "pomodoro"
+    },
+    {
+      "card": "Translate to Italian: **the sugar**",
+      "item": "zucchero"
+    },
+    {
+      "card": "Translate to Italian: **beautiful**",
+      "item": "bello"
+    },
+    {
+      "card": "Translate to Italian: **good**",
+      "item": "buono"
+    },
+    {
+      "card": "Translate to Italian: **big**",
+      "item": "grande"
+    },
+    {
+      "card": "Translate to Italian: **small**",
+      "item": "piccolo"
+    },
+    {
+      "card": "Translate to Italian: **new**",
+      "item": "nuovo"
+    },
+    {
+      "card": "Translate to Italian: **old**",
+      "item": "vecchio"
+    },
+    {
+      "card": "Translate to Italian: **young**",
+      "item": "giovane"
+    },
+    {
+      "card": "Translate to Italian: **tall**",
+      "item": "alto"
+    },
+    {
+      "card": "Translate to Italian: **short (in height)**",
+      "item": "basso"
+    },
+    {
+      "card": "Translate to Italian: **long**",
+      "item": "lungo"
+    },
+    {
+      "card": "Translate to Italian: **short (in length)**",
+      "item": "corto"
+    },
+    {
+      "card": "Translate to Italian: **hot**",
+      "item": "caldo"
+    },
+    {
+      "card": "Translate to Italian: **cold**",
+      "item": "freddo"
+    },
+    {
+      "card": "Translate to Italian: **happy**",
+      "item": "felice"
+    },
+    {
+      "card": "Translate to Italian: **sad**",
+      "item": "triste"
+    },
+    {
+      "card": "Translate to Italian: **easy**",
+      "item": "facile"
+    },
+    {
+      "card": "Translate to Italian: **difficult**",
+      "item": "difficile"
+    },
+    {
+      "card": "Translate to Italian: **fast**",
+      "item": "veloce"
+    },
+    {
+      "card": "Translate to Italian: **slow**",
+      "item": "lento"
+    },
+    {
+      "card": "Translate to Italian: **rich**",
+      "item": "ricco"
+    },
+    {
+      "card": "Translate to Italian: **poor**",
+      "item": "povero"
+    },
+    {
+      "card": "Translate to Italian: **strong**",
+      "item": "forte"
+    },
+    {
+      "card": "Translate to Italian: **clean**",
+      "item": "pulito"
+    },
+    {
+      "card": "Translate to Italian: **dirty**",
+      "item": "sporco"
+    },
+    {
+      "card": "Translate to Italian: **important**",
+      "item": "importante"
+    },
+    {
+      "card": "Translate to Italian: **zero**",
+      "item": "zero"
+    },
+    {
+      "card": "Translate to Italian: **one**",
+      "item": "uno"
+    },
+    {
+      "card": "Translate to Italian: **two**",
+      "item": "due"
+    },
+    {
+      "card": "Translate to Italian: **three**",
+      "item": "tre"
+    },
+    {
+      "card": "Translate to Italian: **four**",
+      "item": "quattro"
+    },
+    {
+      "card": "Translate to Italian: **five**",
+      "item": "cinque"
+    },
+    {
+      "card": "Translate to Italian: **six**",
+      "item": "sei"
+    },
+    {
+      "card": "Translate to Italian: **seven**",
+      "item": "sette"
+    },
+    {
+      "card": "Translate to Italian: **eight**",
+      "item": "otto"
+    },
+    {
+      "card": "Translate to Italian: **nine**",
+      "item": "nove"
+    },
+    {
+      "card": "Translate to Italian: **ten**",
+      "item": "dieci"
+    },
+    {
+      "card": "Translate to Italian: **eleven**",
+      "item": "undici"
+    },
+    {
+      "card": "Translate to Italian: **twelve**",
+      "item": "dodici"
+    },
+    {
+      "card": "Translate to Italian: **thirteen**",
+      "item": "tredici"
+    },
+    {
+      "card": "Translate to Italian: **fourteen**",
+      "item": "quattordici"
+    },
+    {
+      "card": "Translate to Italian: **fifteen**",
+      "item": "quindici"
+    },
+    {
+      "card": "Translate to Italian: **sixteen**",
+      "item": "sedici"
+    },
+    {
+      "card": "Translate to Italian: **seventeen**",
+      "item": "diciassette"
+    },
+    {
+      "card": "Translate to Italian: **eighteen**",
+      "item": "diciotto"
+    },
+    {
+      "card": "Translate to Italian: **nineteen**",
+      "item": "diciannove"
+    },
+    {
+      "card": "Translate to Italian: **twenty**",
+      "item": "venti"
+    },
+    {
+      "card": "Translate to Italian: **thirty**",
+      "item": "trenta"
+    },
+    {
+      "card": "Translate to Italian: **forty**",
+      "item": "quaranta"
+    },
+    {
+      "card": "Translate to Italian: **fifty**",
+      "item": "cinquanta"
+    },
+    {
+      "card": "Translate to Italian: **sixty**",
+      "item": "sessanta"
+    },
+    {
+      "card": "Translate to Italian: **seventy**",
+      "item": "settanta"
+    },
+    {
+      "card": "Translate to Italian: **eighty**",
+      "item": "ottanta"
+    },
+    {
+      "card": "Translate to Italian: **ninety**",
+      "item": "novanta"
+    },
+    {
+      "card": "Translate to Italian: **one hundred**",
+      "item": "cento"
+    },
+    {
+      "card": "Translate to Italian: **good morning**",
+      "item": "buongiorno"
+    },
+    {
+      "card": "Translate to Italian: **good evening**",
+      "item": "buonasera"
+    },
+    {
+      "card": "Translate to Italian: **good night**",
+      "item": "buonanotte"
+    },
+    {
+      "card": "Translate to Italian: **hello**",
+      "item": "ciao"
+    },
+    {
+      "card": "Translate to Italian: **goodbye**",
+      "item": "arrivederci"
+    },
+    {
+      "card": "Translate to Italian: **thank you**",
+      "item": "grazie"
+    },
+    {
+      "card": "Translate to Italian: **you're welcome**",
+      "item": "prego"
+    },
+    {
+      "card": "Translate to Italian: **please**",
+      "item": "per-favore"
+    },
+    {
+      "card": "Translate to Italian: **excuse me**",
+      "item": "scusi"
+    },
+    {
+      "card": "Translate to Italian: **I'm sorry**",
+      "item": "mi-dispiace"
+    },
+    {
+      "card": "Translate to Italian: **How are you?**",
+      "item": "come-stai"
+    },
+    {
+      "card": "Translate to Italian: **My name is Marco.**",
+      "item": "mi-chiamo-marco"
+    },
+    {
+      "card": "Translate to Italian: **I don't understand.**",
+      "item": "non-capisco"
+    },
+    {
+      "card": "Translate to Italian: **How much does it cost?**",
+      "item": "quanto-costa"
+    },
+    {
+      "card": "Translate to Italian: **Where is the bathroom?**",
+      "item": "dov-e-il-bagno"
+    },
+    {
+      "card": "Translate to Italian: **yes**",
+      "item": "si"
+    },
+    {
+      "card": "Translate to Italian: **I would like ... (polite)**",
+      "item": "vorrei"
+    },
+    {
+      "card": "Translate to Italian: **Do you speak English?**",
+      "item": "parla-inglese"
+    },
+    {
+      "card": "Translate to Italian: **I don't speak Italian.**",
+      "item": "non-parlo-italiano"
+    },
+    {
+      "card": "Translate to Italian: **Can you help me?**",
+      "item": "puo-aiutarmi"
+    },
+    {
+      "card": "Translate to Italian: **see you later**",
+      "item": "a-dopo"
+    },
+    {
+      "card": "Translate to Italian: **see you tomorrow**",
+      "item": "a-domani"
+    },
+    {
+      "card": "Translate to Italian: **nice to meet you**",
+      "item": "piacere"
+    },
+    {
+      "card": "Translate to Italian: **What time is it?**",
+      "item": "che-ore-sono"
+    },
+    {
+      "card": "Translate to Italian: **the bill, please**",
+      "item": "il-conto-per-favore"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **essere** (to be)",
+      "item": "essere.pres"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*essere*, to be)?",
+      "item": "essere.pres"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*essere*, to be)?",
+      "item": "essere.pres"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*essere*, to be)?",
+      "item": "essere.pres"
+    },
+    {
+      "card": "Conjugate **essere** (to be) for **voi**",
+      "item": "essere.pres"
+    },
+    {
+      "card": "Conjugate **essere** (to be) for **loro**",
+      "item": "essere.pres"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **avere** (to have)",
+      "item": "avere.pres"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*avere*, to have)?",
+      "item": "avere.pres"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*avere*, to have)?",
+      "item": "avere.pres"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*avere*, to have)?",
+      "item": "avere.pres"
+    },
+    {
+      "card": "Conjugate **avere** (to have) for **voi**",
+      "item": "avere.pres"
+    },
+    {
+      "card": "Conjugate **avere** (to have) for **loro**",
+      "item": "avere.pres"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **fare** (to do/make)",
+      "item": "fare.pres"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*fare*, to do/make)?",
+      "item": "fare.pres"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*fare*, to do/make)?",
+      "item": "fare.pres"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*fare*, to do/make)?",
+      "item": "fare.pres"
+    },
+    {
+      "card": "Conjugate **fare** (to do/make) for **voi**",
+      "item": "fare.pres"
+    },
+    {
+      "card": "Conjugate **fare** (to do/make) for **loro**",
+      "item": "fare.pres"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **andare** (to go)",
+      "item": "andare.pres"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*andare*, to go)?",
+      "item": "andare.pres"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*andare*, to go)?",
+      "item": "andare.pres"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*andare*, to go)?",
+      "item": "andare.pres"
+    },
+    {
+      "card": "Conjugate **andare** (to go) for **voi**",
+      "item": "andare.pres"
+    },
+    {
+      "card": "Conjugate **andare** (to go) for **loro**",
+      "item": "andare.pres"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **venire** (to come)",
+      "item": "venire.pres"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*venire*, to come)?",
+      "item": "venire.pres"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*venire*, to come)?",
+      "item": "venire.pres"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*venire*, to come)?",
+      "item": "venire.pres"
+    },
+    {
+      "card": "Conjugate **venire** (to come) for **voi**",
+      "item": "venire.pres"
+    },
+    {
+      "card": "Conjugate **venire** (to come) for **loro**",
+      "item": "venire.pres"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **dire** (to say)",
+      "item": "dire.pres"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*dire*, to say)?",
+      "item": "dire.pres"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*dire*, to say)?",
+      "item": "dire.pres"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*dire*, to say)?",
+      "item": "dire.pres"
+    },
+    {
+      "card": "Conjugate **dire** (to say) for **voi**",
+      "item": "dire.pres"
+    },
+    {
+      "card": "Conjugate **dire** (to say) for **loro**",
+      "item": "dire.pres"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **potere** (can, to be able to)",
+      "item": "potere.pres"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*potere*, can, to be able to)?",
+      "item": "potere.pres"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*potere*, can, to be able to)?",
+      "item": "potere.pres"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*potere*, can, to be able to)?",
+      "item": "potere.pres"
+    },
+    {
+      "card": "Conjugate **potere** (can, to be able to) for **voi**",
+      "item": "potere.pres"
+    },
+    {
+      "card": "Conjugate **potere** (can, to be able to) for **loro**",
+      "item": "potere.pres"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **volere** (to want)",
+      "item": "volere.pres"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*volere*, to want)?",
+      "item": "volere.pres"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*volere*, to want)?",
+      "item": "volere.pres"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*volere*, to want)?",
+      "item": "volere.pres"
+    },
+    {
+      "card": "Conjugate **volere** (to want) for **voi**",
+      "item": "volere.pres"
+    },
+    {
+      "card": "Conjugate **volere** (to want) for **loro**",
+      "item": "volere.pres"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **dovere** (must, to have to)",
+      "item": "dovere.pres"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*dovere*, must, to have to)?",
+      "item": "dovere.pres"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*dovere*, must, to have to)?",
+      "item": "dovere.pres"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*dovere*, must, to have to)?",
+      "item": "dovere.pres"
+    },
+    {
+      "card": "Conjugate **dovere** (must, to have to) for **voi**",
+      "item": "dovere.pres"
+    },
+    {
+      "card": "Conjugate **dovere** (must, to have to) for **loro**",
+      "item": "dovere.pres"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **sapere** (to know (a fact))",
+      "item": "sapere.pres"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*sapere*, to know (a fact))?",
+      "item": "sapere.pres"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*sapere*, to know (a fact))?",
+      "item": "sapere.pres"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*sapere*, to know (a fact))?",
+      "item": "sapere.pres"
+    },
+    {
+      "card": "Conjugate **sapere** (to know (a fact)) for **voi**",
+      "item": "sapere.pres"
+    },
+    {
+      "card": "Conjugate **sapere** (to know (a fact)) for **loro**",
+      "item": "sapere.pres"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **vedere** (to see)",
+      "item": "present-ere"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **vedere** (to see)",
+      "item": "vedere"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*vedere*, to see)?",
+      "item": "present-ere"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*vedere*, to see)?",
+      "item": "vedere"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*vedere*, to see)?",
+      "item": "present-ere"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*vedere*, to see)?",
+      "item": "vedere"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*vedere*, to see)?",
+      "item": "present-ere"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*vedere*, to see)?",
+      "item": "vedere"
+    },
+    {
+      "card": "Conjugate **vedere** (to see) for **voi**",
+      "item": "present-ere"
+    },
+    {
+      "card": "Conjugate **vedere** (to see) for **voi**",
+      "item": "vedere"
+    },
+    {
+      "card": "Conjugate **vedere** (to see) for **loro**",
+      "item": "present-ere"
+    },
+    {
+      "card": "Conjugate **vedere** (to see) for **loro**",
+      "item": "vedere"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **dare** (to give)",
+      "item": "dare.pres"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*dare*, to give)?",
+      "item": "dare.pres"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*dare*, to give)?",
+      "item": "dare.pres"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*dare*, to give)?",
+      "item": "dare.pres"
+    },
+    {
+      "card": "Conjugate **dare** (to give) for **voi**",
+      "item": "dare.pres"
+    },
+    {
+      "card": "Conjugate **dare** (to give) for **loro**",
+      "item": "dare.pres"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **stare** (to stay)",
+      "item": "stare.pres"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*stare*, to stay)?",
+      "item": "stare.pres"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*stare*, to stay)?",
+      "item": "stare.pres"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*stare*, to stay)?",
+      "item": "stare.pres"
+    },
+    {
+      "card": "Conjugate **stare** (to stay) for **voi**",
+      "item": "stare.pres"
+    },
+    {
+      "card": "Conjugate **stare** (to stay) for **loro**",
+      "item": "stare.pres"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **parlare** (to speak)",
+      "item": "present-are"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **parlare** (to speak)",
+      "item": "parlare"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*parlare*, to speak)?",
+      "item": "present-are"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*parlare*, to speak)?",
+      "item": "parlare"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*parlare*, to speak)?",
+      "item": "present-are"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*parlare*, to speak)?",
+      "item": "parlare"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*parlare*, to speak)?",
+      "item": "present-are"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*parlare*, to speak)?",
+      "item": "parlare"
+    },
+    {
+      "card": "Conjugate **parlare** (to speak) for **voi**",
+      "item": "present-are"
+    },
+    {
+      "card": "Conjugate **parlare** (to speak) for **voi**",
+      "item": "parlare"
+    },
+    {
+      "card": "Conjugate **parlare** (to speak) for **loro**",
+      "item": "present-are"
+    },
+    {
+      "card": "Conjugate **parlare** (to speak) for **loro**",
+      "item": "parlare"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **mangiare** (to eat)",
+      "item": "present-are"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **mangiare** (to eat)",
+      "item": "mangiare"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*mangiare*, to eat)?",
+      "item": "present-are"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*mangiare*, to eat)?",
+      "item": "mangiare"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*mangiare*, to eat)?",
+      "item": "present-are"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*mangiare*, to eat)?",
+      "item": "mangiare"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*mangiare*, to eat)?",
+      "item": "present-are"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*mangiare*, to eat)?",
+      "item": "mangiare"
+    },
+    {
+      "card": "Conjugate **mangiare** (to eat) for **voi**",
+      "item": "present-are"
+    },
+    {
+      "card": "Conjugate **mangiare** (to eat) for **voi**",
+      "item": "mangiare"
+    },
+    {
+      "card": "Conjugate **mangiare** (to eat) for **loro**",
+      "item": "present-are"
+    },
+    {
+      "card": "Conjugate **mangiare** (to eat) for **loro**",
+      "item": "mangiare"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **prendere** (to take)",
+      "item": "present-ere"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **prendere** (to take)",
+      "item": "prendere"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*prendere*, to take)?",
+      "item": "present-ere"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*prendere*, to take)?",
+      "item": "prendere"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*prendere*, to take)?",
+      "item": "present-ere"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*prendere*, to take)?",
+      "item": "prendere"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*prendere*, to take)?",
+      "item": "present-ere"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*prendere*, to take)?",
+      "item": "prendere"
+    },
+    {
+      "card": "Conjugate **prendere** (to take) for **voi**",
+      "item": "present-ere"
+    },
+    {
+      "card": "Conjugate **prendere** (to take) for **voi**",
+      "item": "prendere"
+    },
+    {
+      "card": "Conjugate **prendere** (to take) for **loro**",
+      "item": "present-ere"
+    },
+    {
+      "card": "Conjugate **prendere** (to take) for **loro**",
+      "item": "prendere"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **mettere** (to put)",
+      "item": "present-ere"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **mettere** (to put)",
+      "item": "mettere"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*mettere*, to put)?",
+      "item": "present-ere"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*mettere*, to put)?",
+      "item": "mettere"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*mettere*, to put)?",
+      "item": "present-ere"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*mettere*, to put)?",
+      "item": "mettere"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*mettere*, to put)?",
+      "item": "present-ere"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*mettere*, to put)?",
+      "item": "mettere"
+    },
+    {
+      "card": "Conjugate **mettere** (to put) for **voi**",
+      "item": "present-ere"
+    },
+    {
+      "card": "Conjugate **mettere** (to put) for **voi**",
+      "item": "mettere"
+    },
+    {
+      "card": "Conjugate **mettere** (to put) for **loro**",
+      "item": "present-ere"
+    },
+    {
+      "card": "Conjugate **mettere** (to put) for **loro**",
+      "item": "mettere"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **uscire** (to go out)",
+      "item": "uscire.pres"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*uscire*, to go out)?",
+      "item": "uscire.pres"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*uscire*, to go out)?",
+      "item": "uscire.pres"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*uscire*, to go out)?",
+      "item": "uscire.pres"
+    },
+    {
+      "card": "Conjugate **uscire** (to go out) for **voi**",
+      "item": "uscire.pres"
+    },
+    {
+      "card": "Conjugate **uscire** (to go out) for **loro**",
+      "item": "uscire.pres"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **dormire** (to sleep)",
+      "item": "present-ire"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **dormire** (to sleep)",
+      "item": "dormire"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*dormire*, to sleep)?",
+      "item": "present-ire"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*dormire*, to sleep)?",
+      "item": "dormire"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*dormire*, to sleep)?",
+      "item": "present-ire"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*dormire*, to sleep)?",
+      "item": "dormire"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*dormire*, to sleep)?",
+      "item": "present-ire"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*dormire*, to sleep)?",
+      "item": "dormire"
+    },
+    {
+      "card": "Conjugate **dormire** (to sleep) for **voi**",
+      "item": "present-ire"
+    },
+    {
+      "card": "Conjugate **dormire** (to sleep) for **voi**",
+      "item": "dormire"
+    },
+    {
+      "card": "Conjugate **dormire** (to sleep) for **loro**",
+      "item": "present-ire"
+    },
+    {
+      "card": "Conjugate **dormire** (to sleep) for **loro**",
+      "item": "dormire"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **finire** (to finish)",
+      "item": "present-isc"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **finire** (to finish)",
+      "item": "finire"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*finire*, to finish)?",
+      "item": "present-isc"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*finire*, to finish)?",
+      "item": "finire"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*finire*, to finish)?",
+      "item": "present-isc"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*finire*, to finish)?",
+      "item": "finire"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*finire*, to finish)?",
+      "item": "present-isc"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*finire*, to finish)?",
+      "item": "finire"
+    },
+    {
+      "card": "Conjugate **finire** (to finish) for **voi**",
+      "item": "present-isc"
+    },
+    {
+      "card": "Conjugate **finire** (to finish) for **voi**",
+      "item": "finire"
+    },
+    {
+      "card": "Conjugate **finire** (to finish) for **loro**",
+      "item": "present-isc"
+    },
+    {
+      "card": "Conjugate **finire** (to finish) for **loro**",
+      "item": "finire"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **capire** (to understand)",
+      "item": "present-isc"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **capire** (to understand)",
+      "item": "capire"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*capire*, to understand)?",
+      "item": "present-isc"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*capire*, to understand)?",
+      "item": "capire"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*capire*, to understand)?",
+      "item": "present-isc"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*capire*, to understand)?",
+      "item": "capire"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*capire*, to understand)?",
+      "item": "present-isc"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*capire*, to understand)?",
+      "item": "capire"
+    },
+    {
+      "card": "Conjugate **capire** (to understand) for **voi**",
+      "item": "present-isc"
+    },
+    {
+      "card": "Conjugate **capire** (to understand) for **voi**",
+      "item": "capire"
+    },
+    {
+      "card": "Conjugate **capire** (to understand) for **loro**",
+      "item": "present-isc"
+    },
+    {
+      "card": "Conjugate **capire** (to understand) for **loro**",
+      "item": "capire"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **leggere** (to read)",
+      "item": "present-ere"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **leggere** (to read)",
+      "item": "leggere"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*leggere*, to read)?",
+      "item": "present-ere"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*leggere*, to read)?",
+      "item": "leggere"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*leggere*, to read)?",
+      "item": "present-ere"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*leggere*, to read)?",
+      "item": "leggere"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*leggere*, to read)?",
+      "item": "present-ere"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*leggere*, to read)?",
+      "item": "leggere"
+    },
+    {
+      "card": "Conjugate **leggere** (to read) for **voi**",
+      "item": "present-ere"
+    },
+    {
+      "card": "Conjugate **leggere** (to read) for **voi**",
+      "item": "leggere"
+    },
+    {
+      "card": "Conjugate **leggere** (to read) for **loro**",
+      "item": "present-ere"
+    },
+    {
+      "card": "Conjugate **leggere** (to read) for **loro**",
+      "item": "leggere"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **scrivere** (to write)",
+      "item": "present-ere"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **scrivere** (to write)",
+      "item": "scrivere"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*scrivere*, to write)?",
+      "item": "present-ere"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*scrivere*, to write)?",
+      "item": "scrivere"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*scrivere*, to write)?",
+      "item": "present-ere"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*scrivere*, to write)?",
+      "item": "scrivere"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*scrivere*, to write)?",
+      "item": "present-ere"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*scrivere*, to write)?",
+      "item": "scrivere"
+    },
+    {
+      "card": "Conjugate **scrivere** (to write) for **voi**",
+      "item": "present-ere"
+    },
+    {
+      "card": "Conjugate **scrivere** (to write) for **voi**",
+      "item": "scrivere"
+    },
+    {
+      "card": "Conjugate **scrivere** (to write) for **loro**",
+      "item": "present-ere"
+    },
+    {
+      "card": "Conjugate **scrivere** (to write) for **loro**",
+      "item": "scrivere"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **vivere** (to live)",
+      "item": "present-ere"
+    },
+    {
+      "card": "Match each pronoun to the present tense of **vivere** (to live)",
+      "item": "vivere"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*vivere*, to live)?",
+      "item": "present-ere"
+    },
+    {
+      "card": "Which is the correct form: **io** ___ (*vivere*, to live)?",
+      "item": "vivere"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*vivere*, to live)?",
+      "item": "present-ere"
+    },
+    {
+      "card": "Which is the correct form: **tu** ___ (*vivere*, to live)?",
+      "item": "vivere"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*vivere*, to live)?",
+      "item": "present-ere"
+    },
+    {
+      "card": "Which is the correct form: **noi** ___ (*vivere*, to live)?",
+      "item": "vivere"
+    },
+    {
+      "card": "Conjugate **vivere** (to live) for **voi**",
+      "item": "present-ere"
+    },
+    {
+      "card": "Conjugate **vivere** (to live) for **voi**",
+      "item": "vivere"
+    },
+    {
+      "card": "Conjugate **vivere** (to live) for **loro**",
+      "item": "present-ere"
+    },
+    {
+      "card": "Conjugate **vivere** (to live) for **loro**",
+      "item": "vivere"
+    },
+    {
+      "card": "essere vs avere: io & tu forms",
+      "item": "essere.pres"
+    },
+    {
+      "card": "essere vs avere: io & tu forms",
+      "item": "avere.pres"
+    },
+    {
+      "card": "essere vs avere: lui/lei & noi forms",
+      "item": "essere.pres"
+    },
+    {
+      "card": "essere vs avere: lui/lei & noi forms",
+      "item": "avere.pres"
+    },
+    {
+      "card": "essere vs avere: voi & loro forms",
+      "item": "essere.pres"
+    },
+    {
+      "card": "essere vs avere: voi & loro forms",
+      "item": "avere.pres"
+    },
+    {
+      "card": "Match each pronoun to the correct form of *essere*",
+      "item": "essere.pres"
+    },
+    {
+      "card": "Match each pronoun to the correct form of *essere*",
+      "item": "avere.pres"
+    },
+    {
+      "card": "Match each pronoun to the correct form of *avere*",
+      "item": "essere.pres"
+    },
+    {
+      "card": "Match each pronoun to the correct form of *avere*",
+      "item": "avere.pres"
+    },
+    {
+      "card": "essere vs avere: mixed review 1",
+      "item": "essere.pres"
+    },
+    {
+      "card": "essere vs avere: mixed review 1",
+      "item": "avere.pres"
+    },
+    {
+      "card": "essere vs avere: mixed review 2",
+      "item": "essere.pres"
+    },
+    {
+      "card": "essere vs avere: mixed review 2",
+      "item": "avere.pres"
+    },
+    {
+      "card": "Which definite article is correct? ___ **zaino** (backpack)",
+      "item": "definite-article"
+    },
+    {
+      "card": "Which definite article is correct? ___ **amica** (female friend)",
+      "item": "definite-article"
+    },
+    {
+      "card": "Which definite article is correct? ___ **libri** (books)",
+      "item": "definite-article"
+    },
+    {
+      "card": "Which definite article is correct? ___ **studenti** (students)",
+      "item": "definite-article"
+    },
+    {
+      "card": "Which definite article is correct? ___ **case** (houses)",
+      "item": "definite-article"
+    },
+    {
+      "card": "Which indefinite article is correct? ___ **zaino** (backpack)",
+      "item": "indefinite-article"
+    },
+    {
+      "card": "Which indefinite article is correct? ___ **amica** (female friend)",
+      "item": "indefinite-article"
+    },
+    {
+      "card": "Which indefinite article is correct? ___ **libro** (book)",
+      "item": "indefinite-article"
+    },
+    {
+      "card": "Which of these Italian nouns is **feminine**?",
+      "item": "noun-gender"
+    },
+    {
+      "card": "Which of these Italian nouns is **masculine**?",
+      "item": "noun-gender"
+    },
+    {
+      "card": "What is the plural of **ragazzo** (boy)?",
+      "item": "noun-plural"
+    },
+    {
+      "card": "What is the plural of **casa** (house)?",
+      "item": "noun-plural"
+    },
+    {
+      "card": "What is the plural of **amico** (friend)?",
+      "item": "noun-plural"
+    },
+    {
+      "card": "Complete the sentence: **Io ___ italiano.** (I am Italian — *essere*)",
+      "item": "essere.pres"
+    },
+    {
+      "card": "Complete the sentence: **Tu ___ un libro.** (You have a book — *avere*)",
+      "item": "avere.pres"
+    },
+    {
+      "card": "Complete the sentence: **Lei ___ italiano.** (She speaks Italian — *parlare*)",
+      "item": "present-are"
+    },
+    {
+      "card": "Complete the sentence: **Lei ___ italiano.** (She speaks Italian — *parlare*)",
+      "item": "parlare"
+    },
+    {
+      "card": "Complete the sentence: **Noi ___ il treno.** (We take the train — *prendere*)",
+      "item": "present-ere"
+    },
+    {
+      "card": "Complete the sentence: **Noi ___ il treno.** (We take the train — *prendere*)",
+      "item": "prendere"
+    },
+    {
+      "card": "Complete the sentence: **Loro ___ molto.** (They sleep a lot — *dormire*)",
+      "item": "present-ire"
+    },
+    {
+      "card": "Complete the sentence: **Loro ___ molto.** (They sleep a lot — *dormire*)",
+      "item": "dormire"
+    },
+    {
+      "card": "Which preposition is correct? **Vado ___ Italia.** (I am going to Italy)",
+      "item": "preposition-a-in"
+    },
+    {
+      "card": "Which preposition is correct? **Abito ___ Roma.** (I live in Rome)",
+      "item": "preposition-a-in"
+    }
+  ]
+}

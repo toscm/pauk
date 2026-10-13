@@ -1,0 +1,3817 @@
+{
+  "space": "concepts",
+  "dirs": [
+    "bioinformatics",
+    "immunology",
+    "phd/adadmire",
+    "phd/fastret",
+    "phd/immune-system",
+    "phd/liquid-chromatography",
+    "phd/metabodecon",
+    "phd/nmr"
+  ],
+  "items": [
+    {
+      "key": "nuclear-magnetic-resonance-spectroscopy",
+      "kind": "term",
+      "label_md": "Nuclear magnetic resonance (NMR) spectroscopy",
+      "gloss_md": "Spectroscopy that measures the resonance frequencies of nuclear spins in a strong magnetic field.",
+      "body_md": "NMR exploits nuclear spin: in a static field B0 the spin states split in energy (Zeeman splitting) and transitions are induced by radiofrequency radiation. Because electronic shielding shifts each nucleus's resonance slightly, NMR is a precise frequency measurement whose small shifts encode chemistry. For metabolomics it is highly reproducible, quantitative, non-destructive and needs minimal sample preparation. Its weaknesses are low sensitivity (about µM–mM), severe signal overlap in 1D ¹H spectra and expensive high-field instruments.",
+      "attrs": {
+        "source": "phd-defense",
+        "abbreviation": "NMR"
+      },
+      "priority": 85,
+      "level": 3,
+      "dirs": [
+        "phd/nmr",
+        "phd/adadmire",
+        "phd/immune-system"
+      ]
+    },
+    {
+      "key": "nuclear-spin",
+      "kind": "term",
+      "label_md": "Nuclear spin",
+      "gloss_md": "The spin quantum number I of a nucleus; only nuclei with I ≠ 0 have a magnetic moment and are NMR-observable.",
+      "body_md": "A nucleus with spin quantum number I has angular momentum P = √(I(I+1))·ħ and magnetic moment μ = γ·P, where γ is the isotope-specific gyromagnetic ratio. Nuclei with even numbers of both protons and neutrons (e.g. ¹²C, ¹⁶O) have I = 0 and are invisible to NMR. ¹H and ¹³C have I = ½; ²H and ¹⁴N have I = 1. In a field B0 the z-component is quantized (m = −I,…,+I); a spin-½ nucleus has two states split in energy (Zeeman splitting).",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 60,
+      "level": 3,
+      "dirs": [
+        "phd/nmr"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "nuclear-magnetic-resonance-spectroscopy"
+        }
+      ]
+    },
+    {
+      "key": "larmor-frequency",
+      "kind": "term",
+      "label_md": "Larmor frequency",
+      "gloss_md": "The resonance frequency ν0 = γ·B0/(2π) at which RF radiation induces spin transitions.",
+      "body_md": "For spin-½ the energy gap is ΔE = γ·ħ·B0 = hν0. At 14.1 T, ¹H resonates near 600 MHz, hence a '600 MHz spectrometer'. The field a nucleus actually experiences is reduced by electronic shielding, B_eff = B0(1 − σ), so chemically inequivalent nuclei resonate at slightly different frequencies.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 60,
+      "level": 3,
+      "dirs": [
+        "phd/nmr"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "nuclear-spin"
+        }
+      ]
+    },
+    {
+      "key": "chemical-shift",
+      "kind": "term",
+      "label_md": "Chemical shift",
+      "gloss_md": "Resonance position relative to a reference, δ = (ν_sample − ν_ref)/ν_ref × 10⁶, in ppm.",
+      "body_md": "Dividing by the spectrometer frequency makes δ field-independent, so spectra from different magnets are directly comparable (J-couplings, in contrast, are constant in Hz). In aqueous metabolomics the reference set to 0 ppm is TSP or DSS, whose 9 equivalent protons give one sharp line. The ¹H chemical-shift range is narrow (~10 ppm), a main cause of signal overlap in biofluids; ¹³C spans >200 ppm.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 80,
+      "level": 3,
+      "dirs": [
+        "phd/nmr"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "larmor-frequency"
+        }
+      ]
+    },
+    {
+      "key": "nmr-sensitivity",
+      "kind": "term",
+      "label_md": "NMR sensitivity",
+      "gloss_md": "NMR is intrinsically insensitive because the signal comes from a tiny Boltzmann population difference.",
+      "body_md": "ΔN/N ≈ γħB0/(2kT), only about 1 in 10⁴–10⁵ at room temperature, so only a small net excess contributes to the magnetization. Sensitivity improves with higher B0, cryoprobes, microprobes, signal averaging (S/N ∝ √n) and methods like dynamic nuclear polarization. Higher B0 also improves resolution, because shifts in Hz scale with B0 while J-couplings stay fixed; the cost is very expensive magnets.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 65,
+      "level": 4,
+      "dirs": [
+        "phd/nmr"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "nuclear-magnetic-resonance-spectroscopy"
+        }
+      ]
+    },
+    {
+      "key": "proton-nmr",
+      "kind": "term",
+      "label_md": "¹H NMR",
+      "gloss_md": "NMR of hydrogen nuclei, the workhorse of NMR-based metabolomics.",
+      "body_md": "¹H combines high gyromagnetic ratio and ~100% natural abundance, and nearly all metabolites contain hydrogen, so one 1D ¹H experiment profiles most of the metabolome quickly. Its drawback is the narrow ~10 ppm shift range, causing extensive overlap. ¹³C (1.1% abundance), ³¹P (few metabolites contain P) and ¹⁵N (0.37% abundance) trade sensitivity or coverage for dispersion.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 65,
+      "level": 3,
+      "dirs": [
+        "phd/nmr"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "nuclear-magnetic-resonance-spectroscopy"
+        }
+      ]
+    },
+    {
+      "key": "spin-lattice-relaxation",
+      "kind": "term",
+      "label_md": "Spin–lattice (T1) relaxation",
+      "gloss_md": "Longitudinal relaxation restoring the z-magnetization by exchanging energy with the surroundings.",
+      "body_md": "T1 relaxation restores the Boltzmann population difference after an RF pulse. It sets how long one must wait between scans to avoid saturation. For quantitative NMR the relaxation delay plus acquisition should be at least about 5·T1, otherwise long-T1 protons are under-counted.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 55,
+      "level": 4,
+      "dirs": [
+        "phd/nmr"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "nuclear-magnetic-resonance-spectroscopy"
+        }
+      ]
+    },
+    {
+      "key": "spin-spin-relaxation",
+      "kind": "term",
+      "label_md": "Spin–spin (T2) relaxation",
+      "gloss_md": "Transverse relaxation: decay of xy-magnetization as spins lose phase coherence; it governs linewidth.",
+      "body_md": "T2 relaxation needs no net energy exchange. The FID decays as exp(−t/T2), and a shorter T2 gives a broader line. The observed decay constant T2* also includes dephasing from field inhomogeneity, so linewidths are usually broader than the natural 1/(πT2). Large, slowly tumbling molecules have short T2 and broad signals.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 65,
+      "level": 4,
+      "dirs": [
+        "phd/nmr"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "nuclear-magnetic-resonance-spectroscopy"
+        }
+      ]
+    },
+    {
+      "key": "free-induction-decay",
+      "kind": "term",
+      "label_md": "Free induction decay (FID)",
+      "gloss_md": "The raw time-domain NMR signal: an oscillation at the Larmor frequency decaying as exp(−t/T2*).",
+      "body_md": "The FID is what the spectrometer acquires; Fourier transformation turns it into the frequency-domain spectrum. Before the transform it is typically apodized (window function) and zero-filled.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 50,
+      "level": 3,
+      "dirs": [
+        "phd/nmr"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "spin-spin-relaxation"
+        }
+      ]
+    },
+    {
+      "key": "lorentzian-line-shape",
+      "kind": "term",
+      "label_md": "Lorentzian line shape",
+      "gloss_md": "The peak shape of a liquid-state NMR signal: f(ω) = A·λ/((ω−ω0)² + λ²).",
+      "body_md": "The Fourier transform of an exponentially decaying cosine (the FID) is exactly a Lorentzian centred at the resonance frequency, with FWHM Δν = 1/(π·T2*). In the metabodeconplus parameterization ω0 is the centre, λ the half-width at half-maximum and A an amplitude factor; the integral is πA and the peak height A/λ. Field inhomogeneity can add a Gaussian component (Voigt profile). This is the mechanistic justification for modelling metabolite signals as Lorentzians in deconvolution.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 75,
+      "level": 4,
+      "dirs": [
+        "phd/nmr",
+        "phd/metabodecon",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "free-induction-decay"
+        }
+      ]
+    },
+    {
+      "key": "line-broadening",
+      "kind": "term",
+      "label_md": "NMR line broadening",
+      "gloss_md": "Factors that shorten T2* and widen NMR peaks, causing overlap in crowded spectra.",
+      "body_md": "Contributors are intrinsic T2 relaxation (faster for large, slowly tumbling molecules), magnetic-field inhomogeneity (poor shimming), chemical exchange, sample viscosity and molecular interactions, and the measurement/processing itself. Together with the narrow ¹H shift range and hundreds of metabolites, these linewidths make peaks in urine and plasma overlap. Chemical exchange (e.g. labile OH/NH protons exchanging with water, or titrating metabolites) broadens lines in the intermediate regime and makes signals pH-dependent, stressing both deconvolution and alignment.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 55,
+      "level": 4,
+      "dirs": [
+        "phd/nmr"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "spin-spin-relaxation"
+        }
+      ]
+    },
+    {
+      "key": "signal-overlap",
+      "kind": "term",
+      "label_md": "Signal overlap",
+      "gloss_md": "Co-located peaks within one NMR spectrum that cannot be read off individually.",
+      "body_md": "In 1D ¹H spectra of biofluids, the narrow ~10 ppm range, hundreds of metabolites and finite linewidths cause extensive overlap. Overlap is a within-spectrum problem solved by deconvolution (or by 2D NMR), distinct from chemical-shift drift across spectra.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 65,
+      "level": 3,
+      "dirs": [
+        "phd/nmr",
+        "bioinformatics"
+      ]
+    },
+    {
+      "key": "chemical-shift-drift",
+      "kind": "term",
+      "label_md": "Chemical-shift drift",
+      "gloss_md": "Small sample-to-sample shifts in a metabolite's peak positions caused by pH, temperature and ionic strength.",
+      "body_md": "The same metabolite's resonance moves with pH (especially titratable metabolites like citrate, histidine), temperature, ionic strength and solvent composition. Drift is about matching the same peak across spectra (an alignment problem), whereas overlap is about resolving peaks within one spectrum. Without correction one metabolite's intensity lands in different feature columns, corrupting statistical comparisons.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 65,
+      "level": 3,
+      "dirs": [
+        "phd/nmr",
+        "bioinformatics"
+      ]
+    },
+    {
+      "key": "quantitative-nmr",
+      "kind": "term",
+      "label_md": "Quantitative NMR",
+      "gloss_md": "Under full relaxation, the integrated ¹H signal area is proportional to the number of protons.",
+      "body_md": "Because all ¹H nuclei respond identically, one internal standard of known concentration (e.g. TSP) calibrates the entire spectrum without compound-specific response factors, a major advantage over MS. The condition is that spins relax essentially fully between scans (relaxation delay + acquisition ≥ about 5·T1); otherwise long-T1 signals are attenuated.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 60,
+      "level": 4,
+      "dirs": [
+        "phd/nmr"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "spin-lattice-relaxation"
+        }
+      ]
+    },
+    {
+      "key": "j-coupling",
+      "kind": "term",
+      "label_md": "Scalar (J-) coupling",
+      "gloss_md": "Splitting of a signal into a multiplet by neighbouring protons, constant in Hz.",
+      "body_md": "Protons on neighbouring carbons split each other's signals into doublets, triplets, … following the n+1 rule. Together with chemically inequivalent proton groups, this gives each metabolite a characteristic pattern of several peaks. A deconvolution tool that treats peaks independently (as metabodeconplus does, without multiplet grouping) produces several correlated features per metabolite.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 55,
+      "level": 4,
+      "dirs": [
+        "phd/nmr"
+      ]
+    },
+    {
+      "key": "water-suppression",
+      "kind": "term",
+      "label_md": "Water suppression",
+      "gloss_md": "Removing the huge water resonance in biofluid ¹H NMR, typically by presaturation.",
+      "body_md": "Water protons (~55 M) exceed metabolites by 10⁴–10⁵ and would dominate the receiver and swamp metabolite signals. Presaturation applies a weak selective RF field at the water frequency during the relaxation delay, saturating water spins while off-resonance metabolites are largely unaffected; it underlies 1D NOESY-presat. Downsides: exchangeable protons near water are attenuated and a residual hump may remain. Urine spectra are typically acquired with 1D NOESY-presat for its robust water suppression and flat baseline.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 50,
+      "level": 4,
+      "dirs": [
+        "phd/nmr"
+      ]
+    },
+    {
+      "key": "cpmg-pulse-sequence",
+      "kind": "term",
+      "label_md": "CPMG pulse sequence",
+      "gloss_md": "Carr–Purcell–Meiboom–Gill spin-echo train acting as a T2 filter; used for plasma/serum.",
+      "body_md": "Plasma contains proteins and lipoproteins with very short T2 that form a broad rolling background. During the CPMG echo period this fast-decaying macromolecule magnetization dies away while sharp small-metabolite signals (long T2) survive, giving a clean spectrum on a flat baseline. Urine lacks this background and is measured with 1D NOESY-presat instead.",
+      "attrs": {
+        "source": "phd-defense",
+        "abbreviation": "CPMG"
+      },
+      "priority": 55,
+      "level": 4,
+      "dirs": [
+        "phd/nmr",
+        "phd/metabodecon"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "spin-spin-relaxation"
+        }
+      ]
+    },
+    {
+      "key": "two-dimensional-nmr",
+      "kind": "term",
+      "label_md": "Two-dimensional NMR",
+      "gloss_md": "NMR experiments (COSY, TOCSY, HSQC, HMBC) that spread signals over a second frequency axis.",
+      "body_md": "COSY shows ¹H–¹H cross-peaks between directly J-coupled protons; TOCSY correlates a whole coupled spin system; HSQC gives one-bond ¹H–¹³C correlations; HMBC gives 2–3-bond ¹H–¹³C correlations. They resolve overlap and aid assignment, but cost much more acquisition time, produce larger data and are harder to quantify at cohort scale. So 1D ¹H with computational deconvolution remains the default in metabolomics.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 45,
+      "level": 4,
+      "dirs": [
+        "phd/nmr"
+      ]
+    },
+    {
+      "key": "shimming",
+      "kind": "term",
+      "label_md": "Shimming and field/frequency lock",
+      "gloss_md": "Adjusting auxiliary coil currents to make B0 as homogeneous as possible over the sample.",
+      "body_md": "Field inhomogeneity dephases spins (shortens T2*) and broadens and distorts lines. Good shimming gives sharp, symmetric, truly Lorentzian peaks and a flat baseline, improving resolution and the validity of Lorentzian deconvolution. The lock channel monitors the ²H resonance of a deuterated solvent (e.g. D2O) and adjusts B0 to correct slow field drift.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 40,
+      "level": 4,
+      "dirs": [
+        "phd/nmr"
+      ]
+    },
+    {
+      "key": "high-resolution-magic-angle-spinning",
+      "kind": "term",
+      "label_md": "High-resolution magic-angle spinning (HRMAS) NMR",
+      "gloss_md": "NMR of intact tissue spun at 54.74° to B0 to average out anisotropic line broadening.",
+      "body_md": "In solids and semi-solids, dipolar couplings, chemical-shift anisotropy and susceptibility effects broaden lines; these scale with (3cos²θ − 1), which is zero at 54.74°. Fast spinning at that angle recovers near-solution linewidths. It is used for intact tissue biopsies, while solution-state NMR remains the choice for liquid biofluids.",
+      "attrs": {
+        "source": "phd-defense",
+        "abbreviation": "HRMAS"
+      },
+      "priority": 40,
+      "level": 5,
+      "dirs": [
+        "phd/nmr"
+      ]
+    },
+    {
+      "key": "mass-spectrometry",
+      "kind": "term",
+      "label_md": "Mass spectrometry",
+      "gloss_md": "Analytical technique that ionises analytes and separates them by mass-to-charge ratio (m/z).",
+      "body_md": "In metabolomics MS is very sensitive and selective with wide coverage, usually after LC or GC separation. Weaknesses: often destructive, ionization efficiency varies so quantification needs compound-specific standards, ion-suppression/matrix effects, narrower dynamic range and lower reproducibility across labs than NMR. Targeted MS uses multiple-reaction monitoring with stable-isotope-labelled internal standards. NMR and MS are complementary.",
+      "attrs": {
+        "source": "phd-defense",
+        "abbreviation": "MS"
+      },
+      "priority": 70,
+      "level": 3,
+      "dirs": [
+        "phd/nmr",
+        "phd/immune-system"
+      ]
+    },
+    {
+      "key": "metabolome",
+      "kind": "term",
+      "label_md": "Metabolome",
+      "gloss_md": "The complete set of small-molecule metabolites; the molecular layer considered closest to the phenotype.",
+      "body_md": "The metabolome lies downstream of genome, transcriptome and proteome and integrates gene expression, enzyme activity and environmental inputs (diet, drugs, microbiome, disease). It therefore reflects the organism's actual physiological state and suits biomarker discovery. Caveats: signatures capture correlation not causation, and the metabolome is dynamic and influenced by many confounders, so data are noisy.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 65,
+      "level": 2,
+      "dirs": [
+        "phd/nmr",
+        "phd/immune-system",
+        "bioinformatics"
+      ]
+    },
+    {
+      "key": "metabolomics",
+      "kind": "term",
+      "label_md": "Metabolomics",
+      "gloss_md": "The large-scale measurement and analysis of metabolites, mainly by NMR and mass spectrometry.",
+      "body_md": "NMR and MS are the two main, complementary platforms: NMR is reproducible and quantitative but insensitive; MS is sensitive with wide coverage but less reproducible and harder to quantify. Results feed biomarker discovery, disease-risk assessment and pathway analysis.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 75,
+      "level": 2,
+      "dirs": [
+        "phd/nmr",
+        "bioinformatics"
+      ]
+    },
+    {
+      "key": "nmr-metabolomics-workflow",
+      "kind": "term",
+      "label_md": "NMR metabolomics data-processing workflow",
+      "gloss_md": "The standard steps from raw FID to statistical analysis in NMR metabolomics.",
+      "body_md": "Steps: acquisition (FID); apodization and zero-filling; Fourier transformation; phase and baseline correction; chemical-shift referencing (TSP/DSS) and water-region removal; feature extraction by binning or deconvolution; alignment across samples; normalization (e.g. total area or creatinine for urine) and scaling; optional annotation; statistical analysis (PCA, PLS-DA, random forests).",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 60,
+      "level": 3,
+      "dirs": [
+        "phd/nmr",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "metabolomics"
+        }
+      ]
+    },
+    {
+      "key": "untargeted-metabolomics",
+      "kind": "term",
+      "label_md": "Untargeted metabolomics",
+      "gloss_md": "Fingerprinting approach that models all resolved signals without requiring prior metabolite annotation.",
+      "body_md": "Statistics run directly on resolved signals (peaks or bins), so signals of unknown origin can still be discriminatory biomarkers; important ones are annotated afterwards. Targeted profiling instead quantifies a predefined list of known metabolites. Since only a small fraction of signals can be confidently annotated (much of the metabolome is 'dark matter'), untargeted approaches lose no information to incomplete libraries.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 70,
+      "level": 3,
+      "dirs": [
+        "phd/nmr",
+        "phd/metabodecon",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "metabolomics"
+        }
+      ]
+    },
+    {
+      "key": "metabolite-identification-levels",
+      "kind": "term",
+      "label_md": "Metabolite identification confidence levels (MSI)",
+      "gloss_md": "Metabolomics Standards Initiative levels; level 1 needs two orthogonal properties matched to an authentic standard.",
+      "body_md": "Defined by Sumner et al. 2007, the gold standard (level 1) matches e.g. retention time and mass spectrum to an authentic standard measured under identical conditions. A database lookup by mass or shift yields only candidates (putative annotation). A meta-analysis (Kodra et al. 2022) found only about 20% of papers reached level 1; the bottleneck is the cost and availability of standards, which motivates RT prediction and spectral libraries.",
+      "attrs": {
+        "source": "phd-defense",
+        "abbreviation": "MSI"
+      },
+      "priority": 70,
+      "level": 3,
+      "dirs": [
+        "phd/nmr",
+        "phd/fastret",
+        "phd/liquid-chromatography",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "metabolomics"
+        }
+      ]
+    },
+    {
+      "key": "spectral-binning",
+      "kind": "term",
+      "label_md": "Spectral binning (bucketing)",
+      "gloss_md": "Feature extraction that sums spectral intensity within fixed or adaptive chemical-shift intervals.",
+      "body_md": "Binning is simple, fast, robust to noise and tolerant of small peak shifts, and needs no peak model. Its principal disadvantage is that one bin can mix several overlapping peaks or metabolites, so a discriminatory bin cannot be attributed to one metabolite. On the AKI cohort a 700-bin baseline (0.01 ppm bins) matched metabodeconplus in accuracy, but without per-peak interpretability.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 65,
+      "level": 3,
+      "dirs": [
+        "phd/nmr",
+        "phd/metabodecon",
+        "bioinformatics"
+      ]
+    },
+    {
+      "key": "spectral-deconvolution",
+      "kind": "term",
+      "label_md": "Spectral deconvolution",
+      "gloss_md": "Decomposing an overlapped NMR spectrum into individual (Lorentzian) peaks with positions and integrals.",
+      "body_md": "Because signals overlap in 1D ¹H biofluid spectra, individual peaks must be resolved computationally by fitting a superposition of Lorentzians. Peak-based features are localised, each contributing to a single metabolite, unlike bins. Classical curve fitting uses least squares (e.g. Levenberg–Marquardt); Koh's approach is analytic and derivative-free.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 80,
+      "level": 4,
+      "dirs": [
+        "phd/nmr",
+        "phd/metabodecon",
+        "bioinformatics"
+      ]
+    },
+    {
+      "key": "metabodeconplus",
+      "kind": "term",
+      "label_md": "metabodeconplus",
+      "gloss_md": "R package unifying NMR deconvolution, cross-sample alignment, feature-matrix construction and random-forest classification.",
+      "body_md": "It is not a new version of MetaboDecon1D but a broader package with automated parameter optimization and a fast Rust backend, scaling to several hundred spectra. It quantifies every resolvable peak whether or not its metabolite is known. On the AKI urine cohort it matched a binning baseline in accuracy and AUC while giving interpretable per-peak features. Limitations: native readers only for Bruker and JCAMP-DX, no multiplet grouping, no automatic peak-to-metabolite assignment, and an expensive supervised 3-D parameter search. An optional Rust backend (mdrb, via use_rust) gives very close but not identical results and makes grid search fast; work is parallelized across spectra, not grid rows, to save memory.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 90,
+      "level": 4,
+      "dirs": [
+        "phd/metabodecon",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "spectral-deconvolution"
+        }
+      ]
+    },
+    {
+      "key": "metabodecon1d",
+      "kind": "term",
+      "label_md": "MetaboDecon1D (Koh's deconvolution method)",
+      "gloss_md": "Predecessor tool implementing Koh's two-stage curvature-based detection and analytic Lorentzian approximation.",
+      "body_md": "Koh et al. (2008/2009) identify peaks as negative local minima of the second derivative S'', filter them by a noise-based score, and approximate each peak analytically as a Lorentzian with iterative proportional rescaling. Unlike Levenberg–Marquardt it needs no partial derivatives and its runtime is essentially independent of the number of data points. MetaboDecon1D deconvoluted single spectra only (~40 s at 2¹⁷ points) and fitted Lorentzians to smoothed intensities, which biased narrow peaks.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 65,
+      "level": 4,
+      "dirs": [
+        "phd/nmr",
+        "phd/metabodecon",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "spectral-deconvolution"
+        }
+      ]
+    },
+    {
+      "key": "curvature-based-peak-detection",
+      "kind": "term",
+      "label_md": "Curvature-based peak detection and filtering",
+      "gloss_md": "Detecting peaks as local minima of the second derivative of the smoothed spectrum.",
+      "body_md": "Each peak is a triplet of points (left, centre, right) and is scored by the minimum of the cumulative |S''| sums over its left and right halves, so sharp peaks score high. A small peak fully shadowed by a larger neighbour has no curvature minimum of its own and cannot be detected. Detection runs on a moving-average-smoothed spectrum (window smws, iterations smit), but metabodeconplus fits Lorentzians to raw intensities because smoothing lowers and broadens narrow peaks. Peaks are kept only if their score exceeds μ + δ·σ of the noise-region score distribution: δ too low admits noise peaks, δ too high misses weak signals (default 6.4).",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 60,
+      "level": 4,
+      "dirs": [
+        "phd/nmr",
+        "phd/metabodecon",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "metabodeconplus"
+        }
+      ]
+    },
+    {
+      "key": "analytic-lorentzian-approximation",
+      "kind": "term",
+      "label_md": "Analytic Lorentzian approximation",
+      "gloss_md": "Closed-form Lorentzian parameters from three peak points, then proportional rescaling to fit the spectrum.",
+      "body_md": "Substituting three observed points into y = A·λ/((ω−ω0)²+λ²) gives a closed-form ω0, then λ² and A·λ. To avoid dividing by y1 − y3 (near zero for symmetric peaks), λ² is computed from the inner pairs and averaged. Because neighbouring peaks overlap, the superposition of independent estimates overshoots the spectrum; Koh's rule of proportion rescales each peak by observed/reconstructed intensity over nfit passes.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 60,
+      "level": 5,
+      "dirs": [
+        "phd/nmr",
+        "phd/metabodecon",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "metabodeconplus"
+        },
+        {
+          "rel": "requires",
+          "to": "lorentzian-line-shape"
+        }
+      ]
+    },
+    {
+      "key": "area-ratio",
+      "kind": "term",
+      "label_md": "Area ratio (AR)",
+      "gloss_md": "Reconstruction error AR = Σ|y − ŷ| / Σ|y| between observed spectrum and Lorentzian superposition.",
+      "body_md": "AR is the unsupervised objective for per-spectrum parameter optimization. It keeps decreasing as more Lorentzians are added, so minimizing it alone over-fits with spurious peaks; a peak ceiling npmax is required. On noisy spectra AR stays above 0 even with every true peak recovered.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 55,
+      "level": 4,
+      "dirs": [
+        "phd/metabodecon",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "metabodeconplus"
+        }
+      ]
+    },
+    {
+      "key": "npmax",
+      "kind": "term",
+      "label_md": "npmax",
+      "gloss_md": "Maximum expected number of peaks per spectrum; the critical user-set parameter of metabodeconplus.",
+      "body_md": "The optimizer picks the smallest-AR grid cell (smit, smws, delta, nfit = 10) whose peak count does not exceed npmax. Too low excludes genuine peaks; too high fits noise. It is chosen from domain knowledge (urine has more peaks than plasma; npmax = 1000 for the AKI urine cohort), visual inspection, or downstream classification performance.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 55,
+      "level": 4,
+      "dirs": [
+        "phd/metabodecon",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "metabodeconplus"
+        },
+        {
+          "rel": "requires",
+          "to": "area-ratio"
+        }
+      ]
+    },
+    {
+      "key": "deconvolution-parameter-optimization",
+      "kind": "term",
+      "label_md": "Deconvolution parameter optimization",
+      "gloss_md": "Automated choice of nfit, smit, smws, delta (unsupervised) and npmax, maxShift, maxCombine (supervised).",
+      "body_md": "Unsupervised: per spectrum, minimize AR subject to npmax over a 60-cell grid. Supervised: score parameter combinations by random-forest out-of-bag error. A full npmax × maxShift × maxCombine grid is expensive, so the recommendation is to fix npmax, let CluPA self-tune maxShift (−1) and sweep only maxCombine. fit_mdm() caches per-npmax parameters, reuses deconvolution and alignment between grid rows, and parallelizes over spectra.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 60,
+      "level": 5,
+      "dirs": [
+        "phd/metabodecon",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "metabodeconplus"
+        }
+      ]
+    },
+    {
+      "key": "feature-matrix",
+      "kind": "term",
+      "label_md": "Peak feature matrix",
+      "gloss_md": "Samples × aligned-peak table of integrals used for statistics and classification.",
+      "body_md": "In metabodeconplus each column is one aligned Lorentzian peak, so a discriminatory feature can be assigned to a single metabolite and transferred to targeted assays. The matrix is sparse with structural zeros: a zero means 'peak missing', not 'area measured as zero', which linear models confound.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 55,
+      "level": 3,
+      "dirs": [
+        "phd/metabodecon",
+        "bioinformatics"
+      ]
+    },
+    {
+      "key": "random-forest",
+      "kind": "term",
+      "label_md": "Random forest",
+      "gloss_md": "Ensemble of decision trees on bootstrap samples; used (ranger) as metabodeconplus's classifier.",
+      "body_md": "Being non-linear, a random forest can split on presence/absence as well as magnitude, so it handles the 'missing peak vs small area' zeros of the feature matrix that destabilize linear models. In the AKI benchmark the same ranger forest (probability mode) was used for both binning and peak features for a fair comparison. Its out-of-bag (OOB) error, computed from each tree's predictions on samples outside its bootstrap sample, lets metabodeconplus score parameter combinations without a held-out split or inner cross-validation.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 60,
+      "level": 3,
+      "dirs": [
+        "phd/metabodecon",
+        "bioinformatics"
+      ]
+    },
+    {
+      "key": "peak-alignment",
+      "kind": "term",
+      "label_md": "Peak alignment",
+      "gloss_md": "Matching corresponding peaks across spectra onto a common grid to correct chemical-shift drift.",
+      "body_md": "Needed after deconvolution because the same metabolite drifts with pH, temperature and ionic strength. metabodeconplus aligns peak lists (not raw spectra) in two steps: CluPA for coarse segment shifts, then snap_to_ref for fine per-peak correction. Aligning to a fixed reference makes the procedure reproducible and extensible: new samples are aligned to the same reference without recomputing the cohort.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 70,
+      "level": 4,
+      "dirs": [
+        "phd/nmr",
+        "phd/metabodecon",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "chemical-shift-drift"
+        }
+      ]
+    },
+    {
+      "key": "clupa",
+      "kind": "term",
+      "label_md": "CluPA (cluster-based peak alignment)",
+      "gloss_md": "Hierarchical cluster-based alignment shifting spectral segments by FFT cross-correlation.",
+      "body_md": "From speaq (Vu et al.): after a global shift, segments defined by hierarchical clustering of the combined reference + target peak list are bisected recursively. Each segment gets an integer-datapoint shift from FFT cross-correlation bounded by maxShift; recursion stops when a segment has peaks from one spectrum only or fewer than three peaks. Because all peaks in a segment move together, peaks are not guaranteed an exact common shift. maxShift = −1 doubles maxShift (1, 2, 4, …) and stops one step before the average pairwise Pearson correlation first decreases.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 60,
+      "level": 4,
+      "dirs": [
+        "phd/metabodecon",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "peak-alignment"
+        }
+      ]
+    },
+    {
+      "key": "snap-to-ref",
+      "kind": "term",
+      "label_md": "snap_to_ref",
+      "gloss_md": "Snaps each remaining peak to the nearest reference peak column within maxCombine.",
+      "body_md": "It enforces a truly common peak grid after CluPA; maxCombine is the residual positional uncertainty after CluPA. Peaks farther than maxCombine from every reference peak are dropped, so rare peaks can be lost. Too small a window fails correct snaps; too large on crowded spectra lets wrong neighbouring peaks intrude.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 55,
+      "level": 4,
+      "dirs": [
+        "phd/metabodecon",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "peak-alignment"
+        }
+      ]
+    },
+    {
+      "key": "prarpx",
+      "kind": "term",
+      "label_md": "PRARPX",
+      "gloss_md": "Deconvolution quality metric PRX·(1 − AR) combining correct peak recovery and reconstruction fidelity.",
+      "body_md": "PRX = c/(t + i) (correct peaks over true plus incorrect peaks); AR = residual over observed signal. AR alone rewards over-fitting and the plain peak ratio ignores wrong detections; their product needs both. It requires ground-truth peaks (simulations or spiked controls) and cannot reach 1 on noisy spectra: the noise floor keeps AR > 0 and shadowed peaks keep PRX < 1.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 50,
+      "level": 5,
+      "dirs": [
+        "phd/metabodecon",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "area-ratio"
+        }
+      ]
+    },
+    {
+      "key": "sim2-benchmark",
+      "kind": "other",
+      "label_md": "Sim2 benchmark dataset",
+      "gloss_md": "100 simulated plasma-like spectra with 25 known Lorentzian peaks and 3 discriminating peaks.",
+      "body_md": "2048 points over 3.59–3.28 ppm, groups A/B 50/50, peaks derived from a deconvolution of real blood plasma. Perturbations: global ppm shift, per-peak jitter, amplitude scaling U[0.4,1.6], half-width scaling U[0.9,1.1] and Gaussian noise. In group A three peaks are scaled by 1.25, 1.25 and 1/1.25, a known moderate class signal; the first spectrum is the clean reference. Snap purity, the fraction of (spectrum, true peak) pairs whose reference column holds the correct peak and no wrong one, measures alignment quality directly on Sim2.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 40,
+      "level": 4,
+      "dirs": [
+        "phd/metabodecon",
+        "bioinformatics"
+      ]
+    },
+    {
+      "key": "aki-urine-cohort",
+      "kind": "other",
+      "label_md": "AKI urine NMR cohort",
+      "gloss_md": "106 urinary ¹H NMR spectra (34 acute kidney injury vs 72 controls) used to benchmark metabodeconplus.",
+      "body_md": "The baseline mirrors Zacharias (2013): 700 fixed 0.01 ppm bins, with the original SVM replaced by the same ranger random forest. metabodeconplus used npmax = 1000, maxShift = −1 and maxCombine swept per training fold; evaluation by stratified 10-fold CV over 3 seeds. Both matched in accuracy and AUC; the peak-based matrix adds interpretability and assay transfer.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 45,
+      "level": 3,
+      "dirs": [
+        "phd/metabodecon",
+        "bioinformatics"
+      ]
+    },
+    {
+      "key": "deep-learning-nmr-deconvolution",
+      "kind": "term",
+      "label_md": "Deep-learning NMR deconvolution",
+      "gloss_md": "Learned peak picking/deconvolution such as DEEP Picker1D and Bruker's mldecon, trained on synthetic spectra.",
+      "body_md": "DEEP Picker1D is a CNN with Voigt least-squares refinement; mldecon is part of TopSpin 4.2. They can do well on crowded regions and may infer shadowed peaks from shape priors, but depend on representative training spectra and are less transparent. metabodeconplus is deterministic, training-free and broader in scope (it adds alignment and classification).",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 40,
+      "level": 4,
+      "dirs": [
+        "phd/metabodecon",
+        "bioinformatics"
+      ]
+    },
+    {
+      "key": "reference-library-fitting",
+      "kind": "term",
+      "label_md": "Reference-library metabolite fitting",
+      "gloss_md": "Tools (BATMAN, ASICS, rDolphin, Chenomx, Bayesil) that fit spectra as combinations of known metabolite spectra.",
+      "body_md": "They can only report metabolites in their library, so unknown or unassigned signals are lost. metabodeconplus instead deconvolutes every resolvable signal, so unidentified peaks still become features.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 45,
+      "level": 4,
+      "dirs": [
+        "phd/metabodecon",
+        "bioinformatics"
+      ]
+    },
+    {
+      "key": "fastret",
+      "kind": "term",
+      "label_md": "FastRet",
+      "gloss_md": "R package and Shiny app that predicts LC retention times from molecular structure.",
+      "body_md": "FastRet supports LC-MS annotation by using predicted RT as an orthogonal filter on candidate identities. It implements three tasks: training from SMILES + measured RTs (Lasso or boosted trees on 241 CDK descriptors), selective measuring, and model adjustment to modified chromatographic conditions. Training and prediction take seconds on one CPU core; it is on CRAN with a web app at fastret.spang-lab.de (tabs Train, Select, Adjust, Predict). It generalises as a method retrained or adjusted per chromatographic system, not as one portable model. Predicted RTs are clipped to a plausible range from a log-normal fit to the training RTs, mainly to contain Lasso's extrapolation failures. From scratch it is competitive with Retip (boosted trees on CDK descriptors) and in low-data transfer it is the strongest structure-based method; on 14 public RepoRT datasets from other labs it reached median R² 0.60 (RP) and 0.58 (HILIC).",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 90,
+      "level": 4,
+      "dirs": [
+        "phd/fastret",
+        "phd/liquid-chromatography",
+        "bioinformatics"
+      ]
+    },
+    {
+      "key": "retention-time",
+      "kind": "term",
+      "label_md": "Retention time",
+      "gloss_md": "The time an analyte takes to elute from an LC column; system-specific.",
+      "body_md": "RT depends on stationary-phase chemistry, column dimensions, mobile phase and additives/pH, gradient profile, flow rate, temperature, separation mechanism, and void and dwell volumes, and it drifts as columns age. Unlike accurate mass or MS/MS spectra, RT cannot be looked up in universal databases. In LC-MS it is a second, orthogonal identification dimension next to m/z, but its discriminating power is modest and co-eluting isomers share RT.",
+      "attrs": {
+        "source": "phd-defense",
+        "abbreviation": "RT"
+      },
+      "priority": 85,
+      "level": 3,
+      "dirs": [
+        "phd/fastret",
+        "phd/liquid-chromatography"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "liquid-chromatography"
+        }
+      ]
+    },
+    {
+      "key": "retention-time-prediction",
+      "kind": "term",
+      "label_md": "Retention-time prediction",
+      "gloss_md": "Computationally predicting an analyte's RT on a given chromatographic system from its structure.",
+      "body_md": "Authentic standards are costly and not always available, and RTs are system-specific, so predicting RTs for unmeasured candidates breaks the identification bottleneck. Candidates whose predicted RT deviates strongly from the observed one are excluded, prioritising candidates without proving identity. Models are tied to one setup and must be retrained or adjusted when conditions change. Approaches include physicochemical models, QSRR, projection/transfer methods (PredRet) and learned representations (GNNs, DeepGCN-RT).",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 80,
+      "level": 4,
+      "dirs": [
+        "phd/fastret",
+        "phd/liquid-chromatography",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "retention-time"
+        }
+      ]
+    },
+    {
+      "key": "quantitative-structure-retention-relationship",
+      "kind": "term",
+      "label_md": "Quantitative structure–retention relationship (QSRR)",
+      "gloss_md": "Statistical modelling that maps numerical descriptors of molecular structure to retention.",
+      "body_md": "QSRR needs no mechanistic model of chromatography. It works because retention is largely governed by properties that descriptors encode: lipophilicity first, then polar surface area, H-bonding and charge. FastRet is a QSRR method combined with a descriptor-aware adjustment step.",
+      "attrs": {
+        "source": "phd-defense",
+        "abbreviation": "QSRR"
+      },
+      "priority": 65,
+      "level": 4,
+      "dirs": [
+        "phd/fastret",
+        "phd/liquid-chromatography",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "retention-time-prediction"
+        }
+      ]
+    },
+    {
+      "key": "molecular-descriptor",
+      "kind": "term",
+      "label_md": "Molecular descriptor",
+      "gloss_md": "Numerical feature computed from a molecule's structure (e.g. from SMILES), such as logP or polar surface area.",
+      "body_md": "FastRet uses 241 CDK descriptors: constitutional, topological, electrotopological and physicochemical (XLogP, ALogP, TopoPSA, H-bond donors/acceptors, rotatable bonds, Kier shape, BCUT, …). Descriptor values are cached by SMILES; rare missing values are mean-imputed and near-zero-variance descriptors (~101) removed. Fitted models are sparse (Lasso kept 15–41 descriptors), dominated by lipophilicity indices on RP data. Descriptor quality is a fundamental limit on model quality.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 65,
+      "level": 3,
+      "dirs": [
+        "phd/fastret",
+        "bioinformatics"
+      ]
+    },
+    {
+      "key": "chemistry-development-kit",
+      "kind": "term",
+      "label_md": "Chemistry Development Kit (CDK) / rcdk",
+      "gloss_md": "Java cheminformatics library, used in FastRet through the rcdk R wrapper to compute descriptors.",
+      "body_md": "rcdk is the only molecular-descriptor engine callable directly from R (Rcpi delegates to it), so FastRet stays a single, easy-to-install R dependency. PaDEL, Mordred, RDKit and Dragon/alvaDesc need a separate Python or Java toolchain.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 45,
+      "level": 3,
+      "dirs": [
+        "phd/fastret",
+        "bioinformatics"
+      ]
+    },
+    {
+      "key": "lasso",
+      "kind": "term",
+      "label_md": "Lasso (L1-penalised regression)",
+      "gloss_md": "Linear regression with an L1 penalty that shrinks many coefficients exactly to zero.",
+      "body_md": "The L1 penalty induces sparsity and built-in feature selection, suiting high-dimensional p > n data. FastRet fits it with glmnet, choosing λ by ten-fold CV over 100 values; as a linear model it can extrapolate to extreme predictions outside the training descriptor range. In ADMIRE's MGM the λ‖Θ‖₁ term drives edge weights to zero so only genuine conditional dependencies remain.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 70,
+      "level": 4,
+      "dirs": [
+        "phd/fastret",
+        "phd/adadmire",
+        "bioinformatics"
+      ]
+    },
+    {
+      "key": "boosted-regression-trees",
+      "kind": "term",
+      "label_md": "Boosted regression trees (BRT)",
+      "gloss_md": "Gradient-boosted decision trees (xgboost), FastRet's non-linear model family.",
+      "body_md": "BRT weights features by split gain and is robust to correlated and uninformative descriptors. FastRet tunes only nrounds by internal CV with early stopping. BRT outperformed Lasso on larger training sets (test R² 0.86 RP, 0.81 HILIC, 0.66 RP-AXMM) and is more stable, because predictions stay within the training RT range.",
+      "attrs": {
+        "source": "phd-defense",
+        "abbreviation": "BRT"
+      },
+      "priority": 65,
+      "level": 4,
+      "dirs": [
+        "phd/fastret",
+        "bioinformatics"
+      ]
+    },
+    {
+      "key": "cross-validation",
+      "kind": "term",
+      "label_md": "Cross-validation",
+      "gloss_md": "Estimating generalization by repeatedly fitting on part of the data and testing on the held-out rest.",
+      "body_md": "FastRet uses CV for hyperparameters and performance, but evaluates adjustment with dedicated train/test sets: test compounds must be in neither the base nor the adjustment-training set, which folded CV would make complex. In FastRet, inner CV selects λ (Lasso) or nrounds (BRT) and an outer CV estimates performance, i.e. nested cross-validation.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 55,
+      "level": 3,
+      "dirs": [
+        "phd/fastret",
+        "bioinformatics"
+      ]
+    },
+    {
+      "key": "selective-measuring",
+      "kind": "term",
+      "label_md": "Selective measuring",
+      "gloss_md": "Choosing the k most informative compounds to measure on a new LC setup under a limited budget.",
+      "body_md": "Step 1: Ridge regression of RT on descriptors weights the features. Step 2: k-medoids (PAM) clustering in the weighted descriptor + RT space, measuring one medoid per cluster. Variants differ in RT weight: SM0 (none), SM1 (unchanged), SMmax (scaled to the largest Ridge coefficient), SMinf (RT only). SMmax is recommended with model adjustment; all variants give narrower R² distributions than random selection.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 65,
+      "level": 4,
+      "dirs": [
+        "phd/fastret",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "fastret"
+        }
+      ]
+    },
+    {
+      "key": "ridge-regression",
+      "kind": "term",
+      "label_md": "Ridge regression",
+      "gloss_md": "Linear regression with an L2 penalty that shrinks coefficients without zeroing them.",
+      "body_md": "FastRet's selective measuring uses Ridge rather than Lasso for feature weighting because, under a different chromatographic condition, the informative features may change; zeroing features too early would be premature.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 50,
+      "level": 3,
+      "dirs": [
+        "phd/fastret",
+        "bioinformatics"
+      ]
+    },
+    {
+      "key": "k-medoids",
+      "kind": "term",
+      "label_md": "k-medoids (PAM)",
+      "gloss_md": "Clustering whose cluster centres are actual data points (medoids).",
+      "body_md": "Partitioning Around Medoids (R cluster package) is used in selective measuring because each medoid is a real compound that can be ordered and measured, whereas k-means centres generally correspond to no molecule.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 45,
+      "level": 3,
+      "dirs": [
+        "phd/fastret",
+        "bioinformatics"
+      ]
+    },
+    {
+      "key": "retention-time-model-adjustment",
+      "kind": "term",
+      "label_md": "Retention-time model adjustment",
+      "gloss_md": "Adapting an existing RT model to modified chromatographic conditions from a few re-measured compounds.",
+      "body_md": "FastRet's adjustment predicts the new RT from the base RT together with descriptors, and uses a predicted (not measured) base RT, so it covers compounds never measured on the original system. Descriptor-aware adjustment helps most when the setup change alters the retention mechanism (RP → RP-AXMM, r = 0.797). With ~25 compounds a Lasso adjustment on a BRT base model is recommended; it approached from-scratch performance, and on 22 unseen validation metabolites reached R² ≈ 0.81–0.84.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 75,
+      "level": 4,
+      "dirs": [
+        "phd/fastret",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "fastret"
+        },
+        {
+          "rel": "requires",
+          "to": "retention-time-prediction"
+        }
+      ]
+    },
+    {
+      "key": "retention-time-projection",
+      "kind": "term",
+      "label_md": "Retention-time projection",
+      "gloss_md": "Mapping RTs from one chromatographic system to another using RT as the only input (e.g. PredRet).",
+      "body_md": "Projection methods (PredRet, Osipenko, Zhang) learn an RT-to-RT mapping, e.g. a monotone spline. Their core limitation: a molecule never measured on the source system has no base RT and is out of scope. A PredRet-like baseline helps only on highly correlated RP pairs.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 50,
+      "level": 4,
+      "dirs": [
+        "phd/fastret",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "retention-time-prediction"
+        }
+      ]
+    },
+    {
+      "key": "lipophilicity",
+      "kind": "term",
+      "label_md": "Lipophilicity (logP)",
+      "gloss_md": "logP: logarithm of the octanol–water partition coefficient, a measure of how lipophilic a compound is.",
+      "body_md": "Reversed-phase retention is a partitioning process analogous to octanol–water partition, so higher-logP compounds are retained longer and log k correlates near-linearly with logP. Lipophilicity indices (XLogP, ALogP) dominate FastRet's RP models.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 60,
+      "level": 3,
+      "dirs": [
+        "phd/fastret",
+        "phd/liquid-chromatography"
+      ]
+    },
+    {
+      "key": "liquid-chromatography",
+      "kind": "term",
+      "label_md": "Liquid chromatography",
+      "gloss_md": "Separation by differential distribution of analytes between a stationary phase and a flowing liquid mobile phase.",
+      "body_md": "Compounds interacting more with the stationary phase are retarded more and elute later. Separation combines thermodynamics (retention) with kinetic band broadening that limits resolution. In LC-MS the column provides the time-resolved first dimension and the mass spectrometer the mass-resolved second.",
+      "attrs": {
+        "source": "phd-defense",
+        "abbreviation": "LC"
+      },
+      "priority": 85,
+      "level": 2,
+      "dirs": [
+        "phd/liquid-chromatography"
+      ]
+    },
+    {
+      "key": "retention-factor",
+      "kind": "term",
+      "label_md": "Retention factor (k)",
+      "gloss_md": "k = (t_R − t_0)/t_0: time in the stationary phase relative to time in the mobile phase.",
+      "body_md": "Equivalently k = K·(V_s/V_m). Under isocratic conditions k is independent of flow rate and column dimensions, so it is the transferable quantity; raising flow rate lowers t_R but leaves k unchanged. Useful values are roughly 1–10; k ≈ 0 means co-elution with the void.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 65,
+      "level": 3,
+      "dirs": [
+        "phd/liquid-chromatography"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "liquid-chromatography"
+        },
+        {
+          "rel": "requires",
+          "to": "dead-time"
+        }
+      ]
+    },
+    {
+      "key": "dead-time",
+      "kind": "term",
+      "label_md": "Dead time and void volume",
+      "gloss_md": "t_0 = V_0/flow: time for an unretained solute to traverse the column system's void volume.",
+      "body_md": "The void volume is the mobile-phase volume not occupied by stationary phase, including extra-column tubing. t_0 sets the earliest elution and is needed to convert RT to k. Void volume is one system-specific factor making raw RTs non-transferable between instruments.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 50,
+      "level": 3,
+      "dirs": [
+        "phd/liquid-chromatography"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "liquid-chromatography"
+        }
+      ]
+    },
+    {
+      "key": "chromatographic-resolution",
+      "kind": "term",
+      "label_md": "Resolution (Rs)",
+      "gloss_md": "How well two peaks are separated, combining spacing and width; Rs ≈ 1.5 is baseline separation.",
+      "body_md": "The resolution equation has three multiplicative terms: efficiency (√N/4), selectivity ((α−1)/α) and retention (k/(1+k)). Increasing N has square-root returns and raises backpressure; increasing k helps until it plateaus. Selectivity α = k₂/k₁ is usually the most powerful lever; α = 1 means no separation is possible.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 55,
+      "level": 4,
+      "dirs": [
+        "phd/liquid-chromatography"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "theoretical-plate-number"
+        }
+      ]
+    },
+    {
+      "key": "van-deemter-equation",
+      "kind": "term",
+      "label_md": "van Deemter equation",
+      "gloss_md": "H = A + B/u + C·u: plate height versus linear mobile-phase velocity.",
+      "body_md": "A is eddy diffusion (multiple flow paths), B longitudinal diffusion (dominant at low velocity), C resistance to mass transfer (dominant at high velocity, scales with particle diameter squared). Smaller particles shrink A and especially C and flatten the curve, enabling fast UHPLC at the cost of backpressure ∝ 1/d_p². Flow rate thus trades efficiency between B- and C-term broadening.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 60,
+      "level": 4,
+      "dirs": [
+        "phd/liquid-chromatography"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "liquid-chromatography"
+        }
+      ]
+    },
+    {
+      "key": "theoretical-plate-number",
+      "kind": "term",
+      "label_md": "Theoretical plate number (N) and HETP",
+      "gloss_md": "N = (t_R/σ)² measures column efficiency; HETP H = L/N normalizes it per column length.",
+      "body_md": "Common forms are N = 16·(t_R/w)² or 5.54·(t_R/w_1/2)². Higher N means sharper peaks; smaller H is better. N grows with column length and smaller, well-packed particles. It is an isocratic concept; for gradients peak capacity is more relevant.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 50,
+      "level": 4,
+      "dirs": [
+        "phd/liquid-chromatography"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "liquid-chromatography"
+        }
+      ]
+    },
+    {
+      "key": "peak-capacity",
+      "kind": "term",
+      "label_md": "Peak capacity",
+      "gloss_md": "The maximum number of peaks that fit side by side at a given resolution within the retention window.",
+      "body_md": "It is the figure of merit for gradient elution, where peaks are compressed to similar widths. n_c ≈ 1 + t_gradient/average peak width; it rises with longer/shallower gradients and more efficient columns. For complex metabolomics samples it reduces co-elution and ion suppression.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 50,
+      "level": 4,
+      "dirs": [
+        "phd/liquid-chromatography"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "liquid-chromatography"
+        }
+      ]
+    },
+    {
+      "key": "reversed-phase-chromatography",
+      "kind": "term",
+      "label_md": "Reversed-phase liquid chromatography (RPLC)",
+      "gloss_md": "LC with a non-polar stationary phase (C18/C8) and a polar aqueous–organic mobile phase.",
+      "body_md": "Retention is driven by hydrophobic (solvophobic) interaction, so polar compounds elute early and lipophilic ones late; retention correlates with logP. Increasing the organic modifier (%B) decreases retention roughly log-linearly (log k ≈ log k_w − S·φ), so RP gradients increase %B over time. T3 phases (e.g. HSS T3) resist phase collapse in 100% aqueous mobile phase and retain polar compounds better. In FastRet, RP was the easiest mode to predict (R² ≈ 0.86).",
+      "attrs": {
+        "source": "phd-defense",
+        "abbreviation": "RPLC"
+      },
+      "priority": 75,
+      "level": 3,
+      "dirs": [
+        "phd/fastret",
+        "phd/liquid-chromatography"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "liquid-chromatography"
+        }
+      ]
+    },
+    {
+      "key": "hydrophilic-interaction-chromatography",
+      "kind": "term",
+      "label_md": "Hydrophilic interaction liquid chromatography (HILIC)",
+      "gloss_md": "LC with a polar stationary phase and a high-organic mobile phase that retains polar compounds.",
+      "body_md": "Polar analytes partition into a water-enriched layer on the stationary phase, plus adsorption and electrostatic contributions. Elution order is the reverse of RP, and the gradient increases the aqueous fraction. RP and HILIC are orthogonal and complementary, so comprehensive metabolomics often needs both. HILIC needs long equilibration and is sensitive to water content, buffer, pH and sample solvent, making RTs less reproducible (FastRet R² ≈ 0.81).",
+      "attrs": {
+        "source": "phd-defense",
+        "abbreviation": "HILIC"
+      },
+      "priority": 70,
+      "level": 4,
+      "dirs": [
+        "phd/fastret",
+        "phd/liquid-chromatography"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "liquid-chromatography"
+        }
+      ]
+    },
+    {
+      "key": "mixed-mode-chromatography",
+      "kind": "term",
+      "label_md": "Mixed-mode chromatography (RP/anion exchange)",
+      "gloss_md": "A stationary phase combining hydrophobic C18 and charged anion-exchange retention mechanisms.",
+      "body_md": "Retention is the sum of a hydrophobic and an electrostatic contribution, tunable by pH, ionic strength and salt. It can retain both hydrophobic and charged polar compounds in one run, but retention is harder to predict. RP-AXMM was FastRet's hardest mode (R² ≈ 0.66): structure descriptors capture the charge-dependent component poorly and RP-to-RP-AXMM base-RT correlation is weak (r = 0.797).",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 55,
+      "level": 4,
+      "dirs": [
+        "phd/fastret",
+        "phd/liquid-chromatography"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "liquid-chromatography"
+        }
+      ]
+    },
+    {
+      "key": "gradient-elution",
+      "kind": "term",
+      "label_md": "Gradient elution",
+      "gloss_md": "Changing mobile-phase strength during the run, in contrast to constant-composition isocratic elution.",
+      "body_md": "Gradients solve the general elution problem: no single isocratic composition resolves early compounds and elutes strongly retained ones in reasonable time. Steeper gradients shorten runs but reduce peak capacity and resolution; shallower ones spread peaks at the cost of time, and steepness can change selectivity. Costs: re-equilibration, dwell volume and gradient-shape dependence make RTs harder to transfer. The dwell (gradient delay) volume between mixer and column head acts as an initial isocratic hold and differs between instruments, a major source of RT non-transferability.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 60,
+      "level": 3,
+      "dirs": [
+        "phd/liquid-chromatography"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "liquid-chromatography"
+        }
+      ]
+    },
+    {
+      "key": "mobile-phase-ph",
+      "kind": "term",
+      "label_md": "Mobile-phase pH and additives",
+      "gloss_md": "pH sets the charge state of ionisable analytes (via pKa) and so their retention.",
+      "body_md": "In RP the neutral form is retained more; retention changes sharply near pH ≈ pKa, so operating away from pKa gives reproducible retention. pH also affects silanol ionisation and, in mixed-mode, the electrostatic component; it is another setup variable an RT model is tied to. Volatile additives such as formic acid and ammonium formate control pH and ionic strength in LC-MS; non-volatile buffers like phosphate would precipitate in the ESI source.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 45,
+      "level": 4,
+      "dirs": [
+        "phd/liquid-chromatography"
+      ]
+    },
+    {
+      "key": "electrospray-ionization",
+      "kind": "term",
+      "label_md": "Electrospray ionisation (ESI)",
+      "gloss_md": "Soft ionisation that turns LC eluent into charged droplets and gas-phase ions for the mass spectrometer.",
+      "body_md": "A high voltage at the capillary tip disperses the liquid; as solvent evaporates, ions such as [M+H]+ or [M−H]− are ejected. ESI produces mostly intact molecular ions but is concentration-sensitive and competitive.",
+      "attrs": {
+        "source": "phd-defense",
+        "abbreviation": "ESI"
+      },
+      "priority": 50,
+      "level": 3,
+      "dirs": [
+        "phd/liquid-chromatography"
+      ]
+    },
+    {
+      "key": "ion-suppression",
+      "kind": "term",
+      "label_md": "Ion suppression (matrix effect)",
+      "gloss_md": "Loss (or enhancement) of an analyte's MS signal caused by co-eluting compounds competing for charge.",
+      "body_md": "Co-eluting matrix, salts or additives compete in the electrospray source, harming sensitivity, quantitation and reproducibility. Good chromatographic separation and volatile additives mitigate it; stable-isotope internal standards correct for it.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 50,
+      "level": 3,
+      "dirs": [
+        "phd/liquid-chromatography",
+        "phd/immune-system"
+      ]
+    },
+    {
+      "key": "bonded-silica-stationary-phase",
+      "kind": "term",
+      "label_md": "Bonded silica stationary phase",
+      "gloss_md": "Porous silica particles with bonded ligands (e.g. C18), optionally endcapped or hybrid (BEH).",
+      "body_md": "Ligands are bonded to surface silanols; residual silanols cause tailing for bases, and endcapping masks them with small silanes. Pure silica is limited to roughly pH 2–8. BEH (bridged ethylene hybrid) particles add ethylene bridges for mechanical and pH stability and lower silanol activity.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 40,
+      "level": 4,
+      "dirs": [
+        "phd/liquid-chromatography"
+      ]
+    },
+    {
+      "key": "column-temperature",
+      "kind": "term",
+      "label_md": "Column temperature",
+      "gloss_md": "Higher temperature usually lowers retention, viscosity and backpressure and can change selectivity.",
+      "body_md": "Retention vs temperature follows the van 't Hoff relationship: ln k vs 1/T is typically linear with slope −ΔH/R. Lower viscosity speeds mass transfer (C term) and allows higher flow. Because analytes differ in transfer enthalpy, temperature can re-order peaks; FastRet's adjustment experiments varied it (25 vs 35 °C).",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 40,
+      "level": 4,
+      "dirs": [
+        "phd/liquid-chromatography"
+      ]
+    },
+    {
+      "key": "ultra-high-performance-liquid-chromatography",
+      "kind": "term",
+      "label_md": "Ultra-high-performance liquid chromatography (UHPLC)",
+      "gloss_md": "LC with sub-2 µm particles and very high-pressure instrumentation.",
+      "body_md": "Smaller particles lower plate height and flatten the van Deemter curve, giving faster separations, sharper peaks, higher peak capacity and sensitivity. Backpressure scales with 1/d_p², requiring pumps rated to hundreds to over 1000 bar. The thesis used 1.7–1.8 µm BEH/HSS columns.",
+      "attrs": {
+        "source": "phd-defense",
+        "abbreviation": "UHPLC"
+      },
+      "priority": 50,
+      "level": 3,
+      "dirs": [
+        "phd/liquid-chromatography"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "liquid-chromatography"
+        }
+      ]
+    },
+    {
+      "key": "chromatographic-band-broadening",
+      "kind": "term",
+      "label_md": "Chromatographic band broadening",
+      "gloss_md": "Peak widening in LC from on-column (van Deemter) and extra-column contributions.",
+      "body_md": "On-column: eddy diffusion, longitudinal diffusion and mass-transfer resistance, plus pore diffusion and non-uniform packing. Extra-column: injector, tubing, unions, frits and detector volumes, especially damaging in UHPLC. Bed voids and overloading also broaden peaks, lowering N, resolution and sensitivity.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 45,
+      "level": 4,
+      "dirs": [
+        "phd/liquid-chromatography"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "van-deemter-equation"
+        }
+      ]
+    },
+    {
+      "key": "superficially-porous-particles",
+      "kind": "term",
+      "label_md": "Superficially porous (core-shell) particles",
+      "gloss_md": "Particles with a solid core and thin porous shell that shorten diffusion paths.",
+      "body_md": "The thin shell reduces the C term and the narrow size distribution reduces the A term, approaching sub-2 µm efficiency at much lower backpressure (e.g. 2.6–2.7 µm particles). Trade-off: lower surface area and loading capacity.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 35,
+      "level": 4,
+      "dirs": [
+        "phd/liquid-chromatography"
+      ]
+    },
+    {
+      "key": "admire",
+      "kind": "term",
+      "label_md": "ADMIRE (adadmire)",
+      "gloss_md": "Anomaly Detection using MIxed gRaphical modEls: detects and corrects single erroneous entries in mixed data matrices.",
+      "body_md": "ADMIRE scores each cell against its conditional distribution given all other features of the same sample, rather than flagging whole samples. It jointly models continuous OMICS features and discrete phenotype/design variables, and also corrects flagged values and imputes missing ones. The MGM machinery comes from Altenbuchinger et al. 2019; the anomaly framework, correction, imputation and LOO-CV penalty selection are ADMIRE's contributions. The Python package adadmire is on PyPI (MIT, spang-lab/adadmire) with Sphinx docs and GitHub Actions CI.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 90,
+      "level": 4,
+      "dirs": [
+        "phd/adadmire",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "mixed-graphical-model"
+        }
+      ]
+    },
+    {
+      "key": "anomaly-detection",
+      "kind": "term",
+      "label_md": "Anomaly detection",
+      "gloss_md": "Finding values inconsistent with the structure of the rest of the data.",
+      "body_md": "An anomaly need not be an error: it can be a rare but genuine observation, so flags are hypotheses requiring domain follow-up. Anomaly detection presumes anomalies are a minority; ADMIRE stayed stable up to ~45% contamination and collapsed from 50%, when the model fits the predominant noise as structure.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 75,
+      "level": 3,
+      "dirs": [
+        "phd/adadmire",
+        "bioinformatics"
+      ]
+    },
+    {
+      "key": "hidden-anomaly",
+      "kind": "term",
+      "label_md": "Hidden anomaly",
+      "gloss_md": "A value typical for its feature's marginal distribution but atypical given the other features.",
+      "body_md": "An outlier is extreme in its feature's marginal distribution; anomalies are more general, and outliers are a special case. Example: a gene expressed at 4–6 in men and 8–14 in women; 12 in a man is not an outlier but is an anomaly given sex. In the simulation, hidden anomalies lie within the feature's interquartile range; univariate/sample-level methods are blind to them, which is where ADMIRE's advantage is largest.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 65,
+      "level": 4,
+      "dirs": [
+        "phd/adadmire",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "anomaly-detection"
+        }
+      ]
+    },
+    {
+      "key": "mixed-graphical-model",
+      "kind": "term",
+      "label_md": "Mixed graphical model (MGM)",
+      "gloss_md": "Pairwise Markov random field jointly modelling continuous and discrete variables.",
+      "body_md": "Density p(x,y) ∝ exp(−½Σβ_js x_j x_s + Σα_j x_j + Σρ_js(y_s)x_j + Σφ_js(y_j,y_s)), following Lee & Hastie 2015. It generalizes Gaussian graphical models to mixed data: continuous nodes have Gaussian conditionals with mean α_j + Σρ_js(y_s) − Σβ_js x_s and variance 1/β_jj; discrete nodes have multinomial logistic conditionals. A missing edge encodes conditional independence. Fitting has O((p+q)²) parameters, the main scalability limit for wide OMICS matrices.",
+      "attrs": {
+        "source": "phd-defense",
+        "abbreviation": "MGM"
+      },
+      "priority": 80,
+      "level": 5,
+      "dirs": [
+        "phd/adadmire",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "gaussian-graphical-model"
+        },
+        {
+          "rel": "requires",
+          "to": "conditional-independence"
+        }
+      ]
+    },
+    {
+      "key": "gaussian-graphical-model",
+      "kind": "term",
+      "label_md": "Gaussian graphical model (GGM)",
+      "gloss_md": "Graphical model for jointly Gaussian variables; zeros in the precision matrix encode conditional independence.",
+      "body_md": "GGMs only handle continuous data, so discrete phenotype, condition and batch variables would have to be discarded. Neighbourhood selection (Meinshausen–Bühlmann) estimates the graph by regressing each node on the others with an L1 penalty.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 55,
+      "level": 4,
+      "dirs": [
+        "phd/adadmire",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "conditional-independence"
+        }
+      ]
+    },
+    {
+      "key": "conditional-independence",
+      "kind": "term",
+      "label_md": "Conditional independence",
+      "gloss_md": "Two variables are conditionally independent if, given all others, one carries no information about the other.",
+      "body_md": "In a pairwise Markov random field, no edge between j and s means x_j ⊥ x_s | rest (Hammersley–Clifford / pairwise Markov property). In the regression view, the coefficient of x_s in the conditional mean of x_j is −β_js, so zero coupling equals zero regression coefficient.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 60,
+      "level": 4,
+      "dirs": [
+        "phd/adadmire",
+        "bioinformatics"
+      ]
+    },
+    {
+      "key": "multinomial-logistic-regression",
+      "kind": "term",
+      "label_md": "Multinomial logistic regression",
+      "gloss_md": "Softmax model giving class probabilities from a linear predictor; the conditional of a discrete MGM node.",
+      "body_md": "In the MGM, p(y_j = l | rest) is a softmax over states, with continuous features entering via ρ and other discrete features via φ. ADMIRE uses these probabilities to judge whether an observed label is plausible.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 50,
+      "level": 3,
+      "dirs": [
+        "phd/adadmire",
+        "bioinformatics"
+      ]
+    },
+    {
+      "key": "conditional-anomaly-score",
+      "kind": "term",
+      "label_md": "ADMIRE anomaly score",
+      "gloss_md": "Per-cell score: standardized deviation from the conditional mean (continuous) or surprisal −log p (discrete).",
+      "body_md": "For a continuous cell, s = |x − x̂|/√(β_jj⁻¹); the two-sided tail p = 2F(x̂ − ε) gives the same ranking. For a discrete cell with state k, s = −log p(k). Before computing x̂, suspect regressors (two-sided p < 5%) are replaced by group means or most probable states, making scores robust to co-occurring anomalies in one sample.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 60,
+      "level": 4,
+      "dirs": [
+        "phd/adadmire",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "admire"
+        }
+      ]
+    },
+    {
+      "key": "rank-matched-null-threshold",
+      "kind": "term",
+      "label_md": "Rank-matched simulated-null threshold",
+      "gloss_md": "ADMIRE's threshold: compare sorted observed scores against scores of values simulated from the fitted conditionals.",
+      "body_md": "For every cell a random value is drawn from its own conditional, giving an anomaly-free score set; observed and random scores are sorted and matched rank by rank (averaged over 100 draws). The threshold is the first rank where the random score exceeds the observed score. This self-calibrating null accounts for multiple testing and absorbs some model mis-specification, e.g. the heavier-than-Gaussian tails seen in real data.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 55,
+      "level": 5,
+      "dirs": [
+        "phd/adadmire",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "admire"
+        }
+      ]
+    },
+    {
+      "key": "leave-one-out-cross-validation",
+      "kind": "term",
+      "label_md": "Leave-one-out cross-validation (LOO)",
+      "gloss_md": "Fitting on all samples but one and predicting the held-out sample, for each sample in turn.",
+      "body_md": "ADMIRE fits one MGM per left-out sample so a sample's own anomalous value cannot pull its prediction toward itself. The same loop calibrates λ by minimizing reconstruction MSE over a penalty sequence, unlike the EBIC used by Altenbuchinger 2019.",
+      "attrs": {
+        "source": "phd-defense",
+        "abbreviation": "LOO"
+      },
+      "priority": 60,
+      "level": 3,
+      "dirs": [
+        "phd/adadmire",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "cross-validation"
+        }
+      ]
+    },
+    {
+      "key": "pseudo-likelihood",
+      "kind": "term",
+      "label_md": "Pseudo-likelihood",
+      "gloss_md": "Product of each node's conditional given all others, used instead of the full likelihood.",
+      "body_md": "The full MGM density has an intractable normalising constant; the conditionals are closed-form, so the penalized negative pseudo log-likelihood is computationally feasible and consistent under regularity. ADMIRE minimizes it with proximal gradient descent, suited to the non-smooth L1 term; penalties are weighted per group/variance and features standardized.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 50,
+      "level": 5,
+      "dirs": [
+        "phd/adadmire",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "mixed-graphical-model"
+        }
+      ]
+    },
+    {
+      "key": "extended-bayesian-information-criterion",
+      "kind": "term",
+      "label_md": "Extended Bayesian information criterion (EBIC)",
+      "gloss_md": "Information criterion penalizing model complexity, used by Altenbuchinger 2019 to select the MGM penalty.",
+      "body_md": "adadmire replaced EBIC by leave-one-out CV on reconstruction MSE, because its goal is accurate per-cell re-estimation rather than structure recovery.",
+      "attrs": {
+        "source": "phd-defense",
+        "abbreviation": "EBIC"
+      },
+      "priority": 40,
+      "level": 4,
+      "dirs": [
+        "phd/adadmire",
+        "bioinformatics"
+      ]
+    },
+    {
+      "key": "anomaly-correction",
+      "kind": "term",
+      "label_md": "Anomaly correction",
+      "gloss_md": "Replacing flagged cells with their model re-estimates.",
+      "body_md": "Even false positives do little harm, because a correct value's re-estimate is close to it anyway. In simulation MAPE dropped sharply; on the metabolomics data, correcting sample 7's anomalies cut MAPE vs validated values from 76.6 to 12.3. This makes ADMIRE usable as a preprocessing / normalisation step.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 55,
+      "level": 4,
+      "dirs": [
+        "phd/adadmire",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "admire"
+        }
+      ]
+    },
+    {
+      "key": "missing-value-imputation",
+      "kind": "term",
+      "label_md": "Missing-value imputation",
+      "gloss_md": "Filling in missing entries of a data matrix; ADMIRE uses a two-step MGM-based scheme.",
+      "body_md": "Step 1: nearest-neighbour pre-imputation with Euclidean distance ignoring missing features. Step 2: fit an MGM on the completed data and re-estimate the missing cells from their conditionals. ADMIRE beat MissForest on continuous MAPE at 5–35% missingness and on discrete states in all settings; MissForest won above ~40%. MissForest is a non-parametric random-forest imputer for mixed data.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 55,
+      "level": 4,
+      "dirs": [
+        "phd/adadmire",
+        "bioinformatics"
+      ]
+    },
+    {
+      "key": "higuera-mouse-proteomics-dataset",
+      "kind": "other",
+      "label_md": "Higuera mouse proteomics dataset",
+      "gloss_md": "RPPA data of 77 proteins in mice with genotype, treatment and behaviour labels; ADMIRE's simulation basis.",
+      "body_md": "After dropping proteins with missing values and subsampling: 400 samples × 68 continuous features plus 3 discrete features (8 groups of 50); log-transformed. Artificial anomalies shift min–max-scaled values by ε × a random amount; ε < 1 tends to give hidden anomalies, discrete anomalies swap states. The data contain intrinsic anomalies (~1,031 cells flagged without perturbation) from RPPA artefacts, counted as false positives and deflating precision.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 45,
+      "level": 4,
+      "dirs": [
+        "phd/adadmire",
+        "bioinformatics"
+      ]
+    },
+    {
+      "key": "local-outlier-factor",
+      "kind": "term",
+      "label_md": "Local outlier factor (LOF)",
+      "gloss_md": "Density-based k-NN anomaly score comparing a point's local density to its neighbours'.",
+      "body_md": "A point in a much sparser region than its neighbours (LOF ≫ 1) is a local outlier. As a sample-level method it had to be applied feature by feature in the ADMIRE benchmark and trailed ADMIRE.",
+      "attrs": {
+        "source": "phd-defense",
+        "abbreviation": "LOF"
+      },
+      "priority": 40,
+      "level": 3,
+      "dirs": [
+        "phd/adadmire",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "anomaly-detection"
+        }
+      ]
+    },
+    {
+      "key": "stray",
+      "kind": "term",
+      "label_md": "stray",
+      "gloss_md": "Search and TRace AnomalY: k-NN distance method thresholded via extreme-value theory.",
+      "body_md": "It flags a point when the k-NN distance with the maximum gap is significantly large, modelling the tail of nearest-neighbour distances with a Gumbel domain of attraction. It was one of ADMIRE's three benchmark competitors.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 35,
+      "level": 4,
+      "dirs": [
+        "phd/adadmire",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "anomaly-detection"
+        }
+      ]
+    },
+    {
+      "key": "isolation-forest",
+      "kind": "term",
+      "label_md": "Isolation forest",
+      "gloss_md": "Anomaly detector isolating points with random splits; anomalies have short average path lengths.",
+      "body_md": "It uses no distance or density and runs in near-linear time. It was the best of ADMIRE's baselines, and its AUC rose when categorical variables were added via one-hot encoding, showing that phenotype conditioning matters.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 40,
+      "level": 3,
+      "dirs": [
+        "phd/adadmire",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "anomaly-detection"
+        }
+      ]
+    },
+    {
+      "key": "altenbuchinger-2019-mgm-data-integration",
+      "kind": "paper",
+      "label_md": "Altenbuchinger et al. 2019 (MGM data integration)",
+      "gloss_md": "Multi-source data-integration framework with pairwise MGMs from which adadmire's mgm.py descends.",
+      "body_md": "It used a Lee & Hastie-style pairwise MGM with pseudo-likelihood, an L1 penalty and proximal-gradient fitting to learn conditional-independence networks across mixed molecular and clinical data, selecting the penalty by EBIC. It contained no anomaly detection at all.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 45,
+      "level": 4,
+      "dirs": [
+        "phd/adadmire",
+        "bioinformatics"
+      ]
+    },
+    {
+      "key": "internal-standard",
+      "kind": "term",
+      "label_md": "Internal standard",
+      "gloss_md": "A compound spiked at known amount into every sample; analytes are quantified by peak-area ratio to it.",
+      "body_md": "It corrects for extraction losses, injection variability and ion suppression. Ideal internal standards are stable-isotope-labelled (¹³C, ¹⁵N, ²H) analogues that co-elute and ionise identically but differ in mass (isotope-dilution MS). A pipetting error in an internal-standard mix falsifies every metabolite quantified against it: the block of anomalies ADMIRE found in sample 7 (amino-acid method), confirmed by NMR, which uses a different reference (TSP).",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 55,
+      "level": 3,
+      "dirs": [
+        "phd/adadmire",
+        "phd/immune-system"
+      ]
+    },
+    {
+      "key": "innate-immunity",
+      "kind": "term",
+      "label_md": "Innate immunity",
+      "gloss_md": "Rapid, germline-encoded first line of defence without antigen-specific memory.",
+      "body_md": "It detects PAMPs and DAMPs with pattern-recognition receptors and acts within minutes to hours. Components: barriers, complement, phagocytes (neutrophils, macrophages), dendritic cells, NK cells and innate lymphoid cells. Dendritic cells bridge it to adaptive immunity.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 80,
+      "level": 2,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ]
+    },
+    {
+      "key": "adaptive-immunity",
+      "kind": "term",
+      "label_md": "Adaptive immunity",
+      "gloss_md": "Slower, antigen-specific immunity of B and T lymphocytes that generates memory.",
+      "body_md": "Receptors are created by somatic V(D)J recombination; B cells provide humoral immunity (antibodies), T cells (CD4 helper, CD8 cytotoxic) cell-mediated immunity. Clonal selection expands antigen-specific clones over days.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 80,
+      "level": 2,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ]
+    },
+    {
+      "key": "pattern-recognition-receptor",
+      "kind": "term",
+      "label_md": "Pattern-recognition receptor (PRR)",
+      "gloss_md": "Germline-encoded receptor (e.g. TLRs, NLRs, RIG-I-like receptors) sensing PAMPs and DAMPs.",
+      "body_md": "PRRs give innate immunity its fixed recognition repertoire. Their engagement also upregulates costimulatory B7 on antigen-presenting cells, certifying a context of danger for T-cell activation.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 60,
+      "level": 3,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "innate-immunity"
+        }
+      ]
+    },
+    {
+      "key": "toll-like-receptor-9",
+      "kind": "term",
+      "label_md": "Toll-like receptor 9 (TLR9)",
+      "gloss_md": "Endosomal PRR that recognises unmethylated CpG DNA.",
+      "body_md": "Unmethylated CpG is common in bacterial and viral genomes but rare in vertebrate DNA, so it is a PAMP. In humans TLR9 is expressed in plasmacytoid dendritic cells and B cells and signals via MyD88 → IRAK → TRAF6 → NF-κB and IRF7. In B cells it promotes activation, proliferation, survival and antibody production; CpG was a stimulus of the P493/6 cultures.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 50,
+      "level": 4,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "pattern-recognition-receptor"
+        }
+      ]
+    },
+    {
+      "key": "b-cell-receptor",
+      "kind": "term",
+      "label_md": "B-cell receptor (BCR)",
+      "gloss_md": "Membrane immunoglobulin of B cells; crosslinking by antigen triggers BCR signalling.",
+      "body_md": "Anti-IgM crosslinking mimics antigen engagement: Lyn/Syk, Igα/Igβ ITAM phosphorylation, the BLNK signalosome, PLCγ2, PI3K, Ca²⁺ flux and NF-κB, NFAT and MAPK pathways. Outcomes range from proliferation to anergy or apoptosis. F(ab)₂ fragments crosslink the BCR but lack Fc, avoiding inhibitory FcγRIIB signals.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 60,
+      "level": 4,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ]
+    },
+    {
+      "key": "antibody",
+      "kind": "term",
+      "label_md": "Antibody (immunoglobulin)",
+      "gloss_md": "Y-shaped protein of two heavy and two light chains; Fab binds antigen, Fc determines effector function.",
+      "body_md": "V domains with hypervariable CDR loops form the antigen-binding sites; the heavy-chain constant region sets the isotype. IgM: first, pentameric, strong complement activator; IgG: main serum isotype, opsonisation, crosses placenta; IgA: mucosal; IgE: mast cells, allergy and parasites; IgD: naive B-cell BCR.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 65,
+      "level": 2,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "adaptive-immunity"
+        }
+      ]
+    },
+    {
+      "key": "cd40-cd40l-interaction",
+      "kind": "term",
+      "label_md": "CD40–CD40L interaction",
+      "gloss_md": "T-cell help signal: CD40L (CD154) on activated CD4⁺ T cells engages CD40 on B cells.",
+      "body_md": "CD40 ligation recruits TRAFs and activates NF-κB and MAPK/JNK, driving B-cell survival, proliferation, germinal-centre formation, class switching (inducing AID) and affinity maturation. Loss of CD40L or CD40 causes Hyper-IgM syndrome. Soluble CD40L modelled T-help input in the P493/6 experiment.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 50,
+      "level": 4,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ]
+    },
+    {
+      "key": "interleukin-10",
+      "kind": "term",
+      "label_md": "Interleukin-10 (IL-10)",
+      "gloss_md": "Prototypical anti-inflammatory, immunoregulatory cytokine signalling via JAK1/TYK2–STAT3.",
+      "body_md": "Produced by Tregs, Bregs, Th2 cells and macrophages, it suppresses TNF, IL-1, IL-6 and IL-12 and downregulates MHC II and costimulation. On B cells it supports survival, proliferation and differentiation. In tumours it fosters an immunosuppressive microenvironment and can be a growth factor for lymphoma B cells.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 55,
+      "level": 3,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ]
+    },
+    {
+      "key": "insulin-like-growth-factor-1",
+      "kind": "term",
+      "label_md": "Insulin-like growth factor 1 (IGF-1)",
+      "gloss_md": "Insulin-related growth factor signalling via the IGF-1R receptor tyrosine kinase.",
+      "body_md": "It activates PI3K–AKT–mTOR and RAS–MAPK, supporting survival, proliferation and anabolic metabolism. Not a classical immune cytokine, it was a microenvironmental stimulus for the lymphoma B cells.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 35,
+      "level": 3,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ]
+    },
+    {
+      "key": "myc",
+      "kind": "term",
+      "label_md": "MYC",
+      "gloss_md": "Master transcription-factor oncogene driving growth, proliferation and anabolic metabolism.",
+      "body_md": "Deregulated MYC is a hallmark of B-cell lymphomas, e.g. the t(8;14) MYC–IgH translocation in Burkitt lymphoma. Metabolically it upregulates glycolysis, glutaminolysis, nucleotide and amino-acid synthesis and polyamine synthesis (ODC). In ADMIRE's metabolomics application MYC status (high/low) was a discrete feature.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 60,
+      "level": 3,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ]
+    },
+    {
+      "key": "p493-6-cell-line",
+      "kind": "term",
+      "label_md": "P493/6 B-cell line",
+      "gloss_md": "EBV-immortalised human B cells with a tet-off conditional MYC transgene.",
+      "body_md": "Doxycycline represses MYC (MYC-low); without it MYC is high. Experiments ran without estrogen, so the EBNA2 program was off and proliferation was MYC-driven. Cells were stimulated with microenvironmental factors (α-IgM, CD40L, CpG, IL-10, IGF-1), and supernatant metabolites were profiled by NMR (11) and MS (38) for 100 samples.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 50,
+      "level": 4,
+      "dirs": [
+        "phd/adadmire",
+        "phd/immune-system",
+        "immunology"
+      ]
+    },
+    {
+      "key": "b-cell-lymphoma",
+      "kind": "term",
+      "label_md": "B-cell lymphoma",
+      "gloss_md": "Malignancies of B cells, mostly of germinal-centre or post-GC origin.",
+      "body_md": "AID-driven editing and rapid proliferation in germinal centres predispose to translocations (MYC–IgH in Burkitt, BCL2/BCL6 rearrangements). EBV is causally linked to several B-cell lymphomas (endemic Burkitt, some DLBCL, post-transplant lymphoproliferative disease).",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 50,
+      "level": 4,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ]
+    },
+    {
+      "key": "germinal-centre-reaction",
+      "kind": "term",
+      "label_md": "Germinal-centre reaction",
+      "gloss_md": "Follicular B-cell response with proliferation, AID-driven somatic hypermutation and class-switch recombination.",
+      "body_md": "Germinal centres have a dark zone (proliferation and mutation) and a light zone (selection by Tfh help and antigen on follicular dendritic cells). AID initiates both somatic hypermutation (affinity maturation) and class-switch recombination (IgM → IgG/IgA/IgE). Off-target AID activity and DNA breaks make the GC a source of lymphoma translocations.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 60,
+      "level": 4,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "adaptive-immunity"
+        }
+      ]
+    },
+    {
+      "key": "kynurenine-pathway",
+      "kind": "term",
+      "label_md": "Kynurenine pathway",
+      "gloss_md": "Major tryptophan-catabolism route (~95%), from tryptophan via kynurenine to quinolinic acid/NAD⁺.",
+      "body_md": "IDO1/IDO2 or TDO oxidise tryptophan to N-formylkynurenine; kynurenine is further metabolised to 3-hydroxykynurenine, 3-hydroxyanthranilic acid and quinolinic acid, with a branch to kynurenic and xanthurenic acid. It is immunosuppressive through tryptophan depletion and through kynurenine activating AhR. The minor serotonin branch (TPH → 5-hydroxytryptophan → serotonin → melatonin) competes for the same substrate.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 60,
+      "level": 4,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ]
+    },
+    {
+      "key": "indoleamine-2-3-dioxygenase",
+      "kind": "term",
+      "label_md": "Indoleamine 2,3-dioxygenase (IDO)",
+      "gloss_md": "IFN-γ-inducible enzyme catalysing the rate-limiting step of the kynurenine pathway.",
+      "body_md": "IDO-mediated tryptophan depletion arrests effector T cells (sensed via GCN2/mTOR), and kynurenine promotes Tregs and tolerogenic dendritic cells via AhR. The IDO–kynurenine axis is a central mechanism of peripheral tolerance and tumour immune evasion, and a drug target.",
+      "attrs": {
+        "source": "phd-defense",
+        "abbreviation": "IDO"
+      },
+      "priority": 55,
+      "level": 4,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "kynurenine-pathway"
+        }
+      ]
+    },
+    {
+      "key": "aryl-hydrocarbon-receptor",
+      "kind": "term",
+      "label_md": "Aryl hydrocarbon receptor (AhR)",
+      "gloss_md": "Ligand-activated transcription factor sensing xenobiotics and endogenous ligands such as kynurenine.",
+      "body_md": "On ligand binding it translocates to the nucleus and dimerises with ARNT. It promotes Treg differentiation, IL-22/Th17-related responses and tolerogenic dendritic cells, so the kynurenine → AhR axis is an immunosuppressive circuit exploited by tumours.",
+      "attrs": {
+        "source": "phd-defense",
+        "abbreviation": "AhR"
+      },
+      "priority": 45,
+      "level": 5,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "kynurenine-pathway"
+        }
+      ]
+    },
+    {
+      "key": "polyamine-metabolism",
+      "kind": "term",
+      "label_md": "Methionine and polyamine metabolism",
+      "gloss_md": "Pathway linking SAM (methyl donor) to putrescine, spermidine and spermine, with MTA as by-product.",
+      "body_md": "Methionine + ATP gives SAM; decarboxylated SAM donates aminopropyl groups to make spermidine and spermine from putrescine (made from ornithine by ODC), releasing MTA, which is salvaged to methionine. Polyamines stabilise nucleic acids and support translation (spermidine for eIF5A hypusination) and are essential for proliferation. MYC upregulates ODC; polyamines are readouts of the proliferative state.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 45,
+      "level": 4,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ]
+    },
+    {
+      "key": "mhc-class-i",
+      "kind": "term",
+      "label_md": "MHC class I",
+      "gloss_md": "Molecule on all nucleated cells presenting endogenous peptides to CD8⁺ cytotoxic T cells.",
+      "body_md": "Cytosolic peptides (8–10 aa) are made by the proteasome and transported into the ER by TAP; CD8 binds the α3 domain. This lets the immune system survey a cell's internal state; loss of MHC I licenses NK-cell killing ('missing self').",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 65,
+      "level": 3,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "adaptive-immunity"
+        }
+      ]
+    },
+    {
+      "key": "mhc-class-ii",
+      "kind": "term",
+      "label_md": "MHC class II",
+      "gloss_md": "Molecule on professional APCs presenting exogenous peptides to CD4⁺ helper T cells.",
+      "body_md": "Endocytosed proteins are degraded in the endosomal/lysosomal pathway; the invariant chain and HLA-DM manage loading of ~13–25 aa peptides; CD4 binds the β2 domain. Mnemonic: CD8 × MHC-I = 8; CD4 × MHC-II = 8.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 60,
+      "level": 3,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "adaptive-immunity"
+        }
+      ]
+    },
+    {
+      "key": "t-helper-cell",
+      "kind": "term",
+      "label_md": "CD4⁺ helper T-cell subsets",
+      "gloss_md": "Th1, Th2, Th17, Treg and Tfh subsets defined by driving cytokines, master transcription factors and outputs.",
+      "body_md": "Th1 (T-bet): IFN-γ, intracellular pathogens. Th2 (GATA3): IL-4/5/13, helminths, allergy. Th17 (RORγt): IL-17/IL-22, extracellular bacteria and fungi. Treg (FoxP3): IL-10, TGF-β, tolerance. Tfh (Bcl-6): CD40L and IL-21 for germinal-centre B cells. The subsets cross-regulate.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 60,
+      "level": 4,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "adaptive-immunity"
+        }
+      ]
+    },
+    {
+      "key": "regulatory-t-cell",
+      "kind": "term",
+      "label_md": "Regulatory T cell (Treg)",
+      "gloss_md": "Suppressive CD4⁺ CD25-high T cell defined by the master transcription factor FoxP3.",
+      "body_md": "FoxP3 mutations cause the IPEX autoimmune syndrome. Tregs depend on IL-2 from other cells and suppress via IL-2 consumption, IL-10/TGF-β/IL-35, CTLA-4 stripping CD80/CD86, adenosine and cytolysis. They maintain peripheral tolerance but are co-opted by tumours.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 65,
+      "level": 3,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "t-helper-cell"
+        }
+      ]
+    },
+    {
+      "key": "regulatory-b-cell",
+      "kind": "term",
+      "label_md": "Regulatory B cell (Breg)",
+      "gloss_md": "Immunosuppressive B-cell functional state whose hallmark is IL-10 production.",
+      "body_md": "Bregs suppress effector T-cell and dendritic-cell responses and promote Tregs. They are induced by TLR (CpG), CD40, BCR and inflammatory signals, the same stimuli applied to P493/6 cells, and can contribute to tumour immunosuppression.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 40,
+      "level": 4,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "interleukin-10"
+        }
+      ]
+    },
+    {
+      "key": "immunological-tolerance",
+      "kind": "term",
+      "label_md": "Immunological tolerance",
+      "gloss_md": "Mechanisms preventing immune attack on self: central (thymus, bone marrow) and peripheral.",
+      "body_md": "Central: thymic negative selection, with AIRE-driven expression of tissue antigens; B-cell deletion, receptor editing and anergy in the bone marrow. Peripheral: anergy, activation-induced cell death, Treg suppression, ignorance and checkpoint receptors (CTLA-4, PD-1). Failure causes autoimmunity; tumours exploit peripheral tolerance (PD-L1, Tregs, IDO).",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 65,
+      "level": 4,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ]
+    },
+    {
+      "key": "t-cell-activation",
+      "kind": "term",
+      "label_md": "T-cell activation (two-signal model)",
+      "gloss_md": "Signal 1 TCR–peptide-MHC, signal 2 CD28–B7 costimulation, signal 3 polarising cytokines.",
+      "body_md": "B7 is upregulated on APCs only after sensing danger, so costimulation certifies a real threat. Signal 1 without signal 2 leads to anergy or deletion, a peripheral-tolerance mechanism. CTLA-4 competes with CD28 for B7; this logic underlies checkpoint blockade.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 65,
+      "level": 3,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "adaptive-immunity"
+        }
+      ]
+    },
+    {
+      "key": "immunometabolism",
+      "kind": "term",
+      "label_md": "Immunometabolism",
+      "gloss_md": "How metabolic programs instruct immune-cell fate and function.",
+      "body_md": "Naive T cells rely on OXPHOS and fatty-acid oxidation; effector T cells switch to aerobic glycolysis and glutaminolysis (PI3K–AKT–mTOR and MYC); memory T cells and Tregs favour fatty-acid oxidation/OXPHOS. M1 macrophages favour glycolysis and iNOS, M2 OXPHOS and arginase. Proliferating immune and tumour cells converge on glycolysis, glutaminolysis and biosynthesis, which metabolomic profiling reads out.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 60,
+      "level": 4,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ]
+    },
+    {
+      "key": "inflammasome",
+      "kind": "term",
+      "label_md": "Inflammasome",
+      "gloss_md": "Cytosolic complex (e.g. NLRP3 + ASC + pro-caspase-1) that matures IL-1β and IL-18.",
+      "body_md": "Signal 1 (priming via PRR/NF-κB) induces pro-IL-1β and NLRP3; signal 2 (ATP, crystals, toxins, ion flux) triggers assembly. Caspase-1 cleaves pro-IL-1β and gasdermin D, whose pores release IL-1β and often cause pyroptosis. IL-1β lacks a signal peptide, so its release is gated by proteolysis and pore formation.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 45,
+      "level": 4,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "innate-immunity"
+        }
+      ]
+    },
+    {
+      "key": "jak-stat-pathway",
+      "kind": "term",
+      "label_md": "JAK–STAT pathway",
+      "gloss_md": "Canonical cytokine signalling: receptor-associated JAKs phosphorylate STAT transcription factors.",
+      "body_md": "Ligand binding brings JAKs together to trans-phosphorylate each other and the receptor tail; STATs dock via SH2 domains, are phosphorylated, dimerise and enter the nucleus. Examples: IL-10R → JAK1/TYK2 → STAT3; IFN-γ → JAK1/2 → STAT1; IL-4 → STAT6. SOCS proteins give negative feedback; JAK inhibitors are used clinically.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 50,
+      "level": 4,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ]
+    },
+    {
+      "key": "macrophage-polarisation",
+      "kind": "term",
+      "label_md": "Macrophage polarisation (M1/M2)",
+      "gloss_md": "Spectrum between proinflammatory M1 and anti-inflammatory, pro-repair M2 macrophage states.",
+      "body_md": "M1 (IFN-γ + LPS/TNF): TNF, IL-1, IL-6, IL-12, iNOS/NO, glycolysis. M2 (IL-4/IL-13, IL-10, TGF-β): arginase-1, OXPHOS, repair and angiogenesis. Tumour-associated macrophages are usually M2-like, immunosuppressive and associated with poor prognosis.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 50,
+      "level": 3,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ]
+    },
+    {
+      "key": "complement-system",
+      "kind": "term",
+      "label_md": "Complement system",
+      "gloss_md": "Cascade of ~30 proteins activated by classical, lectin and alternative pathways converging on C3.",
+      "body_md": "Classical: C1q binds antibody; lectin: MBL/ficolins bind microbial sugars; alternative: spontaneous C3 tickover with an amplification loop. Effectors: opsonisation by C3b, anaphylatoxins C3a/C5a and the membrane attack complex C5b-9. Regulators (CD55, CD59, factor H, C1-INH) protect host cells.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 50,
+      "level": 3,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "innate-immunity"
+        }
+      ]
+    },
+    {
+      "key": "natural-killer-cell",
+      "kind": "term",
+      "label_md": "Natural killer (NK) cell",
+      "gloss_md": "Innate cytotoxic lymphocyte that kills based on balance of activating and inhibitory receptors.",
+      "body_md": "Inhibitory receptors (KIRs, NKG2A) recognise self MHC I; cells losing MHC I ('missing self') or expressing stress ligands like MICA/B for NKG2D ('induced self') are killed with perforin and granzymes. NK cells complement CD8 T cells, catching tumours that escape them by losing MHC I.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 55,
+      "level": 3,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "innate-immunity"
+        }
+      ]
+    },
+    {
+      "key": "proinflammatory-cytokine",
+      "kind": "term",
+      "label_md": "Proinflammatory cytokines",
+      "gloss_md": "Early alarm cytokines of acute inflammation such as TNF-α, IL-1β, IL-6, IL-8 and IFN-γ.",
+      "body_md": "TNF-α activates endothelium and can drive septic shock; IL-1β is an endogenous pyrogen; IL-6 induces acute-phase proteins and Th17 polarisation; chemokines like IL-8 recruit neutrophils; IFN-γ activates macrophages and induces IDO. They are counterbalanced by IL-10 and TGF-β.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 55,
+      "level": 3,
+      "dirs": [
+        "phd/immune-system",
+        "immunology"
+      ]
+    }
+  ],
+  "card_links": [
+    {
+      "card": "What is the physical origin of the NMR signal? Define the quantities that decide whether a nucleus is NMR-observable.",
+      "item": "nuclear-spin"
+    },
+    {
+      "card": "What is the physical origin of the NMR signal? Define the quantities that decide whether a nucleus is NMR-observable.",
+      "item": "nuclear-magnetic-resonance-spectroscopy"
+    },
+    {
+      "card": "State the resonance (Larmor) condition and explain why it makes NMR a frequency measurement of the chemical environment.",
+      "item": "larmor-frequency"
+    },
+    {
+      "card": "State the resonance (Larmor) condition and explain why it makes NMR a frequency measurement of the chemical environment.",
+      "item": "chemical-shift"
+    },
+    {
+      "card": "Define the chemical shift δ in ppm. Why is it expressed in ppm relative to a reference rather than in Hz, and what reference compounds are used in aqueous metabolomics?",
+      "item": "chemical-shift"
+    },
+    {
+      "card": "NMR is often described as an intrinsically insensitive technique. What is the quantitative reason, and how is sensitivity improved instrumentally?",
+      "item": "nmr-sensitivity"
+    },
+    {
+      "card": "Why is ¹H the workhorse nucleus for NMR-based metabolomics, and what do ¹³C, ³¹P and ¹⁵N offer or lack by comparison?",
+      "item": "proton-nmr"
+    },
+    {
+      "card": "Why is ¹H the workhorse nucleus for NMR-based metabolomics, and what do ¹³C, ³¹P and ¹⁵N offer or lack by comparison?",
+      "item": "signal-overlap"
+    },
+    {
+      "card": "Distinguish T1 and T2 relaxation, and explain which one governs the linewidth of an NMR peak.",
+      "item": "spin-lattice-relaxation"
+    },
+    {
+      "card": "Distinguish T1 and T2 relaxation, and explain which one governs the linewidth of an NMR peak.",
+      "item": "spin-spin-relaxation"
+    },
+    {
+      "card": "Why does a liquid-state NMR peak have a Lorentzian line shape, and what is the relationship between its width and T2*?",
+      "item": "lorentzian-line-shape"
+    },
+    {
+      "card": "Why does a liquid-state NMR peak have a Lorentzian line shape, and what is the relationship between its width and T2*?",
+      "item": "spin-spin-relaxation"
+    },
+    {
+      "card": "Why does a liquid-state NMR peak have a Lorentzian line shape, and what is the relationship between its width and T2*?",
+      "item": "free-induction-decay"
+    },
+    {
+      "card": "What physical factors cause NMR peak *broadening* (overlap), and how do they connect to the deconvolution problem in biofluids?",
+      "item": "line-broadening"
+    },
+    {
+      "card": "What physical factors cause NMR peak *broadening* (overlap), and how do they connect to the deconvolution problem in biofluids?",
+      "item": "signal-overlap"
+    },
+    {
+      "card": "What physical factors cause NMR peak *broadening* (overlap), and how do they connect to the deconvolution problem in biofluids?",
+      "item": "spectral-deconvolution"
+    },
+    {
+      "card": "What causes the *chemical-shift drift* (peak shifts) of the same metabolite across samples, and why is it a problem distinct from peak overlap?",
+      "item": "chemical-shift-drift"
+    },
+    {
+      "card": "What causes the *chemical-shift drift* (peak shifts) of the same metabolite across samples, and why is it a problem distinct from peak overlap?",
+      "item": "peak-alignment"
+    },
+    {
+      "card": "Why is NMR considered an intrinsically *quantitative* technique, and what experimental condition must be satisfied for peak areas to be truly proportional to concentration?",
+      "item": "quantitative-nmr"
+    },
+    {
+      "card": "Why is NMR considered an intrinsically *quantitative* technique, and what experimental condition must be satisfied for peak areas to be truly proportional to concentration?",
+      "item": "spin-lattice-relaxation"
+    },
+    {
+      "card": "A metabolite typically gives *several* peaks (a multiplet, and multiple chemically distinct groups). Explain why, and the implications for feature extraction.",
+      "item": "j-coupling"
+    },
+    {
+      "card": "Why is water suppression essential in biofluid ¹H NMR, and how does presaturation achieve it?",
+      "item": "water-suppression"
+    },
+    {
+      "card": "The Blood plasma spectra were acquired with a CPMG sequence and the urine spectra with a 1D NOESY sequence. Explain why each matrix calls for its sequence.",
+      "item": "cpmg-pulse-sequence"
+    },
+    {
+      "card": "The Blood plasma spectra were acquired with a CPMG sequence and the urine spectra with a 1D NOESY sequence. Explain why each matrix calls for its sequence.",
+      "item": "water-suppression"
+    },
+    {
+      "card": "How do 2D NMR experiments (COSY, TOCSY, HSQC, HMBC) help with the overlap problem, and why is 1D ¹H still the default in metabolomics despite them?",
+      "item": "two-dimensional-nmr"
+    },
+    {
+      "card": "How do 2D NMR experiments (COSY, TOCSY, HSQC, HMBC) help with the overlap problem, and why is 1D ¹H still the default in metabolomics despite them?",
+      "item": "signal-overlap"
+    },
+    {
+      "card": "Compare NMR and mass spectrometry as metabolomics platforms: give the principal strengths and weaknesses of each.",
+      "item": "nuclear-magnetic-resonance-spectroscopy"
+    },
+    {
+      "card": "Compare NMR and mass spectrometry as metabolomics platforms: give the principal strengths and weaknesses of each.",
+      "item": "mass-spectrometry"
+    },
+    {
+      "card": "Compare NMR and mass spectrometry as metabolomics platforms: give the principal strengths and weaknesses of each.",
+      "item": "metabolomics"
+    },
+    {
+      "card": "Why is the metabolome often said to be 'closest to the phenotype,' and what does this imply for biomarker discovery?",
+      "item": "metabolome"
+    },
+    {
+      "card": "Outline the standard NMR-metabolomics data-processing workflow from raw signal to statistical analysis, naming the key steps.",
+      "item": "nmr-metabolomics-workflow"
+    },
+    {
+      "card": "What does 'annotation is not a prerequisite' mean in NMR metabolomics, and how does this relate to targeted vs untargeted/fingerprinting approaches?",
+      "item": "untargeted-metabolomics"
+    },
+    {
+      "card": "Why does higher magnetic field strength improve NMR spectra in *two* distinct ways, and what is the cost?",
+      "item": "nmr-sensitivity"
+    },
+    {
+      "card": "Why does higher magnetic field strength improve NMR spectra in *two* distinct ways, and what is the cost?",
+      "item": "chemical-shift"
+    },
+    {
+      "card": "What are the roles of the deuterated solvent, the field/frequency lock, and shimming in obtaining a good NMR spectrum?",
+      "item": "shimming"
+    },
+    {
+      "card": "What is chemical-exchange broadening, and why does it make certain metabolite signals especially troublesome?",
+      "item": "line-broadening"
+    },
+    {
+      "card": "What is chemical-exchange broadening, and why does it make certain metabolite signals especially troublesome?",
+      "item": "chemical-shift-drift"
+    },
+    {
+      "card": "What is HRMAS NMR and when is it used instead of solution-state NMR?",
+      "item": "high-resolution-magic-angle-spinning"
+    },
+    {
+      "card": "Deconvolution was 'not new' — Koh et al. proposed the core method. Summarise Koh's two-stage approach and the feature that distinguishes it from classical curve fitting.",
+      "item": "metabodecon1d"
+    },
+    {
+      "card": "Deconvolution was 'not new' — Koh et al. proposed the core method. Summarise Koh's two-stage approach and the feature that distinguishes it from classical curve fitting.",
+      "item": "curvature-based-peak-detection"
+    },
+    {
+      "card": "Deconvolution was 'not new' — Koh et al. proposed the core method. Summarise Koh's two-stage approach and the feature that distinguishes it from classical curve fitting.",
+      "item": "analytic-lorentzian-approximation"
+    },
+    {
+      "card": "Metabolite identification in metabolomics is graded by confidence levels (Sumner/MSI). What is the gold-standard criterion for confident identification, and how does a database lookup differ from it?",
+      "item": "metabolite-identification-levels"
+    },
+    {
+      "card": "What is spectral binning (bucketing), and what are its advantages and its principal disadvantage as a feature-extraction method?",
+      "item": "spectral-binning"
+    },
+    {
+      "card": "At the 'magic angle' used in HRMAS NMR, the factor (3cos²θ − 1) is zero. What is that angle?",
+      "item": "high-resolution-magic-angle-spinning"
+    },
+    {
+      "card": "Which relaxation process directly determines the natural linewidth of an NMR signal?",
+      "item": "spin-spin-relaxation"
+    },
+    {
+      "card": "Why is the chemical shift reported in ppm rather than Hz?",
+      "item": "chemical-shift"
+    },
+    {
+      "card": "A nucleus is NMR-invisible when:",
+      "item": "nuclear-spin"
+    },
+    {
+      "card": "Give the approximate chemical-shift range (in ppm) of the ¹H NMR window whose narrowness is the main cause of signal overlap in biofluids.",
+      "item": "proton-nmr"
+    },
+    {
+      "card": "Give the approximate chemical-shift range (in ppm) of the ¹H NMR window whose narrowness is the main cause of signal overlap in biofluids.",
+      "item": "signal-overlap"
+    },
+    {
+      "card": "Name the reference compound (one acronym) commonly set to 0 ppm for chemical-shift referencing in aqueous metabolomics.",
+      "item": "chemical-shift"
+    },
+    {
+      "card": "What gap does metabodeconplus fill relative to its predecessor MetaboDecon1D, and why is closing that gap non-trivial?",
+      "item": "metabodeconplus"
+    },
+    {
+      "card": "What gap does metabodeconplus fill relative to its predecessor MetaboDecon1D, and why is closing that gap non-trivial?",
+      "item": "metabodecon1d"
+    },
+    {
+      "card": "metabodeconplus aims to quantify peaks 'regardless of whether the corresponding metabolites are known.' Why is this deliberate design choice important, and what downstream advantage does it give over library-fitting approaches such as BATMAN, ASICS or Chenomx?",
+      "item": "metabodeconplus"
+    },
+    {
+      "card": "metabodeconplus aims to quantify peaks 'regardless of whether the corresponding metabolites are known.' Why is this deliberate design choice important, and what downstream advantage does it give over library-fitting approaches such as BATMAN, ASICS or Chenomx?",
+      "item": "reference-library-fitting"
+    },
+    {
+      "card": "metabodeconplus aims to quantify peaks 'regardless of whether the corresponding metabolites are known.' Why is this deliberate design choice important, and what downstream advantage does it give over library-fitting approaches such as BATMAN, ASICS or Chenomx?",
+      "item": "untargeted-metabolomics"
+    },
+    {
+      "card": "Describe the four stages of the metabodeconplus deconvolution algorithm and what each stage is responsible for.",
+      "item": "spectral-deconvolution"
+    },
+    {
+      "card": "Describe the four stages of the metabodeconplus deconvolution algorithm and what each stage is responsible for.",
+      "item": "curvature-based-peak-detection"
+    },
+    {
+      "card": "Describe the four stages of the metabodeconplus deconvolution algorithm and what each stage is responsible for.",
+      "item": "analytic-lorentzian-approximation"
+    },
+    {
+      "card": "metabodeconplus models each NMR signal as a Lorentzian line. Write the functional form it fits and explain why the Lorentzian is the physically correct choice for a liquid-state 1D NMR peak.",
+      "item": "lorentzian-line-shape"
+    },
+    {
+      "card": "In metabodeconplus the Lorentzian parameters for each peak are obtained in closed form from three observed points rather than by nonlinear least squares. How does this work, and what numerical pitfall does the implementation specifically guard against?",
+      "item": "analytic-lorentzian-approximation"
+    },
+    {
+      "card": "When the initial Lorentzian estimates for all detected peaks are superimposed, their sum systematically *exceeds* the observed spectrum. Why, and how does the algorithm correct it?",
+      "item": "analytic-lorentzian-approximation"
+    },
+    {
+      "card": "A key change from MetaboDecon1D is that metabodeconplus smooths the spectrum only for peak *detection* and fits the Lorentzians to the raw intensities. Why does this matter, and whose observation motivated it?",
+      "item": "curvature-based-peak-detection"
+    },
+    {
+      "card": "A key change from MetaboDecon1D is that metabodeconplus smooths the spectrum only for peak *detection* and fits the Lorentzians to the raw intensities. Why does this matter, and whose observation motivated it?",
+      "item": "analytic-lorentzian-approximation"
+    },
+    {
+      "card": "A key change from MetaboDecon1D is that metabodeconplus smooths the spectrum only for peak *detection* and fits the Lorentzians to the raw intensities. Why does this matter, and whose observation motivated it?",
+      "item": "metabodecon1d"
+    },
+    {
+      "card": "What is the role of the peak *score* and the δ (delta) parameter in filtering, and what failure modes lie at the two extremes of δ?",
+      "item": "curvature-based-peak-detection"
+    },
+    {
+      "card": "Why does metabodeconplus provide an optional Rust backend, and what is the honest caveat about its results?",
+      "item": "metabodeconplus"
+    },
+    {
+      "card": "Quantify the runtime gains metabodeconplus achieves over MetaboDecon1D, and explain how parallelization was designed and why.",
+      "item": "metabodeconplus"
+    },
+    {
+      "card": "List the four tunable deconvolution parameters and describe the unsupervised parameter-optimization procedure, including why minimizing the area ratio alone is not enough.",
+      "item": "deconvolution-parameter-optimization"
+    },
+    {
+      "card": "List the four tunable deconvolution parameters and describe the unsupervised parameter-optimization procedure, including why minimizing the area ratio alone is not enough.",
+      "item": "area-ratio"
+    },
+    {
+      "card": "List the four tunable deconvolution parameters and describe the unsupervised parameter-optimization procedure, including why minimizing the area ratio alone is not enough.",
+      "item": "npmax"
+    },
+    {
+      "card": "Why is npmax the single most critical parameter a user must set, and how should it be chosen for, say, blood plasma versus urine?",
+      "item": "npmax"
+    },
+    {
+      "card": "In supervised parameter optimization, why does metabodeconplus use a random forest (ranger) rather than a linear classifier, and what does the out-of-bag error buy?",
+      "item": "random-forest"
+    },
+    {
+      "card": "In supervised parameter optimization, why does metabodeconplus use a random forest (ranger) rather than a linear classifier, and what does the out-of-bag error buy?",
+      "item": "deconvolution-parameter-optimization"
+    },
+    {
+      "card": "maxShift and maxCombine are the two alignment parameters. Why does the paper argue tuning them is 'in general not redundant,' yet recommend *not* tuning all three parameters (npmax, maxShift, maxCombine) jointly in practice?",
+      "item": "deconvolution-parameter-optimization"
+    },
+    {
+      "card": "maxShift and maxCombine are the two alignment parameters. Why does the paper argue tuning them is 'in general not redundant,' yet recommend *not* tuning all three parameters (npmax, maxShift, maxCombine) jointly in practice?",
+      "item": "clupa"
+    },
+    {
+      "card": "maxShift and maxCombine are the two alignment parameters. Why does the paper argue tuning them is 'in general not redundant,' yet recommend *not* tuning all three parameters (npmax, maxShift, maxCombine) jointly in practice?",
+      "item": "snap-to-ref"
+    },
+    {
+      "card": "What does the sentinel value maxShift = -1 trigger, and how does the adaptive sweep decide when to stop?",
+      "item": "clupa"
+    },
+    {
+      "card": "Describe the three optimizations that keep fit_mdm()'s runtime reasonable.",
+      "item": "deconvolution-parameter-optimization"
+    },
+    {
+      "card": "Why is alignment needed at all after deconvolution, and why does metabodeconplus need *two* alignment steps (CluPA then snap_to_ref) rather than one?",
+      "item": "peak-alignment"
+    },
+    {
+      "card": "Why is alignment needed at all after deconvolution, and why does metabodeconplus need *two* alignment steps (CluPA then snap_to_ref) rather than one?",
+      "item": "clupa"
+    },
+    {
+      "card": "Why is alignment needed at all after deconvolution, and why does metabodeconplus need *two* alignment steps (CluPA then snap_to_ref) rather than one?",
+      "item": "snap-to-ref"
+    },
+    {
+      "card": "Explain how CluPA works: what defines its segments, how the optimal shift per segment is found, and when the recursion stops.",
+      "item": "clupa"
+    },
+    {
+      "card": "What exactly does snap_to_ref do, what is the meaning of maxCombine, and what information can be lost?",
+      "item": "snap-to-ref"
+    },
+    {
+      "card": "Both clupa() and snap_to_ref() align toward a *fixed reference* spectrum. Why is this design choice valuable in practice?",
+      "item": "peak-alignment"
+    },
+    {
+      "card": "Define PRARPX and explain why it was devised — what do PR alone and AR alone each fail to capture?",
+      "item": "prarpx"
+    },
+    {
+      "card": "Define PRARPX and explain why it was devised — what do PR alone and AR alone each fail to capture?",
+      "item": "area-ratio"
+    },
+    {
+      "card": "Why can PRARPX never reach 1 on a realistic (noisy) spectrum, even with optimal parameters? Name the two distinct ceilings.",
+      "item": "prarpx"
+    },
+    {
+      "card": "Why can PRARPX never reach 1 on a realistic (noisy) spectrum, even with optimal parameters? Name the two distinct ceilings.",
+      "item": "curvature-based-peak-detection"
+    },
+    {
+      "card": "The Sim2 benchmark dataset was carefully engineered. How is it constructed, what realistic perturbations does it include, and what is the purpose of the three 'discriminating peaks'?",
+      "item": "sim2-benchmark"
+    },
+    {
+      "card": "What is 'snap purity' and how was it measured on Sim2 to evaluate alignment quality directly?",
+      "item": "sim2-benchmark"
+    },
+    {
+      "card": "What is 'snap purity' and how was it measured on Sim2 to evaluate alignment quality directly?",
+      "item": "snap-to-ref"
+    },
+    {
+      "card": "On the real AKI cohort, metabodeconplus was benchmarked against an equidistant-binning baseline. Summarise the comparison and the headline result.",
+      "item": "aki-urine-cohort"
+    },
+    {
+      "card": "On the real AKI cohort, metabodeconplus was benchmarked against an equidistant-binning baseline. Summarise the comparison and the headline result.",
+      "item": "spectral-binning"
+    },
+    {
+      "card": "If metabodeconplus only *matches* the binning baseline on accuracy, what is the actual advantage of the peak-based feature matrix, and why does it matter scientifically and clinically?",
+      "item": "feature-matrix"
+    },
+    {
+      "card": "If metabodeconplus only *matches* the binning baseline on accuracy, what is the actual advantage of the peak-based feature matrix, and why does it matter scientifically and clinically?",
+      "item": "spectral-binning"
+    },
+    {
+      "card": "Why must deconvolution precede alignment in the metabodeconplus pipeline, rather than aligning the raw spectra first (as e.g. speaq/CluPA is normally used)?",
+      "item": "peak-alignment"
+    },
+    {
+      "card": "Why must deconvolution precede alignment in the metabodeconplus pipeline, rather than aligning the raw spectra first (as e.g. speaq/CluPA is normally used)?",
+      "item": "spectral-deconvolution"
+    },
+    {
+      "card": "How does metabodeconplus differ from deep-learning deconvolution tools such as DEEP Picker1D or Bruker's mldecon, and what are the respective trade-offs?",
+      "item": "deep-learning-nmr-deconvolution"
+    },
+    {
+      "card": "How does metabodeconplus differ from deep-learning deconvolution tools such as DEEP Picker1D or Bruker's mldecon, and what are the respective trade-offs?",
+      "item": "metabodeconplus"
+    },
+    {
+      "card": "Contrast metabodeconplus's peak-based feature extraction with spectral binning (bucketing) as a general strategy. Give at least two advantages and one situation where binning might still be preferred.",
+      "item": "spectral-binning"
+    },
+    {
+      "card": "Contrast metabodeconplus's peak-based feature extraction with spectral binning (bucketing) as a general strategy. Give at least two advantages and one situation where binning might still be preferred.",
+      "item": "spectral-deconvolution"
+    },
+    {
+      "card": "What are the stated limitations of metabodeconplus that you would want to acknowledge at a defense?",
+      "item": "metabodeconplus"
+    },
+    {
+      "card": "In metabodeconplus's Lorentzian A·λ/((ω−ω0)²+λ²), which quantity is proportional to the *integral* used for metabolite quantification?",
+      "item": "lorentzian-line-shape"
+    },
+    {
+      "card": "Which statement about the feature matrix zeros that motivates the random-forest classifier is correct?",
+      "item": "feature-matrix"
+    },
+    {
+      "card": "Which statement about the feature matrix zeros that motivates the random-forest classifier is correct?",
+      "item": "random-forest"
+    },
+    {
+      "card": "What pulse sequence was used for the Blood plasma spectra, and what is its key property for plasma? (Name the acronym.)",
+      "item": "cpmg-pulse-sequence"
+    },
+    {
+      "card": "Why does CluPA alone fail to guarantee that corresponding peaks across spectra share an exact chemical shift?",
+      "item": "clupa"
+    },
+    {
+      "card": "What is FastRet, what problem does it solve, and which three related tasks does it implement?",
+      "item": "fastret"
+    },
+    {
+      "card": "Why can retention times not simply be retrieved from a database the way accurate masses and MS/MS spectra can, and what does this imply for RT prediction?",
+      "item": "retention-time"
+    },
+    {
+      "card": "Why can retention times not simply be retrieved from a database the way accurate masses and MS/MS spectra can, and what does this imply for RT prediction?",
+      "item": "retention-time-prediction"
+    },
+    {
+      "card": "How does RT prediction fit into the metabolite-identification confidence framework (MSI levels), and why is it valuable in untargeted metabolomics?",
+      "item": "metabolite-identification-levels"
+    },
+    {
+      "card": "How does RT prediction fit into the metabolite-identification confidence framework (MSI levels), and why is it valuable in untargeted metabolomics?",
+      "item": "retention-time-prediction"
+    },
+    {
+      "card": "What features does FastRet use to predict RT, how are they computed, and why are they chemically meaningful?",
+      "item": "molecular-descriptor"
+    },
+    {
+      "card": "What features does FastRet use to predict RT, how are they computed, and why are they chemically meaningful?",
+      "item": "lipophilicity"
+    },
+    {
+      "card": "Why did FastRet use rcdk/CDK for descriptor computation rather than PaDEL, Mordred, RDKit or Dragon/alvaDesc?",
+      "item": "chemistry-development-kit"
+    },
+    {
+      "card": "How does FastRet handle descriptor computation efficiency and missing descriptor values?",
+      "item": "molecular-descriptor"
+    },
+    {
+      "card": "Which two model families does FastRet offer for from-scratch training, and why provide both rather than a single 'best' model?",
+      "item": "lasso"
+    },
+    {
+      "card": "Which two model families does FastRet offer for from-scratch training, and why provide both rather than a single 'best' model?",
+      "item": "boosted-regression-trees"
+    },
+    {
+      "card": "Describe how FastRet fits its Lasso and BRT models, including hyperparameter selection and the nested cross-validation used for performance estimation.",
+      "item": "lasso"
+    },
+    {
+      "card": "Describe how FastRet fits its Lasso and BRT models, including hyperparameter selection and the nested cross-validation used for performance estimation.",
+      "item": "boosted-regression-trees"
+    },
+    {
+      "card": "Describe how FastRet fits its Lasso and BRT models, including hyperparameter selection and the nested cross-validation used for performance estimation.",
+      "item": "cross-validation"
+    },
+    {
+      "card": "In FastRet's experiments, how do BRT and Lasso compare, and why is BRT described as the more stable choice?",
+      "item": "boosted-regression-trees"
+    },
+    {
+      "card": "In FastRet's experiments, how do BRT and Lasso compare, and why is BRT described as the more stable choice?",
+      "item": "lasso"
+    },
+    {
+      "card": "Why does FastRet train a single global model rather than local models restricted to structurally similar compounds?",
+      "item": "fastret"
+    },
+    {
+      "card": "Why does FastRet train a single global model rather than local models restricted to structurally similar compounds?",
+      "item": "retention-time-prediction"
+    },
+    {
+      "card": "Explain FastRet's selective measuring strategy: the goal, the two-step algorithm, and why Ridge (not Lasso) is used for feature weighting.",
+      "item": "selective-measuring"
+    },
+    {
+      "card": "Explain FastRet's selective measuring strategy: the goal, the two-step algorithm, and why Ridge (not Lasso) is used for feature weighting.",
+      "item": "ridge-regression"
+    },
+    {
+      "card": "Explain FastRet's selective measuring strategy: the goal, the two-step algorithm, and why Ridge (not Lasso) is used for feature weighting.",
+      "item": "k-medoids"
+    },
+    {
+      "card": "What are the selective-measuring variants SM0, SM1, SMmax and SMinf, and which is recommended for practice?",
+      "item": "selective-measuring"
+    },
+    {
+      "card": "Why does selective measuring use k-medoids (PAM) rather than k-means for choosing compounds to measure?",
+      "item": "k-medoids"
+    },
+    {
+      "card": "What is the model adjustment problem, and in what TWO ways does FastRet's adjustment go beyond prior projection methods (PredRet, Osipenko, Zhang)?",
+      "item": "retention-time-model-adjustment"
+    },
+    {
+      "card": "What is the model adjustment problem, and in what TWO ways does FastRet's adjustment go beyond prior projection methods (PredRet, Osipenko, Zhang)?",
+      "item": "retention-time-projection"
+    },
+    {
+      "card": "When does a descriptor-aware adjustment (Lasso/BRT) outperform a plain linear (base-RT-only) adjustment, and what does this reveal about the information content of the base RT?",
+      "item": "retention-time-model-adjustment"
+    },
+    {
+      "card": "For adjustment from a small re-measurement set (~25 compounds), which adjustment model does FastRet recommend and why?",
+      "item": "retention-time-model-adjustment"
+    },
+    {
+      "card": "Why does FastRet evaluate performance with dedicated train/test datasets instead of plain cross-validation?",
+      "item": "cross-validation"
+    },
+    {
+      "card": "Why does FastRet evaluate performance with dedicated train/test datasets instead of plain cross-validation?",
+      "item": "retention-time-model-adjustment"
+    },
+    {
+      "card": "How does FastRet clip its predicted RTs, and why is clipping needed?",
+      "item": "fastret"
+    },
+    {
+      "card": "How does FastRet clip its predicted RTs, and why is clipping needed?",
+      "item": "lasso"
+    },
+    {
+      "card": "Summarise the independent adjustment-validation experiment (datasets 6-18) and its main finding.",
+      "item": "retention-time-model-adjustment"
+    },
+    {
+      "card": "How does FastRet compare against Retip, DeepGCN-RT and a PredRet-like projection, both from scratch and in the low-data transfer setting?",
+      "item": "fastret"
+    },
+    {
+      "card": "How does FastRet compare against Retip, DeepGCN-RT and a PredRet-like projection, both from scratch and in the low-data transfer setting?",
+      "item": "retention-time-projection"
+    },
+    {
+      "card": "What is the PredRet-like baseline in the benchmark, and what fundamental limitation of projection methods does it illustrate?",
+      "item": "retention-time-projection"
+    },
+    {
+      "card": "What did the cross-lab RepoRT validation (12 RP + 2 HILIC datasets) show about how FastRet generalises, and how should generalisation claims be framed?",
+      "item": "fastret"
+    },
+    {
+      "card": "What do the fitted models' descriptor signatures reveal, and how does this address the high descriptor-to-sample ratio?",
+      "item": "molecular-descriptor"
+    },
+    {
+      "card": "What do the fitted models' descriptor signatures reveal, and how does this address the high descriptor-to-sample ratio?",
+      "item": "lipophilicity"
+    },
+    {
+      "card": "Describe the three in-house datasets and the external dataset used to validate FastRet, and why performance differs across them.",
+      "item": "fastret"
+    },
+    {
+      "card": "Describe the three in-house datasets and the external dataset used to validate FastRet, and why performance differs across them.",
+      "item": "reversed-phase-chromatography"
+    },
+    {
+      "card": "Describe the three in-house datasets and the external dataset used to validate FastRet, and why performance differs across them.",
+      "item": "hydrophilic-interaction-chromatography"
+    },
+    {
+      "card": "Why is RP-AXMM (reversed-phase / anion-exchange mixed-mode) the hardest of the three separation modes for FastRet to predict?",
+      "item": "mixed-mode-chromatography"
+    },
+    {
+      "card": "What are FastRet's stated limitations and the proposed directions for future work?",
+      "item": "fastret"
+    },
+    {
+      "card": "What are FastRet's stated limitations and the proposed directions for future work?",
+      "item": "molecular-descriptor"
+    },
+    {
+      "card": "How is FastRet made accessible to non-programmers, and what do the web-GUI tabs do?",
+      "item": "fastret"
+    },
+    {
+      "card": "Give the worked example from the paper showing FastRet used for real annotation.",
+      "item": "retention-time-prediction"
+    },
+    {
+      "card": "Give the worked example from the paper showing FastRet used for real annotation.",
+      "item": "fastret"
+    },
+    {
+      "card": "Within the thesis author's own contribution, what parts of FastRet are claimed, and what deliberately is not?",
+      "item": "fastret"
+    },
+    {
+      "card": "Within the thesis author's own contribution, what parts of FastRet are claimed, and what deliberately is not?",
+      "item": "retention-time-model-adjustment"
+    },
+    {
+      "card": "For adjusting a FastRet model to a new chromatographic condition using only ~25 re-measured compounds, which adjustment model does the paper recommend?",
+      "item": "retention-time-model-adjustment"
+    },
+    {
+      "card": "Which molecular descriptors most dominate FastRet's model importance on reversed-phase data, and why does that make chemical sense?",
+      "item": "lipophilicity"
+    },
+    {
+      "card": "Which molecular descriptors most dominate FastRet's model importance on reversed-phase data, and why does that make chemical sense?",
+      "item": "molecular-descriptor"
+    },
+    {
+      "card": "How many CDK molecular descriptors does FastRet compute per compound (the headline descriptor count used throughout the paper)?",
+      "item": "molecular-descriptor"
+    },
+    {
+      "card": "How many CDK molecular descriptors does FastRet compute per compound (the headline descriptor count used throughout the paper)?",
+      "item": "chemistry-development-kit"
+    },
+    {
+      "card": "What is a QSRR model, and how does FastRet relate to the broader taxonomy of RT-prediction approaches?",
+      "item": "quantitative-structure-retention-relationship"
+    },
+    {
+      "card": "What is a QSRR model, and how does FastRet relate to the broader taxonomy of RT-prediction approaches?",
+      "item": "retention-time-prediction"
+    },
+    {
+      "card": "What is the fundamental principle by which liquid chromatography separates analytes?",
+      "item": "liquid-chromatography"
+    },
+    {
+      "card": "Define the retention factor k (capacity factor). Give its formula and explain what it measures and why it is preferred over raw retention time for comparisons.",
+      "item": "retention-factor"
+    },
+    {
+      "card": "What are the dead time (t_0 / t_M) and void volume, and why do they matter for RT prediction and comparison?",
+      "item": "dead-time"
+    },
+    {
+      "card": "Define selectivity (α) and resolution (Rs), and explain the three factors that control resolution.",
+      "item": "chromatographic-resolution"
+    },
+    {
+      "card": "State the van Deemter equation, name its three terms, and explain why sub-2 µm (UHPLC) particles improve efficiency.",
+      "item": "van-deemter-equation"
+    },
+    {
+      "card": "State the van Deemter equation, name its three terms, and explain why sub-2 µm (UHPLC) particles improve efficiency.",
+      "item": "ultra-high-performance-liquid-chromatography"
+    },
+    {
+      "card": "What is the theoretical plate number N (and HETP), and what does it tell you about a column?",
+      "item": "theoretical-plate-number"
+    },
+    {
+      "card": "What is peak capacity, and why is it the relevant performance metric for gradient elution (rather than plate number)?",
+      "item": "peak-capacity"
+    },
+    {
+      "card": "Describe reversed-phase liquid chromatography (RPLC): the phases, the retention mechanism, and the elution order.",
+      "item": "reversed-phase-chromatography"
+    },
+    {
+      "card": "In RPLC, how does changing the percentage of organic modifier (%B) affect retention, and what does a typical gradient do?",
+      "item": "reversed-phase-chromatography"
+    },
+    {
+      "card": "In RPLC, how does changing the percentage of organic modifier (%B) affect retention, and what does a typical gradient do?",
+      "item": "gradient-elution"
+    },
+    {
+      "card": "Describe HILIC (hydrophilic interaction liquid chromatography): the phases, the retention mechanism, and how its elution order differs from RPLC.",
+      "item": "hydrophilic-interaction-chromatography"
+    },
+    {
+      "card": "Why are RPLC and HILIC considered orthogonal and complementary, and why does comprehensive metabolomics often need both?",
+      "item": "hydrophilic-interaction-chromatography"
+    },
+    {
+      "card": "Why are RPLC and HILIC considered orthogonal and complementary, and why does comprehensive metabolomics often need both?",
+      "item": "reversed-phase-chromatography"
+    },
+    {
+      "card": "Contrast isocratic and gradient elution, and explain the 'general elution problem' that gradients solve.",
+      "item": "gradient-elution"
+    },
+    {
+      "card": "How does gradient steepness (slope) affect a separation, and what practical trade-offs does it create?",
+      "item": "gradient-elution"
+    },
+    {
+      "card": "How does gradient steepness (slope) affect a separation, and what practical trade-offs does it create?",
+      "item": "peak-capacity"
+    },
+    {
+      "card": "Why are mobile-phase additives like formic acid and ammonium formate used in LC-MS, and why must buffers be volatile?",
+      "item": "mobile-phase-ph"
+    },
+    {
+      "card": "Why are mobile-phase additives like formic acid and ammonium formate used in LC-MS, and why must buffers be volatile?",
+      "item": "electrospray-ionization"
+    },
+    {
+      "card": "How is LC coupled to mass spectrometry via electrospray ionisation (ESI), and what are ion suppression and matrix effects?",
+      "item": "electrospray-ionization"
+    },
+    {
+      "card": "How is LC coupled to mass spectrometry via electrospray ionisation (ESI), and what are ion suppression and matrix effects?",
+      "item": "ion-suppression"
+    },
+    {
+      "card": "Describe the chemistry of a typical silica-based bonded stationary phase: silica support, bonded ligands, endcapping, and BEH hybrid particles.",
+      "item": "bonded-silica-stationary-phase"
+    },
+    {
+      "card": "What is special about a 'T3' (e.g. HSS T3) reversed-phase column, and why is it useful in metabolomics?",
+      "item": "reversed-phase-chromatography"
+    },
+    {
+      "card": "What is special about a 'T3' (e.g. HSS T3) reversed-phase column, and why is it useful in metabolomics?",
+      "item": "bonded-silica-stationary-phase"
+    },
+    {
+      "card": "What is mixed-mode (e.g. reversed-phase/anion-exchange, RP-AX) chromatography, and what advantage and complication does it bring?",
+      "item": "mixed-mode-chromatography"
+    },
+    {
+      "card": "How does column temperature affect an LC separation (retention, efficiency, pressure), and what is the van 't Hoff relationship?",
+      "item": "column-temperature"
+    },
+    {
+      "card": "How does changing the flow rate affect retention time versus retention factor, and why does the distinction matter?",
+      "item": "retention-factor"
+    },
+    {
+      "card": "How does changing the flow rate affect retention time versus retention factor, and why does the distinction matter?",
+      "item": "retention-time"
+    },
+    {
+      "card": "List the main factors that determine an analyte's retention time on an LC system, and explain why this makes RTs non-transferable between setups.",
+      "item": "retention-time"
+    },
+    {
+      "card": "Why is retention time treated as a second, orthogonal dimension for metabolite identification, and what are its limits?",
+      "item": "retention-time"
+    },
+    {
+      "card": "Why is retention time treated as a second, orthogonal dimension for metabolite identification, and what are its limits?",
+      "item": "metabolite-identification-levels"
+    },
+    {
+      "card": "What distinguishes UHPLC from conventional HPLC, and what does it buy you?",
+      "item": "ultra-high-performance-liquid-chromatography"
+    },
+    {
+      "card": "How do logP / hydrophobicity descriptors relate to reversed-phase retention, and why does this underpin QSRR RT modelling?",
+      "item": "lipophilicity"
+    },
+    {
+      "card": "How do logP / hydrophobicity descriptors relate to reversed-phase retention, and why does this underpin QSRR RT modelling?",
+      "item": "reversed-phase-chromatography"
+    },
+    {
+      "card": "How do logP / hydrophobicity descriptors relate to reversed-phase retention, and why does this underpin QSRR RT modelling?",
+      "item": "quantitative-structure-retention-relationship"
+    },
+    {
+      "card": "How does mobile-phase pH affect the retention of ionisable analytes, and why is pH control important?",
+      "item": "mobile-phase-ph"
+    },
+    {
+      "card": "What practical challenges does HILIC have compared with reversed phase, especially regarding reproducibility?",
+      "item": "hydrophilic-interaction-chromatography"
+    },
+    {
+      "card": "What is the system dwell (delay) volume in gradient LC, and why does it matter for reproducibility and RT transfer?",
+      "item": "gradient-elution"
+    },
+    {
+      "card": "What is the system dwell (delay) volume in gradient LC, and why does it matter for reproducibility and RT transfer?",
+      "item": "retention-time"
+    },
+    {
+      "card": "What are the main sources of band broadening (peak width) in LC, including extra-column contributions?",
+      "item": "chromatographic-band-broadening"
+    },
+    {
+      "card": "Contrast fully porous particles with superficially porous (core-shell / fused-core) particles. Why can core-shell particles rival sub-2 µm performance at lower backpressure?",
+      "item": "superficially-porous-particles"
+    },
+    {
+      "card": "In reversed-phase LC with a water/acetonitrile gradient, which class of compound generally elutes FIRST?",
+      "item": "reversed-phase-chromatography"
+    },
+    {
+      "card": "Which statement about HILIC versus reversed-phase elution order is correct?",
+      "item": "hydrophilic-interaction-chromatography"
+    },
+    {
+      "card": "Write the formula for the retention (capacity) factor k in terms of retention time t_R and dead time t_0. (Use t0 for t_0.)",
+      "item": "retention-factor"
+    },
+    {
+      "card": "Why, given all the complications of chromatography, has there been strong interest in computationally PREDICTING retention times for metabolomics? Tie the LC fundamentals to the motivation for tools like FastRet.",
+      "item": "retention-time-prediction"
+    },
+    {
+      "card": "Why, given all the complications of chromatography, has there been strong interest in computationally PREDICTING retention times for metabolomics? Tie the LC fundamentals to the motivation for tools like FastRet.",
+      "item": "fastret"
+    },
+    {
+      "card": "What problem does ADMIRE/adadmire solve, and how does it differ from classical anomaly detection methods such as LOF, stray or Isolation Forest?",
+      "item": "admire"
+    },
+    {
+      "card": "What problem does ADMIRE/adadmire solve, and how does it differ from classical anomaly detection methods such as LOF, stray or Isolation Forest?",
+      "item": "anomaly-detection"
+    },
+    {
+      "card": "Distinguish an 'outlier' from an 'anomaly' in the ADMIRE framework, and give the motivating example.",
+      "item": "hidden-anomaly"
+    },
+    {
+      "card": "Write down the joint density of a Mixed Graphical Model as used by ADMIRE and name every parameter.",
+      "item": "mixed-graphical-model"
+    },
+    {
+      "card": "Why a Mixed Graphical Model rather than a Gaussian Graphical Model, and what is an MGM a generalisation of?",
+      "item": "mixed-graphical-model"
+    },
+    {
+      "card": "Why a Mixed Graphical Model rather than a Gaussian Graphical Model, and what is an MGM a generalisation of?",
+      "item": "gaussian-graphical-model"
+    },
+    {
+      "card": "What is the conditional distribution of a continuous feature $x_j$ in an MGM, and how is its mean computed?",
+      "item": "mixed-graphical-model"
+    },
+    {
+      "card": "What is the conditional distribution of a discrete feature $y_j$ in an MGM, and what familiar model does it correspond to?",
+      "item": "mixed-graphical-model"
+    },
+    {
+      "card": "What is the conditional distribution of a discrete feature $y_j$ in an MGM, and what familiar model does it correspond to?",
+      "item": "multinomial-logistic-regression"
+    },
+    {
+      "card": "How does ADMIRE turn the conditional distribution of a continuous feature into an anomaly score and a p-value?",
+      "item": "conditional-anomaly-score"
+    },
+    {
+      "card": "How does ADMIRE decide the threshold that separates anomalies from normal values? Why not just use a fixed p-value cutoff?",
+      "item": "rank-matched-null-threshold"
+    },
+    {
+      "card": "How is the discrete anomaly score defined and thresholded?",
+      "item": "conditional-anomaly-score"
+    },
+    {
+      "card": "How is the discrete anomaly score defined and thresholded?",
+      "item": "rank-matched-null-threshold"
+    },
+    {
+      "card": "Why does ADMIRE fit the MGM in a leave-one-out fashion, one model per left-out sample?",
+      "item": "leave-one-out-cross-validation"
+    },
+    {
+      "card": "Why does ADMIRE fit the MGM in a leave-one-out fashion, one model per left-out sample?",
+      "item": "admire"
+    },
+    {
+      "card": "How are the MGM parameters estimated, and why a pseudo-likelihood rather than the full likelihood?",
+      "item": "pseudo-likelihood"
+    },
+    {
+      "card": "What role does the $\\lambda\\lVert\\Theta\\rVert_1$ term play, and why is group/variance weighting needed?",
+      "item": "lasso"
+    },
+    {
+      "card": "What role does the $\\lambda\\lVert\\Theta\\rVert_1$ term play, and why is group/variance weighting needed?",
+      "item": "pseudo-likelihood"
+    },
+    {
+      "card": "How is the sparseness parameter $\\lambda$ calibrated, and how does this differ from the Altenbuchinger 2019 MGM framework that adadmire's code descends from?",
+      "item": "leave-one-out-cross-validation"
+    },
+    {
+      "card": "How is the sparseness parameter $\\lambda$ calibrated, and how does this differ from the Altenbuchinger 2019 MGM framework that adadmire's code descends from?",
+      "item": "extended-bayesian-information-criterion"
+    },
+    {
+      "card": "How is the sparseness parameter $\\lambda$ calibrated, and how does this differ from the Altenbuchinger 2019 MGM framework that adadmire's code descends from?",
+      "item": "altenbuchinger-2019-mgm-data-integration"
+    },
+    {
+      "card": "A predicted value $\\hat{x}_{ij}$ is computed from all other features of the same sample. What goes wrong if those other features are themselves anomalous, and how does ADMIRE guard against it?",
+      "item": "conditional-anomaly-score"
+    },
+    {
+      "card": "Describe ADMIRE's two-step imputation of missing values.",
+      "item": "missing-value-imputation"
+    },
+    {
+      "card": "How does ADMIRE's imputation compare to MissForest, and what does that comparison reveal about ADMIRE's operating range?",
+      "item": "missing-value-imputation"
+    },
+    {
+      "card": "What dataset was used for the simulation study, and how were artificial continuous anomalies generated?",
+      "item": "higuera-mouse-proteomics-dataset"
+    },
+    {
+      "card": "What is a 'hidden' anomaly in the simulation, and why is the fraction of hidden anomalies the crux of ADMIRE's advantage over competitors?",
+      "item": "hidden-anomaly"
+    },
+    {
+      "card": "Summarise how ADMIRE performed against LOF, stray and Isolation Forest, and why those baselines had to be adapted to even compete.",
+      "item": "local-outlier-factor"
+    },
+    {
+      "card": "Summarise how ADMIRE performed against LOF, stray and Isolation Forest, and why those baselines had to be adapted to even compete.",
+      "item": "stray"
+    },
+    {
+      "card": "Summarise how ADMIRE performed against LOF, stray and Isolation Forest, and why those baselines had to be adapted to even compete.",
+      "item": "isolation-forest"
+    },
+    {
+      "card": "Briefly state how LOF, stray and Isolation Forest each define an anomaly.",
+      "item": "local-outlier-factor"
+    },
+    {
+      "card": "Briefly state how LOF, stray and Isolation Forest each define an anomaly.",
+      "item": "stray"
+    },
+    {
+      "card": "Briefly state how LOF, stray and Isolation Forest each define an anomaly.",
+      "item": "isolation-forest"
+    },
+    {
+      "card": "How well does ADMIRE correct anomalies (not just detect them), and what happens to false positives during correction?",
+      "item": "anomaly-correction"
+    },
+    {
+      "card": "Describe the real-data metabolomics application: what biological system, what platforms, and what were the features?",
+      "item": "p493-6-cell-line"
+    },
+    {
+      "card": "Describe the real-data metabolomics application: what biological system, what platforms, and what were the features?",
+      "item": "admire"
+    },
+    {
+      "card": "What did ADMIRE find in the metabolomics data, and how was the finding validated?",
+      "item": "admire"
+    },
+    {
+      "card": "What did ADMIRE find in the metabolomics data, and how was the finding validated?",
+      "item": "internal-standard"
+    },
+    {
+      "card": "Why could NMR serve as an independent validator of the MS-flagged anomalies, and why does this example showcase the MGM's strength?",
+      "item": "internal-standard"
+    },
+    {
+      "card": "Why could NMR serve as an independent validator of the MS-flagged anomalies, and why does this example showcase the MGM's strength?",
+      "item": "nuclear-magnetic-resonance-spectroscopy"
+    },
+    {
+      "card": "ADMIRE assumes conditional normality for continuous features and multinomial conditionals for discrete ones. Are these assumptions met in practice, and does it matter?",
+      "item": "mixed-graphical-model"
+    },
+    {
+      "card": "ADMIRE assumes conditional normality for continuous features and multinomial conditionals for discrete ones. Are these assumptions met in practice, and does it matter?",
+      "item": "rank-matched-null-threshold"
+    },
+    {
+      "card": "What is ADMIRE's computational complexity, what drives it, and why?",
+      "item": "mixed-graphical-model"
+    },
+    {
+      "card": "What is ADMIRE's computational complexity, what drives it, and why?",
+      "item": "admire"
+    },
+    {
+      "card": "At what contamination level does ADMIRE break down, and why is that the expected behaviour?",
+      "item": "anomaly-detection"
+    },
+    {
+      "card": "Besides data-quality control, what other legitimate uses does ADMIRE have, and what is the key caveat about what an 'anomaly' means?",
+      "item": "anomaly-detection"
+    },
+    {
+      "card": "Besides data-quality control, what other legitimate uses does ADMIRE have, and what is the key caveat about what an 'anomaly' means?",
+      "item": "anomaly-correction"
+    },
+    {
+      "card": "Besides data-quality control, what other legitimate uses does ADMIRE have, and what is the key caveat about what an 'anomaly' means?",
+      "item": "missing-value-imputation"
+    },
+    {
+      "card": "What are the intrinsic anomalies in the RPPA proteomics data, and why do they complicate the precision-recall evaluation?",
+      "item": "higuera-mouse-proteomics-dataset"
+    },
+    {
+      "card": "What is your (the candidate's) specific contribution to adadmire versus the first author's, and how is the package engineered?",
+      "item": "admire"
+    },
+    {
+      "card": "Contrast what ADMIRE inherited from Altenbuchinger et al. 2019 with what it genuinely contributes.",
+      "item": "admire"
+    },
+    {
+      "card": "Contrast what ADMIRE inherited from Altenbuchinger et al. 2019 with what it genuinely contributes.",
+      "item": "altenbuchinger-2019-mgm-data-integration"
+    },
+    {
+      "card": "Why does a missing edge in the MGM graph mean conditional independence, and how does that connect to the regression view of the conditionals?",
+      "item": "conditional-independence"
+    },
+    {
+      "card": "Why does a missing edge in the MGM graph mean conditional independence, and how does that connect to the regression view of the conditionals?",
+      "item": "mixed-graphical-model"
+    },
+    {
+      "card": "Against which three competing anomaly-detection methods was ADMIRE benchmarked in the paper?",
+      "item": "local-outlier-factor"
+    },
+    {
+      "card": "Against which three competing anomaly-detection methods was ADMIRE benchmarked in the paper?",
+      "item": "stray"
+    },
+    {
+      "card": "Against which three competing anomaly-detection methods was ADMIRE benchmarked in the paper?",
+      "item": "isolation-forest"
+    },
+    {
+      "card": "In the MGM, the conditional distribution of a discrete feature given all other features takes the form of a:",
+      "item": "multinomial-logistic-regression"
+    },
+    {
+      "card": "adadmire selects its penalty parameter $\\lambda$ by minimising, over a leave-one-out cross-validation, the mean squared error between original and re-estimated continuous data. In contrast, the Altenbuchinger 2019 framework selected the penalty using which information criterion (acronym)?",
+      "item": "extended-bayesian-information-criterion"
+    },
+    {
+      "card": "adadmire selects its penalty parameter $\\lambda$ by minimising, over a leave-one-out cross-validation, the mean squared error between original and re-estimated continuous data. In contrast, the Altenbuchinger 2019 framework selected the penalty using which information criterion (acronym)?",
+      "item": "altenbuchinger-2019-mgm-data-integration"
+    },
+    {
+      "card": "ADMIRE fits the MGM for each sample in what kind of re-estimation scheme (so that a sample's own anomalous value cannot pull its prediction toward itself)? Give the common three-letter abbreviation.",
+      "item": "leave-one-out-cross-validation"
+    },
+    {
+      "card": "The adadmire metabolomics application used P493/6 B-cells stimulated with α-IgM F(ab)₂ fragments. What signalling does this mimic, and why use F(ab)₂ rather than whole IgG?",
+      "item": "b-cell-receptor"
+    },
+    {
+      "card": "CD40L (CD154) was one of the microenvironmental stimuli. What is the CD40-CD40L interaction, which cells provide each partner, and what does it accomplish in a B cell?",
+      "item": "cd40-cd40l-interaction"
+    },
+    {
+      "card": "CpG oligodeoxynucleotides were used as a stimulus. What receptor do they engage, where is it located, and why are CpG motifs immunostimulatory?",
+      "item": "toll-like-receptor-9"
+    },
+    {
+      "card": "IL-10 was one of the stimuli applied to the B-cell cultures. What is IL-10's principal immunological role and signalling pathway, and what is its relevance in tumours?",
+      "item": "interleukin-10"
+    },
+    {
+      "card": "IL-10 was one of the stimuli applied to the B-cell cultures. What is IL-10's principal immunological role and signalling pathway, and what is its relevance in tumours?",
+      "item": "jak-stat-pathway"
+    },
+    {
+      "card": "IGF-1 was included among the stimuli. What is it, what receptor does it use, and why is it relevant to B-cell lymphoma?",
+      "item": "insulin-like-growth-factor-1"
+    },
+    {
+      "card": "The experiment centred on switching the MYC oncogene on and off. Why is MYC central to B-cell lymphoma, and what does it do to metabolism?",
+      "item": "myc"
+    },
+    {
+      "card": "The experiment centred on switching the MYC oncogene on and off. Why is MYC central to B-cell lymphoma, and what does it do to metabolism?",
+      "item": "b-cell-lymphoma"
+    },
+    {
+      "card": "The P493/6 model uses an inducible MYC controlled by doxycycline. What cell of origin and viral context do P493/6 cells have, and what does doxycycline do here?",
+      "item": "p493-6-cell-line"
+    },
+    {
+      "card": "The P493/6 model uses an inducible MYC controlled by doxycycline. What cell of origin and viral context do P493/6 cells have, and what does doxycycline do here?",
+      "item": "myc"
+    },
+    {
+      "card": "Many of the measured metabolites lie on the tryptophan-kynurenine pathway (kynurenine, kynurenic acid, 3-hydroxyanthranilic acid, quinolinic acid, etc.). Outline this pathway and its immunological importance.",
+      "item": "kynurenine-pathway"
+    },
+    {
+      "card": "Many of the measured metabolites lie on the tryptophan-kynurenine pathway (kynurenine, kynurenic acid, 3-hydroxyanthranilic acid, quinolinic acid, etc.). Outline this pathway and its immunological importance.",
+      "item": "indoleamine-2-3-dioxygenase"
+    },
+    {
+      "card": "What is the aryl hydrocarbon receptor (AhR), and why does its activation by kynurenine matter immunologically?",
+      "item": "aryl-hydrocarbon-receptor"
+    },
+    {
+      "card": "Serotonin and melatonin were among the tryptophan-derived standards. How do these relate to tryptophan metabolism, and which branch dominates quantitatively?",
+      "item": "kynurenine-pathway"
+    },
+    {
+      "card": "The methionine/polyamine metabolites measured included S-adenosylmethionine (SAM), 5'-methylthioadenosine (MTA), spermidine, spermine and putrescine. How are these connected, and why are polyamines relevant to proliferating immune/tumour cells?",
+      "item": "polyamine-metabolism"
+    },
+    {
+      "card": "Give the core division between innate and adaptive immunity, with the defining properties of each.",
+      "item": "innate-immunity"
+    },
+    {
+      "card": "Give the core division between innate and adaptive immunity, with the defining properties of each.",
+      "item": "adaptive-immunity"
+    },
+    {
+      "card": "Give the core division between innate and adaptive immunity, with the defining properties of each.",
+      "item": "pattern-recognition-receptor"
+    },
+    {
+      "card": "Contrast MHC class I and MHC class II: what they present, to which T cells, and via which processing pathway.",
+      "item": "mhc-class-i"
+    },
+    {
+      "card": "Contrast MHC class I and MHC class II: what they present, to which T cells, and via which processing pathway.",
+      "item": "mhc-class-ii"
+    },
+    {
+      "card": "Outline the major CD4⁺ helper T-cell subsets, their signature cytokines, and their functions.",
+      "item": "t-helper-cell"
+    },
+    {
+      "card": "What is the germinal centre reaction, and which molecular events there are relevant to B-cell lymphomagenesis?",
+      "item": "germinal-centre-reaction"
+    },
+    {
+      "card": "What is the germinal centre reaction, and which molecular events there are relevant to B-cell lymphomagenesis?",
+      "item": "b-cell-lymphoma"
+    },
+    {
+      "card": "Describe immunometabolism in T-cell activation: how does metabolism shift between naive, effector and memory states?",
+      "item": "immunometabolism"
+    },
+    {
+      "card": "IL-1β (the protein IL1B_N appears in the simulation proteomics dataset) is produced via the inflammasome. Explain inflammasome activation and why it is distinctive.",
+      "item": "inflammasome"
+    },
+    {
+      "card": "Summarise the JAK-STAT pathway and why it is the canonical signalling route for many cytokines (e.g. IL-10 via STAT3).",
+      "item": "jak-stat-pathway"
+    },
+    {
+      "card": "What are regulatory T cells (Tregs), how are they defined and maintained, and how do they enforce tolerance?",
+      "item": "regulatory-t-cell"
+    },
+    {
+      "card": "How does the immune system avoid attacking self? Distinguish central and peripheral tolerance.",
+      "item": "immunological-tolerance"
+    },
+    {
+      "card": "What is macrophage polarisation (M1 vs M2), and why is the 'tumour-associated macrophage' phenotype important?",
+      "item": "macrophage-polarisation"
+    },
+    {
+      "card": "Describe the structure of an antibody and the functional consequences of the different heavy-chain isotypes.",
+      "item": "antibody"
+    },
+    {
+      "card": "What is the complement system, what are its three activation pathways, and what effector functions does it produce?",
+      "item": "complement-system"
+    },
+    {
+      "card": "How is immunological/metabolomic data like that in the adadmire B-cell study actually generated? Contrast NMR and mass spectrometry.",
+      "item": "nuclear-magnetic-resonance-spectroscopy"
+    },
+    {
+      "card": "How is immunological/metabolomic data like that in the adadmire B-cell study actually generated? Contrast NMR and mass spectrometry.",
+      "item": "mass-spectrometry"
+    },
+    {
+      "card": "How is immunological/metabolomic data like that in the adadmire B-cell study actually generated? Contrast NMR and mass spectrometry.",
+      "item": "internal-standard"
+    },
+    {
+      "card": "Why is an internal standard used in targeted metabolite quantification, and what is the significance of stable-isotope-labelled ([¹³C/¹⁵N]) standards?",
+      "item": "internal-standard"
+    },
+    {
+      "card": "Why is an internal standard used in targeted metabolite quantification, and what is the significance of stable-isotope-labelled ([¹³C/¹⁵N]) standards?",
+      "item": "ion-suppression"
+    },
+    {
+      "card": "What are natural killer (NK) cells and how do they decide whether to kill a target, contrasting with cytotoxic T cells?",
+      "item": "natural-killer-cell"
+    },
+    {
+      "card": "Summarise the two signals (and a third) required to fully activate a naive T cell, and what happens if signal 2 is missing.",
+      "item": "t-cell-activation"
+    },
+    {
+      "card": "Name key proinflammatory cytokines of acute inflammation and what each does.",
+      "item": "proinflammatory-cytokine"
+    },
+    {
+      "card": "Why are metabolomic measurements said to be 'closest to the phenotype', and what does that imply for studying immune/lymphoma biology?",
+      "item": "metabolome"
+    },
+    {
+      "card": "Why are metabolomic measurements said to be 'closest to the phenotype', and what does that imply for studying immune/lymphoma biology?",
+      "item": "immunometabolism"
+    },
+    {
+      "card": "What are regulatory B cells (Bregs), and how do they relate to the IL-10 stimulus used in the study?",
+      "item": "regulatory-b-cell"
+    },
+    {
+      "card": "What are regulatory B cells (Bregs), and how do they relate to the IL-10 stimulus used in the study?",
+      "item": "interleukin-10"
+    },
+    {
+      "card": "Which cytokine is primarily anti-inflammatory / immunoregulatory and signals mainly through STAT3?",
+      "item": "interleukin-10"
+    },
+    {
+      "card": "CpG oligodeoxynucleotides stimulate immune cells by engaging which receptor?",
+      "item": "toll-like-receptor-9"
+    },
+    {
+      "card": "Cytotoxic CD8⁺ T cells recognise antigen presented on which molecule?",
+      "item": "mhc-class-i"
+    },
+    {
+      "card": "Which IFN-γ-inducible enzyme catabolises tryptophan down the kynurenine pathway and is a key mediator of immune tolerance and tumour immune evasion? (Give the acronym.)",
+      "item": "indoleamine-2-3-dioxygenase"
+    },
+    {
+      "card": "What transcription factor is the defining lineage master regulator of regulatory T cells (Tregs), whose mutation causes the IPEX autoimmune syndrome?",
+      "item": "regulatory-t-cell"
+    }
+  ]
+}

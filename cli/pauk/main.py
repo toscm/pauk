@@ -25,6 +25,7 @@ import pauk
 from pauk import config as config_mod
 from pauk.client import ApiError, Client
 from pauk.importer import import_file
+from pauk.knowledge import print_profile, write_export
 from pauk.quiz import run_quiz
 from pauk.sync import clone as clone_collection
 from pauk.sync import upload as upload_collection
@@ -219,8 +220,27 @@ def quiz(
 
 @app.command(name="import")
 def import_cmd(file: Path) -> None:
-    """Import a content JSON file (dirs + cards)."""
+    """Import a content JSON file (dirs, cards, items) or a knowledge export (.jsonl)."""
     import_file(_client(), file, echo=console.print)
+
+
+@app.command()
+def export(output: Path = typer.Option(Path("pauk-export.jsonl"), "-o", "--output", help="Target file")) -> None:
+    """Export the knowledge profile (items, evidence, settings) as JSON lines."""
+    count = write_export(_client(), output)
+    console.print(f"wrote {count} records to {output}")
+
+
+@app.command()
+def profile(
+    path: Optional[str] = typer.Argument(None, help="Subject directory path (default: everything)"),
+    space: Optional[str] = typer.Option(None, "--space", help="Only items of this space, e.g. it"),
+    n: int = typer.Option(5, "-n", help="How many next items to list"),
+) -> None:
+    """Show the knowledge profile and what to practise next."""
+    client = _client()
+    dir_id = client.resolve_dir(path)["id"] if path else None
+    print_profile(client, client.profile(dir_id, space), client.next_items(dir_id, space, n), echo=console.print)
 
 
 @app.command()

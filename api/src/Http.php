@@ -20,9 +20,10 @@ final class Http
             ->withStatus($status);
     }
 
-    public static function error(Response $response, int $status, string $code, string $message): Response
+    /** @param array<string, mixed> $details extra top-level fields next to `error` */
+    public static function error(Response $response, int $status, string $code, string $message, array $details = []): Response
     {
-        return self::json($response, ['error' => ['code' => $code, 'message' => $message]], $status);
+        return self::json($response, ['error' => ['code' => $code, 'message' => $message]] + $details, $status);
     }
 
     /** @return array<string, mixed> */

@@ -6,6 +6,12 @@ namespace Pauk;
 
 use Pauk\Repo\Cards;
 use Pauk\Repo\Dirs;
+use Pauk\Repo\Export;
+use Pauk\Repo\Interactions;
+use Pauk\Repo\Items;
+use Pauk\Repo\Merges;
+use Pauk\Repo\Profile;
+use Pauk\Repo\Settings;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
@@ -50,8 +56,26 @@ final class App
                 $pdo = $getPdo();
                 $userId = (int) $request->getAttribute('user_id');
                 $dirs = new Dirs($pdo);
-                return [$pdo, $userId, $dirs, new Cards($pdo, $dirs)];
+                $interactions = new Interactions($pdo, new Items($pdo, $dirs));
+                return [$pdo, $userId, $dirs, new Cards($pdo, $dirs, $interactions)];
             };
+            // knowledge profile (docs/tutor.md)
+            $kb = function (Request $request) use ($getPdo): object {
+                $pdo = $getPdo();
+                $items = new Items($pdo, new Dirs($pdo));
+                $interactions = new Interactions($pdo, $items);
+                $settings = new Settings($pdo);
+                return (object) [
+                    'userId' => (int) $request->getAttribute('user_id'),
+                    'items' => $items,
+                    'interactions' => $interactions,
+                    'merges' => new Merges($pdo, $items, $interactions),
+                    'profile' => new Profile($pdo, $items),
+                    'settings' => $settings,
+                    'export' => new Export($pdo, $items, $interactions, $settings),
+                ];
+            };
+            self::knowledgeRoutes($group, $kb);
 
             // --- cards ---------------------------------------------------
             $group->get('/cards', function (Request $request, Response $response) use ($repos) {
@@ -298,7 +322,7 @@ final class App
             function (Request $request, \Throwable $e) use ($app) {
                 $response = $app->getResponseFactory()->createResponse();
                 if ($e instanceof ApiError) {
-                    return Http::error($response, $e->status, $e->errorCode, $e->getMessage());
+                    return Http::error($response, $e->status, $e->errorCode, $e->getMessage(), $e->details);
                 }
                 if ($e instanceof \Slim\Exception\HttpNotFoundException) {
                     return Http::error($response, 404, 'not_found', 'Route not found');
@@ -312,6 +336,218 @@ final class App
         );
 
         return $app;
+    }
+
+    /**
+     * Routes of the knowledge profile. Items are addressed as
+     * /items/{space}/{key} or /items/{id}; every item route is
+     * registered in both forms.
+     */
+    private static function knowledgeRoutes(RouteCollectorProxy $group, callable $kb): void
+    {
+        $refPatterns = ['{id:[0-9]+}', '{space:[a-z][a-z0-9-]*}/{key:[a-z0-9][a-z0-9.-]*}'];
+        $itemRoute = function (string $method, string $prefix, string $suffix, callable $handler) use ($group, $refPatterns): void {
+            foreach ($refPatterns as $pattern) {
+                $group->map([$method], $prefix . $pattern . $suffix, function (Request $request, Response $response, array $args) use ($handler) {
+                    $ref = isset($args['id']) ? (int) $args['id'] : $args['space'] . '/' . $args['key'];
+                    return $handler($request, $response, $ref, $args);
+                });
+            }
+        };
+
+        // --- items -------------------------------------------------------
+        $group->get('/items', function (Request $request, Response $response) use ($kb) {
+            $k = $kb($request);
+            return Http::json($response, $k->items->list(
+                $k->userId,
+                self::itemFilters($request),
+                Http::intQuery($request, 'limit', 50, 1, 200),
+                $request->getQueryParams()['cursor'] ?? null
+            ));
+        });
+
+        $group->post('/items', function (Request $request, Response $response) use ($kb) {
+            $k = $kb($request);
+            [$status, $payload] = $k->items->create($k->userId, Http::body($request));
+            return Http::json($response, $payload, $status);
+        });
+
+        $group->put('/items/bulk', function (Request $request, Response $response) use ($kb) {
+            $k = $kb($request);
+            return Http::json($response, $k->items->bulk($k->userId, Http::body($request)['items'] ?? null));
+        });
+
+        $itemRoute('GET', '/items/', '', function (Request $request, Response $response, $ref) use ($kb) {
+            $k = $kb($request);
+            return Http::json($response, $k->items->get($k->userId, $ref));
+        });
+
+        $itemRoute('PATCH', '/items/', '', function (Request $request, Response $response, $ref) use ($kb) {
+            $k = $kb($request);
+            return Http::json($response, $k->items->update($k->userId, $ref, Http::body($request)));
+        });
+
+        foreach (['archive' => true, 'unarchive' => false] as $action => $archived) {
+            $itemRoute('POST', '/items/', "/$action", function (Request $request, Response $response, $ref) use ($kb, $archived) {
+                $k = $kb($request);
+                return Http::json($response, $k->items->setArchived($k->userId, $ref, $archived));
+            });
+        }
+
+        $itemRoute('PUT', '/items/', '/state', function (Request $request, Response $response, $ref) use ($kb) {
+            $k = $kb($request);
+            return Http::json($response, $k->items->setFlags($k->userId, $ref, Http::body($request)));
+        });
+
+        $itemRoute('PUT', '/items/', '/links', function (Request $request, Response $response, $ref) use ($kb) {
+            $k = $kb($request);
+            $body = Http::body($request);
+            $k->items->link($k->userId, $ref, $body['rel'] ?? null, $body['to'] ?? null, $body['note'] ?? null);
+            return $response->withStatus(204);
+        });
+
+        $itemRoute('DELETE', '/items/', '/links', function (Request $request, Response $response, $ref) use ($kb) {
+            $k = $kb($request);
+            $params = $request->getQueryParams();
+            $k->items->unlink($k->userId, $ref, (string) ($params['rel'] ?? ''), (string) ($params['to'] ?? ''));
+            return $response->withStatus(204);
+        });
+
+        $itemRoute('POST', '/items/', '/merge', function (Request $request, Response $response, $ref) use ($kb) {
+            $k = $kb($request);
+            return Http::json($response, $k->merges->merge($k->userId, $ref, Http::body($request)));
+        });
+
+        $itemRoute('POST', '/items/', '/unmerge', function (Request $request, Response $response, $ref) use ($kb) {
+            $k = $kb($request);
+            return Http::json($response, $k->merges->unmerge($k->userId, $ref));
+        });
+
+        // --- merge suggestions -------------------------------------------
+        $group->get('/merges', function (Request $request, Response $response) use ($kb) {
+            $k = $kb($request);
+            $status = $request->getQueryParams()['status'] ?? null;
+            return Http::json($response, ['items' => $k->merges->list($k->userId, is_string($status) ? $status : null)]);
+        });
+
+        $group->post('/merges', function (Request $request, Response $response) use ($kb) {
+            $k = $kb($request);
+            return Http::json($response, $k->merges->suggest($k->userId, Http::body($request)), 201);
+        });
+
+        $group->post('/merges/{id:[0-9]+}/{action:accept|dismiss}', function (Request $request, Response $response, array $args) use ($kb) {
+            $k = $kb($request);
+            $merge = $args['action'] === 'accept'
+                ? $k->merges->accept($k->userId, (int) $args['id'])
+                : $k->merges->dismiss($k->userId, (int) $args['id']);
+            return Http::json($response, $merge);
+        });
+
+        // --- subject and card membership ---------------------------------
+        foreach (['PUT', 'DELETE'] as $method) {
+            $itemRoute($method, '/dirs/{dirId:[0-9]+}/items/', '', function (Request $request, Response $response, $ref, array $args) use ($kb, $method) {
+                $k = $kb($request);
+                if ($method === 'PUT') {
+                    $k->items->linkDir($k->userId, (int) $args['dirId'], $ref);
+                } else {
+                    $k->items->unlinkDir($k->userId, (int) $args['dirId'], $ref);
+                }
+                return $response->withStatus(204);
+            });
+            $itemRoute($method, '/cards/{cardId:[0-9]+}/items/', '', function (Request $request, Response $response, $ref, array $args) use ($kb, $method) {
+                $k = $kb($request);
+                if ($method === 'PUT') {
+                    $k->interactions->linkCard($k->userId, (int) $args['cardId'], $ref);
+                } else {
+                    $k->interactions->unlinkCard($k->userId, (int) $args['cardId'], $ref);
+                }
+                return $response->withStatus(204);
+            });
+        }
+
+        // --- interactions ------------------------------------------------
+        $group->post('/interactions', function (Request $request, Response $response) use ($kb) {
+            $k = $kb($request);
+            [$status, $payload] = $k->interactions->record($k->userId, Http::body($request));
+            return Http::json($response, $payload, $status);
+        });
+
+        $group->get('/interactions', function (Request $request, Response $response) use ($kb) {
+            $k = $kb($request);
+            $params = $request->getQueryParams();
+            $filters = array_filter([
+                'item' => $params['item'] ?? null,
+                'session_id' => $params['session_id'] ?? null,
+                'since' => $params['since'] ?? null,
+            ], fn ($v) => is_string($v) && $v !== '');
+            return Http::json($response, $k->interactions->history(
+                $k->userId, $filters, Http::intQuery($request, 'limit', 50, 1, 200), $params['cursor'] ?? null
+            ));
+        });
+
+        $group->post('/interactions/{uuid:[0-9a-f-]{36}}/amendments', function (Request $request, Response $response, array $args) use ($kb) {
+            $k = $kb($request);
+            return Http::json($response, $k->interactions->amend($k->userId, $args['uuid'], Http::body($request)));
+        });
+
+        // --- profile, settings, export, maintenance ----------------------
+        $group->get('/profile', function (Request $request, Response $response) use ($kb) {
+            $k = $kb($request);
+            return Http::json($response, $k->profile->summary($k->userId, self::itemFilters($request, true)));
+        });
+
+        $group->get('/profile/next', function (Request $request, Response $response) use ($kb) {
+            $k = $kb($request);
+            $n = Http::intQuery($request, 'n', 10, 1, 100);
+            return Http::json($response, $k->profile->next(
+                $k->userId, self::itemFilters($request, true), $n, Http::intQuery($request, 'new', $n, 0, 100)
+            ));
+        });
+
+        $group->get('/settings', function (Request $request, Response $response) use ($kb) {
+            $k = $kb($request);
+            return Http::json($response, $k->settings->all($k->userId));
+        });
+
+        $group->patch('/settings', function (Request $request, Response $response) use ($kb) {
+            $k = $kb($request);
+            return Http::json($response, $k->settings->update($k->userId, Http::body($request)));
+        });
+
+        $group->get('/export', function (Request $request, Response $response) use ($kb) {
+            $k = $kb($request);
+            foreach ($k->export->records($k->userId) as $record) {
+                $response->getBody()->write(
+                    json_encode($record, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR) . "\n"
+                );
+            }
+            return $response->withHeader('Content-Type', 'application/x-ndjson; charset=utf-8');
+        });
+
+        $group->post('/admin/rebuild-states', function (Request $request, Response $response) use ($kb) {
+            $k = $kb($request);
+            return Http::json($response, ['items' => $k->interactions->rebuild($k->userId)]);
+        });
+    }
+
+    /** @return array<string, mixed> */
+    private static function itemFilters(Request $request, bool $recursiveDefault = false): array
+    {
+        $params = $request->getQueryParams();
+        $filters = [];
+        if (isset($params['dir'])) {
+            $filters['dir'] = Http::intQuery($request, 'dir', 0, 1, PHP_INT_MAX);
+            $filters['recursive'] = ($params['recursive'] ?? ($recursiveDefault ? '1' : '')) === '1';
+        }
+        foreach (['space', 'kind', 'q', 'status'] as $name) {
+            if (isset($params[$name]) && is_string($params[$name]) && $params[$name] !== '') {
+                $filters[$name] = $params[$name];
+            }
+        }
+        if (($params['archived'] ?? '') === '1') {
+            $filters['archived'] = true;
+        }
+        return $filters;
     }
 
     /** @return array{dir?: int, recursive?: bool, unfiled?: bool, type?: string, q?: string} */

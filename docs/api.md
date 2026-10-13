@@ -33,13 +33,17 @@ integration tests are the contract.)
   semantics (DAG, uniqueness, cycle rules) are defined in
   docs/architecture.md.
 
+- Compatibility: clients ignore unknown fields; string fields with enumerated values may gain new values; additive changes do not bump `/api/v1`.
+
+- Some errors carry extra top-level fields next to `error`, e.g. the `candidates` of a `possible_duplicates` 409 (see Knowledge items).
+
 ## Health
 
 `GET /health` (no auth)
 
-    {"status": "ok", "db": "ok", "version": "0.7.1"}
+    {"status": "ok", "db": "ok", "version": "0.10.0"}
 
-`version` is the deployed API version (currently 0.7.1); the
+`version` is the deployed API version (currently 0.10.0); the
 example tracks it only loosely.
 
 `db` is `"ok"` or `"error"`; on error the HTTP status is 503.
@@ -429,3 +433,149 @@ reference a not-yet-uploaded file as `media:<relative path>`
 (resolved against the content file's own directory) in a
 card's `question_md` or an mc option's `text_md`; `pauk
 import` uploads it and substitutes the returned URL.
+
+## Knowledge profile
+
+The knowledge profile is designed in docs/tutor.md (sections 4–6); this section is the contract.
+Everything here is per user.
+
+### Knowledge items
+
+An item is one piece of knowledge with an identity `space/key`, its ref:
+
+- `space` is the identity namespace: a language code (`it`, `el`, `de`, `en`) for language-bound knowledge, `concepts` for everything language-independent; `^[a-z][a-z0-9-]{0,15}$`.
+
+- `key` is lowercase ASCII slugs separated by dots: `parlare`, `essere.pres.1sg`, `pesca.fishing`, `park-2006-flow-cytometry-gating`.
+  Kind prefixes (`term.x`) and part-of-speech suffixes (`x.noun`) are rejected.
+  For `word`, `phrase` and `term` items the key may be omitted and is derived from the label (`α` → `alpha`, `In bocca al lupo!` → `in-bocca-al-lupo`); an optional `sense` appends a suffix (`pesca` + sense `fishing` → `pesca.fishing`).
+
+- `kind`: `word`, `form`, `phrase`, `rule`, `symbol`, `term`, `fact`, `paper`, `skill`, `other`.
+  A `form` key is `<lexeme-key>.<cell>`; the lexeme must exist and gets a `form_of` link automatically.
+
+Item object:
+
+    {"id": 12, "ref": "it/farfalla", "space": "it", "key": "farfalla",
+     "kind": "word", "label_md": "farfalla", "gloss_md": "butterfly",
+     "body_md": "", "attrs": {"pos": "noun", "gender": "f"},
+     "priority": 70, "level": 1, "archived": false, "merged_into": null,
+     "state": {"mastery": 3, "recall": 0.84, "stability": 6.2, "difficulty": 4.8,
+               "reps": 3, "lapses": 0, "best_mode": "recall",
+               "first_seen_at": "...", "last_seen_at": "...",
+               "status": "active", "note": "", "model": "pauk-mm@1"},
+     "created_at": "...", "updated_at": "..."}
+
+- `priority` 0–100 (default 50), `level` 1–6 or null (difficulty tier, CEFR A1–C2 for languages).
+
+- `attrs` is free JSON; `doi`, `isbn` and `wikidata` are strong identifiers, unique per user (DOIs are lowercased).
+
+- `state` is null for an item without evidence or flags.
+  `mastery` is 0 unseen, 1 introduced, 2 fragile, 3 learning, 4 known, 5 mastered; `recall` is the current recall probability (null when unseen).
+  How `stability`, `difficulty` and `recall` are computed is not part of the contract; `model` names the version that computed them.
+
+- The single-item view (`GET /items/{ref}`) adds `aliases`, `dirs` (subjects), `links` (each `{direction: out|in, rel, ref, label_md, note}`), `cards` (linked card ids) and the last 10 `interactions`.
+
+Items are addressed as `/items/{space}/{key}` or `/items/{id}`; an alias or the key of a merged item resolves to the current item.
+
+- `GET /items` — list. Filters: `space`, `kind`, `q` (label, gloss, body, key, aliases), `status`, `dir` (+ `recursive=1`), `archived=1` to include archived items. Paginated.
+
+- `POST /items` — create. Body: the item fields, optional `dirs` (directory ids), `links` (`[{rel, to}]`, `to` a ref or a key in the same space), and the duplicate protocol below. 201 `{"created": true, "item": ...}`.
+
+- `PUT /items/bulk` — `{"items": [...]}`, at most 500, upsert by exact identity, no candidate checks. Links may point forward within the batch. Response: `created`, `updated`, `unchanged`, `refs`, `conflicts` (an item with `attrs.origin = "teacher"` whose gloss differs is not overwritten), `possible_duplicates` (same normalized label as a teacher-added item), `unresolved_links`.
+
+- `GET /items/{ref}`, `PATCH /items/{ref}` (any item field; a new `key` leaves the old one as an alias; 409 on a key clash).
+
+- `POST /items/{ref}/archive`, `POST /items/{ref}/unarchive`. Items are never deleted.
+
+- `PUT /items/{ref}/state` — the learner flags `status` (`active`, `focus`, `suspended`) and `note`.
+
+- `PUT /items/{ref}/links` `{rel, to, note?}`, `DELETE /items/{ref}/links?rel=&to=` — `rel` is `form_of`, `requires`, `part_of` or `related`.
+
+- `PUT|DELETE /dirs/{id}/items/{ref}` — subject membership (directories hold items as well as cards).
+
+- `PUT|DELETE /cards/{id}/items/{ref}` — link a card to the items it tests. The first link backfills the past reviews of the card as interactions (`source: card`, original time); afterwards every answer and self-grade of the card is recorded for its items (mc/match → `recognize`, text/recall → `recall`; exact → `good`, typo → `hard`, wrong → `fail`).
+
+### Duplicate protocol
+
+`POST /items` decides only exact identity itself; whether two different names mean the same thing is decided by the caller (normally an LLM).
+
+1. Exact identity — same key, an alias, or the same strong identifier: 200 `{"created": false, "via": "key" | "alias" | "doi" | "isbn" | "wikidata", "item": ...}`.
+
+2. Otherwise the API looks for candidates (same normalized label or key base, whole-word containment, similar spelling for non-lexical kinds, the label in the gloss of another item, the same label in another space for non-lexical kinds).
+   If there are any, nothing is created:
+
+       409 {"error": {"code": "possible_duplicates", "message": "..."},
+            "candidates": [{"ref": "it/pesca", "kind": "word", "label_md": "pesca",
+                            "gloss_md": "peach", "reason": "label"}]}
+
+3. The caller resends with a decision:
+
+   - `"same_as": REF` (+ optional `reason`): nothing is created; the label (and key) become aliases of REF. 200 `{"created": false, "via": "same_as", "item": ...}`.
+   - `"distinct_from": [REF, ...]` + `"reason"`: must cover every candidate; the item is created and each pair stored as a `related` link with the reason.
+
+### Interactions
+
+An interaction is one observed learner event with an outcome per item; the log is append-only.
+
+`POST /interactions`:
+
+    {"uuid": "6f1c...", "occurred_at": "2026-10-13T10:00:00.250Z",
+     "mode": "recall", "source": "tutor", "session_id": "s-42",
+     "exercise": {"kind": "text", "prompt_md": "...", "accepted": ["farfalla"]},
+     "response": {"text": "farfala"},
+     "hinted": false, "prompt_md": "...", "response_md": "...", "feedback_md": "...",
+     "items": [{"ref": "it/farfalla"}, {"ref": "it/present-are", "outcome": "fail", "note": "..."}]}
+
+- `uuid` (RFC 4122, lowercase) makes recording idempotent: a retry returns the original result with 200 and `"created": false`. Generated when omitted.
+
+- `mode`: `introduce` (no outcomes), `recognize`, `recall`, `produce`, `explain`, `self_report`. `source`: `tutor`, `card`, `import`, `activity`, `simulation` (default `tutor`). `occurred_at` defaults to now.
+
+- `outcome` per item: `fail`, `hard`, `good`, `easy`. A hinted interaction counts at most as `hard`. When the caller judged the outcomes, an optional `grader` label says who (`teacher`, `self`, ...); API-graded interactions carry the versioned grader name (`text@1`).
+
+- Keyed exercises are graded by the API when outcomes are omitted: `mc` (`options` `[{id, text_md}]`, `correct` ids; response `{"selected": [ids]}`), `match` (`pairs` in correct order; response `{"matches": {"0": 0, "1": 1}}` left index → pair index), `text` (`accepted`; response `{"text": ...}`, graded like card answers). The outcome applies to every item without an explicit one; the response adds `match`, `correct` and `expected`.
+
+Response 201:
+
+    {"uuid": "6f1c...", "created": true, "match": "typo", "correct": true,
+     "expected": {"accepted": ["farfalla"]},
+     "items": [{"ref": "it/farfalla", "outcome": "hard", "mastery_before": 1, "state": {...}}]}
+
+- `POST /interactions/{uuid}/amendments` `{items: [{ref, outcome}], reason, by}` — corrects outcomes without editing the log (`by`: `teacher`, `observer`, `human`); the latest amendment wins and the states of the items are recomputed.
+
+- `GET /interactions?item=&session_id=&since=` — history (paginated), each with its raw `exercise`, `response`, `grader`, per-item outcomes with their `origin` item, and `amendments`.
+
+### Merges
+
+- `POST /items/{ref}/merge` `{from, reason, by?, session_id?}` — merge `from` into `ref`: evidence, card and subject links, item links and aliases move over, the state is recomputed from the combined log, `from` is archived and its key resolves to `ref`. `by`: `teacher`, `observer`, `sweep`, `human` (default). Returns the merge object.
+
+- `POST /items/{ref}/unmerge` — undo the latest merge of `ref` into another item exactly.
+
+- `POST /merges` `{into, from, reason, by}` — suggest a merge (201); `GET /merges?status=suggested|done|dismissed|undone`; `POST /merges/{id}/accept`, `POST /merges/{id}/dismiss` (a dismissed pair is recorded as `related`).
+
+Merge object: `{id, into, into_label_md, from, from_label_md, status, reason, suggested_by, session_id, created_at, decided_at}`.
+
+### Profile and selection
+
+- `GET /profile?dir=&space=&kind=` — `{"items": 120, "by_mastery": {"0": 80, ..., "5": 2}, "coverage": 0.41, "due": 7, "most_lapses": [{ref, label_md, lapses}]}`. `coverage` is Σ priority·recall / Σ priority. `dir` is recursive by default.
+
+- `GET /profile/next?dir=&space=&n=10&new=` — what to practise next:
+
+      {"review": [{"ref", "kind", "label_md", "gloss_md", "priority", "level", "state", "reason": "due: R=0.62"}],
+       "new":    [{..., "reason": "new: priority 95, level 1"}]}
+
+  `review`: items with evidence whose recall dropped below 0.9 (0.95 after two lapses), most urgent first, weighted by priority, `focus` counting double.
+  `new`: unseen items whose `requires` prerequisites are all at mastery ≥ 3, by priority, then level, then key; at most `new` entries (default `n`), so a session can cap new items.
+  Suspended and archived items are never offered.
+
+### Settings
+
+- `GET /settings` — all settings with defaults filled in.
+
+- `PATCH /settings` — `{"tutor.language": "en", ...}`; unknown names or invalid values → 400.
+
+Settings: `tutor.language` (BCP 47, default `de`), `tutor.immersion` (per space `off`/`partial`/`full`, default `{}`), `tutor.item_creation` (`off`, `propose`, `on_request`, `free`; default `propose`), `tutor.merge` (`propose`, `free`; default `propose`), `tutor.new_items_per_15min` (0–50, default 8), `review.after_session` (default true), `review.auto_triage` (default false).
+
+### Export and maintenance
+
+- `GET /export` — `application/x-ndjson`: a header `{"format": "pauk-export", "version": 1, ...}`, then `dir`, `item` (with aliases, outgoing links, subject ids, card ids, flags), `interaction` (raw evidence, outcomes, amendments) and `settings` records. States are not exported; they are recomputed on import.
+
+- `POST /admin/rebuild-states` — recompute every state of the user from the log; `{"items": N}`.

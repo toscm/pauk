@@ -25,6 +25,12 @@ FILES = sorted(
     f for f in CONTENT.glob("*.json")
     if "cards" in json.loads(f.read_text(encoding="utf-8"))
 )
+# knowledge item files (docs/tutor.md 13); imported after the decks
+# because their card_links point at deck cards
+ITEM_FILES = sorted(
+    f for f in CONTENT.glob("*.json")
+    if "items" in json.loads(f.read_text(encoding="utf-8"))
+)
 
 
 @pytest.fixture(scope="module")
@@ -43,3 +49,16 @@ def test_content_file_imports(content_server, file: Path):
     # a file may share cards with another (dedup by question), but
     # nothing may fail or be silently dropped
     assert created + skipped == expected
+
+
+@pytest.mark.parametrize("file", ITEM_FILES, ids=[f.name for f in ITEM_FILES])
+def test_item_file_imports(content_server, file: Path):
+    client = Client(content_server["url"], content_server["token"], cache=False)
+    data = json.loads(file.read_text(encoding="utf-8"))
+    messages: list[str] = []
+    import_file(client, file, echo=lambda m, *_: messages.append(str(m)))
+    # every item exists, every link and card link resolved
+    assert not [m for m in messages if "unresolved link" in m or "card not found" in m], messages
+    space = data.get("space")
+    for item in data["items"]:
+        assert client.get_item(f"{item.get('space', space)}/{item['key']}")

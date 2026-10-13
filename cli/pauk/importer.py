@@ -1,4 +1,5 @@
-"""Import a content JSON file (dirs, dir_links, cards) via the API.
+"""Import a content JSON file (dirs, dir_links, cards, items) or a
+knowledge export (.jsonl) via the API.
 
 Idempotent: dirs are created only if missing, cards are skipped
 when a card with the same question_md already exists.
@@ -11,6 +12,7 @@ import re
 from pathlib import Path
 
 from pauk.client import ApiError, Client
+from pauk.knowledge import import_items, restore_export
 
 # "media:<relative path>" inside a markdown link target: the file
 # (relative to the content JSON) is uploaded and the reference is
@@ -20,6 +22,9 @@ MEDIA_RE = re.compile(r"media:([^)\s]+)")
 
 
 def import_file(client: Client, path: Path, echo=print) -> tuple[int, int]:
+    if path.suffix in (".jsonl", ".ndjson"):
+        restore_export(client, path, lambda paths: _ensure_dirs(client, paths), echo)
+        return 0, 0
     data = json.loads(path.read_text(encoding="utf-8"))
     _resolve_media(client, data.get("cards", []), path.parent, echo)
     dir_ids = _ensure_dirs(client, data.get("dirs", []))
@@ -31,6 +36,11 @@ def import_file(client: Client, path: Path, echo=print) -> tuple[int, int]:
         except ApiError as e:
             if e.code != "conflict":
                 raise
+
+    if "cards" not in data:
+        if "items" in data:
+            import_items(client, data, lambda paths: _ensure_dirs(client, paths), echo)
+        return 0, 0
 
     # dedup key: question_md for normal cards, scenario_md for quests
     # (a quest's scenario becomes its question_md server-side)
@@ -55,6 +65,8 @@ def import_file(client: Client, path: Path, echo=print) -> tuple[int, int]:
         existing[key] = {"id": None, "dirs": [{"id": i} for i in target_ids]}
         created += 1
     echo(f"imported {created} cards, skipped {skipped} existing, added {linked} links")
+    if "items" in data:
+        import_items(client, data, lambda paths: _ensure_dirs(client, paths), echo)
     return created, skipped
 
 
