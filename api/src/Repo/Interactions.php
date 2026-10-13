@@ -500,13 +500,14 @@ final class Interactions
     private function result(int $userId, int $interactionId, string $uuid, bool $created, ?string $match, array $before): array
     {
         $stmt = $this->pdo->prepare(
-            'SELECT ii.item_id, ii.outcome,
+            'SELECT ii.item_id, ii.outcome, i.hinted,
                     (SELECT a.outcome FROM interaction_amendments a
                      WHERE a.interaction_id = ii.interaction_id AND a.item_id = ii.origin_item_id
                      ORDER BY a.id DESC LIMIT 1) AS amended_outcome,
                     (SELECT COUNT(*) FROM interaction_amendments a
                      WHERE a.interaction_id = ii.interaction_id AND a.item_id = ii.origin_item_id) AS amended
-             FROM interaction_items ii WHERE ii.interaction_id = ? ORDER BY ii.item_id'
+             FROM interaction_items ii JOIN interactions i ON i.id = ii.interaction_id
+             WHERE ii.interaction_id = ? ORDER BY ii.item_id'
         );
         $stmt->execute([$interactionId]);
         $items = [];
@@ -515,7 +516,11 @@ final class Interactions
             $state = Items::stateView($row, Time::now());
             $entry = [
                 'ref' => $row['space'] . '/' . $row['key'],
-                'outcome' => (int) $r['amended'] > 0 ? $r['amended_outcome'] : $r['outcome'],
+                // the effective outcome: a hinted answer counts at most as hard
+                'outcome' => MemoryModel::capHinted(
+                    (int) $r['amended'] > 0 ? $r['amended_outcome'] : $r['outcome'],
+                    (bool) $r['hinted']
+                ),
                 'state' => $state,
             ];
             if (isset($before[(int) $r['item_id']])) {

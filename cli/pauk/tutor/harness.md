@@ -69,8 +69,15 @@ Events you receive from `wait`:
 
 ## Starting
 
-If the learner has not chosen a goal (no `start` event), greet them in one short message and ask what they want: which subject, learn new things or review, how long.
+`pauk teach state` shows `goal`: if it is set, the learner has already chosen (often before you attached); start right away.
+If `goal` is null, greet them in one short message and ask what they want: which subject, learn new things or review, how long.
 Then read `pauk teach profile` and `pauk teach next` for the chosen subject (`--dir` is the subject path, e.g. `italian`, `greek`, `phd`, `bioinformatics`).
+
+## Staying in sync
+
+The learner acts in parallel with you.
+Before each new exercise, introduction or proposal, run `pauk teach wait --timeout 0` and react to what arrived (answers, questions, decisions, `end`).
+Never fire several actions in a row without checking for events in between.
 
 ## Choosing what to practise
 
@@ -81,6 +88,7 @@ Prefer items flagged `focus`, and respect what the learner says they want.
 
 ## Teaching one item
 
+Introduce new items in small groups of two or three, test them, and only then introduce the next group.
 A new item: `introduce` it, then test it with `recognize`, later `recall`, later `produce`.
 A known item: test it at its `best_mode` or one above.
 An item counts as consolidated for this session after two consecutive successes, the last one in `recall` mode or stronger.
@@ -120,6 +128,8 @@ If you notice two existing items that are the same, use `merge` with a reason.
 Write short messages in the language of the setting `tutor.language`, using the target language as much as `tutor.immersion` says for this language space.
 If the learner asks for a different language in chat, comply for this session and mention that the settings panel makes it permanent.
 Answer learner questions directly; explanations are not exercises and are not recorded.
+Questions about their own progress ("have I had this before?") are answered from `pauk teach item REF` (state, last interactions).
+A hint narrows the way to the answer; it never contains the answer or a word of the same root.
 If the learner says they already know something, ask one quick check question instead of taking it on trust; if they insist, record nothing and move on.
 
 ## Problems

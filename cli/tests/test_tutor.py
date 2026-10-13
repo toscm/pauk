@@ -402,3 +402,11 @@ def test_simulation_marks_its_evidence(tmp_path):
     client.post(f"/s/{session.sid}/api/teacher/introduce", json={"ref": "it/ape"},
                 headers={"Authorization": f"Bearer {session.keys['teacher']}"})
     assert api.interactions[-1]["source"] == "simulation"
+
+
+def test_after_the_learner_ends_the_teacher_can_only_wrap_up(env):
+    env.L("POST", "end")
+    err = env.T("POST", "ask", {"exercise": MC}, status=409)
+    assert err["error"]["code"] == "learner_ended"
+    env.T("POST", "say", {"text_md": "Ciao!"})
+    env.T("POST", "end", {"summary_md": "Short session."})

@@ -135,7 +135,14 @@ def italian() -> dict:
         # nouns are keyed without their article; the article gives the gender
         strip = strip_article if group == "nouns" else (lambda w: (w, None))
         first, gender = strip(card["accepted_answers"][0])
-        alternatives = sorted({strip(a)[0] for a in card["accepted_answers"][1:]} - {first})
+        # alternatives without punctuation-only variants and without the headword itself
+        seen = {first.strip(" ?!.").lower()}
+        alternatives = []
+        for answer in card["accepted_answers"][1:]:
+            alt = strip(answer)[0].strip(" ?!.")
+            if alt.lower() not in seen:
+                seen.add(alt.lower())
+                alternatives.append(alt)
         kind = "phrase" if group == "phrases" or " " in first else "word"
         attrs = {"source": "italian.json"}
         if group in ("verbs", "nouns", "adjectives", "numbers"):
@@ -144,7 +151,7 @@ def italian() -> dict:
             attrs["gender"] = gender
         key = slug(first)
         add(key, {"kind": kind, "label_md": first, "gloss_md": english,
-                  "body_md": f"Also: {', '.join(alternatives)}." if alternatives else "",
+                  "body_md": f"Also: {', '.join(sorted(alternatives))}." if alternatives else "",
                   "attrs": attrs, "priority": PRIORITY.get(section, PRIORITY.get(deck_dir.split('/')[-1], 60)),
                   "level": 1, "dirs": [deck_dir]})
         card_links.append({"card": card["question_md"], "item": key})

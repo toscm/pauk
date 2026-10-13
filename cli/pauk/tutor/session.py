@@ -738,8 +738,13 @@ class Session:
 
     # --- internals ------------------------------------------------------------------
 
+    WRAP_UP = ("say", "note", "report", "end")
+
     def _teacher_act(self, command: str, args: dict | None = None) -> None:
         self._check_open()
+        if self.learner_ended_at is not None and command not in self.WRAP_UP:
+            raise SessionError(409, "learner_ended",
+                               "The learner has ended the session: say goodbye if you like, then `pauk teach end` with a summary")
         self.audit(command, args)
 
     def _require_graded(self) -> None:

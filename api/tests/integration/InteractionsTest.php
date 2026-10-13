@@ -87,6 +87,12 @@ final class InteractionsTest extends ApiTestCase
         $this->assertEqualsWithDelta(1.0, $result['items'][0]['state']['stability'], 0.001);
     }
 
+    public function testHintedOutcomeIsReportedCapped(): void
+    {
+        $result = $this->record(['mode' => 'recall', 'hinted' => true, 'items' => [['ref' => 'it/ape', 'outcome' => 'good']]]);
+        $this->assertSame('hard', $result['items'][0]['outcome']);
+    }
+
     public function testAmendmentReplaysWithoutEditingTheLog(): void
     {
         $result = $this->record(['mode' => 'recall', 'items' => [['ref' => 'it/parlare', 'outcome' => 'fail']]]);

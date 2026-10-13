@@ -3017,7 +3017,7 @@
       "kind": "phrase",
       "label_md": "come stai",
       "gloss_md": "How are you?",
-      "body_md": "Also: come sta, come sta?, come stai?, come va, come va?.",
+      "body_md": "Also: come sta, come va.",
       "attrs": {
         "source": "italian.json"
       },
@@ -3062,7 +3062,7 @@
       "kind": "phrase",
       "label_md": "quanto costa",
       "gloss_md": "How much does it cost?",
-      "body_md": "Also: quanto costa?, quanto viene, quanto viene?.",
+      "body_md": "Also: quanto viene.",
       "attrs": {
         "source": "italian.json"
       },
@@ -3077,7 +3077,7 @@
       "kind": "phrase",
       "label_md": "dov'è il bagno",
       "gloss_md": "Where is the bathroom?",
-      "body_md": "Also: dov'è il bagno?, dove è il bagno, dove è il bagno?.",
+      "body_md": "Also: dove è il bagno.",
       "attrs": {
         "source": "italian.json"
       },
@@ -3122,7 +3122,7 @@
       "kind": "phrase",
       "label_md": "parla inglese",
       "gloss_md": "Do you speak English?",
-      "body_md": "Also: parla inglese?, parli inglese, parli inglese?.",
+      "body_md": "Also: parli inglese.",
       "attrs": {
         "source": "italian.json"
       },
@@ -3152,7 +3152,7 @@
       "kind": "phrase",
       "label_md": "può aiutarmi",
       "gloss_md": "Can you help me?",
-      "body_md": "Also: mi puoi aiutare, mi puoi aiutare?, mi può aiutare, mi può aiutare?, puoi aiutarmi, puoi aiutarmi?, può aiutarmi?.",
+      "body_md": "Also: mi puoi aiutare, mi può aiutare, puoi aiutarmi.",
       "attrs": {
         "source": "italian.json"
       },
@@ -3212,7 +3212,7 @@
       "kind": "phrase",
       "label_md": "che ore sono",
       "gloss_md": "What time is it?",
-      "body_md": "Also: che ora è, che ora è?, che ore sono?.",
+      "body_md": "Also: che ora è.",
       "attrs": {
         "source": "italian.json"
       },
