@@ -96,6 +96,6 @@ final class Text
 
     public static function isValidName(string $name): bool
     {
-        return preg_match('/^[a-z0-9-]{1,64}$/', $name) === 1;
+        return preg_match('/^[a-z0-9-]{1,64}$/D', $name) === 1;   // D: no trailing newline
     }
 }

@@ -48,9 +48,39 @@ def build_command(template: Optional[str], prompt: str, default: list[str] | Non
     if exe is None:
         raise FileNotFoundError(f"teacher agent '{parts[0]}' not found on PATH")
     parts[0] = exe
-    if os.name == "nt" and exe.lower().endswith((".cmd", ".bat")):
-        parts = ["cmd", "/c", *parts]   # npm installs claude as a .cmd shim
     return parts
+
+
+def popen(command: list[str], **kwargs) -> subprocess.Popen:
+    """Start an agent CLI in its own process group, so that stopping it
+    stops its children too. npm installs claude on Windows as a .cmd
+    shim, which needs cmd.exe; /s /c with one quoted string keeps
+    paths with spaces intact."""
+    if os.name == "nt":
+        kwargs["creationflags"] = subprocess.CREATE_NEW_PROCESS_GROUP
+        if command[0].lower().endswith((".cmd", ".bat")):
+            return subprocess.Popen(f'cmd /d /s /c "{subprocess.list2cmdline(command)}"', **kwargs)
+        return subprocess.Popen(command, **kwargs)
+    return subprocess.Popen(command, start_new_session=True, **kwargs)
+
+
+def kill_tree(proc: subprocess.Popen, timeout: float = 5) -> None:
+    """Stop an agent and everything it started (cmd.exe -> node -> ...)."""
+    if proc.poll() is not None:
+        return
+    if os.name == "nt":
+        subprocess.run(["taskkill", "/PID", str(proc.pid), "/T", "/F"], capture_output=True)
+    else:
+        import signal
+
+        try:
+            os.killpg(proc.pid, signal.SIGTERM)
+        except ProcessLookupError:
+            return
+    try:
+        proc.wait(timeout)
+    except subprocess.TimeoutExpired:
+        proc.kill()
 
 
 class TeacherAgent:
@@ -70,13 +100,8 @@ class TeacherAgent:
             command = build_command(self.template, BOOTSTRAP + (RESUME if resume else ""))
             self.log_path.parent.mkdir(parents=True, exist_ok=True)
             log = self.log_path.open("ab")
-            kwargs: dict = {}
-            if os.name == "nt":
-                kwargs["creationflags"] = subprocess.CREATE_NEW_PROCESS_GROUP
-            else:
-                kwargs["start_new_session"] = True
-            self.proc = subprocess.Popen(command, env={**os.environ, **self.env}, stdin=subprocess.DEVNULL,
-                                         stdout=log, stderr=subprocess.STDOUT, **kwargs)
+            self.proc = popen(command, env={**os.environ, **self.env}, stdin=subprocess.DEVNULL,
+                              stdout=log, stderr=subprocess.STDOUT)
             self._stopping = False
             self.session.set_agent_running(True, "started" if not resume else "restarted")
             threading.Thread(target=self._watch, args=(self.proc, log), daemon=True).start()
@@ -89,20 +114,16 @@ class TeacherAgent:
         with self._lock:
             proc = self.proc
             self._stopping = True
-        if proc is None or proc.poll() is not None:
-            return
-        proc.terminate()
-        try:
-            proc.wait(timeout)
-        except subprocess.TimeoutExpired:
-            proc.kill()
+        if proc is not None:
+            kill_tree(proc, timeout)
 
     def _watch(self, proc: subprocess.Popen, log) -> None:
         code = proc.wait()
         log.close()
-        if proc is self.proc:
-            detail = "stopped" if self._stopping or self.session.ended else f"exited with status {code}"
-            self.session.set_agent_running(False, detail)
+        with self._lock:   # a restart may have replaced the process meanwhile
+            if proc is self.proc:
+                detail = "stopped" if self._stopping or self.session.ended else f"exited with status {code}"
+                self.session.set_agent_running(False, detail)
 
 
 def default_log_dir() -> Path:
@@ -127,7 +148,7 @@ def start_observer(session, env: dict[str, str], log_path: Path, template: Optio
         return None
     log_path.parent.mkdir(parents=True, exist_ok=True)
     log = log_path.open("ab")
-    proc = subprocess.Popen(command, env={**os.environ, **env}, stdin=subprocess.DEVNULL,
-                            stdout=log, stderr=subprocess.STDOUT)
+    proc = popen(command, env={**os.environ, **env}, stdin=subprocess.DEVNULL,
+                 stdout=log, stderr=subprocess.STDOUT)
     session.emit("system", "review_started", {"log": str(log_path)}, learner=None)
     return proc

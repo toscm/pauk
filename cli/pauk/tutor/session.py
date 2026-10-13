@@ -171,13 +171,14 @@ class Session:
         with self.cond:
             while True:
                 events = self.events_for(role, after)
+                last_seq = len(self.events)   # same snapshot as the events
                 if events or self.ended:
                     break
                 remaining = deadline - time.monotonic()
                 if remaining <= 0:
                     break
                 self.cond.wait(min(remaining, 1.0))
-        return {"events": events, "last_seq": len(self.events), "ended": self.ended}
+        return {"events": events, "last_seq": last_seq, "ended": self.ended}
 
     def _next_id(self, prefix: str) -> str:
         self._counter += 1
@@ -748,6 +749,12 @@ class Session:
         refs = []
         for ref in ex.items:
             item = self._item(ref)
+            unseen = item.get("state") is None or item["state"].get("mastery", 0) == 0
+            if unseen and item["ref"] not in self.new_refs:
+                # testing an unseen item spends the new-item budget like introducing it
+                if self.new_budget() <= 0:
+                    raise SessionError(409, "new_item_cap", f"{item['ref']} is new and the new-item budget is used up")
+                self.new_refs.add(item["ref"])
             refs.append(item["ref"])
         ex = ex.model_copy(update={"items": refs})
         s = ExerciseState(self._next_id("ex"), ex, drill_id)
@@ -919,16 +926,22 @@ class Session:
         body = {"session_uid": self.sid, "seq": seq, "reporter": reporter, "category": category,
                 "text_md": text_md, "context": context}
         try:
-            report = self.api.create_report(body)
+            report_id = self.api.create_report(body).get("id")
             stored = "api"
         except ApiError as e:
-            if e.status not in (404, 405):
+            if e.status == 400:
                 raise SessionError(e.status, e.code, str(e)) from None
-            report = self._local_report(body)
-            stored = "local"
+            # older API without /reports, a too large context, a server error:
+            # keep the report locally rather than lose it
+            self._local_report(body)
+            report_id, stored = None, "local"
+        except Exception:   # network failure
+            self._local_report(body)
+            report_id, stored = None, "local"
         self.emit(reporter, "report", {"category": category, "text_md": text_md, "about_seq": seq, "stored": stored},
                   learner={"category": category, "stored": stored} if reporter == LEARNER else None)
-        return {"stored": stored, "report": report}
+        # never echo the context: it holds hidden exercise keys
+        return {"stored": stored, "id": report_id}
 
     def _local_report(self, body: dict) -> dict:
         """API without /reports (not deployed yet): keep the report locally."""

@@ -11,7 +11,7 @@ from typing import Callable, Optional
 
 import uvicorn
 
-from pauk.tutor.agent import TeacherAgent, default_log_dir, python_teach_env, start_observer
+from pauk.tutor.agent import TeacherAgent, default_log_dir, kill_tree, python_teach_env, start_observer
 from pauk.tutor.host import create_app
 from pauk.tutor.session import Session
 
@@ -68,6 +68,7 @@ def run_tutor(api, port: int = 0, agent: bool = True, agent_cmd: Optional[str] =
         webbrowser.open(learner_link)
 
     ended_at = None
+    reviewer = None
     try:
         while True:
             time.sleep(1)
@@ -90,5 +91,7 @@ def run_tutor(api, port: int = 0, agent: bool = True, agent_cmd: Optional[str] =
         session.finish("system")
         if teacher is not None:
             teacher.stop()
+        if reviewer is not None:
+            kill_tree(reviewer)
         server.should_exit = True
     return session

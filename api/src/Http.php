@@ -40,6 +40,16 @@ final class Http
         return $data;
     }
 
+    /** The pagination cursor, or null; a non-string (e.g. ?cursor[]=) is a 400. */
+    public static function cursor(Request $request): ?string
+    {
+        $cursor = $request->getQueryParams()['cursor'] ?? null;
+        if ($cursor !== null && !is_string($cursor)) {
+            throw new ApiError(400, 'validation', 'Invalid cursor');
+        }
+        return $cursor;
+    }
+
     public static function intQuery(Request $request, string $name, int $default, int $min, int $max): int
     {
         $params = $request->getQueryParams();

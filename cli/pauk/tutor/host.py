@@ -96,9 +96,12 @@ def create_app(session: Session, base_url: str = "", restart_agent: Optional[Cal
         return session.learner_state()
 
     @app.get(api + "/learner/events", dependencies=[learner])
-    def learner_events(after: int = 0):
+    def learner_events(request: Request, after: int = 0):
+        resumed = request.headers.get("last-event-id", "")
+        start = max(after, int(resumed)) if resumed.isdigit() else after
+
         def stream():
-            last = after
+            last = start
             yield "retry: 2000\n\n"
             while True:
                 result = session.wait(LEARNER, last, 15)

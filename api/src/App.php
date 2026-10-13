@@ -90,7 +90,7 @@ final class App
                     self::cardFilters($request),
                     ($params['quiz'] ?? '') === '1',
                     Http::intQuery($request, 'limit', 50, 1, 200),
-                    $params['cursor'] ?? null
+                    Http::cursor($request)
                 );
                 return Http::json($response, $result);
             });
@@ -233,7 +233,7 @@ final class App
                 return Http::json($response, $media->list(
                     $userId,
                     Http::intQuery($request, 'limit', 50, 1, 200),
-                    $request->getQueryParams()['cursor'] ?? null,
+                    Http::cursor($request),
                 ));
             });
 
@@ -366,7 +366,7 @@ final class App
                 $k->userId,
                 self::itemFilters($request),
                 Http::intQuery($request, 'limit', 50, 1, 200),
-                $request->getQueryParams()['cursor'] ?? null
+                Http::cursor($request)
             ));
         });
 
@@ -485,7 +485,7 @@ final class App
                 'since' => $params['since'] ?? null,
             ], fn ($v) => is_string($v) && $v !== '');
             return Http::json($response, $k->interactions->history(
-                $k->userId, $filters, Http::intQuery($request, 'limit', 50, 1, 200), $params['cursor'] ?? null
+                $k->userId, $filters, Http::intQuery($request, 'limit', 50, 1, 200), Http::cursor($request)
             ));
         });
 
@@ -504,7 +504,7 @@ final class App
         $group->get('/tutor-sessions', function (Request $request, Response $response) use ($kb) {
             $k = $kb($request);
             return Http::json($response, $k->sessions->list(
-                $k->userId, Http::intQuery($request, 'limit', 50, 1, 200), $request->getQueryParams()['cursor'] ?? null
+                $k->userId, Http::intQuery($request, 'limit', 50, 1, 200), Http::cursor($request)
             ));
         });
 
@@ -532,7 +532,7 @@ final class App
                 'session_uid' => $params['session_uid'] ?? null,
             ], fn ($v) => is_string($v) && $v !== '');
             return Http::json($response, $k->reports->list(
-                $k->userId, $filters, Http::intQuery($request, 'limit', 50, 1, 200), $params['cursor'] ?? null
+                $k->userId, $filters, Http::intQuery($request, 'limit', 50, 1, 200), Http::cursor($request)
             ));
         });
 

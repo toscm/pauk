@@ -129,4 +129,15 @@ final class ReportsTest extends ApiTestCase
         [$status] = $this->request('PATCH', '/reports/999999', ['status' => 'closed']);
         $this->assertSame(404, $status);
     }
+
+    public function testMalformedCursorAndUidAreRejected(): void
+    {
+        [$status] = $this->request('GET', '/reports?cursor[]=1');
+        $this->assertSame(400, $status);
+        [$status] = $this->request('GET', '/items?cursor[]=1');
+        $this->assertSame(400, $status);
+        [$status] = $this->request('POST', '/tutor-sessions', ['uid' => "s-1
+"]);
+        $this->assertSame(400, $status);
+    }
 }

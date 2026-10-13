@@ -119,7 +119,8 @@ def dedup_instructions() -> None:
 @items_app.command("dedup")
 def items_dedup() -> None:
     """Start an agent that looks for duplicate items and suggests merges."""
-    code = _spawn(DEDUP_PROMPT, ["Bash(pauk items:*)"])
+    tools = [f"Bash(pauk items {sub}:*)" for sub in ("list", "show", "merges", "suggest-merge", "dedup-instructions")]
+    code = _spawn(DEDUP_PROMPT, tools)
     print("suggestions: `pauk items merges` (accept/dismiss) or the tutor's profile page")
     raise typer.Exit(code)
 
@@ -169,9 +170,33 @@ def triage(repo: Optional[Path] = typer.Option(None, "--repo", help="pauk checko
     if not (repo / "issues" / "README.md").is_file():
         print(f"{repo} is not a pauk checkout (no issues/README.md); pass --repo")
         raise typer.Exit(1)
+
+    def git(*args: str) -> str:
+        return subprocess.run(["git", *args], cwd=repo, capture_output=True, text=True, check=True).stdout.strip()
+
+    if git("status", "--porcelain"):
+        print("the work tree is not clean; commit or stash first")
+        raise typer.Exit(1)
+    if git("branch", "--show-current") != "main":
+        print("triage starts from main; switch to main first")
+        raise typer.Exit(1)
     branch = "triage/" + time.strftime("%Y-%m-%d")
+    exists = bool(git("branch", "--list", branch))
+    git("switch", branch) if exists else git("switch", "-c", branch)
+    # the agent only reads code and writes issue files; git stays here
     tools = ["Read", "Grep", "Glob", "Write(issues/**)", "Edit(issues/**)",
-             "Bash(pauk reports:*)", "Bash(git status)", "Bash(git diff:*)", "Bash(git log:*)",
-             f"Bash(git switch -c {branch})", f"Bash(git switch {branch})", "Bash(git add issues/*)",
-             "Bash(git commit:*)", "Bash(ls:*)"]
-    raise typer.Exit(_spawn(TRIAGE_PROMPT + f" Today's branch is `{branch}`.", tools, cwd=repo))
+             "Bash(pauk reports show:*)", "Bash(pauk reports mark:*)",
+             "Bash(pauk reports triage-instructions)", "Bash(pauk reports --status:*)"]
+    code = _spawn(TRIAGE_PROMPT, tools, cwd=repo)
+    changed = [line[3:] for line in git("status", "--porcelain").splitlines()]
+    outside = [path for path in changed if not path.startswith("issues/")]
+    if outside:
+        print(f"refusing to commit: changes outside issues/: {', '.join(outside)}")
+        raise typer.Exit(1)
+    if changed:
+        git("add", "--", "issues")
+        git("commit", "-m", "triage: issues from problem reports")
+        print(f"committed {len(changed)} issue file(s) on {branch}; review with `git log -p main..{branch}`")
+    else:
+        print("no issue changes")
+    raise typer.Exit(code)

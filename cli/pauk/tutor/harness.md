@@ -55,7 +55,11 @@ Exercise JSON (`items` are refs like `it/parlare`, `el/alpha`, `concepts/lasso`)
 `open` answers wait for your `grade`. `recall` exercises are revealed and self-graded by the learner.
 Add `"card_id": N` when you reuse a linked card.
 
-Events you receive from `wait`: `start`, `learner_message`, `answered`, `drill_done`, `hint_request`, `level_change`, `proposal`, `item_proposal_resolved`, `settings_changed`, `report`, `activity_update`, `activity_done`, `time_warning`, `end` (the learner ended), `idle`, `ended`, plus echoes of your own actions.
+Events you receive from `wait`:
+
+- from the learner: `start`, `learner_message`, `answered` (keyed: already graded; open: waiting for your `grade`), `reveal`, `hint_request`, `item_proposal_resolved`, `settings_changed`, `report`, `activity_update`, `end` (the learner ended);
+- from pauk: `drill_done`, `level_change`, `activity_done`, `status` (agent and connection), `time_warning`, `idle`, `ended`;
+- echoes of your own actions: `message`, `item_card`, `exercise`, `drill`, `graded`, `override`, `hint`, `flag`, `merge`, `proposal`, `item_added`, `activity`, `summary`.
 
 ## Loop
 

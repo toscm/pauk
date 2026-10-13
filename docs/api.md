@@ -512,7 +512,7 @@ Items are addressed as `/items/{space}/{key}` or `/items/{id}`; an alias or the 
    - `"same_as": REF` (+ optional `reason`): nothing is created; the label (and key) become aliases of REF. 200 `{"created": false, "via": "same_as", "item": ...}`.
    - `"distinct_from": [REF, ...]` + `"reason"`: must cover every candidate; the item is created and each pair stored as a `related` link with the reason.
 
-`"dry_run": true` runs the whole protocol (validation, exact identity, candidates, `same_as`, `distinct_from` with its reason, subjects and links) but writes nothing.
+`"dry_run": true` runs the whole protocol (validation, exact identity, candidates, `same_as`, `distinct_from` with its reason, subjects and links) but leaves no data behind (it may consume an auto-increment id).
 Every response is the one a real request would give, except that `same_as` adds no aliases and a create returns 200 `{"created": false, "would_create": true, "item": ...}` with a preview of the item without `id`.
 
 ### Interactions

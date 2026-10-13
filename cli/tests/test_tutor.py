@@ -336,3 +336,40 @@ def test_parallel_answers_record_once(env):
         t.join()
     assert sorted(statuses) == [200] + [409] * 7
     assert len(env.api.interactions) == 1
+
+
+def test_report_response_never_leaks_exercise_keys(env):
+    env.T("POST", "ask", {"exercise": {"kind": "text", "items": ["it/farfalla"], "prompt_md": "butterfly?",
+                                       "accepted": ["SECRET-ANSWER"]}})
+    response = env.client.post(f"{env.base}/learner/report", json={"category": "bug", "text_md": "x"},
+                               headers={"X-Pauk-Key": env.session.keys["learner"]})
+    assert response.status_code == 200
+    assert "SECRET-ANSWER" not in response.text
+    assert "SECRET-ANSWER" in json.dumps(env.api.reports[-1]["context"])   # the context still reaches the owner
+
+
+def test_testing_an_unseen_item_spends_the_budget(env):
+    env.api.settings_values["tutor.new_items_per_15min"] = 1
+    env.session.settings = env.api.settings()
+    env.T("POST", "ask", {"exercise": {**MC, "items": ["it/ape"]}})
+    err = env.T("POST", "drill", {"exercises": [
+        {"kind": "text", "items": ["it/farfalla"], "prompt_md": "butterfly?", "accepted": ["farfalla"]},
+        {"kind": "text", "items": ["it/ape"], "prompt_md": "bee?", "accepted": ["ape"]}]}, status=409)
+    assert err["error"]["code"] == "new_item_cap"
+
+
+def test_sse_resumes_after_last_event_id(env):
+    for text in ("one", "two", "three"):
+        env.L("POST", "message", {"text": text})
+    env.session.finish("system")
+    with env.client.stream("GET", f"{env.base}/learner/events?k={env.session.keys['learner']}&after=0",
+                           headers={"Last-Event-ID": "2"}) as r:
+        body = r.read().decode()
+    ids = [int(line[4:]) for line in body.splitlines() if line.startswith("id: ")]
+    assert ids and min(ids) == 3
+
+
+def test_pauk_teach_refuses_remote_hosts(tmp_path):
+    out = subprocess.run([sys.executable, "-m", "pauk", "teach", "--session", "https://example.com/s/x?key=k", "state"],
+                         capture_output=True, text=True, timeout=60)
+    assert out.returncode == 1 and json.loads(out.stdout)["error"]["code"] == "not_local"
