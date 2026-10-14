@@ -45,3 +45,24 @@ An independent code review found a key leak through report responses, a double-r
 End-to-end runs with a real Claude teacher against a scratch API (scripted learner; later an LLM learner via `pauk simulate`) found three bugs (event seq clash, importer parents, a teacher slip caught by the observer review), all fixed.
 Tests: 180 PHP, 134 CLI.
 Open: deploy API 0.11 before using add-item against the live server (the host refuses add-item on older APIs); merge the branch; content for map labelling and the town scene; retiring quests.
+
+2026-10-14: First calibration of the memory model (phase 5, "revisit the memory constants"), with the new `api/bin/calibrate.php` (docs/development.md) on a local restore of the 2026-10-14 production dump.
+Decision: no change, the model stays `pauk-mm@1`; there is far too little data, and what there is points at the shape of the model rather than its constants.
+
+- Interaction log: 230 tests (199 recall, 31 recognize) on 62 items, 168 of them after an earlier event of the item.
+  By gap since that event: under 1 h 118 (observed success 0.69, predicted 1.00), 1 h to 1 d 20 (0.60 vs 0.90), 1 to 7 d 10 (0.60 vs 0.54), 7 d or more 20 (0.70 vs 0.25).
+
+- All 168: v1 log loss 2.21, Brier 0.32; a constant at the observed rate scores 0.63 and 0.22.
+  Only the 30 with a gap of at least a day: v1 0.92 and 0.32, constant 0.64 and 0.22.
+
+- Grid (first stabilities, growth constants, forgetting curve each x0.5/1/2): the best spaced-only variant is the corner with all three doubled (0.69, 0.23; 0.23 +- 0.08 better than v1), still worse than the constant and at the edge of the grid.
+
+- The legacy `reviews` table adds little: 290 reviews on 138 cards, 152 scorable, 26 with a gap of at least a day, same picture (v1 2.40 vs constant 0.64).
+
+What the data says: v1 is overconfident both ways.
+Retries within a session are predicted at R ≈ 1 but succeed about two times in three (mostly re-asks right after a fail), and after a week or more the model expects about 25 % recall where about 70 % was observed.
+Since no scaling of the constants beats a constant predictor, a better model needs a different shape (e.g. separate same-day handling as in FSRS's short-term model, slower forgetting after lapses, a guessing floor for recognize), not retuned numbers.
+But all spaced evidence comes from one learner on five review days (2026-09-09 to 09-13 and one return session on 10-13), so it is strongly correlated and cannot carry a fit.
+
+How much is needed: the per-event spread of the paired log-loss difference is 0.15 to 0.4, so telling apart two variants that differ by 0.02 at two standard errors takes roughly 250 to 1600 spaced reviews (gap of at least a day), spread over weeks and many items; the reliability table needs several hundred to fill its bins.
+Re-run `make backup-fetch && make restore-local`, then `php bin/calibrate.php --min-gap-hours=24`, once the log has that many.

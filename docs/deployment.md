@@ -84,6 +84,69 @@ previous app version (add, don't repurpose).
 - `make backup-fetch` pulls the latest dump + media to
   `~/pauk-local-backups/` on this machine.
 
+## Restore
+
+The dumps are plain `mysqldump` output: for every table a `DROP TABLE IF EXISTS`, the `CREATE TABLE` and the rows, no `CREATE DATABASE`, so they load into a database of any name.
+They are written by the MariaDB 11.8 client and start with a `/*M!999999\- enable the sandbox mode */` line, so load them with a MariaDB client (a MySQL client rejects that line).
+
+### Locally, for inspection (tested)
+
+    make backup-fetch                         # newest dump to ~/pauk-local-backups/
+    make restore-local                        # or: make restore-local DUMP=path/to/pauk-YYYY-MM-DD.sql.gz
+    scripts/restore-local.sh stop             # stop the instance, delete the copy
+
+`scripts/restore-local.sh` never talks to the server.
+It boots a fresh MariaDB 11.8 instance with its datadir in `~/pauk-restore/` (outside the repo, because it holds production data; override with `PAUK_RESTORE_DIR`, port 33071 with `PAUK_RESTORE_PORT`), loads the dump into the database `pauk_restore`, compares the row count of every table with the rows in the dump's INSERT statements (`scripts/dump_row_counts.py`) and aborts on any difference.
+It then runs the migrations of the current checkout: a no-op if the dump is as new as the code, otherwise a rehearsal of the next deploy's migrations on real data.
+The instance keeps running so the API or `bin/calibrate.php` can be pointed at it with the `PAUK_DB_*` line the script prints, for example:
+
+    export PAUK_DB_HOST=127.0.0.1 PAUK_DB_PORT=33071 PAUK_DB_USER=root PAUK_DB_PASS= PAUK_DB_NAME=pauk_restore
+    cd api && php bin/create-token.php <user> restore-check   # scratch token, only in the copy
+    php -S 127.0.0.1:8089 public/index.php                    # then GET /api/v1/health etc.
+
+Delete the copy (`scripts/restore-local.sh stop`) when done.
+
+### To production, in an emergency (written down, never rehearsed against the live database)
+
+This is the one procedure besides `make deploy` that writes to the server, and it is run by hand.
+Steps 4 and 5 were rehearsed against a local restore (drop, reload, migrate), never against the live database.
+Everything recorded after the chosen dump is replaced, so the first steps keep the current state.
+
+1. Pick the dump (`ssh ionos 'ls -l ~/pauk-backups'`) and verify it locally first: copy it with `rsync ionos:pauk-backups/pauk-YYYY-MM-DD.sql.gz ~/pauk-local-backups/` (or `make backup-fetch` for the newest), then `make restore-local DUMP=...` must report matching counts.
+
+2. Take the API offline so nothing writes during the restore: `ssh ionos 'mv ~/web/pauk/index.php ~/web/pauk/index.php.off'` (requests then fail; that is intended).
+
+3. Dump the current state, however broken, so nothing is lost for good:
+
+       ssh ionos 'bash -s' <<'EOS'
+       set -euo pipefail
+       set -a; . ~/pauk.env; set +a
+       mysqldump -h "$PAUK_DB_HOST" -P "$PAUK_DB_PORT" -u "$PAUK_DB_USER" -p"$PAUK_DB_PASS" "$PAUK_DB_NAME" \
+           | gzip > ~/pauk-backups/pauk-$(date +%F)-prerestore.sql.gz
+       EOS
+
+4. Drop all tables, then load the dump.
+   Dropping first matters: the dump only drops the tables it contains, so a table created by a later migration would survive, and re-running that migration would then fail on it.
+
+       ssh ionos 'bash -s' <<'EOS'
+       set -euo pipefail
+       set -a; . ~/pauk.env; set +a
+       DB=(mysql -h "$PAUK_DB_HOST" -P "$PAUK_DB_PORT" -u "$PAUK_DB_USER" -p"$PAUK_DB_PASS" "$PAUK_DB_NAME")
+       { echo 'SET FOREIGN_KEY_CHECKS = 0;'
+         "${DB[@]}" -N -e "SELECT CONCAT('DROP TABLE \`', table_name, '\`;') FROM information_schema.tables WHERE table_schema = DATABASE()"
+       } | "${DB[@]}"
+       gunzip -c ~/pauk-backups/pauk-YYYY-MM-DD.sql.gz | "${DB[@]}"
+       EOS
+
+5. Bring the schema up to the deployed code: `ssh ionos 'PAUK_ENV_FILE=$HOME/pauk.env /usr/bin/php8.4-cli ~/pauk-app/bin/migrate.php'`.
+   Item states come back with the dump; a state written by an older model version is replayed on the next event.
+
+6. Put the API back (`ssh ionos 'mv ~/web/pauk/index.php.off ~/web/pauk/index.php'`), check `curl https://pauk.aao756.de/api/v1/health`, and spot-check row counts via `make tunnel`.
+
+7. Media: files are content-hashed and immutable, so restoring is only adding missing ones: `rsync -a ~/pauk-local-backups/media/ ionos:web/pauk/media/` (never with `--delete`).
+
+8. Salvage what was recorded after the dump, if wanted: the `-prerestore` dump holds it, and interactions from a `pauk export` taken before the restore can be re-imported with `pauk import`, which upserts by uuid.
+
 ## Post-deploy
 
 - Logs: `ssh ionos 'tail -f ~/logs/...'` (Apache/PHP error

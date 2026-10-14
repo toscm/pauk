@@ -576,7 +576,7 @@ final class Interactions
         return $itemId;
     }
 
-    private static function cardMode(string $cardType): string
+    public static function cardMode(string $cardType): string
     {
         return in_array($cardType, ['mc', 'match'], true) ? 'recognize' : 'recall';
     }
