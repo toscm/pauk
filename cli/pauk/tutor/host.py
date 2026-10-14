@@ -122,7 +122,7 @@ def create_app(session: Session, base_url: str = "", restart_agent: Optional[Cal
 
     @app.get(api + "/learner/status", dependencies=[learner])
     def learner_status():
-        return session.status()
+        return session.status(LEARNER)
 
     @app.post(api + "/learner/start", dependencies=[learner])
     def start(body: p.Start):
@@ -270,7 +270,9 @@ def create_app(session: Session, base_url: str = "", restart_agent: Optional[Cal
     for name, (model, handler) in actions.items():
         def make(model=model, handler=handler):
             def route(body: dict):
-                return handler(model.model_validate(body))
+                out = handler(model.model_validate(body))
+                # keep the teacher in sync: learner events it has not received yet
+                return {**out, **session.teacher_sync()} if isinstance(out, dict) else out
             return route
         app.post(f"{api}/teacher/{name}", dependencies=[teacher])(make())
 

@@ -137,8 +137,9 @@ export class TownCard {
       h('h4', {}, `${n.icon} ${n.name}`),
       goal ? h('div', {class: `task ${goal.status}`}, h('span', {class: 'small muted'}, 'Task: '), md(goal.task_md, true),
         goal.status === 'graded'
-          ? h('p', {class: 'small'}, Object.values(goal.outcomes).every((o) => o !== 'fail') ? '✓ done' : '✗ not quite',
-              goal.feedback ? [' — ', md(goal.feedback, true)] : null)
+          ? h('p', {class: 'small'}, goal.reached ? '✓ done' : '✗ not quite',
+              goal.feedback ? [' — ', md(goal.feedback, true)] : null,
+              goal.gradings < goal.max_gradings ? h('span', {class: 'muted'}, ' (say something to try again)') : null)
           : h('p', {class: 'small muted'}, `${goal.turns} of ${goal.max_turns} turns`)) : null,
       h('div', {class: 'talk', 'aria-live': 'polite'}, lines),
       waiting ? h('p', {class: 'small muted pending'}, `${n.name.split(',')[0]} is answering…`) : null,
@@ -160,7 +161,6 @@ export class TownCard {
       h('p', {}, `Named ${named.filter((o) => o.outcome !== 'fail').length} of ${v.objects.length} things.`),
       named.length ? h('p', {class: 'small'}, named.map((o, i) => [i ? ', ' : '', `${o.icon} ${o.name} ${MARK[o.outcome]}`])) : null,
       v.npcs.filter((n) => n.goal).map((n) => h('p', {class: 'small'}, `${n.icon} ${n.name}: `,
-        n.goal.status === 'graded' ? (Object.values(n.goal.outcomes).every((o) => o !== 'fail') ? 'task done ✓' : 'task not done ✗')
-                                   : 'task not graded')));
+        n.goal.reached === null ? 'task not graded' : n.goal.reached ? 'task done ✓' : 'task not done ✗')));
   }
 }

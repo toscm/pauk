@@ -960,6 +960,9 @@ The host keeps the instances; every action becomes an `activity_update` event wh
 Specs are inline JSON or name bundled content: `{"ref": "italian-town"}` loads `content/activities/italian-town.json`, and further keys override the content's.
 The content is copied to `cli/pauk/data/activities/` so the installed client has it (a test keeps the copies equal); `content/activities/maps/germany.json` is the blank base map, exported from the state maps by `scripts/maps/export_activity_map.py`.
 Refs in content that are not in the learner's profile do not block a start: the host reports them as `missing_items` and records no evidence for them.
+Activity evidence follows the new-item rules of exercises: evidence on an item the learner has never seen spends the session's new-item budget (none left: no evidence, reported as `skipped_new`), and a failed first contact is recorded as `introduce`, since the learner has now met the item.
+Evidence is marked `source = activity` (`simulation` in simulated sessions); a failed write stays queued and is retried on the next activity action or `activity end`, and `activity_done` follows once the final result is recorded.
+The learner receives only aggregates of graded events (a goal reached or not, the feedback), never item refs or outcomes that would give away an answer not given yet; the teacher's events and `act` answers are compact (summary and description), `observe` has the full state.
 
 Teacher commands: `activity start TYPE SPEC_REF` (a content name or JSON), `activity observe AID`, `activity act AID ACTION_JSON`, `activity end AID`; the learner uses `POST learner/activity` (browser) or `pauk learn activity AID ACTION_JSON`.
 
@@ -974,13 +977,16 @@ A separate NPC agent can come later if the teacher's context gets crowded.
 - Map labelling (`map_labels`): a blank SVG map (state outlines from Natural Earth) with numbered markers, placed on regions of the base map (`{"region": "bayern"}`), autobahn graph cities (`{"city": "leipzig"}`) or coordinates.
   Markers are numbered north to south, so numbers give nothing away; with `"input": "pick"` the learner picks from the place names plus `distractors`, with `"type"` names are typed.
   Actions: `{"label": {"marker": 3, "name": "Leipzig"}}`, `{"undo": true}`, `{"finish": true}`, `{"give_up": true}`.
-  On finish every place is graded like a keyed `text` answer (case, diacritics and both umlaut spellings folded, one typo per 8 letters is `hard`) and recorded against its item; the learner sees the names only then.
+  On finish every place is graded like a keyed `text` answer (case, diacritics and both umlaut spellings folded, one typo per 8 letters is `hard`, a vowel swapped for another is no typo) and recorded against its item; a picked name is right or wrong, never a typo; the learner sees the names only then.
+  A learner's give-up records unlabelled places as `fail`; when the teacher ends the map (`activity end`), only labelled places are evidence, since an untouched marker says nothing.
   Content: `germany-states` (16 regions, pick) and `germany-cities` (12 cities, typed), with items in `content/items-germany.json`.
 
 - Town scene (`town`): places on a small grid joined by streets, objects and NPCs, rendered as an SVG tile map; tapping a place walks there along the shortest street path.
   Learner actions: `{"go_to": target}`, `{"inspect": object}` then `{"answer": name}` or `{"dont_know": true}`, `{"say": {"npc", "text"}}`, `{"finish": true}`; things can only be inspected or talked to at the current place.
   The first answer per object is graded deterministically against its accepted names (a leading article is optional) and recorded at once (`recall`); the learner sees the name after answering.
-  Teacher actions: `{"npc": id, "say": text}` for NPC lines and `{"grade": {"npc", "outcomes", "feedback"}}` for a goal, judged like an `open` exercise and recorded as `produce`; a goal allows `max_turns` learner lines, and the learner never sees personas or success criteria.
+  Teacher actions: `{"npc": id, "say": text}` for NPC lines and `{"grade": {"npc", "reached", "outcomes", "feedback"}}` for a goal, judged like an `open` exercise and recorded as `produce`; a goal allows `max_turns` learner lines, and the learner never sees personas or success criteria.
+  `reached` (were the success criteria met) is separate from the per-item outcomes: the learner sees `reached` and the feedback, the outcomes are evidence only.
+  After a grading the learner may talk to the NPC again for another attempt with fresh turns, graded again (at most 3 gradings per goal); a finished town with ungraded goals stays in the teacher's `open_activities` until they are graded or the teacher ends the activity.
   Content: `italian-town` (piazza, panetteria, stazione, ristorante, mercato, farmacia) carries the three former Italian quests as NPC goals (bakery, station, restaurant) plus a pharmacy, with new words in `content/items-italian-town.json`.
 
 Rendered math needs no activity: KaTeX in every message covers it (9.5).

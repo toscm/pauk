@@ -74,3 +74,10 @@ Re-importing adds the new items and links and updates the trimmed parents, but d
 2026-10-14: Map labelling (`map_labels`) and town scene (`town`) activities built (docs/tutor.md 14.2, 14.3), with role-filtered activity views, per-place and per-object evidence, and teacher-played NPCs graded like open exercises.
 Content: `content/activities/` (germany-states, germany-cities, italian-town with the three Italian quests as NPC goals), packaged under `cli/pauk/data/activities/`; new item files items-germany.json and items-italian-town.json.
 Quests are deprecated (issues/0009): existing quest cards keep working, new role-play content goes into town scenes.
+
+2026-10-14: Activity review fixes and findings from a `pauk simulate` run of the town.
+The learner no longer receives goal item refs or outcomes (views, describe text, `activity_graded`, `activity_done`, `level_change` and `touched` for answers not given yet); a generic test walks a town and a map and checks every learner response for refs and accepted names.
+Name grading follows the API's text@2 rule (a swapped vowel is no typo), picked map names are right or wrong, and a map the teacher ends records only labelled markers.
+Activity evidence is marked `simulation` in simulated sessions, follows the new-item budget and records a failed first contact as `introduce`, and a failed write is queued and retried instead of lost.
+Town goals carry an explicit `reached` separate from the item outcomes, can be tried again (up to 3 gradings), and stay on the teacher's list while ungraded.
+Teacher answers are compact (activity state only via `observe`) and report `unseen` learner events, with a warning once the learner has ended.

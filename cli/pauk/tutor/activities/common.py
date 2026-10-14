@@ -48,21 +48,30 @@ def _strip_article(text: str, language: str | None) -> str:
     return text
 
 
-def _levenshtein(a: str, b: str) -> int:
+# vowels after normalisation (api/src/Text.php VOWELS): swapping one for
+# another changes the word or its form (gatto/gatti), so it is no typo
+VOWELS = "aeiouαεηιουωάέήίόύώϊϋΐΰ"
+
+
+def typo_distance(a: str, b: str) -> int:
+    """Levenshtein distance in which replacing a vowel by another vowel
+    costs two edits (the API's Text::typoDistance)."""
     prev = list(range(len(b) + 1))
     for i, ca in enumerate(a, 1):
         cur = [i]
         for j, cb in enumerate(b, 1):
-            cur.append(min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (ca != cb)))
+            cost = 0 if ca == cb else 2 if ca in VOWELS and cb in VOWELS else 1
+            cur.append(min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + cost))
         prev = cur
     return prev[-1]
 
 
 def grade_name(answer: str, accepted: list[str], language: str | None = None) -> str:
-    """"exact", "typo" or "wrong", as the API grades text answers:
-    normalized comparison, then one edit per 8 characters for names of
-    4+ characters. Both spellings of umlauts count ("Nürnberg",
-    "Nuernberg", "Nurnberg"), and a leading article is optional."""
+    """"exact", "typo" or "wrong", by the API's text@2 rule (Text::grade):
+    normalized comparison, then for names of 4+ characters a typo
+    distance of max(1, length // 8), where a swapped vowel counts two
+    edits. Both spellings of umlauts count ("Nürnberg", "Nuernberg",
+    "Nurnberg"), and a leading article is optional."""
     def forms(text: str) -> set[str]:
         return {_strip_article(normalize(text, u), language) for u in (False, True)}
 
@@ -73,7 +82,7 @@ def grade_name(answer: str, accepted: list[str], language: str | None = None) ->
     if given & set(candidates):
         return "exact"
     for norm in candidates:
-        if len(norm) >= 4 and any(_levenshtein(g, norm) <= max(1, len(norm) // 8) for g in given):
+        if len(norm) >= 4 and any(typo_distance(g, norm) <= max(1, len(norm) // 8) for g in given):
             return "typo"
     return "wrong"
 

@@ -18,6 +18,7 @@ Every command prints JSON.
 - `pauk learn proposal PROPOSAL_ID add|add_anyway|use_existing|dismiss [--ref REF]` — decide on an item the teacher proposes.
 - `pauk learn activity AID '{"drive": "<city id>"}'` (also `{"undo": true}`, `{"give_up": true}`) — act in an activity such as a map route; the event shows the available `moves`.
   Every activity event carries a `text` that lists the state and the actions, e.g. `{"label": {"marker": 3, "name": "Leipzig"}}` on a map or `{"go_to": "bakery"}`, `{"inspect": "bread"}`, `{"answer": "pane"}`, `{"say": {"npc": "baker", "text": "..."}}` in a town.
+  After a town task is graded you may talk to the person again to try once more.
 - `pauk learn report CATEGORY TEXT [--seq N]` — report something confusing or broken (`bug`, `ux`, `teacher`, `content`, `idea`).
 - `pauk learn end` — end the session.
 

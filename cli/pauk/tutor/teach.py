@@ -312,7 +312,7 @@ def activity_observe(aid: str) -> None:
 
 @activity_app.command("end")
 def activity_end(aid: str) -> None:
-    """End an activity early (counts as given up)."""
+    """End an activity (counts as given up; a map records only labelled markers); stops ungraded-goal reminders."""
     _act("activity-end", {"aid": aid})
 
 

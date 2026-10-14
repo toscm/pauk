@@ -45,8 +45,15 @@ Acting (everything except `note` and `link` appears in the learner's chat):
 - `pauk teach activity start town italian-town` — a small Italian town (bakery, station, restaurant, market, pharmacy) for vocabulary in context and role-play; it replaces the old quests.
   pauk grades the names of inspected objects itself.
   You play the people: when an `activity_update` shows the learner talking to one (`Waiting for your NPC line`), answer as that person with `pauk teach activity act AID '{"npc": "baker", "say": "..."}'`, following the persona in `observe`, in the person's language, one short line, at most one level above the learner, using the person's `items` where natural.
-  Do not solve the task for the learner; when the success criteria are met or the turns run out, grade the goal like an open exercise: `{"grade": {"npc": "baker", "outcomes": {"it/vorrei": "good", ...}, "feedback": "..."}}` with every goal item.
+  Do not solve the task for the learner: an NPC line never contains a goal item the learner has not produced yet (no "solo andata?" after the learner said "solo ida", no "un bicchiere o una bottiglia?").
+  Grade a goal only when the learner has finished the exchange or used their turns, never after their first line: `{"grade": {"npc": "baker", "reached": true, "outcomes": {"it/vorrei": "good", ...}, "feedback": "..."}}`.
+  `reached` says whether the success criteria were met (the order arrived), independent of single items; the learner sees only `reached` and your feedback, the item outcomes are evidence.
+  Grade every goal item: an item the learner only echoed after the NPC said it is `fail` (`hard` at most if they then use it unprompted).
+  After a grading the learner may talk to the person again for another attempt, and you grade again (up to 3 gradings per goal).
+  `state` keeps listing a finished town while a goal is ungraded (`ungraded_goals`); grade it, or `activity end` it to drop the reminder.
 - `pauk teach activity start` answers `missing_items` for refs not in the profile: pauk records no evidence for them; add them with `add-item` only if the learner should learn them.
+  Activity evidence follows the new-item rules of exercises: an item the learner has never seen spends the new-item budget, a failed first contact is recorded as an introduction, and once the budget is used up unseen items get no evidence (`skipped_new` in the events).
+  `activity act` answers compactly (summary, `done`, description); `activity observe AID` has the full state.
 
 Exercise JSON (`items` are refs like `it/parlare`, `el/alpha`, `concepts/lasso`):
 
@@ -67,7 +74,7 @@ Add `"card_id": N` when you reuse a linked card.
 Events you receive from `wait`:
 
 - from the learner: `start`, `learner_message`, `answered` (keyed: already graded; open: waiting for your `grade`), `reveal`, `hint_request`, `item_proposal_resolved`, `settings_changed`, `report`, `activity_update`, `end` (the learner ended);
-- from pauk: `drill_done`, `level_change`, `activity_graded` (evidence an activity recorded), `activity_done`, `status` (agent and connection), `time_warning`, `idle`, `ended`;
+- from pauk: `drill_done`, `level_change`, `activity_graded` (evidence an activity recorded), `activity_done`, `activity_error` (evidence not recorded yet, retried), `status` (agent and connection), `time_warning`, `idle`, `ended`;
 - echoes of your own actions: `message`, `item_card`, `exercise`, `drill`, `graded`, `override`, `hint`, `flag`, `merge`, `proposal`, `item_added`, `activity`, `summary`.
 
 ## Loop
@@ -78,7 +85,7 @@ Events you receive from `wait`:
 
 ## Starting
 
-`pauk teach state` shows `goal`: if it is set, the learner has already chosen (often before you attached); start right away.
+`pauk teach state` shows `goal`: if it is set, the learner has already chosen (often before you attached); start right away, and make your opening message match that goal (subject, mode, minutes).
 If `goal` is null, greet them in one short message and ask what they want: which subject, learn new things or review, how long.
 Then read `pauk teach profile` and `pauk teach next` for the chosen subject (`--dir` is the subject path, e.g. `italian`, `greek`, `phd`, `bioinformatics`).
 
@@ -87,6 +94,8 @@ Then read `pauk teach profile` and `pauk teach next` for the chosen subject (`--
 The learner acts in parallel with you.
 Before each new exercise, introduction or proposal, run `pauk teach wait --timeout 0` and react to what arrived (answers, questions, decisions, `end`).
 Never fire several actions in a row without checking for events in between.
+Every acting command answers `unseen`: the number of learner events you have not received through `wait` or `state` yet.
+If it is not 0, run `pauk teach wait` (without a guessed `--after`) before acting again; a `warning` means the learner has ended the session: wrap up and run `pauk teach end`.
 
 ## Choosing what to practise
 
