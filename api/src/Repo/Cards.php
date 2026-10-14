@@ -223,6 +223,18 @@ final class Cards
                 $stmt = $this->pdo->prepare('UPDATE cards SET question_md = ? WHERE id = ?');
                 $stmt->execute([$spec['scenario_md'], $cardId]);
             }
+            $routeFields = ['graph_name', 'start_node', 'goal_node'];
+            if (array_intersect($routeFields, array_keys($body)) !== []) {
+                if ($card['type'] !== 'route') {
+                    throw new ApiError(400, 'validation', 'route fields only apply to route cards');
+                }
+                // merge with the stored spec so a partial update works
+                $merged = array_merge(
+                    array_intersect_key($card, array_flip(['question_md', ...$routeFields])),
+                    array_intersect_key($body, array_flip(['question_md', ...$routeFields]))
+                );
+                $this->replaceRoute($cardId, $this->validateRoute($merged));
+            }
             if (array_key_exists('dirs', $body)) {
                 $dirIds = $this->validateDirIds($userId, $body['dirs']);
                 $stmt = $this->pdo->prepare('DELETE FROM dir_cards WHERE card_id = ?');

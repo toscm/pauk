@@ -50,6 +50,22 @@ final class RouteTest extends ApiTestCase
         $this->assertSame(400, $status);
     }
 
+    public function testPatchUpdatesRouteFields(): void
+    {
+        $card = $this->makeRoute();
+        [$status, $updated] = $this->request('PATCH', "/cards/{$card['id']}", ['goal_node' => 'hamburg']);
+        $this->assertSame(200, $status);
+        $this->assertSame('muenchen', $updated['start_node']);
+        $this->assertSame('hamburg', $updated['goal_node']);
+
+        [$status] = $this->request('PATCH', "/cards/{$card['id']}", ['start_node' => 'Bad Node!']);
+        $this->assertSame(400, $status);
+
+        $textId = $this->makeTextCard('a text card', ['x']);
+        [$status] = $this->request('PATCH', "/cards/$textId", ['goal_node' => 'berlin']);
+        $this->assertSame(400, $status);
+    }
+
     public function testRouteRunHighscoreByFewestKm(): void
     {
         $card = $this->makeRoute();

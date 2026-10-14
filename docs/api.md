@@ -111,7 +111,8 @@ same `id`.
 - `GET /cards/{id}` — single card. `?quiz=1` as above.
 
 - `PATCH /cards/{id}` — partial update; any subset of the
-  POST fields. Sending `options`, `accepted_answers`, or
+  POST fields (quest and route fields merge with the stored
+  ones). Sending `options`, `accepted_answers`, or
   `dirs` replaces the whole respective set. Returns the
   updated card.
 

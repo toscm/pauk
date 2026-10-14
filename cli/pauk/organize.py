@@ -117,11 +117,6 @@ def card_changes(client: Client, card: dict, original: str, text: str) -> dict:
     new = build_body(front, body.rstrip("\n"))
     old = build_body(old_front, old_body.rstrip("\n"))
     changes = {k: v for k, v in new.items() if k != "type" and v != old.get(k)}
-    if card_type == "route":
-        fixed = sorted(k for k in changes if k in TYPE_FIELDS["route"])
-        if fixed:
-            raise OrganizeError(f"{', '.join(fixed)} cannot be changed (the API updates only the question and dirs of a route card)")
-
     if front.get("dirs", []) != old_front.get("dirs", []):
         dir_ids = [_dir_id(client, path) for path in front.get("dirs") or []]
         if set(dir_ids) != {d["id"] for d in card.get("dirs", [])}:
