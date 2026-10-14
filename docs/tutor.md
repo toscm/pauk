@@ -1085,15 +1085,16 @@ Turning a report into a proper issue needs the code, so triage runs in the repos
    `pauk import` and `pauk export` for items.
    Cards answered in the existing TUI start feeding the profile without any TUI work.
 
-2. Implemented on branch tutor-phase-2 (API 0.11.0 / CLI 0.18.0): session host, browser UI (chat, exercises, KaTeX, profile with merge suggestions, settings, problem reports), `pauk teach`, harness text, audit log; teacher attached manually with `pauk tutor --no-agent`.
+2. Done in API 0.11.0 / CLI 0.18.0: session host, browser UI (chat, exercises, KaTeX, profile with merge suggestions, settings, problem reports), `pauk teach`, harness text, audit log; teacher attached manually with `pauk tutor --no-agent`.
    Tests drive the host with a scripted fake teacher, as the quest tests fake the provider.
 
-3. Implemented on the same branch: auto-spawned agent, restart/resume, drills, session summaries; `pauk` without arguments starts the tutor, the TUI moved to `pauk tui` and is frozen (issues/0015).
+3. Done in the same release: auto-spawned agent, restart/resume, drills, session summaries; `pauk` without arguments starts the tutor, the TUI moved to `pauk tui` and is frozen (issues/0015).
    Pulled forward from phases 4–5: the observer role with the post-session review, `pauk items dedup` (the LLM sweep), `pauk triage`, `pauk learn` and `pauk simulate` (LLM teacher + LLM learner playing a persona + review; refuses non-local APIs unless `--allow-remote`, and marks its evidence `source: simulation`), and the activity framework with the autobahn route.
 
-4. Activity design doc, activity framework and the autobahn route; observer role with post-session review; `pauk learn` and `pauk simulate`.
+4. Done (pulled into phase 3): the activity framework and the autobahn route, the observer role with post-session review, `pauk learn` and `pauk simulate`.
 
-5. Map labelling and the town scene; automatic triage; retire quests; revisit the memory constants against the collected log.
+5. Done in API 0.12.0 / CLI 0.19.0: map labelling and the town scene (14.3), quests deprecated in favour of the town (5, issues/0009); automatic triage came with phase 3.
+   Revisiting the memory constants waits for data.
    The tool for that is `api/bin/calibrate.php` (docs/development.md); its first run (2026-10-14, issues/0014) found far too few spaced reviews to change anything.
 
 ## 18. Open questions

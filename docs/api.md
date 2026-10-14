@@ -41,9 +41,9 @@ integration tests are the contract.)
 
 `GET /health` (no auth)
 
-    {"status": "ok", "db": "ok", "version": "0.11.0"}
+    {"status": "ok", "db": "ok", "version": "0.12.0"}
 
-`version` is the deployed API version (currently 0.11.0); the
+`version` is the deployed API version (currently 0.12.0); the
 example tracks it only loosely.
 
 `db` is `"ok"` or `"error"`; on error the HTTP status is 503.
