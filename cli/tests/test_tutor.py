@@ -5,6 +5,7 @@ in-memory FakeApi, so no PHP server is needed."""
 from __future__ import annotations
 
 import json
+import re
 import subprocess
 import sys
 import threading
@@ -327,7 +328,7 @@ def test_route_activity(env):
     env.L("POST", "activity", {"aid": aid, "action": {"drive": "berlin"}}, status=400)   # no direct road
     env.L("POST", "activity", {"aid": aid, "action": {"drive": "ingolstadt"}})
     done = env.T("POST", "activity-act", {"aid": aid, "action": {"drive": "Nürnberg"}})
-    assert done["state"]["done"] and done["state"]["km"] == 165
+    assert done["done"] and "state" not in done and "Finished: 165 km" in done["text"]   # compact for the teacher
     events = env.T("GET", "wait", params={"after": 0, "timeout": 0})["events"]
     finished = [e for e in events if e["type"] == "activity_done"][0]
     assert finished["outcome"] == "good" and finished["optimal_km"] == 165
@@ -337,7 +338,11 @@ def test_route_activity(env):
     env.T("POST", "activity-start", {"type": "chess", "spec": {}}, status=400)
 
 
+KNOWN = {"mastery": 2, "recall": 0.9, "reps": 1, "lapses": 0, "status": "active", "note": "", "best_mode": "recall"}
+
+
 def test_map_labels_activity_through_the_host(env):
+    env.api.items["concepts/lasso"]["state"] = dict(KNOWN)   # seen before: a miss is a plain fail
     spec = {"map": "germany", "input": "type", "places": [
         {"city": "muenchen", "item": "concepts/lasso"},              # any item of the fake profile
         {"city": "hamburg", "item": "concepts/retention-time"},
@@ -388,7 +393,8 @@ def test_town_activity_through_the_host(env):
     said = [e for e in events if e["type"] == "activity_update"][-1]
     assert "Waiting for your NPC line: gardener" in said["text"] and "Success: Asked" in said["text"]
     env.T("POST", "activity-act", {"aid": aid, "action": {"npc": "gardener", "say": "Sì, un po'."}})
-    env.T("POST", "activity-act", {"aid": aid, "action": {"grade": {"npc": "gardener", "outcomes": {"it/parlare": "good"},
+    env.T("POST", "activity-act", {"aid": aid, "action": {"grade": {"npc": "gardener", "reached": True,
+                                                                    "outcomes": {"it/parlare": "good"},
                                                                     "feedback": "Perfetto."}}})
     assert env.api.interactions[-1]["mode"] == "produce"
     assert env.api.interactions[-1]["response"]["conversation"][-1]["text"] == "Sì, un po'."
@@ -396,7 +402,10 @@ def test_town_activity_through_the_host(env):
     updates = [e for e in learner_events if e["type"] == "activity_update"]
     assert updates and all("Success" not in e["text"] and "A gardener" not in json.dumps(e) for e in updates)
     assert "farfalla" not in json.dumps([e for e in learner_events if e["type"] == "activity"])
-    assert any(e["type"] == "activity_graded" for e in learner_events)
+    graded = [e for e in learner_events if e["type"] == "activity_graded"]
+    assert {k: graded[-1][k] for k in ("npc", "reached", "feedback")} == {"npc": "gardener", "reached": True,
+                                                                         "feedback": "Perfetto."}
+    assert "outcomes" not in graded[-1] and "items" not in graded[-1]
     assert env.T("GET", "state")["open_activities"][0]["aid"] == aid
     env.T("POST", "activity-end", {"aid": aid})
     done = [e for e in env.T("GET", "wait", params={"after": 0, "timeout": 0})["events"] if e["type"] == "activity_done"]
@@ -496,3 +505,275 @@ def test_state_has_exact_session_stats(env):
     env.L("POST", "answer", {"exercise_id": ex, "selected": ["a"]})
     stats = env.T("GET", "state")["stats"]
     assert stats == {"exercises": 2, "graded": 2, "correct": 1, "typos": 0, "open": 0}
+
+
+# --- activities: what the learner receives, evidence rules, robustness -----------------------------
+
+LEAK_TOWN = {**TOWN, "npcs": [{**TOWN["npcs"][0], "goal": {**TOWN["npcs"][0]["goal"], "items": ["it/parlare", "it/ape"]}}]}
+LEAK_MAP = {"map": "germany", "input": "type", "places": [
+    {"city": "hamburg", "item": "concepts/retention-time"}, {"city": "leipzig", "item": "it/present-are"},
+    {"city": "muenchen", "item": "concepts/lasso"}]}
+
+
+class Learner:
+    """Everything the learner can receive: act responses, errors, state, status, wait."""
+
+    def __init__(self, env):
+        self.env, self.seen = env, []
+
+    def act(self, aid, action, status=200):
+        r = self.env.client.post(f"{self.env.base}/learner/activity", json={"aid": aid, "action": action},
+                                 headers={"X-Pauk-Key": self.env.session.keys["learner"]})
+        assert r.status_code == status, r.text
+        self.seen.append(r.text)
+        return r.json()
+
+    def received(self) -> str:
+        for path in ("state", "status", "wait?after=0&timeout=0"):
+            self.seen.append(json.dumps(self.env.L("GET", path), ensure_ascii=False))
+        return "\n".join(self.seen)
+
+
+def _forms(name: str) -> set[str]:
+    from pauk.tutor.activities.common import normalize
+    return {name, normalize(name), normalize(name, True)}
+
+
+def _leaks(text: str, secrets: set[str]) -> list[str]:
+    return [s for s in secrets if re.search(r"(?<![\w/])" + re.escape(s) + r"(?!\w)", text, re.I)]
+
+
+def _town_secrets(activity) -> set[str]:
+    out = set()
+    for oid, o in activity.objects.items():
+        if oid not in activity.named:
+            out |= {o["item"], *(f for name in o["accepted"] for f in _forms(name))}
+    return out
+
+
+def _map_secrets(activity) -> set[str]:
+    if activity.done:
+        return set()
+    typed = {f for label in activity.labels.values() for f in _forms(label)}
+    return {m["item"] for m in activity.markers.values()} | \
+        {f for m in activity.markers.values() for f in _forms(m["name"]) if f not in typed}
+
+
+def test_learner_never_receives_answers_not_yet_given(env):
+    """A full town and map session: no ref or accepted name of an object
+    or marker the learner has not answered reaches the learner, in any
+    response, event, state or error (a goal graded with an object's
+    item used to give the object's name away)."""
+    learner = Learner(env)
+    aid = env.T("POST", "activity-start", {"type": "town", "spec": LEAK_TOWN})["aid"]
+    town = env.session.activities[aid]
+
+    def check():
+        assert not _leaks(learner.received(), _town_secrets(town))
+
+    learner.act(aid, {"inspect": "bee"}, status=400)                    # not here
+    learner.act(aid, {"go_to": "garden"})
+    learner.act(aid, {"inspect": "butterfly"})
+    learner.act(aid, {"answer": "farfalla"})
+    check()
+    learner.act(aid, {"say": {"npc": "gardener", "text": "Parla inglese?"}})
+    env.T("POST", "activity-act", {"aid": aid, "action": {"npc": "gardener", "say": "Sì, un po'."}})
+    env.T("POST", "activity-act", {"aid": aid, "action": {"grade": {
+        "npc": "gardener", "reached": True, "outcomes": {"it/parlare": "good", "it/ape": "fail"}, "feedback": "Bravo!"}}})
+    learner.act(aid, {"grade": {"npc": "gardener", "outcomes": {}}}, status=400)
+    learner.act(aid, {"answer": "x"}, status=400)
+    check()                                                             # it/ape and "ape" stay hidden
+    learner.act(aid, {"finish": True})
+    env.T("POST", "activity-end", {"aid": aid})
+    check()
+    assert "it/ape" in json.dumps(env.T("GET", "wait", params={"after": 0, "timeout": 0}))   # the teacher has it
+
+    learner.seen.clear()
+    aid = env.T("POST", "activity-start", {"type": "map_labels", "spec": LEAK_MAP})["aid"]
+    labels = env.session.activities[aid]
+    learner.act(aid, {"label": {"marker": 1, "name": "Hamburg"}})
+    learner.act(aid, {"label": {"marker": 2, "name": "Dresden"}})
+    learner.act(aid, {"label": {"marker": 9, "name": "x"}}, status=400)
+    learner.act(aid, {"drive": "x"}, status=400)
+    assert not _leaks(learner.received(), _map_secrets(labels))
+    learner.act(aid, {"finish": True})
+    assert "Leipzig" in learner.received()                              # revealed once checked
+
+
+def test_simulated_sessions_mark_activity_evidence(tmp_path):
+    session = Session(FakeApi(), store_dir=tmp_path, simulation=True)
+    client = TestClient(create_app(session))
+    base, teacher = f"/s/{session.sid}/api", {"Authorization": f"Bearer {session.keys['teacher']}"}
+    aid = client.post(f"{base}/teacher/activity-start", headers=teacher, json={"type": "route", "spec": {
+        "start": "muenchen", "goal": "ingolstadt", "items": ["concepts/lasso"]}}).json()["aid"]
+    client.post(f"{base}/teacher/activity-act", headers=teacher, json={"aid": aid, "action": {"drive": "ingolstadt"}})
+    assert session.api.interactions[-1]["source"] == "simulation"
+
+
+class FlakyApi(FakeApi):
+    """record_interaction fails the next `fail` times."""
+
+    def __init__(self):
+        super().__init__()
+        self.fail = 0
+
+    def record_interaction(self, body):
+        if self.fail:
+            self.fail -= 1
+            raise ApiError(503, "unavailable", "Service unavailable")
+        return super().record_interaction(body)
+
+
+@pytest.fixture()
+def flaky(tmp_path):
+    api = FlakyApi()
+    session = Session(api, store_dir=tmp_path)
+    client = TestClient(create_app(session))
+    base = f"/s/{session.sid}/api"
+
+    def call(role, path, body):
+        headers = ({"X-Pauk-Key": session.keys["learner"]} if role == "learner"
+                   else {"Authorization": f"Bearer {session.keys['teacher']}"})
+        r = client.post(f"{base}/{role}/{path}", json=body, headers=headers)
+        assert r.status_code == 200, r.text
+        return r.json()
+    return type("Flaky", (), {"api": api, "session": session, "call": staticmethod(call)})
+
+
+def test_failed_evidence_write_is_retried_and_the_activity_still_finishes(flaky):
+    aid = flaky.call("teacher", "activity-start", {"type": "town", "spec": TOWN})["aid"]
+    flaky.call("learner", "activity", {"aid": aid, "action": {"go_to": "garden"}})
+    flaky.call("learner", "activity", {"aid": aid, "action": {"inspect": "butterfly"}})
+    flaky.api.fail = 1
+    answered = flaky.call("learner", "activity", {"aid": aid, "action": {"answer": "farfalla"}})
+    assert answered["summary"] == "✓ farfalla" and flaky.api.interactions == []   # the learner's action stands
+    errors = [e for e in flaky.session.events_for("teacher") if e["type"] == "activity_error"]
+    assert errors and errors[0]["unrecorded"] == 1
+    assert all(e["type"] != "activity_error" for e in flaky.session.events_for("learner"))
+    flaky.call("learner", "activity", {"aid": aid, "action": {"inspect": "bee"}})       # the next act retries
+    assert [i["items"][0]["ref"] for i in flaky.api.interactions] == ["it/farfalla"]
+    assert flaky.session.activity_writes == []
+
+
+def test_failed_final_write_is_retried_by_activity_end(flaky):
+    aid = flaky.call("teacher", "activity-start", {"type": "map_labels", "spec": LEAK_MAP})["aid"]
+    flaky.call("learner", "activity", {"aid": aid, "action": {"label": {"marker": 1, "name": "Hamburg"}}})
+    flaky.api.fail = 1
+    flaky.call("learner", "activity", {"aid": aid, "action": {"finish": True}})
+    done = lambda: [e for e in flaky.session.events_for("teacher") if e["type"] == "activity_done"]  # noqa: E731
+    assert not done() and flaky.api.interactions == []
+    ended = flaky.call("teacher", "activity-end", {"aid": aid})
+    assert ended["ok"] and len(done()) == 1 and len(flaky.api.interactions) >= 1
+    flaky.call("teacher", "activity-end", {"aid": aid})
+    assert len(done()) == 1                                                             # finished once
+
+
+def test_teacher_ending_a_map_records_only_labelled_markers(env):
+    for ref in ("concepts/retention-time", "concepts/lasso", "it/present-are"):
+        env.api.items[ref]["state"] = dict(KNOWN)
+    aid = env.T("POST", "activity-start", {"type": "map_labels", "spec": LEAK_MAP})["aid"]
+    env.L("POST", "activity", {"aid": aid, "action": {"label": {"marker": 1, "name": "Hamburg"}}})
+    env.T("POST", "activity-end", {"aid": aid})
+    assert [i["items"] for i in env.api.interactions] == [[{"ref": "concepts/retention-time", "outcome": "good"}]]
+
+
+def test_activity_evidence_follows_the_new_item_rules(env):
+    """Unseen items spend the new-item budget; a failed first contact is
+    an introduction, not a fail; beyond the budget no evidence."""
+    env.api.settings_values["tutor.new_items_per_15min"] = 2
+    env.session.settings = env.api.settings()
+    aid = env.T("POST", "activity-start", {"type": "map_labels", "spec": LEAK_MAP})["aid"]
+    env.L("POST", "activity", {"aid": aid, "action": {"label": {"marker": 1, "name": "Hamburg"}}})
+    env.L("POST", "activity", {"aid": aid, "action": {"label": {"marker": 2, "name": "Dresden"}}})
+    env.L("POST", "activity", {"aid": aid, "action": {"finish": True}})
+    recorded = [(i["mode"], i["items"]) for i in env.api.interactions]
+    assert recorded == [("recall", [{"ref": "concepts/retention-time", "outcome": "good"}]),
+                        ("introduce", [{"ref": "it/present-are"}])]
+    assert all(i["source"] == "activity" for i in env.api.interactions)
+    done = [e for e in env.T("GET", "wait", params={"after": 0, "timeout": 0})["events"] if e["type"] == "activity_done"]
+    assert done[0]["skipped_new"] == ["concepts/lasso"] and env.session.new_budget() == 0
+
+
+def test_ungraded_goals_stay_on_the_teachers_list(env):
+    aid = env.T("POST", "activity-start", {"type": "town", "spec": TOWN})["aid"]
+    env.L("POST", "activity", {"aid": aid, "action": {"go_to": "garden"}})
+    env.L("POST", "activity", {"aid": aid, "action": {"say": {"npc": "gardener", "text": "Parla inglese?"}}})
+    env.L("POST", "activity", {"aid": aid, "action": {"finish": True}})
+    listed = env.T("GET", "state")["open_activities"]
+    assert listed[0]["aid"] == aid and listed[0]["done"] and listed[0]["ungraded_goals"] == ["gardener"]
+    done = [e for e in env.T("GET", "wait", params={"after": 0, "timeout": 0})["events"] if e["type"] == "activity_done"]
+    assert done[0]["ungraded_goals"] == ["gardener"]
+    env.T("POST", "activity-act", {"aid": aid, "action": {"grade": {"npc": "gardener", "reached": False,
+                                                                    "outcomes": {"it/parlare": "fail"}}}})
+    assert env.T("GET", "state")["open_activities"] == []
+    # or the teacher ends it explicitly
+    aid = env.T("POST", "activity-start", {"type": "town", "spec": TOWN})["aid"]
+    env.L("POST", "activity", {"aid": aid, "action": {"go_to": "garden"}})
+    env.L("POST", "activity", {"aid": aid, "action": {"say": {"npc": "gardener", "text": "Ciao"}}})
+    env.L("POST", "activity", {"aid": aid, "action": {"finish": True}})
+    assert env.T("GET", "state")["open_activities"]
+    env.T("POST", "activity-end", {"aid": aid})
+    assert env.T("GET", "state")["open_activities"] == []
+
+
+def test_teacher_activity_responses_are_compact(env):
+    aid = env.T("POST", "activity-start", {"type": "town", "spec": TOWN})["aid"]
+    acted = env.T("POST", "activity-act", {"aid": aid, "action": {"go_to": "garden"}})
+    assert set(acted) == {"summary", "done", "text", "unseen"} and "Person here" in acted["text"]
+    events = env.T("GET", "wait", params={"after": 0, "timeout": 0})["events"]
+    assert all("state" not in e and "view" not in e for e in events if e["type"].startswith("activity"))
+    assert "talk" in env.T("GET", "activity", params={"aid": aid})["state"]                # observe has it all
+    observed = env.O("GET", "state")["events"]
+    assert any("state" in e for e in observed if e["type"] == "activity_update")        # the observer browser renders it
+
+
+def test_teacher_responses_count_unseen_learner_events(env):
+    env.T("GET", "state")
+    assert env.T("POST", "say", {"text_md": "Ciao!"})["unseen"] == 0
+    env.L("POST", "message", {"text": "ciao"})
+    out = env.T("POST", "say", {"text_md": "Come stai?"})
+    assert out["unseen"] == 1 and "warning" not in out
+    env.T("GET", "wait", params={"after": out["seq"] + 5, "timeout": 0})   # a guessed --after misses it
+    env.L("POST", "end")
+    out = env.T("POST", "say", {"text_md": "Ciao!"})
+    assert out["unseen"] == 2 and "learner ended the session at seq" in out["warning"]
+    env.T("GET", "wait", params={"after": 0, "timeout": 0})
+    assert env.T("POST", "say", {"text_md": "Bye"})["unseen"] == 0
+
+
+def test_teacher_state_and_activity_start_respect_the_lock(env):
+    """state reads the activities under the session lock; activity start
+    looks remote refs up before taking it, and remembers 404s."""
+    calls = []
+    get_item = env.api.get_item
+
+    def counting(ref):
+        calls.append((ref, env.session.cond._is_owned()))
+        return get_item(ref)
+    env.api.get_item = counting
+    spec = {"map": "germany", "places": [{"city": "hamburg", "item": "concepts/unknown-a"},
+                                         {"city": "leipzig", "item": "concepts/lasso"}]}
+    env.T("POST", "activity-start", {"type": "map_labels", "spec": spec})
+    assert calls and not any(locked for _, locked in calls)
+    calls.clear()
+    env.T("POST", "activity-start", {"type": "map_labels", "spec": spec})
+    assert calls == []                                                   # cached, 404 included
+    holder = threading.Event()
+    release = threading.Event()
+
+    def hold():
+        with env.session.cond:
+            holder.set()
+            release.wait(5)
+    t = threading.Thread(target=hold)
+    t.start()
+    holder.wait(5)
+    result = []
+    reader = threading.Thread(target=lambda: result.append(env.session.teacher_state()))
+    reader.start()
+    reader.join(0.3)
+    assert not result                                                    # waits for the lock
+    release.set()
+    reader.join(5)
+    t.join(5)
+    assert result

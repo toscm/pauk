@@ -12,7 +12,7 @@ import pytest
 
 from conftest import REPO
 from pauk.tutor import activities
-from pauk.tutor.activities.common import REF, grade_name
+from pauk.tutor.activities.common import REF, grade_name, typo_distance
 
 CONTENT = REPO / "content" / "activities"
 PACKAGED = REPO / "cli" / "pauk" / "data" / "activities"
@@ -81,6 +81,28 @@ def test_grade_name_ignores_articles():
     assert grade_name("re", ["te"], "it") == "wrong"   # short names never pass as typos
 
 
+@pytest.mark.parametrize("answer,accepted,expected", [
+    ("gatti", "gatto", "wrong"), ("fiora", "fiore", "wrong"), ("Hassen", "Hessen", "wrong"),   # a swapped vowel
+    ("gato", "gatto", "typo"), ("Hesen", "Hessen", "typo"), ("fiorre", "fiore", "typo"),
+    ("Brandenburh", "Brandenburg", "typo"), ("Brandinbarg", "Brandenburg", "wrong"),
+    ("cne", "cane", "typo"), ("ce", "che", "wrong"),                                          # no budget below 4
+])
+def test_grade_name_follows_the_api_text_rule(answer, accepted, expected):
+    # api/src/Text.php grade/typoDistance (text@2): vowel for vowel costs two edits
+    assert grade_name(answer, [accepted]) == expected
+
+
+def test_typo_distance_matches_the_api():
+    assert typo_distance("gatti", "gatto") == 2 and typo_distance("gato", "gatto") == 1
+    assert typo_distance("ab", "ba") == 2 and typo_distance("", "abc") == 3 and typo_distance("bt", "bd") == 1
+
+
+def test_activity_kit_escapes_focus_keys():
+    # data-focus keys carry ids and names; an unescaped quote would break the selector
+    kit = (REPO / "cli" / "pauk" / "tutor" / "static" / "activity-kit.js").read_text(encoding="utf-8")
+    assert "CSS.escape(focusKey)" in kit and '[data-focus="${focusKey}"]' not in kit
+
+
 # --- map labelling -----------------------------------------------------------------
 
 CITIES = {"map": "germany", "input": "type", "places": [
@@ -128,6 +150,39 @@ def test_map_pick_mode_only_accepts_listed_names_and_unlabelled_fail():
     assert m.labels[1] == "Hamburg"
     m.act({"give_up": True})
     assert m.result()["items"]["concepts/munchen"] == "fail" and m.result()["detail"]["gave_up"]
+
+
+def test_map_pick_mode_has_no_typos():
+    spec = {"map": "germany", "input": "pick", "places": [{"region": "hessen", "item": "concepts/hessen"},
+                                                           {"region": "bayern", "item": "concepts/bayern"}],
+            "distractors": ["Hesse", "Bayer"]}
+    m = activities.create("map_labels", spec)
+    n = {mk["name"]: k for k, mk in m.markers.items()}
+    m.act({"label": {"marker": n["Hessen"], "name": "Hesse"}})     # a distractor one letter off
+    m.act({"label": {"marker": n["Bayern"], "name": "Bayer"}})
+    m.act({"finish": True})
+    assert m.result()["items"] == {"concepts/hessen": "fail", "concepts/bayern": "fail"}
+    typed = activities.create("map_labels", {**spec, "input": "type"})
+    typed.act({"label": {"marker": n["Bayern"], "name": "Bayer"}})
+    typed.act({"finish": True})
+    assert typed.result()["items"]["concepts/bayern"] == "hard"   # typed: a typo
+
+
+def test_map_ended_by_the_teacher_records_only_labelled_markers():
+    m = activities.create("map_labels", CITIES)
+    n = _numbers(m)
+    assert m.secret_refs() == {"concepts/munchen", "concepts/hamburg", "concepts/nurnberg"}
+    m.act({"label": {"marker": n["Hamburg"], "name": "Hamburg"}})
+    m.act({"label": {"marker": n["Nürnberg"], "name": "Berlin"}})
+    assert m.end() == "ended by the teacher: 1 of 2 labelled markers correct"
+    result = m.result()
+    assert result["items"] == {"concepts/hamburg": "good", "concepts/nurnberg": "fail"}   # München untouched: no evidence
+    assert result["detail"]["total"] == 2 and result["detail"]["ended"] and m.done and m.secret_refs() == set()
+    # a learner's give-up is different: the unlabelled places were not known
+    g = activities.create("map_labels", CITIES)
+    g.act({"label": {"marker": n["Hamburg"], "name": "Hamburg"}})
+    g.act({"give_up": True})
+    assert g.result()["items"]["concepts/munchen"] == "fail"
 
 
 def test_map_learner_view_has_no_key():
@@ -211,7 +266,8 @@ def test_town_conversation_roles_turns_and_grading():
     with pytest.raises(ValueError, match="graded by the teacher"):
         t.act({"grade": {"npc": "baker", "outcomes": {}}}, "learner")
     with pytest.raises(ValueError, match="has not talked"):
-        t.act({"grade": {"npc": "baker", "outcomes": {"it/vorrei": "good", "it/pane": "good"}}}, "teacher")
+        t.act({"grade": {"npc": "baker", "reached": True, "outcomes": {"it/vorrei": "good", "it/pane": "good"}}},
+              "teacher")
     t.act({"say": {"npc": "baker", "text": "Vorrei pane"}})
     t.act({"npc": "baker", "say": "Quanto?"}, "teacher")
     t.act({"say": {"npc": "Giulia", "text": "Uno, per favore"}})
@@ -219,18 +275,74 @@ def test_town_conversation_roles_turns_and_grading():
         t.act({"say": {"npc": "baker", "text": "Grazie"}})
     assert "Waiting for your NPC line: baker" in t.describe("teacher")
     with pytest.raises(ValueError, match="cover exactly"):
-        t.act({"grade": {"npc": "baker", "outcomes": {"it/pane": "good"}}}, "teacher")
+        t.act({"grade": {"npc": "baker", "reached": True, "outcomes": {"it/pane": "good"}}}, "teacher")
+    with pytest.raises(ValueError, match='"reached"'):
+        t.act({"grade": {"npc": "baker", "outcomes": {"it/vorrei": "good", "it/pane": "good"}}}, "teacher")
     t.act({"finish": True})
     # a goal can still be graded after the learner left
-    summary = t.act({"grade": {"npc": "baker", "outcomes": {"it/vorrei": "good", "it/pane": "hard"},
+    summary = t.act({"grade": {"npc": "baker", "reached": True, "outcomes": {"it/vorrei": "good", "it/pane": "hard"},
                                "feedback": "Bene!"}}, "teacher")
     assert summary == "goal with Giulia: reached"
     evidence = t.evidence()[0]
     assert evidence["mode"] == "produce" and evidence["items"] == {"it/vorrei": "good", "it/pane": "hard"}
     assert len(evidence["detail"]["conversation"]) == 4
+    assert evidence["learner"] == {"npc": "baker", "reached": True, "feedback": "Bene!"}
     with pytest.raises(ValueError, match="already graded"):
-        t.act({"grade": {"npc": "baker", "outcomes": {"it/vorrei": "good", "it/pane": "good"}}}, "teacher")
+        t.act({"grade": {"npc": "baker", "reached": True, "outcomes": {"it/vorrei": "good", "it/pane": "good"}}},
+              "teacher")
     assert t.result()["items"] == {} and t.result()["outcome"] == "good"
+
+
+def _grade(t, reached, vorrei="fail", feedback=None):
+    return t.act({"grade": {"npc": "baker", "reached": reached, "outcomes": {"it/vorrei": vorrei, "it/pane": "good"},
+                            "feedback": feedback}}, "teacher")
+
+
+def test_town_goal_reached_is_the_teachers_call_not_the_item_outcomes():
+    t = activities.create("town", TOWN)
+    t.act({"go_to": "bakery"})
+    t.act({"say": {"npc": "baker", "text": "Quiero pane"}})
+    # the order arrived although "vorrei" failed
+    assert _grade(t, True, feedback="Order arrived; say vorrei, not quiero.") == "goal with Giulia: reached"
+    goal = t.view("learner")["npcs"][0]["goal"]
+    assert goal["reached"] is True and goal["feedback"].startswith("Order arrived") and "outcomes" not in goal
+    assert "(reached; Order arrived" in t.describe("learner")
+
+
+def test_town_goal_can_be_tried_again_after_grading():
+    t = activities.create("town", TOWN)
+    t.act({"go_to": "bakery"})
+    t.act({"say": {"npc": "baker", "text": "Pane"}})
+    assert _grade(t, False, feedback="Use vorrei.") == "goal with Giulia: not reached"
+    t.evidence()
+    with pytest.raises(ValueError, match="talk to baker again"):
+        _grade(t, True)
+    assert "talk again to try once more" in t.describe("learner")
+    # a new attempt: the turn counter starts again, the teacher grades again
+    t.act({"say": {"npc": "baker", "text": "Vorrei pane"}})
+    goal = t.view("teacher")["npcs"][0]["goal"]
+    assert goal["status"] == "open" and goal["turns"] == 1 and t.pending() == ["baker"]
+    assert _grade(t, True, vorrei="good") == "goal with Giulia: reached"
+    evidence = t.evidence()
+    assert evidence[0]["items"]["it/vorrei"] == "good" and evidence[0]["detail"]["attempt"] == 2
+    t.act({"say": {"npc": "baker", "text": "Grazie, vorrei pane"}})
+    _grade(t, True, vorrei="good")
+    t.act({"say": {"npc": "baker", "text": "Ciao"}})   # chatting on is fine, but no fourth grading
+    with pytest.raises(ValueError, match="already graded 3 times"):
+        _grade(t, True)
+
+
+def test_town_learner_never_sees_goal_outcomes():
+    t = activities.create("town", TOWN)
+    t.act({"go_to": "bakery"})
+    t.act({"say": {"npc": "baker", "text": "Vorrei pane"}})
+    _grade(t, True, vorrei="good", feedback="Bene.")
+    learner = json.dumps(t.view("learner"), ensure_ascii=False) + t.describe("learner")
+    assert "it/" not in learner and "outcomes" not in learner
+    t.act({"finish": True})
+    result = t.result()
+    assert "it/pane" in json.dumps(result["detail"]) and "it/" not in json.dumps(result["learner"])
+    assert result["learner"]["reached"] == {"baker": "reached"}
 
 
 def test_town_learner_view_has_no_key():

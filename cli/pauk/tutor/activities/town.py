@@ -9,7 +9,8 @@ from pauk.tutor.activities.common import GRADE_OUTCOME, LEARNER, OUTCOMES, check
 LEARNER_ACTIONS = ('{"go_to": "<place, person or object>"}, {"inspect": "<object here>"}, {"answer": "<name>"}, '
                    '{"dont_know": true}, {"say": {"npc": "<person here>", "text": "..."}}, {"finish": true}')
 TEACHER_ACTIONS = ('{"npc": "<id>", "say": "<line in the NPC\'s language>"}, '
-                   '{"grade": {"npc": "<id>", "outcomes": {"<ref>": "good", ...}, "feedback": "..."}}')
+                   '{"grade": {"npc": "<id>", "reached": true, "outcomes": {"<ref>": "good", ...}, "feedback": "..."}}')
+MAX_GRADINGS = 3   # a graded goal can be tried again, up to this many gradings
 
 
 def _id(value, where: str) -> str:
@@ -31,7 +32,11 @@ class TownActivity:
     what can be inspected or talked to (only things at the current place),
     whether a typed name is right (normalised, article optional, typo = hard),
     how many turns a conversation may take. The teacher speaks for the NPCs
-    and grades each NPC goal like an open exercise.
+    and grades each NPC goal like an open exercise: whether the goal was
+    reached (what the learner sees, with the feedback) and one outcome per
+    goal item (evidence, never shown to the learner). After a grading the
+    learner may talk to the NPC again for another attempt (at most
+    MAX_GRADINGS gradings per goal).
     Evidence: every first answer to an inspected object (recall), every
     graded goal (produce).
     """
@@ -94,7 +99,9 @@ class TownActivity:
         self.inspecting: str | None = None
         self.named: dict[str, dict] = {}           # object -> {answer, match, outcome}
         self.talk: list[dict] = []                 # {npc, from: learner|npc, text}
-        self.goals = {nid: {"status": "open", "turns": 0, "outcomes": None, "feedback": None}
+        # status open | graded; since: index in talk where the current attempt starts
+        self.goals = {nid: {"status": "open", "turns": 0, "outcomes": None, "reached": None, "feedback": None,
+                            "gradings": 0, "since": 0}
                       for nid, n in self.npcs.items() if n["goal"]}
         self.greeted: set[str] = set()
         self.finished = False
@@ -106,6 +113,17 @@ class TownActivity:
         refs = [o["item"] for o in self.objects.values() if o["item"]]
         refs += [r for n in self.npcs.values() if n["goal"] for r in n["goal"]["items"]]
         return list(dict.fromkeys(refs))
+
+    def secret_refs(self) -> set[str]:
+        """Refs whose answer the learner has not seen: objects not named yet."""
+        return {o["item"] for oid, o in self.objects.items() if o["item"] and oid not in self.named}
+
+    def pending(self) -> list[str]:
+        """NPCs whose goal attempt has learner lines but no grade yet."""
+        return [nid for nid, g in self.goals.items() if g["status"] == "open" and self._attempt_talked(nid)]
+
+    def _attempt_talked(self, nid: str) -> bool:
+        return any(t["npc"] == nid and t["from"] == "learner" for t in self.talk[self.goals[nid]["since"]:])
 
     @property
     def done(self) -> bool:
@@ -235,6 +253,8 @@ class TownActivity:
                 raise ValueError("say: talk to a person")
             self._here(kind, key)
             goal = self.goals.get(key)
+            if goal and goal["status"] == "graded" and goal["gradings"] < MAX_GRADINGS:
+                goal.update(status="open", turns=0, since=len(self.talk))   # another attempt
             if goal and goal["status"] == "open":
                 if goal["turns"] >= self.npcs[key]["goal"]["max_turns"]:
                     raise ValueError("this conversation has reached its length; the teacher is judging it")
@@ -260,19 +280,27 @@ class TownActivity:
         nid = grade["npc"]
         goal, spec = self.goals[nid], self.npcs[nid]["goal"]
         if goal["status"] == "graded":
-            raise ValueError(f"the goal of {nid} is already graded")
+            if goal["gradings"] >= MAX_GRADINGS:
+                raise ValueError(f"the goal of {nid} is already graded {MAX_GRADINGS} times")
+            raise ValueError(f"the goal of {nid} is already graded; the learner may talk to {nid} again for another attempt")
+        if not isinstance(grade.get("reached"), bool):
+            raise ValueError('grade needs "reached": true or false (were the success criteria met?)')
         outcomes = grade.get("outcomes")
         if not isinstance(outcomes, dict) or set(outcomes) != set(spec["items"]):
             raise ValueError(f"outcomes must cover exactly the goal items: {', '.join(spec['items'])}")
         if any(o not in OUTCOMES for o in outcomes.values()):
             raise ValueError(f"outcomes are {', '.join(OUTCOMES)}")
-        if not any(t["npc"] == nid and t["from"] == "learner" for t in self.talk):
-            raise ValueError(f"the learner has not talked to {nid} yet")
-        goal.update(status="graded", outcomes=dict(outcomes), feedback=grade.get("feedback"))
+        if not self._attempt_talked(nid):
+            raise ValueError(f"the learner has not talked to {nid} yet" if not goal["gradings"]
+                             else f"the learner has not talked to {nid} since the last grading")
+        reached, feedback = grade["reached"], grade.get("feedback")
+        goal.update(status="graded", outcomes=dict(outcomes), reached=reached, feedback=feedback,
+                    gradings=goal["gradings"] + 1)
         self._evidence.append({"mode": "produce", "items": dict(outcomes),
-                               "detail": {"npc": nid, "task_md": spec["task_md"], "feedback": grade.get("feedback"),
-                                          "conversation": [t for t in self.talk if t["npc"] == nid]}})
-        reached = all(o != "fail" for o in outcomes.values())
+                               "detail": {"npc": nid, "task_md": spec["task_md"], "reached": reached,
+                                          "feedback": feedback, "attempt": goal["gradings"],
+                                          "conversation": [t for t in self.talk if t["npc"] == nid]},
+                               "learner": {"npc": nid, "reached": reached, "feedback": feedback}})
         return f"goal with {self.npcs[nid]['name']}: {'reached' if reached else 'not reached'}"
 
     # --- views -------------------------------------------------------------------
@@ -281,11 +309,16 @@ class TownActivity:
         n = self.npcs[nid]
         out = {"id": nid, "name": n["name"], "place": n["place"], "icon": n["icon"]}
         if n["goal"]:
-            out["goal"] = {"task_md": n["goal"]["task_md"], **self.goals[nid], "max_turns": n["goal"]["max_turns"]}
+            g = self.goals[nid]
+            # the learner sees whether the goal was reached, never the per-item outcomes
+            out["goal"] = {"task_md": n["goal"]["task_md"], "status": g["status"], "turns": g["turns"],
+                           "max_turns": n["goal"]["max_turns"], "reached": g["reached"], "feedback": g["feedback"],
+                           "gradings": g["gradings"], "max_gradings": MAX_GRADINGS}
         if role != LEARNER:
             out.update(persona=n["persona"], language=n["language"], items=n["items"])
             if n["goal"]:
-                out["goal"].update(success=n["goal"]["success"], items=n["goal"]["items"])
+                out["goal"].update(success=n["goal"]["success"], items=n["goal"]["items"],
+                                   outcomes=self.goals[nid]["outcomes"])
         return out
 
     def _object_view(self, oid: str, role: str) -> dict:
@@ -333,7 +366,14 @@ class TownActivity:
                 goal = self.goals[nid]
                 text += f"; task: {n['goal']['task_md']}"
                 if goal["status"] == "graded":
-                    text += f" (graded: {', '.join(f'{r} {o}' for r, o in goal['outcomes'].items())})"
+                    text += f" ({'reached' if goal['reached'] else 'not reached'}"
+                    if role != LEARNER:
+                        text += f"; {', '.join(f'{r} {o}' for r, o in goal['outcomes'].items())}"
+                    if goal["feedback"]:
+                        text += f"; {goal['feedback']}"
+                    text += ")"
+                    if role == LEARNER and goal["gradings"] < MAX_GRADINGS:
+                        text += " (talk again to try once more)"
                 else:
                     text += f" ({goal['turns']}/{n['goal']['max_turns']} turns)"
             lines.append(text + ".")
@@ -359,8 +399,7 @@ class TownActivity:
         else:
             lines.append(f"Actions: {LEARNER_ACTIONS}.")
         if role != LEARNER:
-            pending = [nid for nid, g in self.goals.items() if g["status"] == "open"
-                       and any(t["npc"] == nid and t["from"] == "learner" for t in self.talk)]
+            pending = self.pending()
             waiting = [nid for nid in self.npcs if (talk := [t for t in self.talk if t["npc"] == nid])
                        and talk[-1]["from"] == "learner"]
             if waiting:
@@ -373,7 +412,11 @@ class TownActivity:
     def result(self) -> dict:
         outcomes = [v["outcome"] for v in self.named.values()]
         outcomes += [o for g in self.goals.values() if g["outcomes"] for o in g["outcomes"].values()]
+        named = {k: v["outcome"] for k, v in self.named.items()}
+        reached = {k: "open" if g["reached"] is None else "reached" if g["reached"] else "not reached"
+                   for k, g in self.goals.items()}
         return {"outcome": overall(outcomes), "items": {},   # evidence was recorded as it happened
-                "detail": {"named": {k: v["outcome"] for k, v in self.named.items()},
-                           "goals": {k: g["status"] if not g["outcomes"] else g["outcomes"] for k, g in self.goals.items()},
-                           "trail": list(self.trail), "gave_up": self.gave_up}}
+                "detail": {"named": named, "goals": {k: g["outcomes"] or g["status"] for k, g in self.goals.items()},
+                           "reached": reached, "trail": list(self.trail), "gave_up": self.gave_up},
+                # goal item outcomes stay with the teacher
+                "learner": {"named": named, "reached": reached, "trail": list(self.trail), "gave_up": self.gave_up}}

@@ -51,7 +51,8 @@ export function rerender(el, children) {
     if (kept[input.dataset.keep] !== undefined) input.value = kept[input.dataset.keep];
   }
   if (focusKey) {
-    const target = el.querySelector(`[data-keep="${focusKey}"], [data-focus="${focusKey}"]`);
+    const key = CSS.escape(focusKey);   // keys carry names and ids: quotes or brackets must not break the selector
+    const target = el.querySelector(`[data-keep="${key}"], [data-focus="${key}"]`);
     target?.focus();
   }
 }

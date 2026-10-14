@@ -6,7 +6,7 @@ from pauk.route import load_graph
 from pauk.tutor.activities.common import (GRADE_OUTCOME, LEARNER, check_ref, grade_name, load_map,
                                           normalize, overall)
 
-ACTIONS = ('{"label": {"marker": 3, "name": "Leipzig"}} (an empty name clears), {"undo": true}, '
+ACTIONS = ('{"label": {"marker": 3, "name": "<place name>"}} (an empty name clears), {"undo": true}, '
            '{"finish": true}, {"give_up": true}')
 
 
@@ -22,9 +22,11 @@ class MapLabelsActivity:
     the names. With `pick` the learner picks from the listed names (places plus
     distractors), with `type` the names are typed and compared after
     normalisation (case, diacritics, "Nuernberg" = "Nürnberg", one typo per
-    8 letters counts as hard).
+    8 letters counts as hard); a picked name is right or wrong, never a typo.
     Result: one outcome per place (good, hard on a typo, fail when wrong or
-    unlabelled), recorded against the place's item.
+    unlabelled), recorded against the place's item. When the teacher ends
+    the map (`end()`), only labelled markers are evidence: an untouched
+    marker says nothing about the learner.
     """
 
     type = "map_labels"
@@ -82,6 +84,7 @@ class MapLabelsActivity:
         self.history: list[tuple[int, str | None]] = []   # (marker, previous label) for undo
         self.finished = False
         self.gave_up = False
+        self.ended = False                                 # ended by the teacher, not by the learner
         self.grades: dict[int, str] = {}                   # marker -> exact | typo | wrong
 
     def _project(self, lat: float, lon: float) -> tuple[float, float]:
@@ -90,6 +93,10 @@ class MapLabelsActivity:
 
     def refs(self) -> list[str]:
         return [m["item"] for m in self.markers.values() if m["item"]]
+
+    def secret_refs(self) -> set[str]:
+        """Refs whose answer the learner has not seen yet: all until graded."""
+        return set() if self.done else set(self.refs())
 
     @property
     def done(self) -> bool:
@@ -130,6 +137,16 @@ class MapLabelsActivity:
         self._set(n, name)
         return f"marker {n} = {name}" if name else f"marker {n} cleared"
 
+    def end(self) -> str:
+        """Ended by the teacher (activity end): graded like a finish, but
+        unlabelled markers give no evidence."""
+        if self.done:
+            raise ValueError("the map is finished")
+        self.ended = True
+        self._grade()
+        correct = sum(g != "wrong" for g in self.grades.values())
+        return f"ended by the teacher: {correct} of {len(self.labels)} labelled markers correct"
+
     def _set(self, n: int, name: str | None) -> None:
         if name:
             self.labels[n] = name
@@ -139,8 +156,14 @@ class MapLabelsActivity:
     def _grade(self) -> None:
         self.finished = True
         language = self.spec.get("language")
-        self.grades = {n: grade_name(self.labels[n], m["accepted"], language) if n in self.labels else "wrong"
+        self.grades = {n: self._grade_label(self.labels[n], m, language) if n in self.labels else "wrong"
                        for n, m in self.markers.items()}
+
+    def _grade_label(self, label: str, marker: dict, language: str | None) -> str:
+        grade = grade_name(label, marker["accepted"], language)
+        if self.input == "pick" and grade == "typo":
+            return "wrong"   # a picked name is another place, never a typo
+        return grade
 
     # --- views -------------------------------------------------------------------
 
@@ -166,7 +189,7 @@ class MapLabelsActivity:
                 "names": self.names if self.input == "pick" else None,
                 "markers": [self._marker(m, role) for m in self.markers.values()],
                 "can_undo": bool(self.history) and not self.done,
-                "done": self.done, "gave_up": self.gave_up,
+                "done": self.done, "gave_up": self.gave_up, "ended": self.ended,
                 "correct": correct if self.done else None}
 
     def describe(self, role: str = "teacher") -> str:
@@ -185,7 +208,8 @@ class MapLabelsActivity:
         lines.append("Markers: " + "; ".join(parts) + ".")
         if self.done:
             correct = sum(g != "wrong" for g in self.grades.values())
-            lines.append(f"{'Given up' if self.gave_up else 'Finished'}: {correct} of {len(self.markers)} correct.")
+            how = "Ended by the teacher" if self.ended else "Given up" if self.gave_up else "Finished"
+            lines.append(f"{how}: {correct} of {len(self.markers)} correct.")
         else:
             if self.input == "pick":
                 lines.append("Names: " + ", ".join(self.names) + ".")
@@ -193,9 +217,10 @@ class MapLabelsActivity:
         return " ".join(lines)
 
     def result(self) -> dict:
-        outcomes = {n: GRADE_OUTCOME[g] for n, g in self.grades.items()}
+        outcomes = {n: GRADE_OUTCOME[g] for n, g in self.grades.items() if not self.ended or n in self.labels}
         return {"outcome": overall(list(outcomes.values())),
                 "mode": "recognize" if self.input == "pick" else "recall",
                 "items": {self.markers[n]["item"]: o for n, o in outcomes.items() if self.markers[n]["item"]},
-                "detail": {"correct": sum(o != "fail" for o in outcomes.values()), "total": len(self.markers),
-                           "labels": {str(n): self.labels.get(n) for n in self.markers}, "gave_up": self.gave_up}}
+                "detail": {"correct": sum(o != "fail" for o in outcomes.values()), "total": len(outcomes),
+                           "labels": {str(n): self.labels.get(n) for n in self.markers}, "gave_up": self.gave_up,
+                           "ended": self.ended}}
