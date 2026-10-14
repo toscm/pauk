@@ -13,7 +13,7 @@ from typing import Literal, Optional
 from pydantic import BaseModel, Field, model_validator
 
 # Bumped on incompatible changes; `pauk teach attach` refuses a mismatch.
-PROTOCOL = 1
+PROTOCOL = 2
 
 Kind = Literal["mc", "match", "text", "open", "recall"]
 Mode = Literal["recognize", "recall", "produce", "explain"]

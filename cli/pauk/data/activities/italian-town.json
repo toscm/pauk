@@ -321,7 +321,7 @@
         ],
         "greeting": "Buongiorno! Cosa desidera?",
         "goal": {
-          "task_md": "Order **two croissants (cornetti) and one coffee (caffè)**. Be polite.",
+          "task_md": "Order **two croissants and one coffee**. Be polite.",
           "success": "The customer clearly asked, in Italian, for 2 cornetti and 1 caffè. Minor grammar mistakes are fine as long as the order is unambiguous.",
           "items": [
             "it/vorrei",
@@ -346,7 +346,7 @@
         ],
         "greeting": "Buongiorno, mi dica.",
         "goal": {
-          "task_md": "Buy **a one-way ticket to Florence (Firenze)** and find out **which platform (binario)** the train leaves from.",
+          "task_md": "Buy **a one-way ticket to Florence (Firenze)** and find out **which platform** the train leaves from.",
           "success": "The customer asked, in Italian, for a one-way ticket to Firenze and asked which binario the train departs from.",
           "items": [
             "it/biglietto",

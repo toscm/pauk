@@ -267,7 +267,7 @@ def test_pauk_teach_cli_against_a_live_host(tmp_path):
     try:
         attached = teach("attach", "--agent", "pytest")
         assert attached.returncode == 0, attached.stdout + attached.stderr
-        assert json.loads(attached.stdout)["protocol"] == 1
+        assert json.loads(attached.stdout)["protocol"] == 2
         assert "pauk teacher instructions" in teach("instructions").stdout
         asked = teach("ask", "-", input_text=json.dumps(MC))
         assert asked.returncode == 0, asked.stdout
