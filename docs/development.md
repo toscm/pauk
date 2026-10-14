@@ -63,6 +63,28 @@ concerns (see docs/architecture.md, Decisions).
 - `make test` — full suite (see docs/testing.md)
 - `make deploy` — test, then deploy (see docs/deployment.md)
 - `make tunnel` — SSH tunnel to the production DB
+- `make backup-fetch` / `make restore-local` — newest production dump into a throwaway local instance (see docs/deployment.md, "Restore")
+
+## Calibrating the memory model
+
+`api/bin/calibrate.php` checks how well the memory model (docs/tutor.md 4.6) predicts a recorded log.
+It replays the events in time order, and before every test of an item that already has a state it predicts the recall probability `R` and compares it with the outcome (any outcome but `fail` counts as recalled).
+First contacts, `introduce` and `self_report` are not scored; simulation evidence (`source: simulation`) is left out.
+
+    cd api
+    php bin/calibrate.php                      # interaction log of the PAUK_DB_* database
+    php bin/calibrate.php --source=reviews     # legacy card reviews table (good/fail, mode from the card type)
+    php bin/calibrate.php --export=pauk.jsonl  # a pauk export instead of a database
+    php bin/calibrate.php --min-gap-hours=24   # score only predictions made at least a day after the item's previous event
+
+It prints the number of events and scored predictions (also by gap), log loss and Brier score of the current constants next to a constant predictor at the observed success rate, a reliability table (predicted `R` in bins against the observed rate), and the best of a small grid of alternatives (v1 with the first stabilities, the growth constants and the forgetting curve each scaled by 0.5, 1 or 2) with the paired log-loss difference to v1 and its standard error.
+The metric code is `Pauk\Knowledge\Calibration` (unit-tested); the model takes its constants from `MemoryModel::PARAMS`.
+Run it on a restored copy of production (`make restore-local`), never against the live database.
+
+How to read it: a useful model beats the constant predictor on log loss, and its reliability rows have observed rates close to their predictions.
+Same-session repeats (gap under an hour) are predicted at `R ≈ 1` by construction, so judge the constants mainly with `--min-gap-hours=24`.
+Change constants only when an alternative wins by several standard errors on a sample of at least several hundred spaced reviews over weeks; a change is a new model version (docs/tutor.md 6).
+The first run (2026-10-14) is summarized in issues/0014.
 
 ## CLI against arbitrary servers
 

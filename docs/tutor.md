@@ -1084,6 +1084,7 @@ Turning a report into a proper issue needs the code, so triage runs in the repos
 4. Activity design doc, activity framework and the autobahn route; observer role with post-session review; `pauk learn` and `pauk simulate`.
 
 5. Map labelling and the town scene; automatic triage; retire quests; revisit the memory constants against the collected log.
+   The tool for that is `api/bin/calibrate.php` (docs/development.md); its first run (2026-10-14, issues/0014) found far too few spaced reviews to change anything.
 
 ## 18. Open questions
 

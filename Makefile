@@ -11,7 +11,7 @@ DEV_ENV     = PAUK_DB_HOST=127.0.0.1 PAUK_DB_PORT=$(DEV_PORT) \
               PAUK_DB_USER=root PAUK_DB_PASS= PAUK_DB_NAME=pauk_dev
 
 .PHONY: setup serve test test-php test-cli db-start db-stop db-migrate \
-        tunnel deploy rollback backup-fetch
+        tunnel deploy rollback backup-fetch restore-local
 
 setup:
 	cd api && $(COMPOSER) install --no-interaction
@@ -64,3 +64,7 @@ rollback:
 
 backup-fetch:
 	scripts/backup-fetch.sh
+
+# DUMP=path/to/dump.sql.gz (default: newest in ~/pauk-local-backups)
+restore-local:
+	scripts/restore-local.sh $(DUMP)
