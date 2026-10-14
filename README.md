@@ -60,6 +60,11 @@ language).
     pauk tui                   # the older terminal quiz app
     pauk quiz --dir greek      # quiz a folder (recursive)
     pauk ls --tree             # browse all folders
+    pauk edit 17               # edit card 17 in $EDITOR; only changed fields are saved
+    pauk link 17 italian/a2    # card 17 is now in italian/a2 as well (a directory works too)
+    pauk unlink 17 italian/a1  # take it out of one directory; nothing is deleted
+    pauk mv 17 italian/a2      # move a card (--from DIR when it is in several)
+    pauk mv italian/old greek  # move a directory into greek; `mv a/x a/y` renames, `/` is the top level
     pauk import content/greek.json
     pauk import content/items-greek.json   # knowledge items, linked to the cards
     pauk profile greek         # knowledge profile + what to practise next

@@ -79,6 +79,15 @@ def clone(client: Client, dest: Path, echo=print) -> int:
 
 
 def _write_card(cards_dir: Path, card: dict, id_to_path: dict, localize) -> None:
+    (cards_dir / f"{card['id']}.md").write_text(
+        card_to_text(card, id_to_path, localize), encoding="utf-8"
+    )
+
+
+def card_to_text(card: dict, id_to_path: dict, localize=lambda text: text) -> str:
+    """A card as a markdown file: YAML frontmatter (id, type, dirs as
+    paths, type-specific fields) and the question (a quest's scenario)
+    as the body. The format `pauk clone` writes and `pauk edit` opens."""
     card_type = card["type"]
     dirs = [id_to_path.get(d["id"], d["name"]) for d in card.get("dirs", [])]
     front: dict[str, Any] = {
@@ -108,10 +117,7 @@ def _write_card(cards_dir: Path, card: dict, id_to_path: dict, localize) -> None
         else:
             front[field] = value
 
-    (cards_dir / f"{card['id']}.md").write_text(
-        _dump_frontmatter(front) + body.rstrip("\n") + "\n",
-        encoding="utf-8",
-    )
+    return _dump_frontmatter(front) + body.rstrip("\n") + "\n"
 
 
 def _dump_frontmatter(front: dict) -> str:
@@ -162,7 +168,7 @@ def upload(client: Client, src: Path, echo=print) -> tuple[int, int]:
             _stamp_id(file, existing[key])
             skipped += 1
             continue
-        card_body = _build_body(front, body)
+        card_body = build_body(front, body)
         card_body["dirs"] = [dir_ids[p] for p in front.get("dirs", [])]
         new_card = client.create_card(card_body)
         existing[key] = new_card["id"]
@@ -183,7 +189,7 @@ def _is_new(front: dict) -> bool:
     )
 
 
-def _build_body(front: dict, body: str) -> dict:
+def build_body(front: dict, body: str) -> dict:
     card_type = front["type"]
     out: dict[str, Any] = {"type": card_type}
     if card_type == "quest":
@@ -246,15 +252,28 @@ def _stamp_id(file: Path, card_id: int) -> None:
 
 # --- shared helpers -------------------------------------------------
 def _parse_file(file: Path) -> tuple[dict, str]:
-    text = file.read_text(encoding="utf-8")
+    try:
+        return parse_card_text(file.read_text(encoding="utf-8"))
+    except ValueError as e:
+        raise ValueError(f"{file}: {e}") from None
+
+
+def parse_card_text(text: str) -> tuple[dict, str]:
+    """Split a card file into (frontmatter dict, body). Raises
+    ValueError on a missing or malformed frontmatter."""
     if not text.startswith("---"):
-        raise ValueError(f"{file}: missing YAML frontmatter")
+        raise ValueError("missing YAML frontmatter")
     # split off the frontmatter between the first two "---" lines
     parts = re.split(r"^---\s*$\n?", text, maxsplit=2, flags=re.MULTILINE)
     # parts == ['', '<yaml>', '<body>']
     if len(parts) < 3:
-        raise ValueError(f"{file}: malformed frontmatter")
-    front = yaml.safe_load(parts[1]) or {}
+        raise ValueError("malformed frontmatter")
+    try:
+        front = yaml.safe_load(parts[1]) or {}
+    except yaml.YAMLError as e:
+        raise ValueError(f"invalid YAML frontmatter: {e}") from None
+    if not isinstance(front, dict):
+        raise ValueError("the frontmatter must be a YAML mapping")
     body = parts[2].lstrip("\n")
     return front, body
 
@@ -341,9 +360,10 @@ To add cards, create new `*.md` files (in `cards/`) without an
 
 Upload is CREATE-ONLY. Files that already carry an `id` are
 skipped; edits to an existing card and deletions are NOT synced
-to the server in this version. A freshly created card gets its
-new `id` written back into its file, so re-running `upload`
-creates nothing new.
+to the server in this version (use `pauk edit <id>`, which opens
+a card in this same format, and `pauk rm <id>`). A freshly
+created card gets its new `id` written back into its file, so
+re-running `upload` creates nothing new.
 """
 
 
