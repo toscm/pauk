@@ -327,9 +327,9 @@ body.observer .obs-main { flex: 1; overflow-y: auto; padding: 0.5em 1em; }
 button.link { background: none; border: 0; padding: 0; color: inherit; text-align: left; }
 
 /* map labelling */
-.map-layout { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 0.8em; align-items: start; }
+.map-layout { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(12rem, 1fr); gap: 0.8em; align-items: start; }
 .label-map { display: block; width: 100%; height: auto; max-height: 75vh; }
-.label-map .region { fill: var(--bg); stroke: var(--muted); stroke-width: 1; }
+.label-map .region { fill: color-mix(in srgb, var(--line) 50%, var(--panel)); stroke: var(--muted); stroke-width: 1; }
 .label-map .region.target { cursor: pointer; }
 .label-map .region.selected { fill: var(--learner); }
 .label-map .region.good { fill: color-mix(in srgb, var(--ok) 25%, var(--panel)); }
@@ -348,14 +348,16 @@ button.link { background: none; border: 0; padding: 0; color: inherit; text-alig
 .label-map .marker:focus circle { stroke: var(--goal); stroke-width: 5; }
 .label-map text { font-size: 15px; fill: var(--text); }
 .label-map .num { font-weight: 700; font-size: 14px; pointer-events: none; }
-.label-map .name { font-size: 16px; paint-order: stroke; stroke: var(--panel); stroke-width: 4px; stroke-linejoin: round; pointer-events: none; }
+.label-map .name { font-size: 14px; paint-order: stroke; stroke: var(--panel); stroke-width: 4px; stroke-linejoin: round; pointer-events: none; }
 .label-editor { margin-bottom: 0.6em; }
 .editor-title { margin: 0 0 0.3em; }
 .names { margin-top: 0.2em; gap: 0.3em; }
 .names button { padding: 0.25em 0.6em; font-size: 0.9rem; }
 .names button.used { opacity: 0.6; border-style: dashed; }
-.label-list { margin: 0.4em 0; padding-left: 2em; columns: 2; column-gap: 1.2em; font-size: 0.92rem; }
-.label-list li { break-inside: avoid; padding: 0.05em 0; }
+.label-list { list-style: none; margin: 0.4em 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  gap: 0 1em; font-size: 0.92rem; }
+.label-list li { padding: 0.1em 0; }
+.label-list .n { display: inline-block; min-width: 1.8em; font-variant-numeric: tabular-nums; color: var(--muted); }
 .label-list li.selected { font-weight: 600; color: var(--goal); }
 
 /* town */
@@ -369,7 +371,7 @@ button.link { background: none; border: 0; padding: 0; color: inherit; text-alig
 .town-map .here rect { stroke: var(--goal); stroke-width: 4; fill: var(--learner); }
 .town-map text { fill: var(--text); }
 .town-map .icon { font-size: 34px; }
-.town-map .name { font-size: 14px; }
+.town-map .name { font-size: 16px; }
 .town-map .npc, .town-map .me { font-size: 20px; }
 .here h4 { margin: 0.4em 0 0.2em; }
 .things { margin-top: 0.2em; gap: 0.4em; }

@@ -45,3 +45,7 @@ An independent code review found a key leak through report responses, a double-r
 End-to-end runs with a real Claude teacher against a scratch API (scripted learner; later an LLM learner via `pauk simulate`) found three bugs (event seq clash, importer parents, a teacher slip caught by the observer review), all fixed.
 Tests: 180 PHP, 134 CLI.
 Open: deploy API 0.11 before using add-item against the live server (the host refuses add-item on older APIs); merge the branch; content for map labelling and the town scene; retiring quests.
+
+2026-10-14: Map labelling (`map_labels`) and town scene (`town`) activities built (docs/tutor.md 14.2, 14.3), with role-filtered activity views, per-place and per-object evidence, and teacher-played NPCs graded like open exercises.
+Content: `content/activities/` (germany-states, germany-cities, italian-town with the three Italian quests as NPC goals), packaged under `cli/pauk/data/activities/`; new item files items-germany.json and items-italian-town.json.
+Open: retiring the quest code, API and TUI (the content now lives in the town).

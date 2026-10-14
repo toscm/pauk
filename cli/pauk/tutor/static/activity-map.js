@@ -125,14 +125,15 @@ export class MapLabelsCard {
 
   list() {
     const v = this.view;
-    return h('ol', {class: 'label-list'}, v.markers.map((m) => {
+    return h('ul', {class: 'label-list'}, v.markers.map((m) => {
       const text = v.done
         ? [h('span', {class: `mark ${m.outcome === 'good' ? 'ok' : m.outcome === 'hard' ? 'partial' : 'bad'}`}, MARK[m.outcome]), ' ',
            m.name, m.outcome !== 'good' && m.label ? h('span', {class: 'muted'}, ` (you: ${m.label})`) : null]
         : [m.label || h('span', {class: 'muted'}, '—')];
-      return h('li', {value: m.n, class: m.n === this.selected && !v.done ? 'selected' : null},
-        v.done ? text : h('button', {type: 'button', class: 'link', 'data-focus': `marker-${m.n}`,
-                                     onclick: () => this.select(m.n)}, ...text));
+      const n = h('span', {class: 'n'}, `${m.n}.`);
+      return h('li', {class: m.n === this.selected && !v.done ? 'selected' : null},
+        v.done ? [n, ...text] : h('button', {type: 'button', class: 'link', 'data-focus': `marker-${m.n}`,
+                                             onclick: () => this.select(m.n)}, n, ...text));
     }));
   }
 

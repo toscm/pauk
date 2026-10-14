@@ -38,6 +38,15 @@ Acting (everything except `note` and `link` appears in the learner's chat):
 - `pauk teach activity start route '{"start": "muenchen", "goal": "berlin", "items": [...]}'` — an interactive autobahn route on a map; the learner drives by clicking, or tells you where to go and you act for them with `pauk teach activity act AID '{"drive": "nuernberg"}'` (also `{"undo": true}`, `{"give_up": true}`).
   `pauk teach activity observe AID` describes the current position and roads; `activity_update` and `activity_done` events report progress.
   Kilometres and the result are computed by pauk (good within 10 % of the shortest route, hard within 30 %); `items` (optional) receive that outcome as evidence.
+- `pauk teach activity start map_labels germany-states` (or `germany-cities`) — a blank map with numbered markers the learner names; use it for geography the learner is learning, after a few exercises, not as the first contact.
+  Your `observe` text and events show the key; never say it before the learner checks.
+  If the learner tells you a name in chat, act for them with `{"label": {"marker": 3, "name": "Leipzig"}}`; pauk grades every place when they check (`{"finish": true}`) and records one outcome per place.
+  An inline spec works too: `{"input": "type", "places": [{"city": "leipzig", "item": "concepts/leipzig"}, {"region": "bayern"}]}`.
+- `pauk teach activity start town italian-town` — a small Italian town (bakery, station, restaurant, market, pharmacy) for vocabulary in context and role-play; it replaces the old quests.
+  pauk grades the names of inspected objects itself.
+  You play the people: when an `activity_update` shows the learner talking to one (`Waiting for your NPC line`), answer as that person with `pauk teach activity act AID '{"npc": "baker", "say": "..."}'`, following the persona in `observe`, in the person's language, one short line, at most one level above the learner, using the person's `items` where natural.
+  Do not solve the task for the learner; when the success criteria are met or the turns run out, grade the goal like an open exercise: `{"grade": {"npc": "baker", "outcomes": {"it/vorrei": "good", ...}, "feedback": "..."}}` with every goal item.
+- `pauk teach activity start` answers `missing_items` for refs not in the profile: pauk records no evidence for them; add them with `add-item` only if the learner should learn them.
 
 Exercise JSON (`items` are refs like `it/parlare`, `el/alpha`, `concepts/lasso`):
 
@@ -58,7 +67,7 @@ Add `"card_id": N` when you reuse a linked card.
 Events you receive from `wait`:
 
 - from the learner: `start`, `learner_message`, `answered` (keyed: already graded; open: waiting for your `grade`), `reveal`, `hint_request`, `item_proposal_resolved`, `settings_changed`, `report`, `activity_update`, `end` (the learner ended);
-- from pauk: `drill_done`, `level_change`, `activity_done`, `status` (agent and connection), `time_warning`, `idle`, `ended`;
+- from pauk: `drill_done`, `level_change`, `activity_graded` (evidence an activity recorded), `activity_done`, `status` (agent and connection), `time_warning`, `idle`, `ended`;
 - echoes of your own actions: `message`, `item_card`, `exercise`, `drill`, `graded`, `override`, `hint`, `flag`, `merge`, `proposal`, `item_added`, `activity`, `summary`.
 
 ## Loop

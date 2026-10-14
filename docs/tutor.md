@@ -927,10 +927,9 @@ What is per-user (progress, evidence) goes into interactions; only if worlds eve
 
 ## 14. Activities (interactive exercises and mini-games)
 
-Outline; a dedicated design doc precedes phase 4.
-
-Beyond chat exercises, a session can run activities: a car on the autobahn map, labelling German states on a blank map, walking through a small town and talking to the baker, a derivation step by step.
-They are what makes the browser worth it, and they are where the existing quest and route ideas move to.
+Beyond chat exercises, a session can run activities: a car on the autobahn map, labelling German states on a blank map, walking through a small town and talking to the baker.
+They are what makes the browser worth it, and they are where the existing quest and route ideas moved to.
+Three types exist (14.3); a derivation step by step or other games would be further types.
 
 ### 14.1 Rules every activity must follow
 
@@ -954,26 +953,36 @@ They are what makes the browser worth it, and they are where the existing quest 
 
 ### 14.2 Shape of an activity
 
-An activity type is a pair of files under `cli/pauk/tutor/activities/<type>/`: a Python module (state, action schemas per role, rules, `observe`) and a JS module (browser renderer that sends the same actions).
-A concrete instance is started from content in `content/activities/` (13).
+An activity type is a Python module in `cli/pauk/tutor/activities/` (spec validation, state, rules, `act(action, role)`, role-filtered `view`/`state`/`describe`, `refs`, `result`) and a JS renderer in `cli/pauk/tutor/static/` (`activity.js` for the route, `activity-map.js`, `activity-town.js`) that sends the same actions.
+The host keeps the instances; every action becomes an `activity_update` event whose state and text are filtered per role, and graded events become interactions with `source = activity` (`activity_graded`, and `activity_done` at the end).
 
-Teacher commands: `activity start TYPE SPEC_REF`, `activity observe AID`, `activity act AID ACTION_JSON` (including NPC actions such as `{"npc": "baker", "say": "Buongiorno! Cosa desidera?"}`), `activity end AID`.
-Learner actions arrive at the teacher as `activity_event`s via `wait`.
+Specs are inline JSON or name bundled content: `{"ref": "italian-town"}` loads `content/activities/italian-town.json`, and further keys override the content's.
+The content is copied to `cli/pauk/data/activities/` so the installed client has it (a test keeps the copies equal); `content/activities/maps/germany.json` is the blank base map, exported from the state maps by `scripts/maps/export_activity_map.py`.
+Refs in content that are not in the learner's profile do not block a start: the host reports them as `missing_items` and records no evidence for them.
 
-NPCs are played by the teacher, constrained by the NPC spec (persona, language, the items it should use, and "speak at most one level above the learner's level").
+Teacher commands: `activity start TYPE SPEC_REF` (a content name or JSON), `activity observe AID`, `activity act AID ACTION_JSON`, `activity end AID`; the learner uses `POST learner/activity` (browser) or `pauk learn activity AID ACTION_JSON`.
+
+NPCs are played by the teacher, constrained by the NPC spec (persona, language, the items it should use, a goal with success criteria and a turn limit) and the harness rule to speak at most one level above the learner.
 A separate NPC agent can come later if the teacher's context gets crowded.
 
-### 14.3 First candidates
+### 14.3 Activity types
 
-- Autobahn route: reuses `content/autobahn-graph.json` and `scripts/maps/render_route.py`. State: current node, path, km. Actions: `drive {to}`; free-text instructions ("I take the A9 to Leipzig") are parsed by the teacher into `drive` actions, as issues/0009 planned.
+- Autobahn route (`route`): drive from a start to a goal city on `content/autobahn-graph.json`.
+  Actions: `{"drive": city}`, `{"undo": true}`, `{"give_up": true}`; good within 10 % of the shortest route, hard within 30 %, the outcome goes to the spec's `items`.
 
-- Map labelling: click a region, pick or type its name. Keyed, graded deterministically, one item per state/city.
+- Map labelling (`map_labels`): a blank SVG map (state outlines from Natural Earth) with numbered markers, placed on regions of the base map (`{"region": "bayern"}`), autobahn graph cities (`{"city": "leipzig"}`) or coordinates.
+  Markers are numbered north to south, so numbers give nothing away; with `"input": "pick"` the learner picks from the place names plus `distractors`, with `"type"` names are typed.
+  Actions: `{"label": {"marker": 3, "name": "Leipzig"}}`, `{"undo": true}`, `{"finish": true}`, `{"give_up": true}`.
+  On finish every place is graded like a keyed `text` answer (case, diacritics and both umlaut spellings folded, one typo per 8 letters is `hard`) and recorded against its item; the learner sees the names only then.
+  Content: `germany-states` (16 regions, pick) and `germany-cities` (12 cities, typed), with items in `content/items-germany.json`.
 
-- Town scene: a tile map with objects and NPCs. Actions: `go_to {target}`, `inspect {target}`, `say {npc, text}`. Inspecting shows a picture and asks the learner to name it; talking is role-play graded by the teacher.
+- Town scene (`town`): places on a small grid joined by streets, objects and NPCs, rendered as an SVG tile map; tapping a place walks there along the shortest street path.
+  Learner actions: `{"go_to": target}`, `{"inspect": object}` then `{"answer": name}` or `{"dont_know": true}`, `{"say": {"npc", "text"}}`, `{"finish": true}`; things can only be inspected or talked to at the current place.
+  The first answer per object is graded deterministically against its accepted names (a leading article is optional) and recorded at once (`recall`); the learner sees the name after answering.
+  Teacher actions: `{"npc": id, "say": text}` for NPC lines and `{"grade": {"npc", "outcomes", "feedback"}}` for a goal, judged like an `open` exercise and recorded as `produce`; a goal allows `max_turns` learner lines, and the learner never sees personas or success criteria.
+  Content: `italian-town` (piazza, panetteria, stazione, ristorante, mercato, farmacia) carries the three former Italian quests as NPC goals (bakery, station, restaurant) plus a pharmacy, with new words in `content/items-italian-town.json`.
 
 Rendered math needs no activity: KaTeX in every message covers it (9.5).
-
-Each activity type is real development work; start with the autobahn route, whose data and renderer exist.
 
 ## 15. Observer role and simulated learners
 
