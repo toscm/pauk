@@ -22,12 +22,14 @@ except ImportError:  # pragma: no cover - Windows
 
 import typer
 from rich.console import Console
+from rich.markup import escape
 
 import pauk
 from pauk import config as config_mod
 from pauk.client import ApiError, Client
 from pauk.importer import import_file
 from pauk.knowledge import print_profile, write_export
+from pauk.organize import OrganizeError
 from pauk.quiz import run_quiz
 from pauk.sync import clone as clone_collection
 from pauk.sync import upload as upload_collection
@@ -49,6 +51,9 @@ def run() -> None:
         app()
     except ApiError as e:
         console.print(f"[red]API error ({e.status}):[/red] {e}")
+        sys.exit(1)
+    except OrganizeError as e:
+        console.print(f"[red]{escape(str(e))}[/red]")
         sys.exit(1)
 
 
@@ -264,6 +269,48 @@ def rm(card_id: int) -> None:
     """Delete a card by id."""
     _client().delete_card(card_id)
     console.print(f"deleted card #{card_id}")
+
+
+@app.command()
+def edit(card_id: int) -> None:
+    """Edit a card in $EDITOR (the `pauk clone` file format); only changed fields are saved."""
+    from pauk.organize import edit_card
+
+    edit_card(_client(), card_id, echo=console.print, confirm=lambda prompt: typer.confirm(prompt, default=True))
+
+
+@app.command()
+def link(
+    source: str = typer.Argument(..., help="Card id (or #ID), or a directory path"),
+    directory: str = typer.Argument(..., help="Directory path to add it to"),
+) -> None:
+    """Add a card (or a directory) to another directory; it stays where it was too."""
+    from pauk.organize import link as link_source
+
+    link_source(_client(), source, directory, echo=console.print)
+
+
+@app.command()
+def unlink(
+    source: str = typer.Argument(..., help="Card id (or #ID), or a directory path"),
+    directory: str = typer.Argument(..., help="Directory path to remove it from"),
+) -> None:
+    """Remove a card (or a directory) from one directory; nothing is deleted."""
+    from pauk.organize import unlink as unlink_source
+
+    unlink_source(_client(), source, directory, echo=console.print)
+
+
+@app.command()
+def mv(
+    source: str = typer.Argument(..., help="Card id (or #ID), or a directory path"),
+    dest: str = typer.Argument(..., help="Target directory; for a directory also a new path, or / for the top level"),
+    from_dir: Optional[str] = typer.Option(None, "--from", help="For a card in several directories: the one it leaves"),
+) -> None:
+    """Move a card or a directory (link to the new parent, unlink from the old one)."""
+    from pauk.organize import move
+
+    move(_client(), source, dest, from_dir, echo=console.print)
 
 
 @app.command()

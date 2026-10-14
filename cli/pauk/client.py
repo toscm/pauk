@@ -162,8 +162,20 @@ class Client:
         self._call("DELETE", f"/dirs/{dir_id}", params=params)
         self._invalidate()
 
+    def get_dir(self, dir_id: int) -> dict:
+        return self._call("GET", f"/dirs/{dir_id}")
+
+    def rename_dir(self, dir_id: int, name: str) -> dict:
+        result = self._call("PATCH", f"/dirs/{dir_id}", json={"name": name})
+        self._invalidate()
+        return result
+
     def link_dir(self, parent_id: int, child_id: int) -> None:
         self._call("PUT", f"/dirs/{parent_id}/dirs/{child_id}")
+        self._invalidate()
+
+    def unlink_dir(self, parent_id: int, child_id: int) -> None:
+        self._call("DELETE", f"/dirs/{parent_id}/dirs/{child_id}")
         self._invalidate()
 
     def link_card(self, dir_id: int, card_id: int) -> None:

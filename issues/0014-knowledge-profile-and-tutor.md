@@ -66,3 +66,7 @@ But all spaced evidence comes from one learner on five review days (2026-09-09 t
 
 How much is needed: the per-event spread of the paired log-loss difference is 0.15 to 0.4, so telling apart two variants that differ by 0.02 at two standard errors takes roughly 250 to 1600 spaced reviews (gap of at least a day), spread over weeks and many items; the reliability table needs several hundred to fill its bins.
 Re-run `make backup-fetch && make restore-local`, then `php bin/calibrate.php --min-gap-hours=24`, once the log has that many.
+
+2026-10-14: items-phd.json now has 144 concepts: 14 concepts that had been folded into parent items to keep the file near 120 got items of their own (nested CV, out-of-bag error, mdrb, snap purity, MissForest, Retip, RepoRT, chemical exchange, smoothing and noise filtering, deuterium lock, dwell volume, mobile-phase additives, selectivity α, prediction clipping).
+The parents' bodies were trimmed, and the cards testing these concepts link to the new items (three card links moved off their parent).
+Re-importing adds the new items and links and updates the trimmed parents, but does not remove the three old card links from an already imported profile.

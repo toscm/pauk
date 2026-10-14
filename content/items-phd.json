@@ -225,7 +225,7 @@
       "kind": "term",
       "label_md": "NMR line broadening",
       "gloss_md": "Factors that shorten T2* and widen NMR peaks, causing overlap in crowded spectra.",
-      "body_md": "Contributors are intrinsic T2 relaxation (faster for large, slowly tumbling molecules), magnetic-field inhomogeneity (poor shimming), chemical exchange, sample viscosity and molecular interactions, and the measurement/processing itself. Together with the narrow ¹H shift range and hundreds of metabolites, these linewidths make peaks in urine and plasma overlap. Chemical exchange (e.g. labile OH/NH protons exchanging with water, or titrating metabolites) broadens lines in the intermediate regime and makes signals pH-dependent, stressing both deconvolution and alignment.",
+      "body_md": "Contributors are intrinsic T2 relaxation (faster for large, slowly tumbling molecules), magnetic-field inhomogeneity (poor shimming), chemical exchange, sample viscosity and molecular interactions, and the measurement/processing itself. Together with the narrow ¹H shift range and hundreds of metabolites, these linewidths make peaks in urine and plasma overlap.",
       "attrs": {
         "source": "phd-defense"
       },
@@ -238,6 +238,35 @@
         {
           "rel": "requires",
           "to": "spin-spin-relaxation"
+        }
+      ]
+    },
+    {
+      "key": "chemical-exchange",
+      "kind": "term",
+      "label_md": "Chemical exchange (NMR)",
+      "gloss_md": "A nucleus exchanging between environments with different chemical shifts; at intermediate rates it broadens the line and makes its position pH-dependent.",
+      "body_md": "The observed line shape depends on the exchange rate relative to the shift difference: slow exchange gives two lines, fast exchange one averaged line, and the intermediate regime a strongly broadened (even coalescing) line, because spins sample both frequencies within the detection time. Examples are labile OH/NH protons exchanging with water and metabolites titrating between protonation states (citrate, histidine). Such signals are broad, can be partly suppressed by water presaturation and shift with pH and temperature, so they both overlap and drift more across samples, stressing deconvolution and alignment.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 45,
+      "level": 4,
+      "dirs": [
+        "phd/nmr"
+      ],
+      "links": [
+        {
+          "rel": "related",
+          "to": "line-broadening"
+        },
+        {
+          "rel": "related",
+          "to": "chemical-shift-drift"
+        },
+        {
+          "rel": "related",
+          "to": "chemical-shift"
         }
       ]
     },
@@ -365,9 +394,9 @@
     {
       "key": "shimming",
       "kind": "term",
-      "label_md": "Shimming and field/frequency lock",
+      "label_md": "Shimming",
       "gloss_md": "Adjusting auxiliary coil currents to make B0 as homogeneous as possible over the sample.",
-      "body_md": "Field inhomogeneity dephases spins (shortens T2*) and broadens and distorts lines. Good shimming gives sharp, symmetric, truly Lorentzian peaks and a flat baseline, improving resolution and the validity of Lorentzian deconvolution. The lock channel monitors the ²H resonance of a deuterated solvent (e.g. D2O) and adjusts B0 to correct slow field drift.",
+      "body_md": "Field inhomogeneity dephases spins (shortens T2*) and broadens and distorts lines. Good shimming gives sharp, symmetric, truly Lorentzian peaks and a flat baseline, improving resolution and the validity of Lorentzian deconvolution.",
       "attrs": {
         "source": "phd-defense"
       },
@@ -375,6 +404,31 @@
       "level": 4,
       "dirs": [
         "phd/nmr"
+      ]
+    },
+    {
+      "key": "deuterium-lock",
+      "kind": "term",
+      "label_md": "Deuterium (field/frequency) lock",
+      "gloss_md": "The spectrometer monitors the ²H resonance of a deuterated solvent and continuously adjusts B0 to keep it constant, correcting field drift.",
+      "body_md": "Biofluid NMR samples get D2O added for this purpose. Because the ²H frequency is held fixed, slow drift of the magnetic field during long experiments and multi-scan averaging does not smear the signals. The deuterated solvent also reduces the solvent ¹H signal. Lock and shimming work together: the lock keeps the field stable in time, shimming makes it homogeneous in space.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 35,
+      "level": 4,
+      "dirs": [
+        "phd/nmr"
+      ],
+      "links": [
+        {
+          "rel": "related",
+          "to": "shimming"
+        },
+        {
+          "rel": "part_of",
+          "to": "nuclear-magnetic-resonance-spectroscopy"
+        }
       ]
     },
     {
@@ -552,7 +606,7 @@
       "kind": "term",
       "label_md": "metabodeconplus",
       "gloss_md": "R package unifying NMR deconvolution, cross-sample alignment, feature-matrix construction and random-forest classification.",
-      "body_md": "It is not a new version of MetaboDecon1D but a broader package with automated parameter optimization and a fast Rust backend, scaling to several hundred spectra. It quantifies every resolvable peak whether or not its metabolite is known. On the AKI urine cohort it matched a binning baseline in accuracy and AUC while giving interpretable per-peak features. Limitations: native readers only for Bruker and JCAMP-DX, no multiplet grouping, no automatic peak-to-metabolite assignment, and an expensive supervised 3-D parameter search. An optional Rust backend (mdrb, via use_rust) gives very close but not identical results and makes grid search fast; work is parallelized across spectra, not grid rows, to save memory.",
+      "body_md": "It is not a new version of MetaboDecon1D but a broader package with automated parameter optimization, scaling to several hundred spectra. It quantifies every resolvable peak whether or not its metabolite is known. On the AKI urine cohort it matched a binning baseline in accuracy and AUC while giving interpretable per-peak features. Limitations: native readers only for Bruker and JCAMP-DX, no multiplet grouping, no automatic peak-to-metabolite assignment, and an expensive supervised 3-D parameter search. Work is parallelized across spectra, not grid rows, so each worker holds only the spectra it processes.",
       "attrs": {
         "source": "phd-defense"
       },
@@ -566,6 +620,32 @@
         {
           "rel": "requires",
           "to": "spectral-deconvolution"
+        }
+      ]
+    },
+    {
+      "key": "mdrb",
+      "kind": "term",
+      "label_md": "mdrb (Rust backend of metabodeconplus)",
+      "gloss_md": "Optional Rust implementation of metabodeconplus's deconvolution, enabled with use_rust; fast enough to make parameter grid search practical.",
+      "body_md": "mdrb is a separate package (written by M. Sombke) that implements the same four-stage algorithm with extra refinements for numerical stability and speed, called from R via the use_rust flag of deconvolute(). Its results are very close but not identical to the pure-R implementation because of different floating-point refinements. The speed-up is largest for densely peaked spectra (≈2.4 s vs ≈3.7 s at 2¹⁷ points and 4096 peaks); at about 1000 peaks per spectrum both backends are similar, and all 106 AKI spectra finish in under 6 s (R: under 8 s) at 10 workers. The point is throughput: it makes a systematic grid search over deconvolution parameters tractable for hundreds of spectra.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 45,
+      "level": 4,
+      "dirs": [
+        "phd/metabodecon",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "metabodeconplus"
+        },
+        {
+          "rel": "related",
+          "to": "deconvolution-parameter-optimization"
         }
       ]
     },
@@ -595,9 +675,9 @@
     {
       "key": "curvature-based-peak-detection",
       "kind": "term",
-      "label_md": "Curvature-based peak detection and filtering",
+      "label_md": "Curvature-based peak detection",
       "gloss_md": "Detecting peaks as local minima of the second derivative of the smoothed spectrum.",
-      "body_md": "Each peak is a triplet of points (left, centre, right) and is scored by the minimum of the cumulative |S''| sums over its left and right halves, so sharp peaks score high. A small peak fully shadowed by a larger neighbour has no curvature minimum of its own and cannot be detected. Detection runs on a moving-average-smoothed spectrum (window smws, iterations smit), but metabodeconplus fits Lorentzians to raw intensities because smoothing lowers and broadens narrow peaks. Peaks are kept only if their score exceeds μ + δ·σ of the noise-region score distribution: δ too low admits noise peaks, δ too high misses weak signals (default 6.4).",
+      "body_md": "Each peak is a triplet of points (left, centre, right) and is scored by the minimum of the cumulative |S''| sums over its left and right halves, so sharp peaks score high. A small peak fully shadowed by a larger neighbour has no curvature minimum of its own and cannot be detected. Detection runs on the smoothed spectrum, and only peaks whose score clears a noise threshold are kept.",
       "attrs": {
         "source": "phd-defense"
       },
@@ -612,6 +692,33 @@
         {
           "rel": "part_of",
           "to": "metabodeconplus"
+        }
+      ]
+    },
+    {
+      "key": "smoothing-and-noise-filtering",
+      "kind": "term",
+      "label_md": "Spectrum smoothing and noise filtering",
+      "gloss_md": "Moving-average smoothing so noise creates no spurious curvature minima, and a noise-derived score threshold μ + δ·σ that discards noise peaks.",
+      "body_md": "Smoothing: a moving average with window smws, applied smit times, before peak detection. metabodeconplus uses it for detection only and fits the Lorentzians to the raw intensities, because smoothing lowers and broadens narrow peaks; MetaboDecon1D fitted the smoothed data, which biased A and λ, an effect Koh had already called 'presumably not neglectable'. Filtering: peaks in the signal-free region estimate the noise score distribution (mean μ, sd σ), and a peak is kept only if its score exceeds μ + δ·σ. δ too low admits noise peaks (false positives), δ too high misses weak signals (false negatives); the default is 6.4, and the automated grid sweeps {1.6, 3.2, 4.8, 6.4, 8.0}. Peaks in ignore regions (e.g. the water signal) are dropped as well.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 50,
+      "level": 4,
+      "dirs": [
+        "phd/nmr",
+        "phd/metabodecon",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "curvature-based-peak-detection"
+        },
+        {
+          "rel": "related",
+          "to": "deconvolution-parameter-optimization"
         }
       ]
     },
@@ -733,7 +840,7 @@
       "kind": "term",
       "label_md": "Random forest",
       "gloss_md": "Ensemble of decision trees on bootstrap samples; used (ranger) as metabodeconplus's classifier.",
-      "body_md": "Being non-linear, a random forest can split on presence/absence as well as magnitude, so it handles the 'missing peak vs small area' zeros of the feature matrix that destabilize linear models. In the AKI benchmark the same ranger forest (probability mode) was used for both binning and peak features for a fair comparison. Its out-of-bag (OOB) error, computed from each tree's predictions on samples outside its bootstrap sample, lets metabodeconplus score parameter combinations without a held-out split or inner cross-validation.",
+      "body_md": "Being non-linear, a random forest can split on presence/absence as well as magnitude, so it handles the 'missing peak vs small area' zeros of the feature matrix that destabilize linear models. In the AKI benchmark the same ranger forest (probability mode) was used for both binning and peak features for a fair comparison.",
       "attrs": {
         "source": "phd-defense"
       },
@@ -742,6 +849,37 @@
       "dirs": [
         "phd/metabodecon",
         "bioinformatics"
+      ]
+    },
+    {
+      "key": "out-of-bag-error",
+      "kind": "term",
+      "label_md": "Out-of-bag (OOB) error",
+      "gloss_md": "A random forest's built-in generalisation-error estimate from each tree's predictions on the samples left out of its bootstrap sample.",
+      "body_md": "Each tree is grown on a bootstrap sample, which leaves out about a third (≈ e⁻¹) of the observations. Predicting every observation only with the trees that did not see it gives an error estimate during training itself, close to a cross-validated one. metabodeconplus's supervised parameter optimization scores each parameter combination by the OOB error of a ranger forest, so it needs no extra held-out split or inner CV loop; this matters because every grid point already reruns the expensive deconvolution and alignment.",
+      "attrs": {
+        "source": "phd-defense",
+        "abbreviation": "OOB"
+      },
+      "priority": 45,
+      "level": 4,
+      "dirs": [
+        "phd/metabodecon",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "random-forest"
+        },
+        {
+          "rel": "related",
+          "to": "deconvolution-parameter-optimization"
+        },
+        {
+          "rel": "related",
+          "to": "cross-validation"
+        }
       ]
     },
     {
@@ -838,7 +976,7 @@
       "kind": "other",
       "label_md": "Sim2 benchmark dataset",
       "gloss_md": "100 simulated plasma-like spectra with 25 known Lorentzian peaks and 3 discriminating peaks.",
-      "body_md": "2048 points over 3.59–3.28 ppm, groups A/B 50/50, peaks derived from a deconvolution of real blood plasma. Perturbations: global ppm shift, per-peak jitter, amplitude scaling U[0.4,1.6], half-width scaling U[0.9,1.1] and Gaussian noise. In group A three peaks are scaled by 1.25, 1.25 and 1/1.25, a known moderate class signal; the first spectrum is the clean reference. Snap purity, the fraction of (spectrum, true peak) pairs whose reference column holds the correct peak and no wrong one, measures alignment quality directly on Sim2.",
+      "body_md": "2048 points over 3.59–3.28 ppm, groups A/B 50/50, peaks derived from a deconvolution of real blood plasma. Perturbations: global ppm shift, per-peak jitter, amplitude scaling U[0.4,1.6], half-width scaling U[0.9,1.1] and Gaussian noise. In group A three peaks are scaled by 1.25, 1.25 and 1/1.25, a known moderate class signal; the first spectrum is the clean reference.",
       "attrs": {
         "source": "phd-defense"
       },
@@ -847,6 +985,36 @@
       "dirs": [
         "phd/metabodecon",
         "bioinformatics"
+      ]
+    },
+    {
+      "key": "snap-purity",
+      "kind": "term",
+      "label_md": "Snap purity",
+      "gloss_md": "Fraction of (spectrum, true peak) pairs whose aligned reference column holds the correctly labelled peak and no wrong one.",
+      "body_md": "It measures alignment quality directly, which needs ground truth and so is computed on Sim2. Each deconvoluted peak is labelled before alignment with the nearest simulated peak (A–Y) if its centre lies within ±2 data points, otherwise as spurious (Z), so it carries its true identity through the pipeline. After CluPA and snap_to_ref, each of the 100 × 25 (spectrum, peak) pairs counts as pure if its reference column is populated by the right label only. Purity is highest where CluPA already brings peaks within a small maxCombine window of their reference columns.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 40,
+      "level": 5,
+      "dirs": [
+        "phd/metabodecon",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "snap-to-ref"
+        },
+        {
+          "rel": "related",
+          "to": "sim2-benchmark"
+        },
+        {
+          "rel": "related",
+          "to": "clupa"
+        }
       ]
     },
     {
@@ -902,7 +1070,7 @@
       "kind": "term",
       "label_md": "FastRet",
       "gloss_md": "R package and Shiny app that predicts LC retention times from molecular structure.",
-      "body_md": "FastRet supports LC-MS annotation by using predicted RT as an orthogonal filter on candidate identities. It implements three tasks: training from SMILES + measured RTs (Lasso or boosted trees on 241 CDK descriptors), selective measuring, and model adjustment to modified chromatographic conditions. Training and prediction take seconds on one CPU core; it is on CRAN with a web app at fastret.spang-lab.de (tabs Train, Select, Adjust, Predict). It generalises as a method retrained or adjusted per chromatographic system, not as one portable model. Predicted RTs are clipped to a plausible range from a log-normal fit to the training RTs, mainly to contain Lasso's extrapolation failures. From scratch it is competitive with Retip (boosted trees on CDK descriptors) and in low-data transfer it is the strongest structure-based method; on 14 public RepoRT datasets from other labs it reached median R² 0.60 (RP) and 0.58 (HILIC).",
+      "body_md": "FastRet supports LC-MS annotation by using predicted RT as an orthogonal filter on candidate identities. It implements three tasks: training from SMILES + measured RTs (Lasso or boosted trees on 241 CDK descriptors), selective measuring, and model adjustment to modified chromatographic conditions. Training and prediction take seconds on one CPU core; it is on CRAN with a web app at fastret.spang-lab.de (tabs Train, Select, Adjust, Predict). It generalises as a method retrained or adjusted per chromatographic system, not as one portable model. From scratch it is competitive with Retip and in low-data transfer it is the strongest structure-based method; on 14 public RepoRT datasets from other labs it reached median R² 0.60 (RP) and 0.58 (HILIC).",
       "attrs": {
         "source": "phd-defense"
       },
@@ -912,6 +1080,93 @@
         "phd/fastret",
         "phd/liquid-chromatography",
         "bioinformatics"
+      ]
+    },
+    {
+      "key": "retip",
+      "kind": "term",
+      "label_md": "Retip",
+      "gloss_md": "R package (Bonini et al.) that predicts LC retention times with machine-learning models on CDK molecular descriptors.",
+      "body_md": "Retip trains several model types (e.g. xgboost boosted trees, Keras networks) on CDK descriptors and ships a large HILIC (BEH-Amide) dataset, used as FastRet's external HILIC-Retip validation set (N=970). Trained from scratch on full data, FastRet-BRT and the more heavily tuned Retip-xgboost differ only marginally, and FastRet's grid search reproduces Retip-xgboost (R² 0.74 vs 0.74 on RP-AXMM). With only 25–50 compounds for a new setup Retip fails: its grid search degenerates to near-constant predictions and Retip-keras reaches strongly negative R². It also needs far more compute (16 cores, tens of seconds) than FastRet (1–2 s on one core).",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 40,
+      "level": 4,
+      "dirs": [
+        "phd/fastret",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "related",
+          "to": "fastret"
+        },
+        {
+          "rel": "related",
+          "to": "retention-time-prediction"
+        },
+        {
+          "rel": "related",
+          "to": "boosted-regression-trees"
+        },
+        {
+          "rel": "related",
+          "to": "molecular-descriptor"
+        }
+      ]
+    },
+    {
+      "key": "repo-rt",
+      "kind": "other",
+      "label_md": "RepoRT",
+      "gloss_md": "Public repository of small-molecule retention-time datasets from many labs, columns and methods, with metadata on the chromatographic setup.",
+      "body_md": "FastRet's cross-lab validation used 14 RepoRT datasets (12 reversed-phase columns from five manufacturers, 2 amide-HILIC) from independent labs and instruments, keeping only columns that share enough molecules with the in-house library. Trained from scratch on the shared compounds FastRet reached median held-out R² 0.60 (RP) and 0.58 (HILIC); adjusting an in-house model from 25–50 re-measured compounds did comparably (adjust-50 median RP R² 0.65). Performance dropped for compound classes underrepresented in training and for a column run with a much longer gradient than any in training. The framing that follows: FastRet generalises as a method retrained or adjusted per system, not as one portable model.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 40,
+      "level": 4,
+      "dirs": [
+        "phd/fastret",
+        "phd/liquid-chromatography",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "related",
+          "to": "fastret"
+        },
+        {
+          "rel": "related",
+          "to": "retention-time"
+        }
+      ]
+    },
+    {
+      "key": "prediction-clipping",
+      "kind": "term",
+      "label_md": "Prediction clipping (FastRet)",
+      "gloss_md": "FastRet clamps predicted RTs into a plausible range derived from a log-normal fit to the training RTs.",
+      "body_md": "Bounds are extreme quantiles (≈0.0005 and 0.9995) of a log-normal fitted to the observed training RTs, adjusted so the lower bound lies between 0 and the observed minimum (not below 1% of it) and the upper bound is at least the observed maximum. Clipping chiefly contains the linear model's extrapolation failures: Lasso can output implausible, even negative, RTs for compounds whose descriptors fall outside the training range, whereas boosted trees are naturally bounded. For adjusted models the base prediction is clipped, passed through the adjustment model, and clipped again with the adjustment model's own training range.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 40,
+      "level": 4,
+      "dirs": [
+        "phd/fastret",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "fastret"
+        },
+        {
+          "rel": "related",
+          "to": "lasso"
+        }
       ]
     },
     {
@@ -1055,7 +1310,7 @@
       "kind": "term",
       "label_md": "Cross-validation",
       "gloss_md": "Estimating generalization by repeatedly fitting on part of the data and testing on the held-out rest.",
-      "body_md": "FastRet uses CV for hyperparameters and performance, but evaluates adjustment with dedicated train/test sets: test compounds must be in neither the base nor the adjustment-training set, which folded CV would make complex. In FastRet, inner CV selects λ (Lasso) or nrounds (BRT) and an outer CV estimates performance, i.e. nested cross-validation.",
+      "body_md": "FastRet uses CV for hyperparameters and performance, but evaluates adjustment with dedicated train/test sets: test compounds must be in neither the base nor the adjustment-training set, which folded CV would make complex.",
       "attrs": {
         "source": "phd-defense"
       },
@@ -1064,6 +1319,36 @@
       "dirs": [
         "phd/fastret",
         "bioinformatics"
+      ]
+    },
+    {
+      "key": "nested-cross-validation",
+      "kind": "term",
+      "label_md": "Nested cross-validation",
+      "gloss_md": "An outer CV loop estimates performance of a whole fitting procedure whose hyperparameters are tuned by an inner CV loop.",
+      "body_md": "When a model's hyperparameters are chosen by cross-validation, the CV error of the chosen setting is optimistically biased, because the same folds were used to pick it. Nested CV wraps the entire tuning procedure in an outer CV: each outer fold re-runs the inner tuning on its training part only and is tested on data the tuning never saw, giving a nearly unbiased estimate of generalisation. In FastRet, inner CV selects λ (Lasso, glmnet, ten-fold) or nrounds (BRT, xgboost with early stopping), and the default outer CV reports performance; outer folds can run in parallel (nw).",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 50,
+      "level": 4,
+      "dirs": [
+        "phd/fastret",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "cross-validation"
+        },
+        {
+          "rel": "related",
+          "to": "lasso"
+        },
+        {
+          "rel": "related",
+          "to": "boosted-regression-trees"
+        }
       ]
     },
     {
@@ -1251,7 +1536,7 @@
       "kind": "term",
       "label_md": "Resolution (Rs)",
       "gloss_md": "How well two peaks are separated, combining spacing and width; Rs ≈ 1.5 is baseline separation.",
-      "body_md": "The resolution equation has three multiplicative terms: efficiency (√N/4), selectivity ((α−1)/α) and retention (k/(1+k)). Increasing N has square-root returns and raises backpressure; increasing k helps until it plateaus. Selectivity α = k₂/k₁ is usually the most powerful lever; α = 1 means no separation is possible.",
+      "body_md": "The resolution equation has three multiplicative terms: efficiency (√N/4), selectivity ((α−1)/α) and retention (k/(1+k)). Increasing N has square-root returns and raises backpressure; increasing k helps until it plateaus. Selectivity is usually the most powerful lever.",
       "attrs": {
         "source": "phd-defense"
       },
@@ -1264,6 +1549,35 @@
         {
           "rel": "requires",
           "to": "theoretical-plate-number"
+        },
+        {
+          "rel": "requires",
+          "to": "chromatographic-selectivity"
+        }
+      ]
+    },
+    {
+      "key": "chromatographic-selectivity",
+      "kind": "term",
+      "label_md": "Selectivity (α)",
+      "gloss_md": "α = k₂/k₁, the ratio of the retention factors of two adjacent peaks; α = 1 means no separation is possible.",
+      "body_md": "It measures how differently the column chemistry treats two compounds, independent of column efficiency. It enters the resolution equation as (α−1)/α, so even small gains in α help a lot, which makes it usually the most powerful lever. It is changed through the stationary phase, mobile-phase composition, pH and temperature; gradient steepness also shifts apparent selectivity.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 50,
+      "level": 4,
+      "dirs": [
+        "phd/liquid-chromatography"
+      ],
+      "links": [
+        {
+          "rel": "requires",
+          "to": "retention-factor"
+        },
+        {
+          "rel": "related",
+          "to": "chromatographic-resolution"
         }
       ]
     },
@@ -1403,7 +1717,7 @@
       "kind": "term",
       "label_md": "Gradient elution",
       "gloss_md": "Changing mobile-phase strength during the run, in contrast to constant-composition isocratic elution.",
-      "body_md": "Gradients solve the general elution problem: no single isocratic composition resolves early compounds and elutes strongly retained ones in reasonable time. Steeper gradients shorten runs but reduce peak capacity and resolution; shallower ones spread peaks at the cost of time, and steepness can change selectivity. Costs: re-equilibration, dwell volume and gradient-shape dependence make RTs harder to transfer. The dwell (gradient delay) volume between mixer and column head acts as an initial isocratic hold and differs between instruments, a major source of RT non-transferability.",
+      "body_md": "Gradients solve the general elution problem: no single isocratic composition resolves early compounds and elutes strongly retained ones in reasonable time. Steeper gradients shorten runs but reduce peak capacity and resolution; shallower ones spread peaks at the cost of time, and steepness can change selectivity. Costs: re-equilibration, dwell volume and gradient-shape dependence make RTs harder to transfer.",
       "attrs": {
         "source": "phd-defense"
       },
@@ -1420,11 +1734,36 @@
       ]
     },
     {
+      "key": "dwell-volume",
+      "kind": "term",
+      "label_md": "Dwell (gradient delay) volume",
+      "gloss_md": "The system volume between the point where the gradient is formed and the column head.",
+      "body_md": "A programmed composition change reaches the column only after this volume has been swept out, which acts as an initial isocratic hold of dwell volume / flow rate. Dwell volumes differ between instruments (high- vs low-pressure mixing differ markedly), so the same gradient program gives slightly different effective gradients and shifted RTs. It is a major, often under-appreciated source of non-transferable gradient RTs, separate from column chemistry, and part of why RT models need per-system retraining or adjustment.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 40,
+      "level": 4,
+      "dirs": [
+        "phd/liquid-chromatography"
+      ],
+      "links": [
+        {
+          "rel": "part_of",
+          "to": "gradient-elution"
+        },
+        {
+          "rel": "related",
+          "to": "retention-time"
+        }
+      ]
+    },
+    {
       "key": "mobile-phase-ph",
       "kind": "term",
-      "label_md": "Mobile-phase pH and additives",
+      "label_md": "Mobile-phase pH",
       "gloss_md": "pH sets the charge state of ionisable analytes (via pKa) and so their retention.",
-      "body_md": "In RP the neutral form is retained more; retention changes sharply near pH ≈ pKa, so operating away from pKa gives reproducible retention. pH also affects silanol ionisation and, in mixed-mode, the electrostatic component; it is another setup variable an RT model is tied to. Volatile additives such as formic acid and ammonium formate control pH and ionic strength in LC-MS; non-volatile buffers like phosphate would precipitate in the ESI source.",
+      "body_md": "In RP the neutral form is retained more; retention changes sharply near pH ≈ pKa, so operating away from pKa gives reproducible retention. pH also affects silanol ionisation and, in mixed-mode, the electrostatic component; it is another setup variable an RT model is tied to.",
       "attrs": {
         "source": "phd-defense"
       },
@@ -1432,6 +1771,35 @@
       "level": 4,
       "dirs": [
         "phd/liquid-chromatography"
+      ]
+    },
+    {
+      "key": "mobile-phase-additives",
+      "kind": "term",
+      "label_md": "Mobile-phase additives",
+      "gloss_md": "Volatile acids and buffer salts (formic acid, ammonium formate) that set pH and ionic strength of an LC-MS mobile phase.",
+      "body_md": "They fix the charge state of ionisable analytes and so their retention and peak shape, and suppress silanol interactions. In the thesis methods 0.1–0.125% formic acid lowers pH and aids positive-mode ESI by protonating analytes, while ammonium formate (about 10 mM) buffers and controls ionic strength, important in HILIC and for the anion-exchange part of mixed-mode. With MS detection only volatile additives are allowed: non-volatile buffers such as phosphate or involatile ion-pairing salts precipitate in the ESI source, contaminate it and cause ion suppression.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 40,
+      "level": 4,
+      "dirs": [
+        "phd/liquid-chromatography"
+      ],
+      "links": [
+        {
+          "rel": "related",
+          "to": "mobile-phase-ph"
+        },
+        {
+          "rel": "related",
+          "to": "electrospray-ionization"
+        },
+        {
+          "rel": "related",
+          "to": "ion-suppression"
+        }
       ]
     },
     {
@@ -1828,7 +2196,7 @@
       "kind": "term",
       "label_md": "Missing-value imputation",
       "gloss_md": "Filling in missing entries of a data matrix; ADMIRE uses a two-step MGM-based scheme.",
-      "body_md": "Step 1: nearest-neighbour pre-imputation with Euclidean distance ignoring missing features. Step 2: fit an MGM on the completed data and re-estimate the missing cells from their conditionals. ADMIRE beat MissForest on continuous MAPE at 5–35% missingness and on discrete states in all settings; MissForest won above ~40%. MissForest is a non-parametric random-forest imputer for mixed data.",
+      "body_md": "Step 1: nearest-neighbour pre-imputation with Euclidean distance ignoring missing features. Step 2: fit an MGM on the completed data and re-estimate the missing cells from their conditionals. This beat MissForest at moderate missingness.",
       "attrs": {
         "source": "phd-defense"
       },
@@ -1837,6 +2205,32 @@
       "dirs": [
         "phd/adadmire",
         "bioinformatics"
+      ]
+    },
+    {
+      "key": "missforest",
+      "kind": "term",
+      "label_md": "MissForest",
+      "gloss_md": "Non-parametric imputation for mixed continuous/categorical data by iteratively predicting each variable's missing values with a random forest.",
+      "body_md": "MissForest needs no distributional assumptions, which makes it a standard baseline for mixed data. On the Higuera mouse proteomics data with 5–50% artificially missing values, ADMIRE beat it on continuous MAPE at 5–35% missingness and on discrete states in all settings, while MissForest won on the continuous side from about 40% missingness. Reading: ADMIRE's parametric MGM imputation is strongest while the dependence structure is still estimable; with too much missing data a non-parametric method degrades more gracefully.",
+      "attrs": {
+        "source": "phd-defense"
+      },
+      "priority": 40,
+      "level": 4,
+      "dirs": [
+        "phd/adadmire",
+        "bioinformatics"
+      ],
+      "links": [
+        {
+          "rel": "related",
+          "to": "missing-value-imputation"
+        },
+        {
+          "rel": "related",
+          "to": "random-forest"
+        }
       ]
     },
     {
@@ -2686,12 +3080,20 @@
       "item": "shimming"
     },
     {
+      "card": "What are the roles of the deuterated solvent, the field/frequency lock, and shimming in obtaining a good NMR spectrum?",
+      "item": "deuterium-lock"
+    },
+    {
       "card": "What is chemical-exchange broadening, and why does it make certain metabolite signals especially troublesome?",
       "item": "line-broadening"
     },
     {
       "card": "What is chemical-exchange broadening, and why does it make certain metabolite signals especially troublesome?",
       "item": "chemical-shift-drift"
+    },
+    {
+      "card": "What is chemical-exchange broadening, and why does it make certain metabolite signals especially troublesome?",
+      "item": "chemical-exchange"
     },
     {
       "card": "What is HRMAS NMR and when is it used instead of solution-state NMR?",
@@ -2708,6 +3110,10 @@
     {
       "card": "Deconvolution was 'not new' — Koh et al. proposed the core method. Summarise Koh's two-stage approach and the feature that distinguishes it from classical curve fitting.",
       "item": "analytic-lorentzian-approximation"
+    },
+    {
+      "card": "Deconvolution was 'not new' — Koh et al. proposed the core method. Summarise Koh's two-stage approach and the feature that distinguishes it from classical curve fitting.",
+      "item": "smoothing-and-noise-filtering"
     },
     {
       "card": "Metabolite identification in metabolomics is graded by confidence levels (Sumner/MSI). What is the gold-standard criterion for confident identification, and how does a database lookup differ from it?",
@@ -2778,6 +3184,10 @@
       "item": "analytic-lorentzian-approximation"
     },
     {
+      "card": "Describe the four stages of the metabodeconplus deconvolution algorithm and what each stage is responsible for.",
+      "item": "smoothing-and-noise-filtering"
+    },
+    {
       "card": "metabodeconplus models each NMR signal as a Lorentzian line. Write the functional form it fits and explain why the Lorentzian is the physically correct choice for a liquid-state 1D NMR peak.",
       "item": "lorentzian-line-shape"
     },
@@ -2802,16 +3212,28 @@
       "item": "metabodecon1d"
     },
     {
+      "card": "A key change from MetaboDecon1D is that metabodeconplus smooths the spectrum only for peak *detection* and fits the Lorentzians to the raw intensities. Why does this matter, and whose observation motivated it?",
+      "item": "smoothing-and-noise-filtering"
+    },
+    {
       "card": "What is the role of the peak *score* and the δ (delta) parameter in filtering, and what failure modes lie at the two extremes of δ?",
       "item": "curvature-based-peak-detection"
     },
     {
+      "card": "What is the role of the peak *score* and the δ (delta) parameter in filtering, and what failure modes lie at the two extremes of δ?",
+      "item": "smoothing-and-noise-filtering"
+    },
+    {
       "card": "Why does metabodeconplus provide an optional Rust backend, and what is the honest caveat about its results?",
-      "item": "metabodeconplus"
+      "item": "mdrb"
     },
     {
       "card": "Quantify the runtime gains metabodeconplus achieves over MetaboDecon1D, and explain how parallelization was designed and why.",
       "item": "metabodeconplus"
+    },
+    {
+      "card": "Quantify the runtime gains metabodeconplus achieves over MetaboDecon1D, and explain how parallelization was designed and why.",
+      "item": "mdrb"
     },
     {
       "card": "List the four tunable deconvolution parameters and describe the unsupervised parameter-optimization procedure, including why minimizing the area ratio alone is not enough.",
@@ -2836,6 +3258,10 @@
     {
       "card": "In supervised parameter optimization, why does metabodeconplus use a random forest (ranger) rather than a linear classifier, and what does the out-of-bag error buy?",
       "item": "deconvolution-parameter-optimization"
+    },
+    {
+      "card": "In supervised parameter optimization, why does metabodeconplus use a random forest (ranger) rather than a linear classifier, and what does the out-of-bag error buy?",
+      "item": "out-of-bag-error"
     },
     {
       "card": "maxShift and maxCombine are the two alignment parameters. Why does the paper argue tuning them is 'in general not redundant,' yet recommend *not* tuning all three parameters (npmax, maxShift, maxCombine) jointly in practice?",
@@ -2908,6 +3334,10 @@
     {
       "card": "What is 'snap purity' and how was it measured on Sim2 to evaluate alignment quality directly?",
       "item": "snap-to-ref"
+    },
+    {
+      "card": "What is 'snap purity' and how was it measured on Sim2 to evaluate alignment quality directly?",
+      "item": "snap-purity"
     },
     {
       "card": "On the real AKI cohort, metabodeconplus was benchmarked against an equidistant-binning baseline. Summarise the comparison and the headline result.",
@@ -3030,6 +3460,10 @@
       "item": "cross-validation"
     },
     {
+      "card": "Describe how FastRet fits its Lasso and BRT models, including hyperparameter selection and the nested cross-validation used for performance estimation.",
+      "item": "nested-cross-validation"
+    },
+    {
       "card": "In FastRet's experiments, how do BRT and Lasso compare, and why is BRT described as the more stable choice?",
       "item": "boosted-regression-trees"
     },
@@ -3091,11 +3525,11 @@
     },
     {
       "card": "How does FastRet clip its predicted RTs, and why is clipping needed?",
-      "item": "fastret"
+      "item": "lasso"
     },
     {
       "card": "How does FastRet clip its predicted RTs, and why is clipping needed?",
-      "item": "lasso"
+      "item": "prediction-clipping"
     },
     {
       "card": "Summarise the independent adjustment-validation experiment (datasets 6-18) and its main finding.",
@@ -3110,12 +3544,20 @@
       "item": "retention-time-projection"
     },
     {
+      "card": "How does FastRet compare against Retip, DeepGCN-RT and a PredRet-like projection, both from scratch and in the low-data transfer setting?",
+      "item": "retip"
+    },
+    {
       "card": "What is the PredRet-like baseline in the benchmark, and what fundamental limitation of projection methods does it illustrate?",
       "item": "retention-time-projection"
     },
     {
       "card": "What did the cross-lab RepoRT validation (12 RP + 2 HILIC datasets) show about how FastRet generalises, and how should generalisation claims be framed?",
       "item": "fastret"
+    },
+    {
+      "card": "What did the cross-lab RepoRT validation (12 RP + 2 HILIC datasets) show about how FastRet generalises, and how should generalisation claims be framed?",
+      "item": "repo-rt"
     },
     {
       "card": "What do the fitted models' descriptor signatures reveal, and how does this address the high descriptor-to-sample ratio?",
@@ -3136,6 +3578,14 @@
     {
       "card": "Describe the three in-house datasets and the external dataset used to validate FastRet, and why performance differs across them.",
       "item": "hydrophilic-interaction-chromatography"
+    },
+    {
+      "card": "Describe the three in-house datasets and the external dataset used to validate FastRet, and why performance differs across them.",
+      "item": "retip"
+    },
+    {
+      "card": "Describe the three in-house datasets and the external dataset used to validate FastRet, and why performance differs across them.",
+      "item": "repo-rt"
     },
     {
       "card": "Why is RP-AXMM (reversed-phase / anion-exchange mixed-mode) the hardest of the three separation modes for FastRet to predict?",
@@ -3214,6 +3664,10 @@
       "item": "chromatographic-resolution"
     },
     {
+      "card": "Define selectivity (α) and resolution (Rs), and explain the three factors that control resolution.",
+      "item": "chromatographic-selectivity"
+    },
+    {
       "card": "State the van Deemter equation, name its three terms, and explain why sub-2 µm (UHPLC) particles improve efficiency.",
       "item": "van-deemter-equation"
     },
@@ -3272,6 +3726,10 @@
     {
       "card": "Why are mobile-phase additives like formic acid and ammonium formate used in LC-MS, and why must buffers be volatile?",
       "item": "electrospray-ionization"
+    },
+    {
+      "card": "Why are mobile-phase additives like formic acid and ammonium formate used in LC-MS, and why must buffers be volatile?",
+      "item": "mobile-phase-additives"
     },
     {
       "card": "How is LC coupled to mass spectrometry via electrospray ionisation (ESI), and what are ion suppression and matrix effects?",
@@ -3347,11 +3805,11 @@
     },
     {
       "card": "What is the system dwell (delay) volume in gradient LC, and why does it matter for reproducibility and RT transfer?",
-      "item": "gradient-elution"
+      "item": "retention-time"
     },
     {
       "card": "What is the system dwell (delay) volume in gradient LC, and why does it matter for reproducibility and RT transfer?",
-      "item": "retention-time"
+      "item": "dwell-volume"
     },
     {
       "card": "What are the main sources of band broadening (peak width) in LC, including extra-column contributions?",
@@ -3476,6 +3934,10 @@
     {
       "card": "How does ADMIRE's imputation compare to MissForest, and what does that comparison reveal about ADMIRE's operating range?",
       "item": "missing-value-imputation"
+    },
+    {
+      "card": "How does ADMIRE's imputation compare to MissForest, and what does that comparison reveal about ADMIRE's operating range?",
+      "item": "missforest"
     },
     {
       "card": "What dataset was used for the simulation study, and how were artificial continuous anomalies generated?",

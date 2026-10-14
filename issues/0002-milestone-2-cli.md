@@ -1,5 +1,5 @@
 ---
-status: in-progress
+status: done
 kind: task
 ---
 
@@ -67,3 +67,24 @@ unranked; answer/finish moved to worker threads; UI minimalism
 pass (status bars carry only non-obvious keys). Italian
 conjugations (24 verbs) and German match/facts content
 imported. Still open: edit ($EDITOR), export, link/unlink.
+
+2026-10-14: Added the last organizing commands, e2e-tested in cli/tests/test_organize.py.
+
+- `pauk edit CARD_ID` opens the card in $EDITOR (then VISUAL, then notepad on Windows or vi) in the `pauk clone` file format (YAML frontmatter with id, type, dirs and the type's fields; the question as the body), so every card type round-trips the way clone/upload already do.
+  Only changed fields are PATCHed; an unchanged file changes nothing; an invalid file or one the API rejects is reported and can be reopened with the edits kept.
+  The id and type are fixed, and a route's graph, start and goal cannot be changed because PATCH /cards/{id} ignores them (docs/api.md says any POST field is patchable; the client refuses instead of silently dropping the edit).
+
+- `pauk link SRC DIR` and `pauk unlink SRC DIR` add or remove one membership edge, for a card or a directory.
+  Unlinking a card's last directory leaves it unfiled (with a note); unlinking a directory's last parent makes it top-level, refused when a top-level directory of that name exists (the API does not check that on unlink).
+
+- `pauk mv` moves one edge: link to the new parent, then unlink from the old one.
+  A directory's source path names the parent it leaves; mv semantics otherwise (into an existing directory, or to a new path, which renames, or to `/`).
+  Refused as ambiguous: a card in several directories without `--from`, a directory with other parents moved to the top level, and a bare number that is both a card id and a top-level directory name (`#17` and `17/` disambiguate).
+
+Decisions on the rest of the body spec:
+
+- The interactive start menu with "Organize questions" is not built: bare `pauk` became the Textual app and then the tutor, the TUI is frozen (issues/0015), and organizing stays a set of subcommands.
+
+- Import/export as markdown files with frontmatter is `pauk clone` / `pauk upload` (upload is create-only; existing cards change through `pauk edit`); `pauk export` is the knowledge-profile export.
+
+- The acceptance cycle (create, quiz, export, reimport) is covered locally by test_e2e.py and test_sync.py; production has been used through the CLI since 2026-09-09.
