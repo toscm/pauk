@@ -1,0 +1,402 @@
+{
+  "space": "concepts",
+  "dirs": [
+    "germany",
+    "germany/bundeslaender",
+    "germany/cities"
+  ],
+  "items": [
+    {
+      "key": "baden-wurttemberg",
+      "kind": "fact",
+      "label_md": "Baden-Württemberg",
+      "gloss_md": "State in the south-west; capital Stuttgart.",
+      "attrs": {
+        "source": "germany",
+        "type": "state"
+      },
+      "priority": 70,
+      "level": 1,
+      "dirs": [
+        "germany/bundeslaender"
+      ]
+    },
+    {
+      "key": "bayern",
+      "kind": "fact",
+      "label_md": "Bayern",
+      "gloss_md": "Largest state, in the south-east; capital München.",
+      "attrs": {
+        "source": "germany",
+        "type": "state"
+      },
+      "priority": 70,
+      "level": 1,
+      "dirs": [
+        "germany/bundeslaender"
+      ]
+    },
+    {
+      "key": "berlin",
+      "kind": "fact",
+      "label_md": "Berlin",
+      "gloss_md": "Capital of Germany, a city-state surrounded by Brandenburg.",
+      "attrs": {
+        "source": "germany",
+        "type": "state"
+      },
+      "priority": 70,
+      "level": 1,
+      "dirs": [
+        "germany/bundeslaender",
+        "germany/cities"
+      ]
+    },
+    {
+      "key": "brandenburg",
+      "kind": "fact",
+      "label_md": "Brandenburg",
+      "gloss_md": "State around Berlin; capital Potsdam.",
+      "attrs": {
+        "source": "germany",
+        "type": "state"
+      },
+      "priority": 70,
+      "level": 1,
+      "dirs": [
+        "germany/bundeslaender"
+      ]
+    },
+    {
+      "key": "bremen",
+      "kind": "fact",
+      "label_md": "Bremen",
+      "gloss_md": "Smallest state: the cities Bremen and Bremerhaven in the north-west.",
+      "attrs": {
+        "source": "germany",
+        "type": "state"
+      },
+      "priority": 70,
+      "level": 1,
+      "dirs": [
+        "germany/bundeslaender"
+      ]
+    },
+    {
+      "key": "hamburg",
+      "kind": "fact",
+      "label_md": "Hamburg",
+      "gloss_md": "City-state and port on the Elbe in the north.",
+      "attrs": {
+        "source": "germany",
+        "type": "state"
+      },
+      "priority": 70,
+      "level": 1,
+      "dirs": [
+        "germany/bundeslaender",
+        "germany/cities"
+      ]
+    },
+    {
+      "key": "hessen",
+      "kind": "fact",
+      "label_md": "Hessen",
+      "gloss_md": "State in the centre-west; capital Wiesbaden, largest city Frankfurt.",
+      "attrs": {
+        "source": "germany",
+        "type": "state"
+      },
+      "priority": 70,
+      "level": 1,
+      "dirs": [
+        "germany/bundeslaender"
+      ]
+    },
+    {
+      "key": "mecklenburg-vorpommern",
+      "kind": "fact",
+      "label_md": "Mecklenburg-Vorpommern",
+      "gloss_md": "State on the Baltic coast in the north-east; capital Schwerin.",
+      "attrs": {
+        "source": "germany",
+        "type": "state"
+      },
+      "priority": 70,
+      "level": 1,
+      "dirs": [
+        "germany/bundeslaender"
+      ]
+    },
+    {
+      "key": "niedersachsen",
+      "kind": "fact",
+      "label_md": "Niedersachsen",
+      "gloss_md": "Large state in the north-west; capital Hannover.",
+      "attrs": {
+        "source": "germany",
+        "type": "state"
+      },
+      "priority": 70,
+      "level": 1,
+      "dirs": [
+        "germany/bundeslaender"
+      ]
+    },
+    {
+      "key": "nordrhein-westfalen",
+      "kind": "fact",
+      "label_md": "Nordrhein-Westfalen",
+      "gloss_md": "Most populous state, in the west; capital Düsseldorf.",
+      "attrs": {
+        "source": "germany",
+        "type": "state"
+      },
+      "priority": 70,
+      "level": 1,
+      "dirs": [
+        "germany/bundeslaender"
+      ]
+    },
+    {
+      "key": "rheinland-pfalz",
+      "kind": "fact",
+      "label_md": "Rheinland-Pfalz",
+      "gloss_md": "State in the west on the Rhine and Mosel; capital Mainz.",
+      "attrs": {
+        "source": "germany",
+        "type": "state"
+      },
+      "priority": 70,
+      "level": 1,
+      "dirs": [
+        "germany/bundeslaender"
+      ]
+    },
+    {
+      "key": "saarland",
+      "kind": "fact",
+      "label_md": "Saarland",
+      "gloss_md": "Small state on the French border; capital Saarbrücken.",
+      "attrs": {
+        "source": "germany",
+        "type": "state"
+      },
+      "priority": 70,
+      "level": 1,
+      "dirs": [
+        "germany/bundeslaender"
+      ]
+    },
+    {
+      "key": "sachsen",
+      "kind": "fact",
+      "label_md": "Sachsen",
+      "gloss_md": "State in the east; capital Dresden.",
+      "attrs": {
+        "source": "germany",
+        "type": "state"
+      },
+      "priority": 70,
+      "level": 1,
+      "dirs": [
+        "germany/bundeslaender"
+      ]
+    },
+    {
+      "key": "sachsen-anhalt",
+      "kind": "fact",
+      "label_md": "Sachsen-Anhalt",
+      "gloss_md": "State in the centre-east; capital Magdeburg.",
+      "attrs": {
+        "source": "germany",
+        "type": "state"
+      },
+      "priority": 70,
+      "level": 1,
+      "dirs": [
+        "germany/bundeslaender"
+      ]
+    },
+    {
+      "key": "schleswig-holstein",
+      "kind": "fact",
+      "label_md": "Schleswig-Holstein",
+      "gloss_md": "Northernmost state, between North Sea and Baltic; capital Kiel.",
+      "attrs": {
+        "source": "germany",
+        "type": "state"
+      },
+      "priority": 70,
+      "level": 1,
+      "dirs": [
+        "germany/bundeslaender"
+      ]
+    },
+    {
+      "key": "thuringen",
+      "kind": "fact",
+      "label_md": "Thüringen",
+      "gloss_md": "State in the centre; capital Erfurt.",
+      "attrs": {
+        "source": "germany",
+        "type": "state"
+      },
+      "priority": 70,
+      "level": 1,
+      "dirs": [
+        "germany/bundeslaender"
+      ]
+    },
+    {
+      "key": "munchen",
+      "kind": "fact",
+      "label_md": "München",
+      "gloss_md": "Capital of Bayern, on the Isar.",
+      "attrs": {
+        "source": "germany",
+        "type": "city"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "germany/cities"
+      ]
+    },
+    {
+      "key": "koln",
+      "kind": "fact",
+      "label_md": "Köln",
+      "gloss_md": "Largest city of Nordrhein-Westfalen, on the Rhine.",
+      "attrs": {
+        "source": "germany",
+        "type": "city"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "germany/cities"
+      ]
+    },
+    {
+      "key": "frankfurt-am-main",
+      "kind": "fact",
+      "label_md": "Frankfurt am Main",
+      "gloss_md": "Financial centre of Germany, in Hessen.",
+      "attrs": {
+        "source": "germany",
+        "type": "city"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "germany/cities"
+      ]
+    },
+    {
+      "key": "stuttgart",
+      "kind": "fact",
+      "label_md": "Stuttgart",
+      "gloss_md": "Capital of Baden-Württemberg.",
+      "attrs": {
+        "source": "germany",
+        "type": "city"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "germany/cities"
+      ]
+    },
+    {
+      "key": "leipzig",
+      "kind": "fact",
+      "label_md": "Leipzig",
+      "gloss_md": "Largest city of Sachsen.",
+      "attrs": {
+        "source": "germany",
+        "type": "city"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "germany/cities"
+      ]
+    },
+    {
+      "key": "dresden",
+      "kind": "fact",
+      "label_md": "Dresden",
+      "gloss_md": "Capital of Sachsen, on the Elbe.",
+      "attrs": {
+        "source": "germany",
+        "type": "city"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "germany/cities"
+      ]
+    },
+    {
+      "key": "hannover",
+      "kind": "fact",
+      "label_md": "Hannover",
+      "gloss_md": "Capital of Niedersachsen.",
+      "attrs": {
+        "source": "germany",
+        "type": "city"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "germany/cities"
+      ]
+    },
+    {
+      "key": "nurnberg",
+      "kind": "fact",
+      "label_md": "Nürnberg",
+      "gloss_md": "Second city of Bayern, in Franconia.",
+      "attrs": {
+        "source": "germany",
+        "type": "city"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "germany/cities"
+      ]
+    },
+    {
+      "key": "rostock",
+      "kind": "fact",
+      "label_md": "Rostock",
+      "gloss_md": "Largest city of Mecklenburg-Vorpommern, on the Baltic.",
+      "attrs": {
+        "source": "germany",
+        "type": "city"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "germany/cities"
+      ]
+    },
+    {
+      "key": "kassel",
+      "kind": "fact",
+      "label_md": "Kassel",
+      "gloss_md": "City in northern Hessen.",
+      "attrs": {
+        "source": "germany",
+        "type": "city"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "germany/cities"
+      ]
+    }
+  ]
+}

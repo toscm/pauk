@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 from pathlib import Path
 from typing import Any, List, Optional
@@ -283,15 +284,18 @@ def end(summary: str = typer.Argument(..., help="Markdown summary, or - for stdi
 
 
 activity_app = typer.Typer(add_completion=False, rich_markup_mode=None,
-                           help="Activities: interactive exercises such as an autobahn route.")
+                           help="Activities: an autobahn route, map labelling, a town scene.")
 teach_app.add_typer(activity_app, name="activity")
 
 
 @activity_app.command("start")
-def activity_start(type_: str = typer.Argument(..., metavar="TYPE"),
-                   spec: str = typer.Argument(..., help='JSON, e.g. {"start": "muenchen", "goal": "berlin"}')) -> None:
+def activity_start(type_: str = typer.Argument(..., metavar="TYPE", help="route, map_labels or town"),
+                   spec: str = typer.Argument(..., metavar="SPEC_REF",
+                                              help='bundled content name (e.g. italian-town, germany-states) '
+                                                   'or JSON, e.g. {"start": "muenchen", "goal": "berlin"}')) -> None:
     """Start an activity; returns its aid and a text description."""
-    _act("activity-start", {"type": type_, "spec": _json_arg(spec)})
+    data = {"ref": spec} if re.match(r"^[a-z0-9]+(-[a-z0-9]+)*$", spec) else _json_arg(spec)
+    _act("activity-start", {"type": type_, "spec": data})
 
 
 @activity_app.command("act")

@@ -223,6 +223,8 @@ class Session:
             "protocol": p.PROTOCOL,
             "new_item_budget": self.new_budget(),
             "open_exercises": open_ex,
+            "open_activities": [{"aid": aid, "type": a.type, "text": a.describe(TEACHER)}
+                                for aid, a in self.activities.items() if not a.done],
             "pending_proposals": [pr for pr in self.proposals.values() if pr["status"] == "pending"],
             "transcript_tail": self.events_for(TEACHER)[-30:],
             "last_seq": len(self.events),
@@ -638,15 +640,36 @@ class Session:
     @locked
     def activity_start(self, body: p.ActivityStart) -> dict:
         self._teacher_act("activity-start", body.model_dump())
-        refs = [self._item(ref)["ref"] for ref in body.spec.get("items", [])]
         try:
-            activity = activities.create(body.type, {**body.spec, "items": refs})
+            spec = activities.resolve(body.type, body.spec)
         except ValueError as e:
             raise SessionError(400, "validation", str(e)) from None
+        refs = [self._item(ref)["ref"] for ref in spec.get("items", [])]
+        try:
+            activity = activities.create(body.type, {**spec, "items": refs})
+        except ValueError as e:
+            raise SessionError(400, "validation", str(e)) from None
+        # refs embedded in content need not all be in the profile: evidence
+        # for missing ones is skipped, and the teacher learns which they are
+        activity.source_spec = body.spec   # what is stored with the evidence (a content ref stays short)
+        activity.missing_refs = []
+        for ref in activity.refs():
+            try:
+                self._item(ref)
+            except SessionError:
+                activity.missing_refs.append(ref)
         aid = self._next_id("a")
         self.activities[aid] = activity
-        e = self.emit(TEACHER, "activity", {"aid": aid, "view": activity.view(), "text": activity.describe()})
-        return {"aid": aid, "seq": e.seq, "text": activity.describe()}
+        data = {"aid": aid, "type": activity.type, "view": activity.view(TEACHER), "text": activity.describe(TEACHER),
+                "missing_items": activity.missing_refs}
+        e = self.emit(TEACHER, "activity", data, learner={"aid": aid, "type": activity.type,
+                                                           "view": activity.view(LEARNER), "text": activity.describe(LEARNER)})
+        out = {"aid": aid, "seq": e.seq, "text": data["text"]}
+        if activity.missing_refs:
+            out["missing_items"] = activity.missing_refs
+            out["note"] = ("These items are not in the profile, so the activity records no evidence for them; "
+                           "add them with `pauk teach add-item` if the learner should learn them.")
+        return out
 
     @locked
     def activity_act(self, role: str, body: p.ActivityAct) -> dict:
@@ -656,30 +679,35 @@ class Session:
             self._teacher_act("activity-act", body.model_dump())
         activity = self._activity(body.aid)
         try:
-            summary = activity.act(body.action)
+            summary = activity.act(body.action, role)
         except ValueError as e:
             raise SessionError(400, "invalid_action", str(e)) from None
-        self.emit(role, "activity_update", {"aid": body.aid, "action": body.action, "summary": summary,
-                                            "state": activity.state(), "text": activity.describe()})
+        self._activity_update(role, body.aid, activity, body.action, summary)
+        view = LEARNER if role == LEARNER else TEACHER
+        return {"summary": summary, "state": activity.state(view), "text": activity.describe(view)}
+
+    def _activity_update(self, role: str, aid: str, activity, action: dict, summary: str) -> None:
+        base = {"aid": aid, "action": action, "summary": summary}
+        self.emit(role, "activity_update", {**base, "state": activity.state(TEACHER), "text": activity.describe(TEACHER)},
+                  learner={**base, "state": activity.state(LEARNER), "text": activity.describe(LEARNER)})
+        for ev in getattr(activity, "evidence", lambda: [])():
+            self._record_activity(aid, activity, ev["items"], ev["mode"], ev["detail"], "activity_graded")
         if activity.done:
-            self._finish_activity(body.aid, activity)
-        return {"summary": summary, "state": activity.state(), "text": activity.describe()}
+            self._finish_activity(aid, activity)
 
     def activity_observe(self, aid: str) -> dict:
         self.audit("activity-observe", {"aid": aid})
         activity = self._activity(aid)
-        return {"aid": aid, "state": activity.state(), "text": activity.describe()}
+        return {"aid": aid, "type": activity.type, "state": activity.state(TEACHER), "text": activity.describe(TEACHER),
+                "missing_items": activity.missing_refs}
 
     @locked
     def activity_end(self, body: p.ActivityRef) -> dict:
         self._teacher_act("activity-end", body.model_dump())
         activity = self._activity(body.aid)
         if not activity.done:
-            activity.act({"give_up": True})
-            self.emit(TEACHER, "activity_update", {"aid": body.aid, "action": {"give_up": True},
-                                                   "summary": "ended by the teacher",
-                                                   "state": activity.state(), "text": activity.describe()})
-            self._finish_activity(body.aid, activity)
+            activity.act({"give_up": True}, TEACHER)
+            self._activity_update(TEACHER, body.aid, activity, {"give_up": True}, "ended by the teacher")
         return {"ok": True}
 
     def _activity(self, aid: str):
@@ -687,26 +715,38 @@ class Session:
             raise SessionError(404, "not_found", f"No activity {aid}")
         return self.activities[aid]
 
+    def _record_activity(self, aid: str, activity, outcomes: dict, mode: str, detail: dict, event: str | None) -> dict | None:
+        """Record one graded activity event as an interaction (source activity)."""
+        items = [{"ref": self._item(ref)["ref"], "outcome": o} for ref, o in outcomes.items()
+                 if ref not in activity.missing_refs]
+        recorded = None
+        if items:
+            recorded = self._api(lambda: self.api.record_interaction({
+                "uuid": str(uuidlib.uuid4()), "mode": mode, "source": "activity", "session_id": self.sid,
+                "grader": f"{activity.type}@1",
+                "exercise": {"kind": "activity", "type": activity.type, "spec": activity.source_spec},
+                "response": detail, "items": items,
+            }))
+            self._touch(recorded)
+        if event:
+            self.emit(SYSTEM, event, {"aid": aid, "outcomes": outcomes, "items": (recorded or {}).get("items", [])})
+        if recorded:
+            self._level_changes(recorded)
+        return recorded
+
     def _finish_activity(self, aid: str, activity) -> None:
         if aid in self.activity_recorded:
             return
         self.activity_recorded.add(aid)
         result = activity.result()
-        items = activity.spec.get("items") or []
+        outcomes = result.get("items")
+        if outcomes is None:
+            outcomes = {ref: result["outcome"] for ref in activity.spec.get("items") or []}
         recorded = None
-        if items:
-            recorded = self._api(lambda: self.api.record_interaction({
-                "uuid": str(uuidlib.uuid4()), "mode": "produce", "source": "activity", "session_id": self.sid,
-                "grader": f"{activity.type}@1",
-                "exercise": {"kind": "activity", "type": activity.type, "spec": activity.spec},
-                "response": result["detail"],
-                "items": [{"ref": ref, "outcome": result["outcome"]} for ref in items],
-            }))
-            self._touch(recorded)
+        if outcomes:
+            recorded = self._record_activity(aid, activity, outcomes, result.get("mode", "produce"), result["detail"], None)
         self.emit(SYSTEM, "activity_done", {"aid": aid, "outcome": result["outcome"], **result["detail"],
                                             "items": (recorded or {}).get("items", [])})
-        if recorded:
-            self._level_changes(recorded)
 
     # --- observer --------------------------------------------------------------
 

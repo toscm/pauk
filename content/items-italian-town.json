@@ -1,0 +1,228 @@
+{
+  "space": "it",
+  "dirs": [
+    "italian",
+    "italian/town"
+  ],
+  "items": [
+    {
+      "key": "panetteria",
+      "kind": "word",
+      "label_md": "panetteria",
+      "gloss_md": "the bakery",
+      "attrs": {
+        "source": "italian-town",
+        "pos": "noun",
+        "gender": "f"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/town"
+      ]
+    },
+    {
+      "key": "cornetto",
+      "kind": "word",
+      "label_md": "cornetto",
+      "gloss_md": "the croissant (Italian breakfast pastry)",
+      "attrs": {
+        "source": "italian-town",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/town"
+      ]
+    },
+    {
+      "key": "stazione",
+      "kind": "word",
+      "label_md": "stazione",
+      "gloss_md": "the (train) station",
+      "attrs": {
+        "source": "italian-town",
+        "pos": "noun",
+        "gender": "f"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/town"
+      ]
+    },
+    {
+      "key": "biglietto",
+      "kind": "word",
+      "label_md": "biglietto",
+      "gloss_md": "the ticket",
+      "attrs": {
+        "source": "italian-town",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/town"
+      ]
+    },
+    {
+      "key": "binario",
+      "kind": "word",
+      "label_md": "binario",
+      "gloss_md": "the platform, the track",
+      "attrs": {
+        "source": "italian-town",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/town"
+      ]
+    },
+    {
+      "key": "orologio",
+      "kind": "word",
+      "label_md": "orologio",
+      "gloss_md": "the clock, the watch",
+      "attrs": {
+        "source": "italian-town",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/town"
+      ]
+    },
+    {
+      "key": "solo-andata",
+      "kind": "phrase",
+      "label_md": "solo andata",
+      "gloss_md": "one-way (ticket)",
+      "attrs": {
+        "source": "italian-town"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/town"
+      ]
+    },
+    {
+      "key": "pizza",
+      "kind": "word",
+      "label_md": "pizza",
+      "gloss_md": "the pizza",
+      "attrs": {
+        "source": "italian-town",
+        "pos": "noun",
+        "gender": "f"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/town"
+      ]
+    },
+    {
+      "key": "bicchiere",
+      "kind": "word",
+      "label_md": "bicchiere",
+      "gloss_md": "the (drinking) glass",
+      "attrs": {
+        "source": "italian-town",
+        "pos": "noun",
+        "gender": "m"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/town"
+      ]
+    },
+    {
+      "key": "rosso",
+      "kind": "word",
+      "label_md": "rosso",
+      "gloss_md": "red",
+      "attrs": {
+        "source": "italian-town",
+        "pos": "adj"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/town"
+      ]
+    },
+    {
+      "key": "farmacia",
+      "kind": "word",
+      "label_md": "farmacia",
+      "gloss_md": "the pharmacy",
+      "attrs": {
+        "source": "italian-town",
+        "pos": "noun",
+        "gender": "f"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/town"
+      ]
+    },
+    {
+      "key": "medicina",
+      "kind": "word",
+      "label_md": "medicina",
+      "gloss_md": "the medicine",
+      "attrs": {
+        "source": "italian-town",
+        "pos": "noun",
+        "gender": "f"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/town"
+      ]
+    },
+    {
+      "key": "mal-di-testa",
+      "kind": "phrase",
+      "label_md": "mal di testa",
+      "gloss_md": "headache (ho mal di testa = I have a headache)",
+      "attrs": {
+        "source": "italian-town"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/town"
+      ]
+    },
+    {
+      "key": "piazza",
+      "kind": "word",
+      "label_md": "piazza",
+      "gloss_md": "the square",
+      "attrs": {
+        "source": "italian-town",
+        "pos": "noun",
+        "gender": "f"
+      },
+      "priority": 60,
+      "level": 1,
+      "dirs": [
+        "italian/town"
+      ]
+    }
+  ]
+}

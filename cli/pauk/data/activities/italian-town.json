@@ -1,0 +1,410 @@
+{
+  "type": "town",
+  "spec": {
+    "title": "Una piccola città",
+    "language": "it",
+    "prompt_md": "Walk around the town: tap a place to go there, inspect things and name them in Italian, and talk to the people to complete their tasks. Everybody here speaks only Italian.",
+    "start": "square",
+    "places": [
+      {
+        "id": "bakery",
+        "name": "la panetteria",
+        "icon": "🥖",
+        "at": [
+          0,
+          0
+        ]
+      },
+      {
+        "id": "station",
+        "name": "la stazione",
+        "icon": "🚉",
+        "at": [
+          4,
+          0
+        ]
+      },
+      {
+        "id": "square",
+        "name": "la piazza",
+        "icon": "⛲",
+        "at": [
+          2,
+          1
+        ]
+      },
+      {
+        "id": "restaurant",
+        "name": "il ristorante",
+        "icon": "🍝",
+        "at": [
+          0,
+          2
+        ]
+      },
+      {
+        "id": "market",
+        "name": "il mercato",
+        "icon": "🧺",
+        "at": [
+          2,
+          2
+        ]
+      },
+      {
+        "id": "pharmacy",
+        "name": "la farmacia",
+        "icon": "⚕️",
+        "at": [
+          4,
+          2
+        ]
+      }
+    ],
+    "streets": [
+      [
+        "square",
+        "bakery"
+      ],
+      [
+        "square",
+        "station"
+      ],
+      [
+        "square",
+        "restaurant"
+      ],
+      [
+        "square",
+        "market"
+      ],
+      [
+        "square",
+        "pharmacy"
+      ],
+      [
+        "restaurant",
+        "market"
+      ],
+      [
+        "market",
+        "pharmacy"
+      ]
+    ],
+    "objects": [
+      {
+        "id": "tree",
+        "place": "square",
+        "icon": "🌳",
+        "hint": "tree",
+        "accepted": [
+          "albero",
+          "l'albero"
+        ],
+        "item": "it/albero"
+      },
+      {
+        "id": "flower",
+        "place": "square",
+        "icon": "🌸",
+        "hint": "flower",
+        "accepted": [
+          "fiore",
+          "il fiore"
+        ],
+        "item": "it/fiore"
+      },
+      {
+        "id": "dog",
+        "place": "square",
+        "icon": "🐕",
+        "hint": "dog",
+        "accepted": [
+          "cane",
+          "il cane"
+        ],
+        "item": "it/cane"
+      },
+      {
+        "id": "cat",
+        "place": "square",
+        "icon": "🐈",
+        "hint": "cat",
+        "accepted": [
+          "gatto",
+          "il gatto"
+        ],
+        "item": "it/gatto"
+      },
+      {
+        "id": "bread",
+        "place": "bakery",
+        "icon": "🍞",
+        "hint": "bread",
+        "accepted": [
+          "pane",
+          "il pane"
+        ],
+        "item": "it/pane"
+      },
+      {
+        "id": "croissant",
+        "place": "bakery",
+        "icon": "🥐",
+        "hint": "croissant",
+        "accepted": [
+          "cornetto",
+          "il cornetto",
+          "brioche"
+        ],
+        "item": "it/cornetto"
+      },
+      {
+        "id": "coffee",
+        "place": "bakery",
+        "icon": "☕",
+        "hint": "coffee",
+        "accepted": [
+          "caffè",
+          "il caffè",
+          "espresso"
+        ],
+        "item": "it/caffe"
+      },
+      {
+        "id": "milk",
+        "place": "bakery",
+        "icon": "🥛",
+        "hint": "milk",
+        "accepted": [
+          "latte",
+          "il latte"
+        ],
+        "item": "it/latte"
+      },
+      {
+        "id": "train",
+        "place": "station",
+        "icon": "🚆",
+        "hint": "train",
+        "accepted": [
+          "treno",
+          "il treno"
+        ],
+        "item": "it/treno"
+      },
+      {
+        "id": "ticket",
+        "place": "station",
+        "icon": "🎫",
+        "hint": "ticket",
+        "accepted": [
+          "biglietto",
+          "il biglietto"
+        ],
+        "item": "it/biglietto"
+      },
+      {
+        "id": "clock",
+        "place": "station",
+        "icon": "🕰️",
+        "hint": "clock",
+        "accepted": [
+          "orologio",
+          "l'orologio"
+        ],
+        "item": "it/orologio"
+      },
+      {
+        "id": "pizza",
+        "place": "restaurant",
+        "icon": "🍕",
+        "hint": "pizza",
+        "accepted": [
+          "pizza",
+          "la pizza"
+        ],
+        "item": "it/pizza"
+      },
+      {
+        "id": "wine",
+        "place": "restaurant",
+        "icon": "🍷",
+        "hint": "wine",
+        "accepted": [
+          "vino",
+          "il vino"
+        ],
+        "item": "it/vino"
+      },
+      {
+        "id": "water",
+        "place": "restaurant",
+        "icon": "💧",
+        "hint": "water",
+        "accepted": [
+          "acqua",
+          "l'acqua"
+        ],
+        "item": "it/acqua"
+      },
+      {
+        "id": "apple",
+        "place": "market",
+        "icon": "🍎",
+        "hint": "apple",
+        "accepted": [
+          "mela",
+          "la mela"
+        ],
+        "item": "it/mela"
+      },
+      {
+        "id": "tomato",
+        "place": "market",
+        "icon": "🍅",
+        "hint": "tomato",
+        "accepted": [
+          "pomodoro",
+          "il pomodoro"
+        ],
+        "item": "it/pomodoro"
+      },
+      {
+        "id": "cheese",
+        "place": "market",
+        "icon": "🧀",
+        "hint": "cheese",
+        "accepted": [
+          "formaggio",
+          "il formaggio"
+        ],
+        "item": "it/formaggio"
+      },
+      {
+        "id": "fish",
+        "place": "market",
+        "icon": "🐟",
+        "hint": "fish",
+        "accepted": [
+          "pesce",
+          "il pesce"
+        ],
+        "item": "it/pesce"
+      },
+      {
+        "id": "medicine",
+        "place": "pharmacy",
+        "icon": "💊",
+        "hint": "medicine",
+        "accepted": [
+          "medicina",
+          "la medicina",
+          "medicinale",
+          "farmaco"
+        ],
+        "item": "it/medicina"
+      }
+    ],
+    "npcs": [
+      {
+        "id": "baker",
+        "name": "Giulia, la fornaia",
+        "place": "bakery",
+        "icon": "👩‍🍳",
+        "language": "it",
+        "persona": "A warm, patient Italian baker who speaks only Italian. Stays in character, keeps replies short and natural, never switches to English; if the customer is unclear, asks a short clarifying question in Italian.",
+        "items": [
+          "it/buongiorno",
+          "it/prego",
+          "it/grazie"
+        ],
+        "greeting": "Buongiorno! Cosa desidera?",
+        "goal": {
+          "task_md": "Order **two croissants (cornetti) and one coffee (caffè)**. Be polite.",
+          "success": "The customer clearly asked, in Italian, for 2 cornetti and 1 caffè. Minor grammar mistakes are fine as long as the order is unambiguous.",
+          "items": [
+            "it/vorrei",
+            "it/due",
+            "it/cornetto",
+            "it/caffe"
+          ],
+          "max_turns": 8
+        }
+      },
+      {
+        "id": "clerk",
+        "name": "Marco, il bigliettaio",
+        "place": "station",
+        "icon": "🧑‍💼",
+        "language": "it",
+        "persona": "An Italian ticket clerk who speaks only Italian. Efficient and polite, answers in short natural sentences, and invents a plausible platform number when asked.",
+        "items": [
+          "it/treno",
+          "it/buongiorno",
+          "it/prego"
+        ],
+        "greeting": "Buongiorno, mi dica.",
+        "goal": {
+          "task_md": "Buy **a one-way ticket to Florence (Firenze)** and find out **which platform (binario)** the train leaves from.",
+          "success": "The customer asked, in Italian, for a one-way ticket to Firenze and asked which binario the train departs from.",
+          "items": [
+            "it/biglietto",
+            "it/solo-andata",
+            "it/binario"
+          ],
+          "max_turns": 8
+        }
+      },
+      {
+        "id": "waiter",
+        "name": "Salvatore, il cameriere",
+        "place": "restaurant",
+        "icon": "🤵",
+        "language": "it",
+        "persona": "A friendly Neapolitan waiter who speaks only Italian. Stays in character, keeps it short and natural, never uses English.",
+        "items": [
+          "it/prego",
+          "it/acqua",
+          "it/grazie"
+        ],
+        "greeting": "Buonasera! Prego, si accomodi. Cosa prende?",
+        "goal": {
+          "task_md": "Order **a margherita pizza and a glass of red wine**, then ask for **the bill**.",
+          "success": "The customer ordered, in Italian, a margherita pizza and a glass of red wine (un bicchiere di vino rosso), and asked for il conto.",
+          "items": [
+            "it/pizza",
+            "it/bicchiere",
+            "it/vino",
+            "it/rosso",
+            "it/il-conto-per-favore"
+          ],
+          "max_turns": 10
+        }
+      },
+      {
+        "id": "pharmacist",
+        "name": "la dottoressa Bianchi",
+        "place": "pharmacy",
+        "icon": "👩‍⚕️",
+        "language": "it",
+        "persona": "A calm, kind pharmacist who speaks only Italian, asks one simple question at a time and recommends something harmless.",
+        "items": [
+          "it/buongiorno",
+          "it/medicina",
+          "it/acqua"
+        ],
+        "greeting": "Buongiorno! Come posso aiutarla?",
+        "goal": {
+          "task_md": "Say that you **have a headache**, ask for something against it, and ask **how much it costs**.",
+          "success": "The customer said, in Italian, that they have a headache (mal di testa) and asked the price (quanto costa).",
+          "items": [
+            "it/mal-di-testa",
+            "it/quanto-costa"
+          ],
+          "max_turns": 8
+        }
+      }
+    ]
+  }
+}

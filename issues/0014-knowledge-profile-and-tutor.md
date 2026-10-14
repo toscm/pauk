@@ -70,3 +70,7 @@ Re-run `make backup-fetch && make restore-local`, then `php bin/calibrate.php --
 2026-10-14: items-phd.json now has 144 concepts: 14 concepts that had been folded into parent items to keep the file near 120 got items of their own (nested CV, out-of-bag error, mdrb, snap purity, MissForest, Retip, RepoRT, chemical exchange, smoothing and noise filtering, deuterium lock, dwell volume, mobile-phase additives, selectivity α, prediction clipping).
 The parents' bodies were trimmed, and the cards testing these concepts link to the new items (three card links moved off their parent).
 Re-importing adds the new items and links and updates the trimmed parents, but does not remove the three old card links from an already imported profile.
+
+2026-10-14: Map labelling (`map_labels`) and town scene (`town`) activities built (docs/tutor.md 14.2, 14.3), with role-filtered activity views, per-place and per-object evidence, and teacher-played NPCs graded like open exercises.
+Content: `content/activities/` (germany-states, germany-cities, italian-town with the three Italian quests as NPC goals), packaged under `cli/pauk/data/activities/`; new item files items-germany.json and items-italian-town.json.
+Quests are deprecated (issues/0009): existing quest cards keep working, new role-play content goes into town scenes.
