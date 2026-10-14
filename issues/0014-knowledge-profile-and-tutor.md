@@ -45,3 +45,7 @@ An independent code review found a key leak through report responses, a double-r
 End-to-end runs with a real Claude teacher against a scratch API (scripted learner; later an LLM learner via `pauk simulate`) found three bugs (event seq clash, importer parents, a teacher slip caught by the observer review), all fixed.
 Tests: 180 PHP, 134 CLI.
 Open: deploy API 0.11 before using add-item against the live server (the host refuses add-item on older APIs); merge the branch; content for map labelling and the town scene; retiring quests.
+
+2026-10-14: items-phd.json now has 144 concepts: 14 concepts that had been folded into parent items to keep the file near 120 got items of their own (nested CV, out-of-bag error, mdrb, snap purity, MissForest, Retip, RepoRT, chemical exchange, smoothing and noise filtering, deuterium lock, dwell volume, mobile-phase additives, selectivity α, prediction clipping).
+The parents' bodies were trimmed, and the cards testing these concepts link to the new items (three card links moved off their parent).
+Re-importing adds the new items and links and updates the trimmed parents, but does not remove the three old card links from an already imported profile.
