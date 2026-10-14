@@ -288,15 +288,22 @@ class TownActivity:
         outcomes = grade.get("outcomes")
         if not isinstance(outcomes, dict) or set(outcomes) != set(spec["items"]):
             raise ValueError(f"outcomes must cover exactly the goal items: {', '.join(spec['items'])}")
-        if any(o not in OUTCOMES for o in outcomes.values()):
-            raise ValueError(f"outcomes are {', '.join(OUTCOMES)}")
+        if any(o is not None and o not in OUTCOMES for o in outcomes.values()):
+            raise ValueError(f"outcomes are {', '.join(OUTCOMES)}, or null for no evidence (not used, or supplied by you)")
         if not self._attempt_talked(nid):
             raise ValueError(f"the learner has not talked to {nid} yet" if not goal["gradings"]
                              else f"the learner has not talked to {nid} since the last grading")
         reached, feedback = grade["reached"], grade.get("feedback")
+        # a lapse already recorded in an earlier attempt of this goal is not recorded again
+        failed_before = goal.setdefault("failed", [])
+        recorded = {ref: o for ref, o in outcomes.items()
+                    if o is not None and not (o == "fail" and ref in failed_before)}
+        failed_before.extend(ref for ref, o in recorded.items() if o == "fail")
         goal.update(status="graded", outcomes=dict(outcomes), reached=reached, feedback=feedback,
                     gradings=goal["gradings"] + 1)
-        self._evidence.append({"mode": "produce", "items": dict(outcomes),
+        if not recorded:
+            return f"goal with {self.npcs[nid]['name']}: {'reached' if reached else 'not reached'} (no item evidence)"
+        self._evidence.append({"mode": "produce", "items": recorded,
                                "detail": {"npc": nid, "task_md": spec["task_md"], "reached": reached,
                                           "feedback": feedback, "attempt": goal["gradings"],
                                           "conversation": [t for t in self.talk if t["npc"] == nid]},
@@ -411,7 +418,7 @@ class TownActivity:
 
     def result(self) -> dict:
         outcomes = [v["outcome"] for v in self.named.values()]
-        outcomes += [o for g in self.goals.values() if g["outcomes"] for o in g["outcomes"].values()]
+        outcomes += [o for g in self.goals.values() if g["outcomes"] for o in g["outcomes"].values() if o is not None]
         named = {k: v["outcome"] for k, v in self.named.items()}
         reached = {k: "open" if g["reached"] is None else "reached" if g["reached"] else "not reached"
                    for k, g in self.goals.items()}

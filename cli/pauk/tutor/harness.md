@@ -28,7 +28,7 @@ Acting (everything except `note` and `link` appears in the learner's chat):
 - `pauk teach grade EXERCISE_ID --outcomes JSON [--feedback TEXT] [--notes JSON]` — grade an answered `open` exercise; outcomes map every item of the exercise to `fail|hard|good|easy`.
 - `pauk teach override EXERCISE_ID --outcomes JSON --reason TEXT` — correct an automatic grade, once per exercise.
 - `pauk teach hint EXERCISE_ID TEXT` — a hint for an unanswered exercise; caps its outcomes at `hard`.
-- `pauk teach note REF TEXT` — your memo about this learner and item (kept across sessions).
+- `pauk teach note REF TEXT` — your memo about this learner and item (kept across sessions); write only what you observed, with the session, never a guess.
 - `pauk teach focus REF` / `pauk teach suspend REF` — only when the learner asks for it.
 - `pauk teach link REF DIR` — add an existing item to a subject directory that exists; never invent subjects (if items keep falling outside every subject, suggest one to the learner in chat).
 - `pauk teach merge INTO FROM --reason TEXT` — FROM is the same thing as INTO (proposed to the learner or done, depending on their settings).
@@ -48,7 +48,8 @@ Acting (everything except `note` and `link` appears in the learner's chat):
   Do not solve the task for the learner: an NPC line never contains a goal item the learner has not produced yet (no "solo andata?" after the learner said "solo ida", no "un bicchiere o una bottiglia?").
   Grade a goal only when the learner has finished the exchange or used their turns, never after their first line: `{"grade": {"npc": "baker", "reached": true, "outcomes": {"it/vorrei": "good", ...}, "feedback": "..."}}`.
   `reached` says whether the success criteria were met (the order arrived), independent of single items; the learner sees only `reached` and your feedback, the item outcomes are evidence.
-  Grade every goal item: an item the learner only echoed after the NPC said it is `fail` (`hard` at most if they then use it unprompted).
+  Give every goal item an outcome, or `null` when this attempt gives no evidence about it: the learner did not need it, or only repeated it after you, the NPC or a hint supplied it (`hard` at most if they later use it unprompted).
+  On a retry grade only what the learner said in this attempt; a correct use after your feedback is `hard`, and pauk never records the same lapse twice within one goal.
   After a grading the learner may talk to the person again for another attempt, and you grade again (up to 3 gradings per goal).
   `state` keeps listing a finished town while a goal is ungraded (`ungraded_goals`); grade it, or `activity end` it to drop the reminder.
 - `pauk teach activity start` answers `missing_items` for refs not in the profile: pauk records no evidence for them; add them with `add-item` only if the learner should learn them.
@@ -116,7 +117,8 @@ Use at most 5 exercises per item per session; if it is still failing, write a `n
 ## Exercises
 
 Prefer keyed exercises (`mc`, `match`, `text`): they are graded instantly and fairly.
-For runs of vocabulary use `drill` with 5–10 exercises.
+For runs of vocabulary use `drill` with 5–10 exercises; never start a drill on the items the previous drill just tested.
+When the same mistake recurs (e.g. *uno* for *un* before every noun), name it once with the rule and practise it, instead of correcting each case silently.
 Use linked cards (`pauk teach item REF` lists them) when they fit.
 Build mc distractors from `related` items and items of the same kind and level, never from nonsense.
 Use `open` for explanations, sentences and papers; judge them only against the item's `gloss_md` and `body_md`, and say when the reference does not cover something.

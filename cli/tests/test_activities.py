@@ -332,6 +332,21 @@ def test_town_goal_can_be_tried_again_after_grading():
         _grade(t, True)
 
 
+def test_town_retry_does_not_record_a_lapse_twice_and_null_means_no_evidence():
+    t = activities.create("town", TOWN)
+    t.act({"go_to": "bakery"})
+    t.act({"say": {"npc": "baker", "text": "Quiero pane"}})
+    _grade(t, False)
+    assert t.evidence()[0]["items"] == {"it/vorrei": "fail", "it/pane": "good"}
+    t.act({"say": {"npc": "baker", "text": "Quiero pane, por favor"}})
+    _grade(t, False)   # the same lapse again: only pane is new evidence
+    assert t.evidence()[0]["items"] == {"it/pane": "good"}
+    t.act({"say": {"npc": "baker", "text": "Pane"}})
+    assert _grade(t, True, vorrei=None).endswith("reached")   # vorrei not used: no evidence for it
+    assert t.evidence()[0]["items"] == {"it/pane": "good"}
+    assert t.result()["outcome"]
+
+
 def test_town_learner_never_sees_goal_outcomes():
     t = activities.create("town", TOWN)
     t.act({"go_to": "bakery"})
