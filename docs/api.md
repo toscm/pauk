@@ -194,6 +194,11 @@ Free text: `{"answer": "mitochondrium"}`. Grading:
    the normalized accepted answer) → `"typo"`. Accepted
    answers shorter than 4 characters allow no typo budget
    (a 1-edit budget would accept any letter for any other).
+   Replacing a vowel by another vowel counts as two edits,
+   because it changes the word or its form (`faro` for
+   `fare`, `por` for `per`); answers shorter than 16
+   characters therefore never pass with one (issues/0016).
+   Grader label `text@2`.
 4. Otherwise → `"wrong"`.
 
 Response (identical shape for both types):

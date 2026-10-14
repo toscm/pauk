@@ -1,5 +1,5 @@
 ---
-status: in-progress
+status: done
 kind: feature
 ---
 
@@ -85,3 +85,6 @@ full-screen TUI. Tracked together; landed incrementally.
    - [x] Windows recipe: pauk installs cross-platform via pipx
      from the now-public GitHub repo (toscpm 1.27.0).
    - [ ] Journey feature — needs a data-model design pass.
+
+2026-10-14: Closed.
+All items are done except the journey feature, which is dropped here: the TUI is frozen (issues/0015), and journeys (multi-step travel tasks) are what the tutor's activities do now (route, map labelling and town scene, docs/tutor.md 14).

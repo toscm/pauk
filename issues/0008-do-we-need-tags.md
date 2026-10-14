@@ -1,5 +1,5 @@
 ---
-status: open
+status: wontfix
 kind: question
 ---
 
@@ -14,3 +14,6 @@ concept keeps API, CLI, and UI simpler.
 Reopen if practice shows a real need tags would cover better
 (e.g. wanting card metadata that should not appear in the
 directory tree).
+
+2026-10-14: Closed as decided above: no tags.
+Subjects (directories, now holding items as well as cards) cover the cross-cutting groupings.

@@ -22,6 +22,14 @@ final class Text
     ];
 
     /**
+     * Vowels after normalization (Latin, Greek with and without
+     * tonos). Swapping one for another changes the word or its form
+     * in the languages pauk teaches (fare/faro, per/por, la/le), so
+     * it is not a typo (issues/0016).
+     */
+    private const VOWELS = 'aeiouαεηιουωάέήίόύώϊϋΐΰ';
+
+    /**
      * Normalize a free-text answer for comparison: lowercase,
      * fold Latin diacritics, drop punctuation/symbols, collapse
      * whitespace. See docs/api.md, "Answering".
@@ -87,11 +95,37 @@ final class Text
                 continue;
             }
             $threshold = max(1, intdiv($len, 8));
-            if (self::levenshtein($answer, $norm) <= $threshold) {
+            if (self::typoDistance($answer, $norm) <= $threshold) {
                 return 'typo';
             }
         }
         return 'wrong';
+    }
+
+    /**
+     * Levenshtein distance in which replacing a vowel by another
+     * vowel costs two edits: within the one-edit budget of words
+     * shorter than 16 characters it is never a typo.
+     */
+    public static function typoDistance(string $a, string $b): int
+    {
+        $sa = mb_str_split($a, 1, 'UTF-8');
+        $sb = mb_str_split($b, 1, 'UTF-8');
+        $prev = range(0, count($sb));
+        foreach ($sa as $i => $ca) {
+            $cur = [$i + 1];
+            foreach ($sb as $j => $cb) {
+                $cost = 0;
+                if ($ca !== $cb) {
+                    $vowels = mb_strpos(self::VOWELS, $ca, 0, 'UTF-8') !== false
+                        && mb_strpos(self::VOWELS, $cb, 0, 'UTF-8') !== false;
+                    $cost = $vowels ? 2 : 1;
+                }
+                $cur[$j + 1] = min($prev[$j + 1] + 1, $cur[$j] + 1, $prev[$j] + $cost);
+            }
+            $prev = $cur;
+        }
+        return $prev[count($sb)];
     }
 
     public static function isValidName(string $name): bool

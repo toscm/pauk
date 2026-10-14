@@ -1,5 +1,5 @@
 ---
-status: open
+status: done
 kind: question
 ---
 
@@ -19,3 +19,9 @@ Whatever is chosen, the result should tell the learner about a near-miss ("almos
 Needs a decision before changing the documented grading.
 
 2026-10-13: Second simulation: `por favore` was accepted as a typo for `per favore` (Spanish interference) without any hint to the learner.
+
+2026-10-14: Decided and implemented (grader `text@2`): replacing a vowel by another vowel counts as two edits.
+Words and phrases shorter than 16 characters get a one-edit budget, so a vowel swap there is never a typo (`faro`/`fare`, `como`/`come`, `por favore`/`per favore`, Greek `καλο`/`καλά`); dropped, doubled or wrong consonants and dropped vowels still are.
+Longer answers (16+ characters, two edits) tolerate one vowel swap, which keeps long phrases forgiving.
+This one rule covers every space without a per-language table, and since the swap now grades as wrong, the learner sees the expected answer ("Not quite" plus the reference) instead of a silent pass.
+It applies to card quizzes too (docs/api.md, "Answering").

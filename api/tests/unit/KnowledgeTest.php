@@ -146,7 +146,7 @@ final class KnowledgeTest extends TestCase
         $text = ['kind' => 'text', 'accepted' => ['farfalla']];
         $this->assertSame('typo', Grader::grade($text, ['text' => 'farfala'])['match']);
         $this->assertSame('hard', Grader::grade($text, ['text' => 'farfala'])['outcome']);
-        $this->assertSame('text@1', Grader::grade($text, ['text' => 'farfalla'])['grader']);
+        $this->assertSame('text@2', Grader::grade($text, ['text' => 'farfalla'])['grader']);
 
         $match = ['kind' => 'match', 'pairs' => [['left_md' => 'io', 'right_md' => 'parlo'], ['left_md' => 'tu', 'right_md' => 'parli']]];
         $this->assertSame('good', Grader::grade($match, ['matches' => ['0' => 0, '1' => 1]])['outcome']);

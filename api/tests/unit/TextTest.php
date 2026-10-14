@@ -64,8 +64,24 @@ final class TextTest extends TestCase
             'article variant exact' => ['casa', ['la casa', 'casa'], 'exact'],
             'short answers need exact match' => ['b', ['a'], 'wrong'],
             'three letters no typo budget' => ['unn', ['uno'], 'wrong'],
-            'four letters allow one edit' => ['cesa', ['casa'], 'typo'],
+            'four letters allow one edit' => ['caza', ['casa'], 'typo'],
+            // issues/0016: a vowel swap is a different word or form, not a typo
+            'vowel swap is not a typo' => ['faro', ['fare'], 'wrong'],
+            'vowel swap inside' => ['como', ['come'], 'wrong'],
+            'vowel swap in a phrase' => ['por favore', ['per favore'], 'wrong'],
+            'vowel swap with a consonant typo elsewhere' => ['cesa', ['casa'], 'wrong'],
+            'greek vowel swap' => ['καλο', ['καλά'], 'wrong'],
+            'missing vowel is still a typo' => ['farfala', ['farfalla'], 'typo'],
+            'dropped vowel is a typo' => ['prego', ['pregoo'], 'typo'],
         ];
+    }
+
+    public function testVowelSwapCountsTwoEdits(): void
+    {
+        $this->assertSame(2, Text::typoDistance('faro', 'fare'));
+        $this->assertSame(1, Text::typoDistance('fare', 'fate'));
+        // 16+ characters allow two edits, so one vowel swap passes there
+        $this->assertSame('typo', Text::grade('la ragazza bella', ['la ragazzo bella']));
     }
 
     public function testTypoThresholdScalesWithLength(): void

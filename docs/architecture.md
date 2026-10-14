@@ -269,6 +269,13 @@ Directories form a DAG, not a tree:
   The default agent is `claude -p` with only that tool allowed; `PAUK_TUTOR_AGENT` / `--agent-cmd` plug in others.
   Prompts passed to the agent stay on one line: on Windows the `claude` shim is a `.cmd`, and `cmd.exe` cuts arguments at newlines.
 
+- Media files stay publicly readable by URL (issues/0006): pauk has a single user and its media are maps and illustrations, and the sha256 file names cannot be guessed or listed.
+  Before a second user or private media arrive, switch to signed URLs or PHP-fronted delivery.
+
+- Quests are deprecated in favour of the tutor's town scene (issues/0009, docs/tutor.md 5): existing quest cards keep working through the unchanged endpoints and the frozen TUI, but no new quest content is written.
+
+- Typo tolerance treats a vowel swapped for another vowel as two edits (issues/0016): in Italian, Spanish, Greek and German that is usually a different word or form, not a slip of the finger, and one rule for every language beats a table per space.
+
 - Unit and host tests drive the session against `pauk.tutor.fake.FakeApi`, an in-memory stand-in with deliberately simple scoring; `pauk tutor --fake` uses it for UI development. End-to-end runs with a real teacher go against a scratch API, never the live profile.
 
 ### TUI gotchas

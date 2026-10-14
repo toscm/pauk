@@ -406,7 +406,8 @@ Cards and directories stay exactly as they are; the knowledge layer is added bes
 
 - The teacher can use linked cards as a ready-made, deterministically graded exercise bank (`GET /items/{ref}/cards`).
 
-- Quests are subsumed by the tutor (the teacher can role-play a baker as an exercise); they keep working until the tutor covers them, then can be deprecated.
+- Quests are deprecated (issues/0009): the town scene (14) covers them, with the bakery, station and restaurant quests as its NPC goals.
+  The quest card type, its endpoints and the TUI quest screen keep working for existing cards (the API never drops a documented endpoint), but no new quest content is written.
 
 - All schema changes are additive migrations (008+), as the deploy process requires.
 
@@ -1087,4 +1088,8 @@ Turning a report into a proper issue needs the code, so triage runs in the repos
 
 ## 18. Open questions
 
-- Which subject directories to create next to the existing deck directories (e.g. `statistics`, `bioinformatics`, `immunology`, `analytical-chemistry`), or whether to let them grow from teacher `link` actions.
+None at the moment.
+
+Decided 2026-10-14: subjects grow on demand instead of being created up front.
+The learner creates a subject (`pauk mkdir`) when they start working on it; the teacher only links items to subjects that exist (`pauk teach link`) and suggests a new one in chat when items keep falling outside every subject.
+An empty `statistics` or `analytical-chemistry` tree would only clutter the start screen and the selection.

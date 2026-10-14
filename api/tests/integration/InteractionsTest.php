@@ -55,7 +55,7 @@ final class InteractionsTest extends ApiTestCase
         $this->assertSame(['accepted' => ['farfalla']], $result['expected']);
 
         [, $history] = $this->request('GET', '/interactions?item=it/farfalla');
-        $this->assertSame('text@1', $history['items'][0]['grader']);
+        $this->assertSame('text@2', $history['items'][0]['grader']);
         $this->assertSame('farfala', $history['items'][0]['response']['text']);
     }
 

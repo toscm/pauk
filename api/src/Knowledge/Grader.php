@@ -89,6 +89,6 @@ final class Grader
         if (!is_string($text)) {
             throw new ApiError(400, 'validation', 'response.text must be a string');
         }
-        return ['text@1', Text::grade($text, array_values($accepted)), ['accepted' => array_values($accepted)]];
+        return ['text@2', Text::grade($text, array_values($accepted)), ['accepted' => array_values($accepted)]];
     }
 }

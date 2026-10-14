@@ -1,5 +1,5 @@
 ---
-status: in-progress
+status: done
 kind: task
 ---
 
@@ -47,3 +47,6 @@ Only the printable book (issues/0011) remains.
 2026-09-09 (iteration 5): printable architecture book shipped
 (docs/handbook.html + Artifact). ALL roadmap items 1-4 done.
 Loop now in final review/polish mode.
+
+2026-10-14: Closed: every roadmap item of this loop shipped in September 2026.
+Later overnight work is tracked in the issues it addresses (issues/0014).

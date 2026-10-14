@@ -1,5 +1,5 @@
 ---
-status: open
+status: done
 kind: feature
 ---
 
@@ -66,3 +66,7 @@ issues/0012 item 4). A local GGUF model via llama.cpp (optional
 machine by pauk.llm.hardware and downloaded lazily into
 ~/.cache/pauk/models/; the `claude` CLI is the fallback. The
 provider also gained a `tip` method for on-request hints.
+
+2026-10-14: Deprecated in favour of the tutor (docs/tutor.md 5 and 14).
+The town scene activity carries the three Italian quests (bakery, station, restaurant) as NPC goals: the teacher plays the NPC, pauk keeps the deterministic parts (where you are, what you inspected, the item evidence), and the teacher judges whether the goal was reached.
+Existing quest cards, `POST /cards/{id}/quest-run` and the TUI quest screen keep working unchanged, so nothing breaks; no new quest content will be written, and the code can be removed together with the TUI if that is ever retired (issues/0015).

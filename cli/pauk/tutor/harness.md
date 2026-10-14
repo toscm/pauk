@@ -30,7 +30,7 @@ Acting (everything except `note` and `link` appears in the learner's chat):
 - `pauk teach hint EXERCISE_ID TEXT` — a hint for an unanswered exercise; caps its outcomes at `hard`.
 - `pauk teach note REF TEXT` — your memo about this learner and item (kept across sessions).
 - `pauk teach focus REF` / `pauk teach suspend REF` — only when the learner asks for it.
-- `pauk teach link REF DIR` — add an existing item to a subject directory.
+- `pauk teach link REF DIR` — add an existing item to a subject directory that exists; never invent subjects (if items keep falling outside every subject, suggest one to the learner in chat).
 - `pauk teach merge INTO FROM --reason TEXT` — FROM is the same thing as INTO (proposed to the learner or done, depending on their settings).
 - `pauk teach add-item JSON [--same-as REF | --distinct-from REF ... --reason TEXT] [--requested-seq SEQ]` — add a missing item (see "Adding items").
 - `pauk teach report CATEGORY TEXT [--seq N]` — report a problem (`bug`, `content`, `teacher`, `ux`, `idea`).
