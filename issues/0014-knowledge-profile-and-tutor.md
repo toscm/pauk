@@ -81,3 +81,8 @@ Name grading follows the API's text@2 rule (a swapped vowel is no typo), picked 
 Activity evidence is marked `simulation` in simulated sessions, follows the new-item budget and records a failed first contact as `introduce`, and a failed write is queued and retried instead of lost.
 Town goals carry an explicit `reached` separate from the item outcomes, can be tried again (up to 3 gradings), and stay on the teacher's list while ungraded.
 Teacher answers are compact (activity state only via `observe`) and report `unseen` learner events, with a warning once the learner has ended.
+
+2026-10-14: Deployed API 0.12.0 / CLI 0.19.0 (map labelling, town scene, review and simulation fixes, UI in the learner's language).
+Imported items-phd.json (14 split concepts), items-germany.json and items-italian-town.json into the live profile.
+Still to do by hand: remove the three card links the PhD split moved (DELETE /cards/{id}/items/{ref} for the Rust-backend card and concepts/metabodeconplus, the clipping card and concepts/fastret, the dwell-volume card and concepts/gradient-elution).
+Open: tune the memory model once there are several hundred spaced reviews (see the calibration note above).
