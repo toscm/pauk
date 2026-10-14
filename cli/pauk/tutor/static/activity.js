@@ -1,38 +1,18 @@
 // Activities (docs/tutor.md 14): inline cards driven only through
 // POST learner/activity, updated from activity_update / activity_done
-// events. The route activity gets an SVG map; unknown types fall back
-// to the text description.
+// events. One renderer per type (route here, map labelling and the
+// town in their own modules); unknown types fall back to the text
+// description.
 
-import { post } from './api.js';
+import { act, s, speaker } from './activity-kit.js';
+import { MapLabelsCard } from './activity-map.js';
+import { TownCard } from './activity-town.js';
 import { md } from './md.js';
-import { h, showError } from './ui.js';
+import { h } from './ui.js';
 
-const SVG = 'http://www.w3.org/2000/svg';
 const WIDTH = 600;
 const MARGIN = 40;
 const OUTCOME = {good: 'good route', hard: 'a detour', fail: 'a long detour'};
-
-function s(tag, attrs = {}, ...children) {
-  const el = document.createElementNS(SVG, tag);
-  for (const [key, value] of Object.entries(attrs)) {
-    if (value === null || value === undefined || value === false) continue;
-    if (key.startsWith('on')) el.addEventListener(key.slice(2), value);
-    else el.setAttribute(key, value);
-  }
-  el.append(...children.flat().filter((c) => c !== null && c !== undefined));
-  return el;
-}
-
-async function act(aid, action, card) {
-  card.busy(true);
-  try {
-    await post('learner/activity', {aid, action});
-  } catch (e) {
-    showError(e);
-  } finally {
-    card.busy(false);
-  }
-}
 
 class TextCard {
   constructor(ev) {
@@ -83,7 +63,7 @@ class RouteCard {
 
   update(ev) {
     this.view = {...this.view, ...ev.state};
-    this.last = `${ev.from === 'teacher' ? 'Teacher' : 'You'}: ${ev.summary}`;
+    this.last = `${speaker(ev)}: ${ev.summary}`;
     this.render();
   }
 
@@ -168,6 +148,9 @@ class RouteCard {
   }
 }
 
+const CARDS = {route: RouteCard, map_labels: MapLabelsCard, town: TownCard};
+
 export function activityCard(ev) {
-  return ev.view?.type === 'route' && ev.view.graph ? new RouteCard(ev) : new TextCard(ev);
+  const Card = CARDS[ev.view?.type];
+  return Card ? new Card(ev) : new TextCard(ev);
 }

@@ -1,23 +1,11 @@
-"""Activities: stateful, turn-based exercises inside a tutor session
-(docs/tutor.md 14). Rules are code; every participant acts through
-the same `act` call, and `describe` gives an LLM everything it needs
-without pixels.
-
-An activity type implements:
-
-- `__init__(spec)`: validate the spec (raise ValueError);
-- `view()`: the full state as JSON for renderers;
-- `describe()`: a short text an agent can act on;
-- `act(action)`: apply one action, return a short summary (raise ValueError);
-- `done` and `result()`: when finished, `{"outcome", "detail"}` for the
-  evidence recorded against the spec's items (if any).
-"""
+"""Autobahn route: drive from a start to a goal city (docs/tutor.md 14.3)."""
 
 from __future__ import annotations
 
 import math
 
 from pauk.route import load_graph
+from pauk.tutor.activities.common import check_ref
 
 COMPASS = ["north", "north-east", "east", "south-east", "south", "south-west", "west", "north-west"]
 
@@ -45,6 +33,11 @@ class RouteActivity:
         self.path = [spec["start"]]
         self.gave_up = False
         self.optimal = self.graph.shortest_km(spec["start"], spec["goal"])
+        for ref in spec.get("items") or []:
+            check_ref(ref, "route items")
+
+    def refs(self) -> list[str]:
+        return list(self.spec.get("items") or [])
 
     @property
     def node(self) -> str:
@@ -73,7 +66,7 @@ class RouteActivity:
         angle = (math.degrees(math.atan2(dx, dy)) + 360) % 360
         return COMPASS[int((angle + 22.5) // 45) % 8]
 
-    def act(self, action: dict) -> str:
+    def act(self, action: dict, role: str = "learner") -> str:
         if self.done:
             raise ValueError("the route is finished")
         if action.get("undo"):
@@ -94,7 +87,7 @@ class RouteActivity:
         self.path.append(target)
         return f"{edge['autobahn']} to {self.graph.name_of(target)} ({km} km)"
 
-    def view(self) -> dict:
+    def view(self, role: str = "teacher") -> dict:
         return {
             "type": self.type,
             "prompt_md": self.spec.get("prompt_md"),
@@ -112,13 +105,13 @@ class RouteActivity:
             "optimal_km": self.optimal if self.done else None,
         }
 
-    def state(self) -> dict:
+    def state(self, role: str = "teacher") -> dict:
         """The small part that changes with every action."""
-        view = self.view()
+        view = self.view(role)
         view.pop("graph")
         return view
 
-    def describe(self) -> str:
+    def describe(self, role: str = "teacher") -> str:
         g = self.graph
         lines = [f"Route from {g.name_of(self.spec['start'])} to {g.name_of(self.spec['goal'])}.",
                  f"Now at {g.name_of(self.node)}; driven {self.km} km via {' → '.join(g.name_of(n) for n in self.path)}."]
@@ -138,11 +131,3 @@ class RouteActivity:
         return {"outcome": outcome, "detail": {"km": self.km, "optimal_km": self.optimal, "path": self.path,
                                               "gave_up": self.gave_up}}
 
-
-TYPES = {RouteActivity.type: RouteActivity}
-
-
-def create(type_: str, spec: dict):
-    if type_ not in TYPES:
-        raise ValueError(f"unknown activity type '{type_}' (known: {', '.join(TYPES)})")
-    return TYPES[type_](spec)

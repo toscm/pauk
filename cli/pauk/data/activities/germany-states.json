@@ -1,0 +1,107 @@
+{
+  "type": "map_labels",
+  "spec": {
+    "map": "germany",
+    "language": "de",
+    "input": "pick",
+    "prompt_md": "Name the **16 Bundesländer**: pick a name for every numbered marker, then check.",
+    "places": [
+      {
+        "region": "baden-wuerttemberg",
+        "item": "concepts/baden-wurttemberg",
+        "accepted": [
+          "Baden-Wuerttemberg"
+        ]
+      },
+      {
+        "region": "bayern",
+        "item": "concepts/bayern",
+        "accepted": [
+          "Bavaria"
+        ]
+      },
+      {
+        "region": "berlin",
+        "item": "concepts/berlin"
+      },
+      {
+        "region": "brandenburg",
+        "item": "concepts/brandenburg"
+      },
+      {
+        "region": "bremen",
+        "item": "concepts/bremen"
+      },
+      {
+        "region": "hamburg",
+        "item": "concepts/hamburg"
+      },
+      {
+        "region": "hessen",
+        "item": "concepts/hessen",
+        "accepted": [
+          "Hesse"
+        ]
+      },
+      {
+        "region": "mecklenburg-vorpommern",
+        "item": "concepts/mecklenburg-vorpommern",
+        "accepted": [
+          "Mecklenburg-Western Pomerania"
+        ]
+      },
+      {
+        "region": "niedersachsen",
+        "item": "concepts/niedersachsen",
+        "accepted": [
+          "Lower Saxony"
+        ]
+      },
+      {
+        "region": "nordrhein-westfalen",
+        "item": "concepts/nordrhein-westfalen",
+        "accepted": [
+          "North Rhine-Westphalia",
+          "NRW"
+        ]
+      },
+      {
+        "region": "rheinland-pfalz",
+        "item": "concepts/rheinland-pfalz",
+        "accepted": [
+          "Rhineland-Palatinate"
+        ]
+      },
+      {
+        "region": "saarland",
+        "item": "concepts/saarland"
+      },
+      {
+        "region": "sachsen",
+        "item": "concepts/sachsen",
+        "accepted": [
+          "Saxony"
+        ]
+      },
+      {
+        "region": "sachsen-anhalt",
+        "item": "concepts/sachsen-anhalt",
+        "accepted": [
+          "Saxony-Anhalt"
+        ]
+      },
+      {
+        "region": "schleswig-holstein",
+        "item": "concepts/schleswig-holstein"
+      },
+      {
+        "region": "thueringen",
+        "item": "concepts/thuringen",
+        "accepted": [
+          "Thuringia",
+          "Thueringen"
+        ]
+      }
+    ]
+  }
+}

@@ -151,13 +151,15 @@ class AddItem(BaseModel):
 
 
 class ActivityStart(BaseModel):
-    type: str = Field(description="activity type, e.g. route")
-    spec: dict = Field(description='e.g. {"start": "muenchen", "goal": "berlin", "items": [...]}')
+    type: str = Field(description="activity type: route, map_labels or town")
+    spec: dict = Field(description='inline, e.g. {"start": "muenchen", "goal": "berlin", "items": [...]}, '
+                                   'or bundled content with overrides, e.g. {"ref": "italian-town"}')
 
 
 class ActivityAct(BaseModel):
     aid: str
-    action: dict = Field(description='e.g. {"drive": "nuernberg"}, {"undo": true}, {"give_up": true}')
+    action: dict = Field(description='e.g. {"drive": "nuernberg"}, {"label": {"marker": 3, "name": "Leipzig"}}, '
+                                     '{"go_to": "bakery"}, {"npc": "baker", "say": "..."}; observe lists the actions')
 
 
 class ActivityRef(BaseModel):

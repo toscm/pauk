@@ -1,0 +1,77 @@
+{
+  "type": "map_labels",
+  "spec": {
+    "map": "germany",
+    "language": "de",
+    "input": "type",
+    "prompt_md": "Name the **12 cities** on the map: type a name for every numbered marker, then check.",
+    "places": [
+      {
+        "city": "hamburg",
+        "item": "concepts/hamburg"
+      },
+      {
+        "city": "berlin",
+        "item": "concepts/berlin"
+      },
+      {
+        "city": "muenchen",
+        "item": "concepts/munchen",
+        "accepted": [
+          "Munich",
+          "Muenchen"
+        ]
+      },
+      {
+        "city": "koeln",
+        "item": "concepts/koln",
+        "accepted": [
+          "Cologne",
+          "Koeln"
+        ]
+      },
+      {
+        "city": "frankfurt",
+        "item": "concepts/frankfurt-am-main",
+        "accepted": [
+          "Frankfurt"
+        ]
+      },
+      {
+        "city": "stuttgart",
+        "item": "concepts/stuttgart"
+      },
+      {
+        "city": "leipzig",
+        "item": "concepts/leipzig"
+      },
+      {
+        "city": "dresden",
+        "item": "concepts/dresden"
+      },
+      {
+        "city": "hannover",
+        "item": "concepts/hannover",
+        "accepted": [
+          "Hanover"
+        ]
+      },
+      {
+        "city": "nuernberg",
+        "item": "concepts/nurnberg",
+        "accepted": [
+          "Nuremberg",
+          "Nuernberg"
+        ]
+      },
+      {
+        "city": "rostock",
+        "item": "concepts/rostock"
+      },
+      {
+        "city": "kassel",
+        "item": "concepts/kassel"
+      }
+    ]
+  }
+}

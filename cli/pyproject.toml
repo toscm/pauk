@@ -37,7 +37,7 @@ include = ["pauk*"]
 [tool.setuptools.package-data]
 "pauk.tui" = ["*.tcss", "assets/*.png"]
 "pauk" = ["*.md"]
-"pauk.data" = ["*.json"]
+"pauk.data" = ["*.json", "activities/*.json", "activities/maps/*.json"]
 "pauk.tutor" = ["*.md", "personas/*.md", "static/*", "static/**/*"]
 
 [tool.pytest.ini_options]

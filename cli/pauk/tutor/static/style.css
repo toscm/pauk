@@ -320,3 +320,75 @@ body.observer .obs-main { flex: 1; overflow-y: auto; padding: 0.5em 1em; }
 .route-result.good { color: var(--ok); }
 .route-result.hard { color: var(--partial); }
 .route-result.fail { color: var(--bad); }
+.activity-head p { margin: 0.2em 0; }
+.activity-head h3 { margin-top: 0; }
+.activity .row { display: flex; gap: 0.4em; align-items: center; flex-wrap: wrap; }
+.activity .row input { flex: 1; min-width: 8em; }
+button.link { background: none; border: 0; padding: 0; color: inherit; text-align: left; }
+
+/* map labelling */
+.map-layout { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 0.8em; align-items: start; }
+.label-map { display: block; width: 100%; height: auto; max-height: 75vh; }
+.label-map .region { fill: var(--bg); stroke: var(--muted); stroke-width: 1; }
+.label-map .region.target { cursor: pointer; }
+.label-map .region.selected { fill: var(--learner); }
+.label-map .region.good { fill: color-mix(in srgb, var(--ok) 25%, var(--panel)); }
+.label-map .region.hard { fill: color-mix(in srgb, var(--partial) 25%, var(--panel)); }
+.label-map .region.fail { fill: color-mix(in srgb, var(--bad) 25%, var(--panel)); }
+.label-map .marker { cursor: pointer; }
+.label-map .marker circle { fill: var(--panel); stroke: var(--accent); stroke-width: 2.5; }
+.label-map .marker.labelled circle { fill: var(--accent); }
+.label-map .marker.labelled .num { fill: var(--accent-text); }
+.label-map .marker.selected circle { stroke: var(--goal); stroke-width: 5; }
+.label-map .marker.good circle { fill: var(--ok); stroke: var(--ok); }
+.label-map .marker.hard circle { fill: var(--partial); stroke: var(--partial); }
+.label-map .marker.fail circle { fill: var(--bad); stroke: var(--bad); }
+.label-map .marker.good .num, .label-map .marker.hard .num, .label-map .marker.fail .num { fill: var(--panel); }
+.label-map .marker:focus { outline: none; }
+.label-map .marker:focus circle { stroke: var(--goal); stroke-width: 5; }
+.label-map text { font-size: 15px; fill: var(--text); }
+.label-map .num { font-weight: 700; font-size: 14px; pointer-events: none; }
+.label-map .name { font-size: 16px; paint-order: stroke; stroke: var(--panel); stroke-width: 4px; stroke-linejoin: round; pointer-events: none; }
+.label-editor { margin-bottom: 0.6em; }
+.editor-title { margin: 0 0 0.3em; }
+.names { margin-top: 0.2em; gap: 0.3em; }
+.names button { padding: 0.25em 0.6em; font-size: 0.9rem; }
+.names button.used { opacity: 0.6; border-style: dashed; }
+.label-list { margin: 0.4em 0; padding-left: 2em; columns: 2; column-gap: 1.2em; font-size: 0.92rem; }
+.label-list li { break-inside: avoid; padding: 0.05em 0; }
+.label-list li.selected { font-weight: 600; color: var(--goal); }
+
+/* town */
+.town-layout { display: flex; flex-direction: column; gap: 0.6em; }
+.town-map { display: block; width: 100%; height: auto; max-height: 50vh; }
+.town-map .street { stroke: var(--line); stroke-width: 14; stroke-linecap: round; }
+.town-map .place rect { fill: var(--panel); stroke: var(--line); stroke-width: 2; }
+.town-map .walkable { cursor: pointer; }
+.town-map .walkable:hover rect, .town-map .walkable:focus rect { stroke: var(--accent); }
+.town-map .place:focus { outline: none; }
+.town-map .here rect { stroke: var(--goal); stroke-width: 4; fill: var(--learner); }
+.town-map text { fill: var(--text); }
+.town-map .icon { font-size: 34px; }
+.town-map .name { font-size: 14px; }
+.town-map .npc, .town-map .me { font-size: 20px; }
+.here h4 { margin: 0.4em 0 0.2em; }
+.things { margin-top: 0.2em; gap: 0.4em; }
+.thing.good { border-color: var(--ok); color: var(--ok); }
+.thing.hard { border-color: var(--partial); color: var(--partial); }
+.thing.fail { border-color: var(--bad); color: var(--bad); }
+.inspect { background: var(--hint); border-radius: 8px; padding: 0.5em 0.7em; margin: 0.4em 0; }
+.inspect p { margin: 0 0 0.4em; }
+.big-icon { font-size: 2rem; vertical-align: middle; }
+.npc-card { border-top: 1px dashed var(--line); margin-top: 0.6em; padding-top: 0.3em; }
+.task { margin: 0.2em 0 0.4em; }
+.task p { margin: 0.1em 0; }
+.talk .line { margin: 0.2em 0; padding: 0.3em 0.6em; border-radius: 8px; background: var(--bg); }
+.talk .line.learner { background: var(--learner); margin-left: 15%; }
+.say { margin-top: 0.4em; }
+
+@media (max-width: 640px) {
+  .map-layout { grid-template-columns: minmax(0, 1fr); }
+  .label-map { max-height: 60vh; }
+  .town-map { max-height: none; }
+  .activity { padding: 0.6em; }
+}

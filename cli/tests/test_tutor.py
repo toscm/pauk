@@ -289,6 +289,10 @@ def test_pauk_teach_cli_against_a_live_host(tmp_path):
         answered = learn("answer", exercise["exercise_id"], "--selected", "a")
         assert json.loads(answered.stdout)["correct"] is True, answered.stdout
         assert "pauk simulated learner instructions" in learn("instructions").stdout
+        town = teach("activity", "start", "town", "italian-town")
+        assert town.returncode == 0, town.stdout + town.stderr
+        walked = learn("activity", json.loads(town.stdout)["aid"], '{"go_to": "bakery"}')
+        assert json.loads(walked.stdout)["summary"] == "walked to la panetteria", walked.stdout
     finally:
         server.should_exit = True
 
@@ -331,6 +335,79 @@ def test_route_activity(env):
     assert env.T("GET", "activity", params={"aid": aid})["state"]["done"]
     env.L("POST", "activity", {"aid": aid, "action": {"undo": True}}, status=400)        # finished
     env.T("POST", "activity-start", {"type": "chess", "spec": {}}, status=400)
+
+
+def test_map_labels_activity_through_the_host(env):
+    spec = {"map": "germany", "input": "type", "places": [
+        {"city": "muenchen", "item": "concepts/lasso"},              # any item of the fake profile
+        {"city": "hamburg", "item": "concepts/retention-time"},
+        {"city": "leipzig", "item": "concepts/not-in-profile"}]}
+    started = env.T("POST", "activity-start", {"type": "map_labels", "spec": spec})
+    aid = started["aid"]
+    assert started["missing_items"] == ["concepts/not-in-profile"]
+    assert "[key: Hamburg, concepts/retention-time]" in started["text"]
+    shown = [e for e in env.L("GET", "state")["events"] if e["type"] == "activity"][0]
+    assert "Hamburg" not in json.dumps(shown) and "concepts/" not in json.dumps(shown)
+    acted = env.L("POST", "activity", {"aid": aid, "action": {"label": {"marker": 1, "name": "hamburg"}}})
+    assert acted["summary"] == "marker 1 = hamburg" and "key:" not in acted["text"]
+    assert "name" not in acted["state"]["markers"][0]
+    env.T("POST", "activity-act", {"aid": aid, "action": {"label": {"marker": 3, "name": "Munich"}}})   # on the learner's word
+    done = env.L("POST", "activity", {"aid": aid, "action": {"finish": True}})
+    assert done["state"]["correct"] == 1 and done["state"]["markers"][2]["name"] == "München"
+    interaction = env.api.interactions[-1]
+    assert interaction["source"] == "activity" and interaction["mode"] == "recall"
+    assert {i["ref"]: i["outcome"] for i in interaction["items"]} == {"concepts/retention-time": "good", "concepts/lasso": "fail"}
+    events = env.T("GET", "wait", params={"after": 0, "timeout": 0})["events"]
+    finished = [e for e in events if e["type"] == "activity_done"][0]
+    assert finished["outcome"] == "fail" and finished["correct"] == 1
+
+
+TOWN = {"title": "Giardino", "language": "it", "start": "gate",
+        "places": [{"id": "gate", "name": "il cancello", "at": [0, 0]}, {"id": "garden", "name": "il giardino", "at": [1, 0]}],
+        "streets": [["gate", "garden"]],
+        "objects": [{"id": "butterfly", "place": "garden", "icon": "🦋", "hint": "butterfly",
+                     "accepted": ["farfalla"], "item": "it/farfalla"},
+                    {"id": "bee", "place": "garden", "icon": "🐝", "hint": "bee", "accepted": ["ape"], "item": "it/ape"}],
+        "npcs": [{"id": "gardener", "name": "Pietro", "place": "garden", "persona": "A gardener.", "greeting": "Ciao!",
+                  "goal": {"task_md": "Ask him whether he speaks English.", "success": "Asked 'Parla inglese?'",
+                           "items": ["it/parlare"]}}]}
+
+
+def test_town_activity_through_the_host(env):
+    aid = env.T("POST", "activity-start", {"type": "town", "spec": TOWN})["aid"]
+    env.L("POST", "activity", {"aid": aid, "action": {"go_to": "garden"}})
+    env.L("POST", "activity", {"aid": aid, "action": {"inspect": "butterfly"}})
+    answered = env.L("POST", "activity", {"aid": aid, "action": {"answer": "la farfala"}})
+    assert answered["summary"] == "≈ almost: farfalla (you wrote la farfala)"
+    assert env.api.interactions[-1]["items"][0]["outcome"] == "hard"
+    assert env.api.interactions[-1]["mode"] == "recall"
+    # the learner cannot speak for the NPC or grade
+    env.L("POST", "activity", {"aid": aid, "action": {"npc": "gardener", "say": "Sì"}}, status=400)
+    env.L("POST", "activity", {"aid": aid, "action": {"say": {"npc": "gardener", "text": "Parla inglese?"}}})
+    events = env.T("GET", "wait", params={"after": 0, "timeout": 0})["events"]
+    said = [e for e in events if e["type"] == "activity_update"][-1]
+    assert "Waiting for your NPC line: gardener" in said["text"] and "Success: Asked" in said["text"]
+    env.T("POST", "activity-act", {"aid": aid, "action": {"npc": "gardener", "say": "Sì, un po'."}})
+    env.T("POST", "activity-act", {"aid": aid, "action": {"grade": {"npc": "gardener", "outcomes": {"it/parlare": "good"},
+                                                                    "feedback": "Perfetto."}}})
+    assert env.api.interactions[-1]["mode"] == "produce"
+    assert env.api.interactions[-1]["response"]["conversation"][-1]["text"] == "Sì, un po'."
+    learner_events = env.L("GET", "state")["events"]
+    updates = [e for e in learner_events if e["type"] == "activity_update"]
+    assert updates and all("Success" not in e["text"] and "A gardener" not in json.dumps(e) for e in updates)
+    assert "farfalla" not in json.dumps([e for e in learner_events if e["type"] == "activity"])
+    assert any(e["type"] == "activity_graded" for e in learner_events)
+    assert env.T("GET", "state")["open_activities"][0]["aid"] == aid
+    env.T("POST", "activity-end", {"aid": aid})
+    done = [e for e in env.T("GET", "wait", params={"after": 0, "timeout": 0})["events"] if e["type"] == "activity_done"]
+    assert done[0]["outcome"] == "good" and done[0]["gave_up"]
+    assert len(env.api.interactions) == 2   # the town records evidence as it happens, nothing more at the end
+
+
+def test_town_from_bundled_content(env):
+    started = env.T("POST", "activity-start", {"type": "town", "spec": {"ref": "italian-town"}})
+    assert "it/cornetto" in started["missing_items"] and "Giulia, la fornaia" in started["text"]
+    env.T("POST", "activity-start", {"type": "town", "spec": {"ref": "germany-states"}}, status=400)
 
 
 def test_parallel_answers_record_once(env):
