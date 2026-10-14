@@ -361,6 +361,7 @@ Stored remotely in `user_settings` (one JSON value per name, defaults from a reg
 The teacher never changes stored settings; when the learner asks for something different in chat ("please speak English"), the teacher complies for the current session and points to the settings panel to make it permanent.
 
 - `tutor.language`: language the teacher explains and gives feedback in, as a BCP 47 tag (default `de`).
+  The browser UI uses it too (9.5).
 
 - `tutor.immersion`: per language space, how much the teacher speaks the target language: `off`, `partial` (exercises and short phrases in the target language), `full` (everything except explanations of errors). Example: `{"it": "partial"}`. Default `off`.
 
@@ -651,6 +652,11 @@ There is deliberately no action to set a score, delete items, change stored sett
 - Activities (section 14) render inline in the chat or in a wide panel.
 
 - Status line: "teacher is thinking…" while an answer awaits the teacher, "teacher disconnected" with Restart when the agent died.
+
+- UI language: the fixed strings come from a message catalogue per language, `static/i18n/<lang>.js` (English and German; a new language is one new file with the ids of `en.js`), chosen by the primary subtag of `tutor.language` with English as the fallback.
+  The browser reads the setting from the state it loads, the status it polls and `settings_changed` events, and re-renders the page when it changes.
+  Activity summaries for the learner carry `summary_msg` (`{id, params}`) next to the English `summary`, so they appear in the UI language; descriptions for agents (`text`) stay English.
+  Content in the target language (object and place names, NPC lines) is never translated.
 
 ## 10. Teacher harness (served by `pauk teach instructions`)
 
@@ -958,6 +964,7 @@ An activity type is a Python module in `cli/pauk/tutor/activities/` (spec valida
 The host keeps the instances; every action becomes an `activity_update` event whose state and text are filtered per role, and graded events become interactions with `source = activity` (`activity_graded`, and `activity_done` at the end).
 
 Specs are inline JSON or name bundled content: `{"ref": "italian-town"}` loads `content/activities/italian-town.json`, and further keys override the content's.
+Texts for the learner in a spec (`prompt_md`, a town object's `hint`, a goal's `task_md`) are a string or translations keyed by language tag (`{"en": "...", "de": "..."}`); the browser shows the one for the learner's UI language (9.5), descriptions for agents use English.
 The content is copied to `cli/pauk/data/activities/` so the installed client has it (a test keeps the copies equal); `content/activities/maps/germany.json` is the blank base map, exported from the state maps by `scripts/maps/export_activity_map.py`.
 Refs in content that are not in the learner's profile do not block a start: the host reports them as `missing_items` and records no evidence for them.
 Activity evidence follows the new-item rules of exercises: evidence on an item the learner has never seen spends the session's new-item budget (none left: no evidence, reported as `skipped_new`), and a failed first contact is recorded as `introduce`, since the learner has now met the item.

@@ -3,7 +3,10 @@
   "spec": {
     "title": "Una piccola città",
     "language": "it",
-    "prompt_md": "Walk around the town: tap a place to go there, inspect things and name them in Italian, and talk to the people to complete their tasks. Everybody here speaks only Italian.",
+    "prompt_md": {
+      "en": "Walk around the town: tap a place to go there, inspect things and name them in Italian, and talk to the people to complete their tasks. Everybody here speaks only Italian.",
+      "de": "Geh durch die Stadt: Tippe auf einen Ort, um dorthin zu gehen, schau dir die Dinge an und benenne sie auf Italienisch, und sprich mit den Leuten, um ihre Aufgaben zu erfüllen. Hier sprechen alle nur Italienisch."
+    },
     "start": "square",
     "places": [
       {
@@ -96,7 +99,10 @@
         "id": "tree",
         "place": "square",
         "icon": "🌳",
-        "hint": "tree",
+        "hint": {
+          "en": "tree",
+          "de": "Baum"
+        },
         "accepted": [
           "albero",
           "l'albero"
@@ -107,7 +113,10 @@
         "id": "flower",
         "place": "square",
         "icon": "🌸",
-        "hint": "flower",
+        "hint": {
+          "en": "flower",
+          "de": "Blume"
+        },
         "accepted": [
           "fiore",
           "il fiore"
@@ -118,7 +127,10 @@
         "id": "dog",
         "place": "square",
         "icon": "🐕",
-        "hint": "dog",
+        "hint": {
+          "en": "dog",
+          "de": "Hund"
+        },
         "accepted": [
           "cane",
           "il cane"
@@ -129,7 +141,10 @@
         "id": "cat",
         "place": "square",
         "icon": "🐈",
-        "hint": "cat",
+        "hint": {
+          "en": "cat",
+          "de": "Katze"
+        },
         "accepted": [
           "gatto",
           "il gatto"
@@ -140,7 +155,10 @@
         "id": "bread",
         "place": "bakery",
         "icon": "🍞",
-        "hint": "bread",
+        "hint": {
+          "en": "bread",
+          "de": "Brot"
+        },
         "accepted": [
           "pane",
           "il pane"
@@ -151,7 +169,10 @@
         "id": "croissant",
         "place": "bakery",
         "icon": "🥐",
-        "hint": "croissant",
+        "hint": {
+          "en": "croissant",
+          "de": "Croissant"
+        },
         "accepted": [
           "cornetto",
           "il cornetto",
@@ -163,7 +184,10 @@
         "id": "coffee",
         "place": "bakery",
         "icon": "☕",
-        "hint": "coffee",
+        "hint": {
+          "en": "coffee",
+          "de": "Kaffee"
+        },
         "accepted": [
           "caffè",
           "il caffè",
@@ -175,7 +199,10 @@
         "id": "milk",
         "place": "bakery",
         "icon": "🥛",
-        "hint": "milk",
+        "hint": {
+          "en": "milk",
+          "de": "Milch"
+        },
         "accepted": [
           "latte",
           "il latte"
@@ -186,7 +213,10 @@
         "id": "train",
         "place": "station",
         "icon": "🚆",
-        "hint": "train",
+        "hint": {
+          "en": "train",
+          "de": "Zug"
+        },
         "accepted": [
           "treno",
           "il treno"
@@ -197,7 +227,10 @@
         "id": "ticket",
         "place": "station",
         "icon": "🎫",
-        "hint": "ticket",
+        "hint": {
+          "en": "ticket",
+          "de": "Fahrkarte"
+        },
         "accepted": [
           "biglietto",
           "il biglietto"
@@ -208,7 +241,10 @@
         "id": "clock",
         "place": "station",
         "icon": "🕰️",
-        "hint": "clock",
+        "hint": {
+          "en": "clock",
+          "de": "Uhr"
+        },
         "accepted": [
           "orologio",
           "l'orologio"
@@ -219,7 +255,10 @@
         "id": "pizza",
         "place": "restaurant",
         "icon": "🍕",
-        "hint": "pizza",
+        "hint": {
+          "en": "pizza",
+          "de": "Pizza"
+        },
         "accepted": [
           "pizza",
           "la pizza"
@@ -230,7 +269,10 @@
         "id": "wine",
         "place": "restaurant",
         "icon": "🍷",
-        "hint": "wine",
+        "hint": {
+          "en": "wine",
+          "de": "Wein"
+        },
         "accepted": [
           "vino",
           "il vino"
@@ -241,7 +283,10 @@
         "id": "water",
         "place": "restaurant",
         "icon": "💧",
-        "hint": "water",
+        "hint": {
+          "en": "water",
+          "de": "Wasser"
+        },
         "accepted": [
           "acqua",
           "l'acqua"
@@ -252,7 +297,10 @@
         "id": "apple",
         "place": "market",
         "icon": "🍎",
-        "hint": "apple",
+        "hint": {
+          "en": "apple",
+          "de": "Apfel"
+        },
         "accepted": [
           "mela",
           "la mela"
@@ -263,7 +311,10 @@
         "id": "tomato",
         "place": "market",
         "icon": "🍅",
-        "hint": "tomato",
+        "hint": {
+          "en": "tomato",
+          "de": "Tomate"
+        },
         "accepted": [
           "pomodoro",
           "il pomodoro"
@@ -274,7 +325,10 @@
         "id": "cheese",
         "place": "market",
         "icon": "🧀",
-        "hint": "cheese",
+        "hint": {
+          "en": "cheese",
+          "de": "Käse"
+        },
         "accepted": [
           "formaggio",
           "il formaggio"
@@ -285,7 +339,10 @@
         "id": "fish",
         "place": "market",
         "icon": "🐟",
-        "hint": "fish",
+        "hint": {
+          "en": "fish",
+          "de": "Fisch"
+        },
         "accepted": [
           "pesce",
           "il pesce"
@@ -296,7 +353,10 @@
         "id": "medicine",
         "place": "pharmacy",
         "icon": "💊",
-        "hint": "medicine",
+        "hint": {
+          "en": "medicine",
+          "de": "Medikament"
+        },
         "accepted": [
           "medicina",
           "la medicina",
@@ -321,7 +381,10 @@
         ],
         "greeting": "Buongiorno! Cosa desidera?",
         "goal": {
-          "task_md": "Order **two croissants and one coffee**. Be polite.",
+          "task_md": {
+            "en": "Order **two croissants and one coffee**. Be polite.",
+            "de": "Bestelle **zwei Croissants und einen Kaffee**. Sei höflich."
+          },
           "success": "The customer clearly asked, in Italian, for 2 cornetti and 1 caffè. Minor grammar mistakes are fine as long as the order is unambiguous.",
           "items": [
             "it/vorrei",
@@ -346,7 +409,10 @@
         ],
         "greeting": "Buongiorno, mi dica.",
         "goal": {
-          "task_md": "Buy **a one-way ticket to Florence (Firenze)** and find out **which platform** the train leaves from.",
+          "task_md": {
+            "en": "Buy **a one-way ticket to Florence (Firenze)** and find out **which platform** the train leaves from.",
+            "de": "Kaufe **eine einfache Fahrkarte nach Florenz (Firenze)** und finde heraus, **von welchem Gleis** der Zug abfährt."
+          },
           "success": "The customer asked, in Italian, for a one-way ticket to Firenze and asked which binario the train departs from.",
           "items": [
             "it/biglietto",
@@ -370,7 +436,10 @@
         ],
         "greeting": "Buonasera! Prego, si accomodi. Cosa prende?",
         "goal": {
-          "task_md": "Order **a margherita pizza and a glass of red wine**, then ask for **the bill**.",
+          "task_md": {
+            "en": "Order **a margherita pizza and a glass of red wine**, then ask for **the bill**.",
+            "de": "Bestelle **eine Pizza Margherita und ein Glas Rotwein** und bitte dann um **die Rechnung**."
+          },
           "success": "The customer ordered, in Italian, a margherita pizza and a glass of red wine (un bicchiere di vino rosso), and asked for il conto.",
           "items": [
             "it/pizza",
@@ -396,7 +465,10 @@
         ],
         "greeting": "Buongiorno! Come posso aiutarla?",
         "goal": {
-          "task_md": "Say that you **have a headache**, ask for something against it, and ask **how much it costs**.",
+          "task_md": {
+            "en": "Say that you **have a headache**, ask for something against it, and ask **how much it costs**.",
+            "de": "Sag, dass du **Kopfschmerzen** hast, frag nach einem Mittel dagegen und frag, **wie viel es kostet**."
+          },
           "success": "The customer said, in Italian, that they have a headache (mal di testa) and asked the price (quanto costa).",
           "items": [
             "it/mal-di-testa",

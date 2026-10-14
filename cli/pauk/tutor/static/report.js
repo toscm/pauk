@@ -1,27 +1,29 @@
 // "Report a problem" dialog (docs/tutor.md 16.1).
 
 import { post } from './api.js';
+import { t } from './i18n.js';
 import { h, showError, toast } from './ui.js';
 
-const CATEGORIES = [['bug', 'Bug: something broke'], ['content', 'Content: wrong gloss, bad distractor, duplicate'],
-                    ['teacher', 'Teacher: unfair grading, ignored a setting'], ['ux', 'UX: confusing or missing'], ['idea', 'Idea']];
+const categories = () => [['bug', t('report.category.bug')], ['content', t('report.category.content')],
+                          ['teacher', t('report.category.teacher')], ['ux', t('report.category.ux')],
+                          ['idea', t('report.category.idea')]];
 
 export function reportDialog() {
   const about = h('p', {class: 'muted small'});
-  const category = h('select', {id: 'report-category'}, CATEGORIES.map(([value, label]) => h('option', {value}, label)));
+  const category = h('select', {id: 'report-category'}, categories().map(([value, label]) => h('option', {value}, label)));
   const text = h('textarea', {id: 'report-text', rows: 5, required: true, maxlength: 20000});
   const context = h('input', {type: 'checkbox', id: 'report-context', checked: true});
-  const send = h('button', {type: 'submit'}, 'Send report');
+  const send = h('button', {type: 'submit'}, t('report.send'));
   let seq = null;
 
   const dialog = h('dialog', {class: 'report', 'aria-labelledby': 'report-title'},
     h('form', {},
-      h('h2', {id: 'report-title'}, 'Report a problem'),
+      h('h2', {id: 'report-title'}, t('report.title')),
       about,
-      h('div', {class: 'field'}, h('label', {for: 'report-category'}, 'Category'), category),
-      h('div', {class: 'field'}, h('label', {for: 'report-text'}, 'What happened?'), text),
-      h('div', {class: 'field check'}, context, h('label', {for: 'report-context'}, 'Attach the session context')),
-      h('div', {class: 'buttons'}, send, h('button', {type: 'button', class: 'secondary', onclick: () => dialog.close()}, 'Cancel'))));
+      h('div', {class: 'field'}, h('label', {for: 'report-category'}, t('report.category')), category),
+      h('div', {class: 'field'}, h('label', {for: 'report-text'}, t('report.what')), text),
+      h('div', {class: 'field check'}, context, h('label', {for: 'report-context'}, t('report.context'))),
+      h('div', {class: 'buttons'}, send, h('button', {type: 'button', class: 'secondary', onclick: () => dialog.close()}, t('settings.cancel')))));
 
   dialog.querySelector('form').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -29,7 +31,7 @@ export function reportDialog() {
     try {
       const result = await post('learner/report', {category: category.value, text_md: text.value.trim(),
                                                     seq, include_context: context.checked});
-      toast(`Thanks. Report stored ${result.stored === 'api' ? 'on the server' : 'locally'}.`);
+      toast(result.stored === 'api' ? t('report.thanks_server') : t('report.thanks_local'));
       text.value = '';
       dialog.close();
     } catch (error) {
@@ -43,7 +45,7 @@ export function reportDialog() {
   return {
     open(forSeq = null) {
       seq = forSeq;
-      about.textContent = seq ? `About transcript entry #${seq}.` : 'About the session in general.';
+      about.textContent = seq ? t('report.about_entry', {seq}) : t('report.about_session');
       dialog.showModal();
       text.focus();
     },

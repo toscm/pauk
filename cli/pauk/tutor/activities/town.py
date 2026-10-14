@@ -4,7 +4,8 @@ from __future__ import annotations
 
 from collections import deque
 
-from pauk.tutor.activities.common import GRADE_OUTCOME, LEARNER, OUTCOMES, check_ref, grade_name, normalize, overall
+from pauk.tutor.activities.common import (GRADE_OUTCOME, LEARNER, OUTCOMES, Msg, check_ref, english, grade_name,
+                                          localized, normalize, overall, translations)
 
 LEARNER_ACTIONS = ('{"go_to": "<place, person or object>"}, {"inspect": "<object here>"}, {"answer": "<name>"}, '
                    '{"dont_know": true}, {"say": {"npc": "<person here>", "text": "..."}}, {"finish": true}')
@@ -39,6 +40,9 @@ class TownActivity:
     MAX_GRADINGS gradings per goal).
     Evidence: every first answer to an inspected object (recall), every
     graded goal (produce).
+    Texts for the learner (prompt_md, an object's hint, a goal's task_md)
+    are a string or translations ({"en": "...", "de": "..."}); the browser
+    shows the learner's language, descriptions for agents use English.
     """
 
     type = "town"
@@ -46,6 +50,7 @@ class TownActivity:
     def __init__(self, spec: dict):
         self.spec = spec
         self.language = spec.get("language")
+        self.prompt_md = localized(spec.get("prompt_md"), "prompt_md")
         places = spec.get("places") or []
         if not places:
             raise ValueError("a town needs places")
@@ -70,7 +75,8 @@ class TownActivity:
                 raise ValueError(f"object {oid}: unknown place '{o.get('place')}'")
             if not o.get("accepted"):
                 raise ValueError(f"object {oid}: needs accepted names")
-            self.objects[oid] = {"id": oid, "place": o["place"], "icon": o.get("icon", "❓"), "hint": o.get("hint"),
+            self.objects[oid] = {"id": oid, "place": o["place"], "icon": o.get("icon", "❓"),
+                                 "hint": localized(o.get("hint"), f"object {oid} hint"),
                                  "accepted": list(o["accepted"]),
                                  "item": check_ref(o["item"], f"object {oid}") if o.get("item") else None}
         self.npcs = {}
@@ -82,7 +88,7 @@ class TownActivity:
             if goal is not None:
                 if not goal.get("task_md") or not goal.get("success") or not goal.get("items"):
                     raise ValueError(f"npc {nid}: a goal needs task_md, success and items")
-                goal = {"task_md": goal["task_md"], "success": goal["success"],
+                goal = {"task_md": localized(goal["task_md"], f"npc {nid} task_md"), "success": goal["success"],
                         "items": [check_ref(r, f"npc {nid} goal") for r in goal["items"]],
                         "max_turns": int(goal.get("max_turns", 8))}
             self.npcs[nid] = {"id": nid, "name": n.get("name") or nid, "place": n["place"], "icon": n.get("icon", "🙂"),
@@ -148,7 +154,7 @@ class TownActivity:
                 if normalize(entry["name"], True) == wanted:
                     return kind, key
         for key, entry in self.objects.items():
-            if entry["hint"] and normalize(entry["hint"], True) == wanted:
+            if any(normalize(hint, True) == wanted for hint in translations(entry["hint"])):
                 return "object", key
         raise ValueError(f"nothing called '{target}' in this town")
 
@@ -185,7 +191,12 @@ class TownActivity:
 
     def _label(self, oid: str) -> str:
         o = self.objects[oid]
-        return f"{o['icon']} {o['hint'] or oid}"
+        return f"{o['icon']} {english(o['hint']) or oid}"
+
+    def _thing(self, oid: str) -> dict:
+        """Message parameters naming an object by its icon and hint."""
+        o = self.objects[oid]
+        return {"icon": o["icon"], "hint": o["hint"] or oid}
 
     # --- actions -----------------------------------------------------------------
 
@@ -200,19 +211,21 @@ class TownActivity:
             self.finished = True
             self.gave_up = bool(action.get("give_up"))
             self.inspecting = None
-            return "left the town" if not self.gave_up else "gave up"
+            return Msg("activity.gave_up", "gave up") if self.gave_up else Msg("town.left", "left the town")
         if "go_to" in action:
             kind, key = self._find(action["go_to"])
             place = key if kind == "place" else (self.objects if kind == "object" else self.npcs)[key]["place"]
             if place == self.here:
-                return f"already at {self.places[place]['name']}"
+                return Msg("town.already_at", "already at {place}", place=self.places[place]["name"])
             path = self._route(place)
             self.here = place
             self.trail.extend(path)
             self.inspecting = None
             self._greet()
             via = [self.places[p]["name"] for p in path[:-1]]
-            return f"walked to {self.places[place]['name']}" + (f" via {', '.join(via)}" if via else "")
+            if via:
+                return Msg("town.walked_via", "walked to {place} via {via}", place=self.places[place]["name"], via=", ".join(via))
+            return Msg("town.walked", "walked to {place}", place=self.places[place]["name"])
         if "inspect" in action:
             kind, key = self._find(action["inspect"])
             if kind == "npc":
@@ -221,9 +234,9 @@ class TownActivity:
                 raise ValueError("inspect an object at your place; use go_to for places")
             self._here(kind, key)
             if key in self.named:
-                return f"{self._label(key)}: {self._object_name(key)}"
+                return Msg("town.named", "{icon} {hint}: {name}", **self._thing(key), name=self._object_name(key))
             self.inspecting = key
-            return f"inspecting {self._label(key)}: what is it called?"
+            return Msg("town.inspecting", "inspecting {icon} {hint}: what is it called?", **self._thing(key))
         if "answer" in action or action.get("dont_know"):
             if not self.inspecting:
                 raise ValueError("inspect an object first")
@@ -238,10 +251,12 @@ class TownActivity:
                                        "detail": {"object": oid, "answer": answer, "match": match}})
             name = self._object_name(oid)
             if match == "exact":
-                return f"✓ {name}"
+                return Msg("town.answer_exact", "✓ {name}", name=name)
             if match == "typo":
-                return f"≈ almost: {name} (you wrote {answer})"
-            return f"✗ it is {name}" + (f" (you wrote {answer})" if answer else "")
+                return Msg("town.answer_typo", "≈ almost: {name} (you wrote {answer})", name=name, answer=answer)
+            if answer:
+                return Msg("town.answer_wrong", "✗ it is {name} (you wrote {answer})", name=name, answer=answer)
+            return Msg("town.answer_unknown", "✗ it is {name}", name=name)
         if "say" in action:
             if role != LEARNER:
                 raise ValueError('only the learner says things; speak for an NPC with {"npc": id, "say": text}')
@@ -260,7 +275,7 @@ class TownActivity:
                     raise ValueError("this conversation has reached its length; the teacher is judging it")
                 goal["turns"] += 1
             self.talk.append({"npc": key, "from": "learner", "text": str(say["text"]).strip()})
-            return f"to {self.npcs[key]['name']}: {str(say['text']).strip()}"
+            return Msg("town.said", "to {npc}: {text}", npc=self.npcs[key]["name"], text=str(say["text"]).strip())
         raise ValueError(f"actions: {LEARNER_ACTIONS}")
 
     def _npc_say(self, action: dict, role: str) -> str:
@@ -270,7 +285,7 @@ class TownActivity:
         if kind != "npc" or not str(action["say"] or "").strip():
             raise ValueError('{"npc": "<id>", "say": "<line>"}')
         self.talk.append({"npc": key, "from": "npc", "text": str(action["say"]).strip()})
-        return f"{self.npcs[key]['name']}: {str(action['say']).strip()}"
+        return Msg("town.npc_said", "{npc}: {text}", npc=self.npcs[key]["name"], text=str(action["say"]).strip())
 
     def _grade_goal(self, grade, role: str) -> str:
         if role == LEARNER:
@@ -297,11 +312,13 @@ class TownActivity:
         goal.update(status="graded", outcomes=dict(outcomes), reached=reached, feedback=feedback,
                     gradings=goal["gradings"] + 1)
         self._evidence.append({"mode": "produce", "items": dict(outcomes),
-                               "detail": {"npc": nid, "task_md": spec["task_md"], "reached": reached,
+                               "detail": {"npc": nid, "task_md": english(spec["task_md"]), "reached": reached,
                                           "feedback": feedback, "attempt": goal["gradings"],
                                           "conversation": [t for t in self.talk if t["npc"] == nid]},
                                "learner": {"npc": nid, "reached": reached, "feedback": feedback}})
-        return f"goal with {self.npcs[nid]['name']}: {'reached' if reached else 'not reached'}"
+        if reached:
+            return Msg("town.goal_reached", "goal with {npc}: reached", npc=self.npcs[nid]["name"])
+        return Msg("town.goal_not_reached", "goal with {npc}: not reached", npc=self.npcs[nid]["name"])
 
     # --- views -------------------------------------------------------------------
 
@@ -337,7 +354,7 @@ class TownActivity:
                 **self.state(role)}
 
     def state(self, role: str = "teacher") -> dict:
-        return {"type": self.type, "prompt_md": self.spec.get("prompt_md"), "here": self.here,
+        return {"type": self.type, "prompt_md": self.prompt_md, "here": self.here,
                 "trail": list(self.trail), "inspecting": self.inspecting,
                 "objects": [self._object_view(o, role) for o in self.objects],
                 "npcs": [self._npc_view(n, role) for n in self.npcs],
@@ -364,7 +381,7 @@ class TownActivity:
             text = f"Person here: {n['icon']} {n['name']} [{nid}]"
             if n["goal"]:
                 goal = self.goals[nid]
-                text += f"; task: {n['goal']['task_md']}"
+                text += f"; task: {english(n['goal']['task_md'])}"
                 if goal["status"] == "graded":
                     text += f" ({'reached' if goal['reached'] else 'not reached'}"
                     if role != LEARNER:

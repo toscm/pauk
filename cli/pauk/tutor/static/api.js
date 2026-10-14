@@ -2,6 +2,8 @@
 // every path is relative to it. Learner key from `#k=`, observer key
 // from `?observer=`.
 
+import { t } from './i18n.js';
+
 const search = new URLSearchParams(location.search);
 export const observerKey = search.get('observer');
 export const learnerKey = new URLSearchParams(location.hash.slice(1)).get('k');
@@ -22,7 +24,7 @@ export async function call(method, path, body) {
   try {
     response = await fetch(`api/${path}`, {method, headers, body: body === undefined ? undefined : JSON.stringify(body)});
   } catch {
-    throw new HostError(0, 'network', 'The session host is not reachable');
+    throw new HostError(0, 'network', t('app.unreachable'));
   }
   const data = await response.json().catch(() => ({}));
   if (!response.ok) {

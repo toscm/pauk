@@ -4,6 +4,7 @@
 // so a reload renders exactly the same as the live session.
 
 import { post } from './api.js';
+import { t } from './i18n.js';
 import { md, plain } from './md.js';
 import { h, showError, toast } from './ui.js';
 
@@ -11,7 +12,8 @@ import { h, showError, toast } from './ui.js';
 const changed = () => document.dispatchEvent(new Event('exercisechange'));
 
 function mark(correct, partial = false) {
-  const [cls, sign, label] = correct ? ['ok', '✓', 'correct'] : partial ? ['partial', '◐', 'partly correct'] : ['bad', '✗', 'wrong'];
+  const [cls, sign, label] = correct ? ['ok', '✓', t('ex.mark.correct')] : partial ? ['partial', '◐', t('ex.mark.partial')]
+    : ['bad', '✗', t('ex.mark.wrong')];
   return h('span', {class: `mark ${cls}`, role: 'img', 'aria-label': label}, sign);
 }
 
@@ -25,7 +27,7 @@ export class ExerciseWidget {
     this.result = h('div', {class: 'result', 'aria-live': 'polite'});
     this.controls = this.buildControls(ex);
     this.actions = h('div', {class: 'buttons'}, this.buildButtons());
-    this.el = h('section', {class: `exercise kind-${ex.kind}`, 'aria-label': 'Exercise'},
+    this.el = h('section', {class: `exercise kind-${ex.kind}`, 'aria-label': t('ex.exercise')},
       md(ex.prompt_md), this.controls, this.hints, this.actions, this.result);
   }
 
@@ -38,7 +40,7 @@ export class ExerciseWidget {
     if (ex.kind === 'mc') {
       const type = ex.multiple ? 'checkbox' : 'radio';
       return h('fieldset', {class: 'options'},
-        h('legend', {class: ex.multiple ? 'muted small' : 'sr-only'}, ex.multiple ? 'Choose all that apply.' : 'Choose one.'),
+        h('legend', {class: ex.multiple ? 'muted small' : 'sr-only'}, ex.multiple ? t('ex.choose_all') : t('ex.choose_one')),
         ex.options.map((o) => h('label', {class: 'option'},
           h('input', {type, name, value: o.id}), md(o.text_md, true))));
     }
@@ -53,9 +55,9 @@ export class ExerciseWidget {
       }));
     }
     if (ex.kind === 'text') {
-      this.input = h('input', {type: 'text', 'aria-label': 'Your answer', autocomplete: 'off', autocapitalize: 'off', spellcheck: 'false'});
+      this.input = h('input', {type: 'text', 'aria-label': t('ex.your_answer'), autocomplete: 'off', autocapitalize: 'off', spellcheck: 'false'});
     } else if (ex.kind === 'open') {
-      this.input = h('textarea', {rows: 3, 'aria-label': 'Your answer'});
+      this.input = h('textarea', {rows: 3, 'aria-label': t('ex.your_answer')});
     } else {
       return h('div', {class: 'reveal'});   // recall: filled by revealed()
     }
@@ -69,13 +71,13 @@ export class ExerciseWidget {
   }
 
   buildButtons() {
-    const hint = h('button', {type: 'button', class: 'secondary', onclick: () => this.requestHint()}, 'Hint');
-    const dontKnow = h('button', {type: 'button', class: 'secondary', onclick: () => this.dontKnow()}, "I don't know");
+    const hint = h('button', {type: 'button', class: 'secondary', onclick: () => this.requestHint()}, t('ex.hint'));
+    const dontKnow = h('button', {type: 'button', class: 'secondary', onclick: () => this.dontKnow()}, t('ex.dont_know'));
     this.hintButton = hint;
     if (this.kind === 'recall') {
-      return [h('button', {type: 'button', onclick: () => this.reveal()}, 'Reveal'), hint, dontKnow];
+      return [h('button', {type: 'button', onclick: () => this.reveal()}, t('ex.reveal')), hint, dontKnow];
     }
-    return [h('button', {type: 'button', onclick: () => this.submit()}, 'Submit'), hint, dontKnow];
+    return [h('button', {type: 'button', onclick: () => this.submit()}, t('ex.submit')), hint, dontKnow];
   }
 
   focus() {
@@ -114,7 +116,7 @@ export class ExerciseWidget {
     if (this.locked) return;
     const answer = this.response();
     if (!answer) {
-      toast(this.kind === 'match' ? 'Match every row first.' : this.kind === 'mc' ? 'Choose an option first.' : 'Type an answer first.');
+      toast(this.kind === 'match' ? t('ex.match_first') : this.kind === 'mc' ? t('ex.choose_first') : t('ex.type_first'));
       return;
     }
     if (await this.send('answer', answer)) this.lock();
@@ -162,15 +164,16 @@ export class ExerciseWidget {
   answered(ev, live) {
     this.lock();
     if (ev.awaiting === 'grade') {
-      this.setResult(h('p', {class: 'pending'}, 'Your answer: ', md(ev.response_md, true), ' — waiting for the teacher…'));
+      this.setResult(h('p', {class: 'pending'}, t('ex.your_answer_label'), ' ',
+        ev.dont_know ? t('ex.dont_know_answer') : md(ev.response_md, true), ' — ', t('ex.waiting')));
       return;
     }
     this.showResponse(ev.response);
-    const verdict = ev.correct ? (ev.match === 'typo' ? 'Correct, with a small typo.' : 'Correct.') : 'Not quite.';
+    const verdict = ev.correct ? (ev.match === 'typo' ? t('ex.correct_typo') : t('ex.correct')) : t('ex.not_quite');
     const showExpected = ev.expected_md && (!ev.correct || ev.match === 'typo') && !this.referenceShown;
     this.setResult(h('p', {}, mark(ev.correct), ' ', verdict),
-      this.kind === 'match' && ev.response_md ? h('div', {}, h('span', {class: 'muted'}, 'Yours: '), md(ev.response_md, true)) : null,
-      showExpected ? h('div', {class: 'expected'}, h('span', {class: 'muted'}, 'Answer: '), md(ev.expected_md, true)) : null);
+      this.kind === 'match' && ev.response_md ? h('div', {}, h('span', {class: 'muted'}, t('ex.yours'), ' '), md(ev.response_md, true)) : null,
+      showExpected ? h('div', {class: 'expected'}, h('span', {class: 'muted'}, t('ex.answer'), ' '), md(ev.expected_md, true)) : null);
     this.onResult(this, ev.correct, live);
   }
 
@@ -188,32 +191,32 @@ export class ExerciseWidget {
 
   graded(ev) {
     this.lock();
-    const verdict = ev.correct ? 'Correct.' : ev.partial ? 'Partly right.' : 'Not quite.';
+    const verdict = ev.correct ? t('ex.correct') : ev.partial ? t('ex.partly') : t('ex.not_quite');
     this.setResult(h('p', {}, mark(ev.correct, ev.partial), ' ', verdict),
       ev.feedback_md ? md(ev.feedback_md) : null,
-      ev.reference_md ? h('div', {class: 'expected'}, h('span', {class: 'muted'}, 'Reference: '), md(ev.reference_md)) : null);
+      ev.reference_md ? h('div', {class: 'expected'}, h('span', {class: 'muted'}, t('ex.reference'), ' '), md(ev.reference_md)) : null);
   }
 
   overridden(ev) {
-    this.result.append(h('p', {class: 'override'}, 'Corrected by the teacher: ', mark(ev.correct), ' ', ev.reason));
+    this.result.append(h('p', {class: 'override'}, t('ex.corrected'), ' ', mark(ev.correct), ' ', ev.reason));
   }
 
   hinted(ev) {
-    this.hints.append(h('div', {class: 'hint'}, h('span', {class: 'muted'}, 'Hint: '), md(ev.text_md)));
+    this.hints.append(h('div', {class: 'hint'}, h('span', {class: 'muted'}, t('ex.hint_label'), ' '), md(ev.text_md)));
   }
 
   hintRequested() {
     this.hintButton.disabled = true;
-    this.hintButton.textContent = 'Hint requested';
+    this.hintButton.textContent = t('ex.hint_requested');
   }
 
   revealed(referenceMd) {
     if (this.referenceShown) return;
     this.referenceShown = true;
-    this.controls.append(h('div', {class: 'expected'}, h('span', {class: 'muted'}, 'Reference: '), md(referenceMd)));
+    this.controls.append(h('div', {class: 'expected'}, h('span', {class: 'muted'}, t('ex.reference'), ' '), md(referenceMd)));
     if (this.locked) return;
-    const knew = h('button', {type: 'button', onclick: () => this.selfGrade(true)}, 'I knew it');
-    this.actions.replaceChildren(knew, h('button', {type: 'button', class: 'secondary', onclick: () => this.selfGrade(false)}, "I didn't"));
+    const knew = h('button', {type: 'button', onclick: () => this.selfGrade(true)}, t('ex.knew'));
+    this.actions.replaceChildren(knew, h('button', {type: 'button', class: 'secondary', onclick: () => this.selfGrade(false)}, t('ex.didnt')));
     knew.focus({preventScroll: true});
   }
 }
@@ -229,8 +232,8 @@ export class Drill {
     this.dots = this.widgets.map(() => h('span', {class: 'dot'}));
     this.counter = h('span', {class: 'muted'});
     this.stage = h('div', {class: 'stage'});
-    this.el = h('section', {class: 'drill', 'aria-label': 'Drill'},
-      h('header', {class: 'drill-head'}, h('strong', {}, 'Drill'), this.counter, h('span', {class: 'dots', 'aria-hidden': 'true'}, this.dots)),
+    this.el = h('section', {class: 'drill', 'aria-label': t('ex.drill')},
+      h('header', {class: 'drill-head'}, h('strong', {}, t('ex.drill')), this.counter, h('span', {class: 'dots', 'aria-hidden': 'true'}, this.dots)),
       this.stage);
     this.show(0, false);
   }
@@ -256,14 +259,14 @@ export class Drill {
       return;
     }
     const next = h('button', {type: 'button', class: 'next', onclick: () => this.show(i + 1, true)},
-      i + 1 < this.widgets.length ? 'Next' : 'Finish');
+      i + 1 < this.widgets.length ? t('ex.next') : t('ex.finish'));
     widget.result.append(next);
     next.focus({preventScroll: true});
   }
 
   finish() {
     const right = [...this.results.values()].filter(Boolean).length;
-    this.counter.textContent = `done · ${right} / ${this.widgets.length} correct`;
+    this.counter.textContent = t('ex.drill_done', {right, total: this.widgets.length});
     this.dots.forEach((d) => d.classList.remove('current'));
     this.stage.replaceChildren(h('ol', {class: 'drill-summary'}, this.widgets.map((w) => {
       const result = w.result.cloneNode(true);

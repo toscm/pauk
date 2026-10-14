@@ -4,21 +4,27 @@
 // town in their own modules); unknown types fall back to the text
 // description.
 
-import { act, s, speaker } from './activity-kit.js';
+import { act, lastAction, s } from './activity-kit.js';
 import { MapLabelsCard } from './activity-map.js';
 import { TownCard } from './activity-town.js';
+import { local, t } from './i18n.js';
 import { md } from './md.js';
 import { h } from './ui.js';
 
 const WIDTH = 600;
 const MARGIN = 40;
-const OUTCOME = {good: 'good route', hard: 'a detour', fail: 'a long detour'};
+const outcomeText = (outcome) => ({good: t('route.outcome.good'), hard: t('route.outcome.hard'),
+                                    fail: t('route.outcome.fail')})[outcome] || outcome;
+const direction = (d) => ({north: t('route.dir.north'), 'north-east': t('route.dir.north-east'), east: t('route.dir.east'),
+                           'south-east': t('route.dir.south-east'), south: t('route.dir.south'),
+                           'south-west': t('route.dir.south-west'), west: t('route.dir.west'),
+                           'north-west': t('route.dir.north-west')})[d] || d;
 
 class TextCard {
   constructor(ev) {
     this.aid = ev.aid;
     this.body = h('div', {}, md(ev.text));
-    this.el = h('section', {class: 'activity', 'aria-label': 'Activity'}, this.body);
+    this.el = h('section', {class: 'activity', 'aria-label': t('activity.activity')}, this.body);
   }
 
   update(ev) {
@@ -26,7 +32,7 @@ class TextCard {
   }
 
   done(ev) {
-    this.el.append(h('p', {class: 'small'}, `Finished: ${ev.outcome}.`));
+    this.el.append(h('p', {class: 'small'}, t('activity.finished', {outcome: ev.outcome})));
   }
 
   busy() {}
@@ -53,7 +59,7 @@ class RouteCard {
     this.proj = projection(this.graph.nodes);
     this.result = null;
     this.last = '';
-    this.el = h('section', {class: 'activity route wide', 'aria-label': 'Route activity'});
+    this.el = h('section', {class: 'activity route wide', 'aria-label': t('route.aria')});
     this.render();
   }
 
@@ -63,7 +69,7 @@ class RouteCard {
 
   update(ev) {
     this.view = {...this.view, ...ev.state};
-    this.last = `${speaker(ev)}: ${ev.summary}`;
+    this.last = lastAction(ev);
     this.render();
   }
 
@@ -80,17 +86,18 @@ class RouteCard {
     const v = this.view;
     const here = v.path[v.path.length - 1];
     const head = h('header', {class: 'route-head'},
-      v.prompt_md ? md(v.prompt_md) : h('p', {}, h('strong', {}, `Drive from ${this.name(v.start)} to ${this.name(v.goal)}.`)),
-      h('p', {class: 'small'}, `Now in `, h('strong', {}, this.name(here)), ` · ${v.km} km driven · goal: ${this.name(v.goal)}`),
+      v.prompt_md ? md(local(v.prompt_md)) : h('p', {}, h('strong', {}, t('route.task', {from: this.name(v.start), to: this.name(v.goal)}))),
+      h('p', {class: 'small'}, t('route.now_in'), ' ', h('strong', {}, this.name(here)),
+        ` · ${t('route.driven', {km: v.km})} · ${t('route.goal', {city: this.name(v.goal)})}`),
       v.path.length > 1 ? h('p', {class: 'muted small'}, v.path.map((id) => this.name(id)).join(' → ')) : null,
       this.last ? h('p', {class: 'muted small'}, this.last) : null);
     const controls = v.done ? this.outcome() : h('div', {class: 'buttons moves'},
       v.moves.map((m) => h('button', {type: 'button', onclick: () => act(this.aid, {drive: m.to}, this)},
-        `${m.autobahn} ${m.direction} → ${m.name}, ${m.km} km`)),
-      v.path.length > 1 ? h('button', {type: 'button', class: 'secondary', onclick: () => act(this.aid, {undo: true}, this)}, 'Undo') : null,
+        `${m.autobahn} ${direction(m.direction)} → ${m.name}, ${m.km} km`)),
+      v.path.length > 1 ? h('button', {type: 'button', class: 'secondary', onclick: () => act(this.aid, {undo: true}, this)}, t('activity.undo')) : null,
       h('button', {type: 'button', class: 'secondary', onclick: () => {
-        if (confirm('Give up this route?')) act(this.aid, {give_up: true}, this);
-      }}, 'Give up'));
+        if (confirm(t('route.confirm_give_up'))) act(this.aid, {give_up: true}, this);
+      }}, t('activity.give_up')));
     const hadFocus = this.el.contains(document.activeElement);
     this.el.replaceChildren(head, this.map(), controls);
     if (hadFocus) this.el.querySelector('.moves button')?.focus();
@@ -101,8 +108,8 @@ class RouteCard {
     const r = this.result;
     const optimal = r?.optimal_km ?? v.optimal_km;
     const text = v.gave_up
-      ? `Given up after ${v.km} km (shortest route: ${optimal} km).`
-      : `Arrived in ${this.name(v.goal)} after ${v.km} km; the shortest route is ${optimal} km${r ? ` — ${OUTCOME[r.outcome] || r.outcome}` : ''}.`;
+      ? t('route.gave_up', {km: v.km, optimal})
+      : t('route.arrived', {city: this.name(v.goal), km: v.km, optimal}) + (r ? ` — ${outcomeText(r.outcome)}` : '');
     return h('p', {class: `route-result ${r?.outcome || ''}`}, text);
   }
 
@@ -133,7 +140,7 @@ class RouteCard {
       const cls = ['city', near && 'next', v.path.includes(id) && 'visited', id === v.start && 'start', id === v.goal && 'goal',
                    id === here && 'here'].filter(Boolean).join(' ');
       const drive = () => act(this.aid, {drive: id}, this);
-      return s('g', near ? {class: cls, role: 'button', tabindex: 0, 'aria-label': `Drive to ${this.name(id)}`, onclick: drive,
+      return s('g', near ? {class: cls, role: 'button', tabindex: 0, 'aria-label': t('route.drive_to', {city: this.name(id)}), onclick: drive,
                             onkeydown: (e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), drive())} : {class: cls},
         s('title', {}, this.name(id)),
         near ? s('circle', {cx: x, cy: y, r: 14, class: 'target'}) : null,
@@ -143,7 +150,7 @@ class RouteCard {
                                         : s('text', {x: x + 10, y: y - 8}, this.name(id))) : null);
     });
     return s('svg', {class: 'route-map', viewBox: `0 0 ${WIDTH} ${this.proj.height}`, role: 'group',
-                     'aria-label': `Map: from ${this.name(v.start)} to ${this.name(v.goal)}, now in ${this.name(here)}`},
+                     'aria-label': t('route.map_aria', {from: this.name(v.start), to: this.name(v.goal), here: this.name(here)})},
       s('g', {}, edges), route, s('g', {}, cities));
   }
 }

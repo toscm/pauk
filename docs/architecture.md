@@ -276,6 +276,9 @@ Directories form a DAG, not a tree:
 
 - Typo tolerance treats a vowel swapped for another vowel as two edits (issues/0016): in Italian, Spanish, Greek and German that is usually a different word or form, not a slip of the finger, and one rule for every language beats a table per space.
 
+- The tutor's browser UI is localised in the browser (issues/0017): a message catalogue per language in `cli/pauk/tutor/static/i18n/`, chosen from `tutor.language`; activity modules return summaries as message ids with parameters plus the English text, and descriptions for LLM participants stay English.
+  The host stays language-neutral, and a language switch needs no round trip.
+
 - Unit and host tests drive the session against `pauk.tutor.fake.FakeApi`, an in-memory stand-in with deliberately simple scoring; `pauk tutor --fake` uses it for UI development. End-to-end runs with a real teacher go against a scratch API, never the live profile.
 
 ### TUI gotchas

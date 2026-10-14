@@ -4,7 +4,10 @@
     "map": "germany",
     "language": "de",
     "input": "pick",
-    "prompt_md": "Name the **16 Bundesländer**: pick a name for every numbered marker, then check.",
+    "prompt_md": {
+      "en": "Name the **16 Bundesländer**: pick a name for every numbered marker, then check.",
+      "de": "Benenne die **16 Bundesländer**: Wähle für jede nummerierte Markierung einen Namen und prüfe dann."
+    },
     "places": [
       {
         "region": "baden-wuerttemberg",

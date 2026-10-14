@@ -5,7 +5,7 @@ from __future__ import annotations
 import math
 
 from pauk.route import load_graph
-from pauk.tutor.activities.common import check_ref
+from pauk.tutor.activities.common import Msg, check_ref, localized
 
 COMPASS = ["north", "north-east", "east", "south-east", "south", "south-west", "west", "north-west"]
 
@@ -35,6 +35,7 @@ class RouteActivity:
         self.optimal = self.graph.shortest_km(spec["start"], spec["goal"])
         for ref in spec.get("items") or []:
             check_ref(ref, "route items")
+        self.prompt_md = localized(spec.get("prompt_md"), "prompt_md")
 
     def refs(self) -> list[str]:
         return list(self.spec.get("items") or [])
@@ -73,10 +74,10 @@ class RouteActivity:
             if len(self.path) < 2:
                 raise ValueError("nothing to undo")
             self.path.pop()
-            return f"back at {self.graph.name_of(self.node)}"
+            return Msg("route.back", "back at {city}", city=self.graph.name_of(self.node))
         if action.get("give_up"):
             self.gave_up = True
-            return "gave up"
+            return Msg("activity.gave_up", "gave up")
         if "drive" not in action:
             raise ValueError("actions: {\"drive\": city}, {\"undo\": true}, {\"give_up\": true}")
         target = self._resolve(action["drive"])
@@ -85,12 +86,12 @@ class RouteActivity:
             raise ValueError(f"no autobahn from {self.graph.name_of(self.node)} to {self.graph.name_of(target)}")
         edge = next(m for m in self.graph.moves(self.node) if m["to"] == target)
         self.path.append(target)
-        return f"{edge['autobahn']} to {self.graph.name_of(target)} ({km} km)"
+        return Msg("route.drove", "{road} to {city} ({km} km)", road=edge["autobahn"], city=self.graph.name_of(target), km=km)
 
     def view(self, role: str = "teacher") -> dict:
         return {
             "type": self.type,
-            "prompt_md": self.spec.get("prompt_md"),
+            "prompt_md": self.prompt_md,
             "graph": {
                 "nodes": {n: {"name": d["name"], "lat": d["lat"], "lon": d["lon"]} for n, d in self.graph.nodes.items()},
                 "edges": sorted({(min(a, m["to"]), max(a, m["to"]), m["autobahn"], m["km"])

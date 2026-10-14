@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 from pauk.route import load_graph
-from pauk.tutor.activities.common import (GRADE_OUTCOME, LEARNER, check_ref, grade_name, load_map,
-                                          normalize, overall)
+from pauk.tutor.activities.common import (GRADE_OUTCOME, LEARNER, Msg, check_ref, grade_name, load_map,
+                                          localized, normalize, overall)
 
 ACTIONS = ('{"label": {"marker": 3, "name": "<place name>"}} (an empty name clears), {"undo": true}, '
            '{"finish": true}, {"give_up": true}')
@@ -35,6 +35,7 @@ class MapLabelsActivity:
         self.spec = spec
         self.map = load_map(spec.get("map", "germany"))
         self.input = spec.get("input", "pick")
+        self.prompt_md = localized(spec.get("prompt_md"), "prompt_md")
         if self.input not in ("pick", "type"):
             raise ValueError('input must be "pick" or "type"')
         places = spec.get("places")
@@ -112,12 +113,16 @@ class MapLabelsActivity:
                 raise ValueError("nothing to undo")
             n, previous = self.history.pop()
             self._set(n, previous)
-            return f"undone: marker {n} is {previous or 'unlabelled'} again"
+            if previous:
+                return Msg("map.undone", "undone: marker {n} is {name} again", n=n, name=previous)
+            return Msg("map.undone_empty", "undone: marker {n} is unlabelled again", n=n)
         if action.get("finish") or action.get("give_up"):
             self.gave_up = bool(action.get("give_up"))
             self._grade()
             correct = sum(g != "wrong" for g in self.grades.values())
-            return f"{'gave up' if self.gave_up else 'finished'}: {correct} of {len(self.markers)} correct"
+            if self.gave_up:
+                return Msg("map.gave_up", "gave up: {correct} of {total} correct", correct=correct, total=len(self.markers))
+            return Msg("map.finished", "finished: {correct} of {total} correct", correct=correct, total=len(self.markers))
         label = action.get("label")
         if not isinstance(label, dict) or "marker" not in label:
             raise ValueError(f"actions: {ACTIONS}")
@@ -135,7 +140,9 @@ class MapLabelsActivity:
             name = match[0]
         self.history.append((n, self.labels.get(n)))
         self._set(n, name)
-        return f"marker {n} = {name}" if name else f"marker {n} cleared"
+        if name:
+            return Msg("map.labelled", "marker {n} = {name}", n=n, name=name)
+        return Msg("map.cleared", "marker {n} cleared", n=n)
 
     def end(self) -> str:
         """Ended by the teacher (activity end): graded like a finish, but
@@ -145,7 +152,8 @@ class MapLabelsActivity:
         self.ended = True
         self._grade()
         correct = sum(g != "wrong" for g in self.grades.values())
-        return f"ended by the teacher: {correct} of {len(self.labels)} labelled markers correct"
+        return Msg("map.ended", "ended by the teacher: {correct} of {labelled} labelled markers correct",
+                   correct=correct, labelled=len(self.labels))
 
     def _set(self, n: int, name: str | None) -> None:
         if name:
@@ -185,7 +193,7 @@ class MapLabelsActivity:
 
     def state(self, role: str = "teacher") -> dict:
         correct = sum(g != "wrong" for g in self.grades.values())
-        return {"type": self.type, "prompt_md": self.spec.get("prompt_md"), "input": self.input,
+        return {"type": self.type, "prompt_md": self.prompt_md, "input": self.input,
                 "names": self.names if self.input == "pick" else None,
                 "markers": [self._marker(m, role) for m in self.markers.values()],
                 "can_undo": bool(self.history) and not self.done,

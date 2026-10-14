@@ -26,6 +26,7 @@ Importable content files, one JSON per topic:
 
 - `activities/` — tutor activity content (docs/tutor.md 14): `germany-states.json`, `germany-cities.json` (map labelling), `italian-town.json` (town scene, the successor of `italian-quests.json`), and `maps/germany.json`, the blank base map exported by `scripts/maps/export_activity_map.py`.
   These are not imported; the CLI ships a copy in `cli/pauk/data/activities/`, so after editing a file here copy it there (`cli/tests/test_activities.py` checks that both are equal and that every ref names an item of an `items-*.json` file).
+  Texts shown to the learner (`prompt_md`, a town object's `hint`, a goal's `task_md`) are a string or translations like `{"en": "...", "de": "..."}`; the browser picks the learner's UI language.
 
   Item file format:
 

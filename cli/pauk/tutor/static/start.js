@@ -1,20 +1,33 @@
 // The start card: subjects (filterable multi-select), mode, minutes.
 
 import { get, post } from './api.js';
+import { t } from './i18n.js';
 import { h, showError } from './ui.js';
 
-const MODES = [['learn', 'Learn new'], ['review', 'Review'], ['mixed', 'Mixed'], ['chat', 'Free chat']];
+const modes = () => [['learn', t('start.mode.learn')], ['review', t('start.mode.review')],
+                     ['mixed', t('start.mode.mixed')], ['chat', t('start.mode.chat')]];
+
+export function modeName(mode) {
+  return (modes().find(([value]) => value === mode) || [mode, mode])[1];
+}
+
+// "it, de · Mixed · 15 min" for a goal {dirs, mode, minutes}.
+export function goalText(goal) {
+  return t('start.goal', {dirs: (goal.dirs || []).join(', ') || t('start.all_subjects'), mode: modeName(goal.mode),
+                          minutes: goal.minutes});
+}
 
 export function startCard() {
   const chosen = new Set();
-  const list = h('div', {class: 'subject-list', role: 'group', 'aria-label': 'Subjects'}, h('p', {class: 'muted small'}, 'Loading subjects…'));
-  const count = h('span', {class: 'muted small', 'aria-live': 'polite'}, 'All subjects');
-  const filter = h('input', {type: 'search', id: 'subject-filter', placeholder: 'Filter subjects', autocomplete: 'off'});
+  const list = h('div', {class: 'subject-list', role: 'group', 'aria-label': t('start.subjects')},
+    h('p', {class: 'muted small'}, t('start.loading_subjects')));
+  const count = h('span', {class: 'muted small', 'aria-live': 'polite'}, t('start.all_subjects'));
+  const filter = h('input', {type: 'search', id: 'subject-filter', placeholder: t('start.filter'), autocomplete: 'off'});
   const minutes = h('input', {type: 'number', id: 'start-minutes', min: 5, max: 120, step: 5, value: 15});
-  const button = h('button', {type: 'submit'}, 'Start');
+  const button = h('button', {type: 'submit'}, t('start.start'));
 
   function updateCount() {
-    count.textContent = chosen.size ? `${chosen.size} selected` : 'All subjects';
+    count.textContent = chosen.size ? t('start.selected', {n: chosen.size}) : t('start.all_subjects');
   }
 
   filter.addEventListener('input', () => {
@@ -29,16 +42,16 @@ export function startCard() {
         updateCount();
       }}),
       s.path)));
-    if (!items.length) list.replaceChildren(h('p', {class: 'muted small'}, 'No subjects yet.'));
+    if (!items.length) list.replaceChildren(h('p', {class: 'muted small'}, t('start.no_subjects')));
   }).catch(showError);
 
-  const form = h('form', {class: 'start-card', 'aria-label': 'Start a session'},
-    h('h2', {}, 'What do you want to do?'),
-    h('p', {class: 'muted small'}, 'Pick a goal, or just write to the teacher below.'),
-    h('div', {class: 'field'}, h('label', {for: 'subject-filter'}, 'Subjects '), count, filter, list),
-    h('fieldset', {class: 'modes'}, h('legend', {}, 'Mode'),
-      MODES.map(([value, label]) => h('label', {}, h('input', {type: 'radio', name: 'mode', value, checked: value === 'mixed'}), ` ${label}`))),
-    h('div', {class: 'field inline'}, h('label', {for: 'start-minutes'}, 'Minutes'), minutes),
+  const form = h('form', {class: 'start-card', 'aria-label': t('start.aria')},
+    h('h2', {}, t('start.title')),
+    h('p', {class: 'muted small'}, t('start.intro')),
+    h('div', {class: 'field'}, h('label', {for: 'subject-filter'}, t('start.subjects'), ' '), count, filter, list),
+    h('fieldset', {class: 'modes'}, h('legend', {}, t('start.mode')),
+      modes().map(([value, label]) => h('label', {}, h('input', {type: 'radio', name: 'mode', value, checked: value === 'mixed'}), ` ${label}`))),
+    h('div', {class: 'field inline'}, h('label', {for: 'start-minutes'}, t('start.minutes')), minutes),
     h('div', {class: 'buttons'}, button));
 
   form.addEventListener('submit', async (e) => {

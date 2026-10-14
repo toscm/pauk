@@ -1,5 +1,7 @@
 // Small DOM helpers shared by every module.
 
+import { t } from './i18n.js';
+
 export const LEVELS = ['unseen', 'introduced', 'fragile', 'learning', 'known', 'mastered'];
 
 // h('button', {class: 'x', onclick: fn}, 'text', child, ...) -> element.
@@ -30,7 +32,9 @@ export function showError(error) {
 }
 
 export function levelName(level) {
-  return LEVELS[level] ?? String(level);
+  const names = [t('level.unseen'), t('level.introduced'), t('level.fragile'), t('level.learning'), t('level.known'),
+                 t('level.mastered')];
+  return names[level] ?? String(level);
 }
 
 export function arrow(before, now) {
