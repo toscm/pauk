@@ -32,8 +32,23 @@ path.write_text(text, encoding="utf-8")
 
 
 @pytest.fixture()
-def api(server) -> Client:
-    return Client(server["url"], server["token"], cache=False)
+def api(server):
+    """A client whose created cards are deleted afterwards, so other
+    tests on the shared database (e.g. "the first recall card") never
+    see them."""
+    client = Client(server["url"], server["token"], cache=False)
+    created: list[int] = []
+    create_card = client.create_card
+
+    def tracked(body: dict) -> dict:
+        card = create_card(body)
+        created.append(card["id"])
+        return card
+
+    client.create_card = tracked
+    yield client
+    for card_id in created:
+        client.delete_card(card_id)
 
 
 @pytest.fixture()
