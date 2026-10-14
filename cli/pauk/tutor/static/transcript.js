@@ -5,7 +5,9 @@
 import { activityCard } from './activity.js';
 import { ProposalCard, itemCard, summaryCard } from './cards.js';
 import { Drill, ExerciseWidget } from './exercises.js';
+import { t } from './i18n.js';
 import { md } from './md.js';
+import { goalText } from './start.js';
 import { arrow, h } from './ui.js';
 
 // Learner events after which the teacher is expected to respond.
@@ -17,6 +19,7 @@ export class Transcript {
     this.onReport = onReport;
     this.onChange = onChange;
     this.seen = new Set();
+    this.events = [];              // everything shown so far, for rebuild()
     this.widgets = new Map();      // exercise_id -> ExerciseWidget
     this.proposals = new Map();    // proposal_id -> ProposalCard
     this.activities = new Map();   // aid -> activity card
@@ -25,16 +28,38 @@ export class Transcript {
     this.ended = false;
   }
 
+  // Render every event again (after a UI language change), keeping
+  // what the learner has typed into open exercises.
+  rebuild() {
+    const typed = new Map([...this.widgets].filter(([, w]) => w.input && !w.locked).map(([id, w]) => [id, w.input.value]));
+    const events = this.events;
+    this.seen = new Set();
+    this.events = [];
+    this.widgets = new Map();
+    this.proposals = new Map();
+    this.activities = new Map();
+    this.teacherSeen = false;
+    this.awaiting = false;
+    this.ended = false;
+    this.container.replaceChildren();
+    for (const ev of events) this.add(ev, false);
+    for (const [id, value] of typed) {
+      const w = this.widgets.get(id);
+      if (w?.input && !w.locked) w.input.value = value;
+    }
+  }
+
   add(ev, live) {
     if (this.seen.has(ev.seq)) return;
     this.seen.add(ev.seq);
+    this.events.push(ev);
     this.track(ev);
     const node = this.render(ev, live);
     if (node) {
       const entry = h('article', {class: `entry from-${ev.from} type-${ev.type}`, 'data-seq': ev.seq},
         node,
-        h('button', {type: 'button', class: 'flag', title: 'Report a problem with this',
-                     'aria-label': `Report a problem with entry ${ev.seq}`, onclick: () => this.onReport(ev.seq)}, '⚑'));
+        h('button', {type: 'button', class: 'flag', title: t('transcript.flag'),
+                     'aria-label': t('transcript.flag_entry', {seq: ev.seq}), onclick: () => this.onReport(ev.seq)}, '⚑'));
       this.container.append(entry);
       if (live) entry.scrollIntoView({block: 'end', behavior: 'smooth'});
       if (live && (ev.type === 'exercise' || ev.type === 'drill')) entry.querySelector('.exercise')?.querySelector('input, textarea, select, button')?.focus({preventScroll: true});
@@ -130,33 +155,33 @@ export class Transcript {
   notice(ev) {
     const text = (...parts) => h('p', {class: 'notice'}, ...parts);
     switch (ev.type) {
-      case 'start': {
-        const g = ev.goal || {};
-        return text(`Goal: ${(g.dirs || []).join(', ') || 'all subjects'} · ${g.mode} · ${g.minutes} min`);
-      }
+      case 'start':
+        return text(t('transcript.goal', {goal: goalText(ev.goal || {})}));
       case 'item_added':
-        return text('New item added: ', md(ev.label_md, true), ` (${ev.ref})`);
+        return text(t('transcript.item_added'), ' ', md(ev.label_md, true), ` (${ev.ref})`);
       case 'level_change':
         return text(ev.changes.map((c, i) => [i ? ', ' : '', md(c.label_md || c.ref, true), ` ${c.before} ${arrow(c.before, c.now)} ${c.now}`]));
       case 'flag':
-        return text(md(ev.label_md || ev.ref, true), ` is now marked ${ev.status}.`);
+        return text(md(ev.label_md || ev.ref, true), ' ', t('transcript.flagged', {status: ev.status}));
       case 'merge':
-        return text(`Merged ${ev.merge.from} into ${ev.merge.into}.`);
+        return text(t('transcript.merged', {from: ev.merge.from, into: ev.merge.into}));
       case 'report':
-        return text(`Problem report (${ev.category}) stored ${ev.stored === 'api' ? 'on the server' : 'locally'}.`);
+        return text(ev.stored === 'api' ? t('transcript.report_server', {category: ev.category})
+                                        : t('transcript.report_local', {category: ev.category}));
       case 'status':
-        if (ev.teacher_connected) return text(`Teacher connected${ev.agent ? ` (${ev.agent})` : ''}.`);
-        return ev.agent_running === false ? text(`Teacher disconnected${ev.detail ? `: ${ev.detail}` : ''}.`) : null;
+        if (ev.teacher_connected) return text(ev.agent ? t('transcript.teacher_connected_as', {agent: ev.agent}) : t('transcript.teacher_connected'));
+        if (ev.agent_running !== false) return null;
+        return text(ev.detail ? t('transcript.teacher_disconnected_because', {detail: ev.detail}) : t('transcript.teacher_disconnected'));
       case 'settings_changed':
-        return text('Settings updated.');
+        return text(t('transcript.settings_updated'));
       case 'time_warning':
-        return text(`${ev.minutes_left} minutes left.`);
+        return text(t('transcript.time_warning', {minutes: ev.minutes_left}));
       case 'end':
-        return text('You ended the session; the teacher is wrapping up…');
+        return text(t('transcript.learner_ended'));
       case 'idle':
-        return text(`No activity for ${Math.round(ev.idle_s / 60)} minutes.`);
+        return text(t('transcript.idle', {minutes: Math.round(ev.idle_s / 60)}));
       case 'ended':
-        return text('The session has ended.');
+        return text(t('transcript.ended'));
       default:
         return null;
     }

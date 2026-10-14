@@ -1,12 +1,15 @@
 // Settings dialog (docs/tutor.md 4.11): GET/PATCH learner/settings.
 
 import { get, patch } from './api.js';
+import { languageName, t } from './i18n.js';
 import { h, toast } from './ui.js';
 
 const SPACES = ['it', 'el', 'de', 'en'];
-const IMMERSION = ['off', 'partial', 'full'];
-const ITEM_CREATION = [['off', 'off'], ['propose', 'propose (ask me)'], ['on_request', 'only when I ask'], ['free', 'free']];
-const MERGE = [['propose', 'propose (ask me)'], ['free', 'free']];
+const immersion = () => [['off', t('settings.off')], ['partial', t('settings.immersion.partial')],
+                         ['full', t('settings.immersion.full')]];
+const itemCreation = () => [['off', t('settings.off')], ['propose', t('settings.propose')],
+                            ['on_request', t('settings.creation.on_request')], ['free', t('settings.free')]];
+const merge = () => [['propose', t('settings.propose')], ['free', t('settings.free')]];
 
 function select(id, options, value) {
   return h('select', {id}, options.map(([v, label]) => h('option', {value: v, selected: v === value}, label)));
@@ -23,28 +26,28 @@ function check(id, label, checked) {
 export function settingsDialog() {
   const body = h('div', {});
   const error = h('p', {class: 'error', role: 'alert'});
-  const save = h('button', {type: 'submit'}, 'Save');
+  const save = h('button', {type: 'submit'}, t('settings.save'));
   const dialog = h('dialog', {class: 'settings', 'aria-labelledby': 'settings-title'},
-    h('form', {}, h('h2', {id: 'settings-title'}, 'Settings'), body, error,
-      h('div', {class: 'buttons'}, save, h('button', {type: 'button', class: 'secondary', onclick: () => dialog.close()}, 'Cancel'))));
+    h('form', {}, h('h2', {id: 'settings-title'}, t('settings.title')), body, error,
+      h('div', {class: 'buttons'}, save, h('button', {type: 'button', class: 'secondary', onclick: () => dialog.close()}, t('settings.cancel')))));
   document.body.append(dialog);
   let loaded = null;
 
   function fill(settings) {
     loaded = settings;
-    const immersion = settings['tutor.immersion'] || {};
-    const spaces = [...new Set([...SPACES, ...Object.keys(immersion)])];
+    const chosen = settings['tutor.immersion'] || {};
+    const spaces = [...new Set([...SPACES, ...Object.keys(chosen)])];
     body.replaceChildren(
-      field('set-language', 'Teacher language (e.g. en, de, it)', h('input', {type: 'text', id: 'set-language', value: settings['tutor.language'] || ''})),
-      h('fieldset', {}, h('legend', {}, 'Immersion per language'),
-        spaces.map((space) => field(`set-imm-${space}`, space,
-          select(`set-imm-${space}`, IMMERSION.map((v) => [v, v]), immersion[space] || 'off')))),
-      field('set-creation', 'Teacher may add items', select('set-creation', ITEM_CREATION, settings['tutor.item_creation'])),
-      field('set-merge', 'Teacher may merge duplicates', select('set-merge', MERGE, settings['tutor.merge'])),
-      field('set-new', 'New items per 15 minutes', h('input', {type: 'number', id: 'set-new', min: 0, max: 50,
-                                                               value: settings['tutor.new_items_per_15min'] ?? 8})),
-      check('set-review', 'Review the session afterwards', settings['review.after_session']),
-      check('set-triage', 'Triage reports automatically', settings['review.auto_triage']));
+      field('set-language', t('settings.language'), h('input', {type: 'text', id: 'set-language', value: settings['tutor.language'] || ''})),
+      h('fieldset', {}, h('legend', {}, t('settings.immersion')),
+        spaces.map((space) => field(`set-imm-${space}`, `${languageName(space)} (${space})`,
+          select(`set-imm-${space}`, immersion(), chosen[space] || 'off')))),
+      field('set-creation', t('settings.creation'), select('set-creation', itemCreation(), settings['tutor.item_creation'])),
+      field('set-merge', t('settings.merge'), select('set-merge', merge(), settings['tutor.merge'])),
+      field('set-new', t('settings.new_items'), h('input', {type: 'number', id: 'set-new', min: 0, max: 50,
+                                                           value: settings['tutor.new_items_per_15min'] ?? 8})),
+      check('set-review', t('settings.review'), settings['review.after_session']),
+      check('set-triage', t('settings.triage'), settings['review.auto_triage']));
   }
 
   function read() {
@@ -73,7 +76,7 @@ export function settingsDialog() {
     save.disabled = true;
     try {
       fill(await patch('learner/settings', changes));
-      toast('Settings saved.');
+      toast(t('settings.saved'));
       dialog.close();
     } catch (err) {
       error.textContent = err.message;
@@ -86,7 +89,7 @@ export function settingsDialog() {
     async open() {
       error.textContent = '';
       loaded = null;
-      body.replaceChildren(h('p', {class: 'muted'}, 'Loading…'));
+      body.replaceChildren(h('p', {class: 'muted'}, t('app.loading')));
       dialog.showModal();
       try {
         fill(await get('learner/settings'));

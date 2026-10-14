@@ -1,4 +1,5 @@
-"""Helpers shared by the activity types: item refs, name grading."""
+"""Helpers shared by the activity types: item refs, name grading,
+learner-facing messages and localized content texts."""
 
 from __future__ import annotations
 
@@ -22,6 +23,50 @@ ARTICLES = {
     "en": ("the ", "a ", "an "),
 }
 UMLAUTS = str.maketrans({"ä": "ae", "ö": "oe", "ü": "ue", "ß": "ss"})
+
+
+class Msg(str):
+    """A short English summary for the teacher and LLM participants that
+    also carries a message id and parameters, so the browser can show it
+    in the learner's UI language (cli/pauk/tutor/static/i18n/).
+    Parameters may be localized texts (see `localized`)."""
+
+    def __new__(cls, msg_id: str, template: str, **params):
+        text = super().__new__(cls, template.format(**{k: english(v) for k, v in params.items()}))
+        text.id = msg_id
+        text.params = params
+        return text
+
+    def message(self) -> dict:
+        return {"id": self.id, "params": self.params}
+
+
+LANGUAGE_TAG = re.compile(r"^[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$")
+
+
+def localized(value, where: str) -> str | dict | None:
+    """A content text for the learner: a string, or translations keyed by
+    language tag ({"en": "...", "de": "..."}); the browser picks one."""
+    if value is None or isinstance(value, str):
+        return value
+    if (not isinstance(value, dict) or not value
+            or not all(isinstance(k, str) and LANGUAGE_TAG.match(k) and isinstance(v, str) and v for k, v in value.items())):
+        raise ValueError(f'{where}: a text is a string or translations like {{"en": "...", "de": "..."}}')
+    return dict(value)
+
+
+def english(value) -> str:
+    """The English (or else the first) version of a localized text."""
+    if isinstance(value, dict):
+        return value.get("en") or next(iter(value.values()), "")
+    return value
+
+
+def translations(value) -> list[str]:
+    """Every version of a localized text."""
+    if isinstance(value, dict):
+        return list(value.values())
+    return [] if value is None else [value]
 
 
 def check_ref(ref, where: str) -> str:

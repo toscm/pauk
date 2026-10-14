@@ -1,14 +1,16 @@
 // Entry point: the learner chat (default) or the read-only observer
 // view (`?observer=<key>`). Loads the transcript, follows new events
-// over SSE, and keeps header, side panel and composer in sync.
+// over SSE, and keeps header, side panel and composer in sync. The UI
+// language follows the learner's tutor.language setting (i18n.js).
 
 import { eventsUrl, get, learnerKey, observerKey, post } from './api.js';
 import { touchedList } from './cards.js';
+import { setLanguage, t } from './i18n.js';
 import { runObserver } from './observer.js';
 import { profileDialog } from './profile.js';
 import { reportDialog } from './report.js';
 import { settingsDialog } from './settings.js';
-import { startCard } from './start.js';
+import { goalText, startCard } from './start.js';
 import { Transcript } from './transcript.js';
 import { clock, h, showError, toast, typing } from './ui.js';
 
@@ -21,17 +23,18 @@ const host = {
 const touched = new Map();   // ref -> {ref, label_md, before, now}
 let transcript;
 let lastSeq = 0;
+let report;
+let settings;
+let profile;
 
 if (observerKey) runObserver(); else boot();
 
 async function boot() {
   if (!learnerKey) {
-    $('transcript').append(h('p', {class: 'notice'}, 'This link has no learner key (#k=…). Open the link that pauk printed.'));
+    $('transcript').append(h('p', {class: 'notice'}, t('app.no_key')));
     return;
   }
-  const report = reportDialog();
-  const settings = settingsDialog();
-  const profile = profileDialog();
+  dialogs();
   transcript = new Transcript($('transcript'), {onReport: (seq) => report.open(seq), onChange});
 
   $('btn-profile').addEventListener('click', () => profile.open(host.goal?.dirs?.[0]));
@@ -61,9 +64,10 @@ async function boot() {
     state = await get('learner/state');
   } catch (e) {
     showError(e);
-    $('status-text').textContent = 'Could not load the session.';
+    $('status-text').textContent = t('app.load_failed');
     return;
   }
+  if (await setLanguage(state.settings?.['tutor.language'])) dialogs();
   applyStatus(state);
   for (const ev of state.events) transcript.add(ev, false);
   lastSeq = state.last_seq;
@@ -73,6 +77,23 @@ async function boot() {
   if (!host.ended) connect();
   setInterval(pollStatus, 10000);
   setInterval(renderTimer, 1000);
+}
+
+// The dialogs keep their texts: built anew when the language changes.
+function dialogs() {
+  for (const dialog of document.querySelectorAll('body > dialog')) dialog.remove();
+  report = reportDialog();
+  settings = settingsDialog();
+  profile = profileDialog();
+}
+
+// A settings change may switch the UI language: re-render everything.
+async function useLanguage(values) {
+  if (!values || !(await setLanguage(values['tutor.language']))) return;
+  dialogs();
+  transcript.rebuild();
+  if ($('start-slot').firstChild) $('start-slot').replaceChildren(startCard());
+  render();
 }
 
 // --- server push ------------------------------------------------------------
@@ -98,8 +119,10 @@ function connect() {
 async function pollStatus() {
   if (host.ended) return;
   try {
-    applyStatus(await get('learner/status'));
+    const status = await get('learner/status');
+    applyStatus(status);
     host.unreachable = false;
+    await useLanguage(status.settings);
   } catch {
     host.unreachable = true;
   }
@@ -143,6 +166,9 @@ function onChange(ev, live) {
     case 'ended':
       host.ended = true;
       break;
+    case 'settings_changed':
+      useLanguage(ev.settings);
+      break;
   }
   render();
 }
@@ -153,7 +179,7 @@ function render() {
   renderStatus();
   renderTimer();
   const g = host.goal;
-  $('side-goal').textContent = g ? `${g.dirs.join(', ') || 'all subjects'} · ${g.mode} · ${g.minutes} min` : 'No goal yet.';
+  $('side-goal').textContent = g ? goalText(g) : t('app.no_goal');
   $('side-touched').replaceChildren(touchedList([...touched.values()]));
   $('btn-end').disabled = host.ended;
   updateComposer();
@@ -163,18 +189,18 @@ function renderStatus() {
   let text;
   let busy = false;
   let restart = false;
-  if (host.ended) text = 'Session ended';
-  else if (host.unreachable) text = 'Session host unreachable';
+  if (host.ended) text = t('app.status.ended');
+  else if (host.unreachable) text = t('app.status.unreachable');
   else if (!host.connected && (host.everConnected || host.agentDied)) {
-    text = 'Teacher disconnected';
+    text = t('app.status.disconnected');
     restart = true;
   } else if (transcript.awaiting && (host.connected || transcript.teacherSeen)) {
-    text = 'Teacher is thinking…';
+    text = t('app.status.thinking');
     busy = true;
   } else if (!transcript.teacherSeen) {
-    text = 'Waiting for teacher…';
+    text = t('app.status.waiting');
     busy = true;
-  } else text = 'Teacher connected';
+  } else text = t('app.status.connected');
   $('status-text').textContent = text;
   $('status').classList.toggle('busy', busy);
   $('btn-restart').hidden = !restart;
@@ -183,10 +209,10 @@ function renderStatus() {
 
 function renderTimer() {
   let text = '';
-  if (host.ended) text = 'ended';
+  if (host.ended) text = t('app.timer.ended');
   else if (host.goal && host.goalStartedAt) {
     const left = host.goal.minutes * 60 - (Date.now() / 1000 + host.offset - host.goalStartedAt);
-    text = left >= 0 ? `${clock(left)} left` : `${clock(-left)} over`;
+    text = left >= 0 ? t('app.timer.left', {time: clock(left)}) : t('app.timer.over', {time: clock(-left)});
   }
   $('timer').textContent = text;
   $('side-timer').textContent = text || '–';
@@ -198,9 +224,9 @@ function updateComposer() {
   $('ask-toggle').hidden = !answerable;
   $('input').disabled = host.ended;
   $('send').disabled = host.ended;
-  $('send').textContent = target ? 'Answer' : 'Send';
-  $('input').placeholder = host.ended ? 'The session has ended.'
-    : target ? 'Your answer (Enter to submit)' : 'Message the teacher (Enter to send, Shift+Enter for a new line)';
+  $('send').textContent = target ? t('app.answer') : t('app.send');
+  $('input').placeholder = host.ended ? t('app.placeholder.ended')
+    : target ? t('app.placeholder.answer') : t('app.placeholder.message');
 }
 
 // --- actions ---------------------------------------------------------------------
@@ -228,7 +254,7 @@ async function sendComposer(e) {
 }
 
 async function endSession() {
-  if (!confirm('End the session? The teacher will wrap up with a summary.')) return;
+  if (!confirm(t('app.confirm_end'))) return;
   try {
     await post('learner/end');
     $('btn-end').disabled = true;
@@ -240,7 +266,7 @@ async function endSession() {
 async function restartTeacher() {
   try {
     await post('learner/restart-teacher');
-    toast('Restarting the teacher…');
+    toast(t('app.restarting'));
   } catch (e) {
     showError(e);
   }

@@ -573,7 +573,9 @@ def test_learner_never_receives_answers_not_yet_given(env):
 
     learner.act(aid, {"inspect": "bee"}, status=400)                    # not here
     learner.act(aid, {"go_to": "garden"})
-    learner.act(aid, {"inspect": "butterfly"})
+    # summaries reach the learner twice: English text and a message for the UI language
+    assert learner.act(aid, {"inspect": "butterfly"})["summary_msg"]["id"] == "town.inspecting"
+    check()
     learner.act(aid, {"answer": "farfalla"})
     check()
     learner.act(aid, {"say": {"npc": "gardener", "text": "Parla inglese?"}})

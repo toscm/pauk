@@ -29,6 +29,7 @@ from typing import Any, Callable, Optional
 from pauk.client import ApiError
 from pauk.tutor import activities
 from pauk.tutor import protocol as p
+from pauk.tutor.activities.common import Msg
 
 SAME = object()   # learner view equals the full data
 TEACHER = "teacher"
@@ -86,6 +87,13 @@ class ExerciseState:
     revealed: bool = False
     right_tokens: dict[str, int] = field(default_factory=dict)   # match: token -> pair index
     result: Optional[dict] = None
+
+
+def _summary_msg(summary: str) -> dict:
+    """The message id and parameters of an activity summary, so the
+    browser shows it in the learner's UI language (English text stays in
+    `summary` for agents)."""
+    return {"summary_msg": summary.message()} if isinstance(summary, Msg) else {}
 
 
 def _now() -> float:
@@ -365,7 +373,8 @@ class Session:
         s.status = "answered"
         self.emit(LEARNER, "answered", {"exercise_id": s.id, "kind": s.ex.kind, "response": None,
                                         "response_md": "(I don't know)", "dont_know": True, "awaiting": "grade"},
-                  learner={"exercise_id": s.id, "kind": s.ex.kind, "response_md": "(I don't know)", "awaiting": "grade"})
+                  learner={"exercise_id": s.id, "kind": s.ex.kind, "response_md": "(I don't know)", "dont_know": True,
+                           "awaiting": "grade"})
         return {"status": "awaiting_grade"}
 
     @locked
@@ -769,7 +778,8 @@ class Session:
             raise SessionError(400, "invalid_action", str(e)) from None
         self._activity_update(role, body.aid, activity, body.action, summary)
         if role == LEARNER:
-            return {"summary": summary, "state": activity.state(LEARNER), "text": activity.describe(LEARNER)}
+            return {"summary": summary, **_summary_msg(summary), "state": activity.state(LEARNER),
+                    "text": activity.describe(LEARNER)}
         # compact for the teacher: what changed and the description; `activity observe` has the full state
         return {"summary": summary, "done": activity.done, "text": activity.describe(TEACHER)}
 
@@ -779,7 +789,7 @@ class Session:
         learner_action = action if role == LEARNER else {k: v for k, v in action.items() if k != "grade"}
         self.emit(role, "activity_update",
                   {"aid": aid, "action": action, "summary": summary, "state": activity.state(TEACHER), "text": text},
-                  learner={"aid": aid, "action": learner_action, "summary": summary,
+                  learner={"aid": aid, "action": learner_action, "summary": summary, **_summary_msg(summary),
                            "state": activity.state(LEARNER), "text": activity.describe(LEARNER)},
                   teacher={"aid": aid, "action": action, "summary": summary, "done": activity.done, "text": text})
         for ev in getattr(activity, "evidence", lambda: [])():
@@ -818,7 +828,7 @@ class Session:
                 summary = end()
             else:
                 activity.act({"give_up": True}, TEACHER)
-                summary = "ended by the teacher"
+                summary = Msg("activity.ended_by_teacher", "ended by the teacher")
             self._activity_update(TEACHER, body.aid, activity, {"end": True}, summary)
         else:
             self._flush_activity_writes()   # a retry of evidence that failed to record

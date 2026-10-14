@@ -3,6 +3,7 @@
 // re-rendering without losing what the learner is typing.
 
 import { post } from './api.js';
+import { message, t } from './i18n.js';
 import { showError } from './ui.js';
 
 const SVG = 'http://www.w3.org/2000/svg';
@@ -58,5 +59,11 @@ export function rerender(el, children) {
 }
 
 export function speaker(ev) {
-  return ev.from === 'teacher' ? 'Teacher' : ev.from === 'learner' ? 'You' : 'pauk';
+  return ev.from === 'teacher' ? t('activity.teacher') : ev.from === 'learner' ? t('activity.you') : 'pauk';
+}
+
+// "You: walked to la piazza": who acted and the host's summary, in the
+// UI language when the summary came with a message id.
+export function lastAction(ev) {
+  return `${speaker(ev)}: ${message(ev.summary_msg, ev.summary)}`;
 }
