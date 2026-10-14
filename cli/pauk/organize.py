@@ -110,6 +110,10 @@ def card_changes(client: Client, card: dict, original: str, text: str) -> dict:
     unknown = sorted(set(front) - allowed)
     if unknown:
         raise OrganizeError(f"unknown field(s) for a {card_type} card: {', '.join(unknown)}")
+    removed = sorted(k for k in set(old_front) - set(front) if k in TYPE_FIELDS.get(card_type, []))
+    if removed:
+        # a field cannot be cleared by deleting it; the API would keep the old value
+        raise OrganizeError(f"field(s) removed: {', '.join(removed)}; edit their value instead")
     if not body.strip():
         raise OrganizeError("the question (the text below the frontmatter) must not be empty")
     _check_shapes(front)

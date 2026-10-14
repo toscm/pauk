@@ -116,26 +116,35 @@ Everything recorded after the chosen dump is replaced, so the first steps keep t
 
 2. Take the API offline so nothing writes during the restore: `ssh ionos 'mv ~/web/pauk/index.php ~/web/pauk/index.php.off'` (requests then fail; that is intended).
 
-3. Dump the current state, however broken, so nothing is lost for good:
+3. Dump the current state, however broken, so nothing is lost for good.
+   The file gets a timestamp and is never overwritten (a second attempt on the same day must not replace the pre-incident state with a damaged one), it lives outside `~/pauk-backups` so the nightly prune never deletes it, and it is copied off the server right away:
 
        ssh ionos 'bash -s' <<'EOS'
        set -euo pipefail
+       set -o noclobber
        set -a; . ~/pauk.env; set +a
+       mkdir -p ~/pauk-prerestore
        mysqldump -h "$PAUK_DB_HOST" -P "$PAUK_DB_PORT" -u "$PAUK_DB_USER" -p"$PAUK_DB_PASS" "$PAUK_DB_NAME" \
-           | gzip > ~/pauk-backups/pauk-$(date +%F)-prerestore.sql.gz
+           | gzip > ~/pauk-prerestore/pauk-prerestore-$(date +%F-%H%M%S).sql.gz
+       gzip -t ~/pauk-prerestore/pauk-prerestore-*.sql.gz
        EOS
+       rsync -a ionos:pauk-prerestore/ ~/pauk-local-backups/prerestore/
 
 4. Drop all tables, then load the dump.
    Dropping first matters: the dump only drops the tables it contains, so a table created by a later migration would survive, and re-running that migration would then fail on it.
+   Set `DUMP` to the file chosen in step 1; the script checks that it exists and is a complete gzip file before it drops anything.
+   If the load fails half way, run this step again with `DUMP` set to the newest `~/pauk-prerestore/` file to get back to where you started.
 
        ssh ionos 'bash -s' <<'EOS'
        set -euo pipefail
+       DUMP=~/pauk-backups/pauk-YYYY-MM-DD.sql.gz
+       test -s "$DUMP" && gzip -t "$DUMP"
        set -a; . ~/pauk.env; set +a
        DB=(mysql -h "$PAUK_DB_HOST" -P "$PAUK_DB_PORT" -u "$PAUK_DB_USER" -p"$PAUK_DB_PASS" "$PAUK_DB_NAME")
        { echo 'SET FOREIGN_KEY_CHECKS = 0;'
          "${DB[@]}" -N -e "SELECT CONCAT('DROP TABLE \`', table_name, '\`;') FROM information_schema.tables WHERE table_schema = DATABASE()"
        } | "${DB[@]}"
-       gunzip -c ~/pauk-backups/pauk-YYYY-MM-DD.sql.gz | "${DB[@]}"
+       gunzip -c "$DUMP" | "${DB[@]}"
        EOS
 
 5. Bring the schema up to the deployed code: `ssh ionos 'PAUK_ENV_FILE=$HOME/pauk.env /usr/bin/php8.4-cli ~/pauk-app/bin/migrate.php'`.
@@ -145,7 +154,7 @@ Everything recorded after the chosen dump is replaced, so the first steps keep t
 
 7. Media: files are content-hashed and immutable, so restoring is only adding missing ones: `rsync -a ~/pauk-local-backups/media/ ionos:web/pauk/media/` (never with `--delete`).
 
-8. Salvage what was recorded after the dump, if wanted: the `-prerestore` dump holds it, and interactions from a `pauk export` taken before the restore can be re-imported with `pauk import`, which upserts by uuid.
+8. Salvage what was recorded after the dump, if wanted: the `pauk-prerestore-*` dump (on the server in `~/pauk-prerestore/` and locally in `~/pauk-local-backups/prerestore/`) holds it, and interactions from a `pauk export` taken before the restore can be re-imported with `pauk import`, which upserts by uuid.
 
 ## Post-deploy
 

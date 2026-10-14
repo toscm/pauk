@@ -23,9 +23,22 @@ DB=pauk_restore
 DATADIR="$DIR/data"
 CLIENT=("$MARIADB/bin/mariadb" --no-defaults --skip-ssl -h 127.0.0.1 -P "$PORT" -u root)
 
+# Only a directory this script created (it holds the marker file) is
+# ever deleted, so a mistyped PAUK_RESTORE_DIR cannot wipe anything.
+MARKER=.pauk-restore
+
 stop() {
+    [ -e "$DIR" ] || return 0
+    if [ ! -e "$DIR/$MARKER" ] && [ -n "$(ls -A "$DIR")" ]; then
+        echo "$DIR is not a restore dir made by this script (no $MARKER); not deleting it" >&2
+        exit 1
+    fi
     if [ -f "$DATADIR.pid" ]; then
-        kill "$(cat "$DATADIR.pid")" 2>/dev/null || true
+        pid=$(cat "$DATADIR.pid")
+        # only stop a MariaDB server, never whatever reused a stale pid
+        if grep -q mariadbd "/proc/$pid/cmdline" 2>/dev/null; then
+            kill "$pid" 2>/dev/null || true
+        fi
         for _ in $(seq 1 50); do
             [ -f "$DATADIR.pid" ] || break
             sleep 0.2
@@ -40,7 +53,7 @@ if [ "${1:-}" = stop ]; then
     exit 0
 fi
 
-DUMP="${1:-$(ls -1 "$HOME"/pauk-local-backups/pauk-*.sql.gz 2>/dev/null | sort | tail -1)}"
+DUMP="${1:-$(ls -1 "$HOME"/pauk-local-backups/pauk-*.sql.gz 2>/dev/null | sort | tail -1 || true)}"
 if [ -z "$DUMP" ] || [ ! -f "$DUMP" ]; then
     echo "no dump given and none in ~/pauk-local-backups (run make backup-fetch)" >&2
     exit 1
@@ -53,6 +66,7 @@ echo "==> fresh instance in $DIR (port $PORT)"
 stop
 mkdir -p "$DIR"
 chmod 700 "$DIR"
+touch "$DIR/$MARKER"
 "$MARIADB/scripts/mariadb-install-db" --no-defaults \
     --basedir="$MARIADB" --datadir="$DATADIR" \
     --auth-root-authentication-method=normal --skip-test-db >/dev/null

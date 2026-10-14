@@ -138,6 +138,14 @@ def test_edit_invalid_reopens_with_edits_kept(cli_env, api, editor):
     assert api.get_card(card["id"])["accepted_answers"] == ["ciao", "salve"]
 
 
+def test_edit_removed_field_is_refused(cli_env, api, editor):
+    card = api.create_card({"type": "recall", "question_md": "Why is the sky blue?", "answer_md": "Rayleigh scattering."})
+    editor([("answer_md: Rayleigh scattering.\n", "")])
+    result = run_cli(cli_env, "edit", str(card["id"]), input_text="n\n")
+    assert "field(s) removed: answer_md" in result.stdout
+    assert api.get_card(card["id"])["answer_md"] == "Rayleigh scattering."
+
+
 def test_edit_invalid_declined_changes_nothing(cli_env, api, editor):
     card = api.create_card({"type": "recall", "question_md": "Why is the sky blue?", "answer_md": "Rayleigh scattering."})
     editor([("answer_md: Rayleigh scattering.", "answer_md: [unclosed")])
