@@ -11,3 +11,9 @@ build/
 api/.phpunit.cache/
 api/public/media/
 cli/uv.lock
+# private data never belongs in this public repo (see CLAUDE.md)
+*.env
+.env*
+*.sql.gz
+*.jsonl
+pauk-cards/

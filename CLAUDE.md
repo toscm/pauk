@@ -14,6 +14,31 @@ mobile later). Read `README.md` for the repo layout.
 - `issues/` — issue tracking as markdown files (see
   `issues/README.md` for the convention)
 
+## This repository is PUBLIC — no sensitive data
+
+`github.com/toscm/pauk` is a public repository.
+Everything committed here, including the full git history of every branch, is readable by anyone and stays so: deleting a file later does not unpublish it, and removing it properly means rewriting history and rotating whatever leaked.
+So before every commit, check the diff (and every new file) against this list.
+
+Never commit:
+
+- Unpublished research: unpublished data, results, figures, gene lists, screen details, manuscripts or manuscript methods, and the design or results of projects that are not yet published.
+  A deck or items file written from such sources (a private repo's README, a manuscript draft, lab notes, meeting notes) is private, even if most of its facts are textbook knowledge.
+
+- Information about people: colleagues, collaborators, supervisors, patients, study participants; who works on what, who is responsible for what, personal assessments.
+
+- Internal project or employer information: funding applications and their review outcomes, grant plans, budgets, organisational details of research programmes.
+
+- Credentials and private infrastructure: tokens, passwords, keys, `.env` / `pauk.env` contents, and database dumps, backups or `pauk export` files (they hold the whole collection, private cards included).
+
+- The user's own learning data: tutor session transcripts, problem reports with their context, knowledge-profile exports.
+
+Private knowledge cards belong in a private file outside this repo, next to the project they are about (convention: `~/projects/<project>/pauk-cards/`), and are imported from there with `pauk import`; afterwards they live only in the database.
+`content/` is for published, public knowledge only (textbooks, published papers, public datasets, languages, geography).
+Commit messages, `issues/` files and docs are public too: do not describe private content there beyond "a private file outside the repo".
+
+If it is unclear whether something is publishable, do not commit it: keep it in the private file and ask the user.
+
 ## Rules
 
 - Design principle: as simple as possible, follow mainstream
