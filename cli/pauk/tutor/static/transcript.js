@@ -1,9 +1,8 @@
 // The chat transcript: renders every learner-visible event type,
 // dedupes by seq, routes updates to exercise widgets and proposal
 // cards, and tracks what the status line needs. Tasks (exercises,
-// drills, activities) do not go into the chat: the task pane above it
-// shows one at a time, the newest by default, and the side panel lists
-// all of them so older ones can be shown again.
+// drills, activities) stay in the chat where they arrive; the side
+// panel lists them so an older one is one click away.
 
 import { activityCard } from './activity.js';
 import { ProposalCard, itemCard, summaryCard } from './cards.js';
@@ -19,10 +18,8 @@ const AWAITS_TEACHER = new Set(['learner_message', 'start', 'hint_request', 'end
 const short = (text, n = 60) => (text.length > n ? `${text.slice(0, n - 1).trimEnd()}…` : text);
 
 export class Transcript {
-  constructor(container, {pane, list, onReport, onChange}) {
+  constructor(container, {list, onReport, onChange}) {
     this.container = container;
-    this.scroller = container.closest('.scroller') || container;
-    this.pane = pane;
     this.list = list;
     this.onReport = onReport;
     this.onChange = onChange;
@@ -32,7 +29,7 @@ export class Transcript {
     this.proposals = new Map();    // proposal_id -> ProposalCard
     this.activities = new Map();   // aid -> activity card
     this.tasks = [];               // {n, seq, title, el, done()} in order of arrival
-    this.shown = null;             // the task in the pane
+    this.shown = null;             // the task last jumped to from the side panel
     this.teacherSeen = false;      // any teacher event so far
     this.awaiting = false;         // the learner acted, the teacher has not answered yet
     this.ended = false;
@@ -43,7 +40,6 @@ export class Transcript {
   rebuild() {
     const typed = new Map([...this.widgets].filter(([, w]) => w.input && !w.locked).map(([id, w]) => [id, w.input.value]));
     const events = this.events;
-    const shown = this.shown?.n;
     this.seen = new Set();
     this.events = [];
     this.widgets = new Map();
@@ -56,7 +52,6 @@ export class Transcript {
     this.ended = false;
     this.container.replaceChildren();
     for (const ev of events) this.add(ev, false);
-    if (shown && this.tasks[shown - 1]) this.show(this.tasks[shown - 1]);
     for (const [id, value] of typed) {
       const w = this.widgets.get(id);
       if (w?.input && !w.locked) w.input.value = value;
@@ -68,6 +63,7 @@ export class Transcript {
     this.seen.add(ev.seq);
     this.events.push(ev);
     this.track(ev);
+    const tasks = this.tasks.length;
     const node = this.render(ev, live);
     if (node) {
       const entry = h('article', {class: `entry from-${ev.from} type-${ev.type}`, 'data-seq': ev.seq},
@@ -77,49 +73,40 @@ export class Transcript {
       this.container.append(entry);
       if (live) this.scrollToEnd('smooth');
     }
-    if (live && this.shown?.seq === ev.seq) this.focusTask();
+    if (live && this.tasks.length > tasks) this.focusTask(this.tasks.at(-1));
     this.renderTasks();
     this.onChange(ev, live);
   }
 
+  // The scroller scrolls on wide screens, the page on narrow ones.
   scrollToEnd(behavior = 'auto') {
-    this.scroller.scrollTo({top: this.scroller.scrollHeight, behavior});
+    this.container.lastElementChild?.scrollIntoView({block: 'end', behavior});
   }
 
   // --- tasks ------------------------------------------------------------
 
-  // A new task goes to the pane (replacing whatever was shown there);
-  // the chat keeps a one-line link to it.
+  // A task is rendered in the chat like any entry and listed in the
+  // side panel.
   addTask(ev, el, title, done) {
-    const task = {n: this.tasks.length + 1, seq: ev.seq, title: short(title), el, done};
-    this.tasks.push(task);
-    this.show(task);
-    return h('p', {class: 'notice'},
-      h('button', {type: 'button', class: 'link task-link', onclick: () => this.show(task, true)},
-        t('task.link', {n: task.n, title: task.title})));
+    this.tasks.push({n: this.tasks.length + 1, seq: ev.seq, title: short(title), el, done});
+    return el;
   }
 
-  show(task, focus = false) {
+  // Jump to a task from the side panel: scroll it into view and mark it
+  // briefly.
+  show(task) {
     this.shown = task;
-    const latest = this.tasks.at(-1);
-    const older = task !== latest;
-    this.pane.replaceChildren(
-      h('header', {class: 'task-head'},
-        h('strong', {}, t('task.number', {n: task.n})),
-        older ? h('span', {class: 'muted small'}, t('task.older', {total: this.tasks.length})) : null,
-        older ? h('button', {type: 'button', class: 'small', onclick: () => this.show(latest, true)}, t('task.back')) : null,
-        h('button', {type: 'button', class: 'flag', title: t('transcript.flag'),
-                     'aria-label': t('transcript.flag_entry', {seq: task.seq}), onclick: () => this.onReport(task.seq)}, '⚑')),
-      task.el);
-    this.pane.hidden = false;
-    this.pane.classList.toggle('wide', task.el.classList.contains('wide'));
-    this.pane.scrollTop = 0;
-    if (focus) this.focusTask();
+    const entry = task.el.closest('.entry') || task.el;
+    entry.scrollIntoView({block: 'start', behavior: 'smooth'});
+    entry.classList.remove('flash');
+    void entry.offsetWidth;   // restart the animation
+    entry.classList.add('flash');
+    this.focusTask(task);
     this.renderTasks();
   }
 
-  focusTask() {
-    const exercise = this.shown?.el.matches('.exercise') ? this.shown.el : this.shown?.el.querySelector('.exercise');
+  focusTask(task) {
+    const exercise = task.el.matches('.exercise') ? task.el : task.el.querySelector('.exercise');
     exercise?.querySelector('input:not(:disabled), textarea:not(:disabled), select:not(:disabled), button:not(:disabled)')
       ?.focus({preventScroll: true});
   }
@@ -134,7 +121,7 @@ export class Transcript {
       const open = !task.done();
       return h('li', {class: open ? 'open' : 'done'},
         h('button', {type: 'button', class: 'link', 'aria-current': task === this.shown ? 'true' : null,
-                     onclick: () => this.show(task, true)},
+                     onclick: () => this.show(task)},
           h('span', {class: 'n'}, `${task.n}.`), h('span', {}, task.title, open ? h('span', {class: 'open-dot', title: t('task.open'), 'aria-label': t('task.open')}, ' ●') : null)));
     })));
   }

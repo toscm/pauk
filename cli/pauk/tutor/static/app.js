@@ -9,7 +9,7 @@ import { languageName, setLanguage, t } from './i18n.js';
 import { runObserver } from './observer.js';
 import { profileDialog } from './profile.js';
 import { reportDialog } from './report.js';
-import { settingsDialog } from './settings.js';
+import { applyWidth, chatWidth, settingsDialog, widths } from './settings.js';
 import { goalText, startCard } from './start.js';
 import { Transcript } from './transcript.js';
 import { clock, h, showError, toast, typing } from './ui.js';
@@ -38,8 +38,9 @@ async function boot() {
     return;
   }
   dialogs();
+  applyWidth();
   try { composerChoice = localStorage.getItem(COMPOSER_KEY); } catch { /* storage blocked */ }
-  transcript = new Transcript($('transcript'), {pane: $('task-pane'), list: $('side-tasks'),
+  transcript = new Transcript($('transcript'), {list: $('side-tasks'),
                                                 onReport: (seq) => report.open(seq), onChange});
 
   $('btn-profile').addEventListener('click', () => profile.open(host.goal?.dirs?.[0]));
@@ -91,7 +92,7 @@ async function boot() {
 function dialogs() {
   for (const dialog of document.querySelectorAll('body > dialog')) dialog.remove();
   report = reportDialog();
-  settings = settingsDialog();
+  settings = settingsDialog(renderConfig);
   profile = profileDialog();
 }
 
@@ -223,6 +224,7 @@ function renderConfig() {
     [t('app.config.language'), s['tutor.language'] ? languageName(s['tutor.language']) : '–'],
     [t('app.config.immersion'), immersion.join(', ') || t('settings.off')],
     [t('app.config.new_items'), t('app.config.per_15', {n: s['tutor.new_items_per_15min'] ?? 8})],
+    [t('app.config.width'), Object.fromEntries(widths())[chatWidth()]],
   ];
   $('side-config').replaceChildren(...rows.flatMap(([k, v]) => [h('dt', {}, k), h('dd', {}, v)]));
 }

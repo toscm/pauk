@@ -640,15 +640,16 @@ There is deliberately no action to set a score, delete items, change stored sett
 
 ### 9.5 Browser UI
 
-- Main column: the current task on top, the chat below.
-  Tasks are exercises, drills and activities; only one is shown at a time, the newest by default, so new chat messages never push it out of view.
+- Main column: the chat, with tasks (exercises, drills, activities) inline where they arrive, so the newest task sits at the bottom, right after the teacher's explanation, and has the keyboard focus.
   Exercises render as widgets (option buttons, match columns, text input, reveal button), lock after answering, and show ✓/✗ with the correct answer; every exercise has Hint and I don't know.
-  The chat keeps a one-line link to each task, and the side panel lists all tasks of the session (open ones marked), so an older one can be shown again; a button returns to the current one, and a new task always replaces the shown one.
+  The side panel lists all tasks of the session (open ones marked); clicking one scrolls to it and marks it briefly.
+
+- Chat width: full (from the left edge to the side panel, the default), wide or narrow; chosen in the settings and stored in the browser, since it depends on the screen rather than on the learner.
 
 - Composer: a free message to the teacher (questions, wishes, "explain that again"); tasks have their own inputs.
   It is closed by default and opened with "Write to the teacher" in the header, except in conversation mode; the learner's choice is remembered in the browser.
 
-- Side panel: goal and timer, the task list, the teacher's status and model, a configuration summary (model, language, immersion, new-item cap) with a link to the settings, items touched this session with level arrows (`parlare 2 → 3`), subject coverage.
+- Side panel: goal and timer, the task list, the teacher's status and model, a configuration summary (model, language, immersion, new-item cap, chat width) with a link to the settings, items touched this session with level arrows (`parlare 2 → 3`), subject coverage.
 
 - Profile page (`/s/<id>/profile`): items per subject and space filterable by level, history per item, "recently added", "suggested merges" and "recent merges" with accept/undo, and the maintenance actions: edit, archive, rename key, merge, unmerge (4.10).
 
@@ -658,7 +659,7 @@ There is deliberately no action to set a score, delete items, change stored sett
 
 - Markdown everywhere renders images, video and math (KaTeX for `$...$` / `$$...$$`).
 
-- Activities (section 14) render in the task pane like exercises, widened to the panel width.
+- Activities (section 14) render in the chat like exercises.
 
 - Status line: "teacher is thinking…" while an answer awaits the teacher, "teacher disconnected" with Restart when the agent died.
 

@@ -1,4 +1,5 @@
-// Settings dialog (docs/tutor.md 4.11): GET/PATCH learner/settings.
+// Settings dialog (docs/tutor.md 4.11): GET/PATCH learner/settings,
+// plus the chat width, which belongs to this device (localStorage).
 
 import { get, patch } from './api.js';
 import { languageName, t } from './i18n.js';
@@ -15,6 +16,21 @@ const models = (current) => {
   return known.some(([v]) => v === current) ? known : [...known, [current, current]];
 };
 
+const WIDTH_KEY = 'pauk.width';
+export const widths = () => [['full', t('settings.width.full')], ['wide', t('settings.width.wide')],
+                             ['narrow', t('settings.width.narrow')]];
+
+export function chatWidth() {
+  let value = null;
+  try { value = localStorage.getItem(WIDTH_KEY); } catch { /* storage blocked */ }
+  return widths().some(([v]) => v === value) ? value : 'full';
+}
+
+export function applyWidth(value = chatWidth()) {
+  try { localStorage.setItem(WIDTH_KEY, value); } catch { /* storage blocked */ }
+  document.body.dataset.width = value;
+}
+
 function select(id, options, value) {
   return h('select', {id}, options.map(([v, label]) => h('option', {value: v, selected: v === value}, label)));
 }
@@ -27,7 +43,7 @@ function check(id, label, checked) {
   return h('div', {class: 'field check'}, h('input', {type: 'checkbox', id, checked: !!checked}), h('label', {for: id}, label));
 }
 
-export function settingsDialog() {
+export function settingsDialog(onLocalChange = () => {}) {
   const body = h('div', {});
   const error = h('p', {class: 'error', role: 'alert'});
   const save = h('button', {type: 'submit'}, t('settings.save'));
@@ -44,6 +60,7 @@ export function settingsDialog() {
     body.replaceChildren(
       field('set-model', t('settings.model'), select('set-model', models(loaded['tutor.model']), loaded['tutor.model'])),
       h('p', {class: 'muted small'}, t('settings.model_note')),
+      field('set-width', t('settings.width'), select('set-width', widths(), chatWidth())),
       field('set-language', t('settings.language'), h('input', {type: 'text', id: 'set-language', value: settings['tutor.language'] || ''})),
       h('fieldset', {}, h('legend', {}, t('settings.immersion')),
         spaces.map((space) => field(`set-imm-${space}`, `${languageName(space)} (${space})`,
@@ -76,6 +93,11 @@ export function settingsDialog() {
 
   dialog.querySelector('form').addEventListener('submit', async (e) => {
     e.preventDefault();
+    const width = dialog.querySelector('#set-width')?.value;
+    if (width && width !== chatWidth()) {
+      applyWidth(width);
+      onLocalChange();
+    }
     if (!loaded) return dialog.close();
     const changes = Object.fromEntries(Object.entries(read())
       .filter(([name, v]) => JSON.stringify(v) !== JSON.stringify(loaded[name])));
