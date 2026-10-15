@@ -1,0 +1,1297 @@
+{
+ "curriculum": "italian",
+ "title": {
+  "en": "Italian",
+  "de": "Italienisch"
+ },
+ "space": "it",
+ "root": "italian/course",
+ "stages": [
+  {
+   "id": "a1",
+   "title": {
+    "en": "A1 · Beginner",
+    "de": "A1 · Einstieg"
+   },
+   "description": {
+    "en": "Simple phrases about yourself and everyday needs.",
+    "de": "Einfache Sätze über dich selbst und alltägliche Bedürfnisse."
+   },
+   "units": [
+    {
+     "id": "u01-hello",
+     "title": {
+      "en": "Hello!",
+      "de": "Hallo!"
+     },
+     "can_do": {
+      "en": "Greet people, say goodbye and be polite.",
+      "de": "Leute begrüßen, sich verabschieden und höflich sein."
+     },
+     "items": [
+      "buongiorno",
+      "buonasera",
+      "buonanotte",
+      "ciao",
+      "arrivederci",
+      "come-stai",
+      "mi-chiamo-marco",
+      "a-dopo",
+      "a-domani",
+      "grazie",
+      "prego",
+      "per-favore",
+      "scusi",
+      "mi-dispiace",
+      "piacere"
+     ]
+    },
+    {
+     "id": "u02-survival",
+     "title": {
+      "en": "Getting by",
+      "de": "Durchkommen"
+     },
+     "can_do": {
+      "en": "Ask for help, prices and the way when you do not understand much yet.",
+      "de": "Nach Hilfe, Preisen und dem Weg fragen, auch wenn du noch wenig verstehst."
+     },
+     "items": [
+      "non-capisco",
+      "quanto-costa",
+      "dov-e-il-bagno",
+      "si",
+      "vorrei",
+      "parla-inglese",
+      "non-parlo-italiano",
+      "puo-aiutarmi",
+      "che-ore-sono",
+      "il-conto-per-favore"
+     ]
+    },
+    {
+     "id": "u03-numbers",
+     "title": {
+      "en": "Numbers 0–20",
+      "de": "Zahlen 0–20"
+     },
+     "can_do": {
+      "en": "Count to twenty and understand small numbers.",
+      "de": "Bis zwanzig zählen und kleine Zahlen verstehen."
+     },
+     "items": [
+      "zero",
+      "uno",
+      "due",
+      "tre",
+      "quattro",
+      "cinque",
+      "sei",
+      "sette",
+      "otto",
+      "nove",
+      "dieci",
+      "undici",
+      "dodici",
+      "tredici",
+      "quattordici",
+      "quindici",
+      "sedici",
+      "diciassette",
+      "diciotto",
+      "diciannove",
+      "venti"
+     ]
+    },
+    {
+     "id": "u04-articles",
+     "title": {
+      "en": "Articles and nouns",
+      "de": "Artikel und Nomen"
+     },
+     "can_do": {
+      "en": "Use il, la, un, una and form plurals of everyday nouns.",
+      "de": "il, la, un, una richtig verwenden und den Plural alltäglicher Nomen bilden."
+     },
+     "items": [
+      "noun-gender",
+      "noun-plural",
+      "definite-article",
+      "indefinite-article",
+      "casa",
+      "uomo",
+      "donna",
+      "bambino",
+      "acqua",
+      "pane",
+      "libro",
+      "giorno",
+      "notte",
+      "anno"
+     ]
+    },
+    {
+     "id": "u05-essere-avere",
+     "title": {
+      "en": "Being and having",
+      "de": "Sein und haben"
+     },
+     "can_do": {
+      "en": "Say who and where you are, what you have and how you are.",
+      "de": "Sagen, wer und wo du bist, was du hast und wie es dir geht."
+     },
+     "items": [
+      "essere",
+      "avere",
+      "stare",
+      "fare",
+      "andare",
+      "essere.pres",
+      "avere.pres",
+      "stare.pres",
+      "fare.pres",
+      "andare.pres"
+     ]
+    },
+    {
+     "id": "u06-family",
+     "title": {
+      "en": "Family and friends",
+      "de": "Familie und Freunde"
+     },
+     "can_do": {
+      "en": "Talk about your family, friends and pets.",
+      "de": "Über deine Familie, Freunde und Haustiere sprechen."
+     },
+     "items": [
+      "famiglia",
+      "amico",
+      "madre",
+      "padre",
+      "fratello",
+      "sorella",
+      "nome",
+      "cane",
+      "gatto"
+     ]
+    },
+    {
+     "id": "u07-present",
+     "title": {
+      "en": "The present tense",
+      "de": "Das Präsens"
+     },
+     "can_do": {
+      "en": "Conjugate regular -are, -ere and -ire verbs in the present tense.",
+      "de": "Regelmäßige Verben auf -are, -ere und -ire im Präsens konjugieren."
+     },
+     "items": [
+      "present-are",
+      "present-ere",
+      "present-ire",
+      "present-isc",
+      "parlare",
+      "mangiare",
+      "bere",
+      "prendere",
+      "mettere",
+      "dormire",
+      "finire",
+      "vivere"
+     ]
+    },
+    {
+     "id": "u08-food",
+     "title": {
+      "en": "Food and drink",
+      "de": "Essen und Trinken"
+     },
+     "can_do": {
+      "en": "Name food and drinks and say what you like.",
+      "de": "Essen und Getränke benennen und sagen, was du magst."
+     },
+     "items": [
+      "cibo",
+      "latte",
+      "caffe",
+      "vino",
+      "frutta",
+      "carne",
+      "pesce",
+      "formaggio",
+      "uovo",
+      "mela",
+      "pomodoro",
+      "zucchero"
+     ]
+    },
+    {
+     "id": "u09-home",
+     "title": {
+      "en": "At home",
+      "de": "Zuhause"
+     },
+     "can_do": {
+      "en": "Describe your flat and the things in it.",
+      "de": "Deine Wohnung und die Dinge darin beschreiben."
+     },
+     "items": [
+      "finestra",
+      "tavolo",
+      "sedia",
+      "letto",
+      "cucina",
+      "bagno",
+      "camera",
+      "chiave",
+      "telefono",
+      "denaro",
+      "porta"
+     ]
+    },
+    {
+     "id": "u10-numbers-100",
+     "title": {
+      "en": "Numbers to 100",
+      "de": "Zahlen bis 100"
+     },
+     "can_do": {
+      "en": "Count in tens to a hundred, for prices and ages.",
+      "de": "In Zehnern bis hundert zählen, für Preise und Alter."
+     },
+     "items": [
+      "trenta",
+      "quaranta",
+      "cinquanta",
+      "sessanta",
+      "settanta",
+      "ottanta",
+      "novanta",
+      "cento"
+     ]
+    },
+    {
+     "id": "u11-city",
+     "title": {
+      "en": "In the city",
+      "de": "In der Stadt"
+     },
+     "can_do": {
+      "en": "Find your way around town: shops, transport, places.",
+      "de": "Dich in der Stadt zurechtfinden: Geschäfte, Verkehrsmittel, Orte."
+     },
+     "items": [
+      "citta",
+      "strada",
+      "macchina",
+      "treno",
+      "scuola",
+      "lavoro",
+      "negozio",
+      "mercato",
+      "ristorante",
+      "albergo",
+      "preposition-a-in"
+     ]
+    },
+    {
+     "id": "u12-irregular",
+     "title": {
+      "en": "Important irregular verbs",
+      "de": "Wichtige unregelmäßige Verben"
+     },
+     "can_do": {
+      "en": "Use the most frequent irregular verbs: want, can, must, know, come, say.",
+      "de": "Die häufigsten unregelmäßigen Verben verwenden: wollen, können, müssen, wissen, kommen, sagen."
+     },
+     "items": [
+      "venire",
+      "dire",
+      "potere",
+      "volere",
+      "dovere",
+      "sapere",
+      "vedere",
+      "dare",
+      "uscire",
+      "venire.pres",
+      "dire.pres",
+      "potere.pres",
+      "volere.pres",
+      "dovere.pres",
+      "sapere.pres",
+      "dare.pres",
+      "uscire.pres"
+     ]
+    },
+    {
+     "id": "u13-everyday",
+     "title": {
+      "en": "Everyday verbs",
+      "de": "Alltagsverben"
+     },
+     "can_do": {
+      "en": "Talk about what you do every day.",
+      "de": "Darüber sprechen, was du jeden Tag tust."
+     },
+     "items": [
+      "lavorare",
+      "studiare",
+      "abitare",
+      "amare",
+      "aiutare",
+      "aprire",
+      "chiudere",
+      "arrivare",
+      "partire",
+      "ascoltare",
+      "aspettare",
+      "ballare",
+      "cantare",
+      "capire",
+      "cercare",
+      "chiamare",
+      "comprare",
+      "conoscere",
+      "correre",
+      "cucinare"
+     ]
+    },
+    {
+     "id": "u14-town",
+     "title": {
+      "en": "A walk through town",
+      "de": "Ein Spaziergang durch die Stadt"
+     },
+     "can_do": {
+      "en": "Shop at the bakery, buy a ticket at the station and order in a restaurant.",
+      "de": "In der Bäckerei einkaufen, am Bahnhof ein Ticket kaufen und im Restaurant bestellen."
+     },
+     "items": [
+      "panetteria",
+      "cornetto",
+      "stazione",
+      "biglietto",
+      "binario",
+      "orologio",
+      "solo-andata",
+      "pizza",
+      "bicchiere",
+      "rosso",
+      "farmacia",
+      "medicina",
+      "mal-di-testa",
+      "piazza"
+     ],
+     "activity": {
+      "type": "town",
+      "ref": "italian-town"
+     }
+    },
+    {
+     "id": "u15-nature",
+     "title": {
+      "en": "Nature and weather",
+      "de": "Natur und Wetter"
+     },
+     "can_do": {
+      "en": "Talk about the sea, the mountains and the weather.",
+      "de": "Über Meer, Berge und das Wetter sprechen."
+     },
+     "items": [
+      "spiaggia",
+      "mare",
+      "montagna",
+      "sole",
+      "luna",
+      "pioggia",
+      "fiore",
+      "albero"
+     ]
+    },
+    {
+     "id": "u16-describe",
+     "title": {
+      "en": "Describing things",
+      "de": "Dinge beschreiben"
+     },
+     "can_do": {
+      "en": "Describe people and things: big, small, new, old.",
+      "de": "Menschen und Dinge beschreiben: groß, klein, neu, alt."
+     },
+     "items": [
+      "bello",
+      "buono",
+      "grande",
+      "piccolo",
+      "nuovo",
+      "vecchio",
+      "giovane",
+      "alto",
+      "basso"
+     ]
+    },
+    {
+     "id": "u17-opposites",
+     "title": {
+      "en": "Opposites",
+      "de": "Gegensätze"
+     },
+     "can_do": {
+      "en": "Contrast things with common adjectives and their opposites.",
+      "de": "Dinge mit häufigen Adjektiven und ihren Gegenteilen vergleichen."
+     },
+     "items": [
+      "lungo",
+      "corto",
+      "caldo",
+      "freddo",
+      "felice",
+      "triste",
+      "facile",
+      "difficile",
+      "veloce",
+      "lento",
+      "ricco",
+      "povero",
+      "forte",
+      "pulito",
+      "sporco",
+      "importante"
+     ]
+    },
+    {
+     "id": "u18-free-time",
+     "title": {
+      "en": "Free time and learning",
+      "de": "Freizeit und Lernen"
+     },
+     "can_do": {
+      "en": "Talk about hobbies, reading, playing and travelling.",
+      "de": "Über Hobbys, Lesen, Spielen und Reisen sprechen."
+     },
+     "items": [
+      "giocare",
+      "guardare",
+      "imparare",
+      "leggere",
+      "pagare",
+      "pensare",
+      "scrivere",
+      "sentire",
+      "trovare",
+      "viaggiare"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "a2",
+   "title": {
+    "en": "A2 · Elementary",
+    "de": "A2 · Grundlagen"
+   },
+   "description": {
+    "en": "Routine tasks, the past and plans, shopping and travel.",
+    "de": "Routineaufgaben, Vergangenheit und Pläne, Einkaufen und Reisen."
+   },
+   "units": [
+    {
+     "id": "u01-routine",
+     "title": {
+      "en": "My day",
+      "de": "Mein Tag"
+     },
+     "can_do": {
+      "en": "Describe your daily routine with reflexive verbs.",
+      "de": "Deinen Tagesablauf mit reflexiven Verben beschreiben."
+     },
+     "items": [
+      "reflexive-verbs",
+      "svegliarsi",
+      "alzarsi",
+      "lavarsi",
+      "vestirsi",
+      "divertirsi",
+      "riposarsi",
+      "addormentarsi",
+      "farsi-la-doccia",
+      "fare-colazione",
+      "pranzo",
+      "cena",
+      "prima",
+      "dopo",
+      "poi"
+     ]
+    },
+    {
+     "id": "u02-days-time",
+     "title": {
+      "en": "Days and times",
+      "de": "Tage und Uhrzeiten"
+     },
+     "can_do": {
+      "en": "Tell the time and make an appointment for a day of the week.",
+      "de": "Die Uhrzeit sagen und dich für einen Wochentag verabreden."
+     },
+     "items": [
+      "telling-time",
+      "a-che-ora",
+      "mezzogiorno",
+      "lunedi",
+      "martedi",
+      "mercoledi",
+      "giovedi",
+      "venerdi",
+      "sabato",
+      "domenica",
+      "settimana",
+      "mattina",
+      "pomeriggio",
+      "sera",
+      "oggi",
+      "domani"
+     ]
+    },
+    {
+     "id": "u03-travel",
+     "title": {
+      "en": "On the road",
+      "de": "Unterwegs"
+     },
+     "can_do": {
+      "en": "Book a hotel room and talk about how you travel.",
+      "de": "Ein Hotelzimmer buchen und erzählen, wie du reist."
+     },
+     "items": [
+      "preposizioni-articolate",
+      "transport-in",
+      "c-e",
+      "viaggio",
+      "vacanza",
+      "aereo",
+      "aeroporto",
+      "autobus",
+      "valigia",
+      "passaporto",
+      "prenotare",
+      "ho-una-prenotazione",
+      "camera-singola",
+      "camera-doppia",
+      "in-ritardo",
+      "a-piedi"
+     ]
+    },
+    {
+     "id": "u04-past-avere",
+     "title": {
+      "en": "What did you do?",
+      "de": "Was hast du gemacht?"
+     },
+     "can_do": {
+      "en": "Say what you did yesterday with the passato prossimo and avere.",
+      "de": "Mit dem passato prossimo und avere sagen, was du gestern gemacht hast."
+     },
+     "items": [
+      "past-participle-regular",
+      "passato-prossimo-avere",
+      "fare.pp",
+      "dire.pp",
+      "vedere.pp",
+      "prendere.pp",
+      "mettere.pp",
+      "leggere.pp",
+      "scrivere.pp",
+      "aprire.pp",
+      "bere.pp",
+      "chiedere",
+      "chiedere.pp",
+      "ieri",
+      "fa"
+     ]
+    },
+    {
+     "id": "u05-past-essere",
+     "title": {
+      "en": "Where did you go?",
+      "de": "Wo warst du?"
+     },
+     "can_do": {
+      "en": "Tell where you went and what happened, using essere in the past.",
+      "de": "Erzählen, wohin du gegangen bist und was passiert ist, mit essere in der Vergangenheit."
+     },
+     "items": [
+      "passato-prossimo-essere",
+      "participle-agreement",
+      "reflexive-past",
+      "essere.pp",
+      "venire.pp",
+      "nascere",
+      "nascere.pp",
+      "morire",
+      "morire.pp",
+      "rimanere",
+      "rimanere.pp",
+      "tornare",
+      "gia",
+      "ancora",
+      "mai",
+      "sempre"
+     ]
+    },
+    {
+     "id": "u06-weather",
+     "title": {
+      "en": "Weather and seasons",
+      "de": "Wetter und Jahreszeiten"
+     },
+     "can_do": {
+      "en": "Talk about the weather, the seasons and dates.",
+      "de": "Über das Wetter, die Jahreszeiten und Daten sprechen."
+     },
+     "items": [
+      "che-tempo-fa",
+      "fa-bel-tempo",
+      "fa-brutto-tempo",
+      "fa-caldo",
+      "fa-freddo",
+      "piove",
+      "nevica",
+      "neve",
+      "nuvola",
+      "vento",
+      "primavera",
+      "estate",
+      "autunno",
+      "inverno",
+      "mese",
+      "months-and-dates"
+     ]
+    },
+    {
+     "id": "u07-shopping",
+     "title": {
+      "en": "Shopping for clothes",
+      "de": "Kleidung einkaufen"
+     },
+     "can_do": {
+      "en": "Buy clothes: ask for a size, try things on and compare prices.",
+      "de": "Kleidung kaufen: nach der Größe fragen, Sachen anprobieren und Preise vergleichen."
+     },
+     "items": [
+      "partitive-article",
+      "vestito",
+      "maglietta",
+      "camicia",
+      "pantaloni",
+      "gonna",
+      "giacca",
+      "scarpa",
+      "taglia",
+      "portare",
+      "caro",
+      "economico",
+      "sconto",
+      "camerino",
+      "posso-provarlo",
+      "che-taglia-porta"
+     ]
+    },
+    {
+     "id": "u08-pronouns",
+     "title": {
+      "en": "Him, her, it",
+      "de": "Ihn, sie, es"
+     },
+     "can_do": {
+      "en": "Replace objects with pronouns and say what you like.",
+      "de": "Objekte durch Pronomen ersetzen und sagen, was dir gefällt."
+     },
+     "items": [
+      "direct-object-pronouns",
+      "pronoun-past-agreement",
+      "indirect-object-pronouns",
+      "piacere-construction",
+      "lo-prendo",
+      "non-lo-so",
+      "ci-vediamo",
+      "ti-va",
+      "regalare",
+      "mandare",
+      "telefonare",
+      "prestare"
+     ]
+    },
+    {
+     "id": "u09-people",
+     "title": {
+      "en": "Describing people",
+      "de": "Menschen beschreiben"
+     },
+     "can_do": {
+      "en": "Describe the appearance and character of people and compare them.",
+      "de": "Aussehen und Charakter von Menschen beschreiben und sie vergleichen."
+     },
+     "items": [
+      "adjective-agreement",
+      "comparative",
+      "superlative",
+      "com-e",
+      "capelli",
+      "occhio",
+      "biondo",
+      "castano",
+      "azzurro",
+      "magro",
+      "simpatico",
+      "gentile",
+      "timido",
+      "intelligente",
+      "migliore",
+      "peggiore"
+     ]
+    },
+    {
+     "id": "u10-health",
+     "title": {
+      "en": "Body and health",
+      "de": "Körper und Gesundheit"
+     },
+     "can_do": {
+      "en": "Say what hurts and explain your symptoms to a doctor.",
+      "de": "Sagen, was dir wehtut, und einem Arzt deine Beschwerden erklären."
+     },
+     "items": [
+      "corpo",
+      "testa",
+      "braccio",
+      "mano",
+      "gamba",
+      "piede",
+      "schiena",
+      "pancia",
+      "dente",
+      "medico",
+      "ospedale",
+      "febbre",
+      "raffreddore",
+      "malato",
+      "mi-fa-male",
+      "sto-male"
+     ]
+    },
+    {
+     "id": "u11-imperfetto",
+     "title": {
+      "en": "When I was little",
+      "de": "Als ich klein war"
+     },
+     "can_do": {
+      "en": "Describe your childhood and past habits with the imperfetto.",
+      "de": "Deine Kindheit und frühere Gewohnheiten mit dem imperfetto beschreiben."
+     },
+     "items": [
+      "imperfetto",
+      "imperfetto-vs-passato-prossimo",
+      "essere.impf",
+      "fare.impf",
+      "dire.impf",
+      "bere.impf",
+      "quando-ero-piccolo",
+      "da-bambino",
+      "di-solito",
+      "ogni",
+      "mentre",
+      "una-volta"
+     ]
+    },
+    {
+     "id": "u12-future",
+     "title": {
+      "en": "Plans for the future",
+      "de": "Pläne für die Zukunft"
+     },
+     "can_do": {
+      "en": "Talk about your plans for the weekend and the next holidays.",
+      "de": "Über deine Pläne fürs Wochenende und die nächsten Ferien sprechen."
+     },
+     "items": [
+      "present-for-future",
+      "futuro-semplice",
+      "stare-per",
+      "essere.fut",
+      "avere.fut",
+      "andare.fut",
+      "fare.fut",
+      "venire.fut",
+      "prossimo",
+      "stasera",
+      "sperare",
+      "forse",
+      "progetto"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1",
+   "title": {
+    "en": "B1 · Intermediate",
+    "de": "B1 · Mittelstufe"
+   },
+   "description": {
+    "en": "Most travel situations, experiences, opinions and reasons.",
+    "de": "Die meisten Reisesituationen, Erlebnisse, Meinungen und Begründungen."
+   },
+   "units": [
+    {
+     "id": "u01-past-story",
+     "title": {
+      "en": "Telling a story",
+      "de": "Eine Geschichte erzählen"
+     },
+     "can_do": {
+      "en": "Tell a story about a past holiday, contrasting passato prossimo and imperfetto.",
+      "de": "Von einem vergangenen Urlaub erzählen und dabei passato prossimo und imperfetto unterscheiden."
+     },
+     "items": []
+    },
+    {
+     "id": "u02-imperative",
+     "title": {
+      "en": "Instructions",
+      "de": "Anweisungen"
+     },
+     "can_do": {
+      "en": "Give directions and instructions with the imperative (vai, prenda, mi dica).",
+      "de": "Wegbeschreibungen und Anweisungen mit dem Imperativ geben (vai, prenda, mi dica)."
+     },
+     "items": []
+    },
+    {
+     "id": "u03-ne-ci",
+     "title": {
+      "en": "Ne, ci and double pronouns",
+      "de": "Ne, ci und Doppelpronomen"
+     },
+     "can_do": {
+      "en": "Answer quickly with ne, ci and combined pronouns like glielo.",
+      "de": "Mit ne, ci und Doppelpronomen wie glielo schnell antworten."
+     },
+     "items": []
+    },
+    {
+     "id": "u04-conditional",
+     "title": {
+      "en": "Wishes and advice",
+      "de": "Wünsche und Ratschläge"
+     },
+     "can_do": {
+      "en": "Make polite requests and give advice with the condizionale (potresti, dovresti).",
+      "de": "Mit dem condizionale höflich bitten und Ratschläge geben (potresti, dovresti)."
+     },
+     "items": []
+    },
+    {
+     "id": "u05-relative-clauses",
+     "title": {
+      "en": "Relative clauses",
+      "de": "Relativsätze"
+     },
+     "can_do": {
+      "en": "Connect sentences with che, cui and quello che.",
+      "de": "Sätze mit che, cui und quello che verbinden."
+     },
+     "items": []
+    },
+    {
+     "id": "u06-subjunctive",
+     "title": {
+      "en": "Congiuntivo presente",
+      "de": "Congiuntivo presente"
+     },
+     "can_do": {
+      "en": "Express opinions, wishes and doubts with penso che, spero che and the congiuntivo presente.",
+      "de": "Meinungen, Wünsche und Zweifel mit penso che, spero che und dem congiuntivo presente ausdrücken."
+     },
+     "items": []
+    },
+    {
+     "id": "u07-feelings-opinions",
+     "title": {
+      "en": "Feelings and opinions",
+      "de": "Gefühle und Meinungen"
+     },
+     "can_do": {
+      "en": "Say how you feel about something and give reasons for your opinion.",
+      "de": "Sagen, wie du dich bei etwas fühlst, und deine Meinung begründen."
+     },
+     "items": []
+    },
+    {
+     "id": "u08-work",
+     "title": {
+      "en": "Work and job interviews",
+      "de": "Arbeit und Vorstellungsgespräch"
+     },
+     "can_do": {
+      "en": "Present your experience and skills in a job interview.",
+      "de": "Im Vorstellungsgespräch deine Erfahrung und deine Fähigkeiten vorstellen."
+     },
+     "items": []
+    },
+    {
+     "id": "u09-media-news",
+     "title": {
+      "en": "Media and news",
+      "de": "Medien und Nachrichten"
+     },
+     "can_do": {
+      "en": "Understand the main points of a news report and summarize them.",
+      "de": "Die Hauptpunkte einer Nachrichtenmeldung verstehen und zusammenfassen."
+     },
+     "items": []
+    },
+    {
+     "id": "u10-problems",
+     "title": {
+      "en": "Solving problems",
+      "de": "Probleme lösen"
+     },
+     "can_do": {
+      "en": "Complain about a faulty product or report a lost item.",
+      "de": "Dich über ein kaputtes Produkt beschweren oder einen Verlust melden."
+     },
+     "items": []
+    }
+   ]
+  },
+  {
+   "id": "b2",
+   "title": {
+    "en": "B2 · Upper intermediate",
+    "de": "B2 · Selbstständig"
+   },
+   "description": {
+    "en": "Fluent conversation and detailed texts on many topics.",
+    "de": "Flüssige Gespräche und ausführliche Texte zu vielen Themen."
+   },
+   "units": [
+    {
+     "id": "u01-subjunctive-past",
+     "title": {
+      "en": "Congiuntivo in the past",
+      "de": "Congiuntivo in der Vergangenheit"
+     },
+     "can_do": {
+      "en": "Report past opinions with the congiuntivo passato and imperfetto (pensavo che fosse vero).",
+      "de": "Frühere Meinungen mit congiuntivo passato und imperfetto wiedergeben (pensavo che fosse vero)."
+     },
+     "items": []
+    },
+    {
+     "id": "u02-if-clauses",
+     "title": {
+      "en": "If I had time ...",
+      "de": "Wenn ich Zeit hätte ..."
+     },
+     "can_do": {
+      "en": "Talk about hypothetical situations with se + congiuntivo imperfetto + condizionale.",
+      "de": "Mit se + congiuntivo imperfetto + condizionale über hypothetische Situationen sprechen."
+     },
+     "items": []
+    },
+    {
+     "id": "u03-conditional-past",
+     "title": {
+      "en": "Regrets",
+      "de": "Bedauern"
+     },
+     "can_do": {
+      "en": "Express regrets and missed chances with the condizionale passato (avrei voluto).",
+      "de": "Mit dem condizionale passato Bedauern und verpasste Chancen ausdrücken (avrei voluto)."
+     },
+     "items": []
+    },
+    {
+     "id": "u04-reported-speech",
+     "title": {
+      "en": "Reported speech",
+      "de": "Indirekte Rede"
+     },
+     "can_do": {
+      "en": "Report what someone said, shifting tenses and pronouns correctly.",
+      "de": "Wiedergeben, was jemand gesagt hat, und dabei Zeiten und Pronomen richtig anpassen."
+     },
+     "items": []
+    },
+    {
+     "id": "u05-passive",
+     "title": {
+      "en": "The passive",
+      "de": "Das Passiv"
+     },
+     "can_do": {
+      "en": "Describe processes and news with the passive (viene costruito, è stato scritto) and the si passivante.",
+      "de": "Abläufe und Nachrichten mit dem Passiv (viene costruito, è stato scritto) und dem si passivante beschreiben."
+     },
+     "items": []
+    },
+    {
+     "id": "u06-implicit-forms",
+     "title": {
+      "en": "Gerund and infinitive",
+      "de": "Gerundium und Infinitiv"
+     },
+     "can_do": {
+      "en": "Shorten sentences with the gerundio and the past infinitive (dopo aver mangiato).",
+      "de": "Sätze mit dem gerundio und dem Infinitiv der Vergangenheit verkürzen (dopo aver mangiato)."
+     },
+     "items": []
+    },
+    {
+     "id": "u07-connectors",
+     "title": {
+      "en": "Connecting ideas",
+      "de": "Gedanken verknüpfen"
+     },
+     "can_do": {
+      "en": "Structure a longer text with connectors like tuttavia, quindi, nonostante and affinché.",
+      "de": "Einen längeren Text mit Konnektoren wie tuttavia, quindi, nonostante und affinché gliedern."
+     },
+     "items": []
+    },
+    {
+     "id": "u08-debating",
+     "title": {
+      "en": "Debating",
+      "de": "Diskutieren"
+     },
+     "can_do": {
+      "en": "Argue for and against a position and respond to counterarguments.",
+      "de": "Für und gegen eine Position argumentieren und auf Gegenargumente eingehen."
+     },
+     "items": []
+    },
+    {
+     "id": "u09-society-environment",
+     "title": {
+      "en": "Society and environment",
+      "de": "Gesellschaft und Umwelt"
+     },
+     "can_do": {
+      "en": "Discuss social and environmental issues such as migration or climate change.",
+      "de": "Über gesellschaftliche Themen und Umweltfragen wie Migration oder Klimawandel diskutieren."
+     },
+     "items": []
+    },
+    {
+     "id": "u10-formal-writing",
+     "title": {
+      "en": "Formal letters",
+      "de": "Formelle Briefe"
+     },
+     "can_do": {
+      "en": "Write a formal email or complaint with the right opening and closing formulas.",
+      "de": "Eine formelle E-Mail oder Beschwerde mit den passenden Anrede- und Grußformeln schreiben."
+     },
+     "items": []
+    }
+   ]
+  },
+  {
+   "id": "c1",
+   "title": {
+    "en": "C1 · Advanced",
+    "de": "C1 · Fortgeschritten"
+   },
+   "description": {
+    "en": "Demanding texts, implicit meaning, flexible style.",
+    "de": "Anspruchsvolle Texte, zwischen den Zeilen lesen, flexibler Stil."
+   },
+   "units": [
+    {
+     "id": "u01-register",
+     "title": {
+      "en": "Register",
+      "de": "Sprachregister"
+     },
+     "can_do": {
+      "en": "Switch smoothly between formal and informal register in speech and writing.",
+      "de": "In Wort und Schrift sicher zwischen formellem und informellem Register wechseln."
+     },
+     "items": []
+    },
+    {
+     "id": "u02-idioms",
+     "title": {
+      "en": "Idioms",
+      "de": "Redewendungen"
+     },
+     "can_do": {
+      "en": "Understand and use common idioms such as in bocca al lupo or non vedo l'ora.",
+      "de": "Gängige Redewendungen wie in bocca al lupo oder non vedo l'ora verstehen und verwenden."
+     },
+     "items": []
+    },
+    {
+     "id": "u03-passato-remoto",
+     "title": {
+      "en": "Passato remoto",
+      "de": "Passato remoto"
+     },
+     "can_do": {
+      "en": "Read narrative texts in the passato remoto and recognize its irregular forms.",
+      "de": "Erzähltexte im passato remoto lesen und seine unregelmäßigen Formen erkennen."
+     },
+     "items": []
+    },
+    {
+     "id": "u04-complex-clauses",
+     "title": {
+      "en": "Complex clauses",
+      "de": "Komplexe Nebensätze"
+     },
+     "can_do": {
+      "en": "Express concessions and conditions with benché, qualora and a patto che.",
+      "de": "Einräumungen und Bedingungen mit benché, qualora und a patto che ausdrücken."
+     },
+     "items": []
+    },
+    {
+     "id": "u05-word-formation",
+     "title": {
+      "en": "Word formation",
+      "de": "Wortbildung"
+     },
+     "can_do": {
+      "en": "Understand and form words with suffixes like -ino, -one, -accio and with prefixes.",
+      "de": "Wörter mit Suffixen wie -ino, -one, -accio und mit Präfixen verstehen und bilden."
+     },
+     "items": []
+    },
+    {
+     "id": "u06-press-essays",
+     "title": {
+      "en": "Editorials and essays",
+      "de": "Kommentare und Essays"
+     },
+     "can_do": {
+      "en": "Understand opinion pieces, including irony and implicit meaning.",
+      "de": "Meinungsartikel verstehen, auch Ironie und das, was zwischen den Zeilen steht."
+     },
+     "items": []
+    },
+    {
+     "id": "u07-presentations",
+     "title": {
+      "en": "Presentations",
+      "de": "Präsentationen"
+     },
+     "can_do": {
+      "en": "Give a structured presentation at work and handle questions confidently.",
+      "de": "Im Beruf eine gut gegliederte Präsentation halten und souverän auf Fragen antworten."
+     },
+     "items": []
+    },
+    {
+     "id": "u08-culture-history",
+     "title": {
+      "en": "Culture and history",
+      "de": "Kultur und Geschichte"
+     },
+     "can_do": {
+      "en": "Discuss Italian history, art and society in depth.",
+      "de": "Ausführlich über italienische Geschichte, Kunst und Gesellschaft sprechen."
+     },
+     "items": []
+    }
+   ]
+  },
+  {
+   "id": "c2",
+   "title": {
+    "en": "C2 · Mastery",
+    "de": "C2 · Meisterschaft"
+   },
+   "description": {
+    "en": "Near-native precision and nuance.",
+    "de": "Fast muttersprachliche Präzision und Nuancen."
+   },
+   "units": [
+    {
+     "id": "u01-literature",
+     "title": {
+      "en": "Literature",
+      "de": "Literatur"
+     },
+     "can_do": {
+      "en": "Read and discuss Italian literature, from Dante to Calvino and Ginzburg.",
+      "de": "Italienische Literatur von Dante bis Calvino und Ginzburg lesen und besprechen."
+     },
+     "items": []
+    },
+    {
+     "id": "u02-regional-variation",
+     "title": {
+      "en": "Regional Italian",
+      "de": "Regionales Italienisch"
+     },
+     "can_do": {
+      "en": "Recognize regional accents and typical features of regional Italian and dialects.",
+      "de": "Regionale Akzente und typische Merkmale von Regionalitalienisch und Dialekten erkennen."
+     },
+     "items": []
+    },
+    {
+     "id": "u03-style-nuance",
+     "title": {
+      "en": "Style and nuance",
+      "de": "Stil und Nuancen"
+     },
+     "can_do": {
+      "en": "Choose precisely between near-synonyms and stylistic variants.",
+      "de": "Präzise zwischen fast gleichbedeutenden Wörtern und stilistischen Varianten wählen."
+     },
+     "items": []
+    },
+    {
+     "id": "u04-humor-wordplay",
+     "title": {
+      "en": "Humour and wordplay",
+      "de": "Humor und Wortspiele"
+     },
+     "can_do": {
+      "en": "Understand jokes, puns and cultural allusions in films and conversation.",
+      "de": "Witze, Wortspiele und kulturelle Anspielungen in Filmen und Gesprächen verstehen."
+     },
+     "items": []
+    },
+    {
+     "id": "u05-specialized-language",
+     "title": {
+      "en": "Specialized language",
+      "de": "Fachsprache"
+     },
+     "can_do": {
+      "en": "Follow specialized texts from law, administration and economics.",
+      "de": "Fachtexte aus Recht, Verwaltung und Wirtschaft verstehen."
+     },
+     "items": []
+    },
+    {
+     "id": "u06-rhetoric",
+     "title": {
+      "en": "Rhetoric",
+      "de": "Rhetorik"
+     },
+     "can_do": {
+      "en": "Write and give a persuasive speech using rhetorical devices.",
+      "de": "Eine überzeugende Rede mit rhetorischen Mitteln schreiben und halten."
+     },
+     "items": []
+    }
+   ]
+  }
+ ]
+}

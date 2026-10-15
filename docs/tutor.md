@@ -667,6 +667,27 @@ There is deliberately no action to set a score, delete items, change stored sett
   Activity summaries for the learner carry `summary_msg` (`{id, params}`) next to the English `summary`, so they appear in the UI language; descriptions for agents (`text`) stay English.
   Content in the target language (object and place names, NPC lines) is never translated.
 
+### 9.6 Courses and the level map
+
+The start screen shows one tab per course and a "free session" tab (subjects, mode, minutes as before).
+A course (`content/curricula/<name>.json`, bundled in `cli/pauk/data/curricula/`) splits a subject into stages (Italian: A1 … C2) and each stage into units of about 8–25 items, ordered so that the first units matter most.
+
+- Every unit is a directory `<root>/<stage>/<unit>` (e.g. `italian/course/a1/u05-essere-avere`) holding its items; `pauk import content/curricula/<name>.json` creates the directories and links the listed items (import the items files first).
+  So progress, `next` and items the teacher adds work through ordinary subject directories, and `GET /profile/dirs` returns the progress of every unit in one request.
+
+- Stars come only from the memory model: ★ when half of the unit's items are at least "learning" (mastery ≥ 3), ★★ (passed) at 80 %, ★★★ when 80 % are "known" (mastery ≥ 4).
+  A unit whose items are largely due again shows "refresh".
+  The recommended unit is the first one below ★★; all units stay open.
+
+- A unit has a `can_do` goal, optionally an `activity` (the town for A1 "A walk through town"), and either a fixed item list or none: units without items (Italian B1 and above) are built by the teacher from the goal, who may then create items directly into the unit.
+
+- Choosing a unit opens its details (stars, learned/due counts, goal) and the mode: learn, review, mixed, conversation, game (units with an activity) and exam.
+  An exam asks every item once without help; the new-item budget does not apply, and since a first correct answer already counts as "learning", passing the exam with 80 % passes the unit without any extra score being stored.
+
+- The goal sent to the teacher carries `unit` (course, stage, unit, English title and goal, whether the teacher fills it) and the unit directory as `dirs` (section 10).
+
+Item cards show the item's memory aids from `attrs`: `mnemonic` (an Eselsbrücke) and `anecdote` (a true story that makes it stick), and its other names (`attrs.aliases`, which the importer also turns into searchable aliases).
+
 ## 10. Teacher harness (served by `pauk teach instructions`)
 
 The text below is the normative behaviour of the teacher.

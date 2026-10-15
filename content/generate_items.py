@@ -64,6 +64,197 @@ RULES = [
 ]
 
 
+# memory aids merged into attrs: mnemonic (an Eselsbrücke, "(de)" if
+# German) and anecdote (a short true fact, often the etymology)
+MEMORY: dict[str, dict[str, str]] = {
+    # Greek letters
+    "el/alpha": {"anecdote": "*Alpha* + *beta* gave us the word *alphabet*."},
+    "el/beta": {"anecdote": "In modern Greek it is called *vita* and sounds like v."},
+    "el/gamma": {"anecdote": "In modern Greek it sounds like a y before e and i sounds."},
+    "el/delta": {"anecdote": "River deltas are named after the triangular capital Δ; Herodotus first used it for the Nile delta."},
+    "el/epsilon": {"anecdote": "*E psilon* means 'plain e', to tell it apart from the diphthong αι with the same sound."},
+    "el/eta": {"anecdote": "The capital Η became the Latin letter H; in modern Greek η sounds like i."},
+    "el/theta": {"mnemonic": "θ sounds like *th* in English *think*."},
+    "el/iota": {"anecdote": "'Not one iota' means not the slightest bit, because ι is the smallest letter."},
+    "el/mu": {"mnemonic": "μ is the micro sign: μm = micrometre."},
+    "el/nu": {"mnemonic": "ν looks like a v but is an n!"},
+    "el/omicron": {"anecdote": "*O mikron* means 'small o' (as in *micro*), the counterpart of *omega*."},
+    "el/pi": {"mnemonic": "π = 3.14159…, the ratio of a circle's circumference to its diameter."},
+    "el/rho": {"mnemonic": "ρ looks like a p but is an r!"},
+    "el/sigma": {"mnemonic": "ς is used only at the end of a word; the capital Σ is the sum sign."},
+    "el/upsilon": {"anecdote": "*U psilon* means 'plain u', to tell it apart from the diphthong οι."},
+    "el/phi": {"anecdote": "The golden ratio (1.618…) is usually written φ."},
+    "el/chi": {"mnemonic": "(de) χ sieht aus wie x, klingt aber wie das ch in *Bach*."},
+    "el/psi": {"anecdote": "ψ is the symbol of psychology (from *psyche*, soul)."},
+    "el/omega": {"anecdote": "*O mega* means 'big o'; 'the Alpha and the Omega' means the beginning and the end."},
+    # Italian grammar
+    "it/present-isc": {"mnemonic": "In the conjugation table the -isc- forms (io, tu, lui/lei, loro) draw the shape of a boot, like Italy."},
+    "it/present-are": {"mnemonic": "*noi* always ends in -iamo, in every conjugation: *parliamo, prendiamo, dormiamo*."},
+    "it/noun-gender": {"anecdote": "Nouns in -ma from Greek are masculine: *il problema, il tema, il sistema*."},
+    "it/definite-article": {"mnemonic": "*lo* for the hissing and buzzing starts: *lo studente, lo zio*."},
+    "it/indefinite-article": {"mnemonic": "The apostrophe marks a missing a, so only the feminine has one: *un'amica*, but *un amico*."},
+    "it/preposition-a-in": {"mnemonic": "Short word, small place (*a Roma*); longer word, larger place (*in Italia*)."},
+    # Italian verbs
+    "it/essere": {"mnemonic": "(de) *essere* – die Essenz: das, was du bist."},
+    "it/avere": {"mnemonic": "(de) *avere* ≈ haben: beide stammen von lateinisch *habere*."},
+    "it/fare": {"anecdote": "From Latin *facere*, which is why some forms are long: *facciamo, facevo*."},
+    "it/andare": {"anecdote": "*vado, vai, va, vanno* come from Latin *vadere*; *andiamo, andate* come from a different root."},
+    "it/venire": {"mnemonic": "(de) *venire* steckt im *Advent*, der 'Ankunft'."},
+    "it/dire": {"anecdote": "From Latin *dicere*, hence *dico, diciamo* and English *dictate*."},
+    "it/potere": {"mnemonic": "English *potent* and *potential*: what you are able to do."},
+    "it/volere": {"mnemonic": "English *voluntary*: what you want to do."},
+    "it/dovere": {"anecdote": "As a noun, *il dovere* means 'the duty'."},
+    "it/sapere": {"anecdote": "Latin *sapere* meant 'to taste, to be wise', hence *Homo sapiens*; *sapere di* still means 'to taste of'."},
+    "it/vedere": {"mnemonic": "(de) *Video* ist lateinisch und heißt 'ich sehe'."},
+    "it/dare": {"mnemonic": "(de) Ein *Datum* ist lateinisch 'das Gegebene'."},
+    "it/stare": {"mnemonic": "Like English *stay* and *state*: *come stai?* = how do you stand?"},
+    "it/parlare": {"mnemonic": "(de) Im *Parlament* wird geredet."},
+    "it/mangiare": {"anecdote": "Borrowed from Old French *mangier*, from Latin *manducare* 'to chew'."},
+    "it/bere": {"anecdote": "From Latin *bibere*, which is why the stem is *bev-*: *bevo, bevuto*; cf. English *beverage*."},
+    "it/prendere": {"anecdote": "From Latin *prehendere* 'to grasp', as in English *apprehend*."},
+    "it/mettere": {"anecdote": "From Latin *mittere*, the root of English *emit, submit, transmit*."},
+    "it/uscire": {"mnemonic": "*uscita* is the EXIT sign you see everywhere."},
+    "it/dormire": {"mnemonic": "(de) Im *Dormitorium* (Schlafsaal) wird geschlafen."},
+    "it/lavorare": {"anecdote": "From Latin *laborare*, like English *labour*."},
+    "it/abitare": {"mnemonic": "English *inhabit* and *habitat*."},
+    "it/amare": {"mnemonic": "(de) *Amor* schießt mit Pfeilen: *amare* = lieben."},
+    "it/aiutare": {"mnemonic": "*Aiuto!* is the cry for 'Help!'."},
+    "it/aprire": {"mnemonic": "English *aperture*: an opening."},
+    "it/chiudere": {"anecdote": "From Latin *claudere*; Italian *chi-* often replaces Latin *cl-*: *chiave* (clavis), *chiamare* (clamare)."},
+    "it/partire": {"mnemonic": "*Partenze* is the departures board at the station."},
+    "it/ascoltare": {"anecdote": "From Latin *auscultare*; doctors still *auscultate* with a stethoscope."},
+    "it/aspettare": {"anecdote": "From Latin *exspectare*, like English *expect*."},
+    "it/ballare": {"mnemonic": "(de) Auf dem *Ball* wird getanzt."},
+    "it/cantare": {"mnemonic": "(de) *Kantate* und *Kantor* haben mit Singen zu tun."},
+    "it/capire": {"mnemonic": "(de) *capire* = kapieren; das deutsche Wort kommt von lateinisch *capere*."},
+    "it/cercare": {"anecdote": "From Latin *circare* 'to go around'; English *search* comes from the same word."},
+    "it/chiamare": {"anecdote": "From Latin *clamare* 'to shout', as in English *exclaim*."},
+    "it/conoscere": {"mnemonic": "English *connoisseur*: someone who knows."},
+    "it/correre": {"mnemonic": "(de) Der *Kurier* rennt."},
+    "it/cucinare": {"mnemonic": "(de) In der *cucina* (Küche) wird gekocht."},
+    "it/giocare": {"anecdote": "From Latin *iocus* 'joke, game', like English *joke*."},
+    "it/guardare": {"mnemonic": "False friend: not 'to guard' but 'to look', though a guard is someone who watches."},
+    "it/leggere": {"mnemonic": "(de) Eine *Legende* ist lateinisch 'das zu Lesende'."},
+    "it/pagare": {"anecdote": "From Latin *pacare* 'to pacify': paying pacified the creditor."},
+    "it/pensare": {"mnemonic": "English *pensive*: lost in thought."},
+    "it/scrivere": {"mnemonic": "(de) *scrivere* = schreiben, beide von lateinisch *scribere*."},
+    "it/sentire": {"mnemonic": "Means both 'to hear' and 'to feel', like English *sense* and *sentiment*."},
+    "it/trovare": {"anecdote": "Related to the troubadours (*trovatori*), the 'finders' of verses."},
+    "it/viaggiare": {"anecdote": "From Latin *viaticum*, provisions for the road; English *voyage* has the same origin."},
+    "it/finire": {"mnemonic": "(de) Im *Finale* ist alles zu Ende."},
+    "it/vivere": {"mnemonic": "English *vivid* and *survive*."},
+    # Italian nouns
+    "it/casa": {"anecdote": "Latin *casa* meant 'hut'; the Latin word for house, *domus*, survives in *duomo*."},
+    "it/uomo": {"mnemonic": "(de) *uomo* kommt von *homo*, wie in *Homo sapiens*; Plural: *gli uomini*."},
+    "it/donna": {"anecdote": "From Latin *domina* 'lady of the house'; *Madonna* means 'my lady'."},
+    "it/bambino": {"anecdote": "Bambi got his name from Italian *bambino*."},
+    "it/acqua": {"mnemonic": "(de) Im *Aquarium* ist Wasser."},
+    "it/pane": {"anecdote": "Your *companions* are literally the people you share bread with (Latin *com* + *panis*)."},
+    "it/libro": {"mnemonic": "False friend: *libreria* is a bookshop; a library is a *biblioteca*."},
+    "it/giorno": {"anecdote": "From Latin *diurnus* 'daily'; *giornale* (newspaper) is English *journal*."},
+    "it/notte": {"mnemonic": "(de) Aus -cht wird -tt: Nacht → *notte*, acht → *otto*."},
+    "it/anno": {"mnemonic": "The double n matters: *anno* is 'year', *ano* is 'anus'. *Buon anno!*"},
+    "it/citta": {"anecdote": "From Latin *civitas*, like English *city* and *civic*."},
+    "it/strada": {"mnemonic": "(de) *strada* = Straße, beide von lateinisch *via strata* 'gepflasterter Weg'."},
+    "it/scuola": {"anecdote": "Like German *Schule*, from Greek *scholē*, which originally meant 'leisure'."},
+    "it/amico": {"mnemonic": "A friend is someone you love: *amico* comes from *amare*."},
+    "it/fratello": {"anecdote": "A diminutive of Latin *frater*, as in *fraternity*."},
+    "it/sorella": {"anecdote": "A diminutive of Latin *soror*, as in *sorority*."},
+    "it/cane": {"anecdote": "The Canary Islands are named after dogs (Latin *canes*), not birds."},
+    "it/gatto": {"mnemonic": "(de) *gatto*, Katze, cat: alle von spätlateinisch *cattus*."},
+    "it/latte": {"mnemonic": "Order a *latte* in Italy and you get a glass of milk; ask for a *caffellatte*."},
+    "it/caffe": {"anecdote": "In Italy *un caffè* is an espresso."},
+    "it/porta": {"mnemonic": "English *portal* and *porter* (door-keeper)."},
+    "it/nome": {"mnemonic": "(de) *Nomen est omen*: der Name ist ein Zeichen."},
+    "it/finestra": {"mnemonic": "(de) *finestra* = Fenster, beide von lateinisch *fenestra*."},
+    "it/tavolo": {"mnemonic": "(de) *tavolo* = Tafel, beide von lateinisch *tabula*."},
+    "it/sedia": {"mnemonic": "From *sedere* 'to sit', like English *sedentary*."},
+    "it/cucina": {"mnemonic": "(de) *cucina* = Küche, beide von lateinisch *coquina*."},
+    "it/bagno": {"anecdote": "From Latin *balneum* 'bath'; *bagno* is both the bathroom and the bath."},
+    "it/camera": {"anecdote": "False friend: *camera* is a room; the photo camera is named after the *camera obscura*, 'dark room'."},
+    "it/chiave": {"anecdote": "From Latin *clavis*, like *clef* and *clavicle*; *chi-* often replaces Latin *cl-*."},
+    "it/denaro": {"anecdote": "Named after the Roman silver coin *denarius*, like Spanish *dinero*."},
+    "it/negozio": {"anecdote": "From Latin *negotium* 'business', as in *negotiate*."},
+    "it/mercato": {"mnemonic": "(de) *mercato* = Markt, beide von lateinisch *mercatus*."},
+    "it/albergo": {"anecdote": "A Germanic loanword related to German *Herberge*."},
+    "it/mare": {"mnemonic": "(de) Die *Marine* fährt aufs Meer."},
+    "it/sole": {"mnemonic": "(de) *Solar*energie kommt von der Sonne."},
+    "it/luna": {"anecdote": "*lunedì*, Monday, is the day of the moon."},
+    "it/fiore": {"mnemonic": "(de) Der *Florist* verkauft Blumen."},
+    "it/albero": {"anecdote": "*albero* is also the mast of a ship."},
+    "it/frutta": {"anecdote": "*frutta* is fruit in general; a single piece of fruit is *un frutto*."},
+    "it/carne": {"anecdote": "*Carnevale* is traditionally explained as *carne levare*, 'remove meat', before Lent."},
+    "it/pesce": {"mnemonic": "(de) Das Sternzeichen Fische heißt *Pisces*."},
+    "it/formaggio": {"anecdote": "From *forma*, the mould the cheese was pressed in; French *fromage* is the same word."},
+    "it/uovo": {"mnemonic": "The plural is feminine: *le uova*. (de) *oval* = eiförmig."},
+    "it/pomodoro": {"anecdote": "*Pomo d'oro*, 'golden apple': the first tomatoes in Italy were probably yellow."},
+    "it/zucchero": {"anecdote": "From Arabic *sukkar*, like English *sugar*."},
+    # Italian adjectives
+    "it/bello": {"mnemonic": "(de) Ein *Belvedere* ist ein Ort mit schöner Aussicht."},
+    "it/buono": {"anecdote": "French *bonbon*, 'good-good', comes from the same Latin *bonus*."},
+    "it/piccolo": {"mnemonic": "The *piccolo* is the small flute."},
+    "it/nuovo": {"mnemonic": "English *novel* and *innovate*: something new."},
+    "it/giovane": {"mnemonic": "English *juvenile*, from Latin *iuvenis*."},
+    "it/alto": {"anecdote": "In music, *alto* was originally the part sung above the tenor."},
+    "it/basso": {"mnemonic": "(de) Der *Bass* ist die tiefe Stimme."},
+    "it/lungo": {"anecdote": "A *caffè lungo* is a 'long' espresso made with more water."},
+    "it/corto": {"mnemonic": "(de) *corto* = kurz, beide von lateinisch *curtus*."},
+    "it/caldo": {"mnemonic": "False friend: *caldo* = warm, not cold! The C on an Italian tap means hot water."},
+    "it/freddo": {"mnemonic": "The F on an Italian tap means cold water."},
+    "it/felice": {"mnemonic": "Like the name Felix, 'the happy, lucky one'."},
+    "it/veloce": {"mnemonic": "English *velocity*: speed."},
+    "it/lento": {"anecdote": "In music, *lento* means 'slowly'."},
+    "it/ricco": {"anecdote": "A Germanic loanword, related to German *reich*."},
+    "it/povero": {"mnemonic": "English *poverty*: being poor."},
+    "it/forte": {"anecdote": "In music *forte* means loud; the *pianoforte* can play soft and loud."},
+    # Italian numbers
+    "it/zero": {"anecdote": "From Arabic *sifr*; Fibonacci of Pisa wrote it as *zephirum* when he brought Arabic numerals to Europe."},
+    "it/due": {"mnemonic": "(de) Ein *Duo* oder *Duett* sind zwei."},
+    "it/cinque": {"anecdote": "*Cinquecento* means the 16th century (the 1500s), and it is also the Fiat 500."},
+    "it/sei": {"mnemonic": "*sei* is both 'six' and 'you are' (*tu sei*)."},
+    "it/sette": {"mnemonic": "(de) *Sept*ember war im alten römischen Kalender der siebte Monat."},
+    "it/otto": {"mnemonic": "(de) Aus -cht wird -tt: acht → *otto*, Nacht → *notte*."},
+    "it/nove": {"anecdote": "*Novembre* was the ninth month of the old Roman calendar."},
+    "it/dieci": {"anecdote": "*Dicembre* was the tenth month of the old Roman calendar."},
+    "it/undici": {"mnemonic": "From 11 to 16 the unit comes first: *un-dici, do-dici, … se-dici*."},
+    "it/diciassette": {"mnemonic": "From 17 on the ten comes first: *dici-assette, dici-otto, dici-annove*."},
+    "it/venti": {"mnemonic": "*venti* is 'twenty', but also the plural of *vento*, 'winds'."},
+    "it/cento": {"mnemonic": "(de) *Pro*zent = *per cento*, von hundert."},
+    # Italian phrases
+    "it/ciao": {"anecdote": "*ciao* comes from Venetian *s-ciào vostro*, 'your servant'."},
+    "it/buonasera": {"anecdote": "Italians switch to *buonasera* surprisingly early, often right after lunch."},
+    "it/buonanotte": {"mnemonic": "Only for going to bed or leaving late at night, never as a greeting."},
+    "it/arrivederci": {"mnemonic": "(de) Wörtlich 'bis wir uns wiedersehen', wie *Auf Wiedersehen*."},
+    "it/grazie": {"mnemonic": "(de) *Grazie* ist Anmut; von lateinisch *gratia* kommt auch *gratis*."},
+    "it/prego": {"anecdote": "Literally 'I pray' (*pregare*); it also means 'please, go ahead'."},
+    "it/scusi": {"mnemonic": "*scusi* is formal (Lei), *scusa* is informal (tu)."},
+    "it/mi-dispiace": {"mnemonic": "Literally 'it displeases me', the opposite of *mi piace*."},
+    "it/mi-chiamo-marco": {"mnemonic": "Literally 'I call myself Marco' (*chiamarsi*)."},
+    "it/non-capisco": {"mnemonic": "(de) Ich kapiere nicht."},
+    "it/si": {"mnemonic": "The accent matters: *sì* = yes, *si* = oneself."},
+    "it/vorrei": {"mnemonic": "(de) Konditional von *volere*, wie 'ich möchte'."},
+    "it/piacere": {"anecdote": "Short for *piacere di conoscerti*, 'a pleasure to meet you'."},
+    "it/che-ore-sono": {"mnemonic": "Plural, because hours are plural: *sono le tre*; only *è l'una* is singular."},
+    "it/il-conto-per-favore": {"mnemonic": "(de) Der *conto* belastet dein Konto."},
+    # Italian forms
+    "it/essere.pres": {"mnemonic": "*sono* means both 'I am' and 'they are'."},
+    "it/avere.pres": {"anecdote": "The silent h of *ho, hai, ha, hanno* only tells them apart from *o* (or), *ai* (to the), *a* (to) and *anno* (year)."},
+    "it/andare.pres": {"mnemonic": "*vado, vai, va, vanno* look like a different verb, because they are: Latin *vadere*."},
+    "it/dare.pres": {"mnemonic": "*dà* (gives) has an accent to tell it apart from the preposition *da*."},
+    "it/uscire.pres": {"mnemonic": "u turns into e when stressed: *esco, esci, esce, escono*, but *usciamo, uscite*."},
+}
+
+
+def add_memory(space: str, items: list[dict]) -> None:
+    keys = {item["key"] for item in items}
+    for ref in MEMORY:
+        prefix, key = ref.split("/", 1)
+        if prefix == space and key not in keys:
+            raise ValueError(f"MEMORY entry for unknown item {ref}")
+    for item in items:
+        item["attrs"].update(MEMORY.get(f"{space}/{item['key']}", {}))
+
+
 def slug(text: str) -> str:
     text = unicodedata.normalize("NFKD", text.lower())
     text = "".join(ch for ch in text if not unicodedata.combining(ch))
@@ -104,6 +295,7 @@ def greek() -> dict:
         symbol = bold(card["question_md"])
         name = by_symbol.get(symbol) or by_symbol[symbol.split("/")[0].strip()]
         card_links.append({"card": card["question_md"], "item": name})
+    add_memory("el", items)
     return {"space": "el", "dirs": ["greek"], "items": items, "card_links": card_links}
 
 
@@ -220,6 +412,7 @@ def italian() -> dict:
     for verb in IRREGULAR_PRESENT:
         if not items[f"{verb}.pres"]["gloss_md"]:
             raise ValueError(f"no paradigm found for {verb}")
+    add_memory("it", list(items.values()))
     dirs = sorted({d for item in items.values() for d in item["dirs"]})
     return {"space": "it", "dirs": dirs, "items": list(items.values()), "card_links": card_links}
 

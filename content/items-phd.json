@@ -18,6 +18,8 @@
       "gloss_md": "Spectroscopy that measures the resonance frequencies of nuclear spins in a strong magnetic field.",
       "body_md": "NMR exploits nuclear spin: in a static field B0 the spin states split in energy (Zeeman splitting) and transitions are induced by radiofrequency radiation. Because electronic shielding shifts each nucleus's resonance slightly, NMR is a precise frequency measurement whose small shifts encode chemistry. For metabolomics it is highly reproducible, quantitative, non-destructive and needs minimal sample preparation. Its weaknesses are low sensitivity (about µM–mM), severe signal overlap in 1D ¹H spectra and expensive high-field instruments.",
       "attrs": {
+        "mnemonic": "NMR = Nuclei in a Magnet answer Radio waves: the sample sits in a strong field and is probed with radiofrequency pulses.",
+        "anecdote": "Felix Bloch and Edward Purcell independently observed NMR in liquids and solids in 1945/46 and shared the 1952 Nobel Prize in Physics. Medical NMR imaging later dropped the word \"nuclear\" and became MRI, partly because patients feared the word.",
         "source": "phd-defense",
         "abbreviation": "NMR"
       },
@@ -36,6 +38,8 @@
       "gloss_md": "The spin quantum number I of a nucleus; only nuclei with I ≠ 0 have a magnetic moment and are NMR-observable.",
       "body_md": "A nucleus with spin quantum number I has angular momentum P = √(I(I+1))·ħ and magnetic moment μ = γ·P, where γ is the isotope-specific gyromagnetic ratio. Nuclei with even numbers of both protons and neutrons (e.g. ¹²C, ¹⁶O) have I = 0 and are invisible to NMR. ¹H and ¹³C have I = ½; ²H and ¹⁴N have I = 1. In a field B0 the z-component is quantized (m = −I,…,+I); a spin-½ nucleus has two states split in energy (Zeeman splitting).",
       "attrs": {
+        "mnemonic": "Odd mass number → half-integer spin (¹H, ¹³C, ³¹P); even mass and even atomic number → spin 0 (¹²C, ¹⁶O are NMR-silent); even mass but odd atomic number → integer spin (²H, ¹⁴N).",
+        "anecdote": "Wolfgang Pauli proposed in 1924 that nuclei carry a spin to explain the hyperfine structure of atomic spectra.",
         "source": "phd-defense"
       },
       "priority": 60,
@@ -57,6 +61,8 @@
       "gloss_md": "The resonance frequency ν0 = γ·B0/(2π) at which RF radiation induces spin transitions.",
       "body_md": "For spin-½ the energy gap is ΔE = γ·ħ·B0 = hν0. At 14.1 T, ¹H resonates near 600 MHz, hence a '600 MHz spectrometer'. The field a nucleus actually experiences is reduced by electronic shielding, B_eff = B0(1 − σ), so chemically inequivalent nuclei resonate at slightly different frequencies.",
       "attrs": {
+        "mnemonic": "ν0 = γ·B0/(2π): double the field, double the frequency. Spectrometers are named after their ¹H Larmor frequency, so a \"600 MHz\" magnet is about 14.1 T.",
+        "anecdote": "Named after the Irish physicist Joseph Larmor, who described the precession of charged particles in a magnetic field in 1897.",
         "source": "phd-defense"
       },
       "priority": 60,
@@ -78,6 +84,8 @@
       "gloss_md": "Resonance position relative to a reference, δ = (ν_sample − ν_ref)/ν_ref × 10⁶, in ppm.",
       "body_md": "Dividing by the spectrometer frequency makes δ field-independent, so spectra from different magnets are directly comparable (J-couplings, in contrast, are constant in Hz). In aqueous metabolomics the reference set to 0 ppm is TSP or DSS, whose 9 equivalent protons give one sharp line. The ¹H chemical-shift range is narrow (~10 ppm), a main cause of signal overlap in biofluids; ¹³C spans >200 ppm.",
       "attrs": {
+        "mnemonic": "Chemical shift in ppm: ppm = parts per million – the shift is tiny compared to the spectrometer frequency, and dividing by it makes δ independent of the magnet. (de) Abgeschirmt = Hochfeld = rechts: shielded protons sit at low ppm on the right, TMS/DSS at 0.",
+        "anecdote": "In 1951 Arnold, Dharmatti and Packard at Stanford resolved the ¹H spectrum of ethanol into three lines (CH₃, CH₂, OH) with areas 3:2:1 – the moment NMR became a tool for chemistry rather than just for measuring nuclear moments.",
         "source": "phd-defense"
       },
       "priority": 80,
@@ -99,6 +107,7 @@
       "gloss_md": "NMR is intrinsically insensitive because the signal comes from a tiny Boltzmann population difference.",
       "body_md": "ΔN/N ≈ γħB0/(2kT), only about 1 in 10⁴–10⁵ at room temperature, so only a small net excess contributes to the magnetization. Sensitivity improves with higher B0, cryoprobes, microprobes, signal averaging (S/N ∝ √n) and methods like dynamic nuclear polarization. Higher B0 also improves resolution, because shifts in Hz scale with B0 while J-couplings stay fixed; the cost is very expensive magnets.",
       "attrs": {
+        "mnemonic": "At 600 MHz and room temperature only about 5 in 100,000 ¹H spins form the net surplus in the lower state – NMR listens to a whisper of the population difference.",
         "source": "phd-defense"
       },
       "priority": 65,
@@ -120,6 +129,7 @@
       "gloss_md": "NMR of hydrogen nuclei, the workhorse of NMR-based metabolomics.",
       "body_md": "¹H combines high gyromagnetic ratio and ~100% natural abundance, and nearly all metabolites contain hydrogen, so one 1D ¹H experiment profiles most of the metabolome quickly. Its drawback is the narrow ~10 ppm shift range, causing extensive overlap. ¹³C (1.1% abundance), ³¹P (few metabolites contain P) and ¹⁵N (0.37% abundance) trade sensitivity or coverage for dispersion.",
       "attrs": {
+        "mnemonic": "¹H has ~99.98 % natural abundance and the highest γ of any stable nucleus – and every metabolite has protons.",
         "source": "phd-defense"
       },
       "priority": 65,
@@ -141,6 +151,7 @@
       "gloss_md": "Longitudinal relaxation restoring the z-magnetization by exchanging energy with the surroundings.",
       "body_md": "T1 relaxation restores the Boltzmann population difference after an RF pulse. It sets how long one must wait between scans to avoid saturation. For quantitative NMR the relaxation delay plus acquisition should be at least about 5·T1, otherwise long-T1 protons are under-counted.",
       "attrs": {
+        "mnemonic": "T1 restores the 1 axis (z, longitudinal); T2 dephases in the 2-D xy-plane. Energy must leave (to the lattice) for T1, only phase coherence is lost for T2, so T2 ≤ T1 in practice.",
         "source": "phd-defense"
       },
       "priority": 55,
@@ -162,6 +173,7 @@
       "gloss_md": "Transverse relaxation: decay of xy-magnetization as spins lose phase coherence; it governs linewidth.",
       "body_md": "T2 relaxation needs no net energy exchange. The FID decays as exp(−t/T2), and a shorter T2 gives a broader line. The observed decay constant T2* also includes dephasing from field inhomogeneity, so linewidths are usually broader than the natural 1/(πT2). Large, slowly tumbling molecules have short T2 and broad signals.",
       "attrs": {
+        "mnemonic": "Short T2 → broad lines: the Lorentzian half-height width is Δν½ = 1/(π·T2).",
         "source": "phd-defense"
       },
       "priority": 65,
@@ -183,6 +195,7 @@
       "gloss_md": "The raw time-domain NMR signal: an oscillation at the Larmor frequency decaying as exp(−t/T2*).",
       "body_md": "The FID is what the spectrometer acquires; Fourier transformation turns it into the frequency-domain spectrum. Before the transform it is typically apodized (window function) and zero-filled.",
       "attrs": {
+        "mnemonic": "Free = no pulse is on any more, Induction = the precessing magnetization induces a voltage in the coil (Faraday), Decay = it dies away with T2*.",
         "source": "phd-defense"
       },
       "priority": 50,
@@ -204,6 +217,8 @@
       "gloss_md": "The peak shape of a liquid-state NMR signal: f(ω) = A·λ/((ω−ω0)² + λ²).",
       "body_md": "The Fourier transform of an exponentially decaying cosine (the FID) is exactly a Lorentzian centred at the resonance frequency, with FWHM Δν = 1/(π·T2*). In the metabodeconplus parameterization ω0 is the centre, λ the half-width at half-maximum and A an amplitude factor; the integral is πA and the peak height A/λ. Field inhomogeneity can add a Gaussian component (Voigt profile). This is the mechanistic justification for modelling metabolite signals as Lorentzians in deconvolution.",
       "attrs": {
+        "mnemonic": "Exponentially decaying FID ↔ Lorentzian peak (a Fourier pair). Lorentzians have long tails (∝ 1/x²) compared with a Gaussian, so overlapping neighbours bleed into each other.",
+        "anecdote": "Named after Hendrik Antoon Lorentz, who shared the 1902 Nobel Prize in Physics with Pieter Zeeman for explaining the Zeeman effect – the same splitting of spin states in a magnetic field that NMR uses.",
         "source": "phd-defense"
       },
       "priority": 75,
@@ -309,6 +324,7 @@
       "gloss_md": "Under full relaxation, the integrated ¹H signal area is proportional to the number of protons.",
       "body_md": "Because all ¹H nuclei respond identically, one internal standard of known concentration (e.g. TSP) calibrates the entire spectrum without compound-specific response factors, a major advantage over MS. The condition is that spins relax essentially fully between scans (relaxation delay + acquisition ≥ about 5·T1); otherwise long-T1 signals are attenuated.",
       "attrs": {
+        "mnemonic": "Count protons, not molecules: a CH₃ group gives three times the area of a CH, so divide each integral by its number of protons before comparing concentrations.",
         "source": "phd-defense"
       },
       "priority": 60,
@@ -330,6 +346,7 @@
       "gloss_md": "Splitting of a signal into a multiplet by neighbouring protons, constant in Hz.",
       "body_md": "Protons on neighbouring carbons split each other's signals into doublets, triplets, … following the n+1 rule. Together with chemically inequivalent proton groups, this gives each metabolite a characteristic pattern of several peaks. A deconvolution tool that treats peaks independently (as metabodeconplus does, without multiplet grouping) produces several correlated features per metabolite.",
       "attrs": {
+        "mnemonic": "n+1 rule: n equivalent neighbouring protons split a signal into n+1 lines (ethanol: CH₃ triplet, CH₂ quartet). J is in Hz and does not change with the field; chemical shifts in Hz do – that is how you tell them apart.",
         "source": "phd-defense"
       },
       "priority": 55,
@@ -345,6 +362,7 @@
       "gloss_md": "Removing the huge water resonance in biofluid ¹H NMR, typically by presaturation.",
       "body_md": "Water protons (~55 M) exceed metabolites by 10⁴–10⁵ and would dominate the receiver and swamp metabolite signals. Presaturation applies a weak selective RF field at the water frequency during the relaxation delay, saturating water spins while off-resonance metabolites are largely unaffected; it underlies 1D NOESY-presat. Downsides: exchangeable protons near water are attenuated and a residual hump may remain. Urine spectra are typically acquired with 1D NOESY-presat for its robust water suppression and flat baseline.",
       "attrs": {
+        "mnemonic": "Water has ~110 M protons, metabolites are µM–mM: a factor of 10⁵ or more, so the water peak must be silenced before anything else can be seen.",
         "source": "phd-defense"
       },
       "priority": 50,
@@ -360,6 +378,8 @@
       "gloss_md": "Carr–Purcell–Meiboom–Gill spin-echo train acting as a T2 filter; used for plasma/serum.",
       "body_md": "Plasma contains proteins and lipoproteins with very short T2 that form a broad rolling background. During the CPMG echo period this fast-decaying macromolecule magnetization dies away while sharp small-metabolite signals (long T2) survive, giving a clean spectrum on a flat baseline. Urine lacks this background and is measured with 1D NOESY-presat instead.",
       "attrs": {
+        "mnemonic": "CPMG filters out the big ones: broad protein and lipid signals with short T2 die during the echo train, small metabolites with long T2 survive.",
+        "anecdote": "It builds on Erwin Hahn's spin echo (1950): Carr and Purcell turned it into an echo train in 1954, and Meiboom and Gill added a 90° phase shift in 1958 that cancels pulse imperfections – hence the four names.",
         "source": "phd-defense",
         "abbreviation": "CPMG"
       },
@@ -383,6 +403,7 @@
       "gloss_md": "NMR experiments (COSY, TOCSY, HSQC, HMBC) that spread signals over a second frequency axis.",
       "body_md": "COSY shows ¹H–¹H cross-peaks between directly J-coupled protons; TOCSY correlates a whole coupled spin system; HSQC gives one-bond ¹H–¹³C correlations; HMBC gives 2–3-bond ¹H–¹³C correlations. They resolve overlap and aid assignment, but cost much more acquisition time, produce larger data and are harder to quantify at cohort scale. So 1D ¹H with computational deconvolution remains the default in metabolomics.",
       "attrs": {
+        "anecdote": "Jean Jeener proposed the idea of 2D NMR (the COSY experiment) at a summer school in 1971; Richard Ernst developed it and received the 1991 Nobel Prize in Chemistry, and Kurt Wüthrich got the 2002 prize for using multidimensional NMR to solve protein structures.",
         "source": "phd-defense"
       },
       "priority": 45,
@@ -398,6 +419,8 @@
       "gloss_md": "Adjusting auxiliary coil currents to make B0 as homogeneous as possible over the sample.",
       "body_md": "Field inhomogeneity dephases spins (shortens T2*) and broadens and distorts lines. Good shimming gives sharp, symmetric, truly Lorentzian peaks and a flat baseline, improving resolution and the validity of Lorentzian deconvolution.",
       "attrs": {
+        "mnemonic": "Lock keeps the field steady in time, shimming makes it uniform in space.",
+        "anecdote": "A shim is a thin wedge or strip used to level something; early magnets were literally evened out by slipping thin metal pieces between the pole faces, and the electrical correction coils inherited the name.",
         "source": "phd-defense"
       },
       "priority": 40,
@@ -413,6 +436,7 @@
       "gloss_md": "The spectrometer monitors the ²H resonance of a deuterated solvent and continuously adjusts B0 to keep it constant, correcting field drift.",
       "body_md": "Biofluid NMR samples get D2O added for this purpose. Because the ²H frequency is held fixed, slow drift of the magnetic field during long experiments and multi-scan averaging does not smear the signals. The deuterated solvent also reduces the solvent ¹H signal. Lock and shimming work together: the lock keeps the field stable in time, shimming makes it homogeneous in space.",
       "attrs": {
+        "mnemonic": "Lock keeps the field steady in time, shimming makes it uniform in space – that is why samples are prepared with some D₂O.",
         "source": "phd-defense"
       },
       "priority": 35,
@@ -438,6 +462,7 @@
       "gloss_md": "NMR of intact tissue spun at 54.74° to B0 to average out anisotropic line broadening.",
       "body_md": "In solids and semi-solids, dipolar couplings, chemical-shift anisotropy and susceptibility effects broaden lines; these scale with (3cos²θ − 1), which is zero at 54.74°. Fast spinning at that angle recovers near-solution linewidths. It is used for intact tissue biopsies, while solution-state NMR remains the choice for liquid biofluids.",
       "attrs": {
+        "mnemonic": "The magic angle is where 3cos²θ − 1 = 0, i.e. θ = arccos(1/√3) ≈ 54.74°; spinning there averages the anisotropic (dipolar, susceptibility) broadening to zero.",
         "source": "phd-defense",
         "abbreviation": "HRMAS"
       },
@@ -454,6 +479,8 @@
       "gloss_md": "Analytical technique that ionises analytes and separates them by mass-to-charge ratio (m/z).",
       "body_md": "In metabolomics MS is very sensitive and selective with wide coverage, usually after LC or GC separation. Weaknesses: often destructive, ionization efficiency varies so quantification needs compound-specific standards, ion-suppression/matrix effects, narrower dynamic range and lower reproducibility across labs than NMR. Targeted MS uses multiple-reaction monitoring with stable-isotope-labelled internal standards. NMR and MS are complementary.",
       "attrs": {
+        "mnemonic": "MS weighs ions, not molecules: it measures m/z, so a doubly charged ion appears at half its mass.",
+        "anecdote": "J. J. Thomson's early mass spectrograph (1912–1913) separated neon into masses 20 and 22, the first evidence that stable elements have isotopes.",
         "source": "phd-defense",
         "abbreviation": "MS"
       },
@@ -471,6 +498,8 @@
       "gloss_md": "The complete set of small-molecule metabolites; the molecular layer considered closest to the phenotype.",
       "body_md": "The metabolome lies downstream of genome, transcriptome and proteome and integrates gene expression, enzyme activity and environmental inputs (diet, drugs, microbiome, disease). It therefore reflects the organism's actual physiological state and suits biomarker discovery. Caveats: signatures capture correlation not causation, and the metabolome is dynamic and influenced by many confounders, so data are noisy.",
       "attrs": {
+        "mnemonic": "Genome: what can happen; transcriptome: what appears to be happening; proteome: what makes it happen; metabolome: what has happened.",
+        "anecdote": "The term \"metabolome\" was coined by Oliver, Winson, Kell and Baganz in 1998, in analogy to genome and proteome.",
         "source": "phd-defense"
       },
       "priority": 65,
@@ -488,6 +517,7 @@
       "gloss_md": "The large-scale measurement and analysis of metabolites, mainly by NMR and mass spectrometry.",
       "body_md": "NMR and MS are the two main, complementary platforms: NMR is reproducible and quantitative but insensitive; MS is sensitive with wide coverage but less reproducible and harder to quantify. Results feed biomarker discovery, disease-risk assessment and pathway analysis.",
       "attrs": {
+        "anecdote": "Jeremy Nicholson's group at Imperial College coined the term \"metabonomics\" in 1999 for NMR-based metabolic profiling of biofluids; \"metabolomics\" became the more common name, and the two are now used almost interchangeably.",
         "source": "phd-defense"
       },
       "priority": 75,
@@ -526,6 +556,7 @@
       "gloss_md": "Fingerprinting approach that models all resolved signals without requiring prior metabolite annotation.",
       "body_md": "Statistics run directly on resolved signals (peaks or bins), so signals of unknown origin can still be discriminatory biomarkers; important ones are annotated afterwards. Targeted profiling instead quantifies a predefined list of known metabolites. Since only a small fraction of signals can be confidently annotated (much of the metabolome is 'dark matter'), untargeted approaches lose no information to incomplete libraries.",
       "attrs": {
+        "mnemonic": "Targeted = rifle (a named list of metabolites, quantified); untargeted = net (catch every resolved signal, identify later).",
         "source": "phd-defense"
       },
       "priority": 70,
@@ -549,6 +580,8 @@
       "gloss_md": "Metabolomics Standards Initiative levels; level 1 needs two orthogonal properties matched to an authentic standard.",
       "body_md": "Defined by Sumner et al. 2007, the gold standard (level 1) matches e.g. retention time and mass spectrum to an authentic standard measured under identical conditions. A database lookup by mass or shift yields only candidates (putative annotation). A meta-analysis (Kodra et al. 2022) found only about 20% of papers reached level 1; the bottleneck is the cost and availability of standards, which motivates RT prediction and spectral libraries.",
       "attrs": {
+        "mnemonic": "The higher the level, the less you know: 1 identified (authentic standard, two orthogonal properties such as RT + MS/MS), 2 putatively annotated, 3 putative compound class, 4 unknown.",
+        "anecdote": "The levels were proposed by Sumner et al. in 2007 for the Metabolomics Standards Initiative.",
         "source": "phd-defense",
         "abbreviation": "MSI"
       },
@@ -574,6 +607,7 @@
       "gloss_md": "Feature extraction that sums spectral intensity within fixed or adaptive chemical-shift intervals.",
       "body_md": "Binning is simple, fast, robust to noise and tolerant of small peak shifts, and needs no peak model. Its principal disadvantage is that one bin can mix several overlapping peaks or metabolites, so a discriminatory bin cannot be attributed to one metabolite. On the AKI cohort a 700-bin baseline (0.01 ppm bins) matched metabodeconplus in accuracy, but without per-peak interpretability.",
       "attrs": {
+        "mnemonic": "Binning = bucketing: the spectrum is poured into buckets (classically 0.04 ppm wide) and each bucket's content is summed – simple, but one bucket can hold parts of several metabolites.",
         "source": "phd-defense"
       },
       "priority": 65,
@@ -591,6 +625,7 @@
       "gloss_md": "Decomposing an overlapped NMR spectrum into individual (Lorentzian) peaks with positions and integrals.",
       "body_md": "Because signals overlap in 1D ¹H biofluid spectra, individual peaks must be resolved computationally by fitting a superposition of Lorentzians. Peak-based features are localised, each contributing to a single metabolite, unlike bins. Classical curve fitting uses least squares (e.g. Levenberg–Marquardt); Koh's approach is analytic and derivative-free.",
       "attrs": {
+        "mnemonic": "Deconvolution un-mixes: like splitting a chord into its single notes, each peak gets its own pitch (position), width and loudness (integral).",
         "source": "phd-defense"
       },
       "priority": 80,
@@ -608,6 +643,7 @@
       "gloss_md": "R package unifying NMR deconvolution, cross-sample alignment, feature-matrix construction and random-forest classification.",
       "body_md": "It is not a new version of MetaboDecon1D but a broader package with automated parameter optimization, scaling to several hundred spectra. It quantifies every resolvable peak whether or not its metabolite is known. On the AKI urine cohort it matched a binning baseline in accuracy and AUC while giving interpretable per-peak features. Limitations: native readers only for Bruker and JCAMP-DX, no multiplet grouping, no automatic peak-to-metabolite assignment, and an expensive supervised 3-D parameter search. Work is parallelized across spectra, not grid rows, so each worker holds only the spectra it processes.",
       "attrs": {
+        "mnemonic": "metabo + decon + plus: metabolomics deconvolution, plus alignment, feature matrix and classification on top.",
         "source": "phd-defense"
       },
       "priority": 90,
@@ -679,6 +715,7 @@
       "gloss_md": "Detecting peaks as local minima of the second derivative of the smoothed spectrum.",
       "body_md": "Each peak is a triplet of points (left, centre, right) and is scored by the minimum of the cumulative |S''| sums over its left and right halves, so sharp peaks score high. A small peak fully shadowed by a larger neighbour has no curvature minimum of its own and cannot be detected. Detection runs on the smoothed spectrum, and only peaks whose score clears a noise threshold are kept.",
       "attrs": {
+        "mnemonic": "A peak top is where the curve bends down most strongly: a local minimum of the second derivative.",
         "source": "phd-defense"
       },
       "priority": 60,
@@ -729,6 +766,7 @@
       "gloss_md": "Closed-form Lorentzian parameters from three peak points, then proportional rescaling to fit the spectrum.",
       "body_md": "Substituting three observed points into y = A·λ/((ω−ω0)²+λ²) gives a closed-form ω0, then λ² and A·λ. To avoid dividing by y1 − y3 (near zero for symmetric peaks), λ² is computed from the inner pairs and averaged. Because neighbouring peaks overlap, the superposition of independent estimates overshoots the spectrum; Koh's rule of proportion rescales each peak by observed/reconstructed intensity over nfit passes.",
       "attrs": {
+        "mnemonic": "Three points, three unknowns: position, half-width and height of a Lorentzian follow in closed form from three spectrum points around the peak top.",
         "source": "phd-defense"
       },
       "priority": 60,
@@ -756,6 +794,7 @@
       "gloss_md": "Reconstruction error AR = Σ|y − ŷ| / Σ|y| between observed spectrum and Lorentzian superposition.",
       "body_md": "AR is the unsupervised objective for per-spectrum parameter optimization. It keeps decreasing as more Lorentzians are added, so minimizing it alone over-fits with spurious peaks; a peak ceiling npmax is required. On noisy spectra AR stays above 0 even with every true peak recovered.",
       "attrs": {
+        "mnemonic": "AR = what is left over / what was there: absolute residual divided by absolute signal, so 0 is a perfect reconstruction.",
         "source": "phd-defense"
       },
       "priority": 55,
@@ -842,6 +881,8 @@
       "gloss_md": "Ensemble of decision trees on bootstrap samples; used (ranger) as metabodeconplus's classifier.",
       "body_md": "Being non-linear, a random forest can split on presence/absence as well as magnitude, so it handles the 'missing peak vs small area' zeros of the feature matrix that destabilize linear models. In the AKI benchmark the same ranger forest (probability mode) was used for both binning and peak features for a fair comparison.",
       "attrs": {
+        "mnemonic": "Bagging plus random feature subsets = wisdom of a crowd of decorrelated trees: many noisy voters, one robust majority vote.",
+        "anecdote": "Leo Breiman published random forests in 2001; \"Random Forests\" was even registered as a trademark by Breiman and Adele Cutler.",
         "source": "phd-defense"
       },
       "priority": 60,
@@ -858,6 +899,7 @@
       "gloss_md": "A random forest's built-in generalisation-error estimate from each tree's predictions on the samples left out of its bootstrap sample.",
       "body_md": "Each tree is grown on a bootstrap sample, which leaves out about a third (≈ e⁻¹) of the observations. Predicting every observation only with the trees that did not see it gives an error estimate during training itself, close to a cross-validated one. metabodeconplus's supervised parameter optimization scores each parameter combination by the OOB error of a ranger forest, so it needs no extra held-out split or inner CV loop; this matters because every grid point already reruns the expensive deconvolution and alignment.",
       "attrs": {
+        "mnemonic": "Each bootstrap sample leaves out about 1/e ≈ 37 % of the samples – a free test set for every tree.",
         "source": "phd-defense",
         "abbreviation": "OOB"
       },
@@ -889,6 +931,7 @@
       "gloss_md": "Matching corresponding peaks across spectra onto a common grid to correct chemical-shift drift.",
       "body_md": "Needed after deconvolution because the same metabolite drifts with pH, temperature and ionic strength. metabodeconplus aligns peak lists (not raw spectra) in two steps: CluPA for coarse segment shifts, then snap_to_ref for fine per-peak correction. Aligning to a fixed reference makes the procedure reproducible and extensible: new samples are aligned to the same reference without recomputing the cohort.",
       "attrs": {
+        "mnemonic": "Deconvolution fixes overlap within a spectrum, alignment fixes drift between spectra.",
         "source": "phd-defense"
       },
       "priority": 70,
@@ -1072,6 +1115,7 @@
       "gloss_md": "R package and Shiny app that predicts LC retention times from molecular structure.",
       "body_md": "FastRet supports LC-MS annotation by using predicted RT as an orthogonal filter on candidate identities. It implements three tasks: training from SMILES + measured RTs (Lasso or boosted trees on 241 CDK descriptors), selective measuring, and model adjustment to modified chromatographic conditions. Training and prediction take seconds on one CPU core; it is on CRAN with a web app at fastret.spang-lab.de (tabs Train, Select, Adjust, Predict). It generalises as a method retrained or adjusted per chromatographic system, not as one portable model. From scratch it is competitive with Retip and in low-data transfer it is the strongest structure-based method; on 14 public RepoRT datasets from other labs it reached median R² 0.60 (RP) and 0.58 (HILIC).",
       "attrs": {
+        "mnemonic": "FastRet = fast retention-time prediction: train, select, adjust, predict in seconds on one core.",
         "source": "phd-defense"
       },
       "priority": 90,
@@ -1176,6 +1220,7 @@
       "gloss_md": "The time an analyte takes to elute from an LC column; system-specific.",
       "body_md": "RT depends on stationary-phase chemistry, column dimensions, mobile phase and additives/pH, gradient profile, flow rate, temperature, separation mechanism, and void and dwell volumes, and it drifts as columns age. Unlike accurate mass or MS/MS spectra, RT cannot be looked up in universal databases. In LC-MS it is a second, orthogonal identification dimension next to m/z, but its discriminating power is modest and co-eluting isomers share RT.",
       "attrs": {
+        "mnemonic": "(de) Retention = Zurückhalten: RT is how long the column holds a compound back. Like travel time, it depends on the road (column, gradient, flow), not only on the traveller.",
         "source": "phd-defense",
         "abbreviation": "RT"
       },
@@ -1199,6 +1244,7 @@
       "gloss_md": "Computationally predicting an analyte's RT on a given chromatographic system from its structure.",
       "body_md": "Authentic standards are costly and not always available, and RTs are system-specific, so predicting RTs for unmeasured candidates breaks the identification bottleneck. Candidates whose predicted RT deviates strongly from the observed one are excluded, prioritising candidates without proving identity. Models are tied to one setup and must be retrained or adjusted when conditions change. Approaches include physicochemical models, QSRR, projection/transfer methods (PredRet) and learned representations (GNNs, DeepGCN-RT).",
       "attrs": {
+        "mnemonic": "Same mass, wrong time → wrong compound: predicted RT is a second, orthogonal filter on MS candidate identities.",
         "source": "phd-defense"
       },
       "priority": 80,
@@ -1222,6 +1268,7 @@
       "gloss_md": "Statistical modelling that maps numerical descriptors of molecular structure to retention.",
       "body_md": "QSRR needs no mechanistic model of chromatography. It works because retention is largely governed by properties that descriptors encode: lipophilicity first, then polar surface area, H-bonding and charge. FastRet is a QSRR method combined with a descriptor-aware adjustment step.",
       "attrs": {
+        "mnemonic": "QSRR is QSAR's sibling: replace (biological) Activity by Retention, keep the descriptors-to-response regression.",
         "source": "phd-defense",
         "abbreviation": "QSRR"
       },
@@ -1246,6 +1293,7 @@
       "gloss_md": "Numerical feature computed from a molecule's structure (e.g. from SMILES), such as logP or polar surface area.",
       "body_md": "FastRet uses 241 CDK descriptors: constitutional, topological, electrotopological and physicochemical (XLogP, ALogP, TopoPSA, H-bond donors/acceptors, rotatable bonds, Kier shape, BCUT, …). Descriptor values are cached by SMILES; rare missing values are mean-imputed and near-zero-variance descriptors (~101) removed. Fitted models are sparse (Lasso kept 15–41 descriptors), dominated by lipophilicity indices on RP data. Descriptor quality is a fundamental limit on model quality.",
       "attrs": {
+        "anecdote": "SMILES, the line notation descriptors are usually computed from, was devised by David Weininger in the 1980s (published 1988).",
         "source": "phd-defense"
       },
       "priority": 65,
@@ -1278,6 +1326,8 @@
       "gloss_md": "Linear regression with an L1 penalty that shrinks many coefficients exactly to zero.",
       "body_md": "The L1 penalty induces sparsity and built-in feature selection, suiting high-dimensional p > n data. FastRet fits it with glmnet, choosing λ by ten-fold CV over 100 values; as a linear model it can extrapolate to extreme predictions outside the training descriptor range. In ADMIRE's MGM the λ‖Θ‖₁ term drives edge weights to zero so only genuine conditional dependencies remain.",
       "attrs": {
+        "mnemonic": "L1 has corners: the diamond-shaped constraint region makes the solution hit the axes, so coefficients become exactly zero. Ridge's round L2 ball only shrinks them.",
+        "anecdote": "Robert Tibshirani introduced it in 1996; LASSO stands for Least Absolute Shrinkage and Selection Operator, and like a cowboy's lasso it ropes in just a few variables.",
         "source": "phd-defense"
       },
       "priority": 70,
@@ -1295,6 +1345,8 @@
       "gloss_md": "Gradient-boosted decision trees (xgboost), FastRet's non-linear model family.",
       "body_md": "BRT weights features by split gain and is robust to correlated and uninformative descriptors. FastRet tunes only nrounds by internal CV with early stopping. BRT outperformed Lasso on larger training sets (test R² 0.86 RP, 0.81 HILIC, 0.66 RP-AXMM) and is more stable, because predictions stay within the training RT range.",
       "attrs": {
+        "mnemonic": "Boosting = trees in series, each learning the residual mistakes of the previous ones; bagging (random forest) = trees in parallel, each learning independently.",
+        "anecdote": "xgboost, written by Tianqi Chen, became famous by winning many Kaggle competitions, starting with the 2014 Higgs Boson Machine Learning Challenge.",
         "source": "phd-defense",
         "abbreviation": "BRT"
       },
@@ -1312,6 +1364,7 @@
       "gloss_md": "Estimating generalization by repeatedly fitting on part of the data and testing on the held-out rest.",
       "body_md": "FastRet uses CV for hyperparameters and performance, but evaluates adjustment with dedicated train/test sets: test compounds must be in neither the base nor the adjustment-training set, which folded CV would make complex.",
       "attrs": {
+        "mnemonic": "Never grade your own homework: fit on k−1 folds, test on the fold that was left out, rotate.",
         "source": "phd-defense"
       },
       "priority": 55,
@@ -1328,6 +1381,7 @@
       "gloss_md": "An outer CV loop estimates performance of a whole fitting procedure whose hyperparameters are tuned by an inner CV loop.",
       "body_md": "When a model's hyperparameters are chosen by cross-validation, the CV error of the chosen setting is optimistically biased, because the same folds were used to pick it. Nested CV wraps the entire tuning procedure in an outer CV: each outer fold re-runs the inner tuning on its training part only and is tested on data the tuning never saw, giving a nearly unbiased estimate of generalisation. In FastRet, inner CV selects λ (Lasso, glmnet, ten-fold) or nrounds (BRT, xgboost with early stopping), and the default outer CV reports performance; outer folds can run in parallel (nw).",
       "attrs": {
+        "mnemonic": "Inner loop picks the hyperparameters, outer loop grades the whole picking procedure – the tuning must never see the outer test fold.",
         "source": "phd-defense"
       },
       "priority": 50,
@@ -1358,6 +1412,7 @@
       "gloss_md": "Choosing the k most informative compounds to measure on a new LC setup under a limited budget.",
       "body_md": "Step 1: Ridge regression of RT on descriptors weights the features. Step 2: k-medoids (PAM) clustering in the weighted descriptor + RT space, measuring one medoid per cluster. Variants differ in RT weight: SM0 (none), SM1 (unchanged), SMmax (scaled to the largest Ridge coefficient), SMinf (RT only). SMmax is recommended with model adjustment; all variants give narrower R² distributions than random selection.",
       "attrs": {
+        "mnemonic": "Measure the medoids: weight descriptors by ridge, cluster the candidates with k-medoids, and re-measure one representative per cluster.",
         "source": "phd-defense"
       },
       "priority": 65,
@@ -1380,6 +1435,8 @@
       "gloss_md": "Linear regression with an L2 penalty that shrinks coefficients without zeroing them.",
       "body_md": "FastRet's selective measuring uses Ridge rather than Lasso for feature weighting because, under a different chromatographic condition, the informative features may change; zeroing features too early would be premature.",
       "attrs": {
+        "mnemonic": "Ridge = L2 = round constraint ball: coefficients shrink towards zero but (almost surely) never reach it.",
+        "anecdote": "Introduced by Hoerl and Kennard in 1970 to stabilise regression with highly correlated predictors.",
         "source": "phd-defense"
       },
       "priority": 50,
@@ -1396,6 +1453,8 @@
       "gloss_md": "Clustering whose cluster centres are actual data points (medoids).",
       "body_md": "Partitioning Around Medoids (R cluster package) is used in selective measuring because each medoid is a real compound that can be ordered and measured, whereas k-means centres generally correspond to no molecule.",
       "attrs": {
+        "mnemonic": "A medoid is an elected representative (a real member of the cluster); a centroid is an average that may not exist as a data point.",
+        "anecdote": "PAM (Partitioning Around Medoids) was introduced by Leonard Kaufman and Peter Rousseeuw in the late 1980s.",
         "source": "phd-defense"
       },
       "priority": 45,
@@ -1412,6 +1471,7 @@
       "gloss_md": "Adapting an existing RT model to modified chromatographic conditions from a few re-measured compounds.",
       "body_md": "FastRet's adjustment predicts the new RT from the base RT together with descriptors, and uses a predicted (not measured) base RT, so it covers compounds never measured on the original system. Descriptor-aware adjustment helps most when the setup change alters the retention mechanism (RP → RP-AXMM, r = 0.797). With ~25 compounds a Lasso adjustment on a BRT base model is recommended; it approached from-scratch performance, and on 22 unseen validation metabolites reached R² ≈ 0.81–0.84.",
       "attrs": {
+        "mnemonic": "Don't rebuild the house, renovate it: keep the base model and learn the new RT from base-RT plus descriptors using only ~25 re-measured compounds.",
         "source": "phd-defense"
       },
       "priority": 75,
@@ -1460,6 +1520,8 @@
       "gloss_md": "logP: logarithm of the octanol–water partition coefficient, a measure of how lipophilic a compound is.",
       "body_md": "Reversed-phase retention is a partitioning process analogous to octanol–water partition, so higher-logP compounds are retained longer and log k correlates near-linearly with logP. Lipophilicity indices (XLogP, ALogP) dominate FastRet's RP models.",
       "attrs": {
+        "mnemonic": "(de) lipophil = fettliebend: high logP means the compound prefers octanol (fat) over water – and sticks longer to a C18 column.",
+        "anecdote": "Lipinski's \"rule of five\" (1997) for oral drugs includes logP ≤ 5; it got its name because all its cut-offs are multiples of five.",
         "source": "phd-defense"
       },
       "priority": 60,
@@ -1476,6 +1538,8 @@
       "gloss_md": "Separation by differential distribution of analytes between a stationary phase and a flowing liquid mobile phase.",
       "body_md": "Compounds interacting more with the stationary phase are retarded more and elute later. Separation combines thermodynamics (retention) with kinetic band broadening that limits resolution. In LC-MS the column provides the time-resolved first dimension and the mass spectrometer the mass-resolved second.",
       "attrs": {
+        "mnemonic": "Like a crowd leaving a stadium past food stalls: whoever lingers longer at the stalls (stationary phase) arrives later at the exit (detector).",
+        "anecdote": "Mikhail Tsvet separated plant pigments on a chalk column in 1903–1906 and named the method chromatography, \"colour writing\" – fittingly, \"tsvet\" means \"colour\" in Russian.",
         "source": "phd-defense",
         "abbreviation": "LC"
       },
@@ -1492,6 +1556,7 @@
       "gloss_md": "k = (t_R − t_0)/t_0: time in the stationary phase relative to time in the mobile phase.",
       "body_md": "Equivalently k = K·(V_s/V_m). Under isocratic conditions k is independent of flow rate and column dimensions, so it is the transferable quantity; raising flow rate lowers t_R but leaves k unchanged. Useful values are roughly 1–10; k ≈ 0 means co-elution with the void.",
       "attrs": {
+        "mnemonic": "k = time spent sitting / time spent moving = (tR − t0)/t0; k = 0 means the compound never sat down.",
         "source": "phd-defense"
       },
       "priority": 65,
@@ -1517,6 +1582,7 @@
       "gloss_md": "t_0 = V_0/flow: time for an unretained solute to traverse the column system's void volume.",
       "body_md": "The void volume is the mobile-phase volume not occupied by stationary phase, including extra-column tubing. t_0 sets the earliest elution and is needed to convert RT to k. Void volume is one system-specific factor making raw RTs non-transferable between instruments.",
       "attrs": {
+        "mnemonic": "t0 is the time of the fastest possible traveller: a compound that does not stick at all (uracil is a classic t0 marker in reversed phase).",
         "source": "phd-defense"
       },
       "priority": 50,
@@ -1538,6 +1604,7 @@
       "gloss_md": "How well two peaks are separated, combining spacing and width; Rs ≈ 1.5 is baseline separation.",
       "body_md": "The resolution equation has three multiplicative terms: efficiency (√N/4), selectivity ((α−1)/α) and retention (k/(1+k)). Increasing N has square-root returns and raises backpressure; increasing k helps until it plateaus. Selectivity is usually the most powerful lever.",
       "attrs": {
+        "mnemonic": "Rs = 1.5 means the peak maxima are 6σ apart: ±3σ each, so the baselines just don't touch.",
         "source": "phd-defense"
       },
       "priority": 55,
@@ -1563,6 +1630,7 @@
       "gloss_md": "α = k₂/k₁, the ratio of the retention factors of two adjacent peaks; α = 1 means no separation is possible.",
       "body_md": "It measures how differently the column chemistry treats two compounds, independent of column efficiency. It enters the resolution equation as (α−1)/α, so even small gains in α help a lot, which makes it usually the most powerful lever. It is changed through the stationary phase, mobile-phase composition, pH and temperature; gradient steepness also shifts apparent selectivity.",
       "attrs": {
+        "mnemonic": "α = 1 means identical retention: no column, however long or efficient, can separate the two.",
         "source": "phd-defense"
       },
       "priority": 50,
@@ -1588,6 +1656,8 @@
       "gloss_md": "H = A + B/u + C·u: plate height versus linear mobile-phase velocity.",
       "body_md": "A is eddy diffusion (multiple flow paths), B longitudinal diffusion (dominant at low velocity), C resistance to mass transfer (dominant at high velocity, scales with particle diameter squared). Smaller particles shrink A and especially C and flatten the curve, enabling fast UHPLC at the cost of backpressure ∝ 1/d_p². Flow rate thus trades efficiency between B- and C-term broadening.",
       "attrs": {
+        "mnemonic": "A-B-C: A = eddy diffusion (many paths, flow-independent), B/u = longitudinal diffusion (hurts when slow), C·u = mass transfer (hurts when fast); the optimum flow sits at the bottom of the curve.",
+        "anecdote": "Published in 1956 by the Dutch chemical engineers van Deemter, Zuiderweg and Klinkenberg at Shell in Amsterdam – originally for gas chromatography.",
         "source": "phd-defense"
       },
       "priority": 60,
@@ -1609,6 +1679,8 @@
       "gloss_md": "N = (t_R/σ)² measures column efficiency; HETP H = L/N normalizes it per column length.",
       "body_md": "Common forms are N = 16·(t_R/w)² or 5.54·(t_R/w_1/2)². Higher N means sharper peaks; smaller H is better. N grows with column length and smaller, well-packed particles. It is an isocratic concept; for gradients peak capacity is more relevant.",
       "attrs": {
+        "mnemonic": "More plates, narrower peaks: a small plate height H means an efficient column.",
+        "anecdote": "The plate concept was borrowed from distillation columns by Martin and Synge (1941), who received the 1952 Nobel Prize in Chemistry for partition chromatography.",
         "source": "phd-defense"
       },
       "priority": 50,
@@ -1630,6 +1702,7 @@
       "gloss_md": "The maximum number of peaks that fit side by side at a given resolution within the retention window.",
       "body_md": "It is the figure of merit for gradient elution, where peaks are compressed to similar widths. n_c ≈ 1 + t_gradient/average peak width; it rises with longer/shallower gradients and more efficient columns. For complex metabolomics samples it reduces co-elution and ion suppression.",
       "attrs": {
+        "anecdote": "The concept was introduced by J. Calvin Giddings in 1967.",
         "source": "phd-defense"
       },
       "priority": 50,
@@ -1651,6 +1724,7 @@
       "gloss_md": "LC with a non-polar stationary phase (C18/C8) and a polar aqueous–organic mobile phase.",
       "body_md": "Retention is driven by hydrophobic (solvophobic) interaction, so polar compounds elute early and lipophilic ones late; retention correlates with logP. Increasing the organic modifier (%B) decreases retention roughly log-linearly (log k ≈ log k_w − S·φ), so RP gradients increase %B over time. T3 phases (e.g. HSS T3) resist phase collapse in 100% aqueous mobile phase and retain polar compounds better. In FastRet, RP was the easiest mode to predict (R² ≈ 0.86).",
       "attrs": {
+        "mnemonic": "\"Reversed\" because classic (normal-phase) chromatography – Tsvet's chalk, silica – used a polar stationary phase; RP flips it: non-polar C18 column, polar eluent, so polar compounds elute first.",
         "source": "phd-defense",
         "abbreviation": "RPLC"
       },
@@ -1674,6 +1748,8 @@
       "gloss_md": "LC with a polar stationary phase and a high-organic mobile phase that retains polar compounds.",
       "body_md": "Polar analytes partition into a water-enriched layer on the stationary phase, plus adsorption and electrostatic contributions. Elution order is the reverse of RP, and the gradient increases the aqueous fraction. RP and HILIC are orthogonal and complementary, so comprehensive metabolomics often needs both. HILIC needs long equilibration and is sensitive to water content, buffer, pH and sample solvent, making RTs less reproducible (FastRet R² ≈ 0.81).",
       "attrs": {
+        "mnemonic": "HILIC is RP turned around: water is the strong solvent, the gradient runs from high organic to more water, and polar compounds elute last.",
+        "anecdote": "The name HILIC was coined by Andrew Alpert in 1990.",
         "source": "phd-defense",
         "abbreviation": "HILIC"
       },
@@ -1719,6 +1795,7 @@
       "gloss_md": "Changing mobile-phase strength during the run, in contrast to constant-composition isocratic elution.",
       "body_md": "Gradients solve the general elution problem: no single isocratic composition resolves early compounds and elutes strongly retained ones in reasonable time. Steeper gradients shorten runs but reduce peak capacity and resolution; shallower ones spread peaks at the cost of time, and steepness can change selectivity. Costs: re-equilibration, dwell volume and gradient-shape dependence make RTs harder to transfer.",
       "attrs": {
+        "mnemonic": "(de) isokratisch = gleiche Stärke (griech. isos = gleich, kratos = Kraft): constant eluent strength; a gradient increases the strength during the run (in RP from water towards organic).",
         "source": "phd-defense"
       },
       "priority": 60,
@@ -1765,6 +1842,7 @@
       "gloss_md": "pH sets the charge state of ionisable analytes (via pKa) and so their retention.",
       "body_md": "In RP the neutral form is retained more; retention changes sharply near pH ≈ pKa, so operating away from pKa gives reproducible retention. pH also affects silanol ionisation and, in mixed-mode, the electrostatic component; it is another setup variable an RT model is tied to.",
       "attrs": {
+        "mnemonic": "Rule of two: work at least 2 pH units away from the pKa, then over 99 % of the analyte is in one charge state and small pH errors don't move its retention.",
         "source": "phd-defense"
       },
       "priority": 45,
@@ -1780,6 +1858,7 @@
       "gloss_md": "Volatile acids and buffer salts (formic acid, ammonium formate) that set pH and ionic strength of an LC-MS mobile phase.",
       "body_md": "They fix the charge state of ionisable analytes and so their retention and peak shape, and suppress silanol interactions. In the thesis methods 0.1–0.125% formic acid lowers pH and aids positive-mode ESI by protonating analytes, while ammonium formate (about 10 mM) buffers and controls ionic strength, important in HILIC and for the anion-exchange part of mixed-mode. With MS detection only volatile additives are allowed: non-volatile buffers such as phosphate or involatile ion-pairing salts precipitate in the ESI source, contaminate it and cause ion suppression.",
       "attrs": {
+        "mnemonic": "In LC-MS everything must fly: only volatile additives (formic acid, ammonium formate/acetate); phosphate buffer would crust the ion source.",
         "source": "phd-defense"
       },
       "priority": 40,
@@ -1809,6 +1888,7 @@
       "gloss_md": "Soft ionisation that turns LC eluent into charged droplets and gas-phase ions for the mass spectrometer.",
       "body_md": "A high voltage at the capillary tip disperses the liquid; as solvent evaporates, ions such as [M+H]+ or [M−H]− are ejected. ESI produces mostly intact molecular ions but is concentration-sensitive and competitive.",
       "attrs": {
+        "anecdote": "John Fenn shared the 2002 Nobel Prize in Chemistry for electrospray; his Nobel lecture was titled \"Electrospray wings for molecular elephants\".",
         "source": "phd-defense",
         "abbreviation": "ESI"
       },
@@ -1825,6 +1905,7 @@
       "gloss_md": "Loss (or enhancement) of an analyte's MS signal caused by co-eluting compounds competing for charge.",
       "body_md": "Co-eluting matrix, salts or additives compete in the electrospray source, harming sensitivity, quantitation and reproducibility. Good chromatographic separation and volatile additives mitigate it; stable-isotope internal standards correct for it.",
       "attrs": {
+        "mnemonic": "Limited charge, many applicants: co-eluting compounds compete for the charge on the droplet surface and steal the analyte's signal.",
         "source": "phd-defense"
       },
       "priority": 50,
@@ -1841,6 +1922,7 @@
       "gloss_md": "Porous silica particles with bonded ligands (e.g. C18), optionally endcapped or hybrid (BEH).",
       "body_md": "Ligands are bonded to surface silanols; residual silanols cause tailing for bases, and endcapping masks them with small silanes. Pure silica is limited to roughly pH 2–8. BEH (bridged ethylene hybrid) particles add ethylene bridges for mechanical and pH stability and lower silanol activity.",
       "attrs": {
+        "mnemonic": "C18 = octadecyl chains, 18 carbons; C8 = octyl, shorter and less retentive.",
         "source": "phd-defense"
       },
       "priority": 40,
@@ -1856,6 +1938,7 @@
       "gloss_md": "Higher temperature usually lowers retention, viscosity and backpressure and can change selectivity.",
       "body_md": "Retention vs temperature follows the van 't Hoff relationship: ln k vs 1/T is typically linear with slope −ΔH/R. Lower viscosity speeds mass transfer (C term) and allows higher flow. Because analytes differ in transfer enthalpy, temperature can re-order peaks; FastRet's adjustment experiments varied it (25 vs 35 °C).",
       "attrs": {
+        "mnemonic": "Rule of thumb in RP: +1 °C lowers retention by roughly 1–2 %.",
         "source": "phd-defense"
       },
       "priority": 40,
@@ -1871,6 +1954,8 @@
       "gloss_md": "LC with sub-2 µm particles and very high-pressure instrumentation.",
       "body_md": "Smaller particles lower plate height and flatten the van Deemter curve, giving faster separations, sharper peaks, higher peak capacity and sensitivity. Backpressure scales with 1/d_p², requiring pumps rated to hundreds to over 1000 bar. The thesis used 1.7–1.8 µm BEH/HSS columns.",
       "attrs": {
+        "mnemonic": "Halve the particle size, roughly quadruple the backpressure at the same flow (ΔP ∝ 1/dp²) – hence the special high-pressure pumps.",
+        "anecdote": "Waters introduced the first commercial system, the Acquity UPLC, in 2004.",
         "source": "phd-defense",
         "abbreviation": "UHPLC"
       },
@@ -1914,6 +1999,7 @@
       "gloss_md": "Particles with a solid core and thin porous shell that shorten diffusion paths.",
       "body_md": "The thin shell reduces the C term and the narrow size distribution reduces the A term, approaching sub-2 µm efficiency at much lower backpressure (e.g. 2.6–2.7 µm particles). Trade-off: lower surface area and loading capacity.",
       "attrs": {
+        "mnemonic": "Like a peach: a solid stone inside and a thin porous flesh outside, so analytes only diffuse through the shell.",
         "source": "phd-defense"
       },
       "priority": 35,
@@ -1929,6 +2015,7 @@
       "gloss_md": "Anomaly Detection using MIxed gRaphical modEls: detects and corrects single erroneous entries in mixed data matrices.",
       "body_md": "ADMIRE scores each cell against its conditional distribution given all other features of the same sample, rather than flagging whole samples. It jointly models continuous OMICS features and discrete phenotype/design variables, and also corrects flagged values and imputes missing ones. The MGM machinery comes from Altenbuchinger et al. 2019; the anomaly framework, correction, imputation and LOO-CV penalty selection are ADMIRE's contributions. The Python package adadmire is on PyPI (MIT, spang-lab/adadmire) with Sphinx docs and GitHub Actions CI.",
       "attrs": {
+        "mnemonic": "ADMIRE = Anomaly Detection using MIxed gRaphical modEls: it judges each cell by what all other cells of the same sample predict it should be.",
         "source": "phd-defense"
       },
       "priority": 90,
@@ -1951,6 +2038,7 @@
       "gloss_md": "Finding values inconsistent with the structure of the rest of the data.",
       "body_md": "An anomaly need not be an error: it can be a rare but genuine observation, so flags are hypotheses requiring domain follow-up. Anomaly detection presumes anomalies are a minority; ADMIRE stayed stable up to ~45% contamination and collapsed from 50%, when the model fits the predominant noise as structure.",
       "attrs": {
+        "anecdote": "Douglas Hawkins' classic 1980 definition: an outlier is \"an observation which deviates so much from other observations as to arouse suspicions that it was generated by a different mechanism\".",
         "source": "phd-defense"
       },
       "priority": 75,
@@ -1967,6 +2055,7 @@
       "gloss_md": "A value typical for its feature's marginal distribution but atypical given the other features.",
       "body_md": "An outlier is extreme in its feature's marginal distribution; anomalies are more general, and outliers are a special case. Example: a gene expressed at 4–6 in men and 8–14 in women; 12 in a man is not an outlier but is an anomaly given sex. In the simulation, hidden anomalies lie within the feature's interquartile range; univariate/sample-level methods are blind to them, which is where ADMIRE's advantage is largest.",
       "attrs": {
+        "mnemonic": "Being 1.80 m tall is normal, being 1.80 m tall at age eight is not: typical marginally, anomalous conditionally.",
         "source": "phd-defense"
       },
       "priority": 65,
@@ -1989,6 +2078,8 @@
       "gloss_md": "Pairwise Markov random field jointly modelling continuous and discrete variables.",
       "body_md": "Density p(x,y) ∝ exp(−½Σβ_js x_j x_s + Σα_j x_j + Σρ_js(y_s)x_j + Σφ_js(y_j,y_s)), following Lee & Hastie 2015. It generalizes Gaussian graphical models to mixed data: continuous nodes have Gaussian conditionals with mean α_j + Σρ_js(y_s) − Σβ_js x_s and variance 1/β_jj; discrete nodes have multinomial logistic conditionals. A missing edge encodes conditional independence. Fitting has O((p+q)²) parameters, the main scalability limit for wide OMICS matrices.",
       "attrs": {
+        "mnemonic": "Mixed = continuous (Gaussian) and discrete (categorical) nodes in one graph; a missing edge = conditional independence.",
+        "anecdote": "The pairwise MGM used in this line of work goes back to Lee and Hastie (2015, \"Learning the structure of mixed graphical models\").",
         "source": "phd-defense",
         "abbreviation": "MGM"
       },
@@ -2016,6 +2107,8 @@
       "gloss_md": "Graphical model for jointly Gaussian variables; zeros in the precision matrix encode conditional independence.",
       "body_md": "GGMs only handle continuous data, so discrete phenotype, condition and batch variables would have to be discarded. Neighbourhood selection (Meinshausen–Bühlmann) estimates the graph by regressing each node on the others with an L1 penalty.",
       "attrs": {
+        "mnemonic": "Zero in the covariance = marginally independent; zero in the precision (inverse covariance) = conditionally independent = no edge.",
+        "anecdote": "Arthur Dempster introduced the idea as \"covariance selection\" in 1972.",
         "source": "phd-defense"
       },
       "priority": 55,
@@ -2038,6 +2131,7 @@
       "gloss_md": "Two variables are conditionally independent if, given all others, one carries no information about the other.",
       "body_md": "In a pairwise Markov random field, no edge between j and s means x_j ⊥ x_s | rest (Hammersley–Clifford / pairwise Markov property). In the regression view, the coefficient of x_s in the conditional mean of x_j is −β_js, so zero coupling equals zero regression coefficient.",
       "attrs": {
+        "mnemonic": "Ice-cream sales and drownings are correlated, but independent given the temperature.",
         "source": "phd-defense"
       },
       "priority": 60,
@@ -2070,6 +2164,7 @@
       "gloss_md": "Per-cell score: standardized deviation from the conditional mean (continuous) or surprisal −log p (discrete).",
       "body_md": "For a continuous cell, s = |x − x̂|/√(β_jj⁻¹); the two-sided tail p = 2F(x̂ − ε) gives the same ranking. For a discrete cell with state k, s = −log p(k). Before computing x̂, suspect regressors (two-sided p < 5%) are replaced by group means or most probable states, making scores robust to co-occurring anomalies in one sample.",
       "attrs": {
+        "mnemonic": "Surprisal −log p: the less likely the observed category, the bigger the surprise (p = 1 % → 4.6 nats).",
         "source": "phd-defense"
       },
       "priority": 60,
@@ -2114,6 +2209,7 @@
       "gloss_md": "Fitting on all samples but one and predicting the held-out sample, for each sample in turn.",
       "body_md": "ADMIRE fits one MGM per left-out sample so a sample's own anomalous value cannot pull its prediction toward itself. The same loop calibrates λ by minimizing reconstruction MSE over a penalty sequence, unlike the EBIC used by Altenbuchinger 2019.",
       "attrs": {
+        "mnemonic": "LOO is k-fold cross-validation with k = n.",
         "source": "phd-defense",
         "abbreviation": "LOO"
       },
@@ -2137,6 +2233,7 @@
       "gloss_md": "Product of each node's conditional given all others, used instead of the full likelihood.",
       "body_md": "The full MGM density has an intractable normalising constant; the conditionals are closed-form, so the penalized negative pseudo log-likelihood is computationally feasible and consistent under regularity. ADMIRE minimizes it with proximal gradient descent, suited to the non-smooth L1 term; penalties are weighted per group/variance and features standardized.",
       "attrs": {
+        "anecdote": "Introduced by Julian Besag in 1975 for spatial (lattice) models, where the full likelihood's normalising constant is intractable.",
         "source": "phd-defense"
       },
       "priority": 50,
@@ -2159,6 +2256,7 @@
       "gloss_md": "Information criterion penalizing model complexity, used by Altenbuchinger 2019 to select the MGM penalty.",
       "body_md": "adadmire replaced EBIC by leave-one-out CV on reconstruction MSE, because its goal is accurate per-cell re-estimation rather than structure recovery.",
       "attrs": {
+        "anecdote": "Proposed by Jiahua Chen and Zehua Chen in 2008 for model selection when the number of candidate parameters is large compared with the sample size.",
         "source": "phd-defense",
         "abbreviation": "EBIC"
       },
@@ -2214,6 +2312,7 @@
       "gloss_md": "Non-parametric imputation for mixed continuous/categorical data by iteratively predicting each variable's missing values with a random forest.",
       "body_md": "MissForest needs no distributional assumptions, which makes it a standard baseline for mixed data. On the Higuera mouse proteomics data with 5–50% artificially missing values, ADMIRE beat it on continuous MAPE at 5–35% missingness and on discrete states in all settings, while MissForest won on the continuous side from about 40% missingness. Reading: ADMIRE's parametric MGM imputation is strongest while the dependence structure is still estimable; with too much missing data a non-parametric method degrades more gracefully.",
       "attrs": {
+        "anecdote": "Published by Daniel Stekhoven and Peter Bühlmann (ETH Zürich) in 2012.",
         "source": "phd-defense"
       },
       "priority": 40,
@@ -2240,6 +2339,7 @@
       "gloss_md": "RPPA data of 77 proteins in mice with genotype, treatment and behaviour labels; ADMIRE's simulation basis.",
       "body_md": "After dropping proteins with missing values and subsampling: 400 samples × 68 continuous features plus 3 discrete features (8 groups of 50); log-transformed. Artificial anomalies shift min–max-scaled values by ε × a random amount; ε < 1 tends to give hidden anomalies, discrete anomalies swap states. The data contain intrinsic anomalies (~1,031 cells flagged without perturbation) from RPPA artefacts, counted as false positives and deflating precision.",
       "attrs": {
+        "anecdote": "The mice are Ts65Dn, a mouse model of Down syndrome, with and without memantine treatment, trained in context fear conditioning (Higuera et al. 2015); the data are on the UCI repository as \"Mice Protein Expression\".",
         "source": "phd-defense"
       },
       "priority": 45,
@@ -2256,6 +2356,7 @@
       "gloss_md": "Density-based k-NN anomaly score comparing a point's local density to its neighbours'.",
       "body_md": "A point in a much sparser region than its neighbours (LOF ≫ 1) is a local outlier. As a sample-level method it had to be applied feature by feature in the ADMIRE benchmark and trailed ADMIRE.",
       "attrs": {
+        "anecdote": "Introduced in 2000 by Breunig, Kriegel, Ng and Sander; Hans-Peter Kriegel's group was at LMU Munich.",
         "source": "phd-defense",
         "abbreviation": "LOF"
       },
@@ -2279,6 +2380,8 @@
       "gloss_md": "Search and TRace AnomalY: k-NN distance method thresholded via extreme-value theory.",
       "body_md": "It flags a point when the k-NN distance with the maximum gap is significantly large, modelling the tail of nearest-neighbour distances with a Gumbel domain of attraction. It was one of ADMIRE's three benchmark competitors.",
       "attrs": {
+        "mnemonic": "stray = Search and TRace AnomalY – a stray point far from its k nearest neighbours.",
+        "anecdote": "Published by Talagala, Hyndman and Smith-Miles in 2021 as a successor to the HDoutliers algorithm.",
         "source": "phd-defense"
       },
       "priority": 35,
@@ -2301,6 +2404,8 @@
       "gloss_md": "Anomaly detector isolating points with random splits; anomalies have short average path lengths.",
       "body_md": "It uses no distance or density and runs in near-linear time. It was the best of ADMIRE's baselines, and its AUC rose when categorical variables were added via one-hot encoding, showing that phenotype conditioning matters.",
       "attrs": {
+        "mnemonic": "Anomalies are \"few and different\", so random cuts isolate them quickly: a short path length is suspicious.",
+        "anecdote": "Introduced by Liu, Ting and Zhou in 2008.",
         "source": "phd-defense"
       },
       "priority": 40,
@@ -2339,6 +2444,7 @@
       "gloss_md": "A compound spiked at known amount into every sample; analytes are quantified by peak-area ratio to it.",
       "body_md": "It corrects for extraction losses, injection variability and ion suppression. Ideal internal standards are stable-isotope-labelled (¹³C, ¹⁵N, ²H) analogues that co-elute and ionise identically but differ in mass (isotope-dilution MS). A pipetting error in an internal-standard mix falsifies every metabolite quantified against it: the block of anomalies ADMIRE found in sample 7 (amino-acid method), confirmed by NMR, which uses a different reference (TSP).",
       "attrs": {
+        "mnemonic": "Ratios cancel losses: if half the sample is lost, the standard loses half too, and the ratio stays the same.",
         "source": "phd-defense"
       },
       "priority": 55,
@@ -2355,6 +2461,8 @@
       "gloss_md": "Rapid, germline-encoded first line of defence without antigen-specific memory.",
       "body_md": "It detects PAMPs and DAMPs with pattern-recognition receptors and acts within minutes to hours. Components: barriers, complement, phagocytes (neutrophils, macrophages), dendritic cells, NK cells and innate lymphoid cells. Dendritic cells bridge it to adaptive immunity.",
       "attrs": {
+        "mnemonic": "Innate = in-born: fast (minutes to hours), the same every time, no memory; adaptive = adapts over days and remembers.",
+        "anecdote": "The 2011 Nobel Prize in Physiology or Medicine went to Bruce Beutler and Jules Hoffmann for the activation of innate immunity (Toll and TLR4), and to Ralph Steinman for discovering dendritic cells.",
         "source": "phd-defense"
       },
       "priority": 80,
@@ -2371,6 +2479,8 @@
       "gloss_md": "Slower, antigen-specific immunity of B and T lymphocytes that generates memory.",
       "body_md": "Receptors are created by somatic V(D)J recombination; B cells provide humoral immunity (antibodies), T cells (CD4 helper, CD8 cytotoxic) cell-mediated immunity. Clonal selection expands antigen-specific clones over days.",
       "attrs": {
+        "mnemonic": "Adaptive = adapts (clonal selection and affinity maturation take days) and remembers (memory cells make the second response faster and stronger).",
+        "anecdote": "Edward Jenner protected a boy against smallpox with cowpox in 1796; \"vaccine\" comes from Latin vacca, cow.",
         "source": "phd-defense"
       },
       "priority": 80,
@@ -2387,6 +2497,7 @@
       "gloss_md": "Germline-encoded receptor (e.g. TLRs, NLRs, RIG-I-like receptors) sensing PAMPs and DAMPs.",
       "body_md": "PRRs give innate immunity its fixed recognition repertoire. Their engagement also upregulates costimulatory B7 on antigen-presenting cells, certifying a context of danger for T-cell activation.",
       "attrs": {
+        "anecdote": "Charles Janeway predicted such receptors in 1989, calling the need for adjuvants \"the immunologist's dirty little secret\"; the Toll-like receptors confirmed his idea a few years later.",
         "source": "phd-defense"
       },
       "priority": 60,
@@ -2409,6 +2520,8 @@
       "gloss_md": "Endosomal PRR that recognises unmethylated CpG DNA.",
       "body_md": "Unmethylated CpG is common in bacterial and viral genomes but rare in vertebrate DNA, so it is a PAMP. In humans TLR9 is expressed in plasmacytoid dendritic cells and B cells and signals via MyD88 → IRAK → TRAF6 → NF-κB and IRF7. In B cells it promotes activation, proliferation, survival and antibody production; CpG was a stimulus of the P493/6 cultures.",
       "attrs": {
+        "mnemonic": "TLR9 smells bacterial DNA: unmethylated CpG is common in bacteria but rare (methylated) in vertebrate DNA.",
+        "anecdote": "The fly gene Toll got its name when Christiane Nüsslein-Volhard saw the mutant embryos and exclaimed \"Das ist ja toll!\" (that's amazing).",
         "source": "phd-defense"
       },
       "priority": 50,
@@ -2431,6 +2544,7 @@
       "gloss_md": "Membrane immunoglobulin of B cells; crosslinking by antigen triggers BCR signalling.",
       "body_md": "Anti-IgM crosslinking mimics antigen engagement: Lyn/Syk, Igα/Igβ ITAM phosphorylation, the BLNK signalosome, PLCγ2, PI3K, Ca²⁺ flux and NF-κB, NFAT and MAPK pathways. Outcomes range from proliferation to anergy or apoptosis. F(ab)₂ fragments crosslink the BCR but lack Fc, avoiding inhibitory FcγRIIB signals.",
       "attrs": {
+        "mnemonic": "BCR = an antibody with an anchor: the same immunoglobulin, but bound to the membrane.",
         "source": "phd-defense"
       },
       "priority": 60,
@@ -2447,6 +2561,8 @@
       "gloss_md": "Y-shaped protein of two heavy and two light chains; Fab binds antigen, Fc determines effector function.",
       "body_md": "V domains with hypervariable CDR loops form the antigen-binding sites; the heavy-chain constant region sets the isotype. IgM: first, pentameric, strong complement activator; IgG: main serum isotype, opsonisation, crosses placenta; IgA: mucosal; IgE: mast cells, allergy and parasites; IgD: naive B-cell BCR.",
       "attrs": {
+        "mnemonic": "Fab = fragment antigen-binding (the arms grab), Fc = fragment crystallisable (the stem talks to effector cells and complement).",
+        "anecdote": "Rodney Porter and Gerald Edelman received the 1972 Nobel Prize for the antibody structure; Porter's papain fragment was called Fc because it crystallised easily.",
         "source": "phd-defense"
       },
       "priority": 65,
@@ -2469,6 +2585,7 @@
       "gloss_md": "T-cell help signal: CD40L (CD154) on activated CD4⁺ T cells engages CD40 on B cells.",
       "body_md": "CD40 ligation recruits TRAFs and activates NF-κB and MAPK/JNK, driving B-cell survival, proliferation, germinal-centre formation, class switching (inducing AID) and affinity maturation. Loss of CD40L or CD40 causes Hyper-IgM syndrome. Soluble CD40L modelled T-help input in the P493/6 experiment.",
       "attrs": {
+        "anecdote": "Mutations in CD40L cause X-linked hyper-IgM syndrome: without T-cell help via CD40, B cells cannot class-switch and make almost only IgM.",
         "source": "phd-defense"
       },
       "priority": 50,
@@ -2485,6 +2602,7 @@
       "gloss_md": "Prototypical anti-inflammatory, immunoregulatory cytokine signalling via JAK1/TYK2–STAT3.",
       "body_md": "Produced by Tregs, Bregs, Th2 cells and macrophages, it suppresses TNF, IL-1, IL-6 and IL-12 and downregulates MHC II and costimulation. On B cells it supports survival, proliferation and differentiation. In tumours it fosters an immunosuppressive microenvironment and can be a growth factor for lymphoma B cells.",
       "attrs": {
+        "anecdote": "IL-10 was discovered in 1989 as \"cytokine synthesis inhibitory factor\" (CSIF), a Th2 product that shut down Th1 cytokine production.",
         "source": "phd-defense"
       },
       "priority": 55,
@@ -2517,6 +2635,8 @@
       "gloss_md": "Master transcription-factor oncogene driving growth, proliferation and anabolic metabolism.",
       "body_md": "Deregulated MYC is a hallmark of B-cell lymphomas, e.g. the t(8;14) MYC–IgH translocation in Burkitt lymphoma. Metabolically it upregulates glycolysis, glutaminolysis, nucleotide and amino-acid synthesis and polyamine synthesis (ODC). In ADMIRE's metabolomics application MYC status (high/low) was a discrete feature.",
       "attrs": {
+        "mnemonic": "MYC drives Burkitt lymphoma: the t(8;14) translocation puts MYC (chr 8) next to the immunoglobulin heavy-chain locus (chr 14) and its strong B-cell enhancer.",
+        "anecdote": "The name comes from avian myelocytomatosis virus, whose oncogene v-myc was found before the cellular gene.",
         "source": "phd-defense"
       },
       "priority": 60,
@@ -2533,6 +2653,7 @@
       "gloss_md": "EBV-immortalised human B cells with a tet-off conditional MYC transgene.",
       "body_md": "Doxycycline represses MYC (MYC-low); without it MYC is high. Experiments ran without estrogen, so the EBNA2 program was off and proliferation was MYC-driven. Cells were stimulated with microenvironmental factors (α-IgM, CD40L, CpG, IL-10, IGF-1), and supernatant metabolites were profiled by NMR (11) and MS (38) for 100 samples.",
       "attrs": {
+        "mnemonic": "Tet-off: add tetracycline/doxycycline → MYC goes off (MYC-low); remove it → MYC on.",
         "source": "phd-defense"
       },
       "priority": 50,
@@ -2550,6 +2671,7 @@
       "gloss_md": "Malignancies of B cells, mostly of germinal-centre or post-GC origin.",
       "body_md": "AID-driven editing and rapid proliferation in germinal centres predispose to translocations (MYC–IgH in Burkitt, BCL2/BCL6 rearrangements). EBV is causally linked to several B-cell lymphomas (endemic Burkitt, some DLBCL, post-transplant lymphoproliferative disease).",
       "attrs": {
+        "anecdote": "Denis Burkitt described the jaw tumours of Ugandan children in 1958; in 1964 Epstein, Achong and Barr found a new virus (EBV) in Burkitt lymphoma cells – the first human tumour virus.",
         "source": "phd-defense"
       },
       "priority": 50,
@@ -2566,6 +2688,8 @@
       "gloss_md": "Follicular B-cell response with proliferation, AID-driven somatic hypermutation and class-switch recombination.",
       "body_md": "Germinal centres have a dark zone (proliferation and mutation) and a light zone (selection by Tfh help and antigen on follicular dendritic cells). AID initiates both somatic hypermutation (affinity maturation) and class-switch recombination (IgM → IgG/IgA/IgE). Off-target AID activity and DNA breaks make the GC a source of lymphoma translocations.",
       "attrs": {
+        "mnemonic": "AID does the two S's: Somatic hypermutation and class-Switch recombination.",
+        "anecdote": "Walther Flemming named them \"Keimzentren\" (germinal centres) in 1885, believing they were where lymphocytes are generated.",
         "source": "phd-defense"
       },
       "priority": 60,
@@ -2588,6 +2712,7 @@
       "gloss_md": "Major tryptophan-catabolism route (~95%), from tryptophan via kynurenine to quinolinic acid/NAD⁺.",
       "body_md": "IDO1/IDO2 or TDO oxidise tryptophan to N-formylkynurenine; kynurenine is further metabolised to 3-hydroxykynurenine, 3-hydroxyanthranilic acid and quinolinic acid, with a branch to kynurenic and xanthurenic acid. It is immunosuppressive through tryptophan depletion and through kynurenine activating AhR. The minor serotonin branch (TPH → 5-hydroxytryptophan → serotonin → melatonin) competes for the same substrate.",
       "attrs": {
+        "anecdote": "Kynurenic acid was first found by Justus von Liebig in dog urine in 1853 – \"kyn-\" comes from Greek kyon, dog.",
         "source": "phd-defense"
       },
       "priority": 60,
@@ -2604,6 +2729,7 @@
       "gloss_md": "IFN-γ-inducible enzyme catalysing the rate-limiting step of the kynurenine pathway.",
       "body_md": "IDO-mediated tryptophan depletion arrests effector T cells (sensed via GCN2/mTOR), and kynurenine promotes Tregs and tolerogenic dendritic cells via AhR. The IDO–kynurenine axis is a central mechanism of peripheral tolerance and tumour immune evasion, and a drug target.",
       "attrs": {
+        "anecdote": "Munn and colleagues showed in 1998 (Science) that IDO protects the allogeneic mouse fetus from rejection by maternal T cells – starving T cells of tryptophan as a tolerance mechanism.",
         "source": "phd-defense",
         "abbreviation": "IDO"
       },
@@ -2627,6 +2753,7 @@
       "gloss_md": "Ligand-activated transcription factor sensing xenobiotics and endogenous ligands such as kynurenine.",
       "body_md": "On ligand binding it translocates to the nucleus and dimerises with ARNT. It promotes Treg differentiation, IL-22/Th17-related responses and tolerogenic dendritic cells, so the kynurenine → AhR axis is an immunosuppressive circuit exploited by tumours.",
       "attrs": {
+        "anecdote": "It was discovered as the dioxin receptor: it binds TCDD, the toxin of the 1976 Seveso disaster, with very high affinity.",
         "source": "phd-defense",
         "abbreviation": "AhR"
       },
@@ -2650,6 +2777,7 @@
       "gloss_md": "Pathway linking SAM (methyl donor) to putrescine, spermidine and spermine, with MTA as by-product.",
       "body_md": "Methionine + ATP gives SAM; decarboxylated SAM donates aminopropyl groups to make spermidine and spermine from putrescine (made from ornithine by ODC), releasing MTA, which is salvaged to methionine. Polyamines stabilise nucleic acids and support translation (spermidine for eIF5A hypusination) and are essential for proliferation. MYC upregulates ODC; polyamines are readouts of the proliferative state.",
       "attrs": {
+        "anecdote": "Antonie van Leeuwenhoek saw crystals of spermine phosphate in human semen in 1678, which is where the name spermine comes from.",
         "source": "phd-defense"
       },
       "priority": 45,
@@ -2666,6 +2794,8 @@
       "gloss_md": "Molecule on all nucleated cells presenting endogenous peptides to CD8⁺ cytotoxic T cells.",
       "body_md": "Cytosolic peptides (8–10 aa) are made by the proteasome and transported into the ER by TAP; CD8 binds the α3 domain. This lets the immune system survey a cell's internal state; loss of MHC I licenses NK-cell killing ('missing self').",
       "attrs": {
+        "mnemonic": "Rule of eight: MHC I × CD8 = 8 and MHC II × CD4 = 8. Class I shows what is inside every cell (to killers), class II shows what was eaten (to helpers).",
+        "anecdote": "Rolf Zinkernagel and Peter Doherty received the 1996 Nobel Prize for MHC restriction: T cells recognise antigen only together with self-MHC.",
         "source": "phd-defense"
       },
       "priority": 65,
@@ -2688,6 +2818,8 @@
       "gloss_md": "Molecule on professional APCs presenting exogenous peptides to CD4⁺ helper T cells.",
       "body_md": "Endocytosed proteins are degraded in the endosomal/lysosomal pathway; the invariant chain and HLA-DM manage loading of ~13–25 aa peptides; CD4 binds the β2 domain. Mnemonic: CD8 × MHC-I = 8; CD4 × MHC-II = 8.",
       "attrs": {
+        "mnemonic": "Rule of eight: MHC II × CD4 = 8 and MHC I × CD8 = 8. Class II shows what professional APCs have eaten.",
+        "anecdote": "Baruj Benacerraf, Jean Dausset and George Snell received the 1980 Nobel Prize for discovering the genetically determined cell-surface structures (the MHC) that regulate immune reactions.",
         "source": "phd-defense"
       },
       "priority": 60,
@@ -2710,6 +2842,8 @@
       "gloss_md": "Th1, Th2, Th17, Treg and Tfh subsets defined by driving cytokines, master transcription factors and outputs.",
       "body_md": "Th1 (T-bet): IFN-γ, intracellular pathogens. Th2 (GATA3): IL-4/5/13, helminths, allergy. Th17 (RORγt): IL-17/IL-22, extracellular bacteria and fungi. Treg (FoxP3): IL-10, TGF-β, tolerance. Tfh (Bcl-6): CD40L and IL-21 for germinal-centre B cells. The subsets cross-regulate.",
       "attrs": {
+        "mnemonic": "Th1 fights intracellular microbes (IFN-γ, T-bet), Th2 fights worms (IL-4, GATA3), Th17 guards barriers against extracellular bacteria and fungi (IL-17, RORγt), Treg calms (FoxP3), Tfh helps B cells (IL-21, Bcl-6).",
+        "anecdote": "Tim Mosmann and Robert Coffman split mouse helper T-cell clones into Th1 and Th2 in 1986, launching the subset idea.",
         "source": "phd-defense"
       },
       "priority": 60,
@@ -2732,6 +2866,7 @@
       "gloss_md": "Suppressive CD4⁺ CD25-high T cell defined by the master transcription factor FoxP3.",
       "body_md": "FoxP3 mutations cause the IPEX autoimmune syndrome. Tregs depend on IL-2 from other cells and suppress via IL-2 consumption, IL-10/TGF-β/IL-35, CTLA-4 stripping CD80/CD86, adenosine and cytolysis. They maintain peripheral tolerance but are co-opted by tumours.",
       "attrs": {
+        "anecdote": "Shimon Sakaguchi identified CD25⁺ suppressive T cells in 1995, and Mary Brunkow and Fred Ramsdell found the FOXP3 mutation of the scurfy mouse in 2001; the three shared the 2025 Nobel Prize in Physiology or Medicine for peripheral immune tolerance.",
         "source": "phd-defense"
       },
       "priority": 65,
@@ -2776,6 +2911,8 @@
       "gloss_md": "Mechanisms preventing immune attack on self: central (thymus, bone marrow) and peripheral.",
       "body_md": "Central: thymic negative selection, with AIRE-driven expression of tissue antigens; B-cell deletion, receptor editing and anergy in the bone marrow. Peripheral: anergy, activation-induced cell death, Treg suppression, ignorance and checkpoint receptors (CTLA-4, PD-1). Failure causes autoimmunity; tumours exploit peripheral tolerance (PD-L1, Tregs, IDO).",
       "attrs": {
+        "mnemonic": "Central tolerance = training school (thymus, bone marrow: delete self-reactive cells); peripheral tolerance = police on the street (Tregs, anergy).",
+        "anecdote": "Ray Owen noticed in 1945 that non-identical cattle twins sharing a placenta carry each other's blood cells for life; Burnet and Medawar explained such acquired tolerance and shared the 1960 Nobel Prize.",
         "source": "phd-defense"
       },
       "priority": 65,
@@ -2792,6 +2929,7 @@
       "gloss_md": "Signal 1 TCR–peptide-MHC, signal 2 CD28–B7 costimulation, signal 3 polarising cytokines.",
       "body_md": "B7 is upregulated on APCs only after sensing danger, so costimulation certifies a real threat. Signal 1 without signal 2 leads to anergy or deletion, a peripheral-tolerance mechanism. CTLA-4 competes with CD28 for B7; this logic underlies checkpoint blockade.",
       "attrs": {
+        "mnemonic": "Signal 1 = what (antigen), signal 2 = is it dangerous? (costimulation), signal 3 = which response (cytokines). Signal 1 without signal 2 → anergy.",
         "source": "phd-defense"
       },
       "priority": 65,
@@ -2814,6 +2952,7 @@
       "gloss_md": "How metabolic programs instruct immune-cell fate and function.",
       "body_md": "Naive T cells rely on OXPHOS and fatty-acid oxidation; effector T cells switch to aerobic glycolysis and glutaminolysis (PI3K–AKT–mTOR and MYC); memory T cells and Tregs favour fatty-acid oxidation/OXPHOS. M1 macrophages favour glycolysis and iNOS, M2 OXPHOS and arginase. Proliferating immune and tumour cells converge on glycolysis, glutaminolysis and biosynthesis, which metabolomic profiling reads out.",
       "attrs": {
+        "anecdote": "Otto Warburg described in the 1920s that tumours ferment glucose to lactate even with oxygen present; activated T cells and M1 macrophages switch to the same aerobic glycolysis.",
         "source": "phd-defense"
       },
       "priority": 60,
@@ -2830,6 +2969,7 @@
       "gloss_md": "Cytosolic complex (e.g. NLRP3 + ASC + pro-caspase-1) that matures IL-1β and IL-18.",
       "body_md": "Signal 1 (priming via PRR/NF-κB) induces pro-IL-1β and NLRP3; signal 2 (ATP, crystals, toxins, ion flux) triggers assembly. Caspase-1 cleaves pro-IL-1β and gasdermin D, whose pores release IL-1β and often cause pyroptosis. IL-1β lacks a signal peptide, so its release is gated by proteolysis and pore formation.",
       "attrs": {
+        "anecdote": "The term was coined in 2002 by Jürg Tschopp's group (Martinon, Burns and Tschopp).",
         "source": "phd-defense"
       },
       "priority": 45,
@@ -2852,6 +2992,7 @@
       "gloss_md": "Canonical cytokine signalling: receptor-associated JAKs phosphorylate STAT transcription factors.",
       "body_md": "Ligand binding brings JAKs together to trans-phosphorylate each other and the receptor tail; STATs dock via SH2 domains, are phosphorylated, dimerise and enter the nucleus. Examples: IL-10R → JAK1/TYK2 → STAT3; IFN-γ → JAK1/2 → STAT1; IL-4 → STAT6. SOCS proteins give negative feedback; JAK inhibitors are used clinically.",
       "attrs": {
+        "anecdote": "JAK stands for Janus kinase, after the two-faced Roman god, because each JAK has two kinase-like domains (one an inactive pseudokinase); early on it was nicknamed \"just another kinase\".",
         "source": "phd-defense"
       },
       "priority": 50,
@@ -2868,6 +3009,8 @@
       "gloss_md": "Spectrum between proinflammatory M1 and anti-inflammatory, pro-repair M2 macrophage states.",
       "body_md": "M1 (IFN-γ + LPS/TNF): TNF, IL-1, IL-6, IL-12, iNOS/NO, glycolysis. M2 (IL-4/IL-13, IL-10, TGF-β): arginase-1, OXPHOS, repair and angiogenesis. Tumour-associated macrophages are usually M2-like, immunosuppressive and associated with poor prognosis.",
       "attrs": {
+        "mnemonic": "M1 kills (iNOS turns arginine into NO), M2 heals (arginase turns arginine into ornithine for repair).",
+        "anecdote": "Élie Metchnikoff discovered phagocytes in 1882 by sticking rose thorns into starfish larvae and watching mobile cells gather around them; he shared the 1908 Nobel Prize with Paul Ehrlich.",
         "source": "phd-defense"
       },
       "priority": 50,
@@ -2884,6 +3027,7 @@
       "gloss_md": "Cascade of ~30 proteins activated by classical, lectin and alternative pathways converging on C3.",
       "body_md": "Classical: C1q binds antibody; lectin: MBL/ficolins bind microbial sugars; alternative: spontaneous C3 tickover with an amplification loop. Effectors: opsonisation by C3b, anaphylatoxins C3a/C5a and the membrane attack complex C5b-9. Regulators (CD55, CD59, factor H, C1-INH) protect host cells.",
       "attrs": {
+        "anecdote": "Jules Bordet found a heat-labile serum factor that helps antibodies kill bacteria in the 1890s; Paul Ehrlich named it \"complement\" because it complements the antibodies.",
         "source": "phd-defense"
       },
       "priority": 50,
@@ -2906,6 +3050,7 @@
       "gloss_md": "Innate cytotoxic lymphocyte that kills based on balance of activating and inhibitory receptors.",
       "body_md": "Inhibitory receptors (KIRs, NKG2A) recognise self MHC I; cells losing MHC I ('missing self') or expressing stress ligands like MICA/B for NKG2D ('induced self') are killed with perforin and granzymes. NK cells complement CD8 T cells, catching tumours that escape them by losing MHC I.",
       "attrs": {
+        "mnemonic": "Missing self: NK cells kill cells that have lost their MHC class I \"ID card\" (Klas Kärre's hypothesis, 1986).",
         "source": "phd-defense"
       },
       "priority": 55,
@@ -2928,6 +3073,7 @@
       "gloss_md": "Early alarm cytokines of acute inflammation such as TNF-α, IL-1β, IL-6, IL-8 and IFN-γ.",
       "body_md": "TNF-α activates endothelium and can drive septic shock; IL-1β is an endogenous pyrogen; IL-6 induces acute-phase proteins and Th17 polarisation; chemokines like IL-8 recruit neutrophils; IFN-γ activates macrophages and induces IDO. They are counterbalanced by IL-10 and TGF-β.",
       "attrs": {
+        "mnemonic": "The fever trio IL-1, IL-6 and TNF-α are the classic endogenous pyrogens.",
         "source": "phd-defense"
       },
       "priority": 55,

@@ -72,7 +72,7 @@ final class App
                     'items' => $items,
                     'interactions' => $interactions,
                     'merges' => new Merges($pdo, $items, $interactions),
-                    'profile' => new Profile($pdo, $items),
+                    'profile' => new Profile($pdo, $items, new Dirs($pdo)),
                     'settings' => $settings,
                     'export' => new Export($pdo, $items, $interactions, $settings),
                     'sessions' => new TutorSessions($pdo),
@@ -550,6 +550,14 @@ final class App
         $group->get('/profile', function (Request $request, Response $response) use ($kb) {
             $k = $kb($request);
             return Http::json($response, $k->profile->summary($k->userId, self::itemFilters($request, true)));
+        });
+
+        $group->get('/profile/dirs', function (Request $request, Response $response) use ($kb) {
+            $k = $kb($request);
+            if (!isset($request->getQueryParams()['dir'])) {
+                throw new ApiError(400, 'validation', 'dir is required');
+            }
+            return Http::json($response, ['dirs' => $k->profile->byDir($k->userId, Http::intQuery($request, 'dir', 0, 1, PHP_INT_MAX))]);
         });
 
         $group->get('/profile/next', function (Request $request, Response $response) use ($kb) {

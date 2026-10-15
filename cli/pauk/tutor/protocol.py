@@ -178,10 +178,17 @@ class End(BaseModel):
 
 # --- learner actions ---------------------------------------------------------
 
+class UnitRef(BaseModel):
+    curriculum: str
+    stage: str
+    unit: str
+
+
 class Start(BaseModel):
     dirs: list[str] = Field(default_factory=list, description="subject directory paths")
-    mode: Literal["learn", "review", "mixed", "chat"] = "mixed"
+    mode: Literal["learn", "review", "mixed", "chat", "exam", "play"] = "mixed"
     minutes: int = Field(default=15, ge=5, le=120)
+    unit: Optional[UnitRef] = Field(default=None, description="a unit of a course (level map); sets dirs")
 
 
 class Message(BaseModel):

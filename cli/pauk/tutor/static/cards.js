@@ -21,6 +21,11 @@ function itemLine(item) {
           h('span', {class: 'muted small ref'}, ` ${item.ref}`)];
 }
 
+function aliasLine(aliases) {
+  if (!Array.isArray(aliases) || !aliases.length) return null;
+  return h('p', {class: 'muted small'}, t('cards.aliases', {names: aliases.join(', ')}));
+}
+
 export function itemCard(ev) {
   const src = imageUrl(ev.attrs?.image);
   return h('section', {class: 'item-card', 'aria-label': t('cards.item_card')},
@@ -30,6 +35,9 @@ export function itemCard(ev) {
       h('span', {class: 'muted small'}, `${ev.kind} · ${ev.ref}`)),
     ev.gloss_md ? h('div', {class: 'gloss'}, md(ev.gloss_md, true)) : null,
     ev.body_md ? md(ev.body_md) : null,
+    aliasLine(ev.attrs?.aliases),
+    ev.attrs?.mnemonic ? h('div', {class: 'aid mnemonic'}, h('strong', {}, t('cards.mnemonic'), ' '), md(ev.attrs.mnemonic, true)) : null,
+    ev.attrs?.anecdote ? h('div', {class: 'aid anecdote'}, h('strong', {}, t('cards.anecdote'), ' '), md(ev.attrs.anecdote, true)) : null,
     src ? h('img', {src, alt: plain(ev.label_md), loading: 'lazy'}) : null);
 }
 

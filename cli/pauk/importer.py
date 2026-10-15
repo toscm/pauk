@@ -26,6 +26,11 @@ def import_file(client: Client, path: Path, echo=print) -> tuple[int, int]:
         restore_export(client, path, lambda paths: _ensure_dirs(client, paths), echo)
         return 0, 0
     data = json.loads(path.read_text(encoding="utf-8"))
+    if "curriculum" in data:
+        from pauk.tutor.curriculum import import_curriculum
+
+        import_curriculum(client, data, echo)
+        return 0, 0
     _resolve_media(client, data.get("cards", []), path.parent, echo)
     dir_ids = _ensure_dirs(client, data.get("dirs", []))
     for link in data.get("dir_links", []):

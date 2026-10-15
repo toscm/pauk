@@ -27,10 +27,35 @@ FILES = sorted(
 )
 # knowledge item files (docs/tutor.md 13); imported after the decks
 # because their card_links point at deck cards
-ITEM_FILES = sorted(
+def _dependency_order(files: list[Path]) -> list[Path]:
+    """Item files in import order: a file whose links or forms point to
+    items of another file comes after it (e.g. items-italian-a2.json
+    builds on the verbs of items-italian.json)."""
+    defined, needed = {}, {}
+    for f in files:
+        data = json.loads(f.read_text(encoding="utf-8"))
+        space = data.get("space")
+        refs = {f"{i.get('space', space)}/{i['key']}" for i in data["items"]}
+        defined[f] = refs
+        targets = {(link["to"] if "/" in link["to"] else f"{i.get('space', space)}/{link['to']}")
+                   for i in data["items"] for link in i.get("links", [])}
+        targets |= {f"{i.get('space', space)}/{i['key'].split('.')[0]}" for i in data["items"] if i["kind"] == "form"}
+        needed[f] = targets - refs
+    ordered: list[Path] = []
+    pending = sorted(files)
+    while pending:
+        ready = [f for f in pending
+                 if not any(needed[f] & defined[g] for g in pending if g is not f)]
+        assert ready, f"cyclic links between {[f.name for f in pending]}"
+        ordered.append(ready[0])
+        pending.remove(ready[0])
+    return ordered
+
+
+ITEM_FILES = _dependency_order([
     f for f in CONTENT.glob("*.json")
     if "items" in json.loads(f.read_text(encoding="utf-8"))
-)
+])
 
 
 @pytest.fixture(scope="module")

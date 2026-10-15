@@ -282,6 +282,12 @@ final class Items
                     $result['unresolved_links'],
                     $this->applyRelations($userId, $id, $item, $body, false)
                 );
+                foreach ($body['aliases'] ?? [] as $alias) {
+                    $slug = is_string($alias) ? Norm::slug($alias) : '';
+                    if ($slug !== '' && $slug !== $item['key']) {
+                        $this->addAlias($userId, $item['space'], $slug, $alias, $id, 'import', null);
+                    }
+                }
             }
             $this->pdo->commit();
         } catch (\Throwable $e) {

@@ -214,6 +214,7 @@ button.secondary.active { background: var(--learner); }
 .item-head { display: flex; flex-wrap: wrap; gap: 0.6em; align-items: baseline; }
 .item-head .label { font-size: 1.25rem; }
 .gloss { color: var(--muted); margin-bottom: 0.4em; }
+.aid { background: var(--hint); border-radius: 6px; padding: 0.35em 0.6em; margin-top: 0.45em; }
 
 .exercise .options { border: 0; padding: 0; margin: 0.5em 0; }
 .option { display: flex; gap: 0.5em; align-items: baseline; padding: 0.3em 0.4em; border-radius: 6px; cursor: pointer; }
@@ -259,6 +260,40 @@ button.secondary.active { background: var(--learner); }
 .levels.down { color: var(--bad); }
 
 .start-card { margin-bottom: 1em; }
+.tabs { display: flex; flex-wrap: wrap; gap: 0.3em; border-bottom: 1px solid var(--line); margin: 0.4em 0 0.8em; }
+.tab { background: transparent; color: var(--muted); border: 0; border-bottom: 3px solid transparent; border-radius: 0;
+  padding: 0.3em 0.8em; }
+.tab[aria-selected="true"] { color: var(--text); border-bottom-color: var(--accent); font-weight: 600; }
+.course-head { display: flex; flex-wrap: wrap; gap: 0.5em 1em; align-items: center; justify-content: space-between; }
+.course-head p { margin: 0; flex: 1 1 20rem; }
+.notice-box { background: var(--hint); border-radius: 8px; padding: 0.4em 0.7em; }
+.stage { border-top: 1px solid var(--line); padding: 0.3em 0; }
+.stage > summary { display: flex; flex-wrap: wrap; gap: 0.3em 0.8em; align-items: center; cursor: pointer; padding: 0.4em 0; }
+.stage-title { font-weight: 700; font-size: 1.05rem; }
+.stage > summary .bar { flex: 1 1 6rem; max-width: 12rem; }
+.stage-desc { margin: 0 0 0.5em; }
+.bar { display: block; height: 0.45em; background: var(--line); border-radius: 4px; overflow: hidden; }
+.bar .fill { display: block; height: 100%; background: var(--ok); }
+.units { list-style: none; margin: 0 0 0.6em; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap: 0.5em; }
+.unit { width: 100%; height: 100%; display: flex; flex-direction: column; gap: 0.25em; align-items: stretch; text-align: left;
+  background: var(--panel); color: var(--text); border: 1px solid var(--line); border-radius: var(--radius); padding: 0.5em 0.6em; }
+.unit:hover, .unit:focus-visible { border-color: var(--accent); }
+.unit.recommended { border: 2px solid var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent); }
+.unit.stars-2, .unit.stars-3 { background: color-mix(in srgb, var(--ok) 8%, var(--panel)); }
+.unit-no { font-size: 0.75rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.unit-title { font-weight: 600; line-height: 1.25; }
+.unit-stars { color: #d9a400; letter-spacing: 0.08em; }
+.unit-stars.big { font-size: 1.3rem; }
+.unit-badges { display: flex; flex-wrap: wrap; gap: 0.25em; min-height: 1.2em; }
+.badge { border-radius: 999px; padding: 0 0.5em; font-size: 0.75rem; background: var(--bg); color: var(--muted); }
+.badge.rec { background: var(--accent); color: var(--accent-text); }
+.badge.refresh { background: color-mix(in srgb, var(--partial) 20%, var(--panel)); color: var(--partial); }
+.badge.game { background: var(--learner); color: var(--text); }
+.unit-dialog .can-do { margin: 0.4em 0; }
+.unit-modes { display: grid; gap: 0.2em; }
+.unit-modes .mode { display: flex; gap: 0.5em; align-items: baseline; padding: 0.25em 0.3em; border-radius: 6px; cursor: pointer; }
+.unit-modes .mode:hover { background: var(--bg); }
+.unit-modes .mode > span { display: flex; flex-direction: column; }
 .start-card h2 { margin-top: 0; }
 .subject-list { max-height: 12rem; overflow-y: auto; border: 1px solid var(--line); border-radius: 8px; padding: 0.3em; }
 .subject { display: flex; gap: 0.5em; align-items: center; padding: 0.15em 0.3em; font-size: 0.92rem; }

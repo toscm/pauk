@@ -392,6 +392,9 @@ class Client:
         params = {k: v for k, v in {"dir": dir_id, "space": space}.items() if v is not None}
         return self._call("GET", "/profile", params=params)
 
+    def profile_dirs(self, dir_id: int) -> list[dict]:
+        return self._call("GET", "/profile/dirs", params={"dir": dir_id})["dirs"]
+
     def next_items(self, dir_id: int | None = None, space: str | None = None, n: int = 10, new: int | None = None) -> dict:
         params = {k: v for k, v in {"dir": dir_id, "space": space, "n": n, "new": new}.items() if v is not None}
         return self._call("GET", "/profile/next", params=params)

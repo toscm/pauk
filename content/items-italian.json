@@ -45,7 +45,8 @@
       "gloss_md": "-o, -i, -a, -iamo, -ate, -ano",
       "body_md": "Regular -are verbs drop -are and add -o, -i, -a, -iamo, -ate, -ano: *parlo, parli, parla, parliamo, parlate, parlano*. Verbs in -care/-gare add an h before i (*cerchi*), verbs in -iare keep a single i (*mangi*).",
       "attrs": {
-        "source": "italian.json"
+        "source": "italian.json",
+        "mnemonic": "*noi* always ends in -iamo, in every conjugation: *parliamo, prendiamo, dormiamo*."
       },
       "priority": 90,
       "level": 1,
@@ -90,7 +91,8 @@
       "gloss_md": "-isco, -isci, -isce, -iamo, -ite, -iscono",
       "body_md": "Many -ire verbs insert -isc- in all persons except noi and voi: *finisco, finisci, finisce, finiamo, finite, finiscono*.",
       "attrs": {
-        "source": "italian.json"
+        "source": "italian.json",
+        "mnemonic": "In the conjugation table the -isc- forms (io, tu, lui/lei, loro) draw the shape of a boot, like Italy."
       },
       "priority": 70,
       "level": 1,
@@ -105,7 +107,8 @@
       "gloss_md": "-o mostly masculine, -a mostly feminine, -e either",
       "body_md": "Nouns in -o are usually masculine, in -a usually feminine (exceptions: *il problema*, *la mano*); nouns in -e can be either and must be learnt.",
       "attrs": {
-        "source": "italian.json"
+        "source": "italian.json",
+        "anecdote": "Nouns in -ma from Greek are masculine: *il problema, il tema, il sistema*."
       },
       "priority": 85,
       "level": 1,
@@ -135,7 +138,8 @@
       "gloss_md": "il, lo, l', la, i, gli, le",
       "body_md": "Masculine: *il* (before most consonants), *lo* (before s+consonant, z, gn, ps), *l'* (before a vowel); plural *i* / *gli*. Feminine: *la*, *l'* before a vowel; plural *le*.",
       "attrs": {
-        "source": "italian.json"
+        "source": "italian.json",
+        "mnemonic": "*lo* for the hissing and buzzing starts: *lo studente, lo zio*."
       },
       "priority": 85,
       "level": 1,
@@ -156,7 +160,8 @@
       "gloss_md": "un, uno, una, un'",
       "body_md": "Masculine *un*, or *uno* before s+consonant, z, gn, ps; feminine *una*, or *un'* before a vowel.",
       "attrs": {
-        "source": "italian.json"
+        "source": "italian.json",
+        "mnemonic": "The apostrophe marks a missing a, so only the feminine has one: *un'amica*, but *un amico*."
       },
       "priority": 80,
       "level": 1,
@@ -177,7 +182,8 @@
       "gloss_md": "a + city, in + country/region",
       "body_md": "Use *a* with cities (*Abito a Roma*, *Vado a Milano*) and *in* with countries and regions (*Vado in Italia*).",
       "attrs": {
-        "source": "italian.json"
+        "source": "italian.json",
+        "mnemonic": "Short word, small place (*a Roma*); longer word, larger place (*in Italia*)."
       },
       "priority": 70,
       "level": 1,
@@ -193,7 +199,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "mnemonic": "(de) *essere* – die Essenz: das, was du bist."
       },
       "priority": 90,
       "level": 1,
@@ -209,7 +216,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "mnemonic": "(de) *avere* ≈ haben: beide stammen von lateinisch *habere*."
       },
       "priority": 90,
       "level": 1,
@@ -225,7 +233,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "anecdote": "From Latin *facere*, which is why some forms are long: *facciamo, facevo*."
       },
       "priority": 90,
       "level": 1,
@@ -241,7 +250,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "anecdote": "*vado, vai, va, vanno* come from Latin *vadere*; *andiamo, andate* come from a different root."
       },
       "priority": 90,
       "level": 1,
@@ -257,7 +267,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "mnemonic": "(de) *venire* steckt im *Advent*, der 'Ankunft'."
       },
       "priority": 90,
       "level": 1,
@@ -273,7 +284,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "anecdote": "From Latin *dicere*, hence *dico, diciamo* and English *dictate*."
       },
       "priority": 90,
       "level": 1,
@@ -289,7 +301,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "mnemonic": "English *potent* and *potential*: what you are able to do."
       },
       "priority": 90,
       "level": 1,
@@ -305,7 +318,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "mnemonic": "English *voluntary*: what you want to do."
       },
       "priority": 90,
       "level": 1,
@@ -321,7 +335,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "anecdote": "As a noun, *il dovere* means 'the duty'."
       },
       "priority": 90,
       "level": 1,
@@ -337,7 +352,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "anecdote": "Latin *sapere* meant 'to taste, to be wise', hence *Homo sapiens*; *sapere di* still means 'to taste of'."
       },
       "priority": 90,
       "level": 1,
@@ -353,7 +369,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "mnemonic": "(de) *Video* ist lateinisch und heißt 'ich sehe'."
       },
       "priority": 90,
       "level": 1,
@@ -369,7 +386,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "mnemonic": "(de) Ein *Datum* ist lateinisch 'das Gegebene'."
       },
       "priority": 90,
       "level": 1,
@@ -385,7 +403,8 @@
       "body_md": "Also: restare, rimanere.",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "mnemonic": "Like English *stay* and *state*: *come stai?* = how do you stand?"
       },
       "priority": 90,
       "level": 1,
@@ -401,7 +420,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "mnemonic": "(de) Im *Parlament* wird geredet."
       },
       "priority": 90,
       "level": 1,
@@ -417,7 +437,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "anecdote": "Borrowed from Old French *mangier*, from Latin *manducare* 'to chew'."
       },
       "priority": 90,
       "level": 1,
@@ -433,7 +454,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "anecdote": "From Latin *bibere*, which is why the stem is *bev-*: *bevo, bevuto*; cf. English *beverage*."
       },
       "priority": 90,
       "level": 1,
@@ -449,7 +471,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "anecdote": "From Latin *prehendere* 'to grasp', as in English *apprehend*."
       },
       "priority": 90,
       "level": 1,
@@ -465,7 +488,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "anecdote": "From Latin *mittere*, the root of English *emit, submit, transmit*."
       },
       "priority": 90,
       "level": 1,
@@ -481,7 +505,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "mnemonic": "*uscita* is the EXIT sign you see everywhere."
       },
       "priority": 90,
       "level": 1,
@@ -497,7 +522,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "mnemonic": "(de) Im *Dormitorium* (Schlafsaal) wird geschlafen."
       },
       "priority": 90,
       "level": 1,
@@ -513,7 +539,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "anecdote": "From Latin *laborare*, like English *labour*."
       },
       "priority": 65,
       "level": 1,
@@ -545,7 +572,8 @@
       "body_md": "Also: vivere.",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "mnemonic": "English *inhabit* and *habitat*."
       },
       "priority": 65,
       "level": 1,
@@ -561,7 +589,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "mnemonic": "(de) *Amor* schießt mit Pfeilen: *amare* = lieben."
       },
       "priority": 65,
       "level": 1,
@@ -577,7 +606,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "mnemonic": "*Aiuto!* is the cry for 'Help!'."
       },
       "priority": 65,
       "level": 1,
@@ -593,7 +623,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "mnemonic": "English *aperture*: an opening."
       },
       "priority": 65,
       "level": 1,
@@ -609,7 +640,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "anecdote": "From Latin *claudere*; Italian *chi-* often replaces Latin *cl-*: *chiave* (clavis), *chiamare* (clamare)."
       },
       "priority": 65,
       "level": 1,
@@ -641,7 +673,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "mnemonic": "*Partenze* is the departures board at the station."
       },
       "priority": 65,
       "level": 1,
@@ -657,7 +690,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "anecdote": "From Latin *auscultare*; doctors still *auscultate* with a stethoscope."
       },
       "priority": 65,
       "level": 1,
@@ -673,7 +707,8 @@
       "body_md": "Also: attendere.",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "anecdote": "From Latin *exspectare*, like English *expect*."
       },
       "priority": 65,
       "level": 1,
@@ -689,7 +724,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "mnemonic": "(de) Auf dem *Ball* wird getanzt."
       },
       "priority": 65,
       "level": 1,
@@ -705,7 +741,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "mnemonic": "(de) *Kantate* und *Kantor* haben mit Singen zu tun."
       },
       "priority": 65,
       "level": 1,
@@ -721,7 +758,8 @@
       "body_md": "Also: comprendere.",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "mnemonic": "(de) *capire* = kapieren; das deutsche Wort kommt von lateinisch *capere*."
       },
       "priority": 65,
       "level": 1,
@@ -737,7 +775,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "anecdote": "From Latin *circare* 'to go around'; English *search* comes from the same word."
       },
       "priority": 65,
       "level": 1,
@@ -753,7 +792,8 @@
       "body_md": "Also: telefonare.",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "anecdote": "From Latin *clamare* 'to shout', as in English *exclaim*."
       },
       "priority": 65,
       "level": 1,
@@ -785,7 +825,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "mnemonic": "English *connoisseur*: someone who knows."
       },
       "priority": 65,
       "level": 1,
@@ -801,7 +842,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "mnemonic": "(de) Der *Kurier* rennt."
       },
       "priority": 65,
       "level": 1,
@@ -817,7 +859,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "mnemonic": "(de) In der *cucina* (Küche) wird gekocht."
       },
       "priority": 65,
       "level": 1,
@@ -833,7 +876,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "anecdote": "From Latin *iocus* 'joke, game', like English *joke*."
       },
       "priority": 65,
       "level": 1,
@@ -849,7 +893,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "mnemonic": "False friend: not 'to guard' but 'to look', though a guard is someone who watches."
       },
       "priority": 65,
       "level": 1,
@@ -881,7 +926,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "mnemonic": "(de) Eine *Legende* ist lateinisch 'das zu Lesende'."
       },
       "priority": 65,
       "level": 1,
@@ -897,7 +943,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "anecdote": "From Latin *pacare* 'to pacify': paying pacified the creditor."
       },
       "priority": 65,
       "level": 1,
@@ -913,7 +960,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "mnemonic": "English *pensive*: lost in thought."
       },
       "priority": 65,
       "level": 1,
@@ -929,7 +977,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "mnemonic": "(de) *scrivere* = schreiben, beide von lateinisch *scribere*."
       },
       "priority": 65,
       "level": 1,
@@ -945,7 +994,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "mnemonic": "Means both 'to hear' and 'to feel', like English *sense* and *sentiment*."
       },
       "priority": 65,
       "level": 1,
@@ -961,7 +1011,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "anecdote": "Related to the troubadours (*trovatori*), the 'finders' of verses."
       },
       "priority": 65,
       "level": 1,
@@ -977,7 +1028,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "verb"
+        "pos": "verb",
+        "anecdote": "From Latin *viaticum*, provisions for the road; English *voyage* has the same origin."
       },
       "priority": 65,
       "level": 1,
@@ -994,7 +1046,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "f"
+        "gender": "f",
+        "anecdote": "Latin *casa* meant 'hut'; the Latin word for house, *domus*, survives in *duomo*."
       },
       "priority": 85,
       "level": 1,
@@ -1010,7 +1063,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "noun"
+        "pos": "noun",
+        "mnemonic": "(de) *uomo* kommt von *homo*, wie in *Homo sapiens*; Plural: *gli uomini*."
       },
       "priority": 85,
       "level": 1,
@@ -1027,7 +1081,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "f"
+        "gender": "f",
+        "anecdote": "From Latin *domina* 'lady of the house'; *Madonna* means 'my lady'."
       },
       "priority": 85,
       "level": 1,
@@ -1044,7 +1099,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "m"
+        "gender": "m",
+        "anecdote": "Bambi got his name from Italian *bambino*."
       },
       "priority": 85,
       "level": 1,
@@ -1060,7 +1116,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "noun"
+        "pos": "noun",
+        "mnemonic": "(de) Im *Aquarium* ist Wasser."
       },
       "priority": 85,
       "level": 1,
@@ -1077,7 +1134,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "m"
+        "gender": "m",
+        "anecdote": "Your *companions* are literally the people you share bread with (Latin *com* + *panis*)."
       },
       "priority": 85,
       "level": 1,
@@ -1094,7 +1152,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "m"
+        "gender": "m",
+        "mnemonic": "False friend: *libreria* is a bookshop; a library is a *biblioteca*."
       },
       "priority": 85,
       "level": 1,
@@ -1111,7 +1170,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "m"
+        "gender": "m",
+        "anecdote": "From Latin *diurnus* 'daily'; *giornale* (newspaper) is English *journal*."
       },
       "priority": 85,
       "level": 1,
@@ -1128,7 +1188,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "f"
+        "gender": "f",
+        "mnemonic": "(de) Aus -cht wird -tt: Nacht → *notte*, acht → *otto*."
       },
       "priority": 85,
       "level": 1,
@@ -1144,7 +1205,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "noun"
+        "pos": "noun",
+        "mnemonic": "The double n matters: *anno* is 'year', *ano* is 'anus'. *Buon anno!*"
       },
       "priority": 85,
       "level": 1,
@@ -1161,7 +1223,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "f"
+        "gender": "f",
+        "anecdote": "From Latin *civitas*, like English *city* and *civic*."
       },
       "priority": 85,
       "level": 1,
@@ -1178,7 +1241,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "f"
+        "gender": "f",
+        "mnemonic": "(de) *strada* = Straße, beide von lateinisch *via strata* 'gepflasterter Weg'."
       },
       "priority": 85,
       "level": 1,
@@ -1229,7 +1293,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "f"
+        "gender": "f",
+        "anecdote": "Like German *Schule*, from Greek *scholē*, which originally meant 'leisure'."
       },
       "priority": 85,
       "level": 1,
@@ -1279,7 +1344,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "noun"
+        "pos": "noun",
+        "mnemonic": "A friend is someone you love: *amico* comes from *amare*."
       },
       "priority": 85,
       "level": 1,
@@ -1330,7 +1396,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "m"
+        "gender": "m",
+        "anecdote": "A diminutive of Latin *frater*, as in *fraternity*."
       },
       "priority": 85,
       "level": 1,
@@ -1347,7 +1414,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "f"
+        "gender": "f",
+        "anecdote": "A diminutive of Latin *soror*, as in *sorority*."
       },
       "priority": 85,
       "level": 1,
@@ -1364,7 +1432,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "m"
+        "gender": "m",
+        "anecdote": "The Canary Islands are named after dogs (Latin *canes*), not birds."
       },
       "priority": 85,
       "level": 1,
@@ -1381,7 +1450,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "m"
+        "gender": "m",
+        "mnemonic": "(de) *gatto*, Katze, cat: alle von spätlateinisch *cattus*."
       },
       "priority": 85,
       "level": 1,
@@ -1415,7 +1485,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "m"
+        "gender": "m",
+        "mnemonic": "Order a *latte* in Italy and you get a glass of milk; ask for a *caffellatte*."
       },
       "priority": 85,
       "level": 1,
@@ -1432,7 +1503,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "m"
+        "gender": "m",
+        "anecdote": "In Italy *un caffè* is an espresso."
       },
       "priority": 85,
       "level": 1,
@@ -1466,7 +1538,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "f"
+        "gender": "f",
+        "mnemonic": "English *portal* and *porter* (door-keeper)."
       },
       "priority": 85,
       "level": 1,
@@ -1483,7 +1556,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "m"
+        "gender": "m",
+        "mnemonic": "(de) *Nomen est omen*: der Name ist ein Zeichen."
       },
       "priority": 85,
       "level": 1,
@@ -1500,7 +1574,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "f"
+        "gender": "f",
+        "mnemonic": "(de) *finestra* = Fenster, beide von lateinisch *fenestra*."
       },
       "priority": 60,
       "level": 1,
@@ -1517,7 +1592,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "m"
+        "gender": "m",
+        "mnemonic": "(de) *tavolo* = Tafel, beide von lateinisch *tabula*."
       },
       "priority": 60,
       "level": 1,
@@ -1534,7 +1610,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "f"
+        "gender": "f",
+        "mnemonic": "From *sedere* 'to sit', like English *sedentary*."
       },
       "priority": 60,
       "level": 1,
@@ -1568,7 +1645,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "f"
+        "gender": "f",
+        "mnemonic": "(de) *cucina* = Küche, beide von lateinisch *coquina*."
       },
       "priority": 60,
       "level": 1,
@@ -1585,7 +1663,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "m"
+        "gender": "m",
+        "anecdote": "From Latin *balneum* 'bath'; *bagno* is both the bathroom and the bath."
       },
       "priority": 60,
       "level": 1,
@@ -1602,7 +1681,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "f"
+        "gender": "f",
+        "anecdote": "False friend: *camera* is a room; the photo camera is named after the *camera obscura*, 'dark room'."
       },
       "priority": 60,
       "level": 1,
@@ -1619,7 +1699,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "f"
+        "gender": "f",
+        "anecdote": "From Latin *clavis*, like *clef* and *clavicle*; *chi-* often replaces Latin *cl-*."
       },
       "priority": 60,
       "level": 1,
@@ -1653,7 +1734,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "m"
+        "gender": "m",
+        "anecdote": "Named after the Roman silver coin *denarius*, like Spanish *dinero*."
       },
       "priority": 60,
       "level": 1,
@@ -1670,7 +1752,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "m"
+        "gender": "m",
+        "anecdote": "From Latin *negotium* 'business', as in *negotiate*."
       },
       "priority": 60,
       "level": 1,
@@ -1687,7 +1770,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "m"
+        "gender": "m",
+        "mnemonic": "(de) *mercato* = Markt, beide von lateinisch *mercatus*."
       },
       "priority": 60,
       "level": 1,
@@ -1720,7 +1804,8 @@
       "body_md": "Also: hotel.",
       "attrs": {
         "source": "italian.json",
-        "pos": "noun"
+        "pos": "noun",
+        "anecdote": "A Germanic loanword related to German *Herberge*."
       },
       "priority": 60,
       "level": 1,
@@ -1754,7 +1839,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "m"
+        "gender": "m",
+        "mnemonic": "(de) Die *Marine* fährt aufs Meer."
       },
       "priority": 60,
       "level": 1,
@@ -1788,7 +1874,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "m"
+        "gender": "m",
+        "mnemonic": "(de) *Solar*energie kommt von der Sonne."
       },
       "priority": 60,
       "level": 1,
@@ -1805,7 +1892,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "f"
+        "gender": "f",
+        "anecdote": "*lunedì*, Monday, is the day of the moon."
       },
       "priority": 60,
       "level": 1,
@@ -1839,7 +1927,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "m"
+        "gender": "m",
+        "mnemonic": "(de) Der *Florist* verkauft Blumen."
       },
       "priority": 60,
       "level": 1,
@@ -1855,7 +1944,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "noun"
+        "pos": "noun",
+        "anecdote": "*albero* is also the mast of a ship."
       },
       "priority": 60,
       "level": 1,
@@ -1872,7 +1962,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "f"
+        "gender": "f",
+        "anecdote": "*frutta* is fruit in general; a single piece of fruit is *un frutto*."
       },
       "priority": 60,
       "level": 1,
@@ -1889,7 +1980,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "f"
+        "gender": "f",
+        "anecdote": "*Carnevale* is traditionally explained as *carne levare*, 'remove meat', before Lent."
       },
       "priority": 60,
       "level": 1,
@@ -1906,7 +1998,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "m"
+        "gender": "m",
+        "mnemonic": "(de) Das Sternzeichen Fische heißt *Pisces*."
       },
       "priority": 60,
       "level": 1,
@@ -1923,7 +2016,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "m"
+        "gender": "m",
+        "anecdote": "From *forma*, the mould the cheese was pressed in; French *fromage* is the same word."
       },
       "priority": 60,
       "level": 1,
@@ -1939,7 +2033,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "noun"
+        "pos": "noun",
+        "mnemonic": "The plural is feminine: *le uova*. (de) *oval* = eiförmig."
       },
       "priority": 60,
       "level": 1,
@@ -1973,7 +2068,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "m"
+        "gender": "m",
+        "anecdote": "*Pomo d'oro*, 'golden apple': the first tomatoes in Italy were probably yellow."
       },
       "priority": 60,
       "level": 1,
@@ -1990,7 +2086,8 @@
       "attrs": {
         "source": "italian.json",
         "pos": "noun",
-        "gender": "m"
+        "gender": "m",
+        "anecdote": "From Arabic *sukkar*, like English *sugar*."
       },
       "priority": 60,
       "level": 1,
@@ -2006,7 +2103,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "adj"
+        "pos": "adj",
+        "mnemonic": "(de) Ein *Belvedere* ist ein Ort mit schöner Aussicht."
       },
       "priority": 60,
       "level": 1,
@@ -2022,7 +2120,8 @@
       "body_md": "Also: bravo.",
       "attrs": {
         "source": "italian.json",
-        "pos": "adj"
+        "pos": "adj",
+        "anecdote": "French *bonbon*, 'good-good', comes from the same Latin *bonus*."
       },
       "priority": 60,
       "level": 1,
@@ -2054,7 +2153,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "adj"
+        "pos": "adj",
+        "mnemonic": "The *piccolo* is the small flute."
       },
       "priority": 60,
       "level": 1,
@@ -2070,7 +2170,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "adj"
+        "pos": "adj",
+        "mnemonic": "English *novel* and *innovate*: something new."
       },
       "priority": 60,
       "level": 1,
@@ -2102,7 +2203,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "adj"
+        "pos": "adj",
+        "mnemonic": "English *juvenile*, from Latin *iuvenis*."
       },
       "priority": 60,
       "level": 1,
@@ -2118,7 +2220,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "adj"
+        "pos": "adj",
+        "anecdote": "In music, *alto* was originally the part sung above the tenor."
       },
       "priority": 60,
       "level": 1,
@@ -2134,7 +2237,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "adj"
+        "pos": "adj",
+        "mnemonic": "(de) Der *Bass* ist die tiefe Stimme."
       },
       "priority": 60,
       "level": 1,
@@ -2150,7 +2254,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "adj"
+        "pos": "adj",
+        "anecdote": "A *caffè lungo* is a 'long' espresso made with more water."
       },
       "priority": 60,
       "level": 1,
@@ -2166,7 +2271,8 @@
       "body_md": "Also: breve.",
       "attrs": {
         "source": "italian.json",
-        "pos": "adj"
+        "pos": "adj",
+        "mnemonic": "(de) *corto* = kurz, beide von lateinisch *curtus*."
       },
       "priority": 60,
       "level": 1,
@@ -2182,7 +2288,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "adj"
+        "pos": "adj",
+        "mnemonic": "False friend: *caldo* = warm, not cold! The C on an Italian tap means hot water."
       },
       "priority": 60,
       "level": 1,
@@ -2198,7 +2305,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "adj"
+        "pos": "adj",
+        "mnemonic": "The F on an Italian tap means cold water."
       },
       "priority": 60,
       "level": 1,
@@ -2214,7 +2322,8 @@
       "body_md": "Also: contento.",
       "attrs": {
         "source": "italian.json",
-        "pos": "adj"
+        "pos": "adj",
+        "mnemonic": "Like the name Felix, 'the happy, lucky one'."
       },
       "priority": 60,
       "level": 1,
@@ -2278,7 +2387,8 @@
       "body_md": "Also: rapido.",
       "attrs": {
         "source": "italian.json",
-        "pos": "adj"
+        "pos": "adj",
+        "mnemonic": "English *velocity*: speed."
       },
       "priority": 60,
       "level": 1,
@@ -2294,7 +2404,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "adj"
+        "pos": "adj",
+        "anecdote": "In music, *lento* means 'slowly'."
       },
       "priority": 60,
       "level": 1,
@@ -2310,7 +2421,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "adj"
+        "pos": "adj",
+        "anecdote": "A Germanic loanword, related to German *reich*."
       },
       "priority": 60,
       "level": 1,
@@ -2326,7 +2438,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "adj"
+        "pos": "adj",
+        "mnemonic": "English *poverty*: being poor."
       },
       "priority": 60,
       "level": 1,
@@ -2342,7 +2455,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "adj"
+        "pos": "adj",
+        "anecdote": "In music *forte* means loud; the *pianoforte* can play soft and loud."
       },
       "priority": 60,
       "level": 1,
@@ -2406,7 +2520,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "num"
+        "pos": "num",
+        "anecdote": "From Arabic *sifr*; Fibonacci of Pisa wrote it as *zephirum* when he brought Arabic numerals to Europe."
       },
       "priority": 85,
       "level": 1,
@@ -2438,7 +2553,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "num"
+        "pos": "num",
+        "mnemonic": "(de) Ein *Duo* oder *Duett* sind zwei."
       },
       "priority": 85,
       "level": 1,
@@ -2486,7 +2602,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "num"
+        "pos": "num",
+        "anecdote": "*Cinquecento* means the 16th century (the 1500s), and it is also the Fiat 500."
       },
       "priority": 85,
       "level": 1,
@@ -2502,7 +2619,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "num"
+        "pos": "num",
+        "mnemonic": "*sei* is both 'six' and 'you are' (*tu sei*)."
       },
       "priority": 85,
       "level": 1,
@@ -2518,7 +2636,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "num"
+        "pos": "num",
+        "mnemonic": "(de) *Sept*ember war im alten römischen Kalender der siebte Monat."
       },
       "priority": 85,
       "level": 1,
@@ -2534,7 +2653,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "num"
+        "pos": "num",
+        "mnemonic": "(de) Aus -cht wird -tt: acht → *otto*, Nacht → *notte*."
       },
       "priority": 85,
       "level": 1,
@@ -2550,7 +2670,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "num"
+        "pos": "num",
+        "anecdote": "*Novembre* was the ninth month of the old Roman calendar."
       },
       "priority": 85,
       "level": 1,
@@ -2566,7 +2687,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "num"
+        "pos": "num",
+        "anecdote": "*Dicembre* was the tenth month of the old Roman calendar."
       },
       "priority": 85,
       "level": 1,
@@ -2582,7 +2704,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "num"
+        "pos": "num",
+        "mnemonic": "From 11 to 16 the unit comes first: *un-dici, do-dici, … se-dici*."
       },
       "priority": 70,
       "level": 1,
@@ -2678,7 +2801,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "num"
+        "pos": "num",
+        "mnemonic": "From 17 on the ten comes first: *dici-assette, dici-otto, dici-annove*."
       },
       "priority": 70,
       "level": 1,
@@ -2726,7 +2850,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "num"
+        "pos": "num",
+        "mnemonic": "*venti* is 'twenty', but also the plural of *vento*, 'winds'."
       },
       "priority": 70,
       "level": 1,
@@ -2854,7 +2979,8 @@
       "body_md": "",
       "attrs": {
         "source": "italian.json",
-        "pos": "num"
+        "pos": "num",
+        "mnemonic": "(de) *Pro*zent = *per cento*, von hundert."
       },
       "priority": 60,
       "level": 1,
@@ -2884,7 +3010,8 @@
       "gloss_md": "good evening",
       "body_md": "Also: buona sera.",
       "attrs": {
-        "source": "italian.json"
+        "source": "italian.json",
+        "anecdote": "Italians switch to *buonasera* surprisingly early, often right after lunch."
       },
       "priority": 90,
       "level": 1,
@@ -2899,7 +3026,8 @@
       "gloss_md": "good night",
       "body_md": "Also: buona notte.",
       "attrs": {
-        "source": "italian.json"
+        "source": "italian.json",
+        "mnemonic": "Only for going to bed or leaving late at night, never as a greeting."
       },
       "priority": 90,
       "level": 1,
@@ -2914,7 +3042,8 @@
       "gloss_md": "hello",
       "body_md": "Also: salve.",
       "attrs": {
-        "source": "italian.json"
+        "source": "italian.json",
+        "anecdote": "*ciao* comes from Venetian *s-ciào vostro*, 'your servant'."
       },
       "priority": 90,
       "level": 1,
@@ -2929,7 +3058,8 @@
       "gloss_md": "goodbye",
       "body_md": "Also: arrivederla, ciao.",
       "attrs": {
-        "source": "italian.json"
+        "source": "italian.json",
+        "mnemonic": "(de) Wörtlich 'bis wir uns wiedersehen', wie *Auf Wiedersehen*."
       },
       "priority": 90,
       "level": 1,
@@ -2944,7 +3074,8 @@
       "gloss_md": "thank you",
       "body_md": "Also: grazie mille.",
       "attrs": {
-        "source": "italian.json"
+        "source": "italian.json",
+        "mnemonic": "(de) *Grazie* ist Anmut; von lateinisch *gratia* kommt auch *gratis*."
       },
       "priority": 90,
       "level": 1,
@@ -2959,7 +3090,8 @@
       "gloss_md": "you're welcome",
       "body_md": "Also: di niente, di nulla.",
       "attrs": {
-        "source": "italian.json"
+        "source": "italian.json",
+        "anecdote": "Literally 'I pray' (*pregare*); it also means 'please, go ahead'."
       },
       "priority": 90,
       "level": 1,
@@ -2989,7 +3121,8 @@
       "gloss_md": "excuse me",
       "body_md": "Also: mi scusi, scusa, scusami.",
       "attrs": {
-        "source": "italian.json"
+        "source": "italian.json",
+        "mnemonic": "*scusi* is formal (Lei), *scusa* is informal (tu)."
       },
       "priority": 90,
       "level": 1,
@@ -3004,7 +3137,8 @@
       "gloss_md": "I'm sorry",
       "body_md": "Also: mi spiace.",
       "attrs": {
-        "source": "italian.json"
+        "source": "italian.json",
+        "mnemonic": "Literally 'it displeases me', the opposite of *mi piace*."
       },
       "priority": 90,
       "level": 1,
@@ -3034,7 +3168,8 @@
       "gloss_md": "My name is Marco.",
       "body_md": "Also: il mio nome è Marco, sono Marco.",
       "attrs": {
-        "source": "italian.json"
+        "source": "italian.json",
+        "mnemonic": "Literally 'I call myself Marco' (*chiamarsi*)."
       },
       "priority": 90,
       "level": 1,
@@ -3049,7 +3184,8 @@
       "gloss_md": "I don't understand.",
       "body_md": "Also: non ho capito.",
       "attrs": {
-        "source": "italian.json"
+        "source": "italian.json",
+        "mnemonic": "(de) Ich kapiere nicht."
       },
       "priority": 85,
       "level": 1,
@@ -3094,7 +3230,8 @@
       "gloss_md": "yes",
       "body_md": "Also: si.",
       "attrs": {
-        "source": "italian.json"
+        "source": "italian.json",
+        "mnemonic": "The accent matters: *sì* = yes, *si* = oneself."
       },
       "priority": 85,
       "level": 1,
@@ -3109,7 +3246,8 @@
       "gloss_md": "I would like ... (polite)",
       "body_md": "",
       "attrs": {
-        "source": "italian.json"
+        "source": "italian.json",
+        "mnemonic": "(de) Konditional von *volere*, wie 'ich möchte'."
       },
       "priority": 85,
       "level": 1,
@@ -3199,7 +3337,8 @@
       "gloss_md": "nice to meet you",
       "body_md": "Also: molto piacere, piacere di conoscerla, piacere di conoscerti.",
       "attrs": {
-        "source": "italian.json"
+        "source": "italian.json",
+        "anecdote": "Short for *piacere di conoscerti*, 'a pleasure to meet you'."
       },
       "priority": 90,
       "level": 1,
@@ -3214,7 +3353,8 @@
       "gloss_md": "What time is it?",
       "body_md": "Also: che ora è.",
       "attrs": {
-        "source": "italian.json"
+        "source": "italian.json",
+        "mnemonic": "Plural, because hours are plural: *sono le tre*; only *è l'una* is singular."
       },
       "priority": 85,
       "level": 1,
@@ -3229,7 +3369,8 @@
       "gloss_md": "the bill, please",
       "body_md": "Also: il conto per favore.",
       "attrs": {
-        "source": "italian.json"
+        "source": "italian.json",
+        "mnemonic": "(de) Der *conto* belastet dein Konto."
       },
       "priority": 85,
       "level": 1,
@@ -3245,7 +3386,8 @@
       "body_md": "",
       "attrs": {
         "pos": "verb",
-        "source": "italian-verbs-conjugated.json"
+        "source": "italian-verbs-conjugated.json",
+        "mnemonic": "(de) Im *Finale* ist alles zu Ende."
       },
       "priority": 80,
       "level": 1,
@@ -3261,7 +3403,8 @@
       "body_md": "",
       "attrs": {
         "pos": "verb",
-        "source": "italian-verbs-conjugated.json"
+        "source": "italian-verbs-conjugated.json",
+        "mnemonic": "English *vivid* and *survive*."
       },
       "priority": 80,
       "level": 1,
@@ -3277,7 +3420,8 @@
       "body_md": "",
       "attrs": {
         "tense": "present",
-        "source": "italian-verbs-conjugated.json"
+        "source": "italian-verbs-conjugated.json",
+        "mnemonic": "*vado, vai, va, vanno* look like a different verb, because they are: Latin *vadere*."
       },
       "priority": 85,
       "level": 1,
@@ -3299,7 +3443,8 @@
       "body_md": "",
       "attrs": {
         "tense": "present",
-        "source": "italian-verbs-conjugated.json"
+        "source": "italian-verbs-conjugated.json",
+        "anecdote": "The silent h of *ho, hai, ha, hanno* only tells them apart from *o* (or), *ai* (to the), *a* (to) and *anno* (year)."
       },
       "priority": 85,
       "level": 1,
@@ -3321,7 +3466,8 @@
       "body_md": "",
       "attrs": {
         "tense": "present",
-        "source": "italian-verbs-conjugated.json"
+        "source": "italian-verbs-conjugated.json",
+        "mnemonic": "*dà* (gives) has an accent to tell it apart from the preposition *da*."
       },
       "priority": 85,
       "level": 1,
@@ -3387,7 +3533,8 @@
       "body_md": "",
       "attrs": {
         "tense": "present",
-        "source": "italian-verbs-conjugated.json"
+        "source": "italian-verbs-conjugated.json",
+        "mnemonic": "*sono* means both 'I am' and 'they are'."
       },
       "priority": 85,
       "level": 1,
@@ -3497,7 +3644,8 @@
       "body_md": "",
       "attrs": {
         "tense": "present",
-        "source": "italian-verbs-conjugated.json"
+        "source": "italian-verbs-conjugated.json",
+        "mnemonic": "u turns into e when stressed: *esco, esci, esce, escono*, but *usciamo, uscite*."
       },
       "priority": 85,
       "level": 1,

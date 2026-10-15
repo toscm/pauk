@@ -24,6 +24,13 @@ Importable content files, one JSON per topic:
   `items-phd.json` holds the key concepts of the PhD decks in space `concepts`, linked into the deck directories and the subjects `bioinformatics` and `immunology`.
   `items-germany.json` (states and cities, space `concepts`) and `items-italian-town.json` (town words, space `it`) hold the items the activities below refer to; both are hand-written.
 
+- `curricula/` — courses for the tutor's level map (docs/tutor.md 9.6): `italian.json` (A1 from the existing Italian items, A2 from `items-italian-a2.json`, B1–C2 as units the teacher fills).
+  `pauk import content/curricula/italian.json` creates one directory per unit under `italian/course/` and links the listed items; import the items files first.
+  The CLI ships a copy in `cli/pauk/data/curricula/` (`cli/tests/test_curriculum.py` checks that both are equal and that every listed item exists).
+
+- Memory aids: items may carry `attrs.mnemonic` (an Eselsbrücke, "(de)" marks a German one) and `attrs.anecdote` (a true, memorable story); `attrs.aliases` lists other names and becomes searchable aliases on import.
+  For the generated files they live in the `MEMORY` table of `generate_items.py`.
+
 - `activities/` — tutor activity content (docs/tutor.md 14): `germany-states.json`, `germany-cities.json` (map labelling), `italian-town.json` (town scene, the successor of `italian-quests.json`), and `maps/germany.json`, the blank base map exported by `scripts/maps/export_activity_map.py`.
   These are not imported; the CLI ships a copy in `cli/pauk/data/activities/`, so after editing a file here copy it there (`cli/tests/test_activities.py` checks that both are equal and that every ref names an item of an `items-*.json` file).
   Texts shown to the learner (`prompt_md`, a town object's `hint`, a goal's `task_md`) are a string or translations like `{"en": "...", "de": "..."}`; the browser picks the learner's UI language.

@@ -131,6 +131,28 @@ class FakeApi:
         return [{"id": i, "path": p, "name": p.split("/")[-1], "cards_total": 0, "runs": 0, "performance": None}
                 for p, i in sorted(self.dirs.items())]
 
+    def create_dir(self, name: str, parent_id=None) -> dict:
+        parent = next((p for p, i in self.dirs.items() if i == parent_id), None) if parent_id else None
+        path = f"{parent}/{name}" if parent else name
+        return {"id": self._ensure_dir(path), "name": name}
+
+    def profile_dirs(self, dir_id: int) -> list[dict]:
+        root = next(p for p, i in self.dirs.items() if i == dir_id)
+        out = []
+        for path, i in sorted(self.dirs.items()):
+            if path == root or path.startswith(root + "/"):
+                refs = set().union(*(v for p, d in self.dirs.items() if p == path or p.startswith(path + "/")
+                                     for v in [self.dir_items.get(d, set())]))
+                summary = self._summary([self.items[r] for r in refs if r in self.items])
+                out.append({"id": i, "path": path[len(root) + 1:], **summary})
+        return out
+
+    def _summary(self, items: list[dict]) -> dict:
+        by = {str(i): 0 for i in range(6)}
+        for item in items:
+            by[str((item["state"] or {}).get("mastery", 0))] += 1
+        return {"items": len(items), "by_mastery": by, "due": 0}
+
     def link_item_dir(self, dir_id: int, ref) -> None:
         self.dir_items.setdefault(dir_id, set()).add(self._resolve(ref)["ref"])
 

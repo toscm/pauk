@@ -12,6 +12,8 @@
       "label_md": "Baden-Württemberg",
       "gloss_md": "State in the south-west; capital Stuttgart.",
       "attrs": {
+        "mnemonic": "(de) Baden-Württemberg: Hauptstadt Stuttgart – \"Stutengarten\", deshalb das Pferd im Stadtwappen (und im Porsche-Logo).",
+        "anecdote": "The state's long-running advertising slogan, since 1999, is \"Wir können alles. Außer Hochdeutsch.\" It was formed in 1952 by merging three post-war states, after a referendum.",
         "source": "germany",
         "type": "state"
       },
@@ -27,6 +29,8 @@
       "label_md": "Bayern",
       "gloss_md": "Largest state, in the south-east; capital München.",
       "attrs": {
+        "mnemonic": "(de) Bayern ist das größte Land und ein Freistaat – wie Sachsen und Thüringen.",
+        "anecdote": "In 1949 the Bavarian Landtag was the only state parliament to reject the Grundgesetz, while still accepting it as binding if two thirds of the states ratified it.",
         "source": "germany",
         "type": "state"
       },
@@ -42,6 +46,8 @@
       "label_md": "Berlin",
       "gloss_md": "Capital of Germany, a city-state surrounded by Brandenburg.",
       "attrs": {
+        "mnemonic": "Berlin is an island in Brandenburg – city and state at the same time.",
+        "anecdote": "John F. Kennedy's \"Ich bin ein Berliner\" (1963) and mayor Klaus Wowereit's \"arm, aber sexy\" (2003) are the city's most quoted lines.",
         "source": "germany",
         "type": "state"
       },
@@ -58,6 +64,8 @@
       "label_md": "Brandenburg",
       "gloss_md": "State around Berlin; capital Potsdam.",
       "attrs": {
+        "mnemonic": "(de) Brandenburg ist der Ring, Berlin die Füllung – wie beim Berliner (Pfannkuchen). Hauptstadt Potsdam, bekannt durch die Potsdamer Konferenz 1945.",
+        "anecdote": "Potsdam is home to Sanssouci, the summer palace of Frederick the Great, who asked to be buried there next to his dogs; his wish was fulfilled only in 1991.",
         "source": "germany",
         "type": "state"
       },
@@ -73,6 +81,8 @@
       "label_md": "Bremen",
       "gloss_md": "Smallest state: the cities Bremen and Bremerhaven in the north-west.",
       "attrs": {
+        "mnemonic": "(de) Zwei Städte, ein Land: Bremen und Bremerhaven, rund 60 km auseinander. Kennzeichen HB = Hansestadt Bremen.",
+        "anecdote": "In the Grimm tale the Town Musicians of Bremen (donkey, dog, cat, rooster) never actually reach Bremen – they settle in the robbers' house on the way. The city honours them anyway with a statue next to the town hall, which, with the Roland, is a UNESCO World Heritage site.",
         "source": "germany",
         "type": "state"
       },
@@ -88,6 +98,8 @@
       "label_md": "Hamburg",
       "gloss_md": "City-state and port on the Elbe in the north.",
       "attrs": {
+        "mnemonic": "(de) Kennzeichen HH = Hansestadt Hamburg, offiziell \"Freie und Hansestadt Hamburg\".",
+        "anecdote": "Hamburg has around 2,500 bridges, more than Venice and Amsterdam combined; and the Beatles honed their act in its St. Pauli clubs in 1960–62.",
         "source": "germany",
         "type": "state"
       },
@@ -104,6 +116,8 @@
       "label_md": "Hessen",
       "gloss_md": "State in the centre-west; capital Wiesbaden, largest city Frankfurt.",
       "attrs": {
+        "mnemonic": "(de) Hessen: Hauptstadt Wiesbaden, nicht das größere Frankfurt – eins von vier Ländern, deren Hauptstadt nicht die größte Stadt ist (mit NRW, Sachsen, Mecklenburg-Vorpommern).",
+        "anecdote": "Hessen's 1946 constitution still allowed the death penalty until a 2018 referendum removed it, although the Grundgesetz had abolished it in 1949.",
         "source": "germany",
         "type": "state"
       },
@@ -119,6 +133,8 @@
       "label_md": "Mecklenburg-Vorpommern",
       "gloss_md": "State on the Baltic coast in the north-east; capital Schwerin.",
       "attrs": {
+        "mnemonic": "(de) Hauptstadt Schwerin, nicht das größere Rostock – das Schloss steht im Schweriner See.",
+        "anecdote": "It is the most thinly populated German state; the chalk cliffs on its island Rügen were painted by Caspar David Friedrich (\"Kreidefelsen auf Rügen\", 1818).",
         "source": "germany",
         "type": "state"
       },
@@ -134,6 +150,8 @@
       "label_md": "Niedersachsen",
       "gloss_md": "Large state in the north-west; capital Hannover.",
       "attrs": {
+        "mnemonic": "(de) Niedersachsen grenzt gar nicht an Sachsen: Die alten Sachsen lebten im Nordwesten, der Name wanderte erst später mit dem Herzogstitel nach Osten. Wappen: das Sachsenross.",
+        "anecdote": "Through the \"VW law\" the state of Niedersachsen holds a 20 % voting stake in Volkswagen, whose headquarters is in Wolfsburg.",
         "source": "germany",
         "type": "state"
       },
@@ -149,6 +167,8 @@
       "label_md": "Nordrhein-Westfalen",
       "gloss_md": "Most populous state, in the west; capital Düsseldorf.",
       "attrs": {
+        "mnemonic": "(de) Hauptstadt Düsseldorf, nicht das größere Köln – die beiden pflegen ihre Rivalität bis zum Bier (Alt gegen Kölsch).",
+        "anecdote": "It was created in 1946 by the British occupation authorities by merging the northern Rhineland with Westphalia (\"Operation Marriage\"); Lippe joined in 1947.",
         "source": "germany",
         "type": "state"
       },
@@ -164,6 +184,8 @@
       "label_md": "Rheinland-Pfalz",
       "gloss_md": "State in the west on the Rhine and Mosel; capital Mainz.",
       "attrs": {
+        "mnemonic": "(de) Rheinland + Pfalz: 1946 von der französischen Besatzungsmacht aus Teilen zusammengesetzt. Hauptstadt Mainz – Stadt Gutenbergs.",
+        "anecdote": "Johannes Gutenberg developed printing with movable metal type in Mainz around 1450; the city's university bears his name.",
         "source": "germany",
         "type": "state"
       },
@@ -179,6 +201,8 @@
       "label_md": "Saarland",
       "gloss_md": "Small state on the French border; capital Saarbrücken.",
       "attrs": {
+        "mnemonic": "(de) \"So groß wie das Saarland\" – das kleinste Flächenland dient Journalisten als Flächeneinheit (ca. 2.570 km²).",
+        "anecdote": "Saarland joined the Federal Republic only on 1 January 1957, after its voters rejected a European statute for the Saar in a 1955 referendum.",
         "source": "germany",
         "type": "state"
       },
@@ -194,6 +218,8 @@
       "label_md": "Sachsen",
       "gloss_md": "State in the east; capital Dresden.",
       "attrs": {
+        "mnemonic": "(de) Hauptstadt Dresden, aber Leipzig ist größer. Sachsen ist wie Bayern und Thüringen ein Freistaat.",
+        "anecdote": "Dresden's nickname is \"Elbflorenz\" (Florence on the Elbe); its Frauenkirche, destroyed in 1945, was rebuilt and reconsecrated in 2005.",
         "source": "germany",
         "type": "state"
       },
@@ -209,6 +235,8 @@
       "label_md": "Sachsen-Anhalt",
       "gloss_md": "State in the centre-east; capital Magdeburg.",
       "attrs": {
+        "mnemonic": "(de) Magdeburg – denk an die Magdeburger Halbkugeln: Magdeburgs Bürgermeister Otto von Guericke ließ 1654 (vor dem Reichstag in Regensburg) Pferdegespanne vergeblich an zwei luftleer gepumpten Halbkugeln ziehen.",
+        "anecdote": "Its advertising slogan was \"Wir stehen früher auf\"; Martin Luther published his 95 Theses in 1517 in Wittenberg, which lies in Sachsen-Anhalt.",
         "source": "germany",
         "type": "state"
       },
@@ -224,6 +252,8 @@
       "label_md": "Schleswig-Holstein",
       "gloss_md": "Northernmost state, between North Sea and Baltic; capital Kiel.",
       "attrs": {
+        "mnemonic": "(de) Das Land zwischen den Meeren: Nordsee und Ostsee. Hauptstadt Kiel an der Kieler Förde.",
+        "anecdote": "The Kieler Woche held each June is one of the largest sailing events in the world.",
         "source": "germany",
         "type": "state"
       },
@@ -239,6 +269,8 @@
       "label_md": "Thüringen",
       "gloss_md": "State in the centre; capital Erfurt.",
       "attrs": {
+        "mnemonic": "(de) Thüringen = \"grünes Herz Deutschlands\", mittendrin; Hauptstadt Erfurt.",
+        "anecdote": "The Weimar Republic took its name from the Thuringian town of Weimar, where the national assembly met in 1919 – the town of Goethe and Schiller.",
         "source": "germany",
         "type": "state"
       },
@@ -254,6 +286,8 @@
       "label_md": "München",
       "gloss_md": "Capital of Bayern, on the Isar.",
       "attrs": {
+        "mnemonic": "(de) München = \"bei den Mönchen\" – daher das Münchner Kindl, ein Mönch, im Stadtwappen.",
+        "anecdote": "The Oktoberfest began in 1810 as the wedding celebration of Crown Prince Ludwig and Princess Therese; the festival ground is still called the Theresienwiese.",
         "source": "germany",
         "type": "city"
       },
@@ -269,6 +303,7 @@
       "label_md": "Köln",
       "gloss_md": "Largest city of Nordrhein-Westfalen, on the Rhine.",
       "attrs": {
+        "anecdote": "Construction of Cologne Cathedral started in 1248 and was completed only in 1880, more than 600 years later; \"Eau de Cologne\" is named after the city.",
         "source": "germany",
         "type": "city"
       },
@@ -284,6 +319,8 @@
       "label_md": "Frankfurt am Main",
       "gloss_md": "Financial centre of Germany, in Hessen.",
       "attrs": {
+        "mnemonic": "(de) \"Mainhattan\": Hochhäuser am Main, Sitz der Europäischen Zentralbank und der Börse.",
+        "anecdote": "Johann Wolfgang von Goethe was born in Frankfurt in 1749; his birthplace is now a museum.",
         "source": "germany",
         "type": "city"
       },
@@ -299,6 +336,8 @@
       "label_md": "Stuttgart",
       "gloss_md": "Capital of Baden-Württemberg.",
       "attrs": {
+        "mnemonic": "(de) Stuttgart = \"Stutengarten\" (Gestüt) – daher das Pferd im Stadtwappen, das auch im Porsche-Logo steht.",
+        "anecdote": "Both Daimler and Porsche are headquartered here; Gottlieb Daimler built his first engines in a garden house in nearby Cannstatt in the 1880s.",
         "source": "germany",
         "type": "city"
       },
@@ -314,6 +353,8 @@
       "label_md": "Leipzig",
       "gloss_md": "Largest city of Sachsen.",
       "attrs": {
+        "mnemonic": "(de) Leipzig ist größer als die Landeshauptstadt Dresden.",
+        "anecdote": "Its Monday demonstrations in autumn 1989 (\"Wir sind das Volk\") helped bring down the GDR; Johann Sebastian Bach worked there as Thomaskantor from 1723 until his death.",
         "source": "germany",
         "type": "city"
       },
@@ -329,6 +370,8 @@
       "label_md": "Dresden",
       "gloss_md": "Capital of Sachsen, on the Elbe.",
       "attrs": {
+        "mnemonic": "(de) \"Elbflorenz\": barocke Pracht an der Elbe.",
+        "anecdote": "The Dresden Elbe Valley lost its UNESCO World Heritage status in 2009 because of the Waldschlösschenbrücke – only the second site ever to be delisted.",
         "source": "germany",
         "type": "city"
       },
@@ -344,6 +387,7 @@
       "label_md": "Hannover",
       "gloss_md": "Capital of Niedersachsen.",
       "attrs": {
+        "anecdote": "From 1714 to 1837 the Electors (later Kings) of Hanover were also Kings of Great Britain, starting with George I.",
         "source": "germany",
         "type": "city"
       },
@@ -359,6 +403,7 @@
       "label_md": "Nürnberg",
       "gloss_md": "Second city of Bayern, in Franconia.",
       "attrs": {
+        "anecdote": "Famous for Lebkuchen and the Christkindlesmarkt; after the war the Nuremberg trials (1945–46) of the leading Nazis were held in its Palace of Justice.",
         "source": "germany",
         "type": "city"
       },
@@ -374,6 +419,7 @@
       "label_md": "Rostock",
       "gloss_md": "Largest city of Mecklenburg-Vorpommern, on the Baltic.",
       "attrs": {
+        "anecdote": "A Hanseatic city whose university, founded in 1419, is one of the oldest in northern Europe.",
         "source": "germany",
         "type": "city"
       },
@@ -389,6 +435,7 @@
       "label_md": "Kassel",
       "gloss_md": "City in northern Hessen.",
       "attrs": {
+        "anecdote": "Home of the documenta, held every five years since 1955; the Brothers Grimm collected many of their fairy tales while living in Kassel.",
         "source": "germany",
         "type": "city"
       },

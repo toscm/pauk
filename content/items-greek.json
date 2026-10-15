@@ -13,7 +13,8 @@
       "attrs": {
         "uppercase": "Α",
         "position": 1,
-        "source": "greek.json"
+        "source": "greek.json",
+        "anecdote": "*Alpha* + *beta* gave us the word *alphabet*."
       },
       "priority": 80,
       "level": 1,
@@ -30,7 +31,8 @@
       "attrs": {
         "uppercase": "Β",
         "position": 2,
-        "source": "greek.json"
+        "source": "greek.json",
+        "anecdote": "In modern Greek it is called *vita* and sounds like v."
       },
       "priority": 80,
       "level": 1,
@@ -47,7 +49,8 @@
       "attrs": {
         "uppercase": "Γ",
         "position": 3,
-        "source": "greek.json"
+        "source": "greek.json",
+        "anecdote": "In modern Greek it sounds like a y before e and i sounds."
       },
       "priority": 80,
       "level": 1,
@@ -64,7 +67,8 @@
       "attrs": {
         "uppercase": "Δ",
         "position": 4,
-        "source": "greek.json"
+        "source": "greek.json",
+        "anecdote": "River deltas are named after the triangular capital Δ; Herodotus first used it for the Nile delta."
       },
       "priority": 80,
       "level": 1,
@@ -81,7 +85,8 @@
       "attrs": {
         "uppercase": "Ε",
         "position": 5,
-        "source": "greek.json"
+        "source": "greek.json",
+        "anecdote": "*E psilon* means 'plain e', to tell it apart from the diphthong αι with the same sound."
       },
       "priority": 80,
       "level": 1,
@@ -115,7 +120,8 @@
       "attrs": {
         "uppercase": "Η",
         "position": 7,
-        "source": "greek.json"
+        "source": "greek.json",
+        "anecdote": "The capital Η became the Latin letter H; in modern Greek η sounds like i."
       },
       "priority": 80,
       "level": 1,
@@ -132,7 +138,8 @@
       "attrs": {
         "uppercase": "Θ",
         "position": 8,
-        "source": "greek.json"
+        "source": "greek.json",
+        "mnemonic": "θ sounds like *th* in English *think*."
       },
       "priority": 80,
       "level": 1,
@@ -149,7 +156,8 @@
       "attrs": {
         "uppercase": "Ι",
         "position": 9,
-        "source": "greek.json"
+        "source": "greek.json",
+        "anecdote": "'Not one iota' means not the slightest bit, because ι is the smallest letter."
       },
       "priority": 80,
       "level": 1,
@@ -200,7 +208,8 @@
       "attrs": {
         "uppercase": "Μ",
         "position": 12,
-        "source": "greek.json"
+        "source": "greek.json",
+        "mnemonic": "μ is the micro sign: μm = micrometre."
       },
       "priority": 80,
       "level": 1,
@@ -217,7 +226,8 @@
       "attrs": {
         "uppercase": "Ν",
         "position": 13,
-        "source": "greek.json"
+        "source": "greek.json",
+        "mnemonic": "ν looks like a v but is an n!"
       },
       "priority": 80,
       "level": 1,
@@ -251,7 +261,8 @@
       "attrs": {
         "uppercase": "Ο",
         "position": 15,
-        "source": "greek.json"
+        "source": "greek.json",
+        "anecdote": "*O mikron* means 'small o' (as in *micro*), the counterpart of *omega*."
       },
       "priority": 80,
       "level": 1,
@@ -268,7 +279,8 @@
       "attrs": {
         "uppercase": "Π",
         "position": 16,
-        "source": "greek.json"
+        "source": "greek.json",
+        "mnemonic": "π = 3.14159…, the ratio of a circle's circumference to its diameter."
       },
       "priority": 80,
       "level": 1,
@@ -285,7 +297,8 @@
       "attrs": {
         "uppercase": "Ρ",
         "position": 17,
-        "source": "greek.json"
+        "source": "greek.json",
+        "mnemonic": "ρ looks like a p but is an r!"
       },
       "priority": 80,
       "level": 1,
@@ -302,7 +315,8 @@
       "attrs": {
         "uppercase": "Σ",
         "position": 18,
-        "source": "greek.json"
+        "source": "greek.json",
+        "mnemonic": "ς is used only at the end of a word; the capital Σ is the sum sign."
       },
       "priority": 80,
       "level": 1,
@@ -336,7 +350,8 @@
       "attrs": {
         "uppercase": "Υ",
         "position": 20,
-        "source": "greek.json"
+        "source": "greek.json",
+        "anecdote": "*U psilon* means 'plain u', to tell it apart from the diphthong οι."
       },
       "priority": 80,
       "level": 1,
@@ -353,7 +368,8 @@
       "attrs": {
         "uppercase": "Φ",
         "position": 21,
-        "source": "greek.json"
+        "source": "greek.json",
+        "anecdote": "The golden ratio (1.618…) is usually written φ."
       },
       "priority": 80,
       "level": 1,
@@ -370,7 +386,8 @@
       "attrs": {
         "uppercase": "Χ",
         "position": 22,
-        "source": "greek.json"
+        "source": "greek.json",
+        "mnemonic": "(de) χ sieht aus wie x, klingt aber wie das ch in *Bach*."
       },
       "priority": 80,
       "level": 1,
@@ -387,7 +404,8 @@
       "attrs": {
         "uppercase": "Ψ",
         "position": 23,
-        "source": "greek.json"
+        "source": "greek.json",
+        "anecdote": "ψ is the symbol of psychology (from *psyche*, soul)."
       },
       "priority": 80,
       "level": 1,
@@ -404,7 +422,8 @@
       "attrs": {
         "uppercase": "Ω",
         "position": 24,
-        "source": "greek.json"
+        "source": "greek.json",
+        "anecdote": "*O mega* means 'big o'; 'the Alpha and the Omega' means the beginning and the end."
       },
       "priority": 80,
       "level": 1,

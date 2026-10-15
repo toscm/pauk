@@ -41,9 +41,9 @@ integration tests are the contract.)
 
 `GET /health` (no auth)
 
-    {"status": "ok", "db": "ok", "version": "0.13.0"}
+    {"status": "ok", "db": "ok", "version": "0.14.0"}
 
-`version` is the deployed API version (currently 0.13.0); the
+`version` is the deployed API version (currently 0.14.0); the
 example tracks it only loosely.
 
 `db` is `"ok"` or `"error"`; on error the HTTP status is 503.
@@ -486,7 +486,8 @@ Items are addressed as `/items/{space}/{key}` or `/items/{id}`; an alias or the 
 
 - `POST /items` — create. Body: the item fields, optional `dirs` (directory ids), `links` (`[{rel, to}]`, `to` a ref or a key in the same space), and the duplicate protocol below. 201 `{"created": true, "item": ...}`.
 
-- `PUT /items/bulk` — `{"items": [...]}`, at most 500, upsert by exact identity, no candidate checks. Links may point forward within the batch. Response: `created`, `updated`, `unchanged`, `refs`, `conflicts` (an item with `attrs.origin = "teacher"` whose gloss differs is not overwritten), `possible_duplicates` (same normalized label as a teacher-added item), `unresolved_links`.
+- `PUT /items/bulk` — `{"items": [...]}`, at most 500, upsert by exact identity, no candidate checks. Links may point forward within the batch.
+  An item may carry `aliases`, a list of other names (`"p53"`, `"TRP53"`); each becomes an alias (its slug, origin `import`) unless it is the key of another item or already an alias. Response: `created`, `updated`, `unchanged`, `refs`, `conflicts` (an item with `attrs.origin = "teacher"` whose gloss differs is not overwritten), `possible_duplicates` (same normalized label as a teacher-added item), `unresolved_links`.
 
 - `GET /items/{ref}`, `PATCH /items/{ref}` (any item field; a new `key` leaves the old one as an alias; 409 on a key clash).
 
@@ -565,6 +566,14 @@ Merge object: `{id, into, into_label_md, from, from_label_md, status, reason, su
 ### Profile and selection
 
 - `GET /profile?dir=&space=&kind=` — `{"items": 120, "by_mastery": {"0": 80, ..., "5": 2}, "coverage": 0.41, "due": 7, "most_lapses": [{ref, label_md, lapses}]}`. `coverage` is Σ priority·recall / Σ priority. `dir` is recursive by default.
+
+- `GET /profile/dirs?dir=` — the summary of a directory and of every directory below it, in one request (the level map of a course):
+
+      {"dirs": [{"id": 12, "path": "", "items": 120, "by_mastery": {"0": 80, ..., "5": 2}, "due": 7},
+                {"id": 13, "path": "a1", ...}, {"id": 14, "path": "a1/u01-hello", ...}]}
+
+  `path` is relative to `dir` (the first path found when a directory has several parents); counts are recursive like `/profile`.
+  `dir` is required.
 
 - `GET /profile/next?dir=&space=&n=10&new=` — what to practise next:
 

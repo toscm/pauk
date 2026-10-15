@@ -18,7 +18,43 @@ final class Profile
     public function __construct(
         private readonly \PDO $pdo,
         private readonly Items $items,
+        private readonly Dirs $dirs,
     ) {
+    }
+
+    /**
+     * The summary of a directory and of each directory below it, keyed
+     * by the path relative to it (breadth first, so a directory with
+     * several parents gets its shortest path).
+     *
+     * @return list<array<string, mixed>>
+     */
+    public function byDir(int $userId, int $rootId): array
+    {
+        $this->dirs->get($userId, $rootId);   // 404 for a foreign or missing directory
+        $paths = [$rootId => ''];
+        $queue = [$rootId];
+        $children = $this->pdo->prepare(
+            'SELECT d.id, d.name FROM dir_dirs dd JOIN dirs d ON d.id = dd.child_id WHERE dd.parent_id = ? ORDER BY d.name'
+        );
+        while ($queue !== []) {
+            $id = array_shift($queue);
+            $children->execute([$id]);
+            foreach ($children->fetchAll() as $child) {
+                $childId = (int) $child['id'];
+                if (!isset($paths[$childId])) {
+                    $paths[$childId] = ltrim($paths[$id] . '/' . $child['name'], '/');
+                    $queue[] = $childId;
+                }
+            }
+        }
+        $out = [];
+        foreach ($paths as $id => $path) {
+            $summary = $this->summary($userId, ['dir' => $id, 'recursive' => true]);
+            $out[] = ['id' => $id, 'path' => $path, 'items' => $summary['items'], 'by_mastery' => $summary['by_mastery'],
+                      'due' => $summary['due']];
+        }
+        return $out;
     }
 
     /** @param array<string, mixed> $filters */

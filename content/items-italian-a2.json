@@ -1,0 +1,2587 @@
+{
+ "space": "it",
+ "dirs": [],
+ "items": [
+  {
+   "key": "reflexive-verbs",
+   "kind": "rule",
+   "label_md": "reflexive verbs",
+   "gloss_md": "mi, ti, si, ci, vi, si + verb",
+   "body_md": "Reflexive verbs (infinitive in -si) put a reflexive pronoun before the conjugated verb: *mi alzo, ti alzi, si alza, ci alziamo, vi alzate, si alzano*. With an infinitive the pronoun is attached: *devo alzarmi presto*.",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 90,
+   "level": 2
+  },
+  {
+   "key": "svegliarsi",
+   "kind": "word",
+   "label_md": "svegliarsi",
+   "gloss_md": "to wake up",
+   "body_md": "*Mi sveglio alle sette.*",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "verb",
+    "mnemonic": "(de) Die *sveglia* ist der Wecker."
+   },
+   "priority": 80,
+   "level": 2
+  },
+  {
+   "key": "alzarsi",
+   "kind": "word",
+   "label_md": "alzarsi",
+   "gloss_md": "to get up",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "verb",
+    "mnemonic": "(de) Sich *alto* (hoch) machen: aufstehen."
+   },
+   "priority": 80,
+   "level": 2
+  },
+  {
+   "key": "lavarsi",
+   "kind": "word",
+   "label_md": "lavarsi",
+   "gloss_md": "to wash (oneself)",
+   "body_md": "*Mi lavo le mani.*",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "verb",
+    "mnemonic": "(de) Ein *Lavabo* ist ein Waschbecken."
+   },
+   "priority": 70,
+   "level": 2
+  },
+  {
+   "key": "vestirsi",
+   "kind": "word",
+   "label_md": "vestirsi",
+   "gloss_md": "to get dressed",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "verb",
+    "mnemonic": "(de) Die *Weste* kommt vom gleichen lateinischen *vestis* (Kleid)."
+   },
+   "priority": 70,
+   "level": 2
+  },
+  {
+   "key": "divertirsi",
+   "kind": "word",
+   "label_md": "divertirsi",
+   "gloss_md": "to have fun, to enjoy oneself",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "verb",
+    "mnemonic": "A *divertimento* is a light, entertaining piece of music."
+   },
+   "priority": 70,
+   "level": 2
+  },
+  {
+   "key": "riposarsi",
+   "kind": "word",
+   "label_md": "riposarsi",
+   "gloss_md": "to rest",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "verb"
+   },
+   "priority": 60,
+   "level": 2
+  },
+  {
+   "key": "addormentarsi",
+   "kind": "word",
+   "label_md": "addormentarsi",
+   "gloss_md": "to fall asleep",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "verb",
+    "mnemonic": "Contains *dormire*: to slip into sleep."
+   },
+   "priority": 55,
+   "level": 2
+  },
+  {
+   "key": "farsi-la-doccia",
+   "kind": "phrase",
+   "label_md": "farsi la doccia",
+   "gloss_md": "to take a shower",
+   "body_md": "*Mi faccio la doccia.*",
+   "attrs": {
+    "source": "curriculum-a2",
+    "anecdote": "German *Dusche* goes back via French *douche* to Italian *doccia*, a water pipe."
+   },
+   "priority": 70,
+   "level": 2
+  },
+  {
+   "key": "fare-colazione",
+   "kind": "phrase",
+   "label_md": "fare colazione",
+   "gloss_md": "to have breakfast",
+   "body_md": "*Faccio colazione al bar.*",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 80,
+   "level": 2
+  },
+  {
+   "key": "pranzo",
+   "kind": "word",
+   "label_md": "pranzo",
+   "gloss_md": "the lunch",
+   "body_md": "*a pranzo* = at lunch",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m"
+   },
+   "priority": 75,
+   "level": 2
+  },
+  {
+   "key": "cena",
+   "kind": "word",
+   "label_md": "cena",
+   "gloss_md": "the dinner",
+   "body_md": "*a cena* = at dinner",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "f",
+    "anecdote": "The Last Supper is *l'Ultima Cena*."
+   },
+   "priority": 75,
+   "level": 2
+  },
+  {
+   "key": "prima",
+   "kind": "word",
+   "label_md": "prima",
+   "gloss_md": "before, first",
+   "body_md": "*prima di + infinitive*: *prima di uscire*.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "adv",
+    "mnemonic": "(de) *Prima!* heißt eigentlich 'erstklassig'."
+   },
+   "priority": 80,
+   "level": 2
+  },
+  {
+   "key": "dopo",
+   "kind": "word",
+   "label_md": "dopo",
+   "gloss_md": "after, afterwards",
+   "body_md": "*dopo cena* = after dinner",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "adv"
+   },
+   "priority": 85,
+   "level": 2
+  },
+  {
+   "key": "poi",
+   "kind": "word",
+   "label_md": "poi",
+   "gloss_md": "then, afterwards",
+   "body_md": "*Prima mi lavo, poi faccio colazione.*",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "adv"
+   },
+   "priority": 85,
+   "level": 2
+  },
+  {
+   "key": "telling-time",
+   "kind": "rule",
+   "label_md": "telling the time",
+   "gloss_md": "sono le + hour; è l'una, è mezzogiorno",
+   "body_md": "*Sono le tre* (plural, *ore* is implied), but *è l'una*, *è mezzogiorno*, *è mezzanotte*. Minutes are added with *e* or taken away with *meno*: *le tre e un quarto*, *le tre e mezza*, *le quattro meno dieci*.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "mnemonic": "Think of the hidden *ore*: *sono le (ore) tre*."
+   },
+   "priority": 90,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "che-ore-sono"
+    }
+   ]
+  },
+  {
+   "key": "a-che-ora",
+   "kind": "phrase",
+   "label_md": "a che ora?",
+   "gloss_md": "at what time?",
+   "body_md": "Answer with *alle* / *all'*: *alle otto*, *all'una*.",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 85,
+   "level": 2
+  },
+  {
+   "key": "mezzogiorno",
+   "kind": "word",
+   "label_md": "mezzogiorno",
+   "gloss_md": "noon, midday",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m",
+    "anecdote": "*Il Mezzogiorno* is also the name for southern Italy, the land of the midday sun."
+   },
+   "priority": 65,
+   "level": 2
+  },
+  {
+   "key": "lunedi",
+   "kind": "word",
+   "label_md": "lunedì",
+   "gloss_md": "Monday",
+   "body_md": "Days are written lowercase and are masculine except *domenica*. *Lunedì* = on Monday, *il lunedì* = on Mondays.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m",
+    "mnemonic": "(de) Tag des Mondes (*luna*), genau wie Montag."
+   },
+   "priority": 80,
+   "level": 2
+  },
+  {
+   "key": "martedi",
+   "kind": "word",
+   "label_md": "martedì",
+   "gloss_md": "Tuesday",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m",
+    "mnemonic": "The day of Mars, the god of war."
+   },
+   "priority": 75,
+   "level": 2
+  },
+  {
+   "key": "mercoledi",
+   "kind": "word",
+   "label_md": "mercoledì",
+   "gloss_md": "Wednesday",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m",
+    "mnemonic": "The day of Mercury, the messenger god."
+   },
+   "priority": 75,
+   "level": 2
+  },
+  {
+   "key": "giovedi",
+   "kind": "word",
+   "label_md": "giovedì",
+   "gloss_md": "Thursday",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m",
+    "anecdote": "The day of Jupiter (*Giove*); German *Donnerstag* is the day of the thunder god Donar."
+   },
+   "priority": 75,
+   "level": 2
+  },
+  {
+   "key": "venerdi",
+   "kind": "word",
+   "label_md": "venerdì",
+   "gloss_md": "Friday",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m",
+    "mnemonic": "The day of Venus, the goddess of love."
+   },
+   "priority": 75,
+   "level": 2
+  },
+  {
+   "key": "sabato",
+   "kind": "word",
+   "label_md": "sabato",
+   "gloss_md": "Saturday",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m",
+    "anecdote": "From the Hebrew *Sabbath*, the day of rest."
+   },
+   "priority": 75,
+   "level": 2
+  },
+  {
+   "key": "domenica",
+   "kind": "word",
+   "label_md": "domenica",
+   "gloss_md": "Sunday",
+   "body_md": "Feminine: *la domenica* = on Sundays.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "f",
+    "anecdote": "From Latin *dies dominica*, 'the Lord's day'."
+   },
+   "priority": 75,
+   "level": 2
+  },
+  {
+   "key": "settimana",
+   "kind": "word",
+   "label_md": "settimana",
+   "gloss_md": "the week",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "f",
+    "mnemonic": "Contains *sette*: the seven days."
+   },
+   "priority": 85,
+   "level": 2
+  },
+  {
+   "key": "mattina",
+   "kind": "word",
+   "label_md": "mattina",
+   "gloss_md": "the morning",
+   "body_md": "*di mattina* = in the morning; also *il mattino*.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "f",
+    "mnemonic": "(de) Eine *Matinee* ist eine Vorstellung am Vormittag."
+   },
+   "priority": 85,
+   "level": 2
+  },
+  {
+   "key": "pomeriggio",
+   "kind": "word",
+   "label_md": "pomeriggio",
+   "gloss_md": "the afternoon",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m",
+    "anecdote": "From Latin *post meridiem*, the same p.m. as in English times."
+   },
+   "priority": 80,
+   "level": 2
+  },
+  {
+   "key": "sera",
+   "kind": "word",
+   "label_md": "sera",
+   "gloss_md": "the evening",
+   "body_md": "*stasera* = this evening",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "f"
+   },
+   "priority": 85,
+   "level": 2
+  },
+  {
+   "key": "oggi",
+   "kind": "word",
+   "label_md": "oggi",
+   "gloss_md": "today",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "adv",
+    "anecdote": "From Latin *hodie*, 'on this day'."
+   },
+   "priority": 95,
+   "level": 2
+  },
+  {
+   "key": "domani",
+   "kind": "word",
+   "label_md": "domani",
+   "gloss_md": "tomorrow",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "adv",
+    "anecdote": "From Latin *de mane*, 'from the morning'."
+   },
+   "priority": 95,
+   "level": 2
+  },
+  {
+   "key": "preposizioni-articolate",
+   "kind": "rule",
+   "label_md": "prepositions with articles",
+   "gloss_md": "a, di, da, in, su + il → al, del, dal, nel, sul",
+   "body_md": "The prepositions *a, di, da, in, su* merge with the definite article: *al bar*, *della casa*, *dalla stazione*, *nel treno*, *sui tavoli*. *in* becomes *ne-* (*nel, nello, nella, nei, negli, nelle*) and *di* becomes *de-* (*del, dello, della, dei, degli, delle*).",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 90,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "definite-article"
+    }
+   ]
+  },
+  {
+   "key": "transport-in",
+   "kind": "rule",
+   "label_md": "means of transport",
+   "gloss_md": "in treno, in macchina, in aereo — but a piedi",
+   "body_md": "Means of transport take *in* without an article: *vado in treno, in autobus, in bici*. With an article you need the combined form: *sul treno delle otto*.",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 75,
+   "level": 2
+  },
+  {
+   "key": "c-e",
+   "kind": "phrase",
+   "label_md": "c'è / ci sono",
+   "gloss_md": "there is / there are",
+   "body_md": "*C'è un treno alle otto? Ci sono due camere libere.*",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 90,
+   "level": 2
+  },
+  {
+   "key": "viaggio",
+   "kind": "word",
+   "label_md": "viaggio",
+   "gloss_md": "the trip, the journey",
+   "body_md": "*Buon viaggio!*",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m"
+   },
+   "priority": 85,
+   "level": 2
+  },
+  {
+   "key": "vacanza",
+   "kind": "word",
+   "label_md": "vacanza",
+   "gloss_md": "the holiday, the vacation",
+   "body_md": "*in vacanza* = on holiday",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "f",
+    "mnemonic": "(de) Eine *Vakanz* ist eine freie Stelle: frei haben."
+   },
+   "priority": 85,
+   "level": 2
+  },
+  {
+   "key": "aereo",
+   "kind": "word",
+   "label_md": "aereo",
+   "gloss_md": "the airplane",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m"
+   },
+   "priority": 75,
+   "level": 2
+  },
+  {
+   "key": "aeroporto",
+   "kind": "word",
+   "label_md": "aeroporto",
+   "gloss_md": "the airport",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m"
+   },
+   "priority": 70,
+   "level": 2
+  },
+  {
+   "key": "autobus",
+   "kind": "word",
+   "label_md": "autobus",
+   "gloss_md": "the bus",
+   "body_md": "Invariable: *l'autobus, gli autobus*.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m",
+    "anecdote": "*bus* is short for Latin *omnibus*, 'for everyone'."
+   },
+   "priority": 75,
+   "level": 2
+  },
+  {
+   "key": "valigia",
+   "kind": "word",
+   "label_md": "valigia",
+   "gloss_md": "the suitcase",
+   "body_md": "Plural: *le valigie*.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "f"
+   },
+   "priority": 65,
+   "level": 2
+  },
+  {
+   "key": "passaporto",
+   "kind": "word",
+   "label_md": "passaporto",
+   "gloss_md": "the passport",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m"
+   },
+   "priority": 60,
+   "level": 2
+  },
+  {
+   "key": "prenotare",
+   "kind": "word",
+   "label_md": "prenotare",
+   "gloss_md": "to book, to reserve",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "verb",
+    "mnemonic": "*pre* + *notare*: to note down beforehand."
+   },
+   "priority": 70,
+   "level": 2
+  },
+  {
+   "key": "ho-una-prenotazione",
+   "kind": "phrase",
+   "label_md": "ho una prenotazione",
+   "gloss_md": "I have a reservation.",
+   "body_md": "*Ho una prenotazione a nome Rossi.*",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 70,
+   "level": 2
+  },
+  {
+   "key": "camera-singola",
+   "kind": "phrase",
+   "label_md": "camera singola",
+   "gloss_md": "single room",
+   "attrs": {
+    "source": "curriculum-a2",
+    "mnemonic": "*camera* is a room here, not a camera!"
+   },
+   "priority": 60,
+   "level": 2
+  },
+  {
+   "key": "camera-doppia",
+   "kind": "phrase",
+   "label_md": "camera doppia",
+   "gloss_md": "double room",
+   "body_md": "*matrimoniale* = with a double bed",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 60,
+   "level": 2
+  },
+  {
+   "key": "in-ritardo",
+   "kind": "phrase",
+   "label_md": "in ritardo",
+   "gloss_md": "late, delayed",
+   "body_md": "*Il treno è in ritardo.* Opposite: *in orario* = on time.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "mnemonic": "(de) *Ritardando* heißt in der Musik 'langsamer werdend'."
+   },
+   "priority": 70,
+   "level": 2
+  },
+  {
+   "key": "a-piedi",
+   "kind": "phrase",
+   "label_md": "a piedi",
+   "gloss_md": "on foot",
+   "body_md": "*Vado a piedi.*",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 70,
+   "level": 2
+  },
+  {
+   "key": "past-participle-regular",
+   "kind": "rule",
+   "label_md": "regular past participle",
+   "gloss_md": "-are → -ato, -ere → -uto, -ire → -ito",
+   "body_md": "*parlare → parlato, vendere → venduto, dormire → dormito*. Many frequent verbs, especially in -ere, have irregular participles: *fatto, visto, preso, messo*.",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 90,
+   "level": 2
+  },
+  {
+   "key": "passato-prossimo-avere",
+   "kind": "rule",
+   "label_md": "passato prossimo with avere",
+   "gloss_md": "present of avere + past participle",
+   "body_md": "The passato prossimo expresses completed actions: *Ho mangiato una pizza. Abbiamo visto un film.* Most verbs, including all verbs with a direct object, use *avere*; the participle stays unchanged.",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 95,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "avere.pres"
+    },
+    {
+     "rel": "requires",
+     "to": "past-participle-regular"
+    }
+   ]
+  },
+  {
+   "key": "fare.pp",
+   "kind": "form",
+   "label_md": "fare — past participle",
+   "gloss_md": "fatto",
+   "attrs": {
+    "source": "curriculum-a2",
+    "tense": "past participle",
+    "mnemonic": "(de) Ein *Fakt* ist lateinisch 'das Gemachte'."
+   },
+   "priority": 85,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "fare"
+    }
+   ]
+  },
+  {
+   "key": "dire.pp",
+   "kind": "form",
+   "label_md": "dire — past participle",
+   "gloss_md": "detto",
+   "attrs": {
+    "source": "curriculum-a2",
+    "tense": "past participle",
+    "anecdote": "*un detto* is also 'a saying'."
+   },
+   "priority": 80,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "dire"
+    }
+   ]
+  },
+  {
+   "key": "vedere.pp",
+   "kind": "form",
+   "label_md": "vedere — past participle",
+   "gloss_md": "visto",
+   "attrs": {
+    "source": "curriculum-a2",
+    "tense": "past participle",
+    "mnemonic": "(de) Das *Visum* ist das 'Gesehene'."
+   },
+   "priority": 85,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "vedere"
+    }
+   ]
+  },
+  {
+   "key": "prendere.pp",
+   "kind": "form",
+   "label_md": "prendere — past participle",
+   "gloss_md": "preso",
+   "attrs": {
+    "source": "curriculum-a2",
+    "tense": "past participle"
+   },
+   "priority": 80,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "prendere"
+    }
+   ]
+  },
+  {
+   "key": "mettere.pp",
+   "kind": "form",
+   "label_md": "mettere — past participle",
+   "gloss_md": "messo",
+   "attrs": {
+    "source": "curriculum-a2",
+    "tense": "past participle"
+   },
+   "priority": 70,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "mettere"
+    }
+   ]
+  },
+  {
+   "key": "leggere.pp",
+   "kind": "form",
+   "label_md": "leggere — past participle",
+   "gloss_md": "letto",
+   "attrs": {
+    "source": "curriculum-a2",
+    "tense": "past participle",
+    "mnemonic": "*letto* is also 'bed': *Ho letto a letto* = I read in bed."
+   },
+   "priority": 70,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "leggere"
+    }
+   ]
+  },
+  {
+   "key": "scrivere.pp",
+   "kind": "form",
+   "label_md": "scrivere — past participle",
+   "gloss_md": "scritto",
+   "attrs": {
+    "source": "curriculum-a2",
+    "tense": "past participle",
+    "mnemonic": "(de) Ein *Skript* ist etwas Geschriebenes."
+   },
+   "priority": 70,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "scrivere"
+    }
+   ]
+  },
+  {
+   "key": "aprire.pp",
+   "kind": "form",
+   "label_md": "aprire — past participle",
+   "gloss_md": "aperto",
+   "attrs": {
+    "source": "curriculum-a2",
+    "tense": "past participle",
+    "mnemonic": "(de) Der *Aperitif* öffnet den Appetit."
+   },
+   "priority": 65,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "aprire"
+    }
+   ]
+  },
+  {
+   "key": "bere.pp",
+   "kind": "form",
+   "label_md": "bere — past participle",
+   "gloss_md": "bevuto",
+   "attrs": {
+    "source": "curriculum-a2",
+    "tense": "past participle"
+   },
+   "priority": 70,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "bere"
+    }
+   ]
+  },
+  {
+   "key": "chiedere",
+   "kind": "word",
+   "label_md": "chiedere",
+   "gloss_md": "to ask",
+   "body_md": "*chiedere qualcosa a qualcuno*",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "verb"
+   },
+   "priority": 75,
+   "level": 2
+  },
+  {
+   "key": "chiedere.pp",
+   "kind": "form",
+   "label_md": "chiedere — past participle",
+   "gloss_md": "chiesto",
+   "attrs": {
+    "source": "curriculum-a2",
+    "tense": "past participle"
+   },
+   "priority": 65,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "chiedere"
+    }
+   ]
+  },
+  {
+   "key": "ieri",
+   "kind": "word",
+   "label_md": "ieri",
+   "gloss_md": "yesterday",
+   "body_md": "*ieri sera* = last night; *l'altro ieri* = the day before yesterday",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "adv"
+   },
+   "priority": 95,
+   "level": 2
+  },
+  {
+   "key": "fa",
+   "kind": "word",
+   "label_md": "fa",
+   "gloss_md": "ago",
+   "body_md": "Follows the time span: *due giorni fa*, *un anno fa*.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "adv",
+    "mnemonic": "Comes from *fare*: *due giorni fa*, two days 'make' it."
+   },
+   "priority": 85,
+   "level": 2
+  },
+  {
+   "key": "passato-prossimo-essere",
+   "kind": "rule",
+   "label_md": "passato prossimo with essere",
+   "gloss_md": "present of essere + participle that agrees with the subject",
+   "body_md": "Most verbs of motion and change of state (*andare, venire, arrivare, partire, uscire, tornare, nascere, morire, rimanere*) and *essere* itself use *essere*: *Sono andato a Roma. Maria è partita ieri.*",
+   "attrs": {
+    "source": "curriculum-a2",
+    "mnemonic": "(de) Fast wie im Deutschen: ich bin gegangen → *sono andato*."
+   },
+   "priority": 95,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "essere.pres"
+    },
+    {
+     "rel": "requires",
+     "to": "passato-prossimo-avere"
+    }
+   ]
+  },
+  {
+   "key": "participle-agreement",
+   "kind": "rule",
+   "label_md": "participle agreement with essere",
+   "gloss_md": "-o, -a, -i, -e like an adjective",
+   "body_md": "With *essere* the participle agrees with the subject: *Marco è arrivato, Anna è arrivata, i ragazzi sono arrivati, le ragazze sono arrivate*.",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 85,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "passato-prossimo-essere"
+    }
+   ]
+  },
+  {
+   "key": "reflexive-past",
+   "kind": "rule",
+   "label_md": "reflexive verbs in the passato prossimo",
+   "gloss_md": "always with essere: mi sono alzato/a",
+   "body_md": "Reflexive verbs always take *essere*, and the participle agrees: *Mi sono svegliata alle sette. Ci siamo divertiti.*",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 75,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "reflexive-verbs"
+    },
+    {
+     "rel": "requires",
+     "to": "passato-prossimo-essere"
+    }
+   ]
+  },
+  {
+   "key": "essere.pp",
+   "kind": "form",
+   "label_md": "essere — past participle",
+   "gloss_md": "stato",
+   "attrs": {
+    "source": "curriculum-a2",
+    "tense": "past participle",
+    "mnemonic": "(de) *stato* heißt auch 'Staat' oder 'Zustand', vgl. *Status*."
+   },
+   "priority": 90,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "essere"
+    }
+   ]
+  },
+  {
+   "key": "venire.pp",
+   "kind": "form",
+   "label_md": "venire — past participle",
+   "gloss_md": "venuto",
+   "attrs": {
+    "source": "curriculum-a2",
+    "tense": "past participle"
+   },
+   "priority": 80,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "venire"
+    }
+   ]
+  },
+  {
+   "key": "nascere",
+   "kind": "word",
+   "label_md": "nascere",
+   "gloss_md": "to be born",
+   "body_md": "*Sono nato a Milano.*",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "verb",
+    "mnemonic": "(de) Die *Renaissance* ist die 'Wiedergeburt'."
+   },
+   "priority": 65,
+   "level": 2
+  },
+  {
+   "key": "nascere.pp",
+   "kind": "form",
+   "label_md": "nascere — past participle",
+   "gloss_md": "nato",
+   "attrs": {
+    "source": "curriculum-a2",
+    "tense": "past participle",
+    "anecdote": "*Natale*, Christmas, is the day of the birth."
+   },
+   "priority": 65,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "nascere"
+    }
+   ]
+  },
+  {
+   "key": "morire",
+   "kind": "word",
+   "label_md": "morire",
+   "gloss_md": "to die",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "verb",
+    "mnemonic": "(de) *Memento mori*: Denk daran, dass du sterben wirst."
+   },
+   "priority": 55,
+   "level": 2
+  },
+  {
+   "key": "morire.pp",
+   "kind": "form",
+   "label_md": "morire — past participle",
+   "gloss_md": "morto",
+   "attrs": {
+    "source": "curriculum-a2",
+    "tense": "past participle"
+   },
+   "priority": 55,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "morire"
+    }
+   ]
+  },
+  {
+   "key": "rimanere",
+   "kind": "word",
+   "label_md": "rimanere",
+   "gloss_md": "to remain, to stay on",
+   "body_md": "Present: *rimango, rimani, rimane, rimaniamo, rimanete, rimangono*.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "verb",
+    "mnemonic": "English *remain*."
+   },
+   "priority": 65,
+   "level": 2
+  },
+  {
+   "key": "rimanere.pp",
+   "kind": "form",
+   "label_md": "rimanere — past participle",
+   "gloss_md": "rimasto",
+   "attrs": {
+    "source": "curriculum-a2",
+    "tense": "past participle"
+   },
+   "priority": 60,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "rimanere"
+    }
+   ]
+  },
+  {
+   "key": "tornare",
+   "kind": "word",
+   "label_md": "tornare",
+   "gloss_md": "to return, to come back",
+   "body_md": "*Sono tornato a casa tardi.*",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "verb",
+    "mnemonic": "(de) Auf einer *Tournee* kehrt man am Ende zurück."
+   },
+   "priority": 80,
+   "level": 2
+  },
+  {
+   "key": "gia",
+   "kind": "word",
+   "label_md": "già",
+   "gloss_md": "already",
+   "body_md": "*Hai già mangiato?*",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "adv"
+   },
+   "priority": 85,
+   "level": 2
+  },
+  {
+   "key": "ancora",
+   "kind": "word",
+   "label_md": "ancora",
+   "gloss_md": "still, yet, again",
+   "body_md": "*non ... ancora* = not yet: *Non sono ancora arrivati.*",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "adv",
+    "mnemonic": "With the stress on the first syllable, *àncora* is an anchor."
+   },
+   "priority": 85,
+   "level": 2
+  },
+  {
+   "key": "mai",
+   "kind": "word",
+   "label_md": "mai",
+   "gloss_md": "never; ever",
+   "body_md": "*non ... mai* = never: *Non sono mai stato a Napoli.* In questions: *Sei mai stato a Roma?*",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "adv",
+    "mnemonic": "*Mai più!* = Never again!"
+   },
+   "priority": 85,
+   "level": 2
+  },
+  {
+   "key": "sempre",
+   "kind": "word",
+   "label_md": "sempre",
+   "gloss_md": "always",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "adv",
+    "mnemonic": "Like Latin *semper*, as in *semper fidelis*."
+   },
+   "priority": 90,
+   "level": 2
+  },
+  {
+   "key": "che-tempo-fa",
+   "kind": "phrase",
+   "label_md": "che tempo fa?",
+   "gloss_md": "What's the weather like?",
+   "attrs": {
+    "source": "curriculum-a2",
+    "mnemonic": "*tempo* is both 'weather' and 'time'."
+   },
+   "priority": 85,
+   "level": 2
+  },
+  {
+   "key": "fa-bel-tempo",
+   "kind": "phrase",
+   "label_md": "fa bel tempo",
+   "gloss_md": "The weather is nice.",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 80,
+   "level": 2
+  },
+  {
+   "key": "fa-brutto-tempo",
+   "kind": "phrase",
+   "label_md": "fa brutto tempo",
+   "gloss_md": "The weather is bad.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "mnemonic": "False friend: *brutto* means ugly, not brutal."
+   },
+   "priority": 70,
+   "level": 2
+  },
+  {
+   "key": "fa-caldo",
+   "kind": "phrase",
+   "label_md": "fa caldo",
+   "gloss_md": "It is hot.",
+   "body_md": "Weather uses *fare*: *fa caldo*, *fa freddo*. Person: *ho caldo* = I am hot.",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 80,
+   "level": 2
+  },
+  {
+   "key": "fa-freddo",
+   "kind": "phrase",
+   "label_md": "fa freddo",
+   "gloss_md": "It is cold.",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 80,
+   "level": 2
+  },
+  {
+   "key": "piove",
+   "kind": "phrase",
+   "label_md": "piove",
+   "gloss_md": "It is raining.",
+   "body_md": "From *piovere*; past: *è piovuto* or *ha piovuto*.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "mnemonic": "Latin *pl-* becomes *pi-*: *pluvia* → *pioggia*, *platea* → *piazza*, *plenus* → *pieno*."
+   },
+   "priority": 80,
+   "level": 2
+  },
+  {
+   "key": "nevica",
+   "kind": "phrase",
+   "label_md": "nevica",
+   "gloss_md": "It is snowing.",
+   "body_md": "From *nevicare*.",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 65,
+   "level": 2
+  },
+  {
+   "key": "neve",
+   "kind": "word",
+   "label_md": "neve",
+   "gloss_md": "the snow",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "f",
+    "mnemonic": "(de) Die *Sierra Nevada* ist das 'verschneite Gebirge'."
+   },
+   "priority": 60,
+   "level": 2
+  },
+  {
+   "key": "nuvola",
+   "kind": "word",
+   "label_md": "nuvola",
+   "gloss_md": "the cloud",
+   "body_md": "*nuvoloso* = cloudy",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "f"
+   },
+   "priority": 55,
+   "level": 2
+  },
+  {
+   "key": "vento",
+   "kind": "word",
+   "label_md": "vento",
+   "gloss_md": "the wind",
+   "body_md": "*c'è vento* / *tira vento* = it is windy",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m",
+    "mnemonic": "(de) Der *Ventilator* macht Wind."
+   },
+   "priority": 65,
+   "level": 2
+  },
+  {
+   "key": "primavera",
+   "kind": "word",
+   "label_md": "primavera",
+   "gloss_md": "the spring",
+   "body_md": "*in primavera* = in spring",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "f",
+    "anecdote": "*prima vera*, 'first spring', from Latin *ver* 'spring'."
+   },
+   "priority": 70,
+   "level": 2
+  },
+  {
+   "key": "estate",
+   "kind": "word",
+   "label_md": "estate",
+   "gloss_md": "the summer",
+   "body_md": "Feminine: *l'estate*; *in estate* / *d'estate*.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "f",
+    "mnemonic": "False friend: *estate* is summer, not real estate."
+   },
+   "priority": 75,
+   "level": 2
+  },
+  {
+   "key": "autunno",
+   "kind": "word",
+   "label_md": "autunno",
+   "gloss_md": "the autumn, the fall",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m"
+   },
+   "priority": 65,
+   "level": 2
+  },
+  {
+   "key": "inverno",
+   "kind": "word",
+   "label_md": "inverno",
+   "gloss_md": "the winter",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m",
+    "mnemonic": "From Latin *hibernum*, like animals that *hibernate*."
+   },
+   "priority": 70,
+   "level": 2
+  },
+  {
+   "key": "mese",
+   "kind": "word",
+   "label_md": "mese",
+   "gloss_md": "the month",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m"
+   },
+   "priority": 85,
+   "level": 2
+  },
+  {
+   "key": "months-and-dates",
+   "kind": "rule",
+   "label_md": "months and dates",
+   "gloss_md": "gennaio, febbraio, marzo, aprile, maggio, giugno, luglio, agosto, settembre, ottobre, novembre, dicembre",
+   "body_md": "Months are masculine and written lowercase: *a luglio*, *in luglio*. Dates use cardinal numbers with *il*: *il 3 marzo*, *il 25 dicembre*, but *il primo maggio*.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "anecdote": "*settembre* to *dicembre* mean 7th to 10th month: the old Roman year started in March."
+   },
+   "priority": 85,
+   "level": 2
+  },
+  {
+   "key": "partitive-article",
+   "kind": "rule",
+   "label_md": "partitive article",
+   "gloss_md": "del, della, dei, delle = some",
+   "body_md": "*di* + definite article expresses an unspecified amount: *Vorrei del pane. Ho comprato delle scarpe.*",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 70,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "preposizioni-articolate"
+    }
+   ]
+  },
+  {
+   "key": "vestito",
+   "kind": "word",
+   "label_md": "vestito",
+   "gloss_md": "the dress; the suit",
+   "body_md": "Plural *i vestiti* = clothes.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m"
+   },
+   "priority": 80,
+   "level": 2
+  },
+  {
+   "key": "maglietta",
+   "kind": "word",
+   "label_md": "maglietta",
+   "gloss_md": "the T-shirt",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "f",
+    "anecdote": "A diminutive of *maglia*; the *maglia rosa* is the leader's pink jersey in the Giro d'Italia."
+   },
+   "priority": 70,
+   "level": 2
+  },
+  {
+   "key": "camicia",
+   "kind": "word",
+   "label_md": "camicia",
+   "gloss_md": "the shirt",
+   "body_md": "Plural: *le camicie*.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "f",
+    "mnemonic": "English *chemise*: a shirt."
+   },
+   "priority": 70,
+   "level": 2
+  },
+  {
+   "key": "pantaloni",
+   "kind": "word",
+   "label_md": "pantaloni",
+   "gloss_md": "the trousers, the pants",
+   "body_md": "Plural noun: *i pantaloni*.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m",
+    "anecdote": "Named after Pantalone, the commedia dell'arte character in long trousers."
+   },
+   "priority": 70,
+   "level": 2
+  },
+  {
+   "key": "gonna",
+   "kind": "word",
+   "label_md": "gonna",
+   "gloss_md": "the skirt",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "f"
+   },
+   "priority": 60,
+   "level": 2
+  },
+  {
+   "key": "giacca",
+   "kind": "word",
+   "label_md": "giacca",
+   "gloss_md": "the jacket",
+   "body_md": "Plural: *le giacche*.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "f",
+    "mnemonic": "(de) *giacca* = Jacke, Jackett."
+   },
+   "priority": 65,
+   "level": 2
+  },
+  {
+   "key": "scarpa",
+   "kind": "word",
+   "label_md": "scarpa",
+   "gloss_md": "the shoe",
+   "body_md": "Usually plural: *le scarpe*.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "f"
+   },
+   "priority": 75,
+   "level": 2
+  },
+  {
+   "key": "taglia",
+   "kind": "word",
+   "label_md": "taglia",
+   "gloss_md": "the (clothing) size",
+   "body_md": "Shoes: *il numero* (*che numero porta?*).",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "f",
+    "mnemonic": "From *tagliare* 'to cut': the cut of the garment (cf. *tagliatelle*)."
+   },
+   "priority": 70,
+   "level": 2
+  },
+  {
+   "key": "portare",
+   "kind": "word",
+   "label_md": "portare",
+   "gloss_md": "to wear; to carry, to bring",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "verb",
+    "mnemonic": "(de) Das *Portemonnaie* trägt das Geld."
+   },
+   "priority": 80,
+   "level": 2
+  },
+  {
+   "key": "caro",
+   "kind": "word",
+   "label_md": "caro",
+   "gloss_md": "expensive; dear",
+   "body_md": "*È troppo caro.* In letters: *Caro Marco*.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "adj",
+    "mnemonic": "Like English *dear*: both 'beloved' and 'expensive'."
+   },
+   "priority": 80,
+   "level": 2
+  },
+  {
+   "key": "economico",
+   "kind": "word",
+   "label_md": "economico",
+   "gloss_md": "cheap, inexpensive",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "adj",
+    "mnemonic": "(de) *ökonomisch* = sparsam, also billig."
+   },
+   "priority": 65,
+   "level": 2
+  },
+  {
+   "key": "sconto",
+   "kind": "word",
+   "label_md": "sconto",
+   "gloss_md": "the discount",
+   "body_md": "*i saldi* = the sales",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m",
+    "anecdote": "German *Skonto* is borrowed from this Italian word."
+   },
+   "priority": 60,
+   "level": 2
+  },
+  {
+   "key": "camerino",
+   "kind": "word",
+   "label_md": "camerino",
+   "gloss_md": "the fitting room",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m",
+    "mnemonic": "A 'little *camera*', a small room."
+   },
+   "priority": 45,
+   "level": 2
+  },
+  {
+   "key": "posso-provarlo",
+   "kind": "phrase",
+   "label_md": "posso provarlo?",
+   "gloss_md": "Can I try it on?",
+   "body_md": "Feminine object: *posso provarla?*",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 65,
+   "level": 2
+  },
+  {
+   "key": "che-taglia-porta",
+   "kind": "phrase",
+   "label_md": "che taglia porta?",
+   "gloss_md": "What size do you wear? (formal)",
+   "body_md": "Informal: *che taglia porti?*",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 60,
+   "level": 2
+  },
+  {
+   "key": "direct-object-pronouns",
+   "kind": "rule",
+   "label_md": "direct object pronouns",
+   "gloss_md": "mi, ti, lo, la, ci, vi, li, le",
+   "body_md": "They replace the direct object and go before the conjugated verb: *Conosci Marco? – Sì, lo conosco. Compri le mele? – Sì, le compro.* With an infinitive they are attached: *Voglio vederla.*",
+   "attrs": {
+    "source": "curriculum-a2",
+    "mnemonic": "*lo, la, le* look like the articles; *li* is the plural of *lo*."
+   },
+   "priority": 90,
+   "level": 2
+  },
+  {
+   "key": "pronoun-past-agreement",
+   "kind": "rule",
+   "label_md": "object pronouns in the passato prossimo",
+   "gloss_md": "l'ho visto/vista, li ho visti, le ho viste",
+   "body_md": "*lo* and *la* become *l'* before forms of avere, and the participle agrees with *lo, la, li, le*: *Hai visto Anna? – Sì, l'ho vista.*",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 70,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "direct-object-pronouns"
+    },
+    {
+     "rel": "requires",
+     "to": "passato-prossimo-avere"
+    }
+   ]
+  },
+  {
+   "key": "indirect-object-pronouns",
+   "kind": "rule",
+   "label_md": "indirect object pronouns",
+   "gloss_md": "mi, ti, gli, le, ci, vi, gli = to me, to you, ...",
+   "body_md": "*Gli scrivo* = I write to him, *Le telefono* = I call her (or you, formal). Common with *dare, dire, telefonare, regalare, mandare*.",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 80,
+   "level": 2
+  },
+  {
+   "key": "piacere-construction",
+   "kind": "rule",
+   "label_md": "mi piace / mi piacciono",
+   "gloss_md": "I like (literally: it pleases me)",
+   "body_md": "The thing you like is the subject: *Mi piace la pizza. Mi piacciono i gatti.* The person is an indirect object: *A Marco piace il calcio = Gli piace il calcio.* Past with essere: *Mi è piaciuto il film.*",
+   "attrs": {
+    "source": "curriculum-a2",
+    "mnemonic": "(de) Wie 'gefallen': Die Pizza gefällt mir = *Mi piace la pizza*."
+   },
+   "priority": 95,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "indirect-object-pronouns"
+    }
+   ]
+  },
+  {
+   "key": "lo-prendo",
+   "kind": "phrase",
+   "label_md": "lo prendo",
+   "gloss_md": "I'll take it.",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 70,
+   "level": 2
+  },
+  {
+   "key": "non-lo-so",
+   "kind": "phrase",
+   "label_md": "non lo so",
+   "gloss_md": "I don't know.",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 90,
+   "level": 2
+  },
+  {
+   "key": "ci-vediamo",
+   "kind": "phrase",
+   "label_md": "ci vediamo",
+   "gloss_md": "See you!",
+   "body_md": "*Ci vediamo domani / dopo / alle otto.*",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 85,
+   "level": 2
+  },
+  {
+   "key": "ti-va",
+   "kind": "phrase",
+   "label_md": "ti va?",
+   "gloss_md": "Do you feel like it?",
+   "body_md": "*Ti va di andare al cinema?* Formal: *Le va?*",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 70,
+   "level": 2
+  },
+  {
+   "key": "regalare",
+   "kind": "word",
+   "label_md": "regalare",
+   "gloss_md": "to give (as a present)",
+   "body_md": "*il regalo* = the present",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "verb"
+   },
+   "priority": 65,
+   "level": 2
+  },
+  {
+   "key": "mandare",
+   "kind": "word",
+   "label_md": "mandare",
+   "gloss_md": "to send",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "verb",
+    "mnemonic": "(de) Ein *Mandat* ist ein übergebener Auftrag."
+   },
+   "priority": 70,
+   "level": 2
+  },
+  {
+   "key": "telefonare",
+   "kind": "word",
+   "label_md": "telefonare",
+   "gloss_md": "to phone, to call",
+   "body_md": "Takes *a*: *telefono a Marco = gli telefono*.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "verb"
+   },
+   "priority": 70,
+   "level": 2
+  },
+  {
+   "key": "prestare",
+   "kind": "word",
+   "label_md": "prestare",
+   "gloss_md": "to lend",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "verb"
+   },
+   "priority": 50,
+   "level": 2
+  },
+  {
+   "key": "adjective-agreement",
+   "kind": "rule",
+   "label_md": "adjective agreement",
+   "gloss_md": "-o/-a/-i/-e; adjectives in -e: -e/-i",
+   "body_md": "Adjectives agree with the noun and usually follow it: *un ragazzo alto, una ragazza alta, ragazzi alti, ragazze alte*. Adjectives in -e have two forms: *un uomo gentile, donne gentili*.",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 90,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "noun-gender"
+    }
+   ]
+  },
+  {
+   "key": "comparative",
+   "kind": "rule",
+   "label_md": "comparative",
+   "gloss_md": "più / meno + adjective + di / che",
+   "body_md": "*Marco è più alto di Luca. Roma è meno cara di Milano.* Use *che* when comparing two adjectives, verbs or quantities: *più bello che utile*. Equality: *alto come me*, *tanto quanto*.",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 85,
+   "level": 2
+  },
+  {
+   "key": "superlative",
+   "kind": "rule",
+   "label_md": "superlative",
+   "gloss_md": "il più / il meno ... di; -issimo",
+   "body_md": "Relative: *È la città più bella d'Italia. È il più giovane della famiglia.* Absolute with -issimo: *bellissimo, buonissima*.",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 80,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "comparative"
+    }
+   ]
+  },
+  {
+   "key": "com-e",
+   "kind": "phrase",
+   "label_md": "com'è?",
+   "gloss_md": "What is he / she / it like?",
+   "body_md": "*Com'è il tuo nuovo collega?*",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 75,
+   "level": 2
+  },
+  {
+   "key": "capelli",
+   "kind": "word",
+   "label_md": "capelli",
+   "gloss_md": "the hair (on the head)",
+   "body_md": "Plural noun: *ha i capelli lunghi*.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m",
+    "anecdote": "*Capellini*, 'little hairs', is the thinnest kind of pasta."
+   },
+   "priority": 75,
+   "level": 2
+  },
+  {
+   "key": "occhio",
+   "kind": "word",
+   "label_md": "occhio",
+   "gloss_md": "the eye",
+   "body_md": "Plural: *gli occhi*; *ha gli occhi azzurri*.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m",
+    "anecdote": "*Occhio!* means 'Watch out!', often said while pulling down the lower eyelid."
+   },
+   "priority": 75,
+   "level": 2
+  },
+  {
+   "key": "biondo",
+   "kind": "word",
+   "label_md": "biondo",
+   "gloss_md": "blond",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "adj"
+   },
+   "priority": 60,
+   "level": 2
+  },
+  {
+   "key": "castano",
+   "kind": "word",
+   "label_md": "castano",
+   "gloss_md": "brown (hair, eyes)",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "adj",
+    "mnemonic": "From *castagna*, chestnut."
+   },
+   "priority": 55,
+   "level": 2
+  },
+  {
+   "key": "azzurro",
+   "kind": "word",
+   "label_md": "azzurro",
+   "gloss_md": "light blue",
+   "body_md": "Typical for eyes and the sky; *blu* = dark blue.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "adj",
+    "anecdote": "Italy's national teams are *gli Azzurri*, after the blue of the House of Savoy."
+   },
+   "priority": 60,
+   "level": 2
+  },
+  {
+   "key": "magro",
+   "kind": "word",
+   "label_md": "magro",
+   "gloss_md": "thin, slim",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "adj",
+    "mnemonic": "(de) *magro* = mager."
+   },
+   "priority": 60,
+   "level": 2
+  },
+  {
+   "key": "simpatico",
+   "kind": "word",
+   "label_md": "simpatico",
+   "gloss_md": "nice, likeable",
+   "body_md": "Plural: *simpatici, simpatiche*. Opposite: *antipatico*.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "adj",
+    "mnemonic": "(de) *simpatico* = sympathisch."
+   },
+   "priority": 80,
+   "level": 2
+  },
+  {
+   "key": "gentile",
+   "kind": "word",
+   "label_md": "gentile",
+   "gloss_md": "kind, polite",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "adj",
+    "mnemonic": "Like English *gentle*: kind, polite."
+   },
+   "priority": 75,
+   "level": 2
+  },
+  {
+   "key": "timido",
+   "kind": "word",
+   "label_md": "timido",
+   "gloss_md": "shy",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "adj"
+   },
+   "priority": 55,
+   "level": 2
+  },
+  {
+   "key": "intelligente",
+   "kind": "word",
+   "label_md": "intelligente",
+   "gloss_md": "intelligent, clever",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "adj"
+   },
+   "priority": 65,
+   "level": 2
+  },
+  {
+   "key": "migliore",
+   "kind": "word",
+   "label_md": "migliore",
+   "gloss_md": "better; il migliore = the best",
+   "body_md": "Comparative of *buono*; the adverb is *meglio*: *sto meglio*.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "adj"
+   },
+   "priority": 80,
+   "level": 2
+  },
+  {
+   "key": "peggiore",
+   "kind": "word",
+   "label_md": "peggiore",
+   "gloss_md": "worse; il peggiore = the worst",
+   "body_md": "Comparative of *cattivo*; the adverb is *peggio*.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "adj",
+    "mnemonic": "English *pejorative*: making something worse."
+   },
+   "priority": 65,
+   "level": 2
+  },
+  {
+   "key": "corpo",
+   "kind": "word",
+   "label_md": "corpo",
+   "gloss_md": "the body",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m"
+   },
+   "priority": 65,
+   "level": 2
+  },
+  {
+   "key": "testa",
+   "kind": "word",
+   "label_md": "testa",
+   "gloss_md": "the head",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "f"
+   },
+   "priority": 75,
+   "level": 2
+  },
+  {
+   "key": "braccio",
+   "kind": "word",
+   "label_md": "braccio",
+   "gloss_md": "the arm",
+   "body_md": "Irregular plural: *le braccia*.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m",
+    "anecdote": "German *Brezel* comes from Latin *bracchium* 'arm': it looks like folded arms."
+   },
+   "priority": 65,
+   "level": 2
+  },
+  {
+   "key": "mano",
+   "kind": "word",
+   "label_md": "mano",
+   "gloss_md": "the hand",
+   "body_md": "Feminine; plural *le mani*.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "f",
+    "mnemonic": "Feminine despite the -o: *la mano*. (de) *manuell* = mit der Hand."
+   },
+   "priority": 80,
+   "level": 2
+  },
+  {
+   "key": "gamba",
+   "kind": "word",
+   "label_md": "gamba",
+   "gloss_md": "the leg",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "f",
+    "anecdote": "The *viola da gamba* is the 'leg viol', held between the knees."
+   },
+   "priority": 65,
+   "level": 2
+  },
+  {
+   "key": "piede",
+   "kind": "word",
+   "label_md": "piede",
+   "gloss_md": "the foot",
+   "body_md": "*a piedi* = on foot",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m",
+    "mnemonic": "English *pedal* and *pedestrian*."
+   },
+   "priority": 65,
+   "level": 2
+  },
+  {
+   "key": "schiena",
+   "kind": "word",
+   "label_md": "schiena",
+   "gloss_md": "the back",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "f"
+   },
+   "priority": 55,
+   "level": 2
+  },
+  {
+   "key": "pancia",
+   "kind": "word",
+   "label_md": "pancia",
+   "gloss_md": "the belly, the tummy",
+   "body_md": "*mal di pancia* = stomach ache",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "f"
+   },
+   "priority": 55,
+   "level": 2
+  },
+  {
+   "key": "dente",
+   "kind": "word",
+   "label_md": "dente",
+   "gloss_md": "the tooth",
+   "body_md": "*mal di denti* = toothache",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m",
+    "mnemonic": "(de) Der *Dentist* kümmert sich um die Zähne."
+   },
+   "priority": 60,
+   "level": 2
+  },
+  {
+   "key": "medico",
+   "kind": "word",
+   "label_md": "medico",
+   "gloss_md": "the doctor",
+   "body_md": "Plural: *i medici*; also *il dottore*.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m"
+   },
+   "priority": 85,
+   "level": 2
+  },
+  {
+   "key": "ospedale",
+   "kind": "word",
+   "label_md": "ospedale",
+   "gloss_md": "the hospital",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m",
+    "mnemonic": "(de) *ospedale* = Hospital."
+   },
+   "priority": 70,
+   "level": 2
+  },
+  {
+   "key": "febbre",
+   "kind": "word",
+   "label_md": "febbre",
+   "gloss_md": "the fever",
+   "body_md": "*Ho la febbre.*",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "f"
+   },
+   "priority": 65,
+   "level": 2
+  },
+  {
+   "key": "raffreddore",
+   "kind": "word",
+   "label_md": "raffreddore",
+   "gloss_md": "the cold (illness)",
+   "body_md": "*Ho il raffreddore.*",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m",
+    "mnemonic": "Contains *freddo*: you caught a cold."
+   },
+   "priority": 60,
+   "level": 2
+  },
+  {
+   "key": "malato",
+   "kind": "word",
+   "label_md": "malato",
+   "gloss_md": "ill, sick",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "adj",
+    "anecdote": "*mal-* means bad, as in *malaria* (*mala aria*, 'bad air')."
+   },
+   "priority": 70,
+   "level": 2
+  },
+  {
+   "key": "mi-fa-male",
+   "kind": "phrase",
+   "label_md": "mi fa male",
+   "gloss_md": "it hurts (me)",
+   "body_md": "*Mi fa male la gamba.* With a plural: *Mi fanno male i piedi.*",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 80,
+   "level": 2
+  },
+  {
+   "key": "sto-male",
+   "kind": "phrase",
+   "label_md": "sto male",
+   "gloss_md": "I feel ill, I'm not well",
+   "body_md": "Opposite: *sto bene*; *sto meglio* = I feel better.",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 80,
+   "level": 2
+  },
+  {
+   "key": "imperfetto",
+   "kind": "rule",
+   "label_md": "imperfetto",
+   "gloss_md": "-vo, -vi, -va, -vamo, -vate, -vano",
+   "body_md": "Drop -re and add *-vo, -vi, -va, -vamo, -vate, -vano*: *parlavo, leggevi, dormiva*. It describes habits and situations in the past: *Da bambino giocavo sempre a calcio.*",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 90,
+   "level": 2
+  },
+  {
+   "key": "imperfetto-vs-passato-prossimo",
+   "kind": "rule",
+   "label_md": "imperfetto vs passato prossimo",
+   "gloss_md": "background and habits vs completed events",
+   "body_md": "The imperfetto sets the scene and describes habits or ongoing actions; the passato prossimo reports single completed events: *Mentre leggevo, è arrivato Marco.*",
+   "attrs": {
+    "source": "curriculum-a2",
+    "mnemonic": "(de) Das imperfetto ist die Kulisse, das passato prossimo die Handlung."
+   },
+   "priority": 80,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "imperfetto"
+    },
+    {
+     "rel": "requires",
+     "to": "passato-prossimo-avere"
+    }
+   ]
+  },
+  {
+   "key": "essere.impf",
+   "kind": "form",
+   "label_md": "essere — imperfect",
+   "gloss_md": "io ero; tu eri; lui/lei era; noi eravamo; voi eravate; loro erano",
+   "attrs": {
+    "source": "curriculum-a2",
+    "tense": "imperfect"
+   },
+   "priority": 85,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "essere"
+    }
+   ]
+  },
+  {
+   "key": "fare.impf",
+   "kind": "form",
+   "label_md": "fare — imperfect",
+   "gloss_md": "io facevo; tu facevi; lui/lei faceva; noi facevamo; voi facevate; loro facevano",
+   "attrs": {
+    "source": "curriculum-a2",
+    "tense": "imperfect"
+   },
+   "priority": 75,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "fare"
+    }
+   ]
+  },
+  {
+   "key": "dire.impf",
+   "kind": "form",
+   "label_md": "dire — imperfect",
+   "gloss_md": "io dicevo; tu dicevi; lui/lei diceva; noi dicevamo; voi dicevate; loro dicevano",
+   "attrs": {
+    "source": "curriculum-a2",
+    "tense": "imperfect"
+   },
+   "priority": 60,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "dire"
+    }
+   ]
+  },
+  {
+   "key": "bere.impf",
+   "kind": "form",
+   "label_md": "bere — imperfect",
+   "gloss_md": "io bevevo; tu bevevi; lui/lei beveva; noi bevevamo; voi bevevate; loro bevevano",
+   "attrs": {
+    "source": "curriculum-a2",
+    "tense": "imperfect"
+   },
+   "priority": 55,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "bere"
+    }
+   ]
+  },
+  {
+   "key": "quando-ero-piccolo",
+   "kind": "phrase",
+   "label_md": "quando ero piccolo",
+   "gloss_md": "when I was little",
+   "body_md": "Feminine: *quando ero piccola*.",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 70,
+   "level": 2
+  },
+  {
+   "key": "da-bambino",
+   "kind": "phrase",
+   "label_md": "da bambino",
+   "gloss_md": "as a child",
+   "body_md": "Feminine: *da bambina*.",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 65,
+   "level": 2
+  },
+  {
+   "key": "di-solito",
+   "kind": "phrase",
+   "label_md": "di solito",
+   "gloss_md": "usually",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 80,
+   "level": 2
+  },
+  {
+   "key": "ogni",
+   "kind": "word",
+   "label_md": "ogni",
+   "gloss_md": "every, each",
+   "body_md": "Invariable, with a singular noun: *ogni giorno*, *ogni settimana*.",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "adj"
+   },
+   "priority": 85,
+   "level": 2
+  },
+  {
+   "key": "mentre",
+   "kind": "word",
+   "label_md": "mentre",
+   "gloss_md": "while",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "conj"
+   },
+   "priority": 75,
+   "level": 2
+  },
+  {
+   "key": "una-volta",
+   "kind": "phrase",
+   "label_md": "una volta",
+   "gloss_md": "once; in the past",
+   "body_md": "*una volta alla settimana* = once a week; *Una volta qui c'era un cinema.*",
+   "attrs": {
+    "source": "curriculum-a2",
+    "mnemonic": "*C'era una volta* = Once upon a time."
+   },
+   "priority": 70,
+   "level": 2
+  },
+  {
+   "key": "present-for-future",
+   "kind": "rule",
+   "label_md": "present tense for the future",
+   "gloss_md": "domani parto = I'm leaving tomorrow",
+   "body_md": "In everyday speech, plans are mostly expressed with the present plus a time word: *Stasera vado al cinema. La settimana prossima lavoro a Milano.*",
+   "attrs": {
+    "source": "curriculum-a2",
+    "mnemonic": "(de) Wie im Deutschen: 'Morgen fahre ich' braucht kein Futur."
+   },
+   "priority": 85,
+   "level": 2
+  },
+  {
+   "key": "futuro-semplice",
+   "kind": "rule",
+   "label_md": "futuro semplice",
+   "gloss_md": "-rò, -rai, -rà, -remo, -rete, -ranno",
+   "body_md": "Drop the final -e of the infinitive; -are verbs change *a* to *e*: *parlerò, leggerai, dormirà*. Used for plans, promises and predictions: *Domani pioverà.*",
+   "attrs": {
+    "source": "curriculum-a2",
+    "anecdote": "The endings are the present of *avere*: *parlerò* was once *parlare + ho*, 'I have to speak'."
+   },
+   "priority": 85,
+   "level": 2
+  },
+  {
+   "key": "stare-per",
+   "kind": "rule",
+   "label_md": "stare per + infinitive",
+   "gloss_md": "to be about to",
+   "body_md": "*Sto per uscire.* = I'm about to go out. *Il treno sta per partire.*",
+   "attrs": {
+    "source": "curriculum-a2"
+   },
+   "priority": 60,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "stare.pres"
+    }
+   ]
+  },
+  {
+   "key": "essere.fut",
+   "kind": "form",
+   "label_md": "essere — future tense",
+   "gloss_md": "io sarò; tu sarai; lui/lei sarà; noi saremo; voi sarete; loro saranno",
+   "attrs": {
+    "source": "curriculum-a2",
+    "tense": "future"
+   },
+   "priority": 80,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "essere"
+    }
+   ]
+  },
+  {
+   "key": "avere.fut",
+   "kind": "form",
+   "label_md": "avere — future tense",
+   "gloss_md": "io avrò; tu avrai; lui/lei avrà; noi avremo; voi avrete; loro avranno",
+   "attrs": {
+    "source": "curriculum-a2",
+    "tense": "future"
+   },
+   "priority": 75,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "avere"
+    }
+   ]
+  },
+  {
+   "key": "andare.fut",
+   "kind": "form",
+   "label_md": "andare — future tense",
+   "gloss_md": "io andrò; tu andrai; lui/lei andrà; noi andremo; voi andrete; loro andranno",
+   "attrs": {
+    "source": "curriculum-a2",
+    "tense": "future"
+   },
+   "priority": 70,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "andare"
+    }
+   ]
+  },
+  {
+   "key": "fare.fut",
+   "kind": "form",
+   "label_md": "fare — future tense",
+   "gloss_md": "io farò; tu farai; lui/lei farà; noi faremo; voi farete; loro faranno",
+   "attrs": {
+    "source": "curriculum-a2",
+    "tense": "future"
+   },
+   "priority": 70,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "fare"
+    }
+   ]
+  },
+  {
+   "key": "venire.fut",
+   "kind": "form",
+   "label_md": "venire — future tense",
+   "gloss_md": "io verrò; tu verrai; lui/lei verrà; noi verremo; voi verrete; loro verranno",
+   "attrs": {
+    "source": "curriculum-a2",
+    "tense": "future"
+   },
+   "priority": 60,
+   "level": 2,
+   "links": [
+    {
+     "rel": "requires",
+     "to": "venire"
+    }
+   ]
+  },
+  {
+   "key": "prossimo",
+   "kind": "word",
+   "label_md": "prossimo",
+   "gloss_md": "next",
+   "body_md": "*la settimana prossima*, *il prossimo anno*",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "adj"
+   },
+   "priority": 85,
+   "level": 2
+  },
+  {
+   "key": "stasera",
+   "kind": "word",
+   "label_md": "stasera",
+   "gloss_md": "this evening, tonight",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "adv",
+    "mnemonic": "*questa sera* → *stasera*, like *stamattina* and *stanotte*."
+   },
+   "priority": 80,
+   "level": 2
+  },
+  {
+   "key": "sperare",
+   "kind": "word",
+   "label_md": "sperare",
+   "gloss_md": "to hope",
+   "body_md": "*Spero di sì.* *Spero di venire.*",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "verb",
+    "anecdote": "*Esperanto* means 'one who hopes'."
+   },
+   "priority": 70,
+   "level": 2
+  },
+  {
+   "key": "forse",
+   "kind": "word",
+   "label_md": "forse",
+   "gloss_md": "maybe, perhaps",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "adv"
+   },
+   "priority": 85,
+   "level": 2
+  },
+  {
+   "key": "progetto",
+   "kind": "word",
+   "label_md": "progetto",
+   "gloss_md": "the plan, the project",
+   "attrs": {
+    "source": "curriculum-a2",
+    "pos": "noun",
+    "gender": "m"
+   },
+   "priority": 60,
+   "level": 2
+  }
+ ]
+}

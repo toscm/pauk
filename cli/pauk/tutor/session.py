@@ -28,6 +28,7 @@ from typing import Any, Callable, Optional
 
 from pauk.client import ApiError
 from pauk.tutor import activities
+from pauk.tutor import curriculum
 from pauk.tutor import protocol as p
 from pauk.tutor.activities.common import Msg
 
@@ -291,7 +292,28 @@ class Session:
     def learner_state(self) -> dict:
         return {**self.status(LEARNER), "events": self.events_for(LEARNER), "last_seq": len(self.events)}
 
+    def _unit_goal(self, ref: p.UnitRef) -> tuple[list[str], dict]:
+        """The directory of a course unit (created when missing, so the
+        teacher can fill a unit without items) and what the teacher
+        needs to know about it."""
+        try:
+            course = curriculum.load(ref.curriculum)
+            stage, unit = curriculum.find_unit(course, ref.stage, ref.unit)
+        except KeyError:
+            raise SessionError(400, "validation", f"no unit {ref.curriculum}/{ref.stage}/{ref.unit}") from None
+        path = curriculum.unit_path(course, stage["id"], unit["id"])
+        self._api(lambda: curriculum.ensure_path(self.api, path))
+        english = lambda texts: texts.get("en") if isinstance(texts, dict) else texts
+        return [path], {"curriculum": course["curriculum"], "stage": stage["id"], "unit": unit["id"],
+                        "title": english(unit["title"]), "title_local": unit["title"],
+                        "stage_title": english(stage["title"]), "can_do": english(unit["can_do"]),
+                        "planned_items": len(unit["items"]), "generated": not unit["items"],
+                        "activity": unit.get("activity"), "space": course.get("space")}
+
     def new_budget(self) -> int:
+        # an exam tests what the learner may already know: unseen items are no new load
+        if (self.goal or {}).get("mode") == "exam":
+            return 999
         cap = int(self.settings.get("tutor.new_items_per_15min", 8))
         minutes = (self.goal or {}).get("minutes", 15)
         return max(0, round(cap * max(1.0, minutes / 15)) - len(self.new_refs))
@@ -309,7 +331,12 @@ class Session:
     @locked
     def start(self, body: p.Start) -> dict:
         self._learner_active()
-        self.goal = body.model_dump()
+        goal = body.model_dump()
+        if body.unit is not None:
+            goal["dirs"], goal["unit"] = self._unit_goal(body.unit)
+        elif body.mode in ("exam", "play"):
+            raise SessionError(400, "validation", f"mode {body.mode} needs a unit")
+        self.goal = goal
         self.goal_started = self.clock()
         self.time_warned = False
         self._safe(lambda: self.api.update_tutor_session(self.sid, {"goal": self.goal}), default=None)
@@ -658,8 +685,10 @@ class Session:
                 result = self._api(lambda: self.api.create_item({**item, **decision}))   # writes the alias
                 return {"status": "alias", "item": result["item"]}
             return {"status": "exists", "via": preview.get("via"), "item": preview["item"]}
-        direct = mode == "free" or (mode == "on_request" and body.requested_seq is not None
-                                    and self._is_learner_message(body.requested_seq))
+        # a course unit without fixed items is filled by the teacher: choosing it is the request
+        generated = bool(((self.goal or {}).get("unit") or {}).get("generated"))
+        direct = mode == "free" or generated or (mode == "on_request" and body.requested_seq is not None
+                                                 and self._is_learner_message(body.requested_seq))
         if direct:
             result = self._api(lambda: self.api.create_item({**item, **decision, "attrs": {**item.get("attrs", {}), "origin": "teacher", "session": self.sid}}))
             self._after_create(result, dirs)

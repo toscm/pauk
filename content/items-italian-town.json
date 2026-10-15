@@ -13,7 +13,8 @@
       "attrs": {
         "source": "italian-town",
         "pos": "noun",
-        "gender": "f"
+        "gender": "f",
+        "mnemonic": "*pane* + *-eria*, the shop ending you also know from *pizzeria* and *gelateria*."
       },
       "priority": 60,
       "level": 1,
@@ -29,7 +30,8 @@
       "attrs": {
         "source": "italian-town",
         "pos": "noun",
-        "gender": "m"
+        "gender": "m",
+        "mnemonic": "Literally 'little horn', the same crescent shape as the French *croissant*."
       },
       "priority": 60,
       "level": 1,
@@ -61,7 +63,8 @@
       "attrs": {
         "source": "italian-town",
         "pos": "noun",
-        "gender": "m"
+        "gender": "m",
+        "anecdote": "Related to French *billet*, from which German *Billett* comes."
       },
       "priority": 60,
       "level": 1,
@@ -77,7 +80,8 @@
       "attrs": {
         "source": "italian-town",
         "pos": "noun",
-        "gender": "m"
+        "gender": "m",
+        "anecdote": "From *bi-* 'two': a track has two rails."
       },
       "priority": 60,
       "level": 1,
@@ -93,7 +97,8 @@
       "attrs": {
         "source": "italian-town",
         "pos": "noun",
-        "gender": "m"
+        "gender": "m",
+        "anecdote": "From Latin *horologium*, 'hour-teller'."
       },
       "priority": 60,
       "level": 1,
@@ -107,7 +112,8 @@
       "label_md": "solo andata",
       "gloss_md": "one-way (ticket)",
       "attrs": {
-        "source": "italian-town"
+        "source": "italian-town",
+        "mnemonic": "*andata* is the going; a return ticket is *andata e ritorno*."
       },
       "priority": 60,
       "level": 1,
@@ -123,7 +129,8 @@
       "attrs": {
         "source": "italian-town",
         "pos": "noun",
-        "gender": "f"
+        "gender": "f",
+        "anecdote": "Pizza Margherita is said to be named after Queen Margherita, who visited Naples in 1889."
       },
       "priority": 60,
       "level": 1,
@@ -139,7 +146,8 @@
       "attrs": {
         "source": "italian-town",
         "pos": "noun",
-        "gender": "m"
+        "gender": "m",
+        "mnemonic": "(de) *bicchiere* = Becher, beide von spätlateinisch *bicarium*."
       },
       "priority": 60,
       "level": 1,
@@ -154,7 +162,8 @@
       "gloss_md": "red",
       "attrs": {
         "source": "italian-town",
-        "pos": "adj"
+        "pos": "adj",
+        "anecdote": "*Rossi*, the most common Italian surname, originally meant 'the red-haired one'."
       },
       "priority": 60,
       "level": 1,
@@ -170,7 +179,8 @@
       "attrs": {
         "source": "italian-town",
         "pos": "noun",
-        "gender": "f"
+        "gender": "f",
+        "mnemonic": "Italian writes f for Greek ph: *farmacia, filosofia, telefono*."
       },
       "priority": 60,
       "level": 1,
@@ -200,7 +210,8 @@
       "label_md": "mal di testa",
       "gloss_md": "headache (ho mal di testa = I have a headache)",
       "attrs": {
-        "source": "italian-town"
+        "source": "italian-town",
+        "anecdote": "*testa* comes from Latin *testa* 'pot, shell', a joking word for the head."
       },
       "priority": 60,
       "level": 1,
@@ -216,7 +227,8 @@
       "attrs": {
         "source": "italian-town",
         "pos": "noun",
-        "gender": "f"
+        "gender": "f",
+        "anecdote": "From Latin *platea* 'broad street', like English *place* and German *Platz*."
       },
       "priority": 60,
       "level": 1,

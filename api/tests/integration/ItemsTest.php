@@ -221,6 +221,24 @@ final class ItemsTest extends ApiTestCase
         $this->assertSame(1, $again['updated']);
     }
 
+    public function testBulkAliasesAreSearchable(): void
+    {
+        [$status, $result] = $this->request('PUT', '/items/bulk', ['items' => [
+            ['space' => 'concepts', 'kind' => 'term', 'key' => 'gene-tp53', 'label_md' => '*TP53*', 'gloss_md' => 'tumour suppressor',
+             'aliases' => ['p53 gene', 'TRP53', 'gene-tp53', '']],
+            ['space' => 'concepts', 'kind' => 'term', 'key' => 'trp53-other', 'label_md' => 'unrelated',
+             'aliases' => ['gene-tp53']],
+        ]]);
+        $this->assertSame(200, $status, json_encode($result));
+        [, $item] = $this->request('GET', '/items/concepts/trp53');
+        $this->assertSame('concepts/gene-tp53', $item['ref'], 'an alias resolves to its item');
+        $this->assertSame(['p53-gene', 'trp53'], array_column($item['aliases'], 'alias'));
+        [, $found] = $this->request('GET', '/items?space=concepts&q=p53');
+        $this->assertContains('concepts/gene-tp53', array_column($found['items'] ?? $found, 'ref'));
+        [, $other] = $this->request('GET', '/items/concepts/trp53-other');
+        $this->assertSame([], $other['aliases'], 'a live key is never taken as an alias');
+    }
+
     public function testFlags(): void
     {
         $this->makeItem(['label_md' => 'farfalla']);

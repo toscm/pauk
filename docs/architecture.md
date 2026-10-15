@@ -279,6 +279,8 @@ Directories form a DAG, not a tree:
 - The tutor's browser UI is localised in the browser (issues/0017): a message catalogue per language in `cli/pauk/tutor/static/i18n/`, chosen from `tutor.language`; activity modules return summaries as message ids with parameters plus the English text, and descriptions for LLM participants stay English.
   The host stays language-neutral, and a language switch needs no round trip.
 
+- Courses (level map, docs/tutor.md 9.6) are bundled curriculum files plus one server directory per unit, not a new data model: stars are computed from the memory model of the unit's items, an exam is ordinary evidence, and `GET /profile/dirs` is the only API addition. A unit's stars therefore fade with forgetting, and nothing has to be kept in sync besides the directory links that `pauk import` creates.
+
 - Unit and host tests drive the session against `pauk.tutor.fake.FakeApi`, an in-memory stand-in with deliberately simple scoring; `pauk tutor --fake` uses it for UI development. End-to-end runs with a real teacher go against a scratch API, never the live profile.
 
 ### TUI gotchas

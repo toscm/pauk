@@ -19,6 +19,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import ValidationError
 
 from pauk.client import ApiError
+from pauk.tutor import curriculum
 from pauk.tutor import protocol as p
 from pauk.tutor.session import LEARNER, OBSERVER, TEACHER, Session, SessionError
 
@@ -186,6 +187,12 @@ def create_app(session: Session, base_url: str = "", restart_agent: Optional[Cal
         if not session.ended:
             raise SessionError(409, "not_ended", "End this session first")
         return {"url": new_session()}
+
+    @app.get(api + "/learner/courses", dependencies=[learner])
+    def learner_courses():
+        """The level maps of the bundled courses, with progress."""
+        return {"courses": [session._api(lambda name=name: curriculum.level_map(session.api, name))
+                            for name in curriculum.names()]}
 
     @app.get(api + "/learner/subjects", dependencies=[learner])
     def subjects():

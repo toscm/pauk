@@ -122,6 +122,33 @@ final class ProfileTest extends ApiTestCase
         $this->assertSame('related', $b['links'][0]['rel']);
     }
 
+    public function testProfileByDirCoversTheSubtree(): void
+    {
+        [, $root] = $this->request('POST', '/dirs', ['name' => 'course']);
+        [, $a1] = $this->request('POST', '/dirs', ['name' => 'a1', 'parent_id' => $root['id']]);
+        [, $u1] = $this->request('POST', '/dirs', ['name' => 'u01-hello', 'parent_id' => $a1['id']]);
+        [, $u2] = $this->request('POST', '/dirs', ['name' => 'u02-numbers', 'parent_id' => $a1['id']]);
+        $this->item('it/ciao', 'phrase', ['dirs' => [$u1['id']]]);
+        $this->item('it/grazie', 'phrase', ['dirs' => [$u1['id']]]);
+        $this->item('it/uno', 'word', ['dirs' => [$u2['id']]]);
+        $this->answer('it/ciao', 'good', gmdate('Y-m-d\TH:i:s\Z'));
+
+        [$status, $body] = $this->request('GET', "/profile/dirs?dir={$root['id']}");
+        $this->assertSame(200, $status, json_encode($body));
+        $byPath = array_column($body['dirs'], null, 'path');
+        $this->assertSame(['', 'a1', 'a1/u01-hello', 'a1/u02-numbers'], array_keys($byPath));
+        $this->assertSame(3, $byPath['']['items']);
+        $this->assertSame(2, $byPath['a1/u01-hello']['items']);
+        $this->assertSame(1, $byPath['a1/u01-hello']['by_mastery']['3']);
+        $this->assertSame(1, $byPath['a1/u02-numbers']['by_mastery']['0']);
+        $this->assertSame($u2['id'], $byPath['a1/u02-numbers']['id']);
+
+        [$status] = $this->request('GET', '/profile/dirs');
+        $this->assertSame(400, $status);
+        [$status] = $this->request('GET', '/profile/dirs?dir=999999');
+        $this->assertSame(404, $status);
+    }
+
     public function testSettingsDefaultsAndValidation(): void
     {
         [$status, $settings] = $this->request('GET', '/settings');

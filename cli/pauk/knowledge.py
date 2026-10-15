@@ -41,6 +41,9 @@ def import_items(client: Client, data: dict, ensure_dirs: Callable[[list[str]], 
         if space and "space" not in body:
             body["space"] = space
         body["dirs"] = [dir_ids[p] for p in item.get("dirs", [])]
+        # other names (gene symbols, synonyms, German terms) become searchable aliases
+        if "aliases" not in body and (body.get("attrs") or {}).get("aliases"):
+            body["aliases"] = list(body["attrs"]["aliases"])
         bodies.append(body)
 
     totals = {"created": 0, "updated": 0, "unchanged": 0}
