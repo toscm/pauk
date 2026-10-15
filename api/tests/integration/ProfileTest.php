@@ -128,11 +128,18 @@ final class ProfileTest extends ApiTestCase
         $this->assertSame(200, $status);
         $this->assertSame('de', $settings['tutor.language']);
         $this->assertSame('propose', $settings['tutor.item_creation']);
+        $this->assertSame('sonnet', $settings['tutor.model']);
 
         [$status, $settings] = $this->request('PATCH', '/settings', ['tutor.language' => 'en', 'tutor.immersion' => ['it' => 'partial']]);
         $this->assertSame(200, $status);
         $this->assertSame('en', $settings['tutor.language']);
         $this->assertSame(['it' => 'partial'], $settings['tutor.immersion']);
+
+        [$status, $settings] = $this->request('PATCH', '/settings', ['tutor.model' => 'claude-opus-5-5[1m]']);
+        $this->assertSame(200, $status);
+        $this->assertSame('claude-opus-5-5[1m]', $settings['tutor.model']);
+        [$status] = $this->request('PATCH', '/settings', ['tutor.model' => 'opus; rm -rf /']);
+        $this->assertSame(400, $status);
 
         [$status] = $this->request('PATCH', '/settings', ['tutor.item_creation' => 'always']);
         $this->assertSame(400, $status);

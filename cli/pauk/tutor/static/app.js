@@ -5,7 +5,7 @@
 
 import { eventsUrl, get, learnerKey, observerKey, post } from './api.js';
 import { touchedList } from './cards.js';
-import { setLanguage, t } from './i18n.js';
+import { languageName, setLanguage, t } from './i18n.js';
 import { runObserver } from './observer.js';
 import { profileDialog } from './profile.js';
 import { reportDialog } from './report.js';
@@ -19,7 +19,10 @@ const $ = (id) => document.getElementById(id);
 const host = {
   goal: null, ended: false, goalStartedAt: null, offset: 0,   // offset: server clock - local clock (s)
   connected: false, everConnected: false, agentDied: false, unreachable: false,
+  agent: null, model: null, settings: {},
 };
+const COMPOSER_KEY = 'pauk.composer';
+let composerChoice = null;   // the learner's own open/closed choice, else by mode
 const touched = new Map();   // ref -> {ref, label_md, before, now}
 let transcript;
 let lastSeq = 0;
@@ -35,6 +38,7 @@ async function boot() {
     return;
   }
   dialogs();
+  try { composerChoice = localStorage.getItem(COMPOSER_KEY); } catch { /* storage blocked */ }
   transcript = new Transcript($('transcript'), {pane: $('task-pane'), list: $('side-tasks'),
                                                 onReport: (seq) => report.open(seq), onChange});
 
@@ -42,6 +46,10 @@ async function boot() {
   $('btn-settings').addEventListener('click', () => settings.open());
   $('btn-report').addEventListener('click', () => report.open());
   $('btn-end').addEventListener('click', endSession);
+  $('btn-new').addEventListener('click', newSession);
+  $('btn-write').addEventListener('click', () => setComposer($('composer').hidden, true));
+  $('composer-close').addEventListener('click', () => setComposer(false, true));
+  $('btn-config').addEventListener('click', () => settings.open());
   $('btn-restart').addEventListener('click', restartTeacher);
   $('composer').addEventListener('submit', sendComposer);
   $('input').addEventListener('keydown', (e) => {
@@ -50,9 +58,6 @@ async function boot() {
       $('composer').requestSubmit();
     }
   });
-  $('input').addEventListener('focus', updateComposer);
-  $('ask-teacher').addEventListener('change', updateComposer);
-  document.addEventListener('exercisechange', updateComposer);
   document.addEventListener('keydown', (e) => {
     if (e.key === '!' && !typing() && !document.querySelector('dialog[open]')) {
       e.preventDefault();
@@ -69,6 +74,7 @@ async function boot() {
     return;
   }
   if (await setLanguage(state.settings?.['tutor.language'])) dialogs();
+  if (composerChoice !== null) setComposer(composerChoice === 'open', false);
   applyStatus(state);
   for (const ev of state.events) transcript.add(ev, false);
   lastSeq = state.last_seq;
@@ -139,6 +145,9 @@ function applyStatus(s) {
   host.connected = s.teacher_connected;
   host.everConnected ||= s.teacher_connected;
   if (s.agent_running) host.agentDied = false;
+  host.agent = s.teacher_agent ?? host.agent;
+  host.model = s.teacher_model ?? host.model;
+  if (s.settings) host.settings = s.settings;
   touched.clear();
   for (const t of s.touched) touched.set(t.ref, t);
 }
@@ -153,6 +162,8 @@ function onChange(ev, live) {
   switch (ev.type) {
     case 'status':
       if ('teacher_connected' in ev) host.connected = ev.teacher_connected;
+      if (ev.agent) host.agent = ev.agent;
+      if (ev.teacher_model) host.model = ev.teacher_model;
       break;
     case 'start':
       host.goal = ev.goal;
@@ -169,6 +180,7 @@ function onChange(ev, live) {
       host.ended = true;
       break;
     case 'settings_changed':
+      host.settings = ev.settings || host.settings;
       useLanguage(ev.settings);
       break;
   }
@@ -183,8 +195,51 @@ function render() {
   const g = host.goal;
   $('side-goal').textContent = g ? goalText(g) : t('app.no_goal');
   $('side-touched').replaceChildren(touchedList([...touched.values()]));
-  $('btn-end').disabled = host.ended;
+  $('btn-end').hidden = host.ended;
+  $('btn-new').hidden = !host.ended;
+  $('side-model').textContent = host.model ? t('app.model', {model: modelName(host.model)})
+    : host.agent ? t('app.agent', {agent: host.agent}) : '';
+  renderConfig();
+  if (composerChoice === null) setComposer(!host.ended && host.goal?.mode === 'chat', false);
+  $('btn-write').hidden = host.ended;
   updateComposer();
+}
+
+// "claude-sonnet-5-5[1m]" -> "Sonnet 5.5 (1M)"; anything else as it is.
+export function modelName(id) {
+  if (/^[a-z]+$/.test(id)) return id[0].toUpperCase() + id.slice(1);
+  const m = /^claude-([a-z]+)-(\d+)(?:-(\d{1,2}))?(?:-\d{8})?(\[1m\])?$/.exec(id);
+  if (!m) return id;
+  const name = m[1][0].toUpperCase() + m[1].slice(1);
+  return `${name} ${m[2]}${m[3] ? `.${m[3]}` : ''}${m[4] ? ' (1M)' : ''}`;
+}
+
+function renderConfig() {
+  const s = host.settings || {};
+  const immersion = Object.entries(s['tutor.immersion'] || {})
+    .map(([space, level]) => `${languageName(space)}: ${level === 'full' ? t('settings.immersion.full') : t('settings.immersion.partial')}`);
+  const rows = [
+    [t('app.config.model'), modelName(host.model || s['tutor.model'] || 'sonnet')],
+    [t('app.config.language'), s['tutor.language'] ? languageName(s['tutor.language']) : '–'],
+    [t('app.config.immersion'), immersion.join(', ') || t('settings.off')],
+    [t('app.config.new_items'), t('app.config.per_15', {n: s['tutor.new_items_per_15min'] ?? 8})],
+  ];
+  $('side-config').replaceChildren(...rows.flatMap(([k, v]) => [h('dt', {}, k), h('dd', {}, v)]));
+}
+
+// Free messages to the teacher are the exception (questions, wishes),
+// so the composer is closed unless the session is a conversation or
+// the learner opened it.
+function setComposer(open, byLearner) {
+  if (byLearner) {
+    composerChoice = open ? 'open' : 'closed';
+    try { localStorage.setItem(COMPOSER_KEY, composerChoice); } catch { /* storage blocked */ }
+  }
+  const show = byLearner || composerChoice === null ? open : composerChoice === 'open';
+  $('composer').hidden = !show || host.ended;
+  $('btn-write').setAttribute('aria-expanded', String(!$('composer').hidden));
+  $('btn-write').classList.toggle('active', !$('composer').hidden);
+  if (byLearner && open) $('input').focus();
 }
 
 function renderStatus() {
@@ -220,15 +275,12 @@ function renderTimer() {
   $('side-timer').textContent = text || '–';
 }
 
+// The composer only talks to the teacher; tasks have their own inputs.
 function updateComposer() {
-  const answerable = host.ended ? null : transcript.answerTarget();
-  const target = $('ask-teacher').checked ? null : answerable;
-  $('ask-toggle').hidden = !answerable;
   $('input').disabled = host.ended;
   $('send').disabled = host.ended;
-  $('send').textContent = target ? t('app.answer') : t('app.send');
-  $('input').placeholder = host.ended ? t('app.placeholder.ended')
-    : target ? t('app.placeholder.answer') : t('app.placeholder.message');
+  $('send').textContent = t('app.send');
+  $('input').placeholder = host.ended ? t('app.placeholder.ended') : t('app.placeholder.message');
 }
 
 // --- actions ---------------------------------------------------------------------
@@ -238,16 +290,10 @@ async function sendComposer(e) {
   const input = $('input');
   const text = input.value.trim();
   if (!text || host.ended) return;
-  const target = $('ask-teacher').checked ? null : transcript.answerTarget();
   $('send').disabled = true;
   try {
-    if (target) {
-      if (!(await target.submitText(text))) return;
-    } else {
-      await post('learner/message', {text});
-    }
+    await post('learner/message', {text});
     input.value = '';
-    $('ask-teacher').checked = false;
   } catch (error) {
     showError(error);
   } finally {
@@ -262,6 +308,17 @@ async function endSession() {
     $('btn-end').disabled = true;
   } catch (e) {
     showError(e);
+  }
+}
+
+async function newSession() {
+  $('btn-new').disabled = true;
+  try {
+    const {url} = await post('learner/new-session');
+    location.assign(url);
+  } catch (e) {
+    showError(e);
+    $('btn-new').disabled = false;
   }
 }
 

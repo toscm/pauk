@@ -1,5 +1,6 @@
 """The local session host (docs/tutor.md 7): FastAPI routes over one
-Session. Bound to 127.0.0.1 by the launcher; every route needs the
+Session (the launcher's Host dispatches /s/<sid>/ to one app per
+session). Bound to 127.0.0.1 by the launcher; every route needs the
 key of its role (learner: `X-Pauk-Key` header or `?k=`, needed for
 EventSource; teacher and observer: `Authorization: Bearer <key>`).
 """
@@ -28,7 +29,8 @@ def harness_text() -> str:
     return resources.files("pauk.tutor").joinpath("harness.md").read_text(encoding="utf-8")
 
 
-def create_app(session: Session, base_url: str = "", restart_agent: Optional[Callable[[], None]] = None) -> FastAPI:
+def create_app(session: Session, base_url: str = "", restart_agent: Optional[Callable[[], None]] = None,
+               new_session: Optional[Callable[[], str]] = None) -> FastAPI:
     app = FastAPI(title="pauk tutor", docs_url=None, redoc_url=None, openapi_url=f"/s/{session.sid}/openapi.json")
     prefix = f"/s/{session.sid}"
 
@@ -175,6 +177,16 @@ def create_app(session: Session, base_url: str = "", restart_agent: Optional[Cal
         restart_agent()
         return {"ok": True}
 
+    @app.post(api + "/learner/new-session", dependencies=[learner])
+    def learner_new_session():
+        """After the end: start the next session in the same host; the
+        browser follows the returned learner link."""
+        if new_session is None:
+            raise SessionError(409, "no_host", "This host cannot start further sessions")
+        if not session.ended:
+            raise SessionError(409, "not_ended", "End this session first")
+        return {"url": new_session()}
+
     @app.get(api + "/learner/subjects", dependencies=[learner])
     def subjects():
         return {"items": [{"path": d["path"], "name": d["name"]} for d in session.api.quiz_dirs()]}
@@ -185,7 +197,12 @@ def create_app(session: Session, base_url: str = "", restart_agent: Optional[Cal
 
     @app.patch(api + "/learner/settings", dependencies=[learner])
     def patch_settings(changes: dict):
-        return session.update_settings(changes)
+        before = session.settings.get("tutor.model", "sonnet")
+        settings = session.update_settings(changes)
+        # a new model needs a new agent process; it resumes from the transcript
+        if restart_agent is not None and not session.ended and settings.get("tutor.model", "sonnet") != before:
+            restart_agent()
+        return settings
 
     @app.get(api + "/learner/profile", dependencies=[learner])
     def learner_profile(dir: Optional[str] = None):

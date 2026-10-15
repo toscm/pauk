@@ -379,6 +379,11 @@ The teacher never changes stored settings; when the learner asks for something d
 
 - `tutor.new_items_per_15min`: new-item cap, enforced by selection and host (default 8).
 
+- `tutor.model`: the model of the teacher agent, passed to the agent CLI as `--model` (`sonnet`, `opus`, `haiku` or a full model id; default `sonnet`).
+  Sonnet answers faster than Opus and is enough for language practice; Opus is the better choice for demanding subjects.
+  The host reads the model the agent really runs on from its first output line and shows it in the side panel.
+  A change restarts a running teacher, which resumes from the transcript.
+
 - `review.after_session`, `review.auto_triage`: section 16.
 
 Typical cases of a teacher adding an item:
@@ -492,6 +497,7 @@ So the rules below concentrate there.
 
 5. The session ends when the learner clicks End, the duration is reached (the teacher wraps up), or the learner is idle for 10 minutes.
    The teacher posts a summary; the host stores it remotely (`tutor_sessions`), stops the agent, keeps serving the transcript read-only, and starts the post-session review if enabled (16.2).
+   "New session" in the browser starts the next session in the same `pauk tutor` process (with a new teacher agent) and opens its start card; earlier sessions stay readable until Ctrl-C.
 
 ### 8.1 Spawning the teacher
 
@@ -636,13 +642,13 @@ There is deliberately no action to set a score, delete items, change stored sett
 
 - Main column: the current task on top, the chat below.
   Tasks are exercises, drills and activities; only one is shown at a time, the newest by default, so new chat messages never push it out of view.
-  Exercises render as widgets (option buttons, match columns, text input, reveal button), lock after answering, and show ✓/✗ with the correct answer.
+  Exercises render as widgets (option buttons, match columns, text input, reveal button), lock after answering, and show ✓/✗ with the correct answer; every exercise has Hint and I don't know.
   The chat keeps a one-line link to each task, and the side panel lists all tasks of the session (open ones marked), so an older one can be shown again; a button returns to the current one, and a new task always replaces the shown one.
 
-- Composer: when an exercise is open the input submits the answer; a toggle sends a question to the teacher instead.
-  Buttons: Hint, I don't know.
+- Composer: a free message to the teacher (questions, wishes, "explain that again"); tasks have their own inputs.
+  It is closed by default and opened with "Write to the teacher" in the header, except in conversation mode; the learner's choice is remembered in the browser.
 
-- Side panel: goal and timer, the task list, items touched this session with level arrows (`parlare 2 → 3`), subject coverage.
+- Side panel: goal and timer, the task list, the teacher's status and model, a configuration summary (model, language, immersion, new-item cap) with a link to the settings, items touched this session with level arrows (`parlare 2 → 3`), subject coverage.
 
 - Profile page (`/s/<id>/profile`): items per subject and space filterable by level, history per item, "recently added", "suggested merges" and "recent merges" with accept/undo, and the maintenance actions: edit, archive, rename key, merge, unmerge (4.10).
 

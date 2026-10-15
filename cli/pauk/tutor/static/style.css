@@ -162,6 +162,13 @@ legend { padding: 0 0.3em; }
   border-top: 1px solid var(--line);
   background: var(--panel);
 }
+.composer { position: relative; padding-right: 2.4em; }
+.composer-close { top: 0.5em; right: 0.5em; opacity: 0.7; }
+button.secondary.active { background: var(--learner); }
+.config { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.1em 0.8em; margin: 0 0 0.3em; }
+.config dt { color: var(--muted); }
+.config dd { margin: 0; }
+#btn-config { color: var(--accent); }
 .composer-side { display: flex; flex-direction: column; gap: 0.3em; align-items: flex-start; }
 .composer-side label { display: flex; gap: 0.3em; align-items: center; white-space: nowrap; }
 

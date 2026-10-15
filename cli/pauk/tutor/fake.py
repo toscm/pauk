@@ -15,7 +15,7 @@ from pauk.client import ApiError
 
 SETTINGS = {
     "tutor.language": "en", "tutor.immersion": {}, "tutor.item_creation": "propose",
-    "tutor.merge": "propose", "tutor.new_items_per_15min": 8,
+    "tutor.merge": "propose", "tutor.new_items_per_15min": 8, "tutor.model": "sonnet",
     "review.after_session": True, "review.auto_triage": False,
 }
 

@@ -41,9 +41,9 @@ integration tests are the contract.)
 
 `GET /health` (no auth)
 
-    {"status": "ok", "db": "ok", "version": "0.12.0"}
+    {"status": "ok", "db": "ok", "version": "0.13.0"}
 
-`version` is the deployed API version (currently 0.12.0); the
+`version` is the deployed API version (currently 0.13.0); the
 example tracks it only loosely.
 
 `db` is `"ok"` or `"error"`; on error the HTTP status is 503.
@@ -581,7 +581,7 @@ Merge object: `{id, into, into_label_md, from, from_label_md, status, reason, su
 
 - `PATCH /settings` — `{"tutor.language": "en", ...}`; unknown names or invalid values → 400.
 
-Settings: `tutor.language` (BCP 47, default `de`), `tutor.immersion` (per space `off`/`partial`/`full`, default `{}`), `tutor.item_creation` (`off`, `propose`, `on_request`, `free`; default `propose`), `tutor.merge` (`propose`, `free`; default `propose`), `tutor.new_items_per_15min` (0–50, default 8), `review.after_session` (default true), `review.auto_triage` (default false).
+Settings: `tutor.language` (BCP 47, default `de`), `tutor.immersion` (per space `off`/`partial`/`full`, default `{}`), `tutor.item_creation` (`off`, `propose`, `on_request`, `free`; default `propose`), `tutor.merge` (`propose`, `free`; default `propose`), `tutor.new_items_per_15min` (0–50, default 8), `tutor.model` (the teacher agent's model: `sonnet`, `opus`, `haiku` or a full model id; default `sonnet`), `review.after_session` (default true), `review.auto_triage` (default false).
 
 ### Export and maintenance
 

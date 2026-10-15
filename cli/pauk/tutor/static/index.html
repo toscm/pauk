@@ -18,10 +18,12 @@
   </p>
   <span id="timer" class="timer" aria-label="Time" data-i18n-aria-label="app.time"></span>
   <nav class="actions" aria-label="Session" data-i18n-aria-label="app.session">
+    <button id="btn-write" type="button" class="secondary" aria-controls="composer" aria-expanded="false" title="Write to the teacher (questions, wishes)" data-i18n="app.write_teacher" data-i18n-title="app.write_teacher_title">Write to the teacher</button>
     <button id="btn-profile" type="button" class="secondary" data-i18n="app.profile">Profile</button>
     <button id="btn-settings" type="button" class="secondary" data-i18n="app.settings">Settings</button>
     <button id="btn-report" type="button" class="secondary" title="Report a problem (!)" data-i18n="app.report" data-i18n-title="app.report_title">Report a problem</button>
     <button id="btn-end" type="button" class="secondary" data-i18n="app.end">End</button>
+    <button id="btn-new" type="button" hidden data-i18n="app.new_session">New session</button>
   </nav>
 </header>
 <div class="layout">
@@ -31,20 +33,22 @@
       <div id="start-slot"></div>
       <div id="transcript" class="transcript" aria-label="Conversation" data-i18n-aria-label="app.conversation"></div>
     </div>
-    <form id="composer" class="composer" aria-label="Write" data-i18n-aria-label="app.write">
+    <form id="composer" class="composer" hidden aria-label="Write" data-i18n-aria-label="app.write">
       <label for="input" class="sr-only" data-i18n="app.message">Message</label>
       <textarea id="input" rows="2"></textarea>
       <div class="composer-side">
         <button id="send" type="submit">Send</button>
-        <label id="ask-toggle" class="small" hidden><input type="checkbox" id="ask-teacher"> <span data-i18n="app.ask_teacher_instead">ask the teacher instead</span></label>
       </div>
+      <button id="composer-close" type="button" class="flag composer-close" title="Close" aria-label="Close" data-i18n-title="app.close" data-i18n-aria-label="app.close">✕</button>
     </form>
   </main>
   <aside class="side" aria-label="Session details" data-i18n-aria-label="app.session_details">
     <section><h2 data-i18n="app.goal">Goal</h2><p id="side-goal" class="small"></p></section>
     <section><h2 data-i18n="task.tasks">Tasks</h2><div id="side-tasks"></div></section>
     <section><h2 data-i18n="app.time">Time</h2><p id="side-timer" class="small">–</p></section>
-    <section><h2 data-i18n="app.status">Status</h2><p id="side-status" class="small"></p></section>
+    <section><h2 data-i18n="app.teacher">Teacher</h2><p id="side-status" class="small"></p><p id="side-model" class="small muted"></p></section>
+    <section><h2 data-i18n="app.config">Configuration</h2><dl id="side-config" class="config small"></dl>
+      <button id="btn-config" type="button" class="link small" data-i18n="app.change">Change…</button></section>
     <section><h2 data-i18n="app.items_this_session">Items this session</h2><div id="side-touched"></div></section>
   </aside>
 </div>

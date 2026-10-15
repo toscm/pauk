@@ -8,9 +8,6 @@ import { t } from './i18n.js';
 import { md, plain } from './md.js';
 import { h, showError, toast } from './ui.js';
 
-// Tells the composer that which exercise is answerable may have changed.
-const changed = () => document.dispatchEvent(new Event('exercisechange'));
-
 function mark(correct, partial = false) {
   const [cls, sign, label] = correct ? ['ok', '✓', t('ex.mark.correct')] : partial ? ['partial', '◐', t('ex.mark.partial')]
     : ['bad', '✗', t('ex.mark.wrong')];
@@ -29,10 +26,6 @@ export class ExerciseWidget {
     this.actions = h('div', {class: 'buttons'}, this.buildButtons());
     this.el = h('section', {class: `exercise kind-${ex.kind}`, 'aria-label': t('ex.exercise')},
       md(ex.prompt_md), this.controls, this.hints, this.actions, this.result);
-  }
-
-  get acceptsText() {
-    return !this.locked && (this.kind === 'text' || this.kind === 'open') && this.el.isConnected;
   }
 
   buildControls(ex) {
@@ -122,13 +115,6 @@ export class ExerciseWidget {
     if (await this.send('answer', answer)) this.lock();
   }
 
-  // Used by the composer: answer this text/open exercise with `text`.
-  async submitText(text) {
-    this.input.value = text;
-    await this.submit();
-    return this.locked;
-  }
-
   async requestHint() {
     if (await this.send('hint-request')) this.hintRequested();
   }
@@ -152,7 +138,6 @@ export class ExerciseWidget {
     if (this.locked) return;
     this.locked = true;
     for (const el of this.el.querySelectorAll('input, textarea, select, button')) el.disabled = true;
-    changed();
   }
 
   setResult(...nodes) {
@@ -245,7 +230,6 @@ export class Drill {
     this.dots.forEach((d, i) => d.classList.toggle('current', i === index));
     this.stage.replaceChildren(this.widgets[index].el);
     if (focus) this.widgets[index].focus();
-    changed();
   }
 
   answered(widget, correct, live) {

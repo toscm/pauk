@@ -3,19 +3,22 @@
 The default teacher is the `claude` CLI in print mode, allowed to run
 only `pauk teach` commands. Another agent CLI can be plugged in with
 PAUK_TUTOR_AGENT (or `pauk tutor --agent-cmd`): a command line in
-which `{prompt}` is replaced by the bootstrap prompt. The agent gets
+which `{prompt}` is replaced by the bootstrap prompt and `{model}` by
+the tutor.model setting (dropped with a preceding --model when unset). The agent gets
 PAUK_SESSION and PAUK_TEACHER_KEY in its environment; its output is
 logged next to the session transcript.
 """
 
 from __future__ import annotations
 
+import json
 import os
 import shlex
 import shutil
 import subprocess
 import sys
 import threading
+import time
 from pathlib import Path
 from typing import Optional
 
@@ -35,7 +38,7 @@ OBSERVER_PROMPT = (
     "use only `pauk observe` commands."
 )
 
-DEFAULT_COMMAND = ["claude", "-p", "{prompt}", "--allowedTools", "Bash(pauk teach:*)",
+DEFAULT_COMMAND = ["claude", "-p", "{prompt}", "--model", "{model}", "--allowedTools", "Bash(pauk teach:*)",
                    "--output-format", "stream-json", "--verbose"]
 LEARNER_PROMPT = (
     "You play a simulated learner in a pauk tutor session. Run `pauk learn instructions` first "
@@ -47,9 +50,14 @@ OBSERVER_COMMAND = ["claude", "-p", "{prompt}", "--allowedTools", "Bash(pauk obs
                     "--output-format", "stream-json", "--verbose"]
 
 
-def build_command(template: Optional[str], prompt: str, default: list[str] | None = None) -> list[str]:
+def build_command(template: Optional[str], prompt: str, default: list[str] | None = None,
+                  model: Optional[str] = None) -> list[str]:
     parts = shlex.split(template, posix=os.name != "nt") if template else list(default or DEFAULT_COMMAND)
-    parts = [prompt if part == "{prompt}" else part.replace("{prompt}", prompt) for part in parts]
+    if not model:
+        parts = [part for i, part in enumerate(parts)
+                 if part != "{model}" and not (part == "--model" and parts[i + 1:i + 2] == ["{model}"])]
+    parts = [prompt if part == "{prompt}" else part.replace("{prompt}", prompt).replace("{model}", model or "")
+             for part in parts]
     exe = shutil.which(parts[0])
     if exe is None:
         raise FileNotFoundError(f"teacher agent '{parts[0]}' not found on PATH")
@@ -103,14 +111,17 @@ class TeacherAgent:
         with self._lock:
             if self.proc is not None and self.proc.poll() is None:
                 return
-            command = build_command(self.template, BOOTSTRAP + (RESUME if resume else ""))
+            model = self.session.settings.get("tutor.model", "sonnet")
+            command = build_command(self.template, BOOTSTRAP + (RESUME if resume else ""), model=model)
             self.log_path.parent.mkdir(parents=True, exist_ok=True)
             log = self.log_path.open("ab")
+            offset = log.tell()
             self.proc = popen(command, env={**os.environ, **self.env}, stdin=subprocess.DEVNULL,
                               stdout=log, stderr=subprocess.STDOUT)
             self._stopping = False
             self.session.set_agent_running(True, "started" if not resume else "restarted")
             threading.Thread(target=self._watch, args=(self.proc, log), daemon=True).start()
+            threading.Thread(target=self._find_model, args=(self.proc, offset), daemon=True).start()
 
     def restart(self) -> None:
         self.stop()
@@ -123,6 +134,20 @@ class TeacherAgent:
         if proc is not None:
             kill_tree(proc, timeout)
 
+    def _find_model(self, proc: subprocess.Popen, offset: int, timeout: float = 120) -> None:
+        """The model the agent really runs on, from the init line of
+        claude's stream-json output (an alias like `sonnet` resolves to
+        a full id there). Other agent CLIs: nothing is reported."""
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline and proc is self.proc:
+            model = model_from_log(self.log_path, offset)
+            if model:
+                self.session.set_teacher_model(model)
+                return
+            if proc.poll() is not None:
+                return
+            time.sleep(0.5)
+
     def _watch(self, proc: subprocess.Popen, log) -> None:
         code = proc.wait()
         log.close()
@@ -130,6 +155,24 @@ class TeacherAgent:
             if proc is self.proc:
                 detail = "stopped" if self._stopping or self.session.ended else f"exited with status {code}"
                 self.session.set_agent_running(False, detail)
+
+
+def model_from_log(path: Path, offset: int = 0) -> Optional[str]:
+    try:
+        with path.open("rb") as f:
+            f.seek(offset)
+            for line in f:
+                if b'"init"' not in line:
+                    continue
+                try:
+                    msg = json.loads(line)
+                except ValueError:
+                    continue
+                if msg.get("type") == "system" and msg.get("subtype") == "init" and msg.get("model"):
+                    return str(msg["model"])
+    except OSError:
+        pass
+    return None
 
 
 def default_log_dir() -> Path:

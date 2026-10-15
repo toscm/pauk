@@ -10,6 +10,10 @@ const immersion = () => [['off', t('settings.off')], ['partial', t('settings.imm
 const itemCreation = () => [['off', t('settings.off')], ['propose', t('settings.propose')],
                             ['on_request', t('settings.creation.on_request')], ['free', t('settings.free')]];
 const merge = () => [['propose', t('settings.propose')], ['free', t('settings.free')]];
+const models = (current) => {
+  const known = [['sonnet', t('settings.model.sonnet')], ['opus', t('settings.model.opus')], ['haiku', t('settings.model.haiku')]];
+  return known.some(([v]) => v === current) ? known : [...known, [current, current]];
+};
 
 function select(id, options, value) {
   return h('select', {id}, options.map(([v, label]) => h('option', {value: v, selected: v === value}, label)));
@@ -34,10 +38,12 @@ export function settingsDialog() {
   let loaded = null;
 
   function fill(settings) {
-    loaded = settings;
+    loaded = {'tutor.model': 'sonnet', ...settings};   // an older API has no tutor.model yet
     const chosen = settings['tutor.immersion'] || {};
     const spaces = [...new Set([...SPACES, ...Object.keys(chosen)])];
     body.replaceChildren(
+      field('set-model', t('settings.model'), select('set-model', models(loaded['tutor.model']), loaded['tutor.model'])),
+      h('p', {class: 'muted small'}, t('settings.model_note')),
       field('set-language', t('settings.language'), h('input', {type: 'text', id: 'set-language', value: settings['tutor.language'] || ''})),
       h('fieldset', {}, h('legend', {}, t('settings.immersion')),
         spaces.map((space) => field(`set-imm-${space}`, `${languageName(space)} (${space})`,
@@ -57,6 +63,7 @@ export function settingsDialog() {
       if (el.value !== 'off') immersion[el.id.slice('set-imm-'.length)] = el.value;
     }
     return {
+      'tutor.model': value('set-model').value,
       'tutor.language': value('set-language').value.trim(),
       'tutor.immersion': immersion,
       'tutor.item_creation': value('set-creation').value,

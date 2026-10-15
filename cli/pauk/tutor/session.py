@@ -144,6 +144,7 @@ class Session:
         self.learner_ended_at: Optional[float] = None
         self.teacher_attached = False
         self.teacher_agent: Optional[str] = None
+        self.teacher_model: Optional[str] = None     # reported by a managed agent (agent.py)
         self.teacher_last_seen: Optional[float] = None
         self.agent_running = False
         self.touched: dict[str, dict] = {}       # ref -> {label_md, before, now}
@@ -236,6 +237,7 @@ class Session:
             "now": self.clock(),
             "teacher_connected": connected,
             "teacher_agent": self.teacher_agent,
+            "teacher_model": self.teacher_model,
             "agent_running": self.agent_running,
             "touched": self._touched(role),
             "stats": self.stats(),
@@ -959,6 +961,10 @@ class Session:
             self.finish(SYSTEM)
 
     @locked
+    def set_teacher_model(self, model: str) -> None:
+        self.teacher_model = model
+        self.emit(SYSTEM, "status", {"teacher_model": model})
+
     def set_agent_running(self, running: bool, detail: str = "") -> None:
         self.agent_running = running
         if not running:

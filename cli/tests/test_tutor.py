@@ -779,3 +779,61 @@ def test_teacher_state_and_activity_start_respect_the_lock(env):
     reader.join(5)
     t.join(5)
     assert result
+
+
+def test_host_serves_sessions_in_a_row(tmp_path):
+    """`pauk tutor` keeps running after a session: "New session" in the
+    finished one starts the next, and both stay reachable by sid."""
+    from pauk.tutor.launch import Host
+
+    lines = []
+    host = Host(FakeApi(), tmp_path, "http://127.0.0.1:1", agent=False, agent_cmd=None, simulation=False,
+                echo=lines.append)
+    first = host.new_session().session
+    client = TestClient(host)
+    learner = {"X-Pauk-Key": first.keys["learner"]}
+    base = f"/s/{first.sid}/api/learner"
+    r = client.post(f"{base}/new-session", headers=learner)
+    assert r.status_code == 409 and r.json()["error"]["code"] == "not_ended"
+    assert client.post(f"{base}/new-session").status_code == 401
+
+    first.finish("learner")
+    url = client.post(f"{base}/new-session", headers=learner).json()["url"]
+    second = next(run.session for sid, run in host.runs.items() if sid != first.sid)
+    assert url == f"http://127.0.0.1:1/s/{second.sid}/#k={second.keys['learner']}"
+    assert any(second.sid in line for line in lines)
+    assert client.get(f"/s/{second.sid}/api/learner/state", headers={"X-Pauk-Key": second.keys["learner"]}).json()["goal"] is None
+    assert client.get(f"/s/{first.sid}/api/learner/state", headers=learner).json()["ended"] is True
+    assert client.get("/s/s-nope/api/learner/state").status_code == 404
+
+
+def test_teacher_model_setting_reaches_the_agent_command(tmp_path, monkeypatch):
+    from pauk.tutor import agent
+
+    monkeypatch.setattr(agent.shutil, "which", lambda exe: exe)
+    command = agent.build_command(None, "go", model="sonnet")
+    assert command[command.index("--model") + 1] == "sonnet"
+    assert "--model" not in agent.build_command(None, "go", model=None)
+    assert agent.build_command("my-agent --m {model} {prompt}", "go", model="opus") == ["my-agent", "--m", "opus", "go"]
+    assert agent.build_command("my-agent {prompt}", "go", model="opus") == ["my-agent", "go"]
+
+    log = tmp_path / "agent.log"
+    log.write_text('{"type":"system","subtype":"hook"}\nnoise\n'
+                   '{"type":"system","subtype":"init","model":"claude-sonnet-5-5","tools":[]}\n', encoding="utf-8")
+    assert agent.model_from_log(log) == "claude-sonnet-5-5"
+    assert agent.model_from_log(log, offset=log.stat().st_size) is None
+
+
+def test_model_change_restarts_the_teacher(tmp_path):
+    session = Session(FakeApi(), store_dir=tmp_path)
+    restarts = []
+    client = TestClient(create_app(session, restart_agent=lambda: restarts.append(1)))
+    learner = {"X-Pauk-Key": session.keys["learner"]}
+    base = f"/s/{session.sid}/api/learner"
+    assert client.get(f"{base}/settings", headers=learner).json()["tutor.model"] == "sonnet"
+    client.patch(f"{base}/settings", json={"tutor.language": "de"}, headers=learner)
+    assert restarts == []
+    client.patch(f"{base}/settings", json={"tutor.model": "opus"}, headers=learner)
+    assert restarts == [1]
+    session.set_teacher_model("claude-opus-5-5")
+    assert client.get(f"{base}/status", headers=learner).json()["teacher_model"] == "claude-opus-5-5"

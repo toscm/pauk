@@ -24,6 +24,7 @@ final class Settings
             'tutor.item_creation' => ['propose', $oneOf(['off', 'propose', 'on_request', 'free'])],
             'tutor.merge' => ['propose', $oneOf(['propose', 'free'])],
             'tutor.new_items_per_15min' => [8, fn ($v) => is_int($v) && $v >= 0 && $v <= 50],
+            'tutor.model' => ['sonnet', fn ($v) => is_string($v) && preg_match('/^[a-z][a-z0-9.\[\]-]{1,63}$/', $v) === 1],
             'review.after_session' => [true, 'is_bool'],
             'review.auto_triage' => [false, 'is_bool'],
         ];

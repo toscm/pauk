@@ -16,7 +16,6 @@ import { arrow, h } from './ui.js';
 // Learner events after which the teacher is expected to respond.
 const AWAITS_TEACHER = new Set(['learner_message', 'start', 'hint_request', 'end']);
 
-const changed = () => document.dispatchEvent(new Event('exercisechange'));
 const short = (text, n = 60) => (text.length > n ? `${text.slice(0, n - 1).trimEnd()}…` : text);
 
 export class Transcript {
@@ -117,7 +116,6 @@ export class Transcript {
     this.pane.scrollTop = 0;
     if (focus) this.focusTask();
     this.renderTasks();
-    changed();
   }
 
   focusTask() {
@@ -151,11 +149,6 @@ export class Transcript {
       this.awaiting = true;
     }
     if (ev.type === 'ended') this.ended = true;
-  }
-
-  // The newest open text/open exercise on screen: the composer answers it.
-  answerTarget() {
-    return [...this.widgets.values()].reverse().find((w) => w.acceptsText) || null;
   }
 
   register(widget) {
