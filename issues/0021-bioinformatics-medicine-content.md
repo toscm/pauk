@@ -11,9 +11,9 @@ Later the same day: every item should carry a mnemonic or anecdote whenever one 
 
 2026-10-15: Done, written by five LLM agents from one spec and merged by hand.
 
-- 1,090 items in space `concepts` under `bioinformatics/`: cancer genes with proteins (285), immune/transplant/liver/pancreas genes with proteins (267), technologies (148), liver disease and transplantation (199), cancer and PDAC (190); see content/README.md.
+- 1,089 items in space `concepts` under `bioinformatics/`: cancer genes with proteins (285), immune/transplant/liver/pancreas genes with proteins (267), technologies (148), liver disease and transplantation (199), cancer and PDAC (190); see content/README.md.
 
-- Priorities span 0–100 (about 60 items at 95+); about 80 % of the items have a mnemonic or an anecdote, every item with priority 80+ has one.
+- Priorities span 0–100 (56 items at 95+); about 60 % of the items have a mnemonic or an anecdote, every item with priority 80+ has one.
 
 - A course "Bioinformatics & medicine" (`content/curricula/bioinformatics.json`) with 5 stages and 67 units makes them playable on the level map.
 
