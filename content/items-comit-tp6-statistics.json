@@ -1,0 +1,3358 @@
+{
+ "space": "concepts",
+ "dirs": [
+  "comit",
+  "comit/tp6",
+  "comit/tp6/statistics",
+  "comit/tp6/statistics/expression",
+  "comit/tp6/statistics/purity",
+  "comit/tp6/statistics/structure",
+  "comit/tp6/statistics/survival",
+  "comit/tp6/statistics/models",
+  "comit/tp6/statistics/validation"
+ ],
+ "items": [
+  {
+   "key": "raw-read-counts",
+   "kind": "term",
+   "label_md": "Raw read counts (count matrix)",
+   "gloss_md": "The integer number of sequencing reads assigned to each gene in each sample, the unnormalised output of bulk RNA-seq quantification.",
+   "body_md": "Bulk RNA-seq dissolves a piece of tissue, extracts the mRNA, fragments it, copies it into cDNA and sequences tens of millions of short reads.\nEach read is assigned to a gene by alignment to the genome or by pseudoalignment to a transcript catalogue, and counting the reads per gene gives the count matrix (samples × genes, integers).\n\n- Raw counts are comparable neither between samples (different library size) nor between genes (longer transcripts collect more reads).\n- They are the only values that still show how precisely a gene was measured: 3 reads is imprecise, 3000 reads precise.\n- Count models for differential expression (edgeR, DESeq2) use this precision directly; limma-voom keeps it as precision weights on log-CPM values.\n- With many samples per group, a t-test or Wilcoxon test of log2(CPM + 1) values per gene (TMM-corrected, low counts filtered) is adequate as well, because each gene's variance is then estimated from its own values.\n- Microarrays deliver continuous log intensities instead, never zero because of background signal.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "count matrix",
+     "read counts"
+    ],
+    "de": "Rohzählwerte"
+   },
+   "priority": 80,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/statistics/expression"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "rna-seq"
+    },
+    {
+     "rel": "related",
+     "to": "cpm"
+    },
+    {
+     "rel": "related",
+     "to": "tpm"
+    },
+    {
+     "rel": "related",
+     "to": "library-size"
+    }
+   ]
+  },
+  {
+   "key": "library-size",
+   "kind": "term",
+   "label_md": "Library size (sequencing depth)",
+   "gloss_md": "The total number of reads of a sample, a technical quantity that easily differs by a factor of two between samples of the same study.",
+   "body_md": "The library size $N = \\sum_g c_g$ is the sum of all gene counts of a sample.\nA sample sequenced twice as deeply gives every gene about twice as many reads, so raw counts must be divided by the library size before samples are compared (CPM).\n\n- Depth correction alone does not fix library composition: if a few genes take a large share of all reads (in pancreas the acinar digestive enzymes), all other genes look lower. TMM or median-of-ratios factors correct this.\n- A systematic depth difference between cohorts or batches is a batch effect if left uncorrected.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "sequencing depth"
+    ],
+    "de": "Bibliotheksgröße, Sequenziertiefe"
+   },
+   "priority": 65,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/statistics/expression"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "cpm"
+    },
+    {
+     "rel": "related",
+     "to": "raw-read-counts"
+    },
+    {
+     "rel": "related",
+     "to": "tmm-and-median-of-ratios"
+    }
+   ]
+  },
+  {
+   "key": "tmm-and-median-of-ratios",
+   "kind": "term",
+   "label_md": "TMM and median-of-ratios normalisation",
+   "gloss_md": "Scaling factors per sample (edgeR's trimmed mean of M-values, DESeq2's median of ratios) that correct for library composition by ignoring extreme genes.",
+   "body_md": "CPM, TPM and FPKM correct depth and length but not composition: if a few genes absorb a very large share of the reads, every other gene appears lower although it is not transcribed less.\nThe pancreas is the extreme case, because acinar digestive-enzyme transcripts can dominate a sample that contains normal tissue.\n\n- TMM (Robinson & Oshlack 2010, edgeR): compares each sample to a reference, trims the most extreme log-ratios (M) and intensities (A), and takes the weighted mean of the rest as scaling factor; the factor turns the library size into an effective library size.\n- Median of ratios (DESeq2): divides each gene by its geometric mean over samples and takes the median of these ratios per sample.\n- Both assume that most genes are not differentially expressed between samples.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "TMM",
+     "trimmed mean of M-values",
+     "DESeq2 size factors"
+    ]
+   },
+   "priority": 45,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/expression"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "library-size"
+    },
+    {
+     "rel": "related",
+     "to": "cpm"
+    },
+    {
+     "rel": "related",
+     "to": "raw-read-counts"
+    }
+   ]
+  },
+  {
+   "key": "log2-plus-one-transform",
+   "kind": "term",
+   "label_md": "log2(x + 1) transformation",
+   "gloss_md": "Taking the base-2 logarithm of an expression value plus one, the standard scale for clustering, PCA and Cox models on expression data.",
+   "body_md": "Expression values span five to six orders of magnitude.\nThe logarithm is taken for three reasons:\n\n1. Without it the few extremely high genes dominate every distance, principal component and clustering.\n2. Biological effects are ratios (a doubling), and the log turns ratios into differences, which means, distances and linear models work with; one unit on the log2 scale is a doubling.\n3. The variance of large counts grows with the mean; after the log this dependence largely disappears for values that are not too small.\n\nThe $+1$ avoids $\\log(0)$; $x$ is a CPM, TPM or FPKM value.\nA model is valid only on the scale it was trained on: coefficients learned on log2(FPKM + 1) applied to log2(TPM + 1) values add numbers that do not belong together.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "log2(CPM+1)",
+     "log transform",
+     "log2(TPM+1)"
+    ],
+    "de": "Log-Transformation",
+    "mnemonic": "log2: one step up = twice as much."
+   },
+   "priority": 85,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/statistics/expression"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "cpm"
+    },
+    {
+     "rel": "related",
+     "to": "tpm"
+    },
+    {
+     "rel": "related",
+     "to": "z-transformation"
+    }
+   ]
+  },
+  {
+   "key": "gene-length-cancels-in-cox",
+   "kind": "rule",
+   "label_md": "Why CPM suffices for a gene-wise model (gene length cancels)",
+   "gloss_md": "In a model that compares patients gene by gene on the log scale, the transcript length that separates CPM from TPM/FPKM is a per-gene constant and drops out.",
+   "body_md": "FPKM is CPM divided by the gene length $\\ell_g$, so $\\log(\\text{FPKM}_g) = \\log(\\text{CPM}_g) - \\log(\\ell_g)$.\nThe length is the same for every patient, so on the log scale it only shifts gene $g$ by a constant.\nA Cox model compares patients: adding a constant to one covariate adds a constant to every linear predictor, which cancels in the partial likelihood and leaves the ranking unchanged.\nWith the $+1$ of log2(x + 1) the cancellation is only approximate for low values.\n\nRule of thumb from the Statistics book: one gene across samples needs only depth correction (CPM); a within-sample rule such as \"gene A higher than gene B\" (PurIST) needs TPM or FPKM, because there the lengths of two different genes are compared.\nTPM itself is not exactly FPKM × constant per sample (it is renormalised to sum to $10^6$), so TPM and CPM can rank patients slightly differently.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "CPM vs TPM"
+    ]
+   },
+   "priority": 70,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/expression"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "cpm"
+    },
+    {
+     "rel": "related",
+     "to": "tpm"
+    },
+    {
+     "rel": "related",
+     "to": "cox-ph-model"
+    },
+    {
+     "rel": "related",
+     "to": "top-scoring-pair-method"
+    }
+   ]
+  },
+  {
+   "key": "gene-identifiers-and-collapsing",
+   "kind": "term",
+   "label_md": "Gene identifiers and collapsing duplicates",
+   "gloss_md": "Matrices are indexed by Ensembl IDs while gene lists use HGNC symbols, and the mapping needs version stripping, a duplicate rule and a synonym table.",
+   "body_md": "- An Ensembl ID looks like `ENSG00000223972.5`: strip the version suffix before mapping.\n- The probemap (ID → symbol, chromosome, position) loses nothing in this direction, but several IDs share one symbol (copies of small non-coding RNAs, pseudogenes).\n- Collapse to one row per symbol: keep the ID with the highest mean expression (deterministic, does not see the outcome) or sum all IDs; document the rule.\n- Old gene lists use outdated symbols that an exact string match drops silently; the HGNC previous-symbol table recovers most of them.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "Ensembl ID",
+     "HGNC symbol",
+     "probemap"
+    ]
+   },
+   "priority": 45,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/expression"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "raw-read-counts"
+    }
+   ]
+  },
+  {
+   "key": "expression-filter",
+   "kind": "term",
+   "label_md": "Expression filter",
+   "gloss_md": "Removing genes that are not expressed in a cohort, e.g. keeping a gene only if log2 expression exceeds 1 in at least 20 % of patients.",
+   "body_md": "A gene that is zero in nearly all patients and slightly positive in three acts like an indicator for those three patients; if two die early, it gets a huge hazard ratio from a single misassigned fragment.\nAn expression filter removes such genes.\n\n- It sees only the expression matrix, never the survival times; permuting the survival times would give the same list.\n- Only under this condition may it run once on the whole cohort before cross-validation (a grey zone because it sees the test patients' expression, negligible for a fixed threshold).\n- A variance filter (\"top 5000 most variable genes\") is fitted to the data and belongs inside the training fold.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "detection filter"
+    ],
+    "de": "Expressionsfilter"
+   },
+   "priority": 60,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/expression"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "data-leakage"
+    },
+    {
+     "rel": "related",
+     "to": "predefined-feature-set"
+    }
+   ]
+  },
+  {
+   "key": "z-transformation",
+   "kind": "term",
+   "label_md": "z-transformation (per-gene standardisation)",
+   "gloss_md": "Centring each gene to mean 0 and scaling it to standard deviation 1 across samples, so that genes become comparable within a score or a penalised model.",
+   "body_md": "Needed wherever genes are combined into one number (signature scores) and in penalised regression, whose penalty assumes all predictors are on the same scale (glmnet standardises by default).\n\n- Mean and SD are parameters estimated from data: take them from the training data only and apply them unchanged to test data; otherwise it is data leakage.\n- A model fitted on z-scores of one cohort is a cohort-level model: a single new patient has no z-score without a cohort to standardise against.\n- z-scoring each cohort separately removes cohort shifts but changes the meaning of the coefficients with every new cohort.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "z-score",
+     "standardisation",
+     "scaling"
+    ],
+    "de": "z-Transformation, Standardisierung"
+   },
+   "priority": 75,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/statistics/expression"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "data-leakage"
+    },
+    {
+     "rel": "related",
+     "to": "single-sample-applicability"
+    },
+    {
+     "rel": "related",
+     "to": "gene-set-score"
+    }
+   ]
+  },
+  {
+   "key": "platform-effect",
+   "kind": "term",
+   "label_md": "Platform effect (array vs RNA-seq)",
+   "gloss_md": "The largest batch effect: array and RNA-seq matrices of the same tumours differ in unit, dynamic range and distribution, so coefficients do not transfer.",
+   "body_md": "Array intensities are compressed at both ends and have no zeros; sequencing counts are unbounded at the top and pile up at zero.\nA coefficient learned on one platform therefore does not transfer to the other, and a per-cohort z-transformation does not solve this.\n\nWhat travels between platforms is the order of genes within a sample: if gene A is higher than gene B in a tissue, this holds on the array and in RNA-seq, on linear and log scale, in FPKM and TPM (any transformation monotone within the sample).\nRank-based single-sample rules (top-scoring pairs, as in PurIST) exploit exactly this.\n\nA batch effect that coincides with the cohort itself (two published data sets, or cohort = platform = therapy) cannot be corrected by batch-correction methods such as ComBat, because batch and biology are confounded.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "cross-platform",
+     "platform batch effect"
+    ],
+    "de": "Plattformeffekt"
+   },
+   "priority": 80,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/statistics/expression"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "batch-effect"
+    },
+    {
+     "rel": "related",
+     "to": "expression-microarray"
+    },
+    {
+     "rel": "related",
+     "to": "rna-seq"
+    },
+    {
+     "rel": "related",
+     "to": "top-scoring-pair-method"
+    }
+   ]
+  },
+  {
+   "key": "bulk-mixture-model",
+   "kind": "rule",
+   "label_md": "Bulk tissue as a weighted mean (mixture model)",
+   "gloss_md": "A bulk expression value is the mean of the per-cell expression over all cell types of the tissue piece, weighted by cell fraction times RNA content.",
+   "body_md": "With cell types $k$, cell fractions $f_k$ (summing to 1), RNA content per cell $R_k$ and the share $e_{gk}$ of a cell's RNA that comes from gene $g$, the measured share of gene $g$ (what CPM/TPM estimate) is\n\n$$\\frac{\\sum_k f_k R_k e_{gk}}{\\sum_k f_k R_k}.$$\n\n- The weight of a cell type is $f_k R_k$ (cell number × RNA content), not the cell number alone; RNA content differs ten-fold or more between a resting lymphocyte and a secretory cell.\n- Every difference between two bulk samples has two causes the data cannot separate: different expression per cell, or different cell composition.\n- Worked example (Statistics book): tumour cells with twice the RNA of fibroblasts; purity 0.6 vs 0.2 moves a tumour-only gene from 1500 to 667 TPM and a fibroblast-only gene from 2500 to 6667 TPM without any cell changing its expression.\n\nDeconvolution methods try to estimate the weights $f_k R_k$; none recovers $e_{gk}$.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "mixture model",
+     "bulk mixture"
+    ],
+    "de": "Gewebemischung",
+    "mnemonic": "Bulk = smoothie: you taste the fruit mix, not how sweet each strawberry is."
+   },
+   "priority": 97,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/purity"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "tumour-purity"
+    },
+    {
+     "rel": "related",
+     "to": "purity-confounding"
+    },
+    {
+     "rel": "related",
+     "to": "cell-type-deconvolution"
+    }
+   ]
+  },
+  {
+   "key": "purity-confounding",
+   "kind": "term",
+   "label_md": "Tumour purity as a confounder (the purity problem)",
+   "gloss_md": "Because bulk values scale with the tumour-cell share, purity drives every tumour-cell gene up and every stromal/immune gene down, so subtypes and survival signatures can be purity labels in disguise.",
+   "body_md": "The problem in four steps:\n\n1. A bulk value is a weighted mean over cell types (mixture model), so two patients with identical tumour cells differ in every tumour-cell gene if their purity differs.\n2. Purity therefore confounds every tumour-cell gene and, with the opposite sign, every stromal and immune gene.\n3. If purity is related to outcome (for example because purer tumours are larger, more aggressive or basal-like), every tumour-cell gene appears prognostic and every stroma or immune score appears protective.\n4. Clusters of bulk profiles track composition: a low-purity cluster looks like a \"stroma\" or \"immunogenic\" subtype, admixed normal pancreas looks like an \"exocrine/ADEX\" subtype.\n\nPDAC is the extreme case: purity is low and varies strongly, because desmoplastic stroma often takes up more volume than the cancer cells.\nTCGA-PAAD (Cancer Cell 2017) found its expression subtypes depend on purity more than on any other factor; after controlling for purity only the classical vs basal-like axis remains.\nImmune-signature papers on TCGA-PAAD rarely adjust for purity, so an \"immune score\" may simply measure the leukocyte fraction.\n\nRemedies: check every subtype or score against a purity estimate, adjust for purity in the Cox model, analyse a high-purity subset, use deconvolution or virtual microdissection, use microdissected cohorts (PACA-CA), or use rules that are robust to the mixture (within-sample gene pairs, zero-sum weights).\n\nBest figures for slides: TCGA 2017 Fig. 4 (subtype calls against ABSOLUTE purity), Torre-Healy 2023 Fig. 2a (ADEX gene set against purity), Maurer 2019 Fig. 2D (bulk vs virtual epithelium) and the worked mixture table in the Statistics book (Ch. 1).",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "purity problem",
+     "purity confounding",
+     "Reinheitsproblem"
+    ],
+    "de": "Tumorreinheit als Störgröße",
+    "mnemonic": "Purity is the hidden volume knob: turn it up and all tumour genes get louder at once.",
+    "anecdote": "The TCGA PAAD paper (2017) had to split its 150 tumours at the median ABSOLUTE purity and discover subtypes only in the 76 high-purity samples, because almost every molecular layer was dominated by purity."
+   },
+   "priority": 99,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/purity"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "tumour-purity"
+    },
+    {
+     "rel": "related",
+     "to": "bulk-mixture-model"
+    },
+    {
+     "rel": "related",
+     "to": "confounder"
+    },
+    {
+     "rel": "related",
+     "to": "purity-adjustment"
+    },
+    {
+     "rel": "related",
+     "to": "random-signature-problem"
+    }
+   ]
+  },
+  {
+   "key": "confounder",
+   "kind": "term",
+   "label_md": "Confounder",
+   "gloss_md": "A variable that influences both the predictor and the outcome and thereby creates or hides an association between them.",
+   "body_md": "In expression-based survival analysis the classic confounders are:\n\n- tumour purity (drives tumour-cell genes and is linked to aggressiveness),\n- batch and platform (when they coincide with groups of interest),\n- stage, grade and treatment (clinical variables that both alter the transcriptome and the prognosis),\n- proliferation (a large share of the transcriptome varies with it, which is why random signatures predict breast-cancer outcome).\n\nAdjusting for a confounder means adding it as a covariate, stratifying on it, or restricting the analysis to a subgroup in which it barely varies.\nA confounder is not the same as a mediator (on the causal path) or an effect modifier (changes the effect size).",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "confounding variable"
+    ],
+    "de": "Störgröße, Confounder"
+   },
+   "priority": 75,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/statistics/purity"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "purity-confounding"
+    },
+    {
+     "rel": "related",
+     "to": "batch-effect"
+    },
+    {
+     "rel": "related",
+     "to": "random-signature-problem"
+    }
+   ]
+  },
+  {
+   "key": "mcp-counter-score",
+   "kind": "term",
+   "label_md": "MCP-counter score",
+   "gloss_md": "A deconvolution-style method (Becht et al. 2016, Genome Biology) that scores eight immune and two stromal cell populations by the mean log expression of their specific marker genes.",
+   "body_md": "MCP-counter (Microenvironment Cell Populations-counter) uses transcriptomic markers that are expressed in one population and not in the others: T cells, CD8 T cells, cytotoxic lymphocytes, NK cells, B lineage, monocytic lineage, myeloid dendritic cells, neutrophils, endothelial cells and fibroblasts.\n\n- Scores are comparable between samples for one population (higher = more of these cells), not between populations, because markers differ in baseline expression.\n- It is single-sample (mean log expression), but the values depend on the platform scale.\n- It gives abundance scores, not fractions; it cannot say \"30 % fibroblasts\".",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "Microenvironment Cell Populations-counter"
+    ]
+   },
+   "priority": 50,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/purity"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "cell-type-deconvolution"
+    },
+    {
+     "rel": "related",
+     "to": "estimate-algorithm"
+    },
+    {
+     "rel": "related",
+     "to": "gene-set-score"
+    }
+   ]
+  },
+  {
+   "key": "pathology-tumour-cellularity",
+   "kind": "term",
+   "label_md": "Pathology estimate of tumour cellularity",
+   "gloss_md": "The tumour-cell content of a sample estimated by a pathologist on an H&E section, the oldest and most direct purity estimate.",
+   "body_md": "The pathologist estimates the share of tumour nuclei (or area) in a section adjacent to the sequenced piece.\n\n- It measures cells, not RNA-weighted contributions, and the section is not exactly the sequenced tissue.\n- Estimates vary between observers and differ systematically from DNA-based (ABSOLUTE) and methylation-based estimates; TCGA PAAD compared all three (Fig. 4A of the 2017 paper) and found pathology values markedly lower.\n- Biobanks often require a minimum cellularity for sequencing, which in PDAC excludes many tumours and biases cohorts towards purer samples.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "tumour cellularity",
+     "neoplastic cellularity"
+    ],
+    "de": "Tumorzellgehalt (Pathologie)"
+   },
+   "priority": 45,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/purity"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "tumour-purity"
+    },
+    {
+     "rel": "related",
+     "to": "absolute-algorithm"
+    }
+   ]
+  },
+  {
+   "key": "cell-type-deconvolution",
+   "kind": "term",
+   "label_md": "Cell-type deconvolution",
+   "gloss_md": "Estimating the cell-type composition of a bulk sample (or scores that rise with it) from marker genes or reference profiles, to reverse the mixture.",
+   "body_md": "Deconvolution inverts the mixture model: given the bulk profile and reference profiles or markers per cell type, estimate the weights $f_k R_k$.\n\n- Marker-based scores: ESTIMATE, MCP-counter, xCell; give relative abundances.\n- Reference-based regression: CIBERSORT/CIBERSORTx (support vector regression on a signature matrix), EPIC, MuSiC/BayesPrism with single-cell references; give fractions.\n- Factorisation-based: NMF with reference samples (virtual microdissection), ADVOCATE (Maurer 2019).\n\nNone recovers the per-cell expression $e_{gk}$ in general, and all inherit the assumptions of their references (the cell types in the reference must match those in the tissue).",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "deconvolution"
+    ],
+    "de": "Zelltyp-Dekonvolution"
+   },
+   "priority": 80,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/purity"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "bulk-mixture-model"
+    },
+    {
+     "rel": "related",
+     "to": "estimate-algorithm"
+    },
+    {
+     "rel": "related",
+     "to": "mcp-counter-score"
+    },
+    {
+     "rel": "related",
+     "to": "virtual-microdissection"
+    }
+   ]
+  },
+  {
+   "key": "purity-adjustment",
+   "kind": "term",
+   "label_md": "Checking and adjusting for purity",
+   "gloss_md": "The analyses that separate a tumour-cell signal from a purity signal: correlation with a purity estimate, purity as covariate, high-purity subsets, deconvolution and mixture-robust rules.",
+   "body_md": "Standard checks before believing a subtype or survival score in bulk PDAC data:\n\n1. Correlate the score with an independent purity estimate (ABSOLUTE from DNA, or ESTIMATE); compare purity between the risk groups.\n2. Add purity as a covariate in the Cox model and see whether the score keeps its effect.\n3. Repeat the analysis in a high-purity subset (TCGA 2017: discovery in the 76 samples above the median ABSOLUTE purity) or in a microdissected cohort (ICGC PACA-CA).\n4. Deconvolve or virtually microdissect and redo the analysis on the tumour component.\n5. Compare against random gene sets of the same size, which also pick up purity.\n6. Prefer rules that are robust to the mixture: within-sample gene pairs (PurIST), weights that cancel shared shifts (zero-sum).\n\nA subtype whose classes differ strongly in mean purity (say 0.28 vs 0.55) is suspicious; if both classes have the same purity distribution and still differ in survival, the difference cannot be a purity artefact.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "purity adjustment",
+     "purity control"
+    ]
+   },
+   "priority": 80,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/purity"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "purity-confounding"
+    },
+    {
+     "rel": "related",
+     "to": "absolute-algorithm"
+    },
+    {
+     "rel": "related",
+     "to": "estimate-algorithm"
+    },
+    {
+     "rel": "related",
+     "to": "virtual-microdissection"
+    },
+    {
+     "rel": "related",
+     "to": "zero-sum-signature"
+    }
+   ]
+  },
+  {
+   "key": "molecular-subtyping",
+   "kind": "term",
+   "label_md": "Molecular subtyping pipeline",
+   "gloss_md": "Grouping patients by the similarity of their genome-wide profiles (select variable genes, cluster, name clusters, associate with outcome) in the hope the groups differ in biology or prognosis.",
+   "body_md": "The pipeline used by nearly every subtype paper:\n\n1. Select the highly variable genes (variance or MAD).\n2. Cluster the samples, today usually with consensus clustering or NMF.\n3. Name each cluster by its enriched genes (\"classical\" for ductal epithelial genes).\n4. Associate the clusters with survival, therapy response or mutations, which did not enter the clustering.\n5. Build a classifier so that new samples can be assigned (centroids, k-TSP).\n\nEvery step contains decisions without a correct answer (number of genes, distance, algorithm, $k$), and composition (purity, normal tissue) and batch can drive the clusters instead of tumour biology.\nA subtype is worth something only if an independent cohort on another platform finds it again, it is linked to something that did not enter the clustering, it has a mechanism, and it reflects tumour cells rather than the mixture.\nThe model in mind: breast-cancer intrinsic subtypes (Perou et al. 2000), which became the PAM50 test.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "subtyping",
+     "highly variable genes"
+    ],
+    "de": "molekulare Subtypisierung"
+   },
+   "priority": 75,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "pdac-molecular-subtypes"
+    },
+    {
+     "rel": "related",
+     "to": "consensus-clustering"
+    },
+    {
+     "rel": "related",
+     "to": "nmf"
+    },
+    {
+     "rel": "related",
+     "to": "clusters-from-noise"
+    }
+   ]
+  },
+  {
+   "key": "clusters-from-noise",
+   "kind": "term",
+   "label_md": "A clustering always produces clusters",
+   "gloss_md": "Any clustering algorithm returns the requested number of groups, with genes that differ between them, even from pure noise or technical effects.",
+   "body_md": "- Expression profiles of tumours lie along continua rather than in separate islands; clustering cuts the continuum where the algorithm and the cohort put it, so a sample's group can change when other samples are added.\n- Genes \"differ significantly\" between clusters by construction, because the clusters were made to separate them; a t-test between clusters is circular.\n- Batch effects and admixed normal tissue produce stable, reproducible clusters too.\n- The number of clusters is a decision, not a discovery: the same cohort yields two classes at $k = 2$ and four at $k = 4$, and the extra classes often describe composition.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "clustering artefacts"
+    ]
+   },
+   "priority": 70,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "molecular-subtyping"
+    },
+    {
+     "rel": "related",
+     "to": "consensus-clustering"
+    },
+    {
+     "rel": "related",
+     "to": "purity-confounding"
+    }
+   ]
+  },
+  {
+   "key": "hierarchical-clustering",
+   "kind": "term",
+   "label_md": "Hierarchical clustering",
+   "gloss_md": "Building a tree of samples by successively merging the closest groups under a linkage rule (average, complete, Ward) and cutting it into $k$ groups.",
+   "body_md": "- Distance: Euclidean (dominated by genes with large differences) or correlation distance $1 - r$ (ignores level and scale, compares the pattern).\n- After centring and scaling every gene across the cohort, squared Euclidean distance is proportional to $1 - r$, so both order sample pairs the same way, but the centring makes a sample's position depend on the rest of the cohort.\n- Linkage: average, complete and Ward linkage give different trees on the same data.\n- Cutting height determines $k$.\n\nIn bulk tumour data the most variable genes are often cell-type markers (stroma, immune cells, normal pancreas), so the tree groups samples by composition first.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "Ward linkage",
+     "correlation distance",
+     "dendrogram"
+    ],
+    "de": "hierarchisches Clustering"
+   },
+   "priority": 50,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "consensus-clustering"
+    },
+    {
+     "rel": "related",
+     "to": "molecular-subtyping"
+    }
+   ]
+  },
+  {
+   "key": "consensus-clustering",
+   "kind": "term",
+   "label_md": "Consensus clustering",
+   "gloss_md": "Clustering many random ~80 % subsamples and recording how often each pair of samples lands together (the consensus matrix), to choose $k$ and judge stability (Monti et al. 2003).",
+   "body_md": "- For each $k$, draw many subsamples, cluster each, and record per pair the fraction of runs in which both were drawn and fell into the same cluster.\n- A final hierarchical clustering of $1 -$ consensus gives the groups; $k$ is taken where the distribution of consensus values (CDF) stops changing much.\n- It measures stability against resampling, not correctness, and is known to be optimistic: a continuum cut at the same place in most subsamples gives clean blocks (Şenbabaoğlu et al. 2014 showed it finds apparent structure in unimodal data).\n- Used by Collisson, Moffitt, Bailey and TCGA PAAD (R package ConsensusClusterPlus, Wilkerson & Hayes 2010).",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "ConsensusClusterPlus",
+     "consensus matrix"
+    ],
+    "de": "Konsensus-Clustering"
+   },
+   "priority": 70,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "hierarchical-clustering"
+    },
+    {
+     "rel": "related",
+     "to": "clusters-from-noise"
+    },
+    {
+     "rel": "related",
+     "to": "molecular-subtyping"
+    }
+   ]
+  },
+  {
+   "key": "nmf",
+   "kind": "term",
+   "label_md": "Non-negative matrix factorisation (NMF)",
+   "gloss_md": "Approximating a non-negative genes × samples matrix by $W H$ with non-negative factors, so each sample is an additive mix of a few gene programmes (metagenes).",
+   "body_md": "$X \\approx W H$: $W$ (genes × $k$) holds the metagenes, $H$ ($k$ × samples) the weight of every programme in every sample (Lee & Seung 1999; metagenes and the cophenetic rank criterion: Brunet et al. 2004).\n\n- Non-negativity makes the factors readable: a sample is a sum of programmes, nothing is subtracted, which matches the physics of a bulk sample (a sum of cell-type contributions).\n- PCA instead gives orthogonal axes with positive and negative loadings that separate samples but cannot be read as additive parts.\n- Fitted by multiplicative updates from random starts; the result depends on the start, so it is run many times.\n- The rank $k$ is chosen as the largest value before the cophenetic correlation of the run-consensus matrix drops: a stability criterion with the same optimism as consensus clustering; the rank is a decision.\n- A trained $W$ can be kept fixed to project a new sample (NMF projection), but the new sample must be on the training scale.\n\nNMF is the engine of virtual microdissection (Moffitt 2015) and of Bailey's gene programmes.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "NMF",
+     "metagene",
+     "cophenetic correlation"
+    ],
+    "de": "nicht-negative Matrixfaktorisierung",
+    "anecdote": "Lee and Seung's 1999 Nature paper showed NMF learning parts of faces (noses, eyes, lips) where PCA learned holistic 'eigenfaces'; that parts-based picture is why NMF suits mixtures of cell types."
+   },
+   "priority": 85,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "virtual-microdissection"
+    },
+    {
+     "rel": "related",
+     "to": "pca"
+    },
+    {
+     "rel": "related",
+     "to": "ica"
+    },
+    {
+     "rel": "related",
+     "to": "gene-programme"
+    }
+   ]
+  },
+  {
+   "key": "gene-programme",
+   "kind": "term",
+   "label_md": "Gene programme (metagene)",
+   "gloss_md": "A coherent set of co-varying genes, such as the cell cycle or a fibroblast programme, that every sample carries to some degree; in NMF a column of $W$.",
+   "body_md": "A programme is continuous: every sample has some weight on it.\nA subtype is a discretisation of programmes: a sample is called classical when the classical programme dominates, though almost every sample carries both classical and basal-like programmes.\nTwo samples with the same label can therefore be far apart in programme space.\nExamples: Moffitt's tumour and stroma factors, Bailey's GP1–GP10 gene programmes, PAMG's single continuous gradient.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "metagene",
+     "expression programme"
+    ],
+    "de": "Genprogramm"
+   },
+   "priority": 55,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "nmf"
+    },
+    {
+     "rel": "related",
+     "to": "subtypes-programmes-and-states"
+    }
+   ]
+  },
+  {
+   "key": "pca",
+   "kind": "term",
+   "label_md": "Principal component analysis (PCA)",
+   "gloss_md": "Rotating the data to orthogonal axes ordered by explained variance; used to visualise samples and to detect batch, platform and purity effects.",
+   "body_md": "- Each principal component is a weighted sum of genes with positive and negative loadings; PC1 explains the most variance.\n- Run on centred (and usually scaled) log expression; on the linear scale a few extreme genes dominate.\n- In bulk PDAC data the first components typically track purity, stroma and normal-tissue content, or the cohort/batch when cohorts are merged, which makes PCA a first QC plot.\n- Components separate samples but are not additive parts (contrast NMF) and need not be independent beyond second order (contrast ICA).",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "PCA",
+     "principal components"
+    ],
+    "de": "Hauptkomponentenanalyse"
+   },
+   "priority": 60,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "nmf"
+    },
+    {
+     "rel": "related",
+     "to": "ica"
+    },
+    {
+     "rel": "related",
+     "to": "batch-effect"
+    }
+   ]
+  },
+  {
+   "key": "ica",
+   "kind": "term",
+   "label_md": "Independent component analysis (ICA)",
+   "gloss_md": "Decomposing a data matrix into statistically independent (non-Gaussian) source signals; used by Puleo 2018 and by PAMG to separate tumour and stroma components of PDAC.",
+   "body_md": "ICA assumes the observed profiles are linear mixtures of independent sources and finds the unmixing that makes the components as non-Gaussian (independent) as possible.\nUnlike PCA, components are not ordered by variance and not forced to be orthogonal; unlike NMF, weights may be negative.\n\n- Puleo et al. 2018 (Gastroenterology) used ICA on 309 resected PDAC arrays to separate tumour-cell components (pure classical, immune classical, pure basal-like, stroma-activated, desmoplastic subtypes) from stromal components.\n- PAMG (Nicolle et al. 2020) is an ICA component derived from patient-derived xenograft RNA-seq (only human tumour cells, mouse stroma ignored), projected onto new samples with a platform-specific reference.\n- The cocktail-party problem is the textbook picture: several microphones, several speakers, recover each voice.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "ICA"
+    ],
+    "de": "Unabhängigkeitsanalyse",
+    "mnemonic": "Cocktail party: ICA separates the voices (cell types) from the microphones (samples)."
+   },
+   "priority": 60,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "pca"
+    },
+    {
+     "rel": "related",
+     "to": "nmf"
+    }
+   ]
+  },
+  {
+   "key": "centroid-classifier",
+   "kind": "term",
+   "label_md": "Centroid classifier and nearest shrunken centroids (PAM)",
+   "gloss_md": "Assigning a new sample to the class whose mean profile (centroid) it correlates with best; PAM shrinks centroids so that weak genes drop out (Tibshirani et al. 2002).",
+   "body_md": "- Centroids are mean profiles of characteristic genes per class in the training cohort.\n- PAM shrinks each class centroid towards the overall centroid by an amount chosen by cross-validation; genes with smaller class differences drop out.\n- The new sample must be on the scale of the centroids, usually centred and scaled across a cohort: centring with its own cohort makes the call depend on that cohort (class balance!), centring with the training means requires the same platform.\n- The breast-cancer PAM50 subtype test is a centroid classifier.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "PAM",
+     "nearest centroid",
+     "PAM50"
+    ]
+   },
+   "priority": 50,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "top-scoring-pair-method"
+    },
+    {
+     "rel": "related",
+     "to": "single-sample-applicability"
+    }
+   ]
+  },
+  {
+   "key": "top-scoring-pair-method",
+   "kind": "term",
+   "label_md": "Top-scoring-pair method (TSP, k-TSP)",
+   "gloss_md": "A classifier built from rules 'gene A is higher than gene B in this sample', chosen where the probability of A > B differs most between classes; k-TSP lets k disjoint pairs vote.",
+   "body_md": "TSP: Geman et al. 2004; k-TSP: Tan et al. 2005.\n\n- Only the order of two genes within one sample enters, so no normalisation across samples, no centring and no reference cohort are needed.\n- That makes it a single-sample classifier that transfers across platforms (array, RNA-seq, NanoString) as long as the genes are measured, and it is insensitive to monotone transformations.\n- It is fairly robust to tumour purity only when both genes of a pair come from the same compartment.\n- Price: a few pairs carry the whole decision, and a pair can flip by noise when both genes are lowly expressed.\n- Because two different genes are compared, the input should be TPM or FPKM (length-corrected), not CPM.\n\nPurIST (Rashid et al. 2020) is a k-TSP-type classifier: eight gene pairs combined in a logistic model give the probability of the basal-like subtype.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "k-TSP",
+     "TSP",
+     "gene-pair classifier",
+     "relative expression ordering"
+    ],
+    "de": "Genpaar-Klassifikator",
+    "mnemonic": "Not 'how loud is A?' but 'is A louder than B?'; the question survives any change of volume."
+   },
+   "priority": 90,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "single-sample-applicability"
+    },
+    {
+     "rel": "related",
+     "to": "platform-effect"
+    },
+    {
+     "rel": "related",
+     "to": "gene-length-cancels-in-cox"
+    }
+   ]
+  },
+  {
+   "key": "single-sample-applicability",
+   "kind": "term",
+   "label_md": "Single-sample vs cohort-level methods (applicability)",
+   "gloss_md": "A single-sample method gives the same result for a sample whatever else was measured; a cohort-level method's result depends on the other samples of the cohort.",
+   "body_md": "Applicability means a model can score one patient from that patient's own measurement alone, which a clinical study needs.\n\n- Cohort-level: consensus clustering, NMF fitted to the cohort, z-scores across the cohort, centroid correlation after cohort centring, GSVA, any re-standardised or median-split score.\n- Single-sample: rank rules within the sample (k-TSP, PurIST, ssGSEA), a frozen model on an absolute scale (log2(CPM + 1) with fixed weights and fixed training means), NMF projection with fixed $W$ (but on the training scale).\n- A single-sample score can still need calibration across cohorts: if its level shifts with depth, purity or composition, a fixed threshold calls very different shares of patients \"high\" in different cohorts.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "applicability",
+     "single-sample classifier",
+     "cohort-level method"
+    ],
+    "de": "Einzelproben-Anwendbarkeit"
+   },
+   "priority": 95,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "top-scoring-pair-method"
+    },
+    {
+     "rel": "related",
+     "to": "z-transformation"
+    },
+    {
+     "rel": "related",
+     "to": "frozen-model"
+    },
+    {
+     "rel": "related",
+     "to": "cross-cohort-calibration"
+    }
+   ]
+  },
+  {
+   "key": "gene-set-score",
+   "kind": "term",
+   "label_md": "Gene-set score",
+   "gloss_md": "One number per sample summarising the expression of a predefined gene list (mean log expression, mean z-score, ssGSEA, GSVA).",
+   "body_md": "- Mean log expression: single-sample, but depends on baseline expression and platform; comparable within one data set.\n- Mean of z-scores: genes comparable with each other, but the score depends on the cohort.\n- ssGSEA: rank-based within the sample, single-sample.\n- GSVA: cohort-level, because genes are first transformed across samples.\n\nAll are relative measures, not cell counts or probabilities, and scores of different sets are not on a common scale.\nA stroma set scores high in a low-purity sample even if the tumour cells have not changed, so scores of many sets correlate through the mixture; a correlation between two scores is no evidence that two programmes belong together.\nFor a list from a functional screen, an unweighted mean assumes all genes act in the same direction, which such lists do not.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "signature score",
+     "mean z-score"
+    ],
+    "de": "Gen-Set-Score"
+   },
+   "priority": 70,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "ssgsea"
+    },
+    {
+     "rel": "related",
+     "to": "gsva"
+    },
+    {
+     "rel": "related",
+     "to": "z-transformation"
+    },
+    {
+     "rel": "related",
+     "to": "purity-confounding"
+    }
+   ]
+  },
+  {
+   "key": "ssgsea",
+   "kind": "term",
+   "label_md": "ssGSEA (single-sample gene set enrichment)",
+   "gloss_md": "A rank-based enrichment score computed within one sample: the difference between the cumulative distributions of set genes and other genes along that sample's gene ranking (Barbie et al. 2009).",
+   "body_md": "- Single-sample and rank-based, like k-TSP, so it travels between platforms better than a mean of values.\n- Values are relative enrichment, not fractions.\n- ESTIMATE computes its stromal and immune scores with ssGSEA.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "single-sample GSEA"
+    ],
+    "anecdote": "ssGSEA was introduced in the RNAi-screen paper of Barbie et al. (Nature 2009) showing that KRAS-driven cancers need the kinase TBK1."
+   },
+   "priority": 45,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "gene-set-score"
+    },
+    {
+     "rel": "related",
+     "to": "gsva"
+    },
+    {
+     "rel": "related",
+     "to": "estimate-algorithm"
+    }
+   ]
+  },
+  {
+   "key": "gsva",
+   "kind": "term",
+   "label_md": "GSVA (gene set variation analysis)",
+   "gloss_md": "A gene-set score (Hänzelmann et al. 2013) that first transforms each gene across the cohort into a rank-like value and then computes an enrichment statistic per sample, so it is cohort-level.",
+   "body_md": "GSVA gives one value per sample and set and is widely used for pathway heatmaps.\nBecause its first step uses all samples, a sample's score changes when the cohort changes: it is not applicable to a single new patient.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "GSVA"
+    ]
+   },
+   "priority": 40,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "gene-set-score"
+    },
+    {
+     "rel": "related",
+     "to": "ssgsea"
+    },
+    {
+     "rel": "related",
+     "to": "single-sample-applicability"
+    }
+   ]
+  },
+  {
+   "key": "subtypes-programmes-and-states",
+   "kind": "term",
+   "label_md": "Subtype, programme and cell state",
+   "gloss_md": "A subtype is a label of a bulk sample, a programme a continuous quantity every sample carries, and a cell state a programme of individual tumour cells seen in single-cell data.",
+   "body_md": "- Subtype: property of a sample/patient (classical, basal-like), a discretisation of programmes.\n- Programme: continuous weight (NMF component, gene-set score, PAMG gradient).\n- Cell state: single-cell data show tumour cells with different programmes side by side within one tumour (intra-tumour heterogeneity); a bulk subtype mixes the state composition among tumour cells with the cell-type composition of the sample.\n\nTwo \"basal-like\" tumours can differ because their tumour cells are uniformly intermediate or because they contain a mix of classical and basal-like cells; only single-cell or spatial data can tell these apart.\nWhether a state fraction carries prognostic information beyond bulk programmes has to be tested with data.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "cell state"
+    ],
+    "de": "Subtyp, Programm, Zellzustand"
+   },
+   "priority": 65,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "gene-programme"
+    },
+    {
+     "rel": "related",
+     "to": "moffitt-classical-basal-like"
+    },
+    {
+     "rel": "related",
+     "to": "single-cell-rna-seq"
+    },
+    {
+     "rel": "related",
+     "to": "intratumour-heterogeneity"
+    }
+   ]
+  },
+  {
+   "key": "time-to-event-data",
+   "kind": "term",
+   "label_md": "Time-to-event data",
+   "gloss_md": "Outcome data in which every patient contributes an observed time and an event indicator (1 = event seen, 0 = censored).",
+   "body_md": "Survival endpoints are pairs (time, event).\nTurning them into a binary outcome (\"alive at two years: yes/no\") is wrong twice: patients censored before two years have no status (dropping them is selection bias against short follow-up), and the difference between dying at 4 and at 15 months, exactly what a model should predict, is thrown away.\nThe endpoint must be fixed before the analysis: overall survival needs no judgement about the cause of death; disease-specific survival, progression-free interval (TCGA-CDR) and disease-free survival depend on cause attribution and examination schedules.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "survival data"
+    ],
+    "de": "Ereigniszeitdaten"
+   },
+   "priority": 80,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "censoring"
+    },
+    {
+     "rel": "related",
+     "to": "overall-survival"
+    },
+    {
+     "rel": "related",
+     "to": "progression-free-survival"
+    }
+   ]
+  },
+  {
+   "key": "censoring",
+   "kind": "term",
+   "label_md": "Censoring (right-censoring)",
+   "gloss_md": "An observation is right-censored when the patient was event-free at the last contact, so the true survival time is only known to be longer than the observed time.",
+   "body_md": "Censoring happens when a study ends, a patient moves away or contact breaks off.\nA censored observation is neither an event nor a missing value: all survival methods use it as a lower bound on the true time.\n\n- Removing censored patients removes those who did well or entered late, so survival is underestimated.\n- Treating censoring as death is worse.\n- Methods assume non-informative censoring: the reason for censoring is unrelated to the prognosis.\n- In the six-patient example of the Statistics book, dropping censored patient B gives $\\hat S(15) = 0.400$, counting B as dead gives 0.333, the correct Kaplan-Meier estimate is 0.417.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "right-censored",
+     "censored observation"
+    ],
+    "de": "Zensierung",
+    "mnemonic": "Censored = 'at least this long', a plus sign behind the time (15+)."
+   },
+   "priority": 95,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "time-to-event-data"
+    },
+    {
+     "rel": "related",
+     "to": "kaplan-meier-estimator"
+    },
+    {
+     "rel": "related",
+     "to": "harrell-c-index"
+    }
+   ]
+  },
+  {
+   "key": "kaplan-meier-estimator",
+   "kind": "term",
+   "label_md": "Kaplan-Meier estimator",
+   "gloss_md": "A step-function estimate of the survival function $S(t)$ as the product over event times of $(1 - d_i/n_i)$, where $n_i$ is the risk set just before $t_i$ (Kaplan & Meier 1958).",
+   "body_md": "$$\\hat S(t) = \\prod_{t_i \\le t} \\left(1 - \\frac{d_i}{n_i}\\right)$$\n\n- The curve changes only at event times; a censored patient leaves the risk set without a step (tick marks on the plot).\n- The curve makes no statement beyond the last observed time.\n- Median survival: the first time the curve reaches 0.5 or less; under heavy censoring it may be \"not reached\".\n- KM curves need groups, so a continuous score must be split (median split, fixed threshold); the split is where most published curves become misleading.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "KM curve",
+     "product-limit estimator",
+     "survival curve"
+    ],
+    "de": "Kaplan-Meier-Schätzer",
+    "anecdote": "Edward Kaplan and Paul Meier submitted similar manuscripts to JASA independently; the editor, John Tukey, persuaded them to merge them into one paper (1958), which became one of the most cited statistics papers ever."
+   },
+   "priority": 95,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "censoring"
+    },
+    {
+     "rel": "related",
+     "to": "log-rank-test"
+    },
+    {
+     "rel": "related",
+     "to": "median-split"
+    }
+   ]
+  },
+  {
+   "key": "median-survival",
+   "kind": "term",
+   "label_md": "Median survival",
+   "gloss_md": "The smallest time at which the Kaplan-Meier curve reaches 0.5 or falls below it; reported as 'not reached' if the curve stays above 0.5.",
+   "body_md": "Median OS is the usual summary of a cohort (PDAC: roughly 2 years after resection with adjuvant chemotherapy, under 1 year when metastatic).\nThe mean survival is rarely reported, because it needs the whole curve down to zero.\nIn the six-patient example of the Statistics book the median is 15 months.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "median OS"
+    ],
+    "de": "medianes Überleben"
+   },
+   "priority": 55,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "kaplan-meier-estimator"
+    },
+    {
+     "rel": "related",
+     "to": "overall-survival"
+    }
+   ]
+  },
+  {
+   "key": "log-rank-test",
+   "kind": "term",
+   "label_md": "Log-rank test",
+   "gloss_md": "A test of whether two or more survival curves are equal, summing over event times the difference between observed and expected events per group.",
+   "body_md": "- At each event time the expected events per group are computed under equal risk; observed − expected is summed over all event times.\n- It tests equality of curves and says nothing about how far apart they are; its p-value grows with the number of patients and events.\n- A stratified log-rank test compares groups within strata (e.g. cohorts) and sums the evidence.\n- The log-rank statistic is also the split criterion of random survival forests.\n- It is equivalent to the score test of a Cox model with the group as covariate.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "Mantel-Cox test"
+    ],
+    "de": "Log-Rang-Test"
+   },
+   "priority": 85,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "kaplan-meier-estimator"
+    },
+    {
+     "rel": "related",
+     "to": "hr-and-p-value-are-not-performance"
+    },
+    {
+     "rel": "related",
+     "to": "random-survival-forest"
+    }
+   ]
+  },
+  {
+   "key": "cox-ph-model",
+   "kind": "term",
+   "label_md": "Cox proportional hazards model",
+   "gloss_md": "A regression model for the hazard, $h(t \\mid x) = h_0(t) \\exp(\\beta^\\top x)$, with an unspecified baseline hazard and coefficients estimated by the partial likelihood (Cox 1972).",
+   "body_md": "- $\\exp(\\beta_j)$ is the hazard ratio per unit increase of feature $j$, other features fixed.\n- The partial likelihood: at each event time, the probability that exactly this patient of the risk set had the event, $\\exp(\\beta^\\top x_i) / \\sum_{j \\in R} \\exp(\\beta^\\top x_j)$; the baseline hazard cancels, which is how censored patients enter without assumptions on $h_0(t)$.\n- The model does not predict a survival time: its output, the linear predictor $\\beta^\\top x$, only orders patients; survival probabilities need an estimate of the baseline hazard, which most published models do not report.\n- Rule of thumb: about ten events per candidate variable (penalised versions such as LASSO-Cox relax this).",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "Cox regression",
+     "proportional hazards regression",
+     "partial likelihood"
+    ],
+    "de": "Cox-Regression",
+    "anecdote": "David Cox's 1972 paper 'Regression models and life-tables' is one of the most cited statistics papers; the partial likelihood that makes it work was justified rigorously only in later papers."
+   },
+   "priority": 98,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "hazard-ratio"
+    },
+    {
+     "rel": "related",
+     "to": "baseline-hazard"
+    },
+    {
+     "rel": "related",
+     "to": "proportional-hazards-assumption"
+    },
+    {
+     "rel": "related",
+     "to": "risk-score"
+    },
+    {
+     "rel": "related",
+     "to": "lasso-cox"
+    }
+   ]
+  },
+  {
+   "key": "baseline-hazard",
+   "kind": "term",
+   "label_md": "Baseline hazard",
+   "gloss_md": "The hazard $h_0(t)$ of a reference patient (all covariates zero) in the Cox model; without it the model only ranks patients and gives no absolute risks.",
+   "body_md": "The Cox partial likelihood never estimates $h_0(t)$, so the coefficients are learned without it.\nTo turn the linear predictor into a survival probability, $h_0(t)$ has to be estimated separately (Breslow estimator), and it depends on the cohort.\nThe level of a Cox risk score therefore has no meaning of its own, and calibration cannot be checked when the baseline hazard is not reported.\nA stratified Cox model lets each stratum (e.g. cohort) have its own baseline hazard while sharing the coefficients.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "h0(t)"
+    ],
+    "de": "Basis-Hazard"
+   },
+   "priority": 70,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "cox-ph-model"
+    },
+    {
+     "rel": "related",
+     "to": "stratified-cox-model"
+    },
+    {
+     "rel": "related",
+     "to": "discrimination-and-calibration"
+    }
+   ]
+  },
+  {
+   "key": "proportional-hazards-assumption",
+   "kind": "term",
+   "label_md": "Proportional hazards assumption",
+   "gloss_md": "The Cox model's assumption that the hazard ratio of two patients stays constant over time; checked with scaled Schoenfeld residuals.",
+   "body_md": "A feature that acts strongly in the first year and not at all afterwards violates it, and a single HR then describes neither period.\n\n- Check: scaled Schoenfeld residuals against time (Grambsch & Therneau 1994; `cox.zph` in R).\n- Remedies: stratify on the offending variable, add a time interaction, or report time-dependent AUCs at several landmarks.\n- A violation matters less when the model is only used to rank patients and more when the HR is read as an effect size.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "PH assumption",
+     "Schoenfeld residuals"
+    ],
+    "de": "Proportionalitätsannahme"
+   },
+   "priority": 65,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "cox-ph-model"
+    },
+    {
+     "rel": "related",
+     "to": "hazard-ratio"
+    },
+    {
+     "rel": "related",
+     "to": "time-dependent-auc"
+    }
+   ]
+  },
+  {
+   "key": "stratified-cox-model",
+   "kind": "term",
+   "label_md": "Stratified Cox model (baseline hazard per cohort)",
+   "gloss_md": "A Cox model in which each stratum, for example each cohort, gets its own baseline hazard while all strata share the same coefficients.",
+   "body_md": "$h(t \\mid x, s) = h_{0s}(t) \\exp(\\beta^\\top x)$: the partial likelihood is computed within each stratum and multiplied.\n\n- Absorbs differences in baseline survival between cohorts (stage mix, treatment era, follow-up) without estimating them.\n- Patients are only compared with patients of the same stratum, which is the right comparison when pooling cohorts.\n- In R: `coxph(Surv(time, event) ~ x + strata(cohort))`; glmnet supports strata for Cox fits.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "strata",
+     "stratified Cox"
+    ],
+    "de": "stratifiziertes Cox-Modell"
+   },
+   "priority": 80,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "cox-ph-model"
+    },
+    {
+     "rel": "related",
+     "to": "baseline-hazard"
+    },
+    {
+     "rel": "related",
+     "to": "leave-one-cohort-out"
+    },
+    {
+     "rel": "related",
+     "to": "added-value-likelihood-ratio-test"
+    }
+   ]
+  },
+  {
+   "key": "hazard-ratio-per-sd",
+   "kind": "term",
+   "label_md": "Hazard ratio per standard deviation",
+   "gloss_md": "The hazard ratio for a one-standard-deviation increase of a score, which puts scores on different scales (single gene, log2 values, multi-gene risk scores) on a common footing.",
+   "body_md": "An HR of 1.02 per unit says nothing if the unit is unknown: a gene on the raw scale, the same gene on log2 and a 20-gene risk score give different HRs for the same effect.\nStandardising the score (within the training data, or within each cohort for a description) and reporting $\\exp(\\beta)$ per SD makes HRs comparable.\nIt remains a description of association, not a performance measure: a large HR can come from a few extreme patients while the C-index stays near 0.5.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "HR per SD"
+    ],
+    "de": "Hazard Ratio pro Standardabweichung"
+   },
+   "priority": 75,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "hazard-ratio"
+    },
+    {
+     "rel": "related",
+     "to": "z-transformation"
+    },
+    {
+     "rel": "related",
+     "to": "hr-and-p-value-are-not-performance"
+    }
+   ]
+  },
+  {
+   "key": "risk-score",
+   "kind": "term",
+   "label_md": "Risk score (linear predictor)",
+   "gloss_md": "The single number per patient that a prognostic model outputs, for a Cox model $\\hat\\beta^\\top x$; higher means shorter expected survival.",
+   "body_md": "- It only orders patients; a score of 2.1 does not mean death in 2.1 years or a probability of 0.21.\n- Its level depends on the training cohort and scale; comparing levels across cohorts requires calibration.\n- For a random survival forest the score is the summed ensemble cumulative hazard (\"mortality\").",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "linear predictor",
+     "prognostic index"
+    ],
+    "de": "Risikoscore"
+   },
+   "priority": 80,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "cox-ph-model"
+    },
+    {
+     "rel": "related",
+     "to": "harrell-c-index"
+    },
+    {
+     "rel": "related",
+     "to": "prognostic-model"
+    }
+   ]
+  },
+  {
+   "key": "harrell-c-index",
+   "kind": "term",
+   "label_md": "Harrell's C-index (concordance index)",
+   "gloss_md": "The fraction of comparable patient pairs in which the patient with the higher risk score had the event first; 0.5 is chance, 1 perfect ordering.",
+   "body_md": "- A pair is comparable if the patient with the shorter observed time had an event (if that patient is censored, the order is unknown).\n- Concordant: higher score for the one who died first; a tie in the score counts 0.5.\n- Without censoring and with a binary outcome it equals the AUC.\n- It measures discrimination only, not calibration: a model with systematically wrong risk levels can have a perfect C-index.\n- Values below 0.5 mean the score points the wrong way and must be reported as such.\n- Realistic out-of-sample values for PDAC expression signatures: about 0.55 to 0.70; 0.60 means 40 of 100 comparable pairs are ordered wrongly.\n- Under heavy censoring Harrell's C depends on the follow-up; Uno's C (Uno et al. 2011) reweights pairs by inverse probability of censoring.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "C-index",
+     "concordance",
+     "Harrell's C",
+     "Uno's C"
+    ],
+    "de": "Konkordanzindex",
+    "mnemonic": "C for 'correct order': coin toss 0.5, oracle 1.0."
+   },
+   "priority": 99,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "discrimination-and-calibration"
+    },
+    {
+     "rel": "related",
+     "to": "time-dependent-auc"
+    },
+    {
+     "rel": "related",
+     "to": "risk-score"
+    }
+   ]
+  },
+  {
+   "key": "time-dependent-auc",
+   "kind": "term",
+   "label_md": "Time-dependent AUC",
+   "gloss_md": "The AUC at a landmark time: the fraction of case-control pairs (event before the landmark vs observed beyond it) in which the case has the higher score.",
+   "body_md": "- Patients censored before the landmark have no status; dropping them is slightly biased, inverse probability of censoring weighting (IPCW) is the clean solution (Heagerty et al. 2000).\n- It can disagree with the C-index: the C-index also counts pairs of two early deaths, the landmark AUC only early deaths against long-term survivors.\n- A feature whose effect fades gives a high AUC at one year and a low one at three years; the C-index averages over time.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "AUC(t)",
+     "landmark AUC",
+     "IPCW"
+    ],
+    "de": "zeitabhängige AUC"
+   },
+   "priority": 60,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "harrell-c-index"
+    },
+    {
+     "rel": "related",
+     "to": "censoring"
+    }
+   ]
+  },
+  {
+   "key": "discrimination-and-calibration",
+   "kind": "term",
+   "label_md": "Discrimination vs calibration",
+   "gloss_md": "Discrimination is whether a model ranks patients correctly (C-index, AUC); calibration is whether its predicted risks match the observed ones.",
+   "body_md": "- A model can rank perfectly and still predict risks that are systematically too high, for example because the new cohort has a different baseline hazard.\n- Calibration is lost more easily in external validation than discrimination (Steyerberg 2010).\n- A Cox linear predictor without its baseline hazard cannot be checked for calibration at all.\n- Cross-cohort calibration of a score's level is what a fixed threshold needs: a score can discriminate well in every cohort while its level shifts between cohorts.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "calibration",
+     "discrimination"
+    ],
+    "de": "Diskriminierung und Kalibrierung"
+   },
+   "priority": 85,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "harrell-c-index"
+    },
+    {
+     "rel": "related",
+     "to": "cross-cohort-calibration"
+    },
+    {
+     "rel": "related",
+     "to": "baseline-hazard"
+    },
+    {
+     "rel": "related",
+     "to": "external-validation"
+    }
+   ]
+  },
+  {
+   "key": "hr-and-p-value-are-not-performance",
+   "kind": "rule",
+   "label_md": "Hazard ratio and log-rank p-value are not performance measures",
+   "gloss_md": "An HR and a p-value show that an association exists in a sample; how well a score predicts is shown only by the C-index or AUC on patients the model has not seen.",
+   "body_md": "- The HR depends on the unit and can be large when a few patients are extreme while most pairs are ordered by chance.\n- The p-value grows with sample size: in 150 patients with 90 deaths a p-value of $10^{-5}$ can come from a C-index of 0.60.\n- Kaplan-Meier curves of a median split or an optimal cut-point on the training patients separate almost by construction.\n- So \"HR 3.4, log-rank p < $10^{-6}$\" and \"C-index 0.58\" are not a contradiction.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "HR is not performance"
+    ]
+   },
+   "priority": 85,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "hazard-ratio"
+    },
+    {
+     "rel": "related",
+     "to": "log-rank-test"
+    },
+    {
+     "rel": "related",
+     "to": "harrell-c-index"
+    },
+    {
+     "rel": "related",
+     "to": "threshold-trap"
+    }
+   ]
+  },
+  {
+   "key": "progression-free-interval",
+   "kind": "term",
+   "label_md": "Progression-free interval (PFI) and disease-specific survival",
+   "gloss_md": "TCGA-CDR endpoints: PFI is the time to progression, recurrence, a new tumour or death; DSS counts only deaths from the tumour and censors other deaths.",
+   "body_md": "The TCGA Clinical Data Resource (Liu et al. 2018, Cell) curated four endpoints for all TCGA cancers: OS, DSS, DFI and PFI, with recommendations per cancer type.\nProgression endpoints have more events (progression comes earlier) but depend on how often and how carefully patients were examined; DSS depends on an often uncertain cause of death.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "PFI",
+     "DSS",
+     "TCGA-CDR endpoints"
+    ],
+    "de": "progressionsfreies Intervall"
+   },
+   "priority": 40,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "overall-survival"
+    },
+    {
+     "rel": "related",
+     "to": "progression-free-survival"
+    },
+    {
+     "rel": "related",
+     "to": "time-to-event-data"
+    }
+   ]
+  },
+  {
+   "key": "prognostic-vs-predictive-marker",
+   "kind": "term",
+   "label_md": "Prognostic vs predictive marker",
+   "gloss_md": "A prognostic marker predicts the course of disease regardless of therapy; a predictive marker predicts whether a particular therapy will work.",
+   "body_md": "- Prognostic: high score → shorter survival in treated and untreated patients alike (CA19-9 level, stage, basal-like subtype).\n- Predictive: the treatment effect differs by marker status, shown by a marker × treatment interaction, ideally in a randomised trial (HER2 for trastuzumab, BRCA/HRD for PARP inhibitors, MSI-high for checkpoint blockade).\n- A marker can be both. In PDAC, basal-like tumours respond worse to FOLFIRINOX (COMPASS trial observations), a hint that PurIST may also be predictive.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "prognostic marker",
+     "predictive biomarker"
+    ],
+    "de": "prognostischer vs prädiktiver Marker",
+    "mnemonic": "Prognostic = forecast the weather; predictive = whether the umbrella helps."
+   },
+   "priority": 95,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "prognostic-model"
+    },
+    {
+     "rel": "related",
+     "to": "companion-diagnostic"
+    }
+   ]
+  },
+  {
+   "key": "prognostic-model",
+   "kind": "term",
+   "label_md": "Prognostic model vs gene signature",
+   "gloss_md": "A signature is a gene list; a prognostic model is the list plus weights plus the full rule (unit, normalisation, standardisation, threshold) that turns one patient's expression into a risk score.",
+   "body_md": "- A list alone predicts nothing: to score a new patient you need genes, weights, the expression unit and transformation, the standardisation parameters, and the threshold if there is one.\n- Two ambition levels: a ranking (what the C-index measures, all most published models offer) vs calibrated survival probabilities (need the baseline hazard).",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "gene signature",
+     "signature"
+    ],
+    "de": "prognostisches Modell, Gensignatur"
+   },
+   "priority": 85,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "risk-score"
+    },
+    {
+     "rel": "related",
+     "to": "feature-sets-and-learners"
+    },
+    {
+     "rel": "related",
+     "to": "frozen-model"
+    }
+   ]
+  },
+  {
+   "key": "feature-sets-and-learners",
+   "kind": "term",
+   "label_md": "Grid of feature sets × learners",
+   "gloss_md": "A design that crosses predefined gene lists with several learning algorithms on identical training/test splits, so that the gene list is the only difference within a learner.",
+   "body_md": "The question raised by a gene list from an experiment is whether the list carries signal, not which learner fits it best.\nRunning several learners on every list with the same folds makes comparisons paired.\n\nA whole-transcriptome list on the same learners shows what the restriction to the predefined genes costs; a non-linear learner beside a linear one shows what staying linear costs.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "strategy grid"
+    ]
+   },
+   "priority": 75,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "predefined-feature-set"
+    },
+    {
+     "rel": "related",
+     "to": "lasso-cox"
+    },
+    {
+     "rel": "related",
+     "to": "random-survival-forest"
+    },
+    {
+     "rel": "related",
+     "to": "leave-one-cohort-out"
+    }
+   ]
+  },
+  {
+   "key": "predefined-feature-set",
+   "kind": "term",
+   "label_md": "Predefined feature set",
+   "gloss_md": "A gene list fixed without looking at the survival data of the cohort, for example the hits of a functional screen; it may stand outside the cross-validation.",
+   "body_md": "The one advantage a gene list from an experiment has over a list from a univariate screen: no survival information entered the choice of genes, so it is the object under test, not part of the fit.\nA univariate survival screen of the same genes destroys this advantage.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "prespecified gene list"
+    ],
+    "de": "vorab festgelegte Merkmalsmenge"
+   },
+   "priority": 85,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "univariate-cox-screen"
+    },
+    {
+     "rel": "related",
+     "to": "data-leakage"
+    },
+    {
+     "rel": "related",
+     "to": "feature-sets-and-learners"
+    }
+   ]
+  },
+  {
+   "key": "univariate-cox-screen",
+   "kind": "term",
+   "label_md": "Univariate Cox screen",
+   "gloss_md": "Fitting one Cox model per gene and keeping the genes below a p-value threshold; describes a cohort but, used to pick model genes, inflates in-sample performance.",
+   "body_md": "- With 1500 genes and $p < 0.05$, about 75 pass by chance even if no gene matters; LASSO then easily finds a combination that separates the same patients.\n- Selecting genes before cross-validation gave low error rates even with permuted labels (Ambroise & McLachlan 2002, PNAS).\n- A screen that uses the endpoint must run inside each training fold.\n- Single genes are weak (HR per SD near 1) and genes high in stroma or immune cells mostly track purity.\n\nThe IRGPI family of papers keeps immune genes below an uncorrected univariate Cox p-value before fitting LASSO-Cox on the same data.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "univariate screening",
+     "univariate filter"
+    ],
+    "de": "univariates Screening"
+   },
+   "priority": 85,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "multiple-testing"
+    },
+    {
+     "rel": "related",
+     "to": "data-leakage"
+    },
+    {
+     "rel": "related",
+     "to": "predefined-feature-set"
+    },
+    {
+     "rel": "related",
+     "to": "lasso-cox"
+    }
+   ]
+  },
+  {
+   "key": "multiple-testing",
+   "kind": "term",
+   "label_md": "Multiple testing and the Bonferroni correction",
+   "gloss_md": "Testing many hypotheses inflates the number of false positives; Bonferroni divides the significance level by the number of tests and controls the chance of even one false positive.",
+   "body_md": "- With 1500 genes Bonferroni requires $p < 0.05/1500 \\approx 3.3 \\times 10^{-5}$, which almost no single gene reaches in 150 patients.\n- It controls the family-wise error rate (FWER) and is conservative when tests are correlated.\n- The false discovery rate (Benjamini-Hochberg) is the usual, less strict alternative for screens.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "Bonferroni",
+     "FWER",
+     "multiple comparisons"
+    ],
+    "de": "multiples Testen"
+   },
+   "priority": 65,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "false-discovery-rate"
+    },
+    {
+     "rel": "related",
+     "to": "univariate-cox-screen"
+    }
+   ]
+  },
+  {
+   "key": "false-discovery-rate",
+   "kind": "term",
+   "label_md": "False discovery rate (Benjamini-Hochberg)",
+   "gloss_md": "The expected share of false positives among the hits; the Benjamini-Hochberg procedure finds the largest $i$ with $p_{(i)} \\le (i/m)\\,q$ and calls all genes up to that rank.",
+   "body_md": "- An FDR of 0.05 accepts about one false hit in twenty.\n- Right for a screen whose hits are checked further (as in an RNAi screen's validation rounds), wrong for a list that goes straight into a model.\n- q-values are the FDR analogue of p-values.\n- Introduced by Yoav Benjamini and Yosef Hochberg in 1995 (JRSS B).",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "FDR",
+     "Benjamini-Hochberg",
+     "q-value"
+    ],
+    "de": "Falscherkennungsrate",
+    "anecdote": "Benjamini has recounted that the 1995 FDR paper was rejected by several journals over several years before JRSS B accepted it; it is now among the most cited statistics papers."
+   },
+   "priority": 65,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "multiple-testing"
+    },
+    {
+     "rel": "related",
+     "to": "univariate-cox-screen"
+    }
+   ]
+  },
+  {
+   "key": "events-per-variable",
+   "kind": "rule",
+   "label_md": "Events per variable (EPV)",
+   "gloss_md": "The rule of thumb that a Cox model needs about ten events per candidate variable for stable estimates.",
+   "body_md": "A PDAC cohort of 150 patients has about 90 deaths, which supports about nine variables, and only if they were fixed before the outcome was seen.\nA list of 50 candidate genes gives far more freedom than the data constrain, hence penalisation (LASSO, ridge) and strict out-of-sample validation.\nThe rule goes back to simulation studies by Peduzzi et al. (1995/1996).",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "EPV",
+     "ten events per variable"
+    ]
+   },
+   "priority": 55,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "cox-ph-model"
+    },
+    {
+     "rel": "related",
+     "to": "overfitting"
+    },
+    {
+     "rel": "related",
+     "to": "lasso-cox"
+    }
+   ]
+  },
+  {
+   "key": "lasso-cox",
+   "kind": "term",
+   "label_md": "LASSO-Cox (L1-penalised Cox regression)",
+   "gloss_md": "A Cox model fitted by maximising the log partial likelihood minus $\\lambda \\sum |\\beta_g|$, which shrinks coefficients and sets many exactly to zero, fitting and selecting genes in one step (Tibshirani 1997).",
+   "body_md": "- $\\lambda$ is chosen by inner cross-validation of the partial likelihood (`cv.glmnet`, `lambda.min` or the sparser `lambda.1se`).\n- Features are standardised before the fit (glmnet default) so the penalty treats all genes alike; mean and SD come from the training patients.\n- Among strongly correlated genes it picks one, and which one changes with small data changes: the selected genes vary across folds, so a published gene list is a description of one training set, not a statement about which genes matter.\n- If the chosen $\\lambda$ zeroes every coefficient, the score is constant and that fold's C-index is 0.5 by definition.\n- Coefficients are conditional on each other, so a single weight is not evidence about that gene alone.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "LASSO Cox",
+     "L1-penalised Cox",
+     "glmnet Cox"
+    ],
+    "de": "LASSO-Cox-Regression",
+    "mnemonic": "The lasso ropes in a few genes and lets the rest of the herd run (coefficients = 0)."
+   },
+   "priority": 99,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "lasso"
+    },
+    {
+     "rel": "related",
+     "to": "cox-ph-model"
+    },
+    {
+     "rel": "related",
+     "to": "penalty-choice-by-cross-validation"
+    },
+    {
+     "rel": "related",
+     "to": "ridge-and-elastic-net"
+    },
+    {
+     "rel": "related",
+     "to": "stratified-cox-model"
+    }
+   ]
+  },
+  {
+   "key": "ridge-and-elastic-net",
+   "kind": "term",
+   "label_md": "Ridge regression and elastic net",
+   "gloss_md": "Penalised regressions with an L2 penalty (ridge: shrinks all coefficients, sets none to zero) or a mix of L1 and L2 weighted by $\\alpha$ (elastic net: lets correlated genes enter together).",
+   "body_md": "- Ridge is better when many genes carry small, correlated effects and is more stable, but gives no gene list.\n- Elastic net ($0 < \\alpha < 1$) sits between ridge ($\\alpha = 0$) and LASSO ($\\alpha = 1$) in glmnet's parametrisation.\n- Both need standardised features and inner cross-validation of $\\lambda$ (and $\\alpha$).",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "ridge",
+     "elastic net",
+     "L2 penalty"
+    ],
+    "de": "Ridge-Regression, Elastic Net"
+   },
+   "priority": 55,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "lasso-cox"
+    },
+    {
+     "rel": "related",
+     "to": "lasso"
+    },
+    {
+     "rel": "related",
+     "to": "penalty-choice-by-cross-validation"
+    }
+   ]
+  },
+  {
+   "key": "penalty-choice-by-cross-validation",
+   "kind": "term",
+   "label_md": "Choosing the penalty λ by cross-validation (glmnet)",
+   "gloss_md": "glmnet computes the whole path of solutions over λ and cv.glmnet picks λ by inner cross-validation: lambda.min (best CV value) or lambda.1se (sparsest within one standard error).",
+   "body_md": "- At large $\\lambda$ every coefficient is zero, at $\\lambda = 0$ the model is the unpenalised fit.\n- The choice uses the outcome, so it must happen inside the training fold of any outer validation (nested resampling).\n- The inner loop needs no repetition: its noise is part of the procedure that the outer loop measures.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "cv.glmnet",
+     "lambda.min",
+     "lambda.1se",
+     "glmnet"
+    ],
+    "de": "Wahl des Strafparameters"
+   },
+   "priority": 70,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "lasso-cox"
+    },
+    {
+     "rel": "related",
+     "to": "nested-cross-validation"
+    },
+    {
+     "rel": "related",
+     "to": "data-leakage"
+    }
+   ]
+  },
+  {
+   "key": "random-survival-forest",
+   "kind": "term",
+   "label_md": "Random survival forest (RSF)",
+   "gloss_md": "An ensemble of survival trees grown on bootstrap samples with log-rank splitting on random gene subsets; the risk score is the summed ensemble cumulative hazard (Ishwaran et al. 2008).",
+   "body_md": "- Each terminal node holds a Nelson-Aalen cumulative hazard; a new patient's ensemble curve is the average over the nodes it lands in, and the summed curve (\"mortality\") is the risk score.\n- Settings: number of trees (500–1000 suffice), `mtry` (genes offered per split, default about √p), minimum node size; defaults are usually kept.\n- It can represent non-linear effects (thresholds), interactions and many irrelevant features; in a comparison it is the detector: if a list carries any signal, the forest should find it.\n- Out-of-bag predictions give a valid C-index only if nothing before the forest used the training data, and they are not paired with other learners.\n- Price: no gene list, no weights (permutation importance ranks genes but is not a rule); a new patient needs the stored forest.\n- R: `ranger` (fast; Wright & Ziegler 2017) and `randomForestSRC` (Ishwaran's group).",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "RSF",
+     "ranger",
+     "randomForestSRC",
+     "out-of-bag",
+     "permutation importance"
+    ],
+    "de": "Random Survival Forest"
+   },
+   "priority": 80,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "random-forest"
+    },
+    {
+     "rel": "related",
+     "to": "log-rank-test"
+    },
+    {
+     "rel": "related",
+     "to": "feature-sets-and-learners"
+    }
+   ]
+  },
+  {
+   "key": "training-free-scores",
+   "kind": "term",
+   "label_md": "Training-free scores (unweighted and signed sums)",
+   "gloss_md": "Scores that learn nothing from the outcome: the mean of z-scored set genes, or a sum with signs fixed by an outside comparison such as tumour vs normal tissue.",
+   "body_md": "- Unweighted sum: assumes every gene acts in the same direction; plausible for a co-expression signature, not for a functional screen list whose genes act in both directions, where contributions cancel and the score ends up measuring purity.\n- Signed sum: sign +1 for genes higher in tumour than normal, −1 for the reverse, 0 otherwise, divided by the number of non-zero signs; no survival enters, so it cannot overfit.\n- It can still be uninformative or inverted; a C-index below 0.5 shows inversion, and flipping it is a one-bit fit that must be declared beforehand or done inside the fold.\n- Even training-free scores are evaluated out of fold (the z-scaling is fitted, and paired comparison needs the same folds).",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "unweighted sum",
+     "signed sum"
+    ]
+   },
+   "priority": 50,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "gene-set-score"
+    },
+    {
+     "rel": "related",
+     "to": "z-transformation"
+    },
+    {
+     "rel": "related",
+     "to": "purity-confounding"
+    }
+   ]
+  },
+  {
+   "key": "zero-sum-signature",
+   "kind": "term",
+   "label_md": "Zero-sum signature (cancelling shifts)",
+   "gloss_md": "A linear score whose coefficients add up to zero, so that a shift lifting all genes of a sample alike (depth, normalisation, partly purity or platform) cancels out of the score.",
+   "body_md": "If $\\sum_g \\beta_g = 0$ and every log value of a sample is shifted by the same constant $c$, the score changes by $c \\sum_g \\beta_g = 0$.\nZero-sum regression imposes this constraint on a penalised regression (Altenbuchinger et al. 2017, Bioinformatics, from Rainer Spang's group in Regensburg), making models insensitive to the reference point of normalisation.\n\n- On the log scale a zero-sum score is a weighted log-ratio of genes, a generalisation of within-sample gene-pair rules like PurIST.\n- Only shifts that affect all genes equally cancel; differences that affect genes unequally (purity moving tumour genes up and stroma genes down) do not.\n- When a linear model is fitted across several cohorts at once, it is rewarded for cancelling cohort-level shifts and can approach zero-sum by itself by balancing positive and negative weights; an approximately zero-sum score transfers better, but its level stays somewhat cohort-dependent.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "zero-sum regression",
+     "log-ratio score",
+     "zero-sum model"
+    ],
+    "de": "Null-Summen-Signatur",
+    "mnemonic": "Weights that sum to zero are a balance scale: lift both pans by the same amount and the pointer does not move."
+   },
+   "priority": 85,
+   "level": 3,
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "lasso-cox"
+    },
+    {
+     "rel": "related",
+     "to": "top-scoring-pair-method"
+    },
+    {
+     "rel": "related",
+     "to": "cross-cohort-calibration"
+    },
+    {
+     "rel": "related",
+     "to": "platform-effect"
+    }
+   ]
+  },
+  {
+   "key": "small-interpretable-models",
+   "kind": "term",
+   "label_md": "Point scores, stepwise Cox and survival trees",
+   "gloss_md": "Small readable models: forward stepwise Cox with a few genes, a point score (one point per unfavourable feature, like the lymphoma IPI) and a survival tree flowchart.",
+   "body_md": "- Forward stepwise Cox with fixed maximum $k$ genes: readable formula, but the chosen genes change from fold to fold.\n- Point score: dichotomise each feature at a training-fold cut-point, one point for the unfavourable side; the International Prognostic Index (1993) for aggressive lymphoma has been in routine use for over thirty years.\n- Dichotomising costs information (a median split costs about as much as dropping a third of the sample, Royston et al. 2006), and median cut-points are properties of the training cohort.\n- Survival tree (rpart): a flowchart of thresholds; weakest and most unstable, computed for presentability.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "point score",
+     "International Prognostic Index",
+     "IPI",
+     "survival tree"
+    ],
+    "de": "Punktescore"
+   },
+   "priority": 40,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "median-split"
+    },
+    {
+     "rel": "related",
+     "to": "prognostic-model"
+    }
+   ]
+  },
+  {
+   "key": "clinical-baseline-model",
+   "kind": "term",
+   "label_md": "Clinical baseline model",
+   "gloss_md": "A Cox model on routinely available variables (age, sex, stage, grade, margin status) that any gene model must beat to have clinical value.",
+   "body_md": "- The fair comparison is the gain in out-of-sample discrimination when the same procedure runs with and without gene expression, not a significant coefficient next to stage in the training data.\n- In TCGA-PAAD the clinical baseline is unusually weak, because the cohort consists almost only of resected patients of one stage range, so beating it there means less than it sounds.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "clinical model"
+    ]
+   },
+   "priority": 60,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "baseline-comparisons"
+    },
+    {
+     "rel": "related",
+     "to": "added-value-likelihood-ratio-test"
+    },
+    {
+     "rel": "related",
+     "to": "uicc-stage-groups"
+    }
+   ]
+  },
+  {
+   "key": "overfitting",
+   "kind": "term",
+   "label_md": "Overfitting",
+   "gloss_md": "A model fits the noise of its training data and therefore performs worse on new patients than on the patients it was built on.",
+   "body_md": "Every fitting procedure chooses the parameters that suit the training data best, noise included.\nCountermeasures: predefined feature sets, penalisation, few events per variable, and above all evaluation on unseen patients.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "over-fitting"
+    ],
+    "de": "Überanpassung"
+   },
+   "priority": 85,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "optimism"
+    },
+    {
+     "rel": "related",
+     "to": "events-per-variable"
+    },
+    {
+     "rel": "related",
+     "to": "cross-validation"
+    }
+   ]
+  },
+  {
+   "key": "optimism",
+   "kind": "term",
+   "label_md": "Apparent performance and optimism",
+   "gloss_md": "Apparent performance is a model's performance on its own training data; optimism is how much better it is than the performance on new patients.",
+   "body_md": "- A hazard ratio, log-rank p-value or C-index on the training data is no measure of performance.\n- The only honest number is computed on patients the model has never seen: an external cohort or repeatedly held-out parts of the own cohort.\n- Optimism grows with the flexibility of the procedure (number of candidate genes, tuning) and shrinks with the number of events.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "apparent performance",
+     "in-sample performance"
+    ],
+    "de": "Optimismus"
+   },
+   "priority": 80,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "overfitting"
+    },
+    {
+     "rel": "related",
+     "to": "cross-validation"
+    },
+    {
+     "rel": "related",
+     "to": "external-validation"
+    }
+   ]
+  },
+  {
+   "key": "data-leakage",
+   "kind": "term",
+   "label_md": "Data leakage",
+   "gloss_md": "Information from the test patients reaching the model fit, for example by screening genes, tuning parameters or standardising on the full cohort before the split.",
+   "body_md": "Cross-validation evaluates a procedure, not a model; the estimate is honest only if the whole procedure is repeated inside every training fold.\n\n- Inside the fold: univariate screens, cut-points, hyperparameters (LASSO $\\lambda$), variance filters, standardisation (mean/SD), the fit itself.\n- May stay outside: outcome-free fixed filters (detection threshold), gene lists fixed before looking at survival, the stratified fold assignment.\n- Not evaluated by any cross-validation: decisions made after looking at outer results (which learners, which lists); only an untouched cohort settles these.\n- Sanity check: permute the survival times and rerun everything; the out-of-fold C-index must scatter around 0.5.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "leakage",
+     "information leak"
+    ],
+    "de": "Datenleck",
+    "mnemonic": "Anything that touched the answer key before the exam belongs inside the fold."
+   },
+   "priority": 95,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "cross-validation"
+    },
+    {
+     "rel": "related",
+     "to": "nested-cross-validation"
+    },
+    {
+     "rel": "related",
+     "to": "univariate-cox-screen"
+    },
+    {
+     "rel": "related",
+     "to": "outcome-permutation-check"
+    }
+   ]
+  },
+  {
+   "key": "repeated-stratified-cross-validation",
+   "kind": "term",
+   "label_md": "Repeated stratified cross-validation and out-of-fold predictions",
+   "gloss_md": "k-fold cross-validation with folds balanced for the event rate, repeated over several random splits, where each patient's prediction comes from a model that did not see it.",
+   "body_md": "- Stratification assigns folds separately among patients with and without events, so every fold has a similar number of deaths.\n- Per-fold vs pooled C-index: pooling uses all pairs but compares scores from different fold models; convert to ranks within fold first.\n- Out-of-fold Kaplan-Meier curves: cut-point fixed in the training fold, applied to the test fold, groups pooled.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "stratified CV",
+     "out-of-fold",
+     "OOF"
+    ],
+    "de": "wiederholte stratifizierte Kreuzvalidierung"
+   },
+   "priority": 55,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "cross-validation"
+    },
+    {
+     "rel": "related",
+     "to": "nested-cross-validation"
+    },
+    {
+     "rel": "related",
+     "to": "threshold-trap"
+    }
+   ]
+  },
+  {
+   "key": "leave-one-cohort-out",
+   "kind": "term",
+   "label_md": "Leave-one-cohort-out validation (LOCO)",
+   "gloss_md": "Cross-validation in which each fold is a whole cohort: fit on all other cohorts, score on the held-out one, for each cohort in turn.",
+   "body_md": "- Tests transfer across laboratories, protocols and patient populations, which a random split within pooled cohorts hides (patients of the same cohort share batch and selection).\n- Each held-out cohort gives its own C-index; strategies are ranked by the mean over held-out cohorts.\n- Pairs naturally with a stratified Cox model (a baseline hazard per training cohort).",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "LOCO",
+     "leave-one-study-out",
+     "cross-study validation"
+    ],
+    "de": "Leave-one-cohort-out-Validierung"
+   },
+   "priority": 99,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "cross-validation"
+    },
+    {
+     "rel": "related",
+     "to": "external-validation"
+    },
+    {
+     "rel": "related",
+     "to": "stratified-cox-model"
+    },
+    {
+     "rel": "related",
+     "to": "frozen-model"
+    }
+   ]
+  },
+  {
+   "key": "external-validation",
+   "kind": "term",
+   "label_md": "Internal vs external validation",
+   "gloss_md": "Internal validation (cross-validation, bootstrap) estimates performance on new patients from the same cohort; external validation tests a finished model on a different cohort.",
+   "body_md": "- Only external validation answers whether a model could be used: other laboratory, often other platform, other normalisation.\n- Discrimination and calibration are tested separately; calibration is lost more easily.\n- The model must be frozen beforehand: genes, coefficients, standardisation parameters, cut-point and baseline hazard.\n- Re-standardising a published signature in the validation cohort, re-splitting at its median or refitting it tests only the weaker claim that the ordering is related to survival at all.\n- Reporting guideline: TRIPOD (Collins et al. 2015).",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "external validation",
+     "internal validation",
+     "independent validation"
+    ],
+    "de": "interne und externe Validierung"
+   },
+   "priority": 95,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "frozen-model"
+    },
+    {
+     "rel": "related",
+     "to": "discrimination-and-calibration"
+    },
+    {
+     "rel": "related",
+     "to": "leave-one-cohort-out"
+    },
+    {
+     "rel": "related",
+     "to": "tripod-statement"
+    }
+   ]
+  },
+  {
+   "key": "frozen-model",
+   "kind": "term",
+   "label_md": "Frozen model",
+   "gloss_md": "A model whose genes, coefficients, preprocessing, standardisation parameters, threshold and baseline hazard are all fixed before any external data are touched.",
+   "body_md": "Only a frozen model can be evaluated honestly on a test cohort and applied to a new patient in a clinical study.\nTypical unfreezing in the literature: re-standardising in each validation cohort, re-splitting at the new cohort's median, refitting coefficients.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "locked model"
+    ],
+    "de": "eingefrorenes Modell"
+   },
+   "priority": 85,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "external-validation"
+    },
+    {
+     "rel": "related",
+     "to": "single-sample-applicability"
+    }
+   ]
+  },
+  {
+   "key": "median-split",
+   "kind": "term",
+   "label_md": "Median split",
+   "gloss_md": "Splitting patients at the median of a continuous score into high- and low-risk halves, usually to draw Kaplan-Meier curves.",
+   "body_md": "- But the median of the evaluated cohort is a cohort-level quantity: it cannot classify a single new patient, which needs a threshold fixed in advance.\n- If the model was fitted on the same patients, the curves separate almost by construction.\n- Dichotomising discards information; report the continuous score's C-index as the evaluation.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "median dichotomisation"
+    ],
+    "de": "Median-Split"
+   },
+   "priority": 80,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "kaplan-meier-estimator"
+    },
+    {
+     "rel": "related",
+     "to": "optimal-cutpoint"
+    },
+    {
+     "rel": "related",
+     "to": "cross-cohort-calibration"
+    },
+    {
+     "rel": "related",
+     "to": "threshold-trap"
+    }
+   ]
+  },
+  {
+   "key": "optimal-cutpoint",
+   "kind": "term",
+   "label_md": "Optimal cut-point (minimum p-value approach)",
+   "gloss_md": "Trying every threshold of a score and reporting the one with the smallest log-rank p-value, which yields a strongly biased effect estimate and p-value.",
+   "body_md": "- The reported p-value is the minimum of many dependent tests and would need a correction that is almost never applied; Altman et al. (1994, JNCI) showed the false-positive rate can rise to around 40 % at a nominal 5 %.\n- The effect estimate (HR) is inflated, and the cut-point rarely replicates in another cohort.\n- Many immune-signature papers on TCGA-PAAD split patients at a cut-point found in the same data.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "optimal cutpoint",
+     "minimum p-value",
+     "surv_cutpoint",
+     "X-tile"
+    ],
+    "de": "optimaler Schwellenwert"
+   },
+   "priority": 75,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "median-split"
+    },
+    {
+     "rel": "related",
+     "to": "threshold-trap"
+    },
+    {
+     "rel": "related",
+     "to": "hr-and-p-value-are-not-performance"
+    }
+   ]
+  },
+  {
+   "key": "threshold-trap",
+   "kind": "term",
+   "label_md": "The threshold trap (in-sample vs out-of-sample KM curves)",
+   "gloss_md": "Kaplan-Meier curves separate almost by construction when model, score and cut-point come from the same patients; only a model and cut-point fixed on training patients and applied to unseen patients show real separation.",
+   "body_md": "The Statistics book's figure \"threshold_trap\" contrasts the two routes: red (in-sample) and green (out-of-sample).\n\nAn honest out-of-fold KM plot needs:\n1. risks from out-of-fold predictions,\n2. the cut-point fixed in the training fold (e.g. median of training scores),\n3. applied unchanged to the test fold, groups pooled.\n\nWith repeated CV, average each patient's within-repetition ranks before splitting, because linear predictors of different fold models are not on one scale.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "in-sample Kaplan-Meier"
+    ],
+    "de": "Schwellenwertfalle"
+   },
+   "priority": 70,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "median-split"
+    },
+    {
+     "rel": "related",
+     "to": "optimal-cutpoint"
+    },
+    {
+     "rel": "related",
+     "to": "repeated-stratified-cross-validation"
+    }
+   ]
+  },
+  {
+   "key": "cross-cohort-calibration",
+   "kind": "term",
+   "label_md": "Fixed thresholds and calibration across cohorts",
+   "gloss_md": "A single new sample can only be classified with a threshold fixed in advance, which works only if the score's level means the same in every cohort.",
+   "body_md": "- PurIST's threshold (basal-like probability 0.5) travels, because within-sample gene comparisons are unchanged by shifts of the whole profile.\n- A sum of absolute log expression levels moves with every shift of depth, purity or composition, so the same threshold can call very different shares of patients high in different cohorts.\n- Remedies: within-sample ratios or zero-sum constraints, reference genes, calibration on a reference sample set, or reporting the score relative to a reference distribution.\n- The median split sidesteps the problem but is cohort-level and not usable for one patient.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "fixed threshold",
+     "score calibration"
+    ],
+    "de": "Kalibrierung über Kohorten"
+   },
+   "priority": 85,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "discrimination-and-calibration"
+    },
+    {
+     "rel": "related",
+     "to": "single-sample-applicability"
+    },
+    {
+     "rel": "related",
+     "to": "zero-sum-signature"
+    },
+    {
+     "rel": "related",
+     "to": "median-split"
+    }
+   ]
+  },
+  {
+   "key": "paired-bootstrap",
+   "kind": "term",
+   "label_md": "Paired bootstrap confidence interval",
+   "gloss_md": "Resampling patients with replacement many times and recomputing the difference between two models' C-indices on the same resampled patients, giving a confidence interval for the difference.",
+   "body_md": "- Pairing (both models scored on each resample) removes the patient-to-patient variation the models share, so the interval for the difference is much narrower than one built from two separate intervals.\n- Resampling within each cohort keeps cohort sizes fixed when several cohorts are analysed.\n- The 95 % interval is typically the 2.5 % and 97.5 % percentiles of the bootstrap differences (percentile bootstrap, Efron 1979).\n- An interval that includes zero means the data do not resolve the difference; with a few hundred patients, C-index differences of a few hundredths are rarely resolved.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "bootstrap CI",
+     "paired bootstrap"
+    ],
+    "de": "gepaartes Bootstrap",
+    "anecdote": "Bradley Efron named the bootstrap (1979) after pulling oneself up by one's own bootstraps: the sample is used to simulate its own sampling distribution."
+   },
+   "priority": 75,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "harrell-c-index"
+    },
+    {
+     "rel": "related",
+     "to": "baseline-comparisons"
+    }
+   ]
+  },
+  {
+   "key": "added-value-likelihood-ratio-test",
+   "kind": "term",
+   "label_md": "Added value: likelihood-ratio test of nested Cox models",
+   "gloss_md": "Testing whether a new score adds prognostic information to an established one by comparing a Cox model with both scores to a model with the established score alone.",
+   "body_md": "- Statistic: twice the difference of the maximised log partial likelihoods, compared with a χ² distribution with degrees of freedom equal to the number of added covariates.\n- A significant test plus a clear hazard ratio for the new score (per SD, next to the old one) shows independent information.\n- With several cohorts, use a baseline hazard per cohort (strata) and standardise scores within cohort.\n- If both coefficients are estimated on the test cohorts, this tests added information but is not a frozen combined predictor.\n- Added value and C-index superiority are different questions: a score can add information without having a higher C-index.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "likelihood-ratio test",
+     "LRT",
+     "incremental value"
+    ],
+    "de": "Likelihood-Quotienten-Test, Zusatznutzen"
+   },
+   "priority": 85,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "cox-ph-model"
+    },
+    {
+     "rel": "related",
+     "to": "stratified-cox-model"
+    },
+    {
+     "rel": "related",
+     "to": "clinical-baseline-model"
+    },
+    {
+     "rel": "related",
+     "to": "paired-bootstrap"
+    }
+   ]
+  },
+  {
+   "key": "baseline-comparisons",
+   "kind": "term",
+   "label_md": "The comparisons a signature could lose against",
+   "gloss_md": "A prognostic claim is only as good as its comparisons: clinical variables, the same learner on the whole transcriptome, random gene sets of the same size, and published signatures or the subtype axis.",
+   "body_md": "All through the same pipeline, the same folds and the same learner, so the feature set is the only difference:\n\n1. Clinical baseline (age, stage, grade, margin): a signature that does not improve on it has no clinical value.\n2. Transcriptome-wide model: if a curated list does not beat it, the restriction achieved nothing but fewer candidates.\n3. Random gene sets of the same size: in breast cancer most random signatures are prognostic (Venet 2011), in PDAC the analogue is purity.\n4. Published signatures or the classical/basal-like axis (PurIST, PAMG): a signature that only reproduces the axis adds nothing.\n\nLosing one of these is still a result and is reported.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "baselines",
+     "benchmark comparisons"
+    ]
+   },
+   "priority": 80,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "clinical-baseline-model"
+    },
+    {
+     "rel": "related",
+     "to": "random-signature-problem"
+    },
+    {
+     "rel": "related",
+     "to": "feature-sets-and-learners"
+    },
+    {
+     "rel": "related",
+     "to": "moffitt-classical-basal-like"
+    }
+   ]
+  },
+  {
+   "key": "random-signature-problem",
+   "kind": "term",
+   "label_md": "Random signatures predict outcome (Venet 2011)",
+   "gloss_md": "Most random gene sets are significantly associated with breast-cancer outcome, because much of the transcriptome tracks proliferation (and, in PDAC, purity); a signature's p-value alone proves nothing.",
+   "body_md": "Venet, Dumont and Detours (PLoS Computational Biology 2011) showed that the majority of random gene signatures of the same size as published ones were significantly associated with breast-cancer survival, and many were as good as the published ones.\nThe reason: a large share of genes correlates with proliferation (meta-PCNA), which is itself prognostic; removing the proliferation signal removed most of the association.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "Venet 2011",
+     "random gene signatures"
+    ],
+    "de": "Zufallssignaturen",
+    "anecdote": "Venet et al. found that even a signature of 'postprandial laughter' and one of social defeat in mice were significantly associated with breast-cancer outcome."
+   },
+   "priority": 85,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "purity-confounding"
+    },
+    {
+     "rel": "related",
+     "to": "baseline-comparisons"
+    },
+    {
+     "rel": "related",
+     "to": "confounder"
+    }
+   ]
+  },
+  {
+   "key": "outcome-permutation-check",
+   "kind": "term",
+   "label_md": "Outcome permutation as a leakage check",
+   "gloss_md": "Permuting survival times and events across patients and rerunning the whole pipeline; the out-of-fold C-index must scatter around 0.5, otherwise the pipeline leaks.",
+   "body_md": "Permutation destroys any true relation between expression and outcome while keeping everything else.\nIf filters, tuning or screens still produce an out-of-fold C-index clearly above 0.5, information from the outcome is reaching the training; the leak must be found before any real result is read.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "permutation test",
+     "label permutation"
+    ],
+    "de": "Permutationstest"
+   },
+   "priority": 50,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "data-leakage"
+    },
+    {
+     "rel": "related",
+     "to": "cross-validation"
+    }
+   ]
+  },
+  {
+   "key": "tripod-statement",
+   "kind": "term",
+   "label_md": "TRIPOD statement",
+   "gloss_md": "The reporting guideline for studies that develop or validate a multivariable prediction model (Collins et al. 2015), listing what must be stated about data, model and validation.",
+   "body_md": "TRIPOD (Transparent Reporting of a multivariable prediction model for Individual Prognosis Or Diagnosis) is a 22-item checklist; TRIPOD+AI (2024) extends it to machine-learning models.\nIt asks e.g. for the full model specification (so it can be applied to a new patient), the handling of missing data, the validation type and calibration.",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "TRIPOD",
+     "TRIPOD+AI"
+    ]
+   },
+   "priority": 40,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "external-validation"
+    },
+    {
+     "rel": "related",
+     "to": "frozen-model"
+    }
+   ]
+  },
+  {
+   "key": "spearman-correlation",
+   "kind": "term",
+   "label_md": "Spearman rank correlation",
+   "gloss_md": "The Pearson correlation of the ranks of two variables, measuring monotone association and insensitive to scale and outliers.",
+   "body_md": "- Ranges from −1 to 1; unaffected by any monotone transformation of either variable (log or not, CPM or TPM).\n- Used to compare risk scores of different models on the same patients: a high correlation means two scores largely carry the same signal (e.g. how much of a new score is the classical/basal-like axis).\n- Named after psychologist Charles Spearman (1904).",
+   "attrs": {
+    "source": "comit-tp6-statistics",
+    "aliases": [
+     "Spearman's rho",
+     "rank correlation"
+    ],
+    "de": "Spearman-Rangkorrelation"
+   },
+   "priority": 55,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "top-scoring-pair-method"
+    },
+    {
+     "rel": "related",
+     "to": "baseline-comparisons"
+    }
+   ]
+  }
+ ],
+ "card_links": [
+  {
+   "card": "Write down the mixture formula for the measured share of gene g in a bulk sample, with cell fractions f_k, RNA content per cell R_k and per-cell expression share e_gk. What is the weight of a cell type?",
+   "item": "bulk-mixture-model"
+  },
+  {
+   "card": "Worked mixture example (Statistics book): tumour cells carry twice the RNA of fibroblasts; gene T is tumour-only (2 ‰ of tumour RNA), gene F fibroblast-only (1 % of fibroblast RNA). Sample X has purity 0.6, sample Y 0.2. What TPM values result and what would a differential expression test conclude?",
+   "item": "bulk-mixture-model"
+  },
+  {
+   "card": "Worked mixture example (Statistics book): tumour cells carry twice the RNA of fibroblasts; gene T is tumour-only (2 ‰ of tumour RNA), gene F fibroblast-only (1 % of fibroblast RNA). Sample X has purity 0.6, sample Y 0.2. What TPM values result and what would a differential expression test conclude?",
+   "item": "purity-confounding"
+  },
+  {
+   "card": "In the Statistics book's worked mixture example, from sample X (purity 0.6) to sample Y (purity 0.2), what happens to the tumour-only gene T?",
+   "item": "bulk-mixture-model"
+  },
+  {
+   "card": "Explain the 'survival signatures are mostly driven by tumour purity' problem in four steps.",
+   "item": "purity-confounding"
+  },
+  {
+   "card": "Why did the TCGA PAAD paper (Cancer Cell 2017) discover subtypes only in 76 of its 150 tumours?",
+   "item": "purity-confounding"
+  },
+  {
+   "card": "Why did the TCGA PAAD paper (Cancer Cell 2017) discover subtypes only in 76 of its 150 tumours?",
+   "item": "absolute-algorithm"
+  },
+  {
+   "card": "A two-class PDAC subtype is found; the poor-survival class has mean purity 0.28, the other 0.55. Name checks that separate a tumour-cell subtype from a purity label.",
+   "item": "purity-adjustment"
+  },
+  {
+   "card": "Contrast ABSOLUTE and ESTIMATE as purity estimates.",
+   "item": "absolute-algorithm"
+  },
+  {
+   "card": "Contrast ABSOLUTE and ESTIMATE as purity estimates.",
+   "item": "estimate-algorithm"
+  },
+  {
+   "card": "What does the acronym ESTIMATE stand for (purity method of Yoshihara et al. 2013)?",
+   "item": "estimate-algorithm"
+  },
+  {
+   "card": "What does MCP-counter output, and why can its scores be compared between samples but not between cell populations?",
+   "item": "mcp-counter-score"
+  },
+  {
+   "card": "What can cell-type deconvolution of bulk data estimate, and what can it not recover?",
+   "item": "cell-type-deconvolution"
+  },
+  {
+   "card": "What can cell-type deconvolution of bulk data estimate, and what can it not recover?",
+   "item": "bulk-mixture-model"
+  },
+  {
+   "card": "How did Moffitt et al. 2015 tell which NMF component belongs to tumour cells (virtual microdissection)?",
+   "item": "virtual-microdissection"
+  },
+  {
+   "card": "How did Moffitt et al. 2015 tell which NMF component belongs to tumour cells (virtual microdissection)?",
+   "item": "nmf"
+  },
+  {
+   "card": "What does Maurer et al. 2019 Fig. 2D show about basal-like tumours in TCGA?",
+   "item": "virtual-microdissection"
+  },
+  {
+   "card": "What does Maurer et al. 2019 Fig. 2D show about basal-like tumours in TCGA?",
+   "item": "purity-confounding"
+  },
+  {
+   "card": "What is a confounder, and how does one adjust for it in a survival analysis?",
+   "item": "confounder"
+  },
+  {
+   "card": "Why do pathology estimates of tumour cellularity and ABSOLUTE purity disagree?",
+   "item": "pathology-tumour-cellularity"
+  },
+  {
+   "card": "Why is tumour purity a bigger problem in PDAC than in most other carcinomas?",
+   "item": "tumour-purity"
+  },
+  {
+   "card": "Why is tumour purity a bigger problem in PDAC than in most other carcinomas?",
+   "item": "purity-confounding"
+  },
+  {
+   "card": "Do tests for differential expression need raw counts, or is a t-test of log-CPM values enough?",
+   "item": "raw-read-counts"
+  },
+  {
+   "card": "Give three reasons for analysing expression on the log2(x + 1) scale.",
+   "item": "log2-plus-one-transform"
+  },
+  {
+   "card": "A Cox model was trained on log2(FPKM + 1). Can its coefficients be applied to log2(TPM + 1) values of a new cohort?",
+   "item": "log2-plus-one-transform"
+  },
+  {
+   "card": "Why is CPM sufficient for a Cox model that compares patients gene by gene, while a within-sample rule like 'gene A higher than gene B' needs TPM or FPKM?",
+   "item": "gene-length-cancels-in-cox"
+  },
+  {
+   "card": "Which normalisation problem do TMM and DESeq2's median-of-ratios address that CPM, TPM and FPKM do not, and why is the pancreas an extreme case?",
+   "item": "tmm-and-median-of-ratios"
+  },
+  {
+   "card": "Gene C has 100 reads in sample 1 (library 1000 reads) and 100 reads in sample 2 (library 2000 reads). What are its CPM values and why?",
+   "item": "library-size"
+  },
+  {
+   "card": "Gene C has 100 reads in sample 1 (library 1000 reads) and 100 reads in sample 2 (library 2000 reads). What are its CPM values and why?",
+   "item": "cpm"
+  },
+  {
+   "card": "Which normalisation levels add up to 10⁶ in every sample, and why are FPKM values of two samples strictly not comparable?",
+   "item": "tpm"
+  },
+  {
+   "card": "Why is an unexpressed gene dangerous in a prognostic model, and under which condition may an expression filter be applied to the whole cohort before cross-validation?",
+   "item": "expression-filter"
+  },
+  {
+   "card": "A pipeline z-scores every gene over the whole cohort and only then splits into training and test sets. What is wrong, and why is a z-scored model hard to apply to one new patient?",
+   "item": "z-transformation"
+  },
+  {
+   "card": "A pipeline z-scores every gene over the whole cohort and only then splits into training and test sets. What is wrong, and why is a z-scored model hard to apply to one new patient?",
+   "item": "data-leakage"
+  },
+  {
+   "card": "What information survives a change of platform (array → RNA-seq), and which kind of classifier exploits it?",
+   "item": "platform-effect"
+  },
+  {
+   "card": "What information survives a change of platform (array → RNA-seq), and which kind of classifier exploits it?",
+   "item": "top-scoring-pair-method"
+  },
+  {
+   "card": "Cohort 1 was sequenced and all its patients got a new therapy; cohort 2 was measured on arrays and nobody got the therapy. Why can no batch correction separate platform and therapy effect?",
+   "item": "platform-effect"
+  },
+  {
+   "card": "Cohort 1 was sequenced and all its patients got a new therapy; cohort 2 was measured on arrays and nobody got the therapy. Why can no batch correction separate platform and therapy effect?",
+   "item": "batch-effect"
+  },
+  {
+   "card": "Name three pitfalls when mapping a matrix indexed by Ensembl IDs to a gene list written in HGNC symbols.",
+   "item": "gene-identifiers-and-collapsing"
+  },
+  {
+   "card": "You cluster 60 samples of pure Gaussian noise into k = 2 groups and test 500 genes between the clusters. What do you find, and what is the lesson for subtype papers?",
+   "item": "clusters-from-noise"
+  },
+  {
+   "card": "You cluster 60 samples of pure Gaussian noise into k = 2 groups and test 500 genes between the clusters. What do you find, and what is the lesson for subtype papers?",
+   "item": "molecular-subtyping"
+  },
+  {
+   "card": "What does consensus clustering measure, and what does it not measure?",
+   "item": "consensus-clustering"
+  },
+  {
+   "card": "Why does a column of W in an NMF read as a gene programme while a principal component does not?",
+   "item": "nmf"
+  },
+  {
+   "card": "Why does a column of W in an NMF read as a gene programme while a principal component does not?",
+   "item": "pca"
+  },
+  {
+   "card": "How is the NMF rank k usually chosen, and why is it still a decision?",
+   "item": "nmf"
+  },
+  {
+   "card": "Which PDAC models or classifications are based on independent component analysis?",
+   "item": "ica"
+  },
+  {
+   "card": "What distinguishes ICA from PCA and NMF?",
+   "item": "ica"
+  },
+  {
+   "card": "Why does a top-scoring-pair classifier need no normalisation across samples, and what is its price?",
+   "item": "top-scoring-pair-method"
+  },
+  {
+   "card": "Which published PDAC classifier is built from top-scoring gene pairs?",
+   "item": "top-scoring-pair-method"
+  },
+  {
+   "card": "Classify as single-sample or cohort-level: GSVA, ssGSEA, consensus clustering, k-TSP, a median split, a frozen LASSO-Cox on log2(CPM + 1) with stored weights.",
+   "item": "single-sample-applicability"
+  },
+  {
+   "card": "Why does the call of a centroid classifier depend on the cohort, unlike a top-scoring-pair classifier?",
+   "item": "centroid-classifier"
+  },
+  {
+   "card": "Two gene-set scores (say a T-cell set and a fibroblast set) correlate strongly across bulk PDAC samples. Is this evidence that the two programmes are linked?",
+   "item": "gene-set-score"
+  },
+  {
+   "card": "Two gene-set scores (say a T-cell set and a fibroblast set) correlate strongly across bulk PDAC samples. Is this evidence that the two programmes are linked?",
+   "item": "purity-confounding"
+  },
+  {
+   "card": "What is a gene programme (metagene), and how does it relate to a subtype label?",
+   "item": "gene-programme"
+  },
+  {
+   "card": "What is a gene programme (metagene), and how does it relate to a subtype label?",
+   "item": "subtypes-programmes-and-states"
+  },
+  {
+   "card": "ssGSEA vs GSVA: which is single-sample and why?",
+   "item": "ssgsea"
+  },
+  {
+   "card": "ssGSEA vs GSVA: which is single-sample and why?",
+   "item": "gsva"
+  },
+  {
+   "card": "Two tumours are both called basal-like in bulk data. Describe two ways their tumour cells can differ, and which measurement tells them apart.",
+   "item": "subtypes-programmes-and-states"
+  },
+  {
+   "card": "List the four (plus one) steps of the usual molecular subtyping pipeline.",
+   "item": "molecular-subtyping"
+  },
+  {
+   "card": "Euclidean vs correlation distance between two samples: what does each compare, and what happens after centring and scaling every gene across the cohort?",
+   "item": "hierarchical-clustering"
+  },
+  {
+   "card": "Patient B moved away after 7 months, alive. Why is it wrong to drop B or to count B as a death at 7 months, and what do the three treatments give for S(15) in the six-patient example?",
+   "item": "censoring"
+  },
+  {
+   "card": "Why should survival not be turned into 'alive at two years: yes/no'?",
+   "item": "censoring"
+  },
+  {
+   "card": "Why should survival not be turned into 'alive at two years: yes/no'?",
+   "item": "time-to-event-data"
+  },
+  {
+   "card": "Write the Kaplan-Meier estimator and explain the risk set.",
+   "item": "kaplan-meier-estimator"
+  },
+  {
+   "card": "Six patients: A died 4, B censored 7, C died 10, D died 15, E censored 30, F censored 36 months. Compute the Kaplan-Meier curve.",
+   "item": "kaplan-meier-estimator"
+  },
+  {
+   "card": "What does the log-rank test test, and what does it not tell you?",
+   "item": "log-rank-test"
+  },
+  {
+   "card": "Write the Cox model and say what the baseline hazard and exp(β) mean.",
+   "item": "cox-ph-model"
+  },
+  {
+   "card": "How do censored patients enter the Cox partial likelihood?",
+   "item": "cox-ph-model"
+  },
+  {
+   "card": "A Cox model gives a patient a risk score of 2.1. What does that mean?",
+   "item": "risk-score"
+  },
+  {
+   "card": "A Cox model gives a patient a risk score of 2.1. What does that mean?",
+   "item": "cox-ph-model"
+  },
+  {
+   "card": "What is the proportional hazards assumption, how is it checked, and when does a violation matter?",
+   "item": "proportional-hazards-assumption"
+  },
+  {
+   "card": "Write the R formula for a Cox model of a score x with a separate baseline hazard per cohort.",
+   "item": "stratified-cox-model"
+  },
+  {
+   "card": "A gene is reported with a hazard ratio of 1.02. Why is this uninterpretable, and what makes HRs comparable?",
+   "item": "hazard-ratio-per-sd"
+  },
+  {
+   "card": "Define Harrell's C-index: which pairs are comparable, which concordant, how are ties counted?",
+   "item": "harrell-c-index"
+  },
+  {
+   "card": "In the six-patient example 10 of 15 pairs are comparable, 6 concordant, 3 discordant, 1 tied. What is the C-index?",
+   "item": "harrell-c-index"
+  },
+  {
+   "card": "Which C-index range do published PDAC expression signatures typically reach on unseen patients?",
+   "item": "harrell-c-index"
+  },
+  {
+   "card": "What does a C-index of 0.60 mean in words, and what does the C-index ignore?",
+   "item": "harrell-c-index"
+  },
+  {
+   "card": "What does a C-index of 0.60 mean in words, and what does the C-index ignore?",
+   "item": "discrimination-and-calibration"
+  },
+  {
+   "card": "Why can the time-dependent AUC at two years and Harrell's C-index disagree?",
+   "item": "time-dependent-auc"
+  },
+  {
+   "card": "Why can the time-dependent AUC at two years and Harrell's C-index disagree?",
+   "item": "harrell-c-index"
+  },
+  {
+   "card": "A paper reports for its signature HR 3.4 and log-rank p < 10⁻⁶ from a median split, and nothing else. What is missing, and why are HR 3.4 and C-index 0.58 no contradiction?",
+   "item": "hr-and-p-value-are-not-performance"
+  },
+  {
+   "card": "Why is calibration usually lost more easily than discrimination in a new cohort?",
+   "item": "discrimination-and-calibration"
+  },
+  {
+   "card": "How is median survival read off a Kaplan-Meier curve, and when is it 'not reached'?",
+   "item": "median-survival"
+  },
+  {
+   "card": "Why does a Cox model fitted by partial likelihood give only a ranking, and what is needed for survival probabilities?",
+   "item": "baseline-hazard"
+  },
+  {
+   "card": "A marker is associated with shorter survival both in patients who received a drug and in those who did not, with the same hazard ratio. The marker is …",
+   "item": "prognostic-vs-predictive-marker"
+  },
+  {
+   "card": "A paper publishes 45 genes that 'separate patients into two risk groups'. What is missing before you can score a new patient?",
+   "item": "prognostic-model"
+  },
+  {
+   "card": "What is the one advantage of a gene list from a functional screen over a list from a univariate survival screen, and what destroys it?",
+   "item": "predefined-feature-set"
+  },
+  {
+   "card": "What is the one advantage of a gene list from a functional screen over a list from a univariate survival screen, and what destroys it?",
+   "item": "univariate-cox-screen"
+  },
+  {
+   "card": "You test 1500 genes, none truly prognostic, each with a univariate Cox model at p < 0.05. How many pass on average, and what happens if you build a LASSO model from them and evaluate it in the same cohort?",
+   "item": "univariate-cox-screen"
+  },
+  {
+   "card": "Describe the Benjamini-Hochberg procedure and contrast FDR with Bonferroni.",
+   "item": "false-discovery-rate"
+  },
+  {
+   "card": "Describe the Benjamini-Hochberg procedure and contrast FDR with Bonferroni.",
+   "item": "multiple-testing"
+  },
+  {
+   "card": "With 1500 tested genes, what p-value threshold does a Bonferroni correction at α = 0.05 require?",
+   "item": "multiple-testing"
+  },
+  {
+   "card": "A cohort of 150 PDAC patients has 90 deaths. How many candidate variables does the 'events per variable' rule of thumb support for an unpenalised Cox model, and under which condition?",
+   "item": "events-per-variable"
+  },
+  {
+   "card": "Write the LASSO-Cox objective and explain why it selects genes.",
+   "item": "lasso-cox"
+  },
+  {
+   "card": "Why is the gene list of a LASSO-Cox fit not a stable statement about which genes matter?",
+   "item": "lasso-cox"
+  },
+  {
+   "card": "In a cross-validation fold the inner CV chooses a λ at which every LASSO coefficient is zero. What C-index does that fold get, and why does it matter?",
+   "item": "lasso-cox"
+  },
+  {
+   "card": "What are lambda.min and lambda.1se in cv.glmnet?",
+   "item": "penalty-choice-by-cross-validation"
+  },
+  {
+   "card": "LASSO vs ridge vs elastic net: what does each penalty do with correlated genes?",
+   "item": "ridge-and-elastic-net"
+  },
+  {
+   "card": "How does a random survival forest grow its trees and compute a patient's risk score?",
+   "item": "random-survival-forest"
+  },
+  {
+   "card": "Why does every cell of a 'gene lists × learners' grid use exactly the same training/test splits?",
+   "item": "feature-sets-and-learners"
+  },
+  {
+   "card": "What is a zero-sum signature, and which shifts cancel out of it?",
+   "item": "zero-sum-signature"
+  },
+  {
+   "card": "How is a gene-pair rule like PurIST a special case of a zero-sum score?",
+   "item": "zero-sum-signature"
+  },
+  {
+   "card": "How is a gene-pair rule like PurIST a special case of a zero-sum score?",
+   "item": "top-scoring-pair-method"
+  },
+  {
+   "card": "Why does an unweighted mean of z-scored genes fail as a score for a gene list from a functional screen?",
+   "item": "training-free-scores"
+  },
+  {
+   "card": "What does dichotomising continuous predictors (point scores, median splits) cost?",
+   "item": "small-interpretable-models"
+  },
+  {
+   "card": "Why is the clinical baseline an unusually weak opponent in TCGA-PAAD?",
+   "item": "clinical-baseline-model"
+  },
+  {
+   "card": "What is the optimism of a model, and which number is the only honest performance estimate?",
+   "item": "optimism"
+  },
+  {
+   "card": "What is the optimism of a model, and which number is the only honest performance estimate?",
+   "item": "overfitting"
+  },
+  {
+   "card": "Which steps of a signature pipeline must run inside each training fold, and which may stay outside?",
+   "item": "data-leakage"
+  },
+  {
+   "card": "A paper screens genes on the whole cohort, tunes the LASSO penalty on the same patients, reports a cross-validated C-index of 0.78 and an optimal cut-point at p < 10⁻⁸. What is wrong and how would you show the pipeline leaks?",
+   "item": "data-leakage"
+  },
+  {
+   "card": "A paper screens genes on the whole cohort, tunes the LASSO penalty on the same patients, reports a cross-validated C-index of 0.78 and an optimal cut-point at p < 10⁻⁸. What is wrong and how would you show the pipeline leaks?",
+   "item": "univariate-cox-screen"
+  },
+  {
+   "card": "What is nested resampling, and what does it still not evaluate?",
+   "item": "nested-cross-validation"
+  },
+  {
+   "card": "What is nested resampling, and what does it still not evaluate?",
+   "item": "penalty-choice-by-cross-validation"
+  },
+  {
+   "card": "Why are cross-validation folds stratified for the event, why is CV repeated, and why is the spread over repetitions not a confidence interval?",
+   "item": "repeated-stratified-cross-validation"
+  },
+  {
+   "card": "What is the main weakness of leave-one-cohort-out validation with three training cohorts?",
+   "item": "leave-one-cohort-out"
+  },
+  {
+   "card": "What distinguishes external from internal validation, and what must be fixed before an external cohort is touched?",
+   "item": "external-validation"
+  },
+  {
+   "card": "A published signature is re-standardised in the validation cohort and split at that cohort's median. What can still be tested, and what weaker claim remains?",
+   "item": "external-validation"
+  },
+  {
+   "card": "A published signature is re-standardised in the validation cohort and split at that cohort's median. What can still be tested, and what weaker claim remains?",
+   "item": "frozen-model"
+  },
+  {
+   "card": "Why can a median split never classify a single new patient, and what does single-sample classification need instead?",
+   "item": "median-split"
+  },
+  {
+   "card": "Why can a median split never classify a single new patient, and what does single-sample classification need instead?",
+   "item": "cross-cohort-calibration"
+  },
+  {
+   "card": "What is wrong with choosing the 'optimal' cut-point of a score by the smallest log-rank p-value?",
+   "item": "optimal-cutpoint"
+  },
+  {
+   "card": "Name the three requirements of an honest (out-of-fold) Kaplan-Meier plot of a risk score.",
+   "item": "threshold-trap"
+  },
+  {
+   "card": "Why does PurIST's fixed threshold call a similar share of patients basal-like in different cohorts, while a fixed threshold on a sum of log expression levels does not?",
+   "item": "cross-cohort-calibration"
+  },
+  {
+   "card": "Why does PurIST's fixed threshold call a similar share of patients basal-like in different cohorts, while a fixed threshold on a sum of log expression levels does not?",
+   "item": "zero-sum-signature"
+  },
+  {
+   "card": "How is a paired bootstrap confidence interval for the C-index difference of two models computed, and why pair?",
+   "item": "paired-bootstrap"
+  },
+  {
+   "card": "The 95 % paired-bootstrap interval of a C-index difference runs from −0.08 to +0.05. What can you conclude?",
+   "item": "paired-bootstrap"
+  },
+  {
+   "card": "How do you test whether a new score adds prognostic information to PurIST in two test cohorts?",
+   "item": "added-value-likelihood-ratio-test"
+  },
+  {
+   "card": "Can a new score add prognostic information to an established score without having a higher C-index?",
+   "item": "added-value-likelihood-ratio-test"
+  },
+  {
+   "card": "Can a new score add prognostic information to an established score without having a higher C-index?",
+   "item": "harrell-c-index"
+  },
+  {
+   "card": "What did Venet et al. (2011) show about random gene signatures, and what is the PDAC analogue?",
+   "item": "random-signature-problem"
+  },
+  {
+   "card": "What sanity check reveals data leakage in a survival pipeline, and what result should it give?",
+   "item": "outcome-permutation-check"
+  },
+  {
+   "card": "Why is the Spearman correlation the natural choice for comparing risk scores of two different models on the same patients?",
+   "item": "spearman-correlation"
+  },
+  {
+   "card": "What is TRIPOD?",
+   "item": "tripod-statement"
+  }
+ ]
+}

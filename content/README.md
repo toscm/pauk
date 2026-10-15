@@ -1,5 +1,10 @@
 # Seed content
 
+This directory is tracked by git and the repository is public on GitHub, so every file here (and every past version of it) is published.
+Only public knowledge belongs here: textbooks, published papers, public datasets, languages, geography.
+Unpublished research (data, results, manuscripts, the design of unpublished projects), information about people, internal project or funding details and anything written from private sources go into a private file outside this repo (convention: `~/projects/<project>/pauk-cards/`) and are imported from there.
+See "This repository is PUBLIC" in `../CLAUDE.md`; when in doubt, keep it out and ask.
+
 Importable content files, one JSON per topic:
 
 - `greek.json` — 72 cards: name the Greek letter, as
@@ -28,7 +33,12 @@ Importable content files, one JSON per topic:
   Written by LLM agents from a shared spec (one item per gene, protein, technology, disease, score or treatment; `priority` says how essential it is; memory aids where good ones exist), cross-checked for duplicates; keys: `gene-<hgnc symbol>`, `protein-<name>`, otherwise a slug of the English term.
   Some link into `items-phd.json` or each other, so import them after it (`cli/tests/test_content.py` imports all item files in link order).
 
+- `comit-tp6-*.json` and `items-comit-tp6-*.json` — PDAC background for CoMIT TP6, space `concepts`, all under `comit/tp6/`: biology (pancreas cells, immune attack and resistance, RNAi screens), statistics (expression data, tumour purity, survival analysis, prognostic models, validation), literature (who published which paper, model and subtype scheme) and datasets (cohorts, accessions, portals).
+  Decks and items come in pairs; the items link to the existing `bioinformatics/` items instead of repeating them, and the statistics and datasets items link to the literature items, so `items-comit-tp6-literature.json` is imported first.
+  Only published knowledge is here; anything about the project's own work lives in a private file outside this repo.
+
 - `curricula/` — courses for the tutor's level map (docs/tutor.md 9.6): `italian.json` (A1 from the existing Italian items, A2 from `items-italian-a2.json`, B1–C2 as units the teacher fills) and `bioinformatics.json` (stages cancer and PDAC, cancer genes, liver and transplantation, immune/liver/pancreas genes, technologies; each unit ordered by importance).
+  `comit-tp6.json` (course "CoMIT TP6 (PDAC)": stages essentials, biology, statistics, papers and models, datasets) uses the `items-comit-tp6-*.json` items plus a few existing PDAC items.
   `pauk import content/curricula/italian.json` creates one directory per unit under `italian/course/` and links the listed items; import the items files first.
   The CLI ships a copy in `cli/pauk/data/curricula/` (`cli/tests/test_curriculum.py` checks that both are equal and that every listed item exists).
 

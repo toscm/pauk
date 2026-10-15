@@ -1,0 +1,830 @@
+{
+ "dirs": [
+  "comit",
+  "comit/tp6",
+  "comit/tp6/biology",
+  "comit/tp6/biology/pancreas",
+  "comit/tp6/biology/pdac",
+  "comit/tp6/biology/immune-attack",
+  "comit/tp6/biology/immune-resistance",
+  "comit/tp6/biology/screens",
+  "comit/tp6/biology/single-cell"
+ ],
+ "dir_links": [],
+ "cards": [
+  {
+   "dirs": [
+    "comit/tp6/biology/pancreas"
+   ],
+   "type": "recall",
+   "question_md": "What do *exocrine* and *endocrine* mean for the pancreas, and roughly what share of the organ's mass is each?",
+   "answer_md": "Exocrine: secretes outwards through ducts into the gut (digestive juice) — about 98 % of the mass (acini + ducts). Endocrine: secretes hormones into the blood — about 2 %, the islets of Langerhans (insulin, glucagon, somatostatin). PDAC arises in the exocrine part."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/pancreas"
+   ],
+   "type": "recall",
+   "question_md": "Name the two cell types of the exocrine pancreas and what each contributes to the pancreatic juice.",
+   "answer_md": "Acinar cells make the digestive enzymes (trypsinogen, chymotrypsinogen, amylase, lipase, elastases, carboxypeptidases), mostly as inactive zymogens. Ductal cells line the duct tree and add bicarbonate and water, making the juice thin and alkaline to neutralise gastric acid."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/pancreas"
+   ],
+   "type": "mc",
+   "question_md": "Which cell does the name *pancreatic ductal adenocarcinoma* refer to?",
+   "options": [
+    {
+     "text_md": "The ductal cell, because the tumour forms duct-like glands and its precursors sit in duct epithelium",
+     "correct": true
+    },
+    {
+     "text_md": "The acinar cell, because it is the most common cell of the pancreas",
+     "correct": false
+    },
+    {
+     "text_md": "The beta cell of the islets",
+     "correct": false
+    },
+    {
+     "text_md": "The pancreatic stellate cell, because it builds the stroma",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/pancreas"
+   ],
+   "type": "recall",
+   "question_md": "What is an epithelial cell, which markers identify it, and why does the epithelial share of a PDAC sample matter for expression data?",
+   "answer_md": "A cell of the sheet-like tissues that line surfaces, ducts and glands: polarised, sitting on a basement membrane, joined by tight/adherens junctions (E-cadherin). Markers: EPCAM, keratins (KRT8/18/19). Carcinomas are epithelial cancers; in PDAC the malignant epithelial cells are a minority of the tissue, so the epithelial share (tumour purity) is low and variable and drives much of the bulk signal."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/pancreas"
+   ],
+   "type": "recall",
+   "question_md": "What are pancreatic stellate cells at rest and after activation, and what is their role in PDAC?",
+   "answer_md": "At rest: star-shaped stromal cells around the acini that store vitamin A in fat droplets and balance matrix turnover. Activated (by injury, TGF-β, PDGF, Sonic Hedgehog): lose the droplets, express α-SMA, proliferate and secrete collagen like myofibroblasts. In PDAC activation never stops; they are the main source of cancer-associated fibroblasts and the desmoplastic stroma."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/pancreas"
+   ],
+   "type": "recall",
+   "question_md": "Why does the pancreas secrete its proteases as zymogens, and where and how are they activated?",
+   "answer_md": "Active trypsin would digest the pancreas itself. Acinar cells therefore make trypsinogen, pack it into granules and co-secrete a trypsin inhibitor (SPINK1). In the duodenum enteropeptidase of the intestinal mucosa cuts trypsinogen to trypsin, which activates the other zymogens in a cascade. Failure of this protection = pancreatitis."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/pancreas"
+   ],
+   "type": "recall",
+   "question_md": "How is chronic pancreatitis mechanistically linked to the development of PDAC?",
+   "answer_md": "Inflammation drives acinar-to-ductal metaplasia (acinar cells drop their enzyme programme and turn duct-like). Normally this is reversible; with an oncogenic KRAS mutation it becomes fixed and can progress to PanIN and PDAC. Chronic pancreatitis is therefore an established risk factor."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/pancreas"
+   ],
+   "type": "recall",
+   "question_md": "Why does almost every non-acinar gene look higher in PDAC than in normal pancreas (e.g. TCGA versus GTEx), even if no cell transcribes more of it?",
+   "answer_md": "In normal pancreas a handful of acinar enzyme genes (PRSS1, PRSS2, CPA1, CELA3A, CTRB2 …) take a large share of the fixed library size. In the tumour the acini are gone and those reads are spread over all other genes. So the comparison mostly measures how much acinar tissue was in the sample; the 'loss' of enzymes is loss of cells, not regulation. Batch differences between the projects add to this."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/pancreas"
+   ],
+   "type": "recall",
+   "question_md": "Why do the islets of Langerhans matter for a PDAC expression analysis even though PDAC does not arise from them?",
+   "answer_md": "Islet cells give rise to pancreatic neuroendocrine tumours, a different disease (other cell of origin, drivers, growth, treatment and much better prognosis). Cohorts named after the organ, like TCGA-PAAD, contain a few of them; their difference to PDAC is larger than anything else in the data, so they form their own cluster or let a survival model learn tumour type. They must be removed."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/pancreas"
+   ],
+   "type": "recall",
+   "question_md": "What is the basement membrane, and why is it the boundary between PanIN-3 and invasive PDAC?",
+   "answer_md": "A thin sheet of type IV collagen and laminin under every epithelium, separating it from the stroma. PanIN lesions, even high-grade (PanIN-3), stay above it; breaking through it defines invasion and gives tumour cells access to lymph vessels, blood vessels and nerves."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/pancreas"
+   ],
+   "type": "text",
+   "question_md": "Which keratin gene is the classic marker of pancreatic ductal (and PDAC) cells, often paired with EPCAM? (gene symbol)",
+   "accepted_answers": [
+    "KRT19",
+    "CK19",
+    "keratin 19",
+    "cytokeratin 19"
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/pancreas"
+   ],
+   "type": "recall",
+   "question_md": "What are centroacinar cells and why are they mentioned in discussions of the PDAC cell of origin?",
+   "answer_md": "Flat duct-type cells at the junction of acinus and intercalated duct, partly inside the acinar lumen; they secrete bicarbonate and have been proposed as facultative progenitors and possible cells of origin of PDAC."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/pancreas"
+   ],
+   "type": "recall",
+   "question_md": "What does the extracellular matrix of PDAC consist of, who makes it, and what are its consequences?",
+   "answer_md": "Mostly type I collagen plus fibronectin and hyaluronic acid, deposited by cancer-associated fibroblasts (activated stellate cells). It makes the tumour hard, compresses vessels, raises interstitial pressure and physically hinders drug delivery and T-cell infiltration."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/pdac"
+   ],
+   "type": "recall",
+   "question_md": "Give the four classical driver genes of PDAC in the order they usually appear along the PanIN sequence, and how each is altered.",
+   "answer_md": "KRAS (activating codon-12 mutation, > 90 %, already in low-grade PanIN) → CDKN2A (loss by deletion, mutation or promoter methylation, intermediate grade) → TP53 and SMAD4 (loss, high-grade PanIN or invasion; SMAD4 loss linked to widespread metastasis)."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/pdac"
+   ],
+   "type": "mc",
+   "question_md": "Why does a study that ranks genes only by mutation frequency underestimate the role of CDKN2A in PDAC?",
+   "options": [
+    {
+     "text_md": "CDKN2A is often switched off by homozygous deletion or promoter methylation rather than by a point mutation",
+     "correct": true
+    },
+    {
+     "text_md": "CDKN2A is an oncogene, so it never mutates",
+     "correct": false
+    },
+    {
+     "text_md": "CDKN2A is only lost in metastases",
+     "correct": false
+    },
+    {
+     "text_md": "CDKN2A is not expressed in the pancreas",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/pdac"
+   ],
+   "type": "recall",
+   "question_md": "Why was KRAS considered undruggable for decades, and which mutation can now be drugged?",
+   "answer_md": "Its surface is smooth without a deep pocket, and its GTP site is always occupied (GTP at millimolar concentration, picomolar affinity), so competitive inhibitors fail. Covalent inhibitors exist for G12C (they bind the introduced cysteine), which is rare in PDAC; inhibitors of G12D/G12V and pan-RAS inhibitors are in development."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/pdac"
+   ],
+   "type": "recall",
+   "question_md": "What is the debate about the cell of origin of PDAC?",
+   "answer_md": "The tumour looks ductal and PanINs sit in ducts, pointing to ductal cells; but in mouse models PDAC arises most reliably when mutant KRAS is activated in acinar cells, via acinar-to-ductal metaplasia. Current view: both routes occur, so morphology does not reveal the origin."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/pdac"
+   ],
+   "type": "recall",
+   "question_md": "Why do more than 70 % of PDAC patients relapse after an R0 resection?",
+   "answer_md": "PDAC spreads early: micrometastases (mostly in the liver) are already present but below the detection limit of imaging. R0 only means no tumour at the resection margin, not that the disease has not spread; adjuvant chemotherapy targets these invisible deposits."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/pdac"
+   ],
+   "type": "recall",
+   "question_md": "What is the stroma-depletion paradox in PDAC? Name the evidence.",
+   "answer_md": "Removing the stroma made tumours worse: in mice, Shh deletion or depletion of α-SMA⁺ myofibroblasts gave more aggressive, less differentiated, more metastatic tumours (Rhim 2014, Özdemir 2014); a phase II trial of the Hedgehog inhibitor saridegib (IPI-926) with gemcitabine was stopped because patients did worse, and PEGPH20 failed in phase III. The stroma shields but also restrains the tumour."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/pdac"
+   ],
+   "type": "recall",
+   "question_md": "Name the three main CAF subtypes in PDAC and what characterises each.",
+   "answer_md": "myCAFs: α-SMA-high myofibroblasts next to tumour nests, TGF-β-induced, matrix-producing. iCAFs: distant, IL-6/LIF-secreting inflammatory CAFs (IL-1/JAK-STAT). apCAFs: MHC-II⁺/CD74⁺ antigen-presenting CAFs without co-stimulation. (Öhlund 2017, Elyada 2019, Tuveson lab.)"
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/pdac"
+   ],
+   "type": "recall",
+   "question_md": "Desmoplasia hinders both chemotherapy and T cells. Explain for each why.",
+   "answer_md": "Chemotherapy: few, compressed vessels, high interstitial fluid pressure (hyaluronan binds water) and dense matrix mean long diffusion distances and no pressure gradient, so drugs reach tumour cells poorly. T cells: CAF matrix and chemokines hold them in the stroma away from tumour nests (immune exclusion)."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/pdac"
+   ],
+   "type": "recall",
+   "question_md": "What is the difference between a cell type and a cell state, and how does it bear on classical versus basal-like PDAC?",
+   "answer_md": "A cell type is a stable lineage identity (ductal cell, fibroblast); a cell state is a reversible programme cells of one type can run (proliferative, basal-like, stress). Single-cell and microdissection studies (e.g. Chan-Seng-Yue 2020) found classical and basal-like programmes coexisting within one tumour and in intermediate cells, so the subtypes behave partly as states of tumour cells rather than fixed tumour labels."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/pdac"
+   ],
+   "type": "recall",
+   "question_md": "Why must TCGA-PAAD be curated before a PDAC analysis, and which kinds of samples are removed?",
+   "answer_md": "The cohort is named after the organ and contains non-PDAC tumours (neuroendocrine tumours, acinar cell carcinomas, other histologies) and samples of doubtful tumour content. Their biology differs more than anything else in the data and would dominate clustering or survival models. Curated lists (TCGA 2017, Peran 2018) keep the confirmed PDAC."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/pdac"
+   ],
+   "type": "recall",
+   "question_md": "What does overall survival mostly measure in an operated PDAC cohort like TCGA-PAAD, and name two other limits of that cohort for model building.",
+   "answer_md": "Mostly the outgrowth of micrometastases (recurrence) and the response to a poorly documented, varying adjuvant therapy, not immune control. Other limits: most patients in stage II (no variance for stage), mostly head tumours found via jaundice (selection), strongly varying tumour purity, a few non-PDAC samples."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/pdac"
+   ],
+   "type": "mc",
+   "question_md": "How do acinar cell carcinomas differ from PDAC?",
+   "options": [
+    {
+     "text_md": "They produce digestive enzymes, rarely carry KRAS mutations and usually have a better prognosis",
+     "correct": true
+    },
+    {
+     "text_md": "They arise from islet cells and secrete insulin",
+     "correct": false
+    },
+    {
+     "text_md": "They are the precursor lesions of PDAC",
+     "correct": false
+    },
+    {
+     "text_md": "They are PDAC with an unusually high stroma content",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/immune-attack"
+   ],
+   "type": "recall",
+   "question_md": "How does a cytotoxic T cell recognise a tumour cell? Name the molecules on both sides.",
+   "answer_md": "The tumour cell presents peptides (8–10 aa from proteasomal degradation, loaded in the ER via TAP) on MHC class I (HLA-A/B/C with β2-microglobulin). The CD8⁺ T cell's T-cell receptor (with CD3, and CD8 as co-receptor binding MHC I) recognises one specific peptide–MHC; mutated peptides (neoantigens) look foreign."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/immune-attack"
+   ],
+   "type": "mc",
+   "question_md": "Which pairing is correct?",
+   "options": [
+    {
+     "text_md": "CD8⁺ T cells recognise peptide on MHC class I; CD4⁺ T cells on MHC class II",
+     "correct": true
+    },
+    {
+     "text_md": "CD8⁺ T cells recognise peptide on MHC class II; CD4⁺ on MHC class I",
+     "correct": false
+    },
+    {
+     "text_md": "Both CD4⁺ and CD8⁺ T cells recognise MHC class I only",
+     "correct": false
+    },
+    {
+     "text_md": "CD8⁺ T cells recognise unprocessed whole proteins",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/immune-attack"
+   ],
+   "type": "recall",
+   "question_md": "What are the three signals of T-cell priming and what happens if Signal 2 is missing?",
+   "answer_md": "Signal 1: TCR recognises peptide–MHC. Signal 2: co-stimulation, CD28 on the T cell binding CD80/CD86 on the dendritic cell. Signal 3: cytokines that set the type of response. Signal 1 without Signal 2 silences the T cell (anergy) instead of activating it — a safeguard against autoimmunity."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/immune-attack"
+   ],
+   "type": "recall",
+   "question_md": "What is cross-presentation and why is it needed for an anti-tumour CD8⁺ T-cell response?",
+   "answer_md": "Dendritic cells load peptides from ingested external material (e.g. dead tumour cells) onto MHC class I, a route normally reserved for the cell's own proteins. Since the dendritic cell is not a tumour cell, only this lets it prime naive CD8⁺ T cells against tumour antigens in the lymph node."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/immune-attack"
+   ],
+   "type": "recall",
+   "question_md": "Describe the immunological synapse and why it lets a T cell kill without damaging neighbouring cells.",
+   "answer_md": "An ordered contact zone: an adhesion ring (LFA-1–ICAM-1) seals the gap, TCRs cluster centrally, and the T cell polarises its granules towards the contact. Perforin and granzymes are released into the sealed gap, act on the target only, and the T cell can detach and kill the next cell."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/immune-attack"
+   ],
+   "type": "recall",
+   "question_md": "Name the two routes by which a cytotoxic T cell kills, and the key biochemical difference between them.",
+   "answer_md": "1) Granule route: perforin makes pores, granzymes enter and activate caspases — a hole, largely independent of the target's signalling. 2) Death-receptor route: FasL, TRAIL, TNF-α bind Fas, DR4/DR5, TNFR1 and activate caspase-8 — a signal, which the target cell can dampen or counter with survival signals (e.g. NF-κB). Tumour cells can therefore resist the second route by regulating their own genes."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/immune-attack"
+   ],
+   "type": "text",
+   "question_md": "Which pore-forming protein of cytotoxic T cells lets granzymes enter the target cell?",
+   "accepted_answers": [
+    "perforin",
+    "perforin-1",
+    "PRF1"
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/immune-attack"
+   ],
+   "type": "mc",
+   "question_md": "Which death ligand works only through cell contact, while the others also work in soluble form?",
+   "options": [
+    {
+     "text_md": "FasL",
+     "correct": true
+    },
+    {
+     "text_md": "TNF-α",
+     "correct": false
+    },
+    {
+     "text_md": "TRAIL",
+     "correct": false
+    },
+    {
+     "text_md": "IFN-γ",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/immune-attack"
+   ],
+   "type": "recall",
+   "question_md": "Why can protection against death-receptor killing be tested without any T cells?",
+   "answer_md": "TNF-α and TRAIL also work in soluble form, so recombinant ligands (or cell-free supernatant of activated T cells) can be added to tumour cells. If a knockdown sensitises cells to them, the gene protects against a death signal rather than against recognition or contact."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/immune-attack"
+   ],
+   "type": "recall",
+   "question_md": "How does apoptosis differ from necrosis, and which caspases start and execute it?",
+   "answer_md": "Apoptosis is an orderly, caspase-driven dismantling into membrane-bound fragments that phagocytes clear without inflammation; necrosis releases cell contents and causes inflammation. Initiator caspases: caspase-8 (extrinsic, death receptors) and caspase-9 (intrinsic, mitochondria); effector caspases: caspase-3 and -7."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/immune-attack"
+   ],
+   "type": "recall",
+   "question_md": "TNFR1 starts a death signal and a survival signal at the same time. Explain, and predict what happens to a tumour cell that cannot activate NF-κB when exposed to TNF-α.",
+   "answer_md": "TNFR1 recruits adaptors that can activate caspase-8 (death) and also degrades IκBα, releasing NF-κB, which switches on anti-apoptotic genes (c-FLIP, cIAPs, BCL-xL). Whichever is faster decides. Without NF-κB activation TNF-α becomes an effective death signal and the cell dies; a gene that promotes NF-κB activation therefore protects tumour cells from T cells."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/immune-attack"
+   ],
+   "type": "recall",
+   "question_md": "What is a neoantigen, and why does tumour mutational burden give only an upper bound on how well a tumour is recognised?",
+   "answer_md": "A peptide from a somatically mutated protein that, presented on MHC I, looks foreign to T cells. TMB counts protein-changing mutations per megabase, i.e. possible neoantigens; only a small part is actually processed and presented, and a smaller part still recognised, so high TMB makes recognition possible but does not guarantee it. PDAC has low TMB."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/immune-attack"
+   ],
+   "type": "recall",
+   "question_md": "What are dendritic cells and what is their role in an anti-tumour response?",
+   "answer_md": "Professional antigen-presenting cells that take up antigen in tissue, migrate to the draining lymph node and prime naive T cells by delivering peptide–MHC, co-stimulation (CD80/CD86) and cytokines. cDC1 cells cross-present tumour antigens to CD8⁺ T cells; CD4⁺ help licenses them via CD40. In PDAC they are scarce and dysfunctional."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/immune-attack"
+   ],
+   "type": "recall",
+   "question_md": "What is a T-cell receptor, how is its diversity generated and where are self-reactive T cells removed?",
+   "answer_md": "The αβ antigen receptor of a T cell (signalling via CD3) that recognises one peptide–MHC complex. Diversity comes from random V(D)J recombination, giving each clone its own receptor and a repertoire of many millions. Self-reactive clones are deleted in the thymus."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/immune-resistance"
+   ],
+   "type": "recall",
+   "question_md": "Define an *immune resistance gene* (IRG) as the Beckhove group does.",
+   "answer_md": "A gene whose knockdown in the tumour cell makes that cell easier for T cells to kill, without the cell dying on its own: survival in co-culture with T cells drops while viability without T cells stays unchanged. The definition rests on an experiment (an RNAi killing screen), not on an annotation."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/immune-resistance"
+   ],
+   "type": "recall",
+   "question_md": "Name three properties that follow from the experimental definition of an IRG, and one limitation.",
+   "answer_md": "1) It concerns only the tumour cell (the gene is switched off there), which makes a cell-line screen meaningful. 2) It has a direction: more expression = more protection. 3) It is independent of survival data, so IRG lists can be used as predefined feature sets. Limitation: it holds only under the screen's conditions (one cell line, one T-cell preparation, one E:T ratio, one time window, partial knockdown) — a measurement result, not a fixed property of the gene."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/immune-resistance"
+   ],
+   "type": "recall",
+   "question_md": "A gene is knocked down in a tumour cell line: with T cells the cells die twice as fast, and without T cells they also die somewhat faster. Is it an immune resistance gene?",
+   "answer_md": "Not cleanly: the definition requires unchanged viability without T cells. The knockdown also harms the cells on their own, so part of the effect is general fitness (essential/growth gene). It can count as an IRG only if the drop with T cells clearly exceeds what reduced viability explains, i.e. a contrast between the two arms."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/immune-resistance"
+   ],
+   "type": "recall",
+   "question_md": "Contrast CTLA-4 and PD-1: where and when does each act, and how?",
+   "answer_md": "CTLA-4 acts early, mainly in the lymph node during priming: it binds CD80/CD86 more strongly than CD28 and removes Signal 2. PD-1 acts late, in the tissue: binding PD-L1 on tumour or myeloid cells dampens TCR signalling in the synapse so the T cell does not kill."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/immune-resistance"
+   ],
+   "type": "recall",
+   "question_md": "What is adaptive immune resistance, and why is a single PD-L1 measurement hard to interpret?",
+   "answer_md": "Tumour cells raise PD-L1 in response to IFN-γ secreted by attacking T cells (via JAK/STAT1/IRF1), using the attacker's alarm signal to switch on their own brake. PD-L1 therefore marks both an ongoing attack and the defence against it, and varies in time and space."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/immune-resistance"
+   ],
+   "type": "recall",
+   "question_md": "What is T-cell exhaustion, which markers characterise it, and why does it matter when counting TILs?",
+   "answer_md": "A dysfunctional state after chronic antigen exposure: T cells progressively lose killing and cytokine production and co-express inhibitory receptors (PD-1, TIM-3, LAG-3, TIGIT, CD39), driven by TOX. Many T cells in a section (or T-cell genes in bulk RNA) therefore say nothing about function."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/immune-resistance"
+   ],
+   "type": "recall",
+   "question_md": "Two tumours have the same T-cell density; in one the T cells lie between tumour cells, in the other only in the surrounding stroma. What is the second called, why does it matter, and which cell type is responsible in PDAC?",
+   "answer_md": "Immune-excluded: the T cells never reach the tumour cells, so they cannot kill them, and checkpoint blockade has nothing to release locally. In PDAC cancer-associated fibroblasts (matrix, chemokines such as CXCL12) keep T cells at the margin. Bulk RNA cannot distinguish the two; spatial methods can."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/immune-resistance"
+   ],
+   "type": "recall",
+   "question_md": "Why is switching off MHC class I completely not the optimal escape strategy for a tumour, and how does PDAC reduce MHC I?",
+   "answer_md": "NK cells kill cells lacking MHC I ('missing self'), so tumours tend to turn presentation down rather than off. In PDAC MHC I is degraded by autophagy via the receptor NBR1 (Yamamoto et al., Nature 2020); blocking autophagy restored presentation and T-cell killing in mice."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/immune-resistance"
+   ],
+   "type": "recall",
+   "question_md": "A therapy directs T cells against one tumour antigen and works well at first. Predict what happens after some months and why.",
+   "answer_md": "Relapse with antigen-negative tumour cells: the cells carrying the antigen are killed, variants that lost it survive and regrow (selection under immune pressure, as in immunoediting; e.g. CD19-negative relapse after CAR-T)."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/immune-resistance"
+   ],
+   "type": "recall",
+   "question_md": "Why has checkpoint blockade failed in PDAC? Give at least three reasons and the exception.",
+   "answer_md": "Blockade only releases a brake on an existing response. PDAC has low TMB (few neoantigens), T cells are excluded by desmoplastic stroma, and a suppressive microenvironment (Tregs, MDSCs, TAMs, TGF-β, hypoxia) wears down those that arrive; the Beckhove group adds that tumour cells use brakes other than PD-L1. Exception: the ~1 % with mismatch-repair deficiency (MSI-high), which respond."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/immune-resistance"
+   ],
+   "type": "recall",
+   "question_md": "Why must a T-cell killing screen also measure tumour-cell viability without T cells?",
+   "answer_md": "Several thousand genes are essential (ribosome, proteasome, replication, metabolism); their knockdown kills cells anyway, which in the T-cell well looks exactly like successful immune attack. Without the viability arm the hit list mixes essential genes with immune resistance genes, and no repetition separates them."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/immune-resistance"
+   ],
+   "type": "recall",
+   "question_md": "What did Sorrentino et al. (2022) show about SIK3?",
+   "answer_md": "SIK3 (salt-inducible kinase 3), the lead hit of the Beckhove group's PDAC screen, protects tumour cells from cytotoxic T cells by promoting TNF-induced NF-κB activation; without SIK3 the TNF signal tips towards apoptosis (J Immunother Cancer 2022)."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/immune-resistance"
+   ],
+   "type": "mc",
+   "question_md": "Which kinase did Volpin et al. (2020) identify as a tumour-cell resistance factor in tumours refractory to anti-PD-L1?",
+   "options": [
+    {
+     "text_md": "CAMK1D",
+     "correct": true
+    },
+    {
+     "text_md": "SIK3",
+     "correct": false
+    },
+    {
+     "text_md": "JAK2",
+     "correct": false
+    },
+    {
+     "text_md": "CDK4",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/immune-resistance"
+   ],
+   "type": "recall",
+   "question_md": "Explain the three phases of cancer immunoediting and why they make the search for resistance genes promising.",
+   "answer_md": "Elimination (immune system removes transformed cells), equilibrium (immune pressure holds a cell cluster in check while it mutates and is selected), escape (resistant variants grow out). A diagnosed tumour is the product of years of selection under immune pressure, so resistance mechanisms should be enriched and findable in established tumours."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/screens"
+   ],
+   "type": "recall",
+   "question_md": "Explain how RNA interference silences a gene, step by step.",
+   "answer_md": "Long dsRNA is cut by Dicer into 21–23-bp duplexes (synthetic siRNAs skip this step). One strand, the guide, is loaded into RISC (Argonaute); the passenger strand is discarded. The guide pairs with a matching mRNA, which is cleaved and degraded (or, if only partially matching, translationally repressed), so the protein is no longer replenished."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/screens"
+   ],
+   "type": "text",
+   "question_md": "Who discovered RNA interference in *C. elegans* in 1998 (Nobel Prize 2006)? Give both surnames.",
+   "accepted_answers": [
+    "Fire and Mello",
+    "Fire, Mello",
+    "Mello and Fire",
+    "Andrew Fire and Craig Mello",
+    "Fire & Mello"
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/screens"
+   ],
+   "type": "recall",
+   "question_md": "Compare siRNA, shRNA and CRISPR/Cas9 in depth and duration of the gene perturbation.",
+   "answer_md": "siRNA: synthetic duplex, transfected; knockdown of 70–90 %, sets in after hours, peaks at 2–3 days, fades within ~1 week. shRNA: expressed from an integrated (often lentiviral) construct; same depth, permanent and inherited. CRISPR/Cas9: guide RNA + Cas9 cut DNA, frameshift repair; complete, permanent knockout, but a mixed population needing clones."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/screens"
+   ],
+   "type": "recall",
+   "question_md": "Why is a partial knockdown with siRNA sometimes an advantage over a CRISPR knockout for finding drug targets, and what does it miss?",
+   "answer_md": "A partial reduction resembles a drug, which lowers activity rather than eliminating it, so hits are genes whose partial inhibition already has an effect. It misses genes that matter only when completely absent and genes with very stable proteins, very high expression or poorly accessible mRNA — so absence from the hit list is weak evidence."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/screens"
+   ],
+   "type": "recall",
+   "question_md": "A protein has a half-life of six days. Why might a 72-hour siRNA knockdown show no phenotype even if the gene is a strong immune resistance gene, and what would you use instead?",
+   "answer_md": "The siRNA stops new synthesis, but existing protein decays slowly; after 72 h much of it is still present. A stable shRNA knockdown or a CRISPR knockout over a longer time would remove it."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/screens"
+   ],
+   "type": "recall",
+   "question_md": "What is the seed region of an siRNA and why is it the main source of false hits in RNAi screens?",
+   "answer_md": "Bases 2–8 of the guide strand. Like a microRNA seed, a 7-base match is enough for weak repression, and such matches occur by chance in hundreds of transcripts, so every siRNA lowers dozens to hundreds of off-targets. A strong off-target effect can make a gene look like a hit."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/screens"
+   ],
+   "type": "recall",
+   "question_md": "A screen is repeated with the same siRNA plates on a second day and the same genes come out on top. Why does this say nothing about off-target effects, and what repetition would?",
+   "answer_md": "The same siRNA hits the same off-targets every time, so repetition only averages out measurement noise. Evidence comes from repeating with different siRNAs (different seeds) against the same gene: the off-target effect changes with the siRNA, the true on-target effect does not."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/screens"
+   ],
+   "type": "recall",
+   "question_md": "Explain the two-round design of an RNAi screen with siRNA pools and deconvolution, including the 'AND rule'.",
+   "answer_md": "Primary screen: one well per gene with a pool of (typically four) siRNAs — a quarter of the work and a higher chance one siRNA works, but with all their off-targets. Deconvolution: each siRNA tested separately; a gene counts only if at least k (usually 2 of 4) independent siRNAs agree. A false hit then needs large off-target effects for several siRNAs, whose probabilities multiply. The list is conservative and incomplete."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/screens"
+   ],
+   "type": "recall",
+   "question_md": "Arrayed versus pooled screen: what is the difference, and why must a T-cell killing screen be arrayed?",
+   "answer_md": "Arrayed: one perturbation per well, any read-out, needs many plates and robots. Pooled: all constructs in one population (~1 per cell), frequency read by sequencing, trait must be cell-autonomous. T-cell killing is not cell-autonomous — cytokines and soluble death ligands reach neighbours — so in a pool one cell's effect mixes with its neighbours; in a well all neighbours carry the same knockdown, and two arms per gene are possible."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/screens"
+   ],
+   "type": "recall",
+   "question_md": "Name the control wells of an RNAi killing screen and what each one checks.",
+   "answer_md": "Scrambled/non-targeting siRNA: negative control and normalisation reference (set to 1.0); the spread between two scrambled controls shows the noise. Mock (reagent, no siRNA): what foreign dsRNA itself does (mock vs scrambled). Lethal killing siRNA: transfection worked, bottom of the range. Biological positive control (e.g. siPD-L1): should sensitise only with T cells."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/screens"
+   ],
+   "type": "recall",
+   "question_md": "On a plate the killing control kills, mock and scrambled controls agree, but siPD-L1 gives the same value with and without T cells. Which assumption is violated?",
+   "answer_md": "The biological positive control fails: knocking down PD-L1 should make cells easier to kill only with T cells. Either the T cells did not attack (weak TILs, wrong E:T, no PD-1/PD-L1 axis active), or the knockdown failed; the plate's cytotoxicity arm cannot be trusted."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/screens"
+   ],
+   "type": "recall",
+   "question_md": "Why must raw luminescence values never be compared between plates, and what nuisance factors does a plate carry?",
+   "answer_md": "RLU depend on detector, integration time, substrate batch and time since substrate addition, and plates differ in cell batch, passage, day and reagent lot. Values are normalised to the controls of the same plate and arm. Within a plate: edge effects (evaporation, temperature), row/column gradients from pipetting order, transfection efficiency, seeded cell number — position effects are modelled afterwards."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/screens"
+   ],
+   "type": "recall",
+   "question_md": "What is a co-culture killing assay, and what does it lack compared with a real PDAC?",
+   "answer_md": "Tumour cells and T cells (e.g. TILs) in one well, measuring tumour-cell survival after a fixed time. It lacks stroma, fibroblasts and matrix (the main barrier in PDAC), spatial structure and migration, oxygen/nutrient gradients and acidity, and other immune cells (macrophages, MDSCs, Tregs, dendritic cells); a short window measures immediate killability, not evasion or exhaustion over weeks."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/screens"
+   ],
+   "type": "recall",
+   "question_md": "What is the effector-to-target ratio, and what is the risk of a very high one?",
+   "answer_md": "Effector immune cells per target tumour cell. A high ratio gives fast, visible killing but far exceeds tissue conditions; a resistance mechanism can be overrun and go undetected, so some IRGs are missed."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/screens"
+   ],
+   "type": "recall",
+   "question_md": "Explain the viability arm and the cytotoxicity arm of a killing screen and what pattern marks an immune resistance gene.",
+   "answer_md": "Each knockdown is measured twice with identical medium and read-out: without T cells (viability V) and with T cells (cytotoxicity C), each normalised to the scrambled control. An IRG shows V ≈ 1 (fine alone) and C clearly < 1 (dies with T cells). Small V = essential/growth gene, C uninformative. The score is a contrast of two noisy values; C/V becomes very noisy when V is small."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/screens"
+   ],
+   "type": "recall",
+   "question_md": "How does a luciferase read-out count living tumour cells, why are T cells in the same well not counted, and name two causes of a lower signal other than death.",
+   "answer_md": "Tumour cells stably express firefly luciferase, which oxidises luciferin using ATP and emits light; ATP and enzyme disappear quickly after death, so light ≈ living tumour cells. T cells have ATP but no luciferase gene. Other causes: knockdown throttles metabolism/ATP, or cells divide less (fewer cells without dying); also reduced luciferase expression."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/screens"
+   ],
+   "type": "recall",
+   "question_md": "What is Panc-1, and which typical PDAC mutations does it carry?",
+   "answer_md": "A human PDAC cell line established in 1975 (Lieber et al.) from a ductal carcinoma of a 56-year-old man. It carries KRAS G12D, TP53 R273H and a homozygous CDKN2A deletion (SMAD4 wild-type). The Beckhove group's PDAC immune-resistance screen used Panc-1 with tumour-infiltrating lymphocytes."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/screens"
+   ],
+   "type": "recall",
+   "question_md": "Name three limitations of a cell line as a model of a patient's tumour.",
+   "answer_md": "One patient's genotype (no inter-patient variation; replicates measure procedure, not tumours); drift with passage number and possible misidentification (needs STR authentication); 2D monolayer without stroma, matrix, 3D structure or immune context."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/screens"
+   ],
+   "type": "recall",
+   "question_md": "What does allogeneic versus autologous mean, and why does it matter when T cells and tumour cells come from different people?",
+   "answer_md": "Allogeneic = from another individual; autologous = from the same individual. With allogeneic T cells much of the killing is directed against the foreign HLA molecules regardless of peptide: strong and reproducible, but not the antigen-specific autologous recognition that matters therapeutically, so antigen-presentation mechanisms may behave differently."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/screens"
+   ],
+   "type": "recall",
+   "question_md": "Why do validation experiments use the supernatant of activated TILs and recombinant TNF-α or TRAIL instead of only living T cells?",
+   "answer_md": "The co-culture mixes all killing routes. Supernatant contains cytokines and soluble death ligands but no T cell, and single recombinant ligands isolate one death signal. A gene whose knockdown sensitises to these acts as a brake between death receptor and apoptosis rather than on recognition or contact, which turns a phenotype into a pathway hypothesis."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/screens"
+   ],
+   "type": "recall",
+   "question_md": "Outline the stages by which a screen hit is validated on the way towards the clinic, and what a failure at the organoid stage might mean.",
+   "answer_md": "Single-gene knockdowns (several siRNAs, mechanism with isolated death signals) → mouse models → patient-derived organoids → therapeutic constructs (e.g. CAR-T cells with the gene targeted or modified). Each step trades control for realism. Failure in an organoid may mean the effect was a cell-line artefact, or that the organoid lacks the stroma/immune context in which the gene acts."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/screens"
+   ],
+   "type": "recall",
+   "question_md": "Why is the hit list of a killing screen not a biomarker, and why would a missing survival association in TCGA-PAAD not refute the screen?",
+   "answer_md": "Five gaps at once: cell line vs tissue, intervention vs observation, causality vs correlation, hours vs years, cell number vs survival time; and patient data measure mRNA in a tissue mixture, not protein function in tumour cells. The list is a predefined gene set fixed without looking at survival. Survival in an operated cohort is dominated by recurrence, therapy and purity, which can hide a real effect."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/screens"
+   ],
+   "type": "recall",
+   "question_md": "What did Khandelwal et al. (2015, EMBO Molecular Medicine) introduce?",
+   "answer_md": "From Philipp Beckhove's group: a high-throughput arrayed RNAi screen in which tumour cells with one gene knocked down per well are co-cultured with cytotoxic T cells and compared with the same knockdown without T cells, to find tumour-cell molecules that act as immune checkpoints protecting against CTL killing — the methodological origin of the IRG concept."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/screens"
+   ],
+   "type": "mc",
+   "question_md": "Which statement about transfection versus transduction is correct?",
+   "options": [
+    {
+     "text_md": "Transfection introduces nucleic acids non-virally (e.g. lipid particles for siRNA); transduction uses a viral vector (e.g. lentivirus for shRNA)",
+     "correct": true
+    },
+    {
+     "text_md": "Transfection uses viruses, transduction uses lipids",
+     "correct": false
+    },
+    {
+     "text_md": "Both terms mean integrating DNA into the genome",
+     "correct": false
+    },
+    {
+     "text_md": "Transduction is only used for siRNA",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/screens"
+   ],
+   "type": "recall",
+   "question_md": "Why does the fixed layout of a commercial siRNA library bias a screen, and can repetition reveal it?",
+   "answer_md": "Libraries come sorted (alphabetically or by gene family), so gene identity and plate position are confounded; position effects (e.g. faster-drying last column) then hit the same genes every time. Repeating the screen with the same layout reproduces the bias; only modelling position effects or re-arranging plates helps."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/screens"
+   ],
+   "type": "recall",
+   "question_md": "Why is a single extreme well in a genome-wide screen more likely an artefact than a finding?",
+   "answer_md": "A screen reads the extremes of thousands of wells, and artefacts (pipetting errors, edge effects, off-targets, noise) collect in the tails, so the most extreme values are enriched for them. Hits need confirmation by independent siRNAs and validation."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/single-cell"
+   ],
+   "type": "recall",
+   "question_md": "What happens during tissue dissociation for scRNA-seq, and how does it bias PDAC single-cell data?",
+   "answer_md": "The tissue is digested enzymatically and mechanically into single cells. In PDAC the dense stroma needs vigorous digestion; fragile cells (e.g. acinar, some immune cells) die and fibroblasts are under-recovered, and warm digestion induces stress genes — so the cell composition differs from the real tissue before the first read."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/single-cell"
+   ],
+   "type": "recall",
+   "question_md": "How are cell types annotated in single-cell data, and give canonical markers for epithelial/ductal cells, acinar cells, T cells, macrophages and fibroblasts.",
+   "answer_md": "Clusters (not single cells) are assigned by canonical markers expressed almost only by one type, typically shown in a dot plot. Epithelial/ductal: EPCAM, KRT19, MUC1; acinar: PRSS1, CTRB2, CPA1; T cells: CD3D, CD3E; macrophages: CD68, C1QB; fibroblasts: COL1A1, LUM, DCN. Only known cell types can be found this way."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/single-cell"
+   ],
+   "type": "recall",
+   "question_md": "How can malignant ductal cells be told apart from normal ductal cells in single-cell data?",
+   "answer_md": "Both express epithelial markers. Malignant cells carry copy-number alterations, which tools like inferCNV or CopyKAT infer from expression averaged along chromosomes; mutant transcripts (e.g. KRAS) and patient-specific clustering also help — malignant cells cluster by patient, normal cells mix across patients."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/single-cell"
+   ],
+   "type": "recall",
+   "question_md": "Why do pooled single-cell data from several PDAC studies first cluster by patient, and what do integration methods assume?",
+   "answer_md": "Patient, surgery, protocol, chemistry and sequencer differ between data sets, and tumour cells additionally carry patient-specific copy-number profiles. Integration (Harmony, Seurat anchors, scVI) removes batch shifts assuming the same cell types occur in every batch and the shift is separable from biology — weakest for tumour cells, where over-correction can erase real differences."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/single-cell"
+   ],
+   "type": "recall",
+   "question_md": "A gene is detected in 12 % of malignant cells but 3 % of T cells with similar expression among expressing cells. Give two explanations that are not regulation, and the quantity that separates them.",
+   "answer_md": "1) Dropout: zeros are often missed molecules, and detection probability rises with expression and capture. 2) Depth: malignant cells have more RNA/UMIs per cell than small T cells, so more of their transcripts are captured. The UMI count (library size) per cell separates them."
+  },
+  {
+   "dirs": [
+    "comit/tp6/biology/single-cell"
+   ],
+   "type": "recall",
+   "question_md": "Why does single-cell data showing that an IRG is highest in malignant cells not settle the purity objection for bulk data gene by gene?",
+   "answer_md": "A cell type's contribution to a bulk value is its mean expression times its weight in the mixture. Tumour cells are only a fifth to a third of a PDAC sample, so a gene moderately expressed by abundant macrophages or fibroblasts can still contribute most of the bulk signal. Settling it needs the per-cell-type contribution, i.e. deconvolution of the bulk data gene by gene."
+  }
+ ]
+}

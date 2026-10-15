@@ -1,0 +1,1015 @@
+{
+ "dirs": [
+  "comit",
+  "comit/tp6",
+  "comit/tp6/statistics",
+  "comit/tp6/statistics/expression",
+  "comit/tp6/statistics/purity",
+  "comit/tp6/statistics/structure",
+  "comit/tp6/statistics/survival",
+  "comit/tp6/statistics/models",
+  "comit/tp6/statistics/validation"
+ ],
+ "dir_links": [],
+ "cards": [
+  {
+   "dirs": [
+    "comit/tp6/statistics/purity"
+   ],
+   "type": "recall",
+   "question_md": "Write down the mixture formula for the measured share of gene g in a bulk sample, with cell fractions f_k, RNA content per cell R_k and per-cell expression share e_gk. What is the weight of a cell type?",
+   "answer_md": "$$\\text{measured}_g = \\frac{\\sum_k f_k R_k e_{gk}}{\\sum_k f_k R_k}$$\nA bulk value is a weighted mean of the per-cell expression over the cell types. The weight of cell type $k$ is $f_k R_k$: cell fraction times RNA content per cell, not the cell number alone."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/purity"
+   ],
+   "type": "recall",
+   "question_md": "Worked mixture example (Statistics book): tumour cells carry twice the RNA of fibroblasts; gene T is tumour-only (2 ‰ of tumour RNA), gene F fibroblast-only (1 % of fibroblast RNA). Sample X has purity 0.6, sample Y 0.2. What TPM values result and what would a differential expression test conclude?",
+   "answer_md": "Weights $f_k R_k$: X = 1.2 (tumour) + 0.4 (fibroblast) = 1.6; Y = 0.4 + 0.8 = 1.2.\n- Gene T: X = 0.0024/1.6 × 10⁶ = **1500 TPM**, Y = 0.0008/1.2 × 10⁶ = **667 TPM**.\n- Gene F: X = 0.004/1.6 × 10⁶ = **2500 TPM**, Y = 0.008/1.2 × 10⁶ = **6667 TPM**.\nA DE test would call T down and F up in Y, although no single cell changed its expression: both changes are pure composition (purity)."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/purity"
+   ],
+   "type": "mc",
+   "question_md": "In the Statistics book's worked mixture example, from sample X (purity 0.6) to sample Y (purity 0.2), what happens to the tumour-only gene T?",
+   "options": [
+    {
+     "text_md": "It falls from 1500 to 667 TPM although every tumour cell expresses it as before",
+     "correct": true
+    },
+    {
+     "text_md": "It stays at 1500 TPM, because TPM corrects for cell composition",
+     "correct": false
+    },
+    {
+     "text_md": "It falls by exactly the purity ratio, from 1500 to 500 TPM",
+     "correct": false
+    },
+    {
+     "text_md": "It rises, because fewer tumour cells means more RNA per tumour cell",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/purity"
+   ],
+   "type": "recall",
+   "question_md": "Explain the 'survival signatures are mostly driven by tumour purity' problem in four steps.",
+   "answer_md": "1. A bulk value is a weighted mean over cell types, so identical tumour cells give different values if purity differs.\n2. Purity therefore confounds every tumour-cell gene (up with purity) and every stromal/immune gene (down).\n3. If purity relates to outcome (purer tumours larger, more aggressive, more basal-like), every tumour-cell gene looks prognostic and every stroma/immune score protective, even with no per-cell biology.\n4. Clusters of bulk profiles follow composition, so subtypes like \"immunogenic\", \"exocrine/ADEX\" or \"stroma\" can be purity or normal-tissue labels in disguise.\nIn PDAC purity is low and highly variable (desmoplastic stroma), so the effect is extreme; TCGA-PAAD found that after purity control only classical vs basal-like remains."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/purity"
+   ],
+   "type": "recall",
+   "question_md": "Why did the TCGA PAAD paper (Cancer Cell 2017) discover subtypes only in 76 of its 150 tumours?",
+   "answer_md": "Because mRNA, lncRNA, miRNA, protein (RPPA) and methylation analyses were heavily confounded by tumour purity. They split the 150 curated PDAC at the median ABSOLUTE purity, discovered classes unsupervised in the 76 high-purity tumours, and assigned the 74 low-purity tumours with supervised classifiers. Their Fig. 4 shows ADEX, immunogenic, exocrine-like and quasi-mesenchymal calls concentrated at low purity."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/purity"
+   ],
+   "type": "recall",
+   "question_md": "A two-class PDAC subtype is found; the poor-survival class has mean purity 0.28, the other 0.55. Name checks that separate a tumour-cell subtype from a purity label.",
+   "answer_md": "- Add an independent purity estimate (ABSOLUTE from DNA, or ESTIMATE) as a covariate and see if the subtype keeps its survival effect.\n- Repeat the clustering in a high-purity subset or in a microdissected cohort (e.g. PACA-CA) and see if the classes reappear.\n- Deconvolve or virtually microdissect and recluster on the tumour component.\n- Check whether the class-defining genes are stromal/immune/acinar markers.\nIf both classes had the same purity distribution and still differed in survival, the difference could not be a purity artefact."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/purity"
+   ],
+   "type": "recall",
+   "question_md": "Contrast ABSOLUTE and ESTIMATE as purity estimates.",
+   "answer_md": "- ABSOLUTE (Carter et al. 2012): from DNA copy number and mutation allele fractions; fits purity and ploidy to the discrete copy levels; independent of the expression signal; the TCGA reference.\n- ESTIMATE (Yoshihara et al. 2013): from expression; ssGSEA of a stromal and an immune gene set, summed, converted to purity by a formula calibrated against ABSOLUTE; easy for any expression data, but not independent of expression signatures sharing stroma/immune genes, and its absolute level is platform-dependent."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/purity"
+   ],
+   "type": "text",
+   "question_md": "What does the acronym ESTIMATE stand for (purity method of Yoshihara et al. 2013)?",
+   "accepted_answers": [
+    "Estimation of STromal and Immune cells in MAlignant Tumours using Expression data",
+    "Estimation of Stromal and Immune cells in Malignant Tumors using Expression data",
+    "Estimation of stromal and immune cells in malignant tumours using expression data"
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/purity"
+   ],
+   "type": "recall",
+   "question_md": "What does MCP-counter output, and why can its scores be compared between samples but not between cell populations?",
+   "answer_md": "For eight immune and two stromal populations (T cells, CD8 T cells, cytotoxic lymphocytes, NK, B lineage, monocytic lineage, myeloid DCs, neutrophils, endothelial cells, fibroblasts) it gives an abundance score: the mean log expression of markers specific to that population. Within a population, higher means more cells. Between populations the markers differ in baseline expression, so the scores are not on a common scale, and none is a fraction."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/purity"
+   ],
+   "type": "recall",
+   "question_md": "What can cell-type deconvolution of bulk data estimate, and what can it not recover?",
+   "answer_md": "It estimates the cell-type weights $f_k R_k$ (or scores that rise with them) from markers (ESTIMATE, MCP-counter), reference-profile regression (CIBERSORT, EPIC, BayesPrism) or factorisation with references (virtual microdissection, ADVOCATE). It cannot in general recover the per-cell expression $e_{gk}$ of a gene in the tumour cells, and every method inherits the assumptions of its reference profiles."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/purity"
+   ],
+   "type": "recall",
+   "question_md": "How did Moffitt et al. 2015 tell which NMF component belongs to tumour cells (virtual microdissection)?",
+   "answer_md": "They factorised bulk PDAC together with reference samples of known composition: cell lines (only tumour cells), normal pancreas (no tumour cells) and metastases (different surrounding tissue). A component high in cell lines and low in normal tissue is tumour; one dominating normal pancreas is admixed normal tissue (set aside); the rest is stroma. Clustering the tumour component gave classical vs basal-like, the stroma component normal vs activated stroma."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/purity"
+   ],
+   "type": "recall",
+   "question_md": "What does Maurer et al. 2019 Fig. 2D show about basal-like tumours in TCGA?",
+   "answer_md": "In bulk TCGA profiles, basal-like tumours had a significantly higher inferred epithelial fraction than classical ones (p ≈ 4 × 10⁻⁶). After ADVOCATE virtual microdissection (\"virtual epithelium\") the difference disappeared (p ≈ 0.3): in bulk, part of the subtype call reflected composition. Removing stromal signal also strengthened the survival association of classical vs basal-like."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/purity"
+   ],
+   "type": "recall",
+   "question_md": "What is a confounder, and how does one adjust for it in a survival analysis?",
+   "answer_md": "A variable that influences both the predictor and the outcome, creating or hiding an association between them (in bulk PDAC: purity, batch/platform, stage, treatment, proliferation). Adjust by adding it as a covariate in the Cox model, by stratifying on it, or by restricting the analysis to a subgroup in which it barely varies."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/purity"
+   ],
+   "type": "recall",
+   "question_md": "Why do pathology estimates of tumour cellularity and ABSOLUTE purity disagree?",
+   "answer_md": "The pathologist counts tumour nuclei or area on an adjacent H&E section, which is not the sequenced piece, and estimates vary between observers; ABSOLUTE infers the tumour-DNA fraction from copy-number levels of the sequenced material itself. TCGA PAAD compared pathology review, ABSOLUTE and methylation estimates (2017, Fig. 4A) and found the pathology values markedly lower."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/purity"
+   ],
+   "type": "recall",
+   "question_md": "Why is tumour purity a bigger problem in PDAC than in most other carcinomas?",
+   "answer_md": "PDAC has an extreme desmoplastic stroma (fibroblasts, extracellular matrix, immune cells) that often takes up more volume than the cancer cells, plus admixed normal pancreas with highly expressed acinar enzymes. Purity is therefore low and varies strongly between samples, so composition dominates the variance of bulk profiles."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/expression"
+   ],
+   "type": "recall",
+   "question_md": "Do tests for differential expression need raw counts, or is a t-test of log-CPM values enough?",
+   "answer_md": "It depends on the number of samples. Raw counts show how precisely a gene was measured (3 reads imprecise, 3000 precise); CPM alone hides that, but CPM plus the library size recovers it. Count models (negative binomial in edgeR/DESeq2) share a mean-variance trend across genes, which matters with 3-4 samples per group. limma-voom works on log-CPM and turns the trend into precision weights. With many samples per group (e.g. 100 vs 100), a Welch t-test or Wilcoxon test of log2(CPM + 1) per gene, with TMM-corrected library sizes, low-count genes filtered and BH correction, is adequate; in large heterogeneous cohorts the Wilcoxon test controls the FDR better than DESeq2/edgeR (Li et al. 2022, Genome Biology). Covariates such as batch or purity need a linear model (limma)."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/expression"
+   ],
+   "type": "recall",
+   "question_md": "Give three reasons for analysing expression on the log2(x + 1) scale.",
+   "answer_md": "1. Values span 5–6 orders of magnitude; on the linear scale a few extreme genes dominate every distance, PCA and clustering.\n2. Biological effects are ratios; the log turns them into differences, which means and linear models use (one log2 unit = a doubling).\n3. It largely removes the dependence of the variance on the mean for values that are not too small.\nThe +1 avoids log(0)."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/expression"
+   ],
+   "type": "mc",
+   "question_md": "A Cox model was trained on log2(FPKM + 1). Can its coefficients be applied to log2(TPM + 1) values of a new cohort?",
+   "options": [
+    {
+     "text_md": "No: a model is valid only on the scale it was trained on",
+     "correct": true
+    },
+    {
+     "text_md": "Yes: TPM and FPKM are both length-normalised, so the coefficients transfer",
+     "correct": false
+    },
+    {
+     "text_md": "Yes, as long as the new cohort is z-scored first",
+     "correct": false
+    },
+    {
+     "text_md": "Only if the new cohort was sequenced on the same instrument",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/expression"
+   ],
+   "type": "recall",
+   "question_md": "Why is CPM sufficient for a Cox model that compares patients gene by gene, while a within-sample rule like 'gene A higher than gene B' needs TPM or FPKM?",
+   "answer_md": "On the log scale, length normalisation subtracts log(gene length), a constant per gene that is the same for every patient. In a Cox model a constant shift of a covariate shifts every linear predictor equally and cancels in the partial likelihood (exactly for log x, approximately with the +1). A within-sample rule compares two different genes, whose lengths differ, so without length correction the longer gene has an artificial advantage."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/expression"
+   ],
+   "type": "recall",
+   "question_md": "Which normalisation problem do TMM and DESeq2's median-of-ratios address that CPM, TPM and FPKM do not, and why is the pancreas an extreme case?",
+   "answer_md": "Library composition: if a few genes absorb a large share of all reads, every other gene looks lower although it is not transcribed less. TMM and median-of-ratios estimate a scaling factor per sample while ignoring extreme genes (assuming most genes are not differentially expressed). The pancreas is extreme because acinar digestive-enzyme transcripts can dominate a sample that contains normal tissue."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/expression"
+   ],
+   "type": "recall",
+   "question_md": "Gene C has 100 reads in sample 1 (library 1000 reads) and 100 reads in sample 2 (library 2000 reads). What are its CPM values and why?",
+   "answer_md": "Sample 1: 100/1000 × 10⁶ = 100 000 CPM; sample 2: 100/2000 × 10⁶ = 50 000 CPM. The CPM halves because sample 2 was sequenced twice as deeply: the same count is a smaller share of a larger library."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/expression"
+   ],
+   "type": "recall",
+   "question_md": "Which normalisation levels add up to 10⁶ in every sample, and why are FPKM values of two samples strictly not comparable?",
+   "answer_md": "CPM and TPM sum to 10⁶ per sample. FPKM divides by the library size $N$ but its values are $c_g/\\ell_g$-type quantities whose sum depends on how many reads fall on long vs short genes, so the FPKM values of two samples refer to different totals (Wagner et al. 2012). TPM fixes this by dividing by the sum of the length-corrected values."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/expression"
+   ],
+   "type": "recall",
+   "question_md": "Why is an unexpressed gene dangerous in a prognostic model, and under which condition may an expression filter be applied to the whole cohort before cross-validation?",
+   "answer_md": "A gene that is zero in nearly all patients and slightly positive in a few acts like an indicator for those few; if two of them die early it gets a large HR and small p-value from a single misassigned fragment. A filter may run once on the whole cohort if it uses no outcome and no fitted parameter (e.g. log2 expression > 1 in ≥ 20 % of patients): the same gene list would result if survival times were permuted."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/expression"
+   ],
+   "type": "recall",
+   "question_md": "A pipeline z-scores every gene over the whole cohort and only then splits into training and test sets. What is wrong, and why is a z-scored model hard to apply to one new patient?",
+   "answer_md": "Mean and SD are parameters fitted to the data; computing them on the whole cohort lets the test patients shape the scaling of their own predictors (leakage). They must come from the training data and be applied unchanged to the test data. A model on z-scores is cohort-level: a single new patient has no z-score unless the training means and SDs are stored and the patient is on the same scale/platform."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/expression"
+   ],
+   "type": "recall",
+   "question_md": "What information survives a change of platform (array → RNA-seq), and which kind of classifier exploits it?",
+   "answer_md": "The order of genes within a sample: if gene A is higher than gene B in a tissue, this holds on the array and in RNA-seq, on linear and log scale, in FPKM and TPM, because the transformations are monotone within the sample. Rank-based single-sample rules, such as top-scoring pairs (k-TSP; PurIST), use only this and need no normalisation across samples."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/expression"
+   ],
+   "type": "recall",
+   "question_md": "Cohort 1 was sequenced and all its patients got a new therapy; cohort 2 was measured on arrays and nobody got the therapy. Why can no batch correction separate platform and therapy effect?",
+   "answer_md": "Batch (platform) and biology (therapy) are completely confounded: every difference between the cohorts can be either. Batch correction estimates per-gene shifts per batch and needs the groups of interest spread over batches. Still possible: within-cohort analyses (e.g. prognostic models validated within each cohort) and rank-based within-sample comparisons that do not compare levels across cohorts."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/expression"
+   ],
+   "type": "recall",
+   "question_md": "Name three pitfalls when mapping a matrix indexed by Ensembl IDs to a gene list written in HGNC symbols.",
+   "answer_md": "1. Version suffixes (ENSG….5) must be stripped before mapping.\n2. Several IDs share one symbol (copies of small RNAs, pseudogenes): collapse with a documented rule, e.g. keep the ID with the highest mean expression or sum them.\n3. Old gene lists use outdated symbols that an exact match silently drops; use the HGNC previous-symbol table."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "type": "recall",
+   "question_md": "You cluster 60 samples of pure Gaussian noise into k = 2 groups and test 500 genes between the clusters. What do you find, and what is the lesson for subtype papers?",
+   "answer_md": "You get two clusters and far more 'significant' genes than the ~5 % expected, because the clusters were built to separate the samples on these genes (circular testing); a second noise draw gives an unrelated labelling. Lesson: a clustering always produces clusters; a subtype counts only if it replicates in an independent cohort/platform, relates to something that did not enter the clustering, has a mechanism and reflects tumour cells rather than the mixture."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "type": "recall",
+   "question_md": "What does consensus clustering measure, and what does it not measure?",
+   "answer_md": "It measures how stable a partition is when the samples are resampled (consensus matrix: how often each pair falls together over ~80 % subsamples) and helps choose k. It does not measure whether the partition is right: samples on a continuum cut at the same place in most subsamples give clean blocks and a plausible k (Şenbabaoğlu et al. 2014). It is known to be optimistic."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "type": "recall",
+   "question_md": "Why does a column of W in an NMF read as a gene programme while a principal component does not?",
+   "answer_md": "NMF factors are non-negative, so every sample is a sum of metagenes with non-negative weights, nothing is subtracted, which matches the physics of a bulk sample (a sum of cell-type contributions); a metagene with high weights on coherent genes reads as a programme (cell cycle, fibroblasts). PCA gives orthogonal axes with positive and negative loadings that separate samples well but cannot be read as additive parts. (Centring genes beforehand would create negative values and break NMF.)"
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "type": "recall",
+   "question_md": "How is the NMF rank k usually chosen, and why is it still a decision?",
+   "answer_md": "Run NMF many times from random starts, assign each sample to its dominant component per run, build a consensus matrix and compute its cophenetic correlation; take the largest k before the cophenetic correlation drops (Brunet et al. 2004). This is a stability criterion with the same optimism as consensus clustering, so k remains a choice of the analyst."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "type": "mc",
+   "question_md": "Which PDAC models or classifications are based on independent component analysis?",
+   "options": [
+    {
+     "text_md": "Puleo 2018 and PAMG (Nicolle 2020)",
+     "correct": true
+    },
+    {
+     "text_md": "Moffitt 2015 and Bailey 2016",
+     "correct": false
+    },
+    {
+     "text_md": "PurIST and IRGPI",
+     "correct": false
+    },
+    {
+     "text_md": "Collisson 2011 and TCGA 2017",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "type": "recall",
+   "question_md": "What distinguishes ICA from PCA and NMF?",
+   "answer_md": "ICA finds components that are statistically independent (maximally non-Gaussian), assuming the profiles are linear mixtures of independent sources (cocktail-party problem). PCA finds orthogonal axes ordered by variance; NMF finds non-negative additive parts. ICA components are not ordered by variance and may have negative weights."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "type": "recall",
+   "question_md": "Why does a top-scoring-pair classifier need no normalisation across samples, and what is its price?",
+   "answer_md": "Each rule only asks whether gene A is higher than gene B within the same sample, so any monotone transformation of the sample (depth, platform, log or not) leaves the call unchanged and no reference cohort is needed: a single-sample, platform-transferable classifier. Price: a few pairs carry the whole decision, and a pair of lowly expressed genes can flip by noise."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "type": "text",
+   "question_md": "Which published PDAC classifier is built from top-scoring gene pairs?",
+   "accepted_answers": [
+    "PurIST",
+    "Purity Independent Subtyping of Tumors",
+    "PurIST (Rashid 2020)"
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "type": "recall",
+   "question_md": "Classify as single-sample or cohort-level: GSVA, ssGSEA, consensus clustering, k-TSP, a median split, a frozen LASSO-Cox on log2(CPM + 1) with stored weights.",
+   "answer_md": "- Cohort-level: GSVA (genes transformed across samples first), consensus clustering, median split (median of the cohort).\n- Single-sample: ssGSEA (ranks within the sample), k-TSP (within-sample gene order), the frozen LASSO-Cox on an absolute scale (a sample gets the same score alone as in a cohort). A single-sample score can still need cross-cohort calibration for a fixed threshold."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "type": "recall",
+   "question_md": "Why does the call of a centroid classifier depend on the cohort, unlike a top-scoring-pair classifier?",
+   "answer_md": "Centroids live on the training cohort's centred and scaled scale. A new sample centred with its own cohort gets a position that depends on that cohort's composition (e.g. 90 % of one class shifts the mean); centred with the training means it requires the same platform. A TSP rule compares two genes inside the sample and needs neither."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "type": "recall",
+   "question_md": "Two gene-set scores (say a T-cell set and a fibroblast set) correlate strongly across bulk PDAC samples. Is this evidence that the two programmes are linked?",
+   "answer_md": "No. Both sets are non-tumour compartments; in low-purity samples both score high, in pure samples both low, so they correlate through the mixture even if the programmes are biologically unrelated. A correlation between scores in bulk data is first of all a statement about composition."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "type": "recall",
+   "question_md": "What is a gene programme (metagene), and how does it relate to a subtype label?",
+   "answer_md": "A coherent set of co-varying genes (cell cycle, fibroblast programme, classical or basal-like tumour programme) that every sample carries to some degree; in NMF a column of W, with the sample weights in H. A subtype discretises programmes: a sample is called classical when the classical programme dominates, although almost every sample carries both, so two samples with the same label can be far apart in programme space."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "type": "recall",
+   "question_md": "ssGSEA vs GSVA: which is single-sample and why?",
+   "answer_md": "ssGSEA ranks all genes within one sample and compares the cumulative distribution of set genes with the rest, so it is single-sample and rank-based. GSVA first transforms each gene across the whole cohort into a rank-like value, so a sample's score changes when the cohort changes: cohort-level."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "type": "recall",
+   "question_md": "Two tumours are both called basal-like in bulk data. Describe two ways their tumour cells can differ, and which measurement tells them apart.",
+   "answer_md": "(1) All tumour cells are uniformly in an intermediate or basal-like state, or (2) the tumour is a mix of classical and basal-like cells whose sum looks basal-like; also the stroma/purity can differ. Single-cell RNA-seq (or spatial transcriptomics) measures individual cells and separates these cases; bulk data average over all cells and cannot."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "type": "recall",
+   "question_md": "List the four (plus one) steps of the usual molecular subtyping pipeline.",
+   "answer_md": "1. Select highly variable genes. 2. Cluster the samples (consensus clustering/NMF). 3. Name the clusters by enriched genes. 4. Associate clusters with survival, response or mutations (not used in the clustering). 5. Build a classifier (centroids, k-TSP) so new samples can be assigned without re-clustering."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/structure"
+   ],
+   "type": "recall",
+   "question_md": "Euclidean vs correlation distance between two samples: what does each compare, and what happens after centring and scaling every gene across the cohort?",
+   "answer_md": "Euclidean compares values gene by gene and is dominated by genes with large differences; correlation distance (1 − r) ignores level and scale and compares only the pattern. After per-gene centring and scaling the squared Euclidean distance is (approximately) proportional to 1 − r, so both order pairs the same way, but every sample's position now depends on the cohort mean."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "type": "recall",
+   "question_md": "Patient B moved away after 7 months, alive. Why is it wrong to drop B or to count B as a death at 7 months, and what do the three treatments give for S(15) in the six-patient example?",
+   "answer_md": "Dropping removes patients who are known to have lived at least 7 months (biases survival down, selects against short follow-up); counting as death claims an event that did not happen. Both make the curve fall too fast: dropping B gives 0.400, death at 7 gives 0.333, correct Kaplan-Meier (B leaves the risk set) gives 0.417."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "type": "recall",
+   "question_md": "Why should survival not be turned into 'alive at two years: yes/no'?",
+   "answer_md": "Patients censored before two years have no two-year status: assigning one claims something unknown, dropping them is selection bias against short follow-up. And information is lost: dying at 4 and at 15 months both become 'dead within two years', although that difference is exactly what a model should predict."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "type": "recall",
+   "question_md": "Write the Kaplan-Meier estimator and explain the risk set.",
+   "answer_md": "$$\\hat S(t) = \\prod_{t_i \\le t} \\left(1 - \\frac{d_i}{n_i}\\right)$$\n$d_i$ = events at event time $t_i$, $n_i$ = patients still under observation just before $t_i$ (the risk set). A censored patient belongs to the risk set while observed and then leaves it without being counted as event or non-event; the curve only steps at event times."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "type": "recall",
+   "question_md": "Six patients: A died 4, B censored 7, C died 10, D died 15, E censored 30, F censored 36 months. Compute the Kaplan-Meier curve.",
+   "answer_md": "- 4 months: 6 at risk, 1 death → 5/6 = 0.833\n- 7: B censored, curve stays 0.833, risk set 4\n- 10: 4 at risk, 1 death → 0.833 × 3/4 = 0.625\n- 15: 3 at risk, 1 death → 0.625 × 2/3 = 0.417\n- 30, 36: censored, curve stays 0.417; median survival 15 months."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "type": "recall",
+   "question_md": "What does the log-rank test test, and what does it not tell you?",
+   "answer_md": "It tests whether two (or more) survival curves are the same, summing over event times the observed minus expected events per group under equal risk. It says nothing about how far apart the curves are or how well a score predicts; its p-value shrinks with more patients and events."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "type": "recall",
+   "question_md": "Write the Cox model and say what the baseline hazard and exp(β) mean.",
+   "answer_md": "$$h(t \\mid x) = h_0(t)\\,\\exp(\\beta^\\top x)$$\n$h_0(t)$ is the baseline hazard of a reference patient (x = 0), left unspecified and not estimated by the partial likelihood. $\\exp(\\beta_j)$ is the hazard ratio per unit increase of feature $j$ with the others fixed (HR 2 = doubled instantaneous risk at every time)."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "type": "recall",
+   "question_md": "How do censored patients enter the Cox partial likelihood?",
+   "answer_md": "At each event time the factor is the probability that exactly the patient who had the event is the one, out of the current risk set: $\\exp(\\beta^\\top x_i)/\\sum_{j \\in R(t_i)} \\exp(\\beta^\\top x_j)$. Censored patients appear in the denominators of all risk sets while they are observed (patient B only in the first one, at 4 months) and never in a numerator. The baseline hazard cancels, so no assumption about its shape is needed."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "type": "mc",
+   "question_md": "A Cox model gives a patient a risk score of 2.1. What does that mean?",
+   "options": [
+    {
+     "text_md": "Only that the patient ranks above patients with lower scores; without a baseline hazard it is no time or probability",
+     "correct": true
+    },
+    {
+     "text_md": "The patient is expected to die within 2.1 years",
+     "correct": false
+    },
+    {
+     "text_md": "The patient's probability of death is 21 %",
+     "correct": false
+    },
+    {
+     "text_md": "The patient's hazard is 2.1 times that of an average patient",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "type": "recall",
+   "question_md": "What is the proportional hazards assumption, how is it checked, and when does a violation matter?",
+   "answer_md": "The hazard ratio between two patients is constant over time. It is checked with scaled Schoenfeld residuals against time (Grambsch & Therneau 1994, `cox.zph`). A violation (e.g. an effect only in the first year) matters when the HR is read as an effect size; less when the model only ranks patients. Remedies: stratification, time interactions, landmark AUCs."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "type": "text",
+   "question_md": "Write the R formula for a Cox model of a score x with a separate baseline hazard per cohort.",
+   "accepted_answers": [
+    "coxph(Surv(time, event) ~ x + strata(cohort))",
+    "Surv(time, event) ~ x + strata(cohort)",
+    "coxph(Surv(time,event) ~ x + strata(cohort))",
+    "Surv(time,event) ~ x + strata(cohort)"
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "type": "recall",
+   "question_md": "A gene is reported with a hazard ratio of 1.02. Why is this uninterpretable, and what makes HRs comparable?",
+   "answer_md": "The HR is per unit of the covariate, and the unit is unknown (raw, log2, a multi-gene score): the same effect gives very different HRs on different scales. Reporting the HR per standard deviation of the score (standardised in the training data, or within cohort for description) puts different scores on a common footing."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "type": "recall",
+   "question_md": "Define Harrell's C-index: which pairs are comparable, which concordant, how are ties counted?",
+   "answer_md": "Comparable: pairs in which the patient with the shorter observed time had an event (if that patient is censored, the order is unknown). Concordant: the patient who died first has the higher risk score. A tie in the score counts 0.5. C = (concordant + 0.5 × tied) / comparable; 0.5 is chance, 1 perfect."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "type": "text",
+   "question_md": "In the six-patient example 10 of 15 pairs are comparable, 6 concordant, 3 discordant, 1 tied. What is the C-index?",
+   "accepted_answers": [
+    "0.65",
+    ".65",
+    "0,65",
+    "65%",
+    "65 %"
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "type": "mc",
+   "question_md": "Which C-index range do published PDAC expression signatures typically reach on unseen patients?",
+   "options": [
+    {
+     "text_md": "About 0.55 to 0.70",
+     "correct": true
+    },
+    {
+     "text_md": "About 0.75 to 0.85",
+     "correct": false
+    },
+    {
+     "text_md": "About 0.85 to 0.95",
+     "correct": false
+    },
+    {
+     "text_md": "Below 0.5, because PDAC survival is unpredictable",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "type": "recall",
+   "question_md": "What does a C-index of 0.60 mean in words, and what does the C-index ignore?",
+   "answer_md": "In 60 of 100 comparable patient pairs the model orders the patients correctly, in 40 it gets the order wrong. It measures discrimination only; it ignores calibration (whether the predicted risk levels are right), so a model with systematically wrong risk levels can have a perfect C-index."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "type": "recall",
+   "question_md": "Why can the time-dependent AUC at two years and Harrell's C-index disagree?",
+   "answer_md": "They rest on different pairs: the landmark AUC compares patients who died before two years (cases) with those observed beyond two years (controls), while the C-index also counts pairs of two early deaths. A score that orders early deaths well but separates them poorly from long-term survivors has a good C-index and a mediocre AUC, and vice versa; the AUC is tied to its landmark, the C-index averages over time."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "type": "recall",
+   "question_md": "A paper reports for its signature HR 3.4 and log-rank p < 10⁻⁶ from a median split, and nothing else. What is missing, and why are HR 3.4 and C-index 0.58 no contradiction?",
+   "answer_md": "Missing: discrimination (C-index or time-dependent AUC) on patients the model has never seen, plus comparisons with baselines. An HR can be large when a few extreme patients drive it while most pairs are ordered by chance (C near 0.5), and the p-value mostly reflects sample size; a median split on the training patients separates almost by construction."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "type": "recall",
+   "question_md": "Why is calibration usually lost more easily than discrimination in a new cohort?",
+   "answer_md": "Discrimination only needs the ordering of patients to hold; calibration needs the absolute risk level to match, which depends on the baseline hazard and the score level, both of which differ between cohorts (stage mix, treatment, follow-up, scale shifts of the expression data). A Cox linear predictor without a reported baseline hazard cannot be checked for calibration at all."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "type": "recall",
+   "question_md": "How is median survival read off a Kaplan-Meier curve, and when is it 'not reached'?",
+   "answer_md": "It is the smallest time at which the curve reaches 0.5 or falls below it. If, because of heavy censoring or good prognosis, the curve stays above 0.5 until the end of follow-up, the median is not reached and only a lower bound can be reported."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/survival"
+   ],
+   "type": "recall",
+   "question_md": "Why does a Cox model fitted by partial likelihood give only a ranking, and what is needed for survival probabilities?",
+   "answer_md": "The partial likelihood never estimates the baseline hazard $h_0(t)$; it only uses the relative risks within risk sets. The linear predictor therefore orders patients but has no absolute meaning. A survival probability $S(t\\mid x)$ needs a separately estimated baseline hazard (e.g. Breslow), which depends on the cohort and is rarely reported."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "type": "mc",
+   "question_md": "A marker is associated with shorter survival both in patients who received a drug and in those who did not, with the same hazard ratio. The marker is …",
+   "options": [
+    {
+     "text_md": "prognostic, not predictive",
+     "correct": true
+    },
+    {
+     "text_md": "predictive, not prognostic",
+     "correct": false
+    },
+    {
+     "text_md": "both prognostic and predictive",
+     "correct": false
+    },
+    {
+     "text_md": "neither",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "type": "recall",
+   "question_md": "A paper publishes 45 genes that 'separate patients into two risk groups'. What is missing before you can score a new patient?",
+   "answer_md": "The weights (coefficients) and the full rule: expression unit and transformation (e.g. log2 TPM + 1), normalisation, the standardisation parameters (training means/SDs), and the threshold (if fixed) on the original scale; ideally the baseline hazard for probabilities. A list alone predicts nothing."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "type": "recall",
+   "question_md": "What is the one advantage of a gene list from a functional screen over a list from a univariate survival screen, and what destroys it?",
+   "answer_md": "It was fixed without looking at the survival data, so it can stand outside the cross-validation and its performance on the cohort is not inflated by selection. Running a univariate survival screen on its genes (or selecting genes by survival in any way on the evaluation data) destroys this advantage."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "type": "recall",
+   "question_md": "You test 1500 genes, none truly prognostic, each with a univariate Cox model at p < 0.05. How many pass on average, and what happens if you build a LASSO model from them and evaluate it in the same cohort?",
+   "answer_md": "About 75 (5 % of 1500) pass by chance. LASSO easily finds a combination of them that separates the same patients well, so the reported performance describes the training data while looking like a test. The screen must run inside each training fold (Ambroise & McLachlan 2002: pre-selection gave low error rates even with permuted labels)."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "type": "recall",
+   "question_md": "Describe the Benjamini-Hochberg procedure and contrast FDR with Bonferroni.",
+   "answer_md": "Sort the $m$ p-values; find the largest $i$ with $p_{(i)} \\le (i/m)\\,q$; call all genes up to rank $i$ significant. Among them a fraction $q$ is expected to be false (FDR). Bonferroni ($p < \\alpha/m$) controls the chance of even one false positive (FWER) and is much stricter; FDR suits screens whose hits are checked further, not lists that go straight into a model."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "type": "text",
+   "question_md": "With 1500 tested genes, what p-value threshold does a Bonferroni correction at α = 0.05 require?",
+   "accepted_answers": [
+    "0.05/1500",
+    "3.3e-5",
+    "3.3 × 10⁻⁵",
+    "0.0000333",
+    "3.33e-5",
+    "3.3*10^-5"
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "type": "recall",
+   "question_md": "A cohort of 150 PDAC patients has 90 deaths. How many candidate variables does the 'events per variable' rule of thumb support for an unpenalised Cox model, and under which condition?",
+   "answer_md": "About nine (ten events per variable), and only if the variables were fixed before the outcome was seen. A list of 50 candidate genes gives far more freedom than the data constrain, hence penalisation and strict out-of-sample validation."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "type": "recall",
+   "question_md": "Write the LASSO-Cox objective and explain why it selects genes.",
+   "answer_md": "Maximise $\\ell(\\beta) - \\lambda \\sum_g |\\beta_g|$, the log partial likelihood minus an L1 penalty. The L1 penalty's corner at zero sets many coefficients exactly to zero, so the model fits and selects genes in one step; larger $\\lambda$ means fewer genes, $\\lambda = 0$ the unpenalised fit."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "type": "recall",
+   "question_md": "Why is the gene list of a LASSO-Cox fit not a stable statement about which genes matter?",
+   "answer_md": "Among strongly correlated genes the LASSO picks one, and which one depends on small differences in the training data; across cross-validation folds the selected genes change. The coefficients are also conditional on each other. A published list is therefore a description of one training set; stability needs resampling (selection frequencies) or ridge/elastic net."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "type": "recall",
+   "question_md": "In a cross-validation fold the inner CV chooses a λ at which every LASSO coefficient is zero. What C-index does that fold get, and why does it matter?",
+   "answer_md": "The risk score is constant, so the C-index is 0.5 by definition (all pairs tied). Such folds pull the mean toward chance without showing up as missing values; report the number of genes per fold alongside the C-index."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "type": "recall",
+   "question_md": "What are lambda.min and lambda.1se in cv.glmnet?",
+   "answer_md": "lambda.min: the penalty with the best cross-validated partial likelihood (deviance). lambda.1se: the largest penalty (sparsest model) whose CV value is within one standard error of the minimum. Both are hyperparameter choices that use the outcome, so in an outer validation the inner CV must run inside the training fold."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "type": "recall",
+   "question_md": "LASSO vs ridge vs elastic net: what does each penalty do with correlated genes?",
+   "answer_md": "LASSO (L1) picks one of a correlated group and zeroes the rest; ridge (L2) shrinks all and keeps all, spreading weight across the group (more stable, no list); elastic net mixes both (glmnet's α between 0 = ridge and 1 = LASSO) and tends to let correlated genes enter together."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "type": "recall",
+   "question_md": "How does a random survival forest grow its trees and compute a patient's risk score?",
+   "answer_md": "Each tree is grown on a bootstrap sample; at each node a random subset of mtry genes is offered and the split with the largest log-rank statistic between daughter nodes is chosen, until nodes reach the minimum size. Terminal nodes hold a Nelson-Aalen cumulative hazard. A new patient's ensemble cumulative hazard is the average over the nodes it lands in; summed over the training event times it gives the risk score (\"mortality\")."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "type": "recall",
+   "question_md": "Why does every cell of a 'gene lists × learners' grid use exactly the same training/test splits?",
+   "answer_md": "So the comparisons are paired: within a learner the gene list is the only difference, within a list the learner is. Shared splits remove the split-to-split noise from the differences, which is otherwise as large as the differences one wants to detect."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "type": "recall",
+   "question_md": "What is a zero-sum signature, and which shifts cancel out of it?",
+   "answer_md": "A linear score whose coefficients sum to zero. On the log scale, a shift that adds the same constant c to all genes of a sample (sequencing depth, normalisation reference, global platform offset) changes the score by $c\\sum\\beta = 0$. Shifts that affect genes unequally (purity raising tumour genes and lowering stroma genes) do not cancel. Zero-sum regression imposes the constraint (Altenbuchinger et al. 2017, Spang group, Regensburg)."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "type": "recall",
+   "question_md": "How is a gene-pair rule like PurIST a special case of a zero-sum score?",
+   "answer_md": "On the log scale 'A higher than B' is the sign of log A − log B, a linear score with weights +1 and −1 that sum to zero. A whole-profile shift of the sample adds the same constant to both and cancels. A zero-sum signature generalises this to a weighted log-ratio of many genes."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "type": "recall",
+   "question_md": "Why does an unweighted mean of z-scored genes fail as a score for a gene list from a functional screen?",
+   "answer_md": "It assumes all genes act in the same direction. A screen list contains genes whose knockdown changed the phenotype for different reasons and in both directions, so their contributions partly cancel and the mean ends up measuring whatever dominates the variance of the set, in bulk tumours usually tumour purity. A signed sum with externally fixed signs avoids this without using survival."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "type": "recall",
+   "question_md": "What does dichotomising continuous predictors (point scores, median splits) cost?",
+   "answer_md": "Information: a median split costs about as much as discarding a third of the sample (Royston, Altman & Sauerbrei 2006); optimal cut-points inflate effects and shrink p-values; and median cut-points are properties of the training cohort, so a new cohort with another distribution needs a new median and the model is no longer frozen."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/models"
+   ],
+   "type": "recall",
+   "question_md": "Why is the clinical baseline an unusually weak opponent in TCGA-PAAD?",
+   "answer_md": "TCGA-PAAD consists almost only of resected patients in a narrow stage range, so stage, grade and margin vary little and carry little prognostic information there. A gene model that beats the clinical baseline in TCGA-PAAD has achieved less than it sounds."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "type": "recall",
+   "question_md": "What is the optimism of a model, and which number is the only honest performance estimate?",
+   "answer_md": "Optimism = apparent performance (on the training data) minus performance on new patients; every fit has it because it fits noise. The only honest number is computed on patients the model has never seen: held-out folds (with the whole procedure inside the folds) or, better, an external cohort."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "type": "recall",
+   "question_md": "Which steps of a signature pipeline must run inside each training fold, and which may stay outside?",
+   "answer_md": "Inside: variance filters (top-k genes), standardisation (means/SDs), univariate survival screens, cut-points, hyperparameters (λ, mtry) via an inner loop, the model fit itself.\nOutside: outcome-free fixed filters (detection threshold), gene lists fixed before looking at survival, the stratified fold assignment, and the design decisions (which learners, lists, thresholds), which the CV does not evaluate."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "type": "recall",
+   "question_md": "A paper screens genes on the whole cohort, tunes the LASSO penalty on the same patients, reports a cross-validated C-index of 0.78 and an optimal cut-point at p < 10⁻⁸. What is wrong and how would you show the pipeline leaks?",
+   "answer_md": "Gene selection and tuning used the outcome of the test patients (leakage), the cut-point was optimised on the same data (minimum p-value), and HR/p-values are not performance. Show the leak by permuting survival times across patients and rerunning the whole pipeline: an honest pipeline gives an out-of-fold C-index around 0.5; this one will still report a high value."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "type": "recall",
+   "question_md": "What is nested resampling, and what does it still not evaluate?",
+   "answer_md": "An outer CV measures performance; inside each outer training fold an inner CV chooses the hyperparameter (e.g. λ), the model is refit on the whole outer training fold and predicts the outer test fold, which took part in nothing. It does not evaluate the analyst's decisions made after seeing outer results (which learners, lists, filters); only an untouched external cohort settles those."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "type": "recall",
+   "question_md": "Why are cross-validation folds stratified for the event, why is CV repeated, and why is the spread over repetitions not a confidence interval?",
+   "answer_md": "Stratification gives every fold a similar number of deaths, so fold C-indices are comparably reliable. Repetition averages out the randomness of a single split. The repetitions reuse the same patients with heavily overlapping training sets, so their spread measures split dependence, shrinks with more repetitions rather than more patients, and cannot be turned into a CI (no unbiased variance estimator for k-fold CV)."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "type": "mc",
+   "question_md": "What is the main weakness of leave-one-cohort-out validation with three training cohorts?",
+   "options": [
+    {
+     "text_md": "Only three folds, so each strategy's estimate rests on three noisy cohort-level C-indices",
+     "correct": true
+    },
+    {
+     "text_md": "It leaks the test cohort into training",
+     "correct": false
+    },
+    {
+     "text_md": "It cannot be combined with a Cox model",
+     "correct": false
+    },
+    {
+     "text_md": "It requires all cohorts to be on the same platform and batch-corrected",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "type": "recall",
+   "question_md": "What distinguishes external from internal validation, and what must be fixed before an external cohort is touched?",
+   "answer_md": "Internal validation (CV, bootstrap) estimates performance on new patients from the same cohort; external validation applies a finished model to a different cohort (other lab, platform, normalisation) and tests discrimination and calibration. Before touching it: genes, coefficients, preprocessing and scale, standardisation parameters, threshold and (for probabilities) baseline hazard, i.e. a frozen model."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "type": "recall",
+   "question_md": "A published signature is re-standardised in the validation cohort and split at that cohort's median. What can still be tested, and what weaker claim remains?",
+   "answer_md": "Only discrimination of the ordering; calibration cannot be tested and the published model (weights on the training scale with its threshold) is not what was validated. What remains is the weaker claim that ordering patients by this score is related to survival at all, not that the published model works on new patients."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "type": "recall",
+   "question_md": "Why can a median split never classify a single new patient, and what does single-sample classification need instead?",
+   "answer_md": "The median is a property of the evaluated cohort, computed after all its patients are measured. A single patient needs a threshold fixed in advance on the score's original scale, and that only works if the score's level means the same in every cohort (cross-cohort calibration), as for PurIST's basal-like probability of 0.5."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "type": "recall",
+   "question_md": "What is wrong with choosing the 'optimal' cut-point of a score by the smallest log-rank p-value?",
+   "answer_md": "The reported p-value is the minimum over many dependent tests and is not corrected (the false-positive rate can reach ~40 % at nominal 5 %, Altman et al. 1994); the HR is inflated; the cut-point is fitted to the outcome of the same patients and rarely replicates. If done at all, it belongs inside the training fold and must be applied unchanged to new patients."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "type": "recall",
+   "question_md": "Name the three requirements of an honest (out-of-fold) Kaplan-Meier plot of a risk score.",
+   "answer_md": "1. Each patient's risk comes from a model that did not see the patient (out-of-fold prediction).\n2. The cut-point is fixed in the training fold (e.g. median of training risks).\n3. It is applied unchanged to the test fold; the test groups are pooled into the curves.\nWith repetitions, average within-repetition ranks per patient before splitting, because fold models' linear predictors are on different scales."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "type": "recall",
+   "question_md": "Why does PurIST's fixed threshold call a similar share of patients basal-like in different cohorts, while a fixed threshold on a sum of log expression levels does not?",
+   "answer_md": "PurIST compares genes within the same sample, so shifts of the whole profile of a sample or cohort (depth, normalisation, platform offset) leave its calls unchanged. A sum of absolute log levels moves with every such shift (unless its weights cancel exactly, zero-sum), so the same cut-off lands at different quantiles in different cohorts; such a score needs cross-cohort calibration before single-sample use."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "type": "recall",
+   "question_md": "How is a paired bootstrap confidence interval for the C-index difference of two models computed, and why pair?",
+   "answer_md": "Draw patients with replacement (within each cohort) many times, e.g. 2000; on each resample compute both models' C-indices on the same patients and take their difference; the 2.5 % and 97.5 % percentiles give the 95 % interval. Pairing cancels the patient-to-patient variation both models share, so the interval for the difference is much narrower than one built from two separate intervals."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "type": "mc",
+   "question_md": "The 95 % paired-bootstrap interval of a C-index difference runs from −0.08 to +0.05. What can you conclude?",
+   "options": [
+    {
+     "text_md": "The data do not resolve the difference; the two models may be equal",
+     "correct": true
+    },
+    {
+     "text_md": "The new model is significantly worse",
+     "correct": false
+    },
+    {
+     "text_md": "The new model is significantly better",
+     "correct": false
+    },
+    {
+     "text_md": "The interval is invalid because it includes negative values",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "type": "recall",
+   "question_md": "How do you test whether a new score adds prognostic information to PurIST in two test cohorts?",
+   "answer_md": "Fit a Cox model with PurIST alone and one with PurIST plus the new score, both standardised within cohort and with a baseline hazard per cohort (strata); compare by a likelihood-ratio test: 2 × (difference in maximised log partial likelihood) ~ χ² with 1 df. A significant test and a clear HR per SD for the new score next to PurIST show independent information. Coefficients estimated on the test cohorts test added information but do not give a frozen combined predictor."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "type": "mc",
+   "question_md": "Can a new score add prognostic information to an established score without having a higher C-index?",
+   "options": [
+    {
+     "text_md": "Yes: added value asks whether it carries information the other lacks, not whether it ranks better alone",
+     "correct": true
+    },
+    {
+     "text_md": "No: added value requires a higher C-index",
+     "correct": false
+    },
+    {
+     "text_md": "Only if both scores are uncorrelated",
+     "correct": false
+    },
+    {
+     "text_md": "Only in randomised trials",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "type": "recall",
+   "question_md": "What did Venet et al. (2011) show about random gene signatures, and what is the PDAC analogue?",
+   "answer_md": "Most random gene sets of the size of published signatures were significantly associated with breast-cancer outcome, many as strongly as published ones, because a large share of the transcriptome correlates with proliferation, which is prognostic. In PDAC the analogous shared confounders are tumour purity (cell composition) and the classical/basal-like axis, so a curated list must beat random lists of the same size."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "type": "recall",
+   "question_md": "What sanity check reveals data leakage in a survival pipeline, and what result should it give?",
+   "answer_md": "Randomly permute the survival times and events across patients and run the whole pipeline again (filters, screens, tuning, fit). The out-of-fold C-index must scatter around 0.5; a clearly higher value means information from the outcome reaches the training."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "type": "recall",
+   "question_md": "Why is the Spearman correlation the natural choice for comparing risk scores of two different models on the same patients?",
+   "answer_md": "It correlates ranks, so it measures monotone agreement regardless of the scores' scales (a probability, a linear predictor, minus PAMG) and is unaffected by monotone transformations and outliers. A high Spearman correlation between a new score and PurIST means much of its signal is the classical/basal-like axis."
+  },
+  {
+   "dirs": [
+    "comit/tp6/statistics/validation"
+   ],
+   "type": "text",
+   "question_md": "What is TRIPOD?",
+   "accepted_answers": [
+    "Transparent Reporting of a multivariable prediction model for Individual Prognosis Or Diagnosis",
+    "transparent reporting of a multivariable prediction model for individual prognosis or diagnosis",
+    "a reporting guideline for prediction models"
+   ]
+  }
+ ]
+}

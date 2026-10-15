@@ -1,0 +1,608 @@
+{
+ "curriculum": "comit-tp6",
+ "title": {
+  "en": "CoMIT TP6 (PDAC)",
+  "de": "CoMIT TP6 (PDAC)"
+ },
+ "space": "concepts",
+ "root": "comit/tp6/course",
+ "stages": [
+  {
+   "id": "essentials",
+   "title": {
+    "en": "TP6 essentials",
+    "de": "TP6-Grundlagen"
+   },
+   "description": {
+    "en": "The terms you need first to talk about CoMIT TP6: PDAC, IRGs, RNAi screens, purity, survival models and the key models and cohorts.",
+    "de": "Die Begriffe, die du zuerst brauchst, um über CoMIT TP6 zu sprechen: PDAC, IRGs, RNAi-Screens, Reinheit, Überlebensmodelle sowie die wichtigsten Modelle und Kohorten."
+   },
+   "units": [
+    {
+     "id": "u01-tp6-in-a-nutshell",
+     "title": {
+      "en": "TP6 in a nutshell (1)",
+      "de": "TP6 auf einen Blick (1)"
+     },
+     "can_do": {
+      "en": "I can explain the core terms: PDAC, purity, IRG, RNAi, Cox model, C-index, LOCO, PurIST and the main cohorts.",
+      "de": "Du kannst die Kernbegriffe erklären: PDAC, Reinheit, IRG, RNAi, Cox-Modell, C-Index, LOCO, PurIST und die wichtigsten Kohorten."
+     },
+     "items": [
+      "pancreatic-ductal-adenocarcinoma",
+      "tumour-purity",
+      "moffitt-classical-basal-like",
+      "pdac-molecular-subtypes",
+      "pdac-stroma",
+      "tumour-infiltrating-lymphocytes",
+      "pdac-immune-microenvironment",
+      "hazard-ratio",
+      "overall-survival",
+      "immune-resistance-gene",
+      "harrell-c-index",
+      "lasso-cox",
+      "leave-one-cohort-out",
+      "purity-confounding",
+      "cox-ph-model",
+      "bulk-mixture-model"
+     ]
+    },
+    {
+     "id": "u02-tp6-in-a-nutshell",
+     "title": {
+      "en": "TP6 in a nutshell (2)",
+      "de": "TP6 auf einen Blick (2)"
+     },
+     "can_do": {
+      "en": "I can explain the core terms: PDAC, purity, IRG, RNAi, Cox model, C-index, LOCO, PurIST and the main cohorts.",
+      "de": "Du kannst die Kernbegriffe erklären: PDAC, Reinheit, IRG, RNAi, Cox-Modell, C-Index, LOCO, PurIST und die wichtigsten Kohorten."
+     },
+     "items": [
+      "purist-model",
+      "censoring",
+      "cptac-3-pancreas",
+      "cytotoxic-t-cell",
+      "data-leakage",
+      "ductal-cell",
+      "epithelial-cell",
+      "external-validation",
+      "kaplan-meier-estimator",
+      "paper-moffitt-2015",
+      "prognostic-vs-predictive-marker",
+      "rna-interference",
+      "single-sample-applicability",
+      "tcga-paad",
+      "tumour-cell-intrinsic-immune-resistance"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "biology",
+   "title": {
+    "en": "Biology",
+    "de": "Biologie"
+   },
+   "description": {
+    "en": "Pancreas, PDAC, immune attack and immune resistance, RNAi screens (Biology and Experiments books).",
+    "de": "Pankreas, PDAC, Immunangriff und Immunresistenz, RNAi-Screens (Biologie- und Experimente-Buch)."
+   },
+   "units": [
+    {
+     "id": "u01-pancreas-cells",
+     "title": {
+      "en": "Pancreas cells",
+      "de": "Zellen des Pankreas"
+     },
+     "can_do": {
+      "en": "I can name the cell types of the pancreas and say which ones PDAC arises from and which make up the stroma.",
+      "de": "Du kannst die Zelltypen des Pankreas benennen und sagen, aus welchen PDAC entsteht und welche das Stroma bilden."
+     },
+     "items": [
+      "acinar-cell",
+      "parenchyma-and-stroma",
+      "exocrine-pancreas",
+      "pancreatic-stellate-cell",
+      "islet-endocrine-cells",
+      "acinar-genes-dominate-normal-pancreas",
+      "extracellular-matrix",
+      "basement-membrane",
+      "pancreatitis",
+      "zymogen",
+      "centroacinar-cell"
+     ]
+    },
+    {
+     "id": "u02-pdac-biology",
+     "title": {
+      "en": "PDAC biology",
+      "de": "PDAC-Biologie"
+     },
+     "can_do": {
+      "en": "I can describe how PDAC develops and why its biology makes bulk data hard to read.",
+      "de": "Du kannst beschreiben, wie PDAC entsteht und warum seine Biologie Bulk-Daten schwer lesbar macht."
+     },
+     "items": [
+      "pdac-genetic-progression-model",
+      "micrometastasis",
+      "operated-cohort-survival",
+      "non-pdac-samples-in-cohorts",
+      "pdac-hypovascularity",
+      "pdac-cell-of-origin",
+      "stroma-depletion-paradox",
+      "caf-subtypes",
+      "acinar-carcinoma-of-pancreas"
+     ]
+    },
+    {
+     "id": "u03-immune-attack",
+     "title": {
+      "en": "Immune attack",
+      "de": "Immunangriff"
+     },
+     "can_do": {
+      "en": "I can explain how cytotoxic T cells recognise and kill tumour cells.",
+      "de": "Du kannst erklären, wie zytotoxische T-Zellen Tumorzellen erkennen und töten."
+     },
+     "items": [
+      "death-receptor-pathway",
+      "perforin-granzyme-pathway",
+      "antigen-presentation",
+      "apoptosis",
+      "nf-kb-survival-switch",
+      "t-cell-receptor",
+      "dendritic-cell",
+      "immunological-synapse",
+      "cross-presentation"
+     ]
+    },
+    {
+     "id": "u04-immune-resistance",
+     "title": {
+      "en": "Immune resistance",
+      "de": "Immunresistenz"
+     },
+     "can_do": {
+      "en": "I can explain how tumour cells resist T-cell killing and what an immune-resistance gene is.",
+      "de": "Du kannst erklären, wie Tumorzellen der T-Zell-Abtötung widerstehen und was ein Immunresistenzgen ist."
+     },
+     "items": [
+      "checkpoint-blockade-failure-pdac",
+      "immune-checkpoint",
+      "adaptive-immune-resistance",
+      "essential-gene",
+      "t-cell-exhaustion",
+      "immune-excluded-tumour",
+      "mhc-class-i-loss",
+      "gene-sik3",
+      "gene-camk1d",
+      "antigen-loss-escape"
+     ]
+    },
+    {
+     "id": "u05-rnai-screens",
+     "title": {
+      "en": "RNAi screens (1)",
+      "de": "RNAi-Screens (1)"
+     },
+     "can_do": {
+      "en": "I can describe an arrayed RNAi co-culture screen, its controls, its pitfalls and how hits are validated.",
+      "de": "Du kannst einen arrayed RNAi-Kokultur-Screen beschreiben, mit Kontrollen, Fallstricken und Validierung der Hits."
+     },
+     "items": [
+      "arrayed-screen",
+      "knockdown-versus-knockout",
+      "sirna",
+      "viability-and-cytotoxicity-arms",
+      "co-culture",
+      "off-target-effect-rnai",
+      "panc-1",
+      "cell-line",
+      "screen-hit",
+      "screen-to-patient-gap",
+      "sirna-pool-deconvolution",
+      "allogeneic-versus-autologous",
+      "paper-khandelwal-2015",
+      "paper-sorrentino-2022",
+      "pooled-screen"
+     ]
+    },
+    {
+     "id": "u06-rnai-screens",
+     "title": {
+      "en": "RNAi screens (2)",
+      "de": "RNAi-Screens (2)"
+     },
+     "can_do": {
+      "en": "I can describe an arrayed RNAi co-culture screen, its controls, its pitfalls and how hits are validated.",
+      "de": "Du kannst einen arrayed RNAi-Kokultur-Screen beschreiben, mit Kontrollen, Fallstricken und Validierung der Hits."
+     },
+     "items": [
+      "crispr-cas9",
+      "effector-to-target-ratio",
+      "luciferase-viability-assay",
+      "screen-controls",
+      "screen-validation-cascade",
+      "shrna",
+      "paper-volpin-2020",
+      "sirna-library",
+      "soluble-death-ligand-assay",
+      "transfection",
+      "plate-effects",
+      "cell-autonomous-phenotype",
+      "risc"
+     ]
+    },
+    {
+     "id": "u07-single-cells",
+     "title": {
+      "en": "Single cells",
+      "de": "Einzelzellen"
+     },
+     "can_do": {
+      "en": "I can explain cell types versus cell states and how malignant cells are found in single-cell data.",
+      "de": "Du kannst Zelltypen von Zellzuständen unterscheiden und erklären, wie maligne Zellen in Einzelzelldaten gefunden werden."
+     },
+     "items": [
+      "canonical-marker-genes",
+      "cell-type-and-cell-state",
+      "malignant-cell-identification",
+      "single-cell-integration",
+      "tissue-dissociation"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "statistics",
+   "title": {
+    "en": "Statistics",
+    "de": "Statistik"
+   },
+   "description": {
+    "en": "Expression data, purity, survival analysis, prognostic models and validation (Statistics book).",
+    "de": "Expressionsdaten, Reinheit, Überlebenszeitanalyse, Prognosemodelle und Validierung (Statistik-Buch)."
+   },
+   "units": [
+    {
+     "id": "u01-expression-data",
+     "title": {
+      "en": "Expression data",
+      "de": "Expressionsdaten"
+     },
+     "can_do": {
+      "en": "I can explain counts, CPM, TPM, log transforms, batch and platform effects.",
+      "de": "Du kannst Counts, CPM, TPM, Log-Transformationen sowie Batch- und Plattformeffekte erklären."
+     },
+     "items": [
+      "log2-plus-one-transform",
+      "platform-effect",
+      "raw-read-counts",
+      "z-transformation",
+      "gene-length-cancels-in-cox",
+      "library-size",
+      "expression-filter",
+      "gene-identifiers-and-collapsing",
+      "tmm-and-median-of-ratios"
+     ]
+    },
+    {
+     "id": "u02-tumour-purity",
+     "title": {
+      "en": "Tumour purity",
+      "de": "Tumorreinheit"
+     },
+     "can_do": {
+      "en": "I can explain why tumour purity confounds bulk expression and how to estimate and handle it.",
+      "de": "Du kannst erklären, warum die Tumorreinheit Bulk-Expression verzerrt und wie man sie schätzt und berücksichtigt."
+     },
+     "items": [
+      "cell-type-deconvolution",
+      "purity-adjustment",
+      "confounder",
+      "mcp-counter-score",
+      "pathology-tumour-cellularity"
+     ]
+    },
+    {
+     "id": "u03-survival-analysis",
+     "title": {
+      "en": "Survival analysis",
+      "de": "Überlebenszeitanalyse"
+     },
+     "can_do": {
+      "en": "I can explain censoring, Kaplan-Meier, log-rank, Cox models and the C-index.",
+      "de": "Du kannst Zensierung, Kaplan-Meier, Log-Rank-Test, Cox-Modelle und den C-Index erklären."
+     },
+     "items": [
+      "discrimination-and-calibration",
+      "hr-and-p-value-are-not-performance",
+      "log-rank-test",
+      "risk-score",
+      "stratified-cox-model",
+      "time-to-event-data",
+      "hazard-ratio-per-sd",
+      "baseline-hazard",
+      "proportional-hazards-assumption",
+      "time-dependent-auc",
+      "median-survival",
+      "progression-free-interval"
+     ]
+    },
+    {
+     "id": "u04-prognostic-models",
+     "title": {
+      "en": "Prognostic models",
+      "de": "Prognosemodelle"
+     },
+     "can_do": {
+      "en": "I can explain LASSO-Cox, random survival forests, gene-pair classifiers and zero-sum signatures.",
+      "de": "Du kannst LASSO-Cox, Random Survival Forests, Genpaar-Klassifikatoren und Zero-Sum-Signaturen erklären."
+     },
+     "items": [
+      "predefined-feature-set",
+      "prognostic-model",
+      "univariate-cox-screen",
+      "zero-sum-signature",
+      "random-survival-forest",
+      "feature-sets-and-learners",
+      "penalty-choice-by-cross-validation",
+      "false-discovery-rate",
+      "multiple-testing",
+      "clinical-baseline-model",
+      "events-per-variable",
+      "ridge-and-elastic-net",
+      "training-free-scores",
+      "small-interpretable-models"
+     ]
+    },
+    {
+     "id": "u05-validation",
+     "title": {
+      "en": "Validation",
+      "de": "Validierung"
+     },
+     "can_do": {
+      "en": "I can explain overfitting, leakage, cut-point bias and leave-one-cohort-out validation.",
+      "de": "Du kannst Overfitting, Datenlecks, Cut-Point-Verzerrung und Leave-one-cohort-out-Validierung erklären."
+     },
+     "items": [
+      "added-value-likelihood-ratio-test",
+      "cross-cohort-calibration",
+      "frozen-model",
+      "overfitting",
+      "random-signature-problem",
+      "baseline-comparisons",
+      "median-split",
+      "optimism",
+      "optimal-cutpoint",
+      "paired-bootstrap",
+      "threshold-trap",
+      "repeated-stratified-cross-validation",
+      "spearman-correlation",
+      "outcome-permutation-check",
+      "tripod-statement"
+     ]
+    },
+    {
+     "id": "u06-subtyping-methods",
+     "title": {
+      "en": "Subtyping methods",
+      "de": "Subtypisierungsmethoden"
+     },
+     "can_do": {
+      "en": "I can explain clustering, NMF, PCA, ICA and gene set scores and why subtypes can be purity labels.",
+      "de": "Du kannst Clustering, NMF, PCA, ICA und Gensatz-Scores erklären und warum Subtypen Reinheitslabels sein können."
+     },
+     "items": [
+      "top-scoring-pair-method",
+      "nmf",
+      "molecular-subtyping",
+      "clusters-from-noise",
+      "consensus-clustering",
+      "gene-set-score",
+      "subtypes-programmes-and-states",
+      "ica",
+      "pca",
+      "gene-programme",
+      "centroid-classifier",
+      "hierarchical-clustering",
+      "ssgsea",
+      "gsva"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "literature",
+   "title": {
+    "en": "Papers and models",
+    "de": "Arbeiten und Modelle"
+   },
+   "description": {
+    "en": "Who published which model, subtype scheme and method (Literature book).",
+    "de": "Wer welches Modell, Subtypsystem und welche Methode veröffentlicht hat (Literatur-Buch)."
+   },
+   "units": [
+    {
+     "id": "u01-published-models",
+     "title": {
+      "en": "Published models",
+      "de": "Veröffentlichte Modelle"
+     },
+     "can_do": {
+      "en": "I can say who published PurIST, PAMG and IRGPI, how they work and on which data they were built.",
+      "de": "Du kannst sagen, wer PurIST, PAMG und IRGPI veröffentlicht hat, wie sie funktionieren und auf welchen Daten sie beruhen."
+     },
+     "items": [
+      "paper-rashid-2020",
+      "pamg",
+      "paper-nicolle-2020",
+      "pdacr",
+      "single-sample-classifier-pdac",
+      "immune-signature-recipe",
+      "irgpi",
+      "paper-zhou-2022",
+      "paper-yan-2020",
+      "paper-qian-2021",
+      "paper-li-2022",
+      "paper-liu-2021",
+      "paper-wang-2021"
+     ]
+    },
+    {
+     "id": "u02-subtype-papers",
+     "title": {
+      "en": "Subtype papers",
+      "de": "Subtyp-Arbeiten"
+     },
+     "can_do": {
+      "en": "I can name the PDAC subtype schemes, their authors, years and what remained of them.",
+      "de": "Du kannst die PDAC-Subtypsysteme mit Autoren und Jahr nennen und sagen, was von ihnen blieb."
+     },
+     "items": [
+      "paper-tcga-2017",
+      "paper-bailey-2016",
+      "paper-collisson-2011",
+      "paper-peran-2018",
+      "paper-torre-healy-2023",
+      "paper-chan-seng-yue-2020",
+      "paper-maurer-2019",
+      "virtual-microdissection",
+      "bailey-2016-subtypes",
+      "paper-puleo-2018",
+      "collisson-2011-subtypes",
+      "moffitt-stroma-subtypes",
+      "chan-seng-yue-subtypes",
+      "paper-hilmi-2021",
+      "puleo-subtypes"
+     ]
+    },
+    {
+     "id": "u03-method-papers",
+     "title": {
+      "en": "Method papers",
+      "de": "Methoden-Arbeiten"
+     },
+     "can_do": {
+      "en": "I can name the papers behind purity estimation, deconvolution and the random-signature problem.",
+      "de": "Du kannst die Arbeiten zu Reinheitsschätzung, Dekonvolution und dem Zufallssignatur-Problem nennen."
+     },
+     "items": [
+      "paper-peng-2019",
+      "paper-venet-2011",
+      "paper-aran-2015",
+      "absolute-algorithm",
+      "estimate-algorithm",
+      "advocate-virtual-microdissection",
+      "paper-cao-2021",
+      "paper-yoshihara-2013",
+      "paper-geman-2004",
+      "paper-becht-2016"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "datasets",
+   "title": {
+    "en": "Datasets",
+    "de": "Datensätze"
+   },
+   "description": {
+    "en": "Public PDAC cohorts and the portals that hold them.",
+    "de": "Öffentliche PDAC-Kohorten und die Portale, die sie bereitstellen."
+   },
+   "units": [
+    {
+     "id": "u01-cohorts",
+     "title": {
+      "en": "Cohorts (1)",
+      "de": "Kohorten (1)"
+     },
+     "can_do": {
+      "en": "I can name the PDAC cohorts, who published them, their size, platform and where to download them.",
+      "de": "Du kannst die PDAC-Kohorten nennen, wer sie veröffentlicht hat, ihre Größe, Plattform und wo man sie herunterlädt."
+     },
+     "items": [
+      "gse79668",
+      "icgc-paca-au",
+      "icgc-paca-ca",
+      "tcga-150-curated-list",
+      "tcga-cdr",
+      "e-mtab-6134",
+      "gse71729",
+      "gtex-pancreas",
+      "gse62452",
+      "gse183795",
+      "gse21501",
+      "gse36924",
+      "e-mtab-5039",
+      "gse57495",
+      "gse85916",
+      "gse93326",
+      "aguirre-biopsy-cohort",
+      "compass-trial-cohort"
+     ]
+    },
+    {
+     "id": "u02-cohorts",
+     "title": {
+      "en": "Cohorts (2)",
+      "de": "Kohorten (2)"
+     },
+     "can_do": {
+      "en": "I can name the PDAC cohorts, who published them, their size, platform and where to download them.",
+      "de": "Du kannst die PDAC-Kohorten nennen, wer sie veröffentlicht hat, ihre Größe, Plattform und wo man sie herunterlädt."
+     },
+     "items": [
+      "gse17891",
+      "gse205154",
+      "yeh-purist-series",
+      "bacap-cohort",
+      "beaujon-cohort",
+      "linehan-cohort",
+      "ruijin-cohort",
+      "peng-2019-scrna",
+      "public-scrna-pdac-cohorts"
+     ]
+    },
+    {
+     "id": "u03-portals-and-access",
+     "title": {
+      "en": "Portals and access",
+      "de": "Portale und Zugang"
+     },
+     "can_do": {
+      "en": "I can find a data set by its accession and explain open versus controlled access.",
+      "de": "Du kannst einen Datensatz über seine Accession finden und offenen von kontrolliertem Zugang unterscheiden."
+     },
+     "items": [
+      "gdc-data-portal",
+      "ucsc-xena",
+      "geo-database",
+      "ega-archive",
+      "arrayexpress-biostudies",
+      "icgc-data-portal",
+      "toil-recompute",
+      "training-cohort-requirements",
+      "controlled-access",
+      "accession-number",
+      "gdc-star-gene-counts",
+      "geo-series-matrix",
+      "harmonised-pipeline",
+      "survival-units-pitfall",
+      "cohort-overlap",
+      "tcga-sample-barcode",
+      "data-access-committee",
+      "gencode-v36",
+      "geo-platform-gpl",
+      "adjacent-normal-tissue",
+      "two-colour-ratio-scale",
+      "xena-probemap"
+     ]
+    }
+   ]
+  }
+ ]
+}

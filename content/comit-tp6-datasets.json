@@ -1,0 +1,701 @@
+{
+ "dirs": [
+  "comit",
+  "comit/tp6",
+  "comit/tp6/datasets",
+  "comit/tp6/datasets/cohorts",
+  "comit/tp6/datasets/portals",
+  "comit/tp6/datasets/single-cell",
+  "comit/tp6/datasets/concepts"
+ ],
+ "dir_links": [],
+ "cards": [
+  {
+   "dirs": [
+    "comit/tp6/datasets/portals"
+   ],
+   "type": "recall",
+   "question_md": "What does the GDC mean by 'harmonised' RNA-seq, and what is open versus controlled there?",
+   "answer_md": "All TCGA/CPTAC reads are re-processed with one pipeline: STAR alignment to GRCh38 with GENCODE v36, one STAR gene-count file per sample (raw counts plus TPM/FPKM columns). Gene-level counts and clinical case records are **open**; reads/BAMs and germline data are **controlled** (dbGaP authorisation)."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/portals"
+   ],
+   "type": "recall",
+   "question_md": "Name the GEO record types GSE, GPL and GSM and what each holds.",
+   "answer_md": "**GSE** = series (one study, with the series matrix and supplementary files); **GPL** = platform (the array or sequencer, with the probe-to-gene table); **GSM** = one sample."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/concepts"
+   ],
+   "type": "recall",
+   "question_md": "How is a GEO series matrix file structured, and where do survival data usually sit in it?",
+   "answer_md": "Metadata lines start with `!`; the expression block lies between `!series_matrix_table_begin` and `!series_matrix_table_end`, first column probe ids, one column per sample. Survival sits in `!Sample_characteristics_ch1` lines as `key: value` pairs with depositor-chosen keys and units."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/portals"
+   ],
+   "type": "mc",
+   "question_md": "In which repository is the Puleo cohort (309 FFPE PDAC) deposited?",
+   "options": [
+    {
+     "text_md": "ArrayExpress / BioStudies (E-MTAB-6134)",
+     "correct": true
+    },
+    {
+     "text_md": "GEO (GSE71729)",
+     "correct": false
+    },
+    {
+     "text_md": "EGA (EGAS00001000154)",
+     "correct": false
+    },
+    {
+     "text_md": "GDC (CPTAC-3)",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/portals"
+   ],
+   "type": "recall",
+   "question_md": "What is an SDRF file in ArrayExpress, and what does it contain for E-MTAB-6134?",
+   "answer_md": "The Sample and Data Relationship Format table: one row per sample linking it to its data files and annotation. For E-MTAB-6134 it holds OS and DFS in months, grade, TNM, margin, centre and the Puleo subtype."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/portals"
+   ],
+   "type": "recall",
+   "question_md": "What is the EGA and how do you get data from it?",
+   "answer_md": "The European Genome-phenome Archive (EMBL-EBI/CRG) for identifiable genomic data (study accessions EGAS…, data sets EGAD…). Every data set is **controlled**: you apply to its data access committee with a project description and an institutional signature."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/portals"
+   ],
+   "type": "recall",
+   "question_md": "Where do the expression data and the survival data of ICGC PACA-AU and PACA-CA live, and why is this awkward?",
+   "answer_md": "Raw RNA-seq in EGA (controlled: EGAS00001000154 for PACA-AU, EGAS00001002543 for PACA-CA), survival in the ICGC portal (dcc.icgc.org / ICGC ARGO). Matrix and survival must be joined by donor id, and older download addresses no longer work."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/portals"
+   ],
+   "type": "recall",
+   "question_md": "What does the pdacR package offer as a data source, and what caveat comes with it?",
+   "answer_md": "Torre-Healy et al. 2023 (Moffitt lab, GitHub rmoffitt/pdacR, Zenodo 10.5281/zenodo.7383375): prepared PDAC cohorts with survival and subtype calls, incl. TCGA-PAAD with purity and the 150-sample list, GSE71729, E-MTAB-6134, PACA-AU (92 RNA-seq) and PACA-CA (262 RNA-seq). Caveat: a snapshot of changing portals, so record the package version."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/portals"
+   ],
+   "type": "recall",
+   "question_md": "What is the TOIL recompute, and what does it not remove?",
+   "answer_md": "TCGA and GTEx re-processed through one pipeline (Vivian et al. 2017, Toil), served on the Xena TOIL hub, so tumour and normal share genes and processing. It does not remove differences of origin: TCGA tumours frozen at surgery vs GTEx tissue taken after death, different protocols and inclusion criteria."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "recall",
+   "question_md": "TCGA-PAAD: who published it, what platform, how many samples, which endpoints, which access?",
+   "answer_md": "TCGA Research Network (Raphael et al. 2017, Cancer Cell). Illumina RNA-seq, GDC STAR against GENCODE v36. 185 samples in the Xena matrix, 178 primary tumours, 150 curated PDAC in the paper. OS and PFI from the TCGA-CDR; open access via GDC and UCSC Xena."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "text",
+   "question_md": "How many histopathologically curated PDAC does the TCGA 2017 paper analyse from TCGA-PAAD? (number)",
+   "accepted_answers": [
+    "150"
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "recall",
+   "question_md": "Why must TCGA-PAAD be curated before any survival analysis (Peran et al. 2018)?",
+   "answer_md": "The project name is not a diagnosis: Peran named 33 non-PDAC profiles (16 normal/pseudo-normal, 17 other tumours incl. 8 neuroendocrine). Neuroendocrine tumours live years longer and have a different transcriptome, so they make every neuroendocrine-vs-ductal gene look prognostic; cross-validation does not repair this confounder."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "recall",
+   "question_md": "How did TCGA 2017 split its 150 tumours by purity, and with which tool?",
+   "answer_md": "At the median ABSOLUTE purity (33 %) into 76 high-purity (discovery) and 74 low-purity (application) tumours: clustering in the high-purity set, then supervised assignment of the low-purity set."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "mc",
+   "question_md": "Which paper defines the TCGA pan-cancer survival endpoints (OS, DSS, DFI, PFI) used for TCGA-PAAD?",
+   "options": [
+    {
+     "text_md": "Liu et al. 2018, Cell (TCGA-CDR)",
+     "correct": true
+    },
+    {
+     "text_md": "Peran et al. 2018, Clin Cancer Res",
+     "correct": false
+    },
+    {
+     "text_md": "Raphael et al. 2017, Cancer Cell",
+     "correct": false
+    },
+    {
+     "text_md": "Vivian et al. 2017, Nat Biotechnol",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "recall",
+   "question_md": "ICGC PACA-AU: who published it, what was measured, and where are the parts?",
+   "answer_md": "The Australian ICGC programme (Bailey et al. 2016, Nature; arrays first in Biankin et al. 2012). 456 tumours genomically characterised; RNA-seq of 96 (EGA EGAS00001000154, controlled), Illumina HT-12 v4 arrays of 232 (91 open as GSE36924). Survival in the ICGC portal; pdacR ships 92 RNA-seq samples with survival."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "text",
+   "question_md": "Which EGA study accession holds the ICGC PACA-AU RNA-seq?",
+   "accepted_answers": [
+    "EGAS00001000154"
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "recall",
+   "question_md": "ICGC PACA-CA: who published it, what tissue, how many tumours, and why does it differ from bulk cohorts?",
+   "answer_md": "Chan-Seng-Yue et al. 2020 (Nature Genetics), Canadian ICGC. 330 tumours from 314 patients with WGS after laser capture microdissection, 248 with RNA-seq (EGA EGAS00001002543, controlled; 262 in pdacR). Microdissected epithelium has much higher tumour content, so stromal/immune-heavy scores behave differently."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "text",
+   "question_md": "Which EGA study accession holds the ICGC PACA-CA data?",
+   "accepted_answers": [
+    "EGAS00001002543"
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "recall",
+   "question_md": "CPTAC-3 pancreas: who published it, what makes it special, and how many usable tumours does it give?",
+   "answer_md": "Cao et al. 2021 (Cell), NCI CPTAC. RNA-seq plus proteome, phosphoproteome and glycoproteome on the same tumours, so an RNA score can be checked at protein level. 245 open STAR count files for 168 cases; one primary tumour per case gives 161, 159 with OS (128 deaths)."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "recall",
+   "question_md": "What has to be done with CPTAC-3 clinical data and samples before modelling?",
+   "answer_md": "Build one survival time per case from the GDC case records (vital status, days to death, follow-ups), and drop the normal samples, keeping one primary tumour per case."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "mc",
+   "question_md": "In which unit is overall survival deposited in GSE79668?",
+   "options": [
+    {
+     "text_md": "Days",
+     "correct": true
+    },
+    {
+     "text_md": "Months",
+     "correct": false
+    },
+    {
+     "text_md": "Years",
+     "correct": false
+    },
+    {
+     "text_md": "Weeks",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "recall",
+   "question_md": "E-MTAB-6134: who published it, what material, and why is it the most valuable open cohort after TCGA-PAAD?",
+   "answer_md": "Puleo et al. 2018 (Gastroenterology): 309 FFPE resected PDAC from four European centres on Affymetrix HG-U219, OS for 288 and DFS, rich clinical annotation. Largest open cohort with survival and the only large FFPE one; FFPE is what a trial would use and four centres give a realistic batch structure."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "text",
+   "question_md": "Give the ArrayExpress accession of the Puleo cohort.",
+   "accepted_answers": [
+    "E-MTAB-6134",
+    "EMTAB6134",
+    "E-MTAB 6134"
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "recall",
+   "question_md": "GSE71729: who published it, what does it contain, and why is it special?",
+   "answer_md": "Moffitt et al. 2015 (Nature Genetics), custom Agilent arrays (GPL20769): 357 arrays - 145 primary tumours (125 with OS), 61 metastases, 46 normal pancreata, other normal tissues, 17 cell lines. The mix made virtual microdissection possible; it carries both tumour (classical/basal-like) and stroma (normal/activated) calls."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "mc",
+   "question_md": "Which GEO accession is the Moffitt 2015 array cohort behind the classical/basal-like subtypes?",
+   "options": [
+    {
+     "text_md": "GSE71729",
+     "correct": true
+    },
+    {
+     "text_md": "GSE21501",
+     "correct": false
+    },
+    {
+     "text_md": "GSE62452",
+     "correct": false
+    },
+    {
+     "text_md": "GSE36924",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "mc",
+   "question_md": "Which three cohorts trained PurIST?",
+   "options": [
+    {
+     "text_md": "GSE71729, TCGA-PAAD and the Aguirre biopsies",
+     "correct": true
+    },
+    {
+     "text_md": "E-MTAB-6134, GSE62452 and CPTAC-3",
+     "correct": false
+    },
+    {
+     "text_md": "ICGC PACA-AU, PACA-CA and GSE79668",
+     "correct": false
+    },
+    {
+     "text_md": "E-MTAB-5039, BACAP and COMPASS",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "recall",
+   "question_md": "GSE21501: who, what platform, and what is special about its scale?",
+   "answer_md": "Stratford et al. 2010 (PLoS Medicine): Agilent 4x44K two-colour arrays (GPL4133) of 132 samples, 102 with OS. Values are ratios against a common reference, not absolute intensities; 106 primaries recur in GSE71729."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "recall",
+   "question_md": "GSE62452: who, what platform, what samples, and why do immune-signature papers love it?",
+   "answer_md": "Yang et al. 2016 (Cancer Research), NCI: Affymetrix HuGene 1.0 ST (GPL6244), 69 PDAC (66 with OS) and 61 adjacent non-tumour tissues. It is the external validation most immune-signature papers (e.g. IRGPI) use, and it has the best gene coverage of the arrays."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "mc",
+   "question_md": "Which GEO series overlaps GSE62452 (same NCI group and platform) and must not be counted as an independent validation?",
+   "options": [
+    {
+     "text_md": "GSE183795",
+     "correct": true
+    },
+    {
+     "text_md": "GSE85916",
+     "correct": false
+    },
+    {
+     "text_md": "GSE57495",
+     "correct": false
+    },
+    {
+     "text_md": "GSE205154",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "recall",
+   "question_md": "What is the catch with GSE183795 when you select samples?",
+   "answer_md": "Survival is attached to more samples (189) than there are tumours (139), because adjacent non-tumour samples of the same patients carry it too: select tumours first, then deduplicate by patient. It also overlaps GSE62452."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "recall",
+   "question_md": "Why is GSE85916 a cheap technical replicate of E-MTAB-6134, and what is its pitfall?",
+   "answer_md": "80 resected PDAC on the same Affymetrix HG-U219 platform, so a score that behaves very differently on the two has a platform rather than biology problem. Pitfall: OS is deposited in years."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "mc",
+   "question_md": "Which cohort deposits overall survival in *years*?",
+   "options": [
+    {
+     "text_md": "GSE85916",
+     "correct": true
+    },
+    {
+     "text_md": "GSE79668",
+     "correct": false
+    },
+    {
+     "text_md": "E-MTAB-6134",
+     "correct": false
+    },
+    {
+     "text_md": "GSE71729",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "recall",
+   "question_md": "GSE57495: who, platform, size, and what is it good for?",
+   "answer_md": "Chen et al. 2015 (PLoS One): 63 PDAC on a custom Rosetta/Merck Affymetrix array (GPL15048) with OS (42 deaths) and stage. Useful to reproduce published comparisons (one of the four validation cohorts of Li 2022); custom probes may lack a needed gene."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "recall",
+   "question_md": "What is GSE205154 good for, and what can it not do?",
+   "answer_md": "RNA-seq of 289 FFPE primary and metastatic PDAC (218 primaries), liver vs lung metastasis comparison - the largest primary/metastasis set on one platform. No follow-up in GEO, so no prognostic validation."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "recall",
+   "question_md": "Name the three different questions that are all called 'metastasis prediction', and which one no public data set answers.",
+   "answer_md": "(1) Is a sample a primary or a metastasis - tissue origin, nearly trivial and useless; (2) will a primary tumour spread later - prognostic, needs follow-up; (3) does a patient judged resectable already have an occult deposit - needs pre-treatment biopsy RNA, imaging and a reference standard; no public data set provides (3)."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "recall",
+   "question_md": "What is GSE36924 and why is there no survival in it?",
+   "answer_md": "The open array half of ICGC PACA-AU (Biankin et al. 2012): 91 PDAC on Illumina HumanHT-12 v4, non-normalised intensities. Survival lives in the ICGC clinical data, not in GEO."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "mc",
+   "question_md": "Which GEO series is the open Illumina HT-12 array part of ICGC PACA-AU?",
+   "options": [
+    {
+     "text_md": "GSE36924",
+     "correct": true
+    },
+    {
+     "text_md": "GSE17891",
+     "correct": false
+    },
+    {
+     "text_md": "GSE71729",
+     "correct": false
+    },
+    {
+     "text_md": "GSE93326",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "recall",
+   "question_md": "What data did Collisson et al. 2011 deposit, and why can their scheme not easily move into routine material?",
+   "answer_md": "GSE17891: 62 samples on Affymetrix U133 Plus 2.0, 27 of them microdissected primary PDAC, plus human and mouse cell lines. Discovery partly on microdissected epithelium, while routine material is bulk."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "recall",
+   "question_md": "What is GSE93326 (Maurer 2019), and which tool was trained on it?",
+   "answer_md": "LCM RNA-seq of PDAC epithelium and stroma: 204 samples from 122 patients, 60 matched epithelium/stroma pairs, 110 stromal profiles (Gut 2019). It trained ADVOCATE, which estimates compartment fractions and profiles from bulk."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "recall",
+   "question_md": "On which data was PAMG derived, and in which series validated?",
+   "answer_md": "Derived by ICA from 76 PaCaOmics patient-derived xenografts (ArrayExpress E-MTAB-5039); validated in ICGC (267 resected), Puleo E-MTAB-6134 (308), BACAP (60 fine-needle biopsies, 47 advanced with survival) and COMPASS (28 biopsies under mFOLFIRINOX)."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/single-cell"
+   ],
+   "type": "recall",
+   "question_md": "Why do xenografts (like the PaCaOmics PDX of PAMG) sidestep the purity problem?",
+   "answer_md": "In a patient-derived xenograft the human stroma is replaced by mouse stroma, so human-specific reads come almost only from the tumour cells."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "recall",
+   "question_md": "Which cohorts link pre-treatment PDAC biopsies to therapy response, and which is public?",
+   "answer_md": "COMPASS (Aung et al. 2018, LCM RNA-seq of advanced-PDAC biopsies; 49 in PurIST's validation, 28 under mFOLFIRINOX in PAMG's) and the Linehan/Nywening phase Ib cohort (66). BACAP (60 biopsies) is the authors' own and not public."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "recall",
+   "question_md": "What are GSE131050 and GSE131051?",
+   "answer_md": "The Yeh-lab series deposited with PurIST (Rashid 2020): GSE131050 RNA-seq of matched bulk, fine-needle aspirate, FFPE and xenograft samples (47 FNA vs bulk pairs) as a sample-type check; GSE131051 NanoString data of 51 samples as a platform check."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "mc",
+   "question_md": "Which cohort was PurIST trained on that is *not* public?",
+   "options": [
+    {
+     "text_md": "The Aguirre biopsy cohort",
+     "correct": true
+    },
+    {
+     "text_md": "GSE71729",
+     "correct": false
+    },
+    {
+     "text_md": "TCGA-PAAD",
+     "correct": false
+    },
+    {
+     "text_md": "GSE131050",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "recall",
+   "question_md": "What is GTEx pancreas used for in PDAC expression analyses, and why is the tumour-vs-normal magnitude not an effect size?",
+   "answer_md": "Healthy pancreas of deceased donors (GTEx Consortium 2020), recomputed with TCGA by TOIL, to decide whether a gene is typically higher or lower in PDAC. Healthy pancreas is ~98 % exocrine acinar tissue making digestive enzymes, which the tumour has replaced, so almost every non-acinar gene looks up: the sign is usable, the size is not."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/cohorts"
+   ],
+   "type": "mc",
+   "question_md": "What survival endpoint does GTEx provide?",
+   "options": [
+    {
+     "text_md": "None - the donors are healthy deceased donors",
+     "correct": true
+    },
+    {
+     "text_md": "Overall survival",
+     "correct": false
+    },
+    {
+     "text_md": "Progression-free interval",
+     "correct": false
+    },
+    {
+     "text_md": "Disease-specific survival",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/single-cell"
+   ],
+   "type": "recall",
+   "question_md": "Peng et al. 2019: what was profiled, and where are the raw data?",
+   "answer_md": "Single-cell RNA-seq of about 24 primary PDAC and 11 control pancreases (~57,000 cells), describing intra-tumoural heterogeneity and malignant ductal populations; raw data in the Genome Sequence Archive (China National Center for Bioinformation), accession CRA001160."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/single-cell"
+   ],
+   "type": "text",
+   "question_md": "Give the Genome Sequence Archive accession of the Peng 2019 PDAC single-cell data.",
+   "accepted_answers": [
+    "CRA001160"
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/single-cell"
+   ],
+   "type": "recall",
+   "question_md": "When pooling two scRNA-seq data sets, why do cells first group by patient, and what fixes it?",
+   "answer_md": "Patient, surgery, dissociation protocol, chemistry and sequencer differ, and every tumour carries its own copy-number profile. Integration methods remove the shifts: Harmony, Seurat (mutual nearest neighbours) or scVI."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/concepts"
+   ],
+   "type": "recall",
+   "question_md": "What does an accession prefix tell you? Give the repository for GSE, E-MTAB, EGAS and CRA.",
+   "answer_md": "GSE → NCBI GEO series; E-MTAB → ArrayExpress (EMBL-EBI BioStudies); EGAS → European Genome-phenome Archive study (controlled); CRA → Genome Sequence Archive (China)."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/concepts"
+   ],
+   "type": "mc",
+   "question_md": "Which gene annotation do the GDC STAR counts of TCGA-PAAD and CPTAC-3 use?",
+   "options": [
+    {
+     "text_md": "GENCODE v36",
+     "correct": true
+    },
+    {
+     "text_md": "GENCODE v19",
+     "correct": false
+    },
+    {
+     "text_md": "RefSeq hg19",
+     "correct": false
+    },
+    {
+     "text_md": "Ensembl 75",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/concepts"
+   ],
+   "type": "recall",
+   "question_md": "Adjacent non-tumour tissue vs GTEx healthy pancreas as normal reference: pros and cons?",
+   "answer_md": "Adjacent tissue is handled and measured like the tumour (fewer batch effects) but is not healthy (pancreatitis, atrophy, PanIN, field effects). GTEx is healthy but from deceased donors on a different protocol, comparable only after a common pipeline such as TOIL."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/concepts"
+   ],
+   "type": "recall",
+   "question_md": "What goes wrong if survival in months, years and days is pooled unconverted, and how do you catch it?",
+   "answer_md": "Patients in years look as if they died 12 times sooner than those in months, in days 30 times later, so the model learns cohort membership. Catch it by comparing median follow-up per cohort before fitting."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/concepts"
+   ],
+   "type": "recall",
+   "question_md": "How do you detect that two GEO series share patients?",
+   "answer_md": "Correlate every sample of one series with every sample of the other on the same genes; duplicates stand out as best matches with exceptionally high correlation. Fix the threshold without looking at survival. Known pairs: GSE62452/GSE183795, GSE21501/GSE71729."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/concepts"
+   ],
+   "type": "recall",
+   "question_md": "Why does a two-colour array scale matter for a gene-expression score?",
+   "answer_md": "Each value is a log ratio against a common reference sample, so a score on absolute levels must be re-standardised gene by gene; a within-sample rank score such as PurIST's gene pairs is unaffected."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/concepts"
+   ],
+   "type": "recall",
+   "question_md": "Which three things must a cohort offer to train a prognostic model, and how large must it be to judge a C-index alone?",
+   "answer_md": "Primary-tumour expression, a censored survival endpoint, and clinical variables known at prediction time - for the same patients. At ~66 patients a C-index carries a CI of about ±0.08, so differences below ~0.1 cannot be resolved in one small cohort."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/concepts"
+   ],
+   "type": "recall",
+   "question_md": "What does a harmonised pipeline remove and what not?",
+   "answer_md": "It removes differences of processing (aligner, annotation, quantification), e.g. GDC STAR/GENCODE v36 or the TOIL recompute. It does not remove differences of origin: tissue handling, preservation, protocols, populations."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/concepts"
+   ],
+   "type": "recall",
+   "question_md": "What is the Xena probemap for TCGA-PAAD, and why is it needed?",
+   "answer_md": "`gencode.v36.annotation.gtf.gene.probemap`: it maps the Ensembl row ids of Xena matrices to gene symbols and positions, because Xena matrices are indexed by id, not symbol."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/concepts"
+   ],
+   "type": "recall",
+   "question_md": "What is a GPL record, and name the platforms of GSE21501, GSE62452 and GSE85916.",
+   "answer_md": "The GEO platform record with the probe-to-gene table. GSE21501: GPL4133 (Agilent 4x44K two-colour); GSE62452: GPL6244 (Affymetrix HuGene 1.0 ST); GSE85916: GPL13667 (Affymetrix HG-U219)."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/concepts"
+   ],
+   "type": "recall",
+   "question_md": "Why does a paper without an accession number usually mean you cannot validate on its cohort?",
+   "answer_md": "Repositories give data sets stable accessions that papers cite; without one the data are typically held by the authors (e.g. BACAP, the Aguirre biopsies, the Beaujon and Ruijin cohorts) and need a collaboration."
+  },
+  {
+   "dirs": [
+    "comit/tp6/datasets/concepts"
+   ],
+   "type": "recall",
+   "question_md": "What is a data access committee, and what does approval commit you to?",
+   "answer_md": "The body of the data owner that reviews controlled-access applications (per data set at EGA; dbGaP for TCGA/GDC controlled data). Approval binds the data to a named project, institution and secure storage and forbids redistribution."
+  }
+ ]
+}

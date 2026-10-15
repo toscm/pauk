@@ -1,0 +1,1691 @@
+{
+ "space": "concepts",
+ "dirs": [
+  "comit",
+  "comit/tp6",
+  "comit/tp6/literature",
+  "comit/tp6/literature/subtypes",
+  "comit/tp6/literature/classifiers",
+  "comit/tp6/literature/immune-signatures",
+  "comit/tp6/literature/methods"
+ ],
+ "items": [
+  {
+   "key": "paper-collisson-2011",
+   "kind": "paper",
+   "label_md": "Collisson et al. 2011 (Nat Med)",
+   "gloss_md": "The first PDAC expression subtypes: classical, quasi-mesenchymal and exocrine-like, with the 62-gene PDAssigner signature.",
+   "body_md": "Eric A. Collisson, Anguraj Sadanandam, ..., Douglas Hanahan and Joe W. Gray (UCSF / Lawrence Berkeley), *Nature Medicine* 17:500-503, 2011. \"Subtypes of pancreatic ductal adenocarcinoma and their differing responses to therapy\". DOI 10.1038/nm.2344.\n\n- Data: GSE17891 (62 Affymetrix U133 Plus 2.0 arrays, 27 microdissected primary tumours plus human and mouse cell lines), merged with the earlier Badea cohort.\n- Method: NMF with consensus clustering, then a 62-gene SAM signature (PDAssigner); no rule to assign a single new sample.\n- Finding: quasi-mesenchymal (QM-PDA) tumours had shorter survival after resection than classical ones (log-rank p = 0.038, training data); QM-PDA cell lines were more sensitive to gemcitabine, classical lines to erlotinib.\n- Status 2026: superseded. The exocrine-like class is read as admixed normal pancreas (digestive-enzyme genes), quasi-mesenchymal as basal-like tumour plus stroma; only the classical label survives.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "doi": "10.1038/nm.2344",
+    "aliases": [
+     "Collisson 2011",
+     "Collisson2011"
+    ],
+    "anecdote": "The paper that started PDAC subtyping; almost nothing of its result is still used, except the word \"classical\"."
+   },
+   "priority": 85,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/literature/subtypes"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "pdac-molecular-subtypes"
+    },
+    {
+     "rel": "related",
+     "to": "collisson-2011-subtypes"
+    }
+   ]
+  },
+  {
+   "key": "collisson-2011-subtypes",
+   "kind": "term",
+   "label_md": "Collisson 2011 subtypes (classical, quasi-mesenchymal, exocrine-like; PDAssigner)",
+   "gloss_md": "The three-class PDAC scheme of Collisson 2011, assigned with the 62-gene PDAssigner signature.",
+   "body_md": "- Classical: high adhesion and epithelial genes (e.g. GATA6), better outcome.\n- Quasi-mesenchymal (QM-PDA): mesenchymal genes, worse outcome; later read as basal-like tumour mixed with stroma.\n- Exocrine-like: digestive-enzyme genes of acinar cells; Moffitt 2015 showed all 17 exocrine-like genes overlap his normal-pancreas factor, so the class describes co-sampled normal tissue, not the tumour.\n\nModel availability: gene list only, no centroids or code; re-implemented in pdacR. Applicability for a trial: difficult (microdissection, cohort-wide clustering).",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "aliases": [
+     "PDAssigner",
+     "QM-PDA",
+     "quasi-mesenchymal subtype",
+     "exocrine-like subtype"
+    ],
+    "mnemonic": "Collisson's three: C-Q-E, \"Classical, Quasi, Exocrine\" - only the C survived."
+   },
+   "priority": 70,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/literature/subtypes"
+   ],
+   "links": [
+    {
+     "rel": "part_of",
+     "to": "paper-collisson-2011"
+    },
+    {
+     "rel": "related",
+     "to": "pdac-molecular-subtypes"
+    }
+   ]
+  },
+  {
+   "key": "paper-moffitt-2015",
+   "kind": "paper",
+   "label_md": "Moffitt et al. 2015 (Nat Genet)",
+   "gloss_md": "Virtual microdissection by NMF separates tumour from stroma and defines the classical / basal-like tumour axis and the normal / activated stroma axis.",
+   "body_md": "Richard A. Moffitt, ..., Jen Jen Yeh (UNC Lineberger, Chapel Hill), *Nature Genetics* 47:1168-1178, 2015. \"Virtual microdissection identifies distinct tumor- and stroma-specific subtypes of pancreatic ductal adenocarcinoma\". DOI 10.1038/ng.3398.\n\n- Data: GSE71729, 357 Agilent arrays (145 primary tumours, 61 metastases, 46 normal pancreata, 88 distant-site normal tissues, 17 cell lines).\n- Method: NMF (blind source separation) on bulk profiles; the cohort mix (cell lines = only tumour, normal pancreas = no tumour) makes the factors interpretable; 25 genes per subtype; new samples via a k-TSP gene-pair classifier.\n- Finding: basal-like median OS 11 vs 19 months for classical (discovery, p = 0.007), hazard ratio 2.11 in the independent ICGC cohort; activated stroma 15 vs 24 months for normal stroma. The two axes are independent, so a tumour has two labels.\n- Status 2026: the definition of the subtypes is still the reference; the classifier is superseded by PurIST (same group, same data).",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "doi": "10.1038/ng.3398",
+    "aliases": [
+     "Moffitt 2015",
+     "Moffitt2015"
+    ],
+    "mnemonic": "\"Basal-like\" is borrowed from breast and bladder cancer: Moffitt's basal-like tumours look molecularly like basal breast and bladder tumours."
+   },
+   "priority": 95,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/literature/subtypes"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "moffitt-classical-basal-like"
+    },
+    {
+     "rel": "related",
+     "to": "virtual-microdissection"
+    },
+    {
+     "rel": "related",
+     "to": "moffitt-stroma-subtypes"
+    },
+    {
+     "rel": "related",
+     "to": "pdac-molecular-subtypes"
+    }
+   ]
+  },
+  {
+   "key": "virtual-microdissection",
+   "kind": "term",
+   "label_md": "Virtual microdissection",
+   "gloss_md": "Separating the tumour, stroma and normal components of bulk expression profiles computationally (Moffitt 2015, by NMF) instead of physically before the measurement.",
+   "body_md": "Moffitt stopped fighting the mixture and modelled it: NMF factorises a cohort of bulk profiles into components, and samples of known composition (cell lines, normal pancreas, metastases in other organs) tell which component is tumour, stroma or normal tissue. Maurer 2019 later did the same experimentally with laser capture microdissection and found the same axes, the strongest evidence that the axes are not an artefact of the factorisation. ADVOCATE (Maurer 2019) is a trained model that does virtual microdissection for single bulk samples.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "aliases": [
+     "virtuelle Mikrodissektion",
+     "digital microdissection"
+    ],
+    "de": "virtuelle Mikrodissektion"
+   },
+   "priority": 75,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/literature/subtypes"
+   ],
+   "links": [
+    {
+     "rel": "part_of",
+     "to": "paper-moffitt-2015"
+    },
+    {
+     "rel": "related",
+     "to": "laser-capture-microdissection"
+    },
+    {
+     "rel": "related",
+     "to": "advocate-virtual-microdissection"
+    }
+   ]
+  },
+  {
+   "key": "moffitt-stroma-subtypes",
+   "kind": "term",
+   "label_md": "Moffitt stroma subtypes (normal vs activated stroma)",
+   "gloss_md": "The second, tumour-independent axis of Moffitt 2015: normal stroma versus activated stroma, the latter with worse survival.",
+   "body_md": "Activated stroma (tumour-promoting genes such as SPARC, WNT2, WNT5A, MMP9 and MMP11, plus macrophage genes) went with a median OS of 15 months against 24 months for normal stroma (high expression of pancreatic stellate cell markers such as ACTA2, VIM, DES). All four combinations with classical / basal-like occur, which is why one-list schemes with three or four classes mix two axes. Maurer 2019 re-derived the stroma axis from physically separated stroma as ECM-rich versus immune-rich.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "aliases": [
+     "activated stroma",
+     "normal stroma"
+    ]
+   },
+   "priority": 60,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/literature/subtypes"
+   ],
+   "links": [
+    {
+     "rel": "part_of",
+     "to": "paper-moffitt-2015"
+    },
+    {
+     "rel": "related",
+     "to": "moffitt-classical-basal-like"
+    }
+   ]
+  },
+  {
+   "key": "paper-bailey-2016",
+   "kind": "paper",
+   "label_md": "Bailey et al. 2016 (Nature)",
+   "gloss_md": "ICGC / APGI genomics of 456 pancreatic cancers with four expression classes: squamous, pancreatic progenitor, immunogenic and ADEX.",
+   "body_md": "Peter Bailey, David K. Chang, ..., Andrew V. Biankin and Sean M. Grimmond (Australian Pancreatic Cancer Genome Initiative, ICGC), *Nature* 531:47-52, 2016. \"Genomic analyses identify molecular subtypes of pancreatic cancer\". DOI 10.1038/nature16965.\n\n- Data: 456 genomically characterised tumours; RNA-seq of 96 tumours with at least 40 % tumour cells (EGA EGAS00001000154, controlled; the ICGC PACA-AU cohort), Illumina HT-12 arrays (GSE36924 carries 91).\n- Method: consensus clustering / NMF, classes described by gene programmes (GP1-GP10), no single-sample rule.\n- Finding: four classes with medians of 30.0, 23.7, 25.6 and 13.3 months; squamous worst (log-rank p = 0.03, n = 93, training data). The immunogenic class was the first explicit report of a strong immune programme including CTLA-4 / PD-1 co-inhibition.\n- Status 2026: superseded; squamous ≈ basal-like, progenitor ≈ classical, ADEX and immunogenic reflect admixed acinar and immune tissue.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "doi": "10.1038/nature16965",
+    "aliases": [
+     "Bailey 2016",
+     "Bailey2016",
+     "ICGC classes"
+    ]
+   },
+   "priority": 88,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/literature/subtypes"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "bailey-2016-subtypes"
+    },
+    {
+     "rel": "related",
+     "to": "pdac-molecular-subtypes"
+    }
+   ]
+  },
+  {
+   "key": "bailey-2016-subtypes",
+   "kind": "term",
+   "label_md": "Bailey 2016 subtypes (squamous, pancreatic progenitor, immunogenic, ADEX)",
+   "gloss_md": "The four-class PDAC scheme of Bailey 2016; only squamous and progenitor are tumour-cell programmes.",
+   "body_md": "- Squamous: TP63 network, worst survival; overlaps Moffitt's basal-like (only about half of the squamous tumours are basal-like in Bailey's own cohort).\n- Pancreatic progenitor: PDX1, FOXA, HNF transcription factors; ≈ classical.\n- Immunogenic: progenitor-like tumours with strong immune infiltrate; concentrated in low-purity, leukocyte-rich samples (TCGA 2017), i.e. a description of the microenvironment.\n- ADEX (aberrantly differentiated endocrine exocrine): acinar and endocrine genes from co-sampled normal pancreas; both acinar cell carcinomas of the cohort fell into it.\n\nTorre-Healy 2023 showed that ADEX tracks low tumour cellularity and marks acinar cell carcinomas.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "aliases": [
+     "ADEX",
+     "squamous subtype",
+     "immunogenic subtype",
+     "pancreatic progenitor subtype",
+     "aberrantly differentiated endocrine exocrine"
+    ],
+    "mnemonic": "SPIA: Squamous, Progenitor, Immunogenic, ADEX - S and P are the tumour, I and A are the neighbours."
+   },
+   "priority": 72,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/literature/subtypes"
+   ],
+   "links": [
+    {
+     "rel": "part_of",
+     "to": "paper-bailey-2016"
+    },
+    {
+     "rel": "related",
+     "to": "tumour-purity"
+    }
+   ]
+  },
+  {
+   "key": "paper-tcga-2017",
+   "kind": "paper",
+   "label_md": "TCGA Research Network 2017 (Cancer Cell)",
+   "gloss_md": "The integrated genomic characterisation of 150 curated PDAC: after controlling for tumour purity only the classical / basal-like axis remains.",
+   "body_md": "The Cancer Genome Atlas Research Network; Benjamin J. Raphael (lead contact), Ralph H. Hruban, Andrew J. Aguirre et al., *Cancer Cell* 32:185-203, 2017. \"Integrated Genomic Characterization of Pancreatic Ductal Adenocarcinoma\". DOI 10.1016/j.ccell.2017.07.007.\n\n- Data: TCGA-PAAD; 150 tumours confirmed as PDAC by pathology review (of 185 samples).\n- Method: purity by ABSOLUTE; two-stage design: discovery in the 76 high-purity samples (ABSOLUTE ≥ 33 %), then supervised assignment of the 74 low-purity ones.\n- Finding: molecular analyses were \"heavily confounded by tumor purity\"; Collisson, Moffitt and Bailey all recover one contrast (basal-like/squamous/QM vs classical/progenitor), while exocrine-like, ADEX and immunogenic sit in low-purity samples (Figure 4C-E is the classic plot).\n- Status 2026: no model, but the 150-sample list and the purity values are the reference for any work on TCGA-PAAD.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "doi": "10.1016/j.ccell.2017.07.007",
+    "aliases": [
+     "TCGA 2017",
+     "TCGA2017",
+     "Raphael 2017",
+     "TCGA PDAC paper"
+    ]
+   },
+   "priority": 92,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/literature/subtypes"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "tumour-purity"
+    },
+    {
+     "rel": "related",
+     "to": "absolute-algorithm"
+    },
+    {
+     "rel": "related",
+     "to": "pdac-molecular-subtypes"
+    },
+    {
+     "rel": "related",
+     "to": "moffitt-classical-basal-like"
+    }
+   ]
+  },
+  {
+   "key": "paper-peran-2018",
+   "kind": "paper",
+   "label_md": "Peran et al. 2018 (Clin Cancer Res)",
+   "gloss_md": "Showed that TCGA-PAAD contains non-PDAC samples (including neuroendocrine tumours) that create false survival findings unless removed.",
+   "body_md": "Ivana Peran, Subha Madhavan, Stephen W. Byers and Matthew D. McCoy (Georgetown-Lombardi Comprehensive Cancer Center, Washington DC), *Clinical Cancer Research* 24:3813-3819, 2018. \"Curation of the Pancreatic Ductal Adenocarcinoma Subset of The Cancer Genome Atlas Is Essential for Accurate Conclusions about Survival-Related Molecular Mechanisms\". DOI 10.1158/1078-0432.CCR-18-0290.\n\n- They list 33 profiles that are normal / pseudo-normal pancreas (16) or not ductal adenocarcinoma (17), among them eight pancreatic neuroendocrine tumours.\n- Neuroendocrine patients live years instead of months, so every gene separating neuroendocrine from ductal tissue looks prognostic; cross-validation does not repair this because it resamples the same contaminated cohort.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "doi": "10.1158/1078-0432.CCR-18-0290",
+    "aliases": [
+     "Peran 2018",
+     "Peran2018"
+    ],
+    "mnemonic": "\"TCGA-PAAD is a project name, not a diagnosis.\""
+   },
+   "priority": 85,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/literature/subtypes"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "paper-tcga-2017"
+    },
+    {
+     "rel": "related",
+     "to": "pancreatic-neuroendocrine-tumour"
+    }
+   ]
+  },
+  {
+   "key": "paper-puleo-2018",
+   "kind": "paper",
+   "label_md": "Puleo et al. 2018 (Gastroenterology)",
+   "gloss_md": "ICA on 309 FFPE resected PDAC from four European centres; five subtypes combining tumour and microenvironment components.",
+   "body_md": "Francesco Puleo, Rémy Nicolle, ..., Aurélien de Reyniès, Jean-Luc Van Laethem, Jean-Baptiste Bachet and Raphaël Maréchal (Brussels / Paris, with the CIT programme of the Ligue Nationale Contre le Cancer), *Gastroenterology* 155:1999-2013, 2018. \"Stratification of Pancreatic Ductal Adenocarcinomas Based on Tumor and Microenvironment Features\". DOI 10.1053/j.gastro.2018.08.033.\n\n- Data: E-MTAB-6134 (ArrayExpress), 309 FFPE primary tumours on Affymetrix HG-U219, OS and DFS.\n- Method: independent component analysis; subtypes are combinations of tumour and stroma components, assigned by centroids.\n- Finding: median OS from 10.3 months (pure basal-like) to 43.1 months (pure classical); ordering reproduced in the ICGC array cohort.\n- Status 2026: superseded by PAMG (same group); the components live on in Hilmi 2021. E-MTAB-6134 is the largest open PDAC cohort with survival, on trial-like FFPE material.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "doi": "10.1053/j.gastro.2018.08.033",
+    "aliases": [
+     "Puleo 2018",
+     "Puleo2018"
+    ]
+   },
+   "priority": 72,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/literature/subtypes"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "puleo-subtypes"
+    },
+    {
+     "rel": "related",
+     "to": "paper-nicolle-2020"
+    }
+   ]
+  },
+  {
+   "key": "puleo-subtypes",
+   "kind": "term",
+   "label_md": "Puleo subtypes (five tumour-microenvironment classes)",
+   "gloss_md": "Pure classical, immune classical, desmoplastic, stroma activated and pure basal-like: five regions on the plane of the tumour and stroma axes.",
+   "body_md": "Ordered from best to worst median OS in the discovery cohort: pure classical (43.1 months), immune classical (37.4), desmoplastic (24.3), stroma activated (20.2), pure basal-like (10.3). They do not contradict Moffitt; they describe the same two axes with five labelled regions. Centroids are in the supplement and in pdacR, no code; the two most interesting classes rest on about 25 patients each.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "aliases": [
+     "pure classical",
+     "immune classical",
+     "pure basal-like",
+     "stroma activated",
+     "desmoplastic subtype"
+    ]
+   },
+   "priority": 55,
+   "level": 3,
+   "dirs": [
+    "comit/tp6/literature/subtypes"
+   ],
+   "links": [
+    {
+     "rel": "part_of",
+     "to": "paper-puleo-2018"
+    },
+    {
+     "rel": "related",
+     "to": "moffitt-classical-basal-like"
+    }
+   ]
+  },
+  {
+   "key": "paper-maurer-2019",
+   "kind": "paper",
+   "label_md": "Maurer et al. 2019 (Gut)",
+   "gloss_md": "Paired epithelium and stroma by laser capture microdissection confirm the classical / basal-like axis experimentally and train the ADVOCATE deconvolution model.",
+   "body_md": "H. Carlo Maurer, Sam R. Holmstrom, Jing He, ..., Andrea Califano and Kenneth P. Olive (Columbia University, New York), *Gut* 68:1034-1043, 2019. \"Experimental microdissection enables functional harmonisation of pancreatic cancer subtypes\". DOI 10.1136/gutjnl-2018-317706.\n\n- Data: GSE93326, 204 RNA-seq profiles from 122 patients, 60 matched epithelium / stroma pairs and 110 stroma profiles.\n- Finding: physically separated epithelium gives Moffitt's two tumour classes; a new stroma axis (ECM-rich vs immune-rich); in TCGA, bulk basal-like tumours had a higher epithelial fraction than classical ones, a difference that vanished in the virtual epithelium (Figure 2D); combined epithelial + stromal subtypes separated survival better (HR 3.76 UNC, 3.81 ICGC, 2.63 TCGA).\n- Status 2026: state of the art for compartment deconvolution in PDAC; a tool, not a classifier.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "doi": "10.1136/gutjnl-2018-317706",
+    "aliases": [
+     "Maurer 2019",
+     "Maurer2019"
+    ]
+   },
+   "priority": 78,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/literature/subtypes"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "advocate-virtual-microdissection"
+    },
+    {
+     "rel": "related",
+     "to": "laser-capture-microdissection"
+    },
+    {
+     "rel": "related",
+     "to": "tumour-purity"
+    }
+   ]
+  },
+  {
+   "key": "advocate-virtual-microdissection",
+   "kind": "term",
+   "label_md": "ADVOCATE (compartment deconvolution)",
+   "gloss_md": "Maurer 2019's machine-learning model that estimates epithelial and stromal fractions of a bulk PDAC profile and derives virtual epithelium and stroma profiles.",
+   "body_md": "Trained on the LCM epithelium / stroma pairs of GSE93326, applied to single bulk samples (the microdissection is needed only for training). Code: GitHub califano-lab/ADVOCATE (R package with vignette). It returns compartment fractions and profiles rather than a subtype, so a second step is needed.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "aliases": [
+     "ADVOCATE",
+     "virtual epithelium",
+     "veTCGA"
+    ]
+   },
+   "priority": 62,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/literature/methods"
+   ],
+   "links": [
+    {
+     "rel": "part_of",
+     "to": "paper-maurer-2019"
+    },
+    {
+     "rel": "related",
+     "to": "virtual-microdissection"
+    },
+    {
+     "rel": "related",
+     "to": "tumour-purity"
+    }
+   ]
+  },
+  {
+   "key": "paper-chan-seng-yue-2020",
+   "kind": "paper",
+   "label_md": "Chan-Seng-Yue et al. 2020 (Nat Genet)",
+   "gloss_md": "Whole genomes and transcriptomes of LCM-enriched PDAC epithelium: subtypes are a continuum (basal-like A/B, hybrid, classical A/B) driven by mutant KRAS dosage and GATA6.",
+   "body_md": "Michelle Chan-Seng-Yue, ..., Steven Gallinger and Faiyaz Notta (Ontario Institute for Cancer Research / PanCuRx, Toronto), *Nature Genetics* 52:231-240, 2020. \"Transcription phenotypes of pancreatic cancer are driven by genomic events during tumor evolution\". DOI 10.1038/s41588-019-0566-9.\n\n- Data: 330 tumours of 314 patients, WGS after LCM, 248 with RNA-seq (EGA EGAS00001002543; the ICGC PACA-CA cohort, incl. COMPASS trial biopsies of advanced disease).\n- Finding: basal-like and classical programmes coexist in the same tumour (confirmed by single-cell analysis), so the subtype is a mixing ratio; mutant KRAS allelic imbalance / amplification goes with basal-like, GATA6 amplification with classical tumours; basal-like A is rare in resectable disease (5 %) but about a quarter of stage IV and highly chemoresistant.\n- Status 2026: current for the biology; no classifier.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "doi": "10.1038/s41588-019-0566-9",
+    "aliases": [
+     "Chan-Seng-Yue 2020",
+     "ChanSengYue2020",
+     "Notta lab"
+    ]
+   },
+   "priority": 80,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/literature/subtypes"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "chan-seng-yue-subtypes"
+    },
+    {
+     "rel": "related",
+     "to": "moffitt-classical-basal-like"
+    }
+   ]
+  },
+  {
+   "key": "chan-seng-yue-subtypes",
+   "kind": "term",
+   "label_md": "Chan-Seng-Yue subtypes (basal-like A/B, hybrid, classical A/B)",
+   "gloss_md": "Five regions on the basal-like-to-classical continuum, defined on microdissected PDAC epithelium.",
+   "body_md": "Basal-like A (rare when resectable, about a quarter of stage IV, chemoresistant), basal-like B, hybrid (neither programme dominates, both present), classical A and classical B. Consequence: a PurIST probability near 0.5 need not be uncertainty about a true class, it can be a tumour that contains both programmes. Gene lists in the supplement and in pdacR; no single-sample rule.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "aliases": [
+     "basal-like A",
+     "basal-like B",
+     "hybrid subtype",
+     "classical A",
+     "classical B"
+    ]
+   },
+   "priority": 55,
+   "level": 3,
+   "dirs": [
+    "comit/tp6/literature/subtypes"
+   ],
+   "links": [
+    {
+     "rel": "part_of",
+     "to": "paper-chan-seng-yue-2020"
+    },
+    {
+     "rel": "related",
+     "to": "moffitt-classical-basal-like"
+    }
+   ]
+  },
+  {
+   "key": "paper-torre-healy-2023",
+   "kind": "paper",
+   "label_md": "Torre-Healy et al. 2023 (Commun Biol)",
+   "gloss_md": "pdacR: curated PDAC cohorts and all published subtype gene sets and classifiers in one R package; supports a two-subtype model.",
+   "body_md": "Luke A. Torre-Healy, Ryan R. Kawalerski, ..., Naim U. Rashid, Jen Jen Yeh and Richard A. Moffitt (Moffitt lab, then Stony Brook), *Communications Biology* 6:163, 2023. \"Open-source curation of a pancreatic ductal adenocarcinoma gene expression analysis platform (pdacR) supports a two-subtype model\". DOI 10.1038/s42003-023-04461-6.\n\n- Finding: applied with the same preprocessing to all curated cohorts, ADEX, exocrine-like and immunogenic track low tumour cellularity or mark non-PDAC histology (acinar cell carcinoma); only the two-subtype signatures and PurIST stay tumour-cell specific (Figure 2a: ADEX score vs ABSOLUTE purity in TCGA, Spearman ρ = -0.26).\n- The authors declare a financial interest in the PurIST patent (licensed to GeneCentric).",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "doi": "10.1038/s42003-023-04461-6",
+    "aliases": [
+     "Torre-Healy 2023",
+     "TorreHealy2023",
+     "pdacR paper"
+    ]
+   },
+   "priority": 85,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/literature/subtypes"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "pdacr"
+    },
+    {
+     "rel": "related",
+     "to": "moffitt-classical-basal-like"
+    },
+    {
+     "rel": "related",
+     "to": "tumour-purity"
+    }
+   ]
+  },
+  {
+   "key": "pdacr",
+   "kind": "term",
+   "label_md": "pdacR (R package and Shiny app)",
+   "gloss_md": "Moffitt lab's R package with curated PDAC expression cohorts, the gene lists of all subtype papers, the Moffitt classifiers, PurIST and PAMG.",
+   "body_md": "- Code: GitHub rmoffitt/pdacR, archived on Zenodo (10.5281/zenodo.7383375), MIT licence; Shiny app via `pdacR::pdacShiny()` and a web tool (moved to pdacR.bmi.emory.edu in January 2025).\n- Data: prepared TCGA-PAAD with purity, subtype calls and the 150-sample whitelist (filter \"Decision\" = whitelist), GSE71729, E-MTAB-6134, ICGC PACA-AU (array and RNA-seq), PACA-CA RNA-seq with survival, CPTAC, GSE57495 and more (about 250 MB).\n- Caveat: a package is a snapshot of changing portals, so record the version used.\n\nAs a data source: - GitHub rmoffitt/pdacR, archived on Zenodo (10.5281/zenodo.7383375); web tool at pdacR.bmi.stonybrook.edu.\n- Contains prepared versions of TCGA-PAAD (with purity, all subtype calls and the 150-sample list), GSE71729, E-MTAB-6134, ICGC PACA-AU as arrays and RNA-seq (92 samples), PACA-CA RNA-seq (262 samples) with survival, CPTAC, GSE57495 and others.\n- The fastest route to the controlled ICGC cohorts, but a snapshot of portals that change: record the package version with every result.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "aliases": [
+     "pdacR",
+     "pdacShiny",
+     "pdacR data"
+    ]
+   },
+   "priority": 82,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/literature/classifiers"
+   ],
+   "links": [
+    {
+     "rel": "part_of",
+     "to": "paper-torre-healy-2023"
+    },
+    {
+     "rel": "related",
+     "to": "purist-model"
+    },
+    {
+     "rel": "related",
+     "to": "pamg"
+    }
+   ]
+  },
+  {
+   "key": "paper-hilmi-2021",
+   "kind": "paper",
+   "label_md": "Hilmi et al. 2021 (Eur J Cancer)",
+   "gloss_md": "Puleo's tumour and stroma components predict distant recurrence after PDAC resection better than clinicopathological factors.",
+   "body_md": "Marc Hilmi, Jérôme Cros, Francesco Puleo, Jean-Baptiste Bachet, Rémy Nicolle et al. (Beaujon / Paris), *European Journal of Cancer* 148:171-180, 2021. DOI 10.1016/j.ejca.2021.01.042.\n\n- Data: 381 patients as discovery (E-MTAB-6134, 284 with relapse data) and 149 in-house Beaujon patients as validation (QuantSeq 3', not public).\n- Finding: basal-like tumour component raises and inactive structural stroma lowers the risk of distant recurrence (HR 1.45/1.90 and 0.68/0.72 discovery/validation); local recurrence depended on the resection margin instead.\n- No discrimination metric reported; validated in-house only.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "doi": "10.1016/j.ejca.2021.01.042",
+    "aliases": [
+     "Hilmi 2021",
+     "Hilmi2021"
+    ]
+   },
+   "priority": 55,
+   "level": 3,
+   "dirs": [
+    "comit/tp6/literature/subtypes"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "paper-puleo-2018"
+    }
+   ]
+  },
+  {
+   "key": "paper-rashid-2020",
+   "kind": "paper",
+   "label_md": "Rashid et al. 2020 (Clin Cancer Res) - PurIST",
+   "gloss_md": "Purity Independent Subtyping of Tumors (PurIST): a single-sample classical / basal-like classifier over eight gene pairs.",
+   "body_md": "Naim U. Rashid, Xianlu L. Peng, Chong Jin, Richard A. Moffitt, ..., David C. Linehan and Jen Jen Yeh (UNC Chapel Hill, with Washington University), *Clinical Cancer Research* 26:82-92, 2020. DOI 10.1158/1078-0432.CCR-19-1467.\n\n- Training: GSE71729 (Moffitt), TCGA-PAAD and the Aguirre biopsies (321 training labels).\n- Validation: six cohorts with 378 samples (ICGC PACA-AU array and RNA-seq, Moffitt, Linehan, Connor, COMPASS) plus in-house Yeh_Seq series (GSE131050 FNA vs bulk, GSE131051 NanoString).\n- Performance: meta-analytic AUC 0.993 for reproducing consensus-clustering calls (not an outcome); basal-like HR 1.90 for OS in pooled non-training samples; κ = 0.879 RNA-seq vs NanoString.\n- Status 2026: state of the art, the only single-sample classifier with code, clinical design and independent validation.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "doi": "10.1158/1078-0432.CCR-19-1467",
+    "aliases": [
+     "Rashid 2020",
+     "Rashid2020",
+     "PurIST paper"
+    ]
+   },
+   "priority": 92,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/literature/classifiers"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "purist-model"
+    },
+    {
+     "rel": "related",
+     "to": "paper-moffitt-2015"
+    }
+   ]
+  },
+  {
+   "key": "purist-model",
+   "kind": "term",
+   "label_md": "PurIST model (Purity Independent Subtyping of Tumors)",
+   "gloss_md": "A single-sample classifier that calls classical vs basal-like PDAC from eight within-sample gene-pair comparisons; returns the basal-like probability.",
+   "body_md": "- Model: k-top-scoring-pairs (k-TSP). For each of eight pairs only one indicator counts: is gene A higher than gene B in this sample? A logistic regression over the eight indicators gives P(basal-like); the published threshold is 0.5.\n- Pairs (basal-like gene vs classical gene): GPR87-REG4, KRT6A-ANXA10, BCAR3-GATA6, PTGES-CLDN18, ITGA3-LGALS4, C16orf74-DDC, S100A2-SLC40A1, KRT5-CLRN3.\n- Because it compares genes within one profile, library size, platform and normalisation do not enter, and purity only as long as both genes of a pair come from the tumour compartment.\n- Code: classifier object and `apply_classifier()` on GitHub naimurashid/PurIST (no training code); patent licensed to GeneCentric Technologies, free for not-for-profit research. The authors require TPM or FPKM for RNA-seq.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "aliases": [
+     "Purity Independent Subtyping of Tumors",
+     "PurIST classifier"
+    ],
+    "mnemonic": "PurIST = \"Pur(ity) I(ndependent) S(ubtyping of) T(umours)\" - the name is the claim: pairs inside one sample do not care how pure the sample is."
+   },
+   "priority": 96,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/literature/classifiers"
+   ],
+   "links": [
+    {
+     "rel": "part_of",
+     "to": "paper-rashid-2020"
+    },
+    {
+     "rel": "related",
+     "to": "moffitt-classical-basal-like"
+    },
+    {
+     "rel": "related",
+     "to": "tumour-purity"
+    },
+    {
+     "rel": "related",
+     "to": "pamg"
+    }
+   ]
+  },
+  {
+   "key": "paper-nicolle-2020",
+   "kind": "paper",
+   "label_md": "Nicolle et al. 2020 (EBioMedicine) - PAMG",
+   "gloss_md": "The pancreatic adenocarcinoma molecular gradient: a continuous single-sample score from basal-like to classical, derived from 76 patient-derived xenografts.",
+   "body_md": "Rémy Nicolle, Yuna Blum, ..., Juan Iovanna, Nelson Dusetti, Louis Buscail and the BACAP Consortium (Marseille / Toulouse, CIT programme), *EBioMedicine* 57:102858, 2020. DOI 10.1016/j.ebiom.2020.102858.\n\n- Development: ICA on transcriptomes of 76 PDX (PaCaOmics, ArrayExpress E-MTAB-5039), recapitulating five histological groups along one gradient.\n- Validation: ICGC PACA-AU (267 resected), Puleo E-MTAB-6134 (308 resected), 60 BACAP EUS-guided biopsies, 28 COMPASS biopsies under mFOLFIRINOX.\n- Performance: univariate HR 0.32 per unit in Puleo, 0.41 in ICGC, 0.31 in advanced BACAP (higher = classical = better); correlation with mFOLFIRINOX response (Pearson -0.67). No threshold and no C-index published.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "doi": "10.1016/j.ebiom.2020.102858",
+    "aliases": [
+     "Nicolle 2020",
+     "Nicolle2020",
+     "PAMG paper"
+    ]
+   },
+   "priority": 88,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/literature/classifiers"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "pamg"
+    },
+    {
+     "rel": "related",
+     "to": "paper-puleo-2018"
+    }
+   ]
+  },
+  {
+   "key": "pamg",
+   "kind": "term",
+   "label_md": "PAMG (pancreatic adenocarcinoma molecular gradient)",
+   "gloss_md": "A continuous single-sample score of where a tumour sits between basal-like (negative) and classical (positive).",
+   "body_md": "- One ICA component learnt on PDX transcriptomes, projected onto new samples with a platform-specific reference (`normalize = \"sameAsRef\"`); the RNA-seq reference is the ICGC RNA-seq system.\n- Code: R package pdacmolgrad (GitHub RemyNicolle/pdacmolgrad), function `projectMolGrad()`; imported by pdacR.\n- Works on biopsies; as a continuous value it needs a threshold before trial use. A hazard ratio per PAMG unit cannot be compared with one per standard deviation without rescaling.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "aliases": [
+     "pancreatic adenocarcinoma molecular gradient",
+     "pdacmolgrad",
+     "molecular gradient"
+    ],
+    "mnemonic": "PAMG: Plus = clAssical, Minus = basal-like Grim."
+   },
+   "priority": 90,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/literature/classifiers"
+   ],
+   "links": [
+    {
+     "rel": "part_of",
+     "to": "paper-nicolle-2020"
+    },
+    {
+     "rel": "related",
+     "to": "moffitt-classical-basal-like"
+    },
+    {
+     "rel": "related",
+     "to": "purist-model"
+    }
+   ]
+  },
+  {
+   "key": "single-sample-classifier-pdac",
+   "kind": "term",
+   "label_md": "Single-sample classifier vs cohort-level subtyping",
+   "gloss_md": "A single-sample classifier scores one profile on its own; cohort-level subtyping (clustering, centroids after scaling) needs the whole cohort, so it cannot classify a new patient in a trial.",
+   "body_md": "Clustering assigns labels relative to the other samples, and centroid rules need per-gene scaling, which needs a cohort. A trial gets one biopsy at a time, so only rules that work on one profile (within-sample gene pairs as in PurIST, or projection against a fixed reference as in PAMG) are usable. This is why the model family tree has two strands: Collisson → Moffitt → PurIST / pdacR ends in software, while the immune signatures end in none.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "aliases": [
+     "single-sample classifier",
+     "Einzelproben-Klassifikator"
+    ]
+   },
+   "priority": 78,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/literature/classifiers"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "purist-model"
+    },
+    {
+     "rel": "related",
+     "to": "pamg"
+    }
+   ]
+  },
+  {
+   "key": "immune-signature-recipe",
+   "kind": "term",
+   "label_md": "The immune-signature recipe (IRGPI family)",
+   "gloss_md": "The procedure shared by six PDAC immune-signature papers: annotated immune genes → univariate Cox screen in TCGA-PAAD → LASSO-Cox → median split → KM and time-dependent ROC.",
+   "body_md": "Steps: immune genes from ImmPort or MSigDB; often a tumour-vs-normal filter (GTEx); one Cox model per gene, keep p < 0.001-0.05 without multiple-testing correction; LASSO-Cox; split at the median or an optimised cut-point in the same sample; KM, log-rank, time-dependent ROC; external cohorts re-standardised and re-split.\n\nRecurring faults (Literature book, Table 4.1): genes chosen with the survival times of the evaluated patients (of 1500 genes about 75 pass p < 0.05 by chance); hazard ratios reported as performance; no comparison with all genes, the clinical variables or the subtype axis; the model is not frozen in validation; tumour purity never adjusted for (only Zhou 2022 and Yan 2020 even measure it).\n\nThe six: Yan 2020, Liu 2021, Qian 2021, Wang 2021, Li 2022, Zhou 2022. None was tested against another.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "aliases": [
+     "IRGPI family",
+     "immune risk score recipe"
+    ],
+    "mnemonic": "\"Screen, LASSO, split, plot\" - and the screen used the very patients it is evaluated on."
+   },
+   "priority": 88,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/literature/immune-signatures"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "irgpi"
+    },
+    {
+     "rel": "related",
+     "to": "lasso"
+    },
+    {
+     "rel": "related",
+     "to": "tumour-purity"
+    }
+   ]
+  },
+  {
+   "key": "paper-yan-2020",
+   "kind": "paper",
+   "label_md": "Yan et al. 2020 (Oncol Lett)",
+   "gloss_md": "Four-gene immune risk score (OAS1, MET, IL1R2, IL20RB) from TCGA-PAAD; the first of the six immune-signature papers.",
+   "body_md": "Shibai Yan, Juntao Fang, Yuanqiang Zhu, Yong Xie and Feng Fang, *Oncology Letters* 20:366, 2020. DOI 10.3892/ol.2020.12228.\n\nTraining TCGA-PAAD (n = 158) against GTEx pancreas, WGCNA module preselection, LASSO-Cox; cut-point 4.15 optimised in training and carried unchanged into ICGC PACA-AU (n = 79, AUC 0.70 at 1 year) and GSE62452 (n = 66). Found purity higher in the high-risk group, which is what the purity objection predicts. IL20RB recurs in three later scores, MET in two.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "doi": "10.3892/ol.2020.12228",
+    "aliases": [
+     "Yan 2020",
+     "Yan2020"
+    ]
+   },
+   "priority": 55,
+   "level": 3,
+   "dirs": [
+    "comit/tp6/literature/immune-signatures"
+   ],
+   "links": [
+    {
+     "rel": "part_of",
+     "to": "immune-signature-recipe"
+    }
+   ]
+  },
+  {
+   "key": "paper-liu-2021",
+   "kind": "paper",
+   "label_md": "Liu et al. 2021 (Biosci Rep)",
+   "gloss_md": "Five-gene immune prognostic model (ERAP2, CXCL9, AREG, DKK1, IL20RB) for PDAC.",
+   "body_md": "Bo Liu, Tingting Fu, Ping He, Chengyou Du and Ke Xu, *Bioscience Reports* 41:BSR20204301, 2021. DOI 10.1042/BSR20204301.\n\nCandidates: 142 differentially expressed immune genes from six GEO data sets; training on 102 of 170 TCGA-PAAD patients (AUC 0.85-0.93, in-sample), held-out 68, external GSE62452 (n = 64, AUC 0.60/0.75/0.77 at 1/2/3 years). The highest in-sample AUCs of the genre, a sign of in-sample evaluation rather than a better model.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "doi": "10.1042/BSR20204301",
+    "aliases": [
+     "Liu 2021",
+     "Liu2021",
+     "liu2021five"
+    ]
+   },
+   "priority": 45,
+   "level": 3,
+   "dirs": [
+    "comit/tp6/literature/immune-signatures"
+   ],
+   "links": [
+    {
+     "rel": "part_of",
+     "to": "immune-signature-recipe"
+    }
+   ]
+  },
+  {
+   "key": "paper-qian-2021",
+   "kind": "paper",
+   "label_md": "Qian et al. 2021 (Front Cell Dev Biol)",
+   "gloss_md": "18-gene immunity-related signature claimed to identify PDAC patients benefitting from adjuvant chemotherapy or potentially responding to PD-1/PD-L1 blockade.",
+   "body_md": "Hao Qian, Hongzhe Li, Junjie Xie, ..., Baiyong Shen et al. (Ruijin Hospital, Shanghai), *Frontiers in Cell and Developmental Biology* 9:682261, 2021. DOI 10.3389/fcell.2021.682261.\n\n18 of 1308 ImmPort genes (p < 0.001), LASSO-Cox, nomogram, cut-point 20.91; training TCGA-PAAD (n = 173), validation PACA-AU, PACA-CA, GSE57495 and the in-house Ruijin cohort (101, qRT-PCR, IHC on 81). The only one of the six with a therapy claim; that claim is retrospective and confounded by who received chemotherapy, so it is a hypothesis.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "doi": "10.3389/fcell.2021.682261",
+    "aliases": [
+     "Qian 2021",
+     "Qian2021",
+     "irg18gene2021",
+     "18-gene immune signature"
+    ]
+   },
+   "priority": 50,
+   "level": 3,
+   "dirs": [
+    "comit/tp6/literature/immune-signatures"
+   ],
+   "links": [
+    {
+     "rel": "part_of",
+     "to": "immune-signature-recipe"
+    }
+   ]
+  },
+  {
+   "key": "paper-wang-2021",
+   "kind": "paper",
+   "label_md": "Wang et al. 2021 (BMC Med Genomics)",
+   "gloss_md": "Eight-gene immune risk score for PDAC, evaluated only on its own TCGA-PAAD training data.",
+   "body_md": "Wenting Wang, Zhijian Xu, Ning Wang, Ruyong Yao, Tao Qin, Hao Lin and Lu Yue, *BMC Medical Genomics* 14:42, 2021. DOI 10.1186/s12920-020-00868-w.\n\nGenes ITGA7, RBM14, DENND4B, LQK1, ZNF709, COL7A1, SP1, NCBP2 from MSigDB immune sets (the only one of the six not using ImmPort); univariate Cox → LASSO → multivariate Cox; AUC 0.755 on the 183 training patients, no external cohort at all - the purest example of apparent performance.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "doi": "10.1186/s12920-020-00868-w",
+    "aliases": [
+     "Wang 2021",
+     "Wang2021"
+    ]
+   },
+   "priority": 40,
+   "level": 3,
+   "dirs": [
+    "comit/tp6/literature/immune-signatures"
+   ],
+   "links": [
+    {
+     "rel": "part_of",
+     "to": "immune-signature-recipe"
+    }
+   ]
+  },
+  {
+   "key": "paper-li-2022",
+   "kind": "paper",
+   "label_md": "Li et al. 2022 (Precis Clin Med)",
+   "gloss_md": "Five-gene immunogenomic signature (MET, ERAP2, IL20RB, EREG, SHC2) with four validation cohorts.",
+   "body_md": "Ang Li, Bicheng Ye, Fangnan Lin, Yilin Wang, Xiaye Miao and Yanfang Jiang, *Precision Clinical Medicine* 5:pbac010, 2022. DOI 10.1093/pcmedi/pbac010.\n\nTraining TCGA-PAAD (AUC 0.72/0.70/0.78 at 1/3/5 years, in-sample), validation PACA-AU, PACA-CA, GSE57495, GSE62452 with KM curves and hazard ratios only. Claims to beat four other signatures by comparing numbers across papers, which is not a comparison.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "doi": "10.1093/pcmedi/pbac010",
+    "aliases": [
+     "Li 2022",
+     "Li2022",
+     "immunogenomic2022"
+    ]
+   },
+   "priority": 45,
+   "level": 3,
+   "dirs": [
+    "comit/tp6/literature/immune-signatures"
+   ],
+   "links": [
+    {
+     "rel": "part_of",
+     "to": "immune-signature-recipe"
+    }
+   ]
+  },
+  {
+   "key": "paper-zhou-2022",
+   "kind": "paper",
+   "label_md": "Zhou et al. 2022 (Cancers) - IRGPI",
+   "gloss_md": "The immune-related gene prognostic index (IRGPI): a twelve-gene LASSO-Cox formula fitted on TCGA-PAAD, the newest of the PDAC immune signatures.",
+   "body_md": "Shujing Zhou, Attila Gábor Szöllősi, Xufeng Huang, Yi-Che Chang-Chien and András Hajdu (University of Debrecen, Hungary), *Cancers* 14:5652, 2022. \"A Novel Immune-Related Gene Prognostic Index (IRGPI) in Pancreatic Adenocarcinoma (PAAD) and Its Implications in the Tumor Microenvironment\". DOI 10.3390/cancers14225652.\n\n- Training TCGA-PAAD (n = 177) against 54 GTEx normals; validation ICGC (n = 269) and GSE62452 (n = 130).\n- Reported test AUCs reach 0.835 (ICGC) and 0.891 (GSE62452) at five years, the best test-cohort AUCs of the genre; compared only with a ferroptosis and a pyroptosis signature.\n- Correlates its score with ESTIMATE purity but does not adjust for it.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "doi": "10.3390/cancers14225652",
+    "aliases": [
+     "Zhou 2022",
+     "Zhou2022",
+     "IRGPI paper"
+    ]
+   },
+   "priority": 82,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/literature/immune-signatures"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "irgpi"
+    },
+    {
+     "rel": "part_of",
+     "to": "immune-signature-recipe"
+    }
+   ]
+  },
+  {
+   "key": "irgpi",
+   "kind": "term",
+   "label_md": "IRGPI (immune-related gene prognostic index)",
+   "gloss_md": "Zhou 2022's overall-survival risk score: a Cox linear predictor over twelve immune genes.",
+   "body_md": "- Genes: FYN, MET, LRSAM1, PSPN, ERAP2, S100A1, IL20RB, MAP3K14, SEMA6C, PRKCG, CXCL11, GH1 (largest weights GH1 -0.36, MET +0.21, PSPN -0.20).\n- Score = Σ coefficient × expression; groups split at the median. No code published, so it is rebuilt from the formula; the paper does not state the expression scale, and the patient ranking depends on that choice.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "aliases": [
+     "immune-related gene prognostic index",
+     "IRGPI score"
+    ],
+    "mnemonic": "IRGPI = I R G P I = \"Immune-Related Gene Prognostic Index\"; twelve genes, like the twelve months of the year it predicts."
+   },
+   "priority": 88,
+   "level": 1,
+   "dirs": [
+    "comit/tp6/literature/immune-signatures"
+   ],
+   "links": [
+    {
+     "rel": "part_of",
+     "to": "paper-zhou-2022"
+    },
+    {
+     "rel": "related",
+     "to": "immune-signature-recipe"
+    },
+    {
+     "rel": "related",
+     "to": "lasso"
+    }
+   ]
+  },
+  {
+   "key": "paper-peng-2019",
+   "kind": "paper",
+   "label_md": "Peng et al. 2019 (Cell Res)",
+   "gloss_md": "Single-cell RNA-seq of primary PDAC and control pancreas showing intra-tumoural heterogeneity and two ductal cell types, one of them malignant.",
+   "body_md": "Junya Peng, Bao-Fa Sun, Chuan-Yuan Chen et al. (Beijing), *Cell Research* 29:725-738, 2019. \"Single-cell RNA-seq highlights intra-tumoral heterogeneity and malignant progression in pancreatic ductal adenocarcinoma\". DOI 10.1038/s41422-019-0195-y.\n\nAbout 57,000 cells from 24 primary PDAC and 11 control pancreata (10x Genomics; Genome Sequence Archive CRA001160). Ductal cell type 1 is normal-like, ductal cell type 2 the malignant population with proliferative and invasive programmes.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "doi": "10.1038/s41422-019-0195-y",
+    "aliases": [
+     "Peng 2019",
+     "Peng2019"
+    ]
+   },
+   "priority": 72,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/literature/methods"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "pancreatic-ductal-adenocarcinoma"
+    }
+   ]
+  },
+  {
+   "key": "paper-aran-2015",
+   "kind": "paper",
+   "label_md": "Aran, Sirota & Butte 2015 (Nat Commun)",
+   "gloss_md": "Pan-cancer analysis of tumour purity in TCGA: purity estimates disagree between methods and confound expression analyses.",
+   "body_md": "Dvir Aran, Marina Sirota and Atul J. Butte (UCSF), *Nature Communications* 6:8971, 2015. \"Systematic pan-cancer analysis of tumour purity\". DOI 10.1038/ncomms9971.\n\nCompared purity from ESTIMATE, ABSOLUTE, LUMP (leukocyte methylation) and pathology (IHC) across about 10,000 TCGA samples of 21 cancer types and combined them into a consensus purity estimate (CPE). Showed that purity correlates with many genes and confounds differential expression and survival associations, and that pathologists' estimates run higher than genomic ones. A standard citation for \"bulk signatures can be driven by purity\".",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "doi": "10.1038/ncomms9971",
+    "aliases": [
+     "Aran 2015",
+     "consensus purity estimate",
+     "CPE"
+    ]
+   },
+   "priority": 68,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/literature/methods"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "tumour-purity"
+    },
+    {
+     "rel": "related",
+     "to": "estimate-algorithm"
+    },
+    {
+     "rel": "related",
+     "to": "absolute-algorithm"
+    }
+   ]
+  },
+  {
+   "key": "paper-yoshihara-2013",
+   "kind": "paper",
+   "label_md": "Yoshihara et al. 2013 (Nat Commun) - ESTIMATE",
+   "gloss_md": "ESTIMATE: stromal and immune scores from expression data, converted into a tumour purity estimate.",
+   "body_md": "Kosuke Yoshihara, ..., Gad Getz, Gordon B. Mills and Roel G. W. Verhaak (MD Anderson), *Nature Communications* 4:2612, 2013. \"Inferring tumour purity and stromal and immune cell admixture from expression data\". DOI 10.1038/ncomms3612.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "doi": "10.1038/ncomms3612",
+    "aliases": [
+     "Yoshihara 2013",
+     "ESTIMATE paper"
+    ]
+   },
+   "priority": 60,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/literature/methods"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "estimate-algorithm"
+    },
+    {
+     "rel": "related",
+     "to": "tumour-purity"
+    }
+   ]
+  },
+  {
+   "key": "estimate-algorithm",
+   "kind": "term",
+   "label_md": "ESTIMATE (expression-based purity estimate)",
+   "gloss_md": "Estimation of STromal and Immune cells in MAlignant Tumours using Expression data: two ssGSEA scores whose sum is calibrated to a tumour purity estimate.",
+   "body_md": "Two 141-gene signatures (stromal, immune) are scored per sample by single-sample GSEA; the ESTIMATE score is their sum, converted to purity by a formula calibrated against ABSOLUTE (copy-number) purity. Works on one sample, but a stroma gene set then scores high in any low-purity sample, so many gene-set scores correlate through the mixture. Zhou 2022 correlated IRGPI with the ESTIMATE purity value; the R package is `estimate` (Verhaak lab).",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "aliases": [
+     "ESTIMATE",
+     "ESTIMATE score",
+     "stromal score",
+     "immune score"
+    ]
+   },
+   "priority": 65,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/literature/methods"
+   ],
+   "links": [
+    {
+     "rel": "part_of",
+     "to": "paper-yoshihara-2013"
+    },
+    {
+     "rel": "related",
+     "to": "tumour-purity"
+    },
+    {
+     "rel": "related",
+     "to": "absolute-algorithm"
+    }
+   ]
+  },
+  {
+   "key": "absolute-algorithm",
+   "kind": "term",
+   "label_md": "ABSOLUTE (copy-number purity and ploidy)",
+   "gloss_md": "Carter et al.'s method that infers tumour purity and ploidy from copy-number and allele frequencies of DNA sequencing or SNP arrays.",
+   "body_md": "Published by Scott L. Carter, Gad Getz and colleagues (Broad Institute), *Nature Biotechnology* 30:413-421, 2012. Purity is read from the shift of allelic copy-number levels relative to a pure tumour, so it is independent of expression. TCGA 2017 used it to split TCGA-PAAD at 33 % purity into 76 high- and 74 low-purity tumours; pdacR carries the ABSOLUTE values of TCGA-PAAD.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "aliases": [
+     "ABSOLUTE",
+     "ABSOLUTE purity",
+     "Carter 2012"
+    ]
+   },
+   "priority": 65,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/literature/methods"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "tumour-purity"
+    },
+    {
+     "rel": "related",
+     "to": "paper-tcga-2017"
+    }
+   ]
+  },
+  {
+   "key": "paper-venet-2011",
+   "kind": "paper",
+   "label_md": "Venet, Dumont & Detours 2011 (PLoS Comput Biol)",
+   "gloss_md": "Most random gene expression signatures are significantly associated with breast cancer outcome - a warning against reading a prognostic signature as biology.",
+   "body_md": "David Venet, Jacques E. Dumont and Vincent Detours (Université Libre de Bruxelles), *PLoS Computational Biology* 7:e1002240, 2011. DOI 10.1371/journal.pcbi.1002240.\n\nRandom gene sets of the same size were as prognostic as many published breast cancer signatures; much of the signal ran through proliferation (their meta-PCNA signature), which correlates with a large part of the transcriptome.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "doi": "10.1371/journal.pcbi.1002240",
+    "aliases": [
+     "Venet 2011",
+     "random signatures paper",
+     "meta-PCNA"
+    ],
+    "anecdote": "The paper even found that signatures built from genes for postprandial laughter or for social defeat in mice predicted breast cancer outcome."
+   },
+   "priority": 70,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/literature/methods"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "immune-signature-recipe"
+    },
+    {
+     "rel": "related",
+     "to": "tumour-purity"
+    }
+   ]
+  },
+  {
+   "key": "paper-geman-2004",
+   "kind": "paper",
+   "label_md": "Geman et al. 2004 and Tan et al. 2005 - top-scoring pairs",
+   "gloss_md": "The origin of the (k-)top-scoring-pair classifier: classify a profile from which gene of a pair is higher, the principle behind PurIST.",
+   "body_md": "Donald Geman, Christian d'Avignon, Daniel Q. Naiman and Raimond L. Winslow (Johns Hopkins), \"Classifying gene expression profiles from pairwise mRNA comparisons\", *Statistical Applications in Genetics and Molecular Biology* 3:19, 2004 (TSP, DOI 10.2202/1544-6115.1071); Aik Choon Tan, ..., Donald Geman, \"Simple decision rules for classifying human cancers from gene expression profiles\", *Bioinformatics* 21:3896-3904, 2005 (k-TSP, DOI 10.1093/bioinformatics/bti631). Rank-based within one sample, hence invariant to normalisation and platform.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "doi": "10.2202/1544-6115.1071",
+    "aliases": [
+     "TSP",
+     "k-TSP",
+     "top scoring pairs",
+     "Geman 2004",
+     "Tan 2005"
+    ]
+   },
+   "priority": 50,
+   "level": 3,
+   "dirs": [
+    "comit/tp6/literature/methods"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "purist-model"
+    }
+   ]
+  },
+  {
+   "key": "paper-cao-2021",
+   "kind": "paper",
+   "label_md": "Cao et al. 2021 (Cell) - CPTAC PDAC",
+   "gloss_md": "Proteogenomic characterisation of PDAC by the Clinical Proteomic Tumor Analysis Consortium: genome, transcriptome, proteome and phosphoproteome of the same tumours.",
+   "body_md": "Liwei Cao, Chen Huang, Daniel Cui Zhou et al. (CPTAC), *Cell* 184:5031-5052, 2021. DOI 10.1016/j.cell.2021.08.023.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "doi": "10.1016/j.cell.2021.08.023",
+    "aliases": [
+     "Cao 2021",
+     "CPTAC PDAC paper"
+    ]
+   },
+   "priority": 62,
+   "level": 2,
+   "dirs": [
+    "comit/tp6/literature/methods"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "pancreatic-ductal-adenocarcinoma"
+    }
+   ]
+  },
+  {
+   "key": "paper-becht-2016",
+   "kind": "paper",
+   "label_md": "Becht et al. 2016 (Genome Biol) - MCP-counter",
+   "gloss_md": "MCP-counter: abundance scores of eight immune and two stromal cell populations from bulk expression.",
+   "body_md": "Etienne Becht, Nicolas A. Giraldo, ..., Wolf H. Fridman and Aurélien de Reyniès (Paris, CIT programme), *Genome Biology* 17:218, 2016. DOI 10.1186/s13059-016-1070-5. Scores (mean expression of specific marker genes) compare one population across samples, not populations within a sample; like ESTIMATE it inherits the mixture.",
+   "attrs": {
+    "source": "comit-tp6-literature",
+    "doi": "10.1186/s13059-016-1070-5",
+    "aliases": [
+     "Becht 2016",
+     "MCP-counter",
+     "Microenvironment Cell Populations-counter"
+    ]
+   },
+   "priority": 40,
+   "level": 3,
+   "dirs": [
+    "comit/tp6/literature/methods"
+   ],
+   "links": [
+    {
+     "rel": "related",
+     "to": "estimate-algorithm"
+    }
+   ]
+  }
+ ],
+ "card_links": [
+  {
+   "card": "Who published the first three PDAC expression subtypes (classical, quasi-mesenchymal, exocrine-like), and where?",
+   "item": "paper-collisson-2011"
+  },
+  {
+   "card": "Who published the first three PDAC expression subtypes (classical, quasi-mesenchymal, exocrine-like), and where?",
+   "item": "collisson-2011-subtypes"
+  },
+  {
+   "card": "What is PDAssigner, and why is it hard to use in a clinical trial?",
+   "item": "collisson-2011-subtypes"
+  },
+  {
+   "card": "What is PDAssigner, and why is it hard to use in a clinical trial?",
+   "item": "paper-collisson-2011"
+  },
+  {
+   "card": "Why is Collisson's exocrine-like subtype considered an artefact today?",
+   "item": "collisson-2011-subtypes"
+  },
+  {
+   "card": "Why is Collisson's exocrine-like subtype considered an artefact today?",
+   "item": "paper-moffitt-2015"
+  },
+  {
+   "card": "In Collisson 2011, which drug were classical PDAC cell lines on average more sensitive to than quasi-mesenchymal lines?",
+   "item": "paper-collisson-2011"
+  },
+  {
+   "card": "Which paper introduced \"virtual microdissection\" and the classical / basal-like tumour subtypes?",
+   "item": "paper-moffitt-2015"
+  },
+  {
+   "card": "Which paper introduced \"virtual microdissection\" and the classical / basal-like tumour subtypes?",
+   "item": "virtual-microdissection"
+  },
+  {
+   "card": "How did Moffitt 2015 separate tumour from stroma signal without physical microdissection, and what made the components interpretable?",
+   "item": "virtual-microdissection"
+  },
+  {
+   "card": "How did Moffitt 2015 separate tumour from stroma signal without physical microdissection, and what made the components interpretable?",
+   "item": "paper-moffitt-2015"
+  },
+  {
+   "card": "Which two independent axes did Moffitt 2015 define, and what survival differences did they show?",
+   "item": "paper-moffitt-2015"
+  },
+  {
+   "card": "Which two independent axes did Moffitt 2015 define, and what survival differences did they show?",
+   "item": "moffitt-stroma-subtypes"
+  },
+  {
+   "card": "Which GEO series holds the Moffitt 2015 microarray cohort (357 arrays) that also trained PurIST?",
+   "item": "paper-moffitt-2015"
+  },
+  {
+   "card": "Where does the name \"basal-like\" for the aggressive PDAC subtype come from?",
+   "item": "paper-moffitt-2015"
+  },
+  {
+   "card": "Which group published the four-class PDAC scheme squamous / pancreatic progenitor / immunogenic / ADEX?",
+   "item": "paper-bailey-2016"
+  },
+  {
+   "card": "Which group published the four-class PDAC scheme squamous / pancreatic progenitor / immunogenic / ADEX?",
+   "item": "bailey-2016-subtypes"
+  },
+  {
+   "card": "What does the Bailey subtype name ADEX stand for?",
+   "item": "bailey-2016-subtypes"
+  },
+  {
+   "card": "Which two of Bailey's four classes are tumour-cell programmes, and what are the other two?",
+   "item": "bailey-2016-subtypes"
+  },
+  {
+   "card": "Which two of Bailey's four classes are tumour-cell programmes, and what are the other two?",
+   "item": "paper-bailey-2016"
+  },
+  {
+   "card": "What did TCGA 2017 find when it applied the Collisson, Moffitt and Bailey schemes to its curated cohort?",
+   "item": "paper-tcga-2017"
+  },
+  {
+   "card": "What did TCGA 2017 find when it applied the Collisson, Moffitt and Bailey schemes to its curated cohort?",
+   "item": "tumour-purity"
+  },
+  {
+   "card": "Describe the two-stage design TCGA 2017 used against the purity problem.",
+   "item": "paper-tcga-2017"
+  },
+  {
+   "card": "Describe the two-stage design TCGA 2017 used against the purity problem.",
+   "item": "absolute-algorithm"
+  },
+  {
+   "card": "How many tumours of TCGA-PAAD are on the curated PDAC list of TCGA 2017?",
+   "item": "paper-tcga-2017"
+  },
+  {
+   "card": "Who is the lead contact (corresponding author) of the TCGA 2017 PDAC paper in Cancer Cell?",
+   "item": "paper-tcga-2017"
+  },
+  {
+   "card": "What did Peran et al. 2018 show about TCGA-PAAD, and why does cross-validation not fix it?",
+   "item": "paper-peran-2018"
+  },
+  {
+   "card": "Which tumour type hidden in TCGA-PAAD creates spurious survival genes, according to Peran 2018?",
+   "item": "paper-peran-2018"
+  },
+  {
+   "card": "Which method and material did Puleo et al. 2018 use to define five PDAC subtypes?",
+   "item": "paper-puleo-2018"
+  },
+  {
+   "card": "Name the five Puleo subtypes from best to worst survival.",
+   "item": "puleo-subtypes"
+  },
+  {
+   "card": "Which ArrayExpress accession holds the Puleo 2018 FFPE cohort, the largest open PDAC cohort with survival?",
+   "item": "paper-puleo-2018"
+  },
+  {
+   "card": "What did Maurer et al. 2019 do experimentally that Moffitt 2015 did computationally, and what was the result?",
+   "item": "paper-maurer-2019"
+  },
+  {
+   "card": "What did Maurer et al. 2019 do experimentally that Moffitt 2015 did computationally, and what was the result?",
+   "item": "virtual-microdissection"
+  },
+  {
+   "card": "Which lab published ADVOCATE?",
+   "item": "advocate-virtual-microdissection"
+  },
+  {
+   "card": "Which lab published ADVOCATE?",
+   "item": "paper-maurer-2019"
+  },
+  {
+   "card": "What does Maurer 2019 Figure 2D show about basal-like tumours in TCGA?",
+   "item": "paper-maurer-2019"
+  },
+  {
+   "card": "What does Maurer 2019 Figure 2D show about basal-like tumours in TCGA?",
+   "item": "tumour-purity"
+  },
+  {
+   "card": "Which paper showed that the classical and basal-like programmes coexist within the same tumour, defining basal-like A/B, hybrid and classical A/B?",
+   "item": "paper-chan-seng-yue-2020"
+  },
+  {
+   "card": "Which paper showed that the classical and basal-like programmes coexist within the same tumour, defining basal-like A/B, hybrid and classical A/B?",
+   "item": "chan-seng-yue-subtypes"
+  },
+  {
+   "card": "Which genomic events push a PDAC towards the basal-like end according to Chan-Seng-Yue 2020?",
+   "item": "paper-chan-seng-yue-2020"
+  },
+  {
+   "card": "What does a PurIST probability of about 0.5 mean in the light of Chan-Seng-Yue 2020?",
+   "item": "chan-seng-yue-subtypes"
+  },
+  {
+   "card": "What does a PurIST probability of about 0.5 mean in the light of Chan-Seng-Yue 2020?",
+   "item": "purist-model"
+  },
+  {
+   "card": "Which institute and consortium does the Chan-Seng-Yue 2020 cohort (ICGC PACA-CA, COMPASS biopsies) come from?",
+   "item": "paper-chan-seng-yue-2020"
+  },
+  {
+   "card": "What did Torre-Healy et al. 2023 conclude after applying all published PDAC schemes to all curated cohorts in pdacR?",
+   "item": "paper-torre-healy-2023"
+  },
+  {
+   "card": "What did Torre-Healy et al. 2023 conclude after applying all published PDAC schemes to all curated cohorts in pdacR?",
+   "item": "tumour-purity"
+  },
+  {
+   "card": "In Torre-Healy 2023 Figure 2a, how does the Bailey ADEX gene-set score relate to ABSOLUTE purity in TCGA-PAAD?",
+   "item": "paper-torre-healy-2023"
+  },
+  {
+   "card": "In Torre-Healy 2023 Figure 2a, how does the Bailey ADEX gene-set score relate to ABSOLUTE purity in TCGA-PAAD?",
+   "item": "bailey-2016-subtypes"
+  },
+  {
+   "card": "Which published PDAC model compares eight gene pairs within one sample?",
+   "item": "purist-model"
+  },
+  {
+   "card": "What does the acronym PurIST stand for?",
+   "item": "purist-model"
+  },
+  {
+   "card": "Who published PurIST, and in which journal?",
+   "item": "paper-rashid-2020"
+  },
+  {
+   "card": "Who published PurIST, and in which journal?",
+   "item": "purist-model"
+  },
+  {
+   "card": "How does PurIST compute its output for one sample?",
+   "item": "purist-model"
+  },
+  {
+   "card": "Why is PurIST robust to normalisation, platform and (largely) tumour purity?",
+   "item": "purist-model"
+  },
+  {
+   "card": "Why is PurIST robust to normalisation, platform and (largely) tumour purity?",
+   "item": "tumour-purity"
+  },
+  {
+   "card": "Which cohorts trained PurIST?",
+   "item": "paper-rashid-2020"
+  },
+  {
+   "card": "Name at least four of PurIST's eight gene pairs.",
+   "item": "purist-model"
+  },
+  {
+   "card": "What are the licence and code conditions of PurIST?",
+   "item": "purist-model"
+  },
+  {
+   "card": "What are the licence and code conditions of PurIST?",
+   "item": "paper-rashid-2020"
+  },
+  {
+   "card": "What does PurIST's reported AUC of 0.993 measure - and what does it not measure?",
+   "item": "paper-rashid-2020"
+  },
+  {
+   "card": "Which published PDAC model is a continuous score from basal-like (negative) to classical (positive)? (acronym)",
+   "item": "pamg"
+  },
+  {
+   "card": "On which material was the PAMG gradient derived?",
+   "item": "paper-nicolle-2020"
+  },
+  {
+   "card": "On which material was the PAMG gradient derived?",
+   "item": "pamg"
+  },
+  {
+   "card": "What are the main limitations of PAMG for a clinical trial?",
+   "item": "pamg"
+  },
+  {
+   "card": "What are the main limitations of PAMG for a clinical trial?",
+   "item": "paper-nicolle-2020"
+  },
+  {
+   "card": "Which research group stands behind both the Puleo subtypes and PAMG?",
+   "item": "paper-nicolle-2020"
+  },
+  {
+   "card": "Which research group stands behind both the Puleo subtypes and PAMG?",
+   "item": "paper-puleo-2018"
+  },
+  {
+   "card": "Which two published PDAC models can be applied to a single new sample, and why not the others?",
+   "item": "single-sample-classifier-pdac"
+  },
+  {
+   "card": "Where is pdacR hosted?",
+   "item": "pdacr"
+  },
+  {
+   "card": "How do you restrict TCGA-PAAD to the 150 true PDAC in the pdacR app?",
+   "item": "pdacr"
+  },
+  {
+   "card": "How do you restrict TCGA-PAAD to the 150 true PDAC in the pdacR app?",
+   "item": "paper-peran-2018"
+  },
+  {
+   "card": "Describe the recipe shared by the six PDAC immune-signature papers.",
+   "item": "immune-signature-recipe"
+  },
+  {
+   "card": "Name the recurring faults of the immune-signature recipe.",
+   "item": "immune-signature-recipe"
+  },
+  {
+   "card": "Name the recurring faults of the immune-signature recipe.",
+   "item": "tumour-purity"
+  },
+  {
+   "card": "Which of the six PDAC immune-signature papers had no external validation cohort at all?",
+   "item": "paper-wang-2021"
+  },
+  {
+   "card": "Which immune-signature paper is the only one claiming to identify patients who benefit from adjuvant chemotherapy?",
+   "item": "paper-qian-2021"
+  },
+  {
+   "card": "Why is Qian 2021's claim of adjuvant-chemotherapy benefit only a hypothesis?",
+   "item": "paper-qian-2021"
+  },
+  {
+   "card": "Which gene appears in the immune scores of Yan 2020, Liu 2021, Li 2022 and Zhou 2022?",
+   "item": "paper-yan-2020"
+  },
+  {
+   "card": "Which gene appears in the immune scores of Yan 2020, Liu 2021, Li 2022 and Zhou 2022?",
+   "item": "paper-liu-2021"
+  },
+  {
+   "card": "Which gene appears in the immune scores of Yan 2020, Liu 2021, Li 2022 and Zhou 2022?",
+   "item": "paper-li-2022"
+  },
+  {
+   "card": "Which gene appears in the immune scores of Yan 2020, Liu 2021, Li 2022 and Zhou 2022?",
+   "item": "irgpi"
+  },
+  {
+   "card": "Why are the recurring genes (IL20RB, MET, ERAP2) across the immune signatures not independent confirmation?",
+   "item": "immune-signature-recipe"
+  },
+  {
+   "card": "Why are the recurring genes (IL20RB, MET, ERAP2) across the immune signatures not independent confirmation?",
+   "item": "paper-yan-2020"
+  },
+  {
+   "card": "Which two immune-signature papers relate their score to tumour purity at all, and what did they find?",
+   "item": "paper-zhou-2022"
+  },
+  {
+   "card": "Which two immune-signature papers relate their score to tumour purity at all, and what did they find?",
+   "item": "paper-yan-2020"
+  },
+  {
+   "card": "Which two immune-signature papers relate their score to tumour purity at all, and what did they find?",
+   "item": "estimate-algorithm"
+  },
+  {
+   "card": "What does IRGPI stand for?",
+   "item": "irgpi"
+  },
+  {
+   "card": "Who published IRGPI, in which journal and year?",
+   "item": "paper-zhou-2022"
+  },
+  {
+   "card": "Who published IRGPI, in which journal and year?",
+   "item": "irgpi"
+  },
+  {
+   "card": "How many genes does IRGPI use?",
+   "item": "irgpi"
+  },
+  {
+   "card": "Which twelve genes make up IRGPI? (name as many as you can)",
+   "item": "irgpi"
+  },
+  {
+   "card": "Against which signatures did Zhou 2022 compare IRGPI?",
+   "item": "paper-zhou-2022"
+  },
+  {
+   "card": "Which immune-signature paper reported the highest (in-sample) time-dependent AUCs (0.85-0.93) of the genre, a warning sign of in-sample evaluation?",
+   "item": "paper-liu-2021"
+  },
+  {
+   "card": "Which PDAC immune signature was the first of the six, and what was its gene list?",
+   "item": "paper-yan-2020"
+  },
+  {
+   "card": "Which immune signature lists MET, ERAP2, IL20RB, EREG and SHC2 and validated in four cohorts?",
+   "item": "paper-li-2022"
+  },
+  {
+   "card": "Which paper is the single-cell RNA-seq atlas of 24 primary PDAC and 11 control pancreata with a malignant \"ductal cell type 2\"?",
+   "item": "paper-peng-2019"
+  },
+  {
+   "card": "Under which Genome Sequence Archive accession are the Peng 2019 PDAC single-cell data deposited?",
+   "item": "paper-peng-2019"
+  },
+  {
+   "card": "Which method estimates tumour purity from DNA copy-number and allele frequencies, and was used by TCGA 2017?",
+   "item": "absolute-algorithm"
+  },
+  {
+   "card": "How does ESTIMATE turn an expression profile into a purity estimate, and what is its weakness?",
+   "item": "estimate-algorithm"
+  },
+  {
+   "card": "How does ESTIMATE turn an expression profile into a purity estimate, and what is its weakness?",
+   "item": "paper-yoshihara-2013"
+  },
+  {
+   "card": "Who published ESTIMATE?",
+   "item": "paper-yoshihara-2013"
+  },
+  {
+   "card": "What did Aran, Sirota & Butte 2015 show about tumour purity?",
+   "item": "paper-aran-2015"
+  },
+  {
+   "card": "What did Aran, Sirota & Butte 2015 show about tumour purity?",
+   "item": "tumour-purity"
+  },
+  {
+   "card": "Which classifier principle, introduced by Geman et al. 2004 and extended by Tan et al. 2005, underlies PurIST?",
+   "item": "paper-geman-2004"
+  },
+  {
+   "card": "Which classifier principle, introduced by Geman et al. 2004 and extended by Tan et al. 2005, underlies PurIST?",
+   "item": "purist-model"
+  },
+  {
+   "card": "What does MCP-counter (Becht et al. 2016) estimate?",
+   "item": "paper-becht-2016"
+  }
+ ]
+}
