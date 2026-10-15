@@ -60,6 +60,15 @@ export default {
   'start.goal': '{dirs} · {mode} · {minutes} Min.',
 
   // transcript notices
+  'task.current': 'Aktuelle Aufgabe',
+  'task.tasks': 'Aufgaben',
+  'task.none': 'Noch keine Aufgaben.',
+  'task.number': 'Aufgabe {n}',
+  'task.older': 'ältere Aufgabe · {total} insgesamt',
+  'task.back': 'Zurück zur aktuellen Aufgabe',
+  'task.link': 'Aufgabe {n}: {title}',
+  'task.open': 'offen',
+  'task.drill': 'Drill ({count} Fragen)',
   'transcript.flag': 'Ein Problem hiermit melden',
   'transcript.flag_entry': 'Ein Problem mit Eintrag {seq} melden',
   'transcript.goal': 'Ziel: {goal}',

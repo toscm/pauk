@@ -35,7 +35,8 @@ async function boot() {
     return;
   }
   dialogs();
-  transcript = new Transcript($('transcript'), {onReport: (seq) => report.open(seq), onChange});
+  transcript = new Transcript($('transcript'), {pane: $('task-pane'), list: $('side-tasks'),
+                                                onReport: (seq) => report.open(seq), onChange});
 
   $('btn-profile').addEventListener('click', () => profile.open(host.goal?.dirs?.[0]));
   $('btn-settings').addEventListener('click', () => settings.open());
@@ -71,7 +72,8 @@ async function boot() {
   applyStatus(state);
   for (const ev of state.events) transcript.add(ev, false);
   lastSeq = state.last_seq;
-  $('transcript').lastElementChild?.scrollIntoView({block: 'end'});
+  transcript.renderTasks();
+  transcript.scrollToEnd();
   if (!state.goal && !state.ended) $('start-slot').replaceChildren(startCard());
   render();
   if (!host.ended) connect();

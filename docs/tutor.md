@@ -634,12 +634,15 @@ There is deliberately no action to set a score, delete items, change stored sett
 
 ### 9.5 Browser UI
 
-- Main column: the chat. Exercises render as widgets inline (option buttons, match columns, text input, reveal button), lock after answering, and show ✓/✗ with the correct answer.
+- Main column: the current task on top, the chat below.
+  Tasks are exercises, drills and activities; only one is shown at a time, the newest by default, so new chat messages never push it out of view.
+  Exercises render as widgets (option buttons, match columns, text input, reveal button), lock after answering, and show ✓/✗ with the correct answer.
+  The chat keeps a one-line link to each task, and the side panel lists all tasks of the session (open ones marked), so an older one can be shown again; a button returns to the current one, and a new task always replaces the shown one.
 
 - Composer: when an exercise is open the input submits the answer; a toggle sends a question to the teacher instead.
   Buttons: Hint, I don't know.
 
-- Side panel: goal and timer, items touched this session with level arrows (`parlare 2 → 3`), subject coverage.
+- Side panel: goal and timer, the task list, items touched this session with level arrows (`parlare 2 → 3`), subject coverage.
 
 - Profile page (`/s/<id>/profile`): items per subject and space filterable by level, history per item, "recently added", "suggested merges" and "recent merges" with accept/undo, and the maintenance actions: edit, archive, rename key, merge, unmerge (4.10).
 
@@ -649,7 +652,7 @@ There is deliberately no action to set a score, delete items, change stored sett
 
 - Markdown everywhere renders images, video and math (KaTeX for `$...$` / `$$...$$`).
 
-- Activities (section 14) render inline in the chat or in a wide panel.
+- Activities (section 14) render in the task pane like exercises, widened to the panel width.
 
 - Status line: "teacher is thinking…" while an answer awaits the teacher, "teacher disconnected" with Restart when the agent died.
 

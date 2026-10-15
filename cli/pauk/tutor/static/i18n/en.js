@@ -63,6 +63,15 @@ export default {
   'start.goal': '{dirs} · {mode} · {minutes} min',
 
   // transcript notices
+  'task.current': 'Current task',
+  'task.tasks': 'Tasks',
+  'task.none': 'No tasks yet.',
+  'task.number': 'Task {n}',
+  'task.older': 'older task · {total} in total',
+  'task.back': 'Back to the current task',
+  'task.link': 'Task {n}: {title}',
+  'task.open': 'open',
+  'task.drill': 'Drill ({count} questions)',
   'transcript.flag': 'Report a problem with this',
   'transcript.flag_entry': 'Report a problem with entry {seq}',
   'transcript.goal': 'Goal: {goal}',

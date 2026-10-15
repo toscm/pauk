@@ -26,6 +26,7 @@
 </header>
 <div class="layout">
   <main class="chat">
+    <section id="task-pane" class="task-pane" hidden aria-label="Current task" data-i18n-aria-label="task.current"></section>
     <div class="scroller">
       <div id="start-slot"></div>
       <div id="transcript" class="transcript" aria-label="Conversation" data-i18n-aria-label="app.conversation"></div>
@@ -41,6 +42,7 @@
   </main>
   <aside class="side" aria-label="Session details" data-i18n-aria-label="app.session_details">
     <section><h2 data-i18n="app.goal">Goal</h2><p id="side-goal" class="small"></p></section>
+    <section><h2 data-i18n="task.tasks">Tasks</h2><div id="side-tasks"></div></section>
     <section><h2 data-i18n="app.time">Time</h2><p id="side-timer" class="small">–</p></section>
     <section><h2 data-i18n="app.status">Status</h2><p id="side-status" class="small"></p></section>
     <section><h2 data-i18n="app.items_this_session">Items this session</h2><div id="side-touched"></div></section>
