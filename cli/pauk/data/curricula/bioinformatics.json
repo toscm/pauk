@@ -1,0 +1,2037 @@
+{
+ "curriculum": "bioinformatics",
+ "title": {
+  "en": "Bioinformatics & medicine",
+  "de": "Bioinformatik & Medizin"
+ },
+ "space": "concepts",
+ "root": "bioinformatics/course",
+ "stages": [
+  {
+   "id": "cancer-pdac",
+   "title": {
+    "en": "Cancer and PDAC",
+    "de": "Krebs und PDAC"
+   },
+   "description": {
+    "en": "Clinical and biological cancer concepts with a focus on pancreatic ductal adenocarcinoma.",
+    "de": "Klinische und biologische Krebskonzepte mit Schwerpunkt auf dem duktalen Adenokarzinom des Pankreas."
+   },
+   "units": [
+    {
+     "id": "u01-core-cancer-talk",
+     "title": {
+      "en": "Core of cancer talk",
+      "de": "Kern der Krebs-Sprache"
+     },
+     "can_do": {
+      "en": "I can use the basic vocabulary of oncology: hallmarks, TNM, R0, grading, ECOG, RECIST, neoadjuvant/adjuvant, checkpoint inhibitors.",
+      "de": "Du beherrschst das Grundvokabular der Onkologie: Hallmarks, TNM, R0, Grading, ECOG, RECIST, neoadjuvant/adjuvant, Checkpoint-Inhibitoren."
+     },
+     "items": [
+      "immune-checkpoint-inhibitors",
+      "tnm-classification",
+      "hallmarks-of-cancer",
+      "adjuvant-therapy",
+      "ecog-performance-status",
+      "neoadjuvant-therapy",
+      "oncogene",
+      "tumour-board",
+      "tumour-suppressor-gene",
+      "overall-survival",
+      "residual-tumour-classification",
+      "recist-1-1",
+      "chemotherapy",
+      "clinical-trial-phases",
+      "anti-pd-1-antibodies",
+      "progression-free-survival",
+      "targeted-therapy",
+      "tumour-microenvironment",
+      "palliative-therapy",
+      "tumour-grading",
+      "uicc-stage-groups",
+      "benign-vs-malignant-tumour"
+     ]
+    },
+    {
+     "id": "u02-pdac-core",
+     "title": {
+      "en": "PDAC essentials",
+      "de": "PDAC-Grundlagen"
+     },
+     "can_do": {
+      "en": "I can explain PDAC: epidemiology, genetics, CA19-9, resectability, Whipple, FOLFIRINOX and prognosis.",
+      "de": "Du kannst das PDAC erklären: Epidemiologie, Genetik, CA19-9, Resektabilität, Whipple, FOLFIRINOX und Prognose."
+     },
+     "items": [
+      "pancreatic-ductal-adenocarcinoma",
+      "resectability-pdac",
+      "ca19-9",
+      "folfirinox",
+      "pancreatoduodenectomy",
+      "adjuvant-chemotherapy-pdac",
+      "metastatic-pdac",
+      "pdac-genetics",
+      "gemcitabine",
+      "gemcitabine-nab-paclitaxel",
+      "pdac-prognosis",
+      "pdac-tnm-staging",
+      "pdac-epidemiology",
+      "pdac-risk-factors",
+      "pdac-clinical-presentation",
+      "pdac-imaging"
+     ]
+    },
+    {
+     "id": "u03-cancer-biology",
+     "title": {
+      "en": "Cancer biology",
+      "de": "Tumorbiologie"
+     },
+     "can_do": {
+      "en": "I can explain how cancers arise, evolve, metastasise and escape the immune system.",
+      "de": "Du kannst erklären, wie Tumoren entstehen, sich entwickeln, metastasieren und dem Immunsystem entkommen."
+     },
+     "items": [
+      "microsatellite-instability",
+      "driver-and-passenger-mutations",
+      "germline-vs-somatic-mutation",
+      "liquid-biopsy",
+      "metastasis-cascade",
+      "two-hit-hypothesis",
+      "cancer-immune-evasion",
+      "circulating-tumour-dna",
+      "epithelial-mesenchymal-transition",
+      "tumour-mutational-burden",
+      "clonal-evolution",
+      "hot-and-cold-tumours",
+      "intratumour-heterogeneity",
+      "neoantigen",
+      "synthetic-lethality",
+      "tumour-angiogenesis",
+      "multistep-carcinogenesis",
+      "dysplasia-and-carcinoma-in-situ",
+      "warburg-effect"
+     ]
+    },
+    {
+     "id": "u04-clinical-oncology-tools",
+     "title": {
+      "en": "Clinical oncology toolkit",
+      "de": "Werkzeuge der klinischen Onkologie"
+     },
+     "can_do": {
+      "en": "I can read pathology reports, trial endpoints and guideline recommendations.",
+      "de": "Du kannst Pathologiebefunde, Studienendpunkte und Leitlinienempfehlungen lesen."
+     },
+     "items": [
+      "hazard-ratio",
+      "adenocarcinoma",
+      "precision-oncology",
+      "disease-free-survival",
+      "molecular-tumour-board",
+      "objective-response-rate",
+      "tnm-prefixes",
+      "karnofsky-performance-status",
+      "lines-of-therapy",
+      "who-classification-of-tumours",
+      "neuroendocrine-neoplasm",
+      "squamous-cell-carcinoma",
+      "oncology-guidelines",
+      "tumour-markers",
+      "ctcae",
+      "lymphoma",
+      "sarcoma",
+      "tnm-additional-descriptors",
+      "icd-o"
+     ]
+    },
+    {
+     "id": "u05-therapy-modalities",
+     "title": {
+      "en": "Therapy modalities",
+      "de": "Therapiemodalitäten"
+     },
+     "can_do": {
+      "en": "I can describe chemotherapy classes, radiotherapy, targeted drugs and immunotherapies with their key toxicities.",
+      "de": "Du kannst Chemotherapieklassen, Strahlentherapie, zielgerichtete Medikamente und Immuntherapien samt Nebenwirkungen beschreiben."
+     },
+     "items": [
+      "fluorouracil",
+      "radiotherapy",
+      "antimetabolites",
+      "anti-ctla-4-antibodies",
+      "car-t-cell-therapy",
+      "irinotecan",
+      "oxaliplatin",
+      "anti-pd-l1-antibodies",
+      "antibody-drug-conjugates",
+      "nab-paclitaxel",
+      "parp-inhibitors",
+      "platinum-compounds",
+      "immune-related-adverse-events",
+      "capecitabine",
+      "monoclonal-antibody-therapy",
+      "surgical-oncology",
+      "small-molecule-kinase-inhibitors",
+      "chemoradiotherapy",
+      "microtubule-targeting-agents",
+      "stereotactic-body-radiotherapy",
+      "topoisomerase-inhibitors",
+      "maintenance-therapy",
+      "perioperative-and-total-neoadjuvant-therapy",
+      "induction-and-conversion-therapy"
+     ]
+    },
+    {
+     "id": "u06-pdac-diagnosis-surgery",
+     "title": {
+      "en": "PDAC diagnosis and surgery",
+      "de": "PDAC: Diagnostik und Chirurgie"
+     },
+     "can_do": {
+      "en": "I can follow a pancreatic tumour board on imaging, EUS, operations and surgical complications.",
+      "de": "Du kannst einer Pankreas-Tumorkonferenz zu Bildgebung, EUS, Operationen und Komplikationen folgen."
+     },
+     "items": [
+      "postoperative-pancreatic-fistula",
+      "borderline-resectable-pdac",
+      "clavien-dindo-classification",
+      "endoscopic-ultrasound-fna-fnb",
+      "locally-advanced-pdac",
+      "pancreas-anatomy",
+      "distal-pancreatectomy",
+      "peripancreatic-vessels",
+      "ercp-biliary-drainage",
+      "pylorus-preserving-pancreatoduodenectomy",
+      "pdac-r0-margin",
+      "delayed-gastric-emptying",
+      "total-pancreatectomy",
+      "post-pancreatectomy-haemorrhage",
+      "venous-and-arterial-resection",
+      "staging-laparoscopy",
+      "frozen-section"
+     ]
+    },
+    {
+     "id": "u07-pdac-precursors-biology",
+     "title": {
+      "en": "PDAC precursors and biology",
+      "de": "PDAC: Vorläufer und Biologie"
+     },
+     "can_do": {
+      "en": "I can discuss PanIN, IPMN, molecular subtypes, stroma and hereditary PDAC.",
+      "de": "Du kannst über PanIN, IPMN, molekulare Subtypen, Stroma und erbliches PDAC sprechen."
+     },
+     "items": [
+      "ipmn",
+      "panin",
+      "pdac-stroma",
+      "pdac-molecular-subtypes",
+      "hereditary-pancreatic-cancer",
+      "moffitt-classical-basal-like",
+      "fukuoka-kyoto-criteria",
+      "pdac-immune-microenvironment",
+      "mucinous-cystic-neoplasm",
+      "pancreatic-cystic-lesions",
+      "kras-wild-type-pdac",
+      "kpc-mouse-model",
+      "perineural-invasion-pdac",
+      "pdac-histological-variants",
+      "pancreatic-cancer-surveillance",
+      "acinar-to-ductal-metaplasia"
+     ]
+    },
+    {
+     "id": "u08-pdac-systemic-supportive",
+     "title": {
+      "en": "PDAC systemic and supportive therapy",
+      "de": "PDAC: Systemtherapie und Supportivtherapie"
+     },
+     "can_do": {
+      "en": "I can explain PDAC regimens, trials, KRAS inhibitors and supportive care such as PERT and cachexia management.",
+      "de": "Du kannst PDAC-Regime, Studien, KRAS-Inhibitoren und Supportivtherapie wie PERT und Kachexie erklären."
+     },
+     "items": [
+      "kras-inhibitors",
+      "neoadjuvant-therapy-pdac",
+      "mfolfirinox",
+      "exocrine-pancreatic-insufficiency",
+      "olaparib-maintenance-pdac",
+      "pdac-cachexia",
+      "nalirifox",
+      "gemcitabine-capecitabine",
+      "second-line-therapy-pdac",
+      "lewis-negative-patients",
+      "pancreatogenic-diabetes",
+      "pdac-pain-management",
+      "new-onset-diabetes-pdac",
+      "pdac-thromboembolism",
+      "tumour-regression-grade"
+     ]
+    },
+    {
+     "id": "u09-cancer-genomics-tme",
+     "title": {
+      "en": "Cancer genomics and microenvironment",
+      "de": "Tumorgenomik und Mikromilieu"
+     },
+     "can_do": {
+      "en": "I can interpret genomic concepts (VAF, CNAs, signatures, ctDNA) and TME cell types in data and papers.",
+      "de": "Du kannst genomische Konzepte (VAF, CNAs, Signaturen, ctDNA) und Zelltypen des Mikromilieus in Daten und Papern deuten."
+     },
+     "items": [
+      "cancer-associated-fibroblasts",
+      "homologous-recombination-deficiency",
+      "tumour-associated-macrophages",
+      "copy-number-alteration-and-aneuploidy",
+      "tumour-infiltrating-lymphocytes",
+      "variant-allele-frequency",
+      "mutational-signatures",
+      "hereditary-cancer-syndromes",
+      "minimal-residual-disease",
+      "tumour-normal-paired-sequencing",
+      "tumour-purity",
+      "myeloid-derived-suppressor-cells",
+      "gene-fusion",
+      "lynch-syndrome",
+      "cancer-immunoediting",
+      "tertiary-lymphoid-structures",
+      "circulating-tumour-cells",
+      "patient-derived-tumour-models",
+      "chromosomal-instability",
+      "oncogene-addiction",
+      "cancer-stem-cells",
+      "chromothripsis",
+      "kataegis"
+     ]
+    },
+    {
+     "id": "u10-other-cancers-advanced",
+     "title": {
+      "en": "Other cancers and specialist topics",
+      "de": "Weitere Tumoren und Spezialthemen"
+     },
+     "can_do": {
+      "en": "I can talk about cholangiocarcinoma, colorectal cancer, PanNETs, transplant malignancies and advanced oncology topics.",
+      "de": "Du kannst über Cholangiokarzinom, Darmkrebs, PanNETs, Tumoren nach Transplantation und Spezialthemen sprechen."
+     },
+     "items": [
+      "colorectal-cancer",
+      "pancreatic-neuroendocrine-tumour",
+      "biliary-tract-cancer",
+      "post-transplant-malignancy",
+      "dpd-deficiency",
+      "tumour-agnostic-approval",
+      "cancer-vaccines",
+      "companion-diagnostic",
+      "febrile-neutropenia",
+      "bispecific-t-cell-engagers",
+      "irecist",
+      "alkylating-agents",
+      "escat",
+      "pseudoprogression",
+      "dkg-certified-cancer-centres",
+      "oligometastatic-disease",
+      "ampullary-carcinoma",
+      "consensus-molecular-subtypes",
+      "paraneoplastic-syndrome"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "cancer-genes",
+   "title": {
+    "en": "Cancer genes",
+    "de": "Krebsgene"
+   },
+   "description": {
+    "en": "Oncogenes, tumour suppressors, cell cycle, apoptosis, DNA repair, signalling and epigenetic cancer genes with their proteins, with a focus on PDAC and liver cancer.",
+    "de": "Onkogene, Tumorsuppressoren, Zellzyklus, Apoptose, DNA-Reparatur, Signalwege und epigenetische Krebsgene mit ihren Proteinen, mit Fokus auf PDAC und Leberkrebs."
+   },
+   "units": [
+    {
+     "id": "u01-top-cancer-genes",
+     "title": {
+      "en": "The most famous cancer genes",
+      "de": "Die berühmtesten Krebsgene"
+     },
+     "can_do": {
+      "en": "Name the ten best-known cancer genes, their proteins and why they matter.",
+      "de": "Du kennst die zehn bekanntesten Krebsgene, ihre Proteine und ihre Bedeutung."
+     },
+     "items": [
+      "gene-tp53",
+      "protein-p53",
+      "gene-kras",
+      "protein-k-ras",
+      "myc",
+      "protein-c-myc",
+      "gene-cdkn2a",
+      "protein-p16ink4a",
+      "protein-p14arf",
+      "gene-smad4",
+      "protein-smad4",
+      "gene-egfr",
+      "protein-egfr",
+      "gene-erbb2",
+      "protein-her2",
+      "gene-braf",
+      "protein-b-raf",
+      "gene-brca1",
+      "protein-brca1",
+      "gene-brca2",
+      "protein-brca2"
+     ]
+    },
+    {
+     "id": "u02-classic-oncogenes-and-suppressors",
+     "title": {
+      "en": "More classic cancer genes",
+      "de": "Weitere klassische Krebsgene"
+     },
+     "can_do": {
+      "en": "Explain PI3K/PTEN, Rb, APC/β-catenin, BCL-2, TERT, BCR::ABL1 and ALK.",
+      "de": "Du erklärst PI3K/PTEN, Rb, APC/β-Catenin, BCL-2, TERT, BCR::ABL1 und ALK."
+     },
+     "items": [
+      "gene-pik3ca",
+      "protein-p110-alpha",
+      "gene-pten",
+      "protein-pten",
+      "gene-rb1",
+      "protein-prb",
+      "gene-apc",
+      "protein-apc",
+      "gene-bcl2",
+      "protein-bcl-2",
+      "gene-ctnnb1",
+      "protein-beta-catenin",
+      "gene-tert",
+      "protein-tert",
+      "gene-abl1",
+      "protein-abl1",
+      "protein-bcr-abl1",
+      "gene-bcr",
+      "gene-alk",
+      "protein-alk"
+     ]
+    },
+    {
+     "id": "u03-pdac-genes",
+     "title": {
+      "en": "Pancreatic cancer genes beyond the big four",
+      "de": "Pankreaskarzinom-Gene jenseits der großen Vier"
+     },
+     "can_do": {
+      "en": "Know the rarer PDAC drivers and hereditary genes such as GNAS, PALB2, ATM and ARID1A.",
+      "de": "Du kennst die selteneren PDAC-Treiber und erblichen Gene wie GNAS, PALB2, ATM und ARID1A."
+     },
+     "items": [
+      "gene-gnas",
+      "protein-gs-alpha",
+      "gene-rnf43",
+      "protein-rnf43",
+      "gene-palb2",
+      "protein-palb2",
+      "gene-atm",
+      "protein-atm",
+      "gene-arid1a",
+      "protein-arid1a",
+      "gene-kdm6a",
+      "protein-utx",
+      "gene-kmt2c",
+      "protein-mll3",
+      "gene-kmt2d",
+      "protein-mll4",
+      "gene-stk11",
+      "protein-lkb1",
+      "gene-tgfbr2",
+      "protein-tgfbr2"
+     ]
+    },
+    {
+     "id": "u04-liver-cancer-genes",
+     "title": {
+      "en": "Liver cancer genes and targets",
+      "de": "Gene und Zielstrukturen beim Leberkrebs"
+     },
+     "can_do": {
+      "en": "Know the HCC and cholangiocarcinoma drivers and the targets of systemic liver cancer therapy.",
+      "de": "Du kennst die Treiber von HCC und Cholangiokarzinom und die Ziele der systemischen Therapie."
+     },
+     "items": [
+      "gene-axin1",
+      "protein-axin1",
+      "gene-arid2",
+      "protein-arid2",
+      "gene-nfe2l2",
+      "protein-nrf2",
+      "gene-keap1",
+      "protein-keap1",
+      "gene-tsc2",
+      "protein-tuberin",
+      "gene-ccnd1",
+      "protein-cyclin-d1",
+      "gene-met",
+      "protein-c-met",
+      "gene-vegfa",
+      "protein-vegf-a",
+      "gene-kdr",
+      "protein-vegfr2",
+      "gene-fgfr2",
+      "protein-fgfr2"
+     ]
+    },
+    {
+     "id": "u05-oncogenic-kinases",
+     "title": {
+      "en": "RAS paralogues and oncogenic kinases",
+      "de": "RAS-Paraloge und onkogene Kinasen"
+     },
+     "can_do": {
+      "en": "Match NRAS, HRAS and the targetable receptor kinases to their tumours and drugs.",
+      "de": "Du ordnest NRAS, HRAS und die behandelbaren Rezeptorkinasen ihren Tumoren und Medikamenten zu."
+     },
+     "items": [
+      "gene-nras",
+      "protein-n-ras",
+      "gene-hras",
+      "protein-h-ras",
+      "gene-ros1",
+      "protein-ros1",
+      "gene-ret",
+      "protein-ret",
+      "gene-kit",
+      "protein-kit",
+      "gene-pdgfra",
+      "protein-pdgfr-alpha",
+      "gene-fgfr1",
+      "protein-fgfr1",
+      "gene-fgfr3",
+      "protein-fgfr3",
+      "gene-ntrk1",
+      "protein-trka",
+      "gene-flt3",
+      "protein-flt3"
+     ]
+    },
+    {
+     "id": "u06-cell-cycle",
+     "title": {
+      "en": "Cell-cycle control",
+      "de": "Zellzykluskontrolle"
+     },
+     "can_do": {
+      "en": "Explain how cyclins, CDKs, CDK inhibitors, E2F and MDM2 control the cell cycle.",
+      "de": "Du erklärst, wie Cycline, CDKs, CDK-Inhibitoren, E2F und MDM2 den Zellzyklus steuern."
+     },
+     "items": [
+      "gene-cdk4",
+      "protein-cdk4",
+      "gene-cdk6",
+      "protein-cdk6",
+      "gene-cdkn1a",
+      "protein-p21",
+      "gene-cdkn1b",
+      "protein-p27",
+      "gene-ccne1",
+      "protein-cyclin-e1",
+      "gene-cdk2",
+      "protein-cdk2",
+      "gene-cdk1",
+      "protein-cdk1",
+      "gene-e2f1",
+      "protein-e2f1",
+      "gene-mdm2",
+      "protein-mdm2",
+      "gene-aurka",
+      "protein-aurora-a",
+      "gene-plk1",
+      "protein-plk1"
+     ]
+    },
+    {
+     "id": "u07-dna-damage-response",
+     "title": {
+      "en": "DNA damage checkpoints and repair",
+      "de": "DNA-Schadensantwort und Reparatur"
+     },
+     "can_do": {
+      "en": "Explain checkpoint kinases, PARP, RAD51, γH2AX and POLE and their clinical use.",
+      "de": "Du erklärst Checkpoint-Kinasen, PARP, RAD51, γH2AX und POLE und ihren klinischen Nutzen."
+     },
+     "items": [
+      "gene-chek1",
+      "protein-chk1",
+      "gene-chek2",
+      "protein-chk2",
+      "gene-atr",
+      "protein-atr",
+      "gene-wee1",
+      "protein-wee1",
+      "gene-parp1",
+      "protein-parp1",
+      "gene-rad51",
+      "protein-rad51",
+      "gene-h2ax",
+      "protein-h2ax",
+      "gene-cdk12",
+      "protein-cdk12",
+      "gene-pole",
+      "protein-pol-epsilon"
+     ]
+    },
+    {
+     "id": "u08-mismatch-repair-and-syndromes",
+     "title": {
+      "en": "Mismatch repair and hereditary tumour syndromes",
+      "de": "Mismatch-Reparatur und erbliche Tumorsyndrome"
+     },
+     "can_do": {
+      "en": "Recognise Lynch syndrome, MAP, VHL, NF1/NF2 and WT1 and the genes behind them.",
+      "de": "Du erkennst Lynch-Syndrom, MAP, VHL, NF1/NF2 und WT1 und die Gene dahinter."
+     },
+     "items": [
+      "gene-mlh1",
+      "protein-mlh1",
+      "gene-msh2",
+      "protein-msh2",
+      "gene-msh6",
+      "protein-msh6",
+      "gene-pms2",
+      "protein-pms2",
+      "gene-mutyh",
+      "protein-mutyh",
+      "gene-mgmt",
+      "protein-mgmt",
+      "gene-vhl",
+      "protein-pvhl",
+      "gene-nf1",
+      "protein-neurofibromin",
+      "gene-nf2",
+      "protein-merlin",
+      "gene-wt1",
+      "protein-wt1"
+     ]
+    },
+    {
+     "id": "u09-bcl2-family",
+     "title": {
+      "en": "The BCL-2 family",
+      "de": "Die BCL-2-Familie"
+     },
+     "can_do": {
+      "en": "Sort BCL-2 family members into guardians, effectors and BH3-only proteins.",
+      "de": "Du ordnest die BCL-2-Familie in Wächter, Effektoren und BH3-only-Proteine."
+     },
+     "items": [
+      "gene-bcl2l1",
+      "protein-bcl-xl",
+      "protein-bcl-xs",
+      "gene-mcl1",
+      "protein-mcl-1",
+      "gene-bax",
+      "protein-bax",
+      "gene-bak1",
+      "protein-bak",
+      "gene-bid",
+      "protein-bid",
+      "gene-bad",
+      "protein-bad",
+      "gene-bcl2l11",
+      "protein-bim",
+      "gene-bbc3",
+      "protein-puma",
+      "gene-pmaip1",
+      "protein-noxa"
+     ]
+    },
+    {
+     "id": "u10-caspases-and-death-receptors",
+     "title": {
+      "en": "Caspases, death receptors and the apoptosome",
+      "de": "Caspasen, Todesrezeptoren und Apoptosom"
+     },
+     "can_do": {
+      "en": "Trace the extrinsic and intrinsic apoptosis pathways from receptor or mitochondrion to caspase-3.",
+      "de": "Du verfolgst extrinsische und intrinsische Apoptose vom Rezeptor bzw. Mitochondrium bis Caspase-3."
+     },
+     "items": [
+      "gene-casp3",
+      "protein-caspase-3",
+      "gene-casp8",
+      "protein-caspase-8",
+      "gene-casp9",
+      "protein-caspase-9",
+      "gene-xiap",
+      "protein-xiap",
+      "gene-birc5",
+      "protein-survivin",
+      "gene-fas",
+      "protein-fas",
+      "gene-tnfrsf10a",
+      "protein-trail-r1",
+      "gene-tnfrsf10b",
+      "protein-trail-r2",
+      "gene-cycs",
+      "protein-cytochrome-c",
+      "gene-apaf1",
+      "protein-apaf1"
+     ]
+    },
+    {
+     "id": "u11-mapk-and-pi3k-signalling",
+     "title": {
+      "en": "MAPK and PI3K–AKT–mTOR signalling",
+      "de": "MAPK- und PI3K–AKT–mTOR-Signalweg"
+     },
+     "can_do": {
+      "en": "Walk through the MAPK and PI3K–AKT–mTOR cascades and their drugs.",
+      "de": "Du gehst die MAPK- und PI3K–AKT–mTOR-Kaskaden samt Medikamenten durch."
+     },
+     "items": [
+      "gene-map2k1",
+      "protein-mek1",
+      "gene-mapk1",
+      "protein-erk2",
+      "gene-akt1",
+      "protein-akt1",
+      "gene-mtor",
+      "protein-mtor",
+      "gene-pik3r1",
+      "protein-p85-alpha",
+      "gene-tsc1",
+      "protein-hamartin",
+      "gene-src",
+      "protein-src",
+      "gene-mycn",
+      "protein-n-myc"
+     ]
+    },
+    {
+     "id": "u12-wnt-tgfb-hippo",
+     "title": {
+      "en": "WNT, TGF-β and Hippo pathways",
+      "de": "WNT-, TGF-β- und Hippo-Signalweg"
+     },
+     "can_do": {
+      "en": "Explain the WNT, TGF-β and Hippo pathways and their cancer genes.",
+      "de": "Du erklärst WNT-, TGF-β- und Hippo-Signalweg und ihre Krebsgene."
+     },
+     "items": [
+      "gene-gsk3b",
+      "protein-gsk3-beta",
+      "gene-lgr5",
+      "protein-lgr5",
+      "gene-tcf7l2",
+      "protein-tcf4-tcf7l2",
+      "gene-tgfbr1",
+      "protein-tgfbr1",
+      "gene-smad3",
+      "protein-smad3",
+      "gene-yap1",
+      "protein-yap",
+      "gene-lats1",
+      "protein-lats1",
+      "gene-cdh1",
+      "protein-e-cadherin",
+      "gene-fbxw7",
+      "protein-fbxw7"
+     ]
+    },
+    {
+     "id": "u13-notch-hedgehog-jak-nfkb-hif",
+     "title": {
+      "en": "Notch, Hedgehog, JAK–STAT, NF-κB and hypoxia",
+      "de": "Notch, Hedgehog, JAK–STAT, NF-κB und Hypoxie"
+     },
+     "can_do": {
+      "en": "Describe Notch, Hedgehog, JAK–STAT, NF-κB and HIF signalling in cancer.",
+      "de": "Du beschreibst Notch-, Hedgehog-, JAK–STAT-, NF-κB- und HIF-Signalwege bei Krebs."
+     },
+     "items": [
+      "gene-notch1",
+      "protein-notch1",
+      "gene-shh",
+      "protein-sonic-hedgehog",
+      "gene-ptch1",
+      "protein-patched-1",
+      "gene-smo",
+      "protein-smoothened",
+      "gene-gli1",
+      "protein-gli1",
+      "gene-jak2",
+      "protein-jak2",
+      "gene-stat3",
+      "protein-stat3",
+      "gene-rela",
+      "protein-p65-rela",
+      "gene-nfkbia",
+      "protein-ikb-alpha",
+      "gene-hif1a",
+      "protein-hif-1-alpha"
+     ]
+    },
+    {
+     "id": "u14-epigenetic-regulators",
+     "title": {
+      "en": "Epigenetic regulators and IDH",
+      "de": "Epigenetische Regulatoren und IDH"
+     },
+     "can_do": {
+      "en": "Explain EZH2, DNA methylation genes, IDH oncometabolites and KMT2A/NPM1 leukaemias.",
+      "de": "Du erklärst EZH2, DNA-Methylierungsgene, IDH-Onkometaboliten und KMT2A/NPM1-Leukämien."
+     },
+     "items": [
+      "gene-ezh2",
+      "protein-ezh2",
+      "gene-dnmt3a",
+      "protein-dnmt3a",
+      "gene-tet2",
+      "protein-tet2",
+      "gene-idh1",
+      "protein-idh1",
+      "gene-idh2",
+      "protein-idh2",
+      "gene-kmt2a",
+      "protein-mll1",
+      "gene-crebbp",
+      "protein-cbp",
+      "gene-ep300",
+      "protein-p300",
+      "gene-setd2",
+      "protein-setd2",
+      "gene-npm1",
+      "protein-nucleophosmin"
+     ]
+    },
+    {
+     "id": "u15-chromatin-remodelling-and-men1",
+     "title": {
+      "en": "Chromatin remodellers, ALT and MEN1",
+      "de": "Chromatin-Remodeller, ALT und MEN1"
+     },
+     "can_do": {
+      "en": "Know the SWI/SNF and BAP1/ATRX tumour suppressors and the MEN1 syndrome.",
+      "de": "Du kennst die SWI/SNF- und BAP1/ATRX-Tumorsuppressoren und das MEN1-Syndrom."
+     },
+     "items": [
+      "gene-smarca4",
+      "protein-brg1",
+      "gene-smarcb1",
+      "protein-ini1",
+      "gene-pbrm1",
+      "protein-baf180",
+      "gene-bap1",
+      "protein-bap1",
+      "gene-atrx",
+      "protein-atrx",
+      "gene-men1",
+      "protein-menin"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "liver-transplant",
+   "title": {
+    "en": "Liver disease and transplantation",
+    "de": "Lebererkrankungen und Transplantation"
+   },
+   "description": {
+    "en": "Clinical knowledge on liver disease, liver scores, HCC and solid organ transplantation for working with hepatologists and transplant physicians.",
+    "de": "Klinisches Wissen zu Lebererkrankungen, Leber-Scores, HCC und Organtransplantation für die Zusammenarbeit mit Hepatologen und Transplantationsmedizinern."
+   },
+   "units": [
+    {
+     "id": "u01-core-terms",
+     "title": {
+      "en": "Core terms: cirrhosis, scores, HCC, transplantation",
+      "de": "Kernbegriffe: Zirrhose, Scores, HCC, Transplantation"
+     },
+     "can_do": {
+      "en": "You can explain cirrhosis, MASLD, Child-Pugh, MELD, BCLC, rejection and tacrolimus in a conversation with clinicians.",
+      "de": "Du kannst Zirrhose, MASLD, Child-Pugh, MELD, BCLC, Abstoßung und Tacrolimus im Gespräch mit Ärzten erklären."
+     },
+     "items": [
+      "child-pugh-score",
+      "liver-cirrhosis",
+      "meld-score",
+      "tacrolimus",
+      "transplant-rejection",
+      "bclc-staging",
+      "hepatocellular-carcinoma",
+      "liver-transplantation",
+      "masld",
+      "human-leukocyte-antigen-system",
+      "immunosuppression",
+      "kidney-transplantation",
+      "liver-fibrosis",
+      "organ-transplantation",
+      "portal-hypertension",
+      "fib-4-index",
+      "liver-function-tests",
+      "mash",
+      "milan-criteria",
+      "transient-elastography",
+      "compensated-and-decompensated-cirrhosis"
+     ]
+    },
+    {
+     "id": "u02-liver-cells-and-lab",
+     "title": {
+      "en": "Liver cells, anatomy and lab values",
+      "de": "Leberzellen, Anatomie und Laborwerte"
+     },
+     "can_do": {
+      "en": "You can name the liver cell types and segments and interpret a liver panel.",
+      "de": "Du kannst die Leberzelltypen und Segmente benennen und Leberwerte deuten."
+     },
+     "items": [
+      "alanine-aminotransferase",
+      "bilirubin",
+      "international-normalized-ratio",
+      "aspartate-aminotransferase",
+      "hepatic-stellate-cell",
+      "liver-biopsy",
+      "serum-albumin",
+      "alkaline-phosphatase",
+      "gamma-glutamyltransferase",
+      "hepatocyte",
+      "kupffer-cell",
+      "liver-imaging",
+      "portal-triad",
+      "couinaud-segments",
+      "hepatic-dual-blood-supply",
+      "cholangiocyte",
+      "de-ritis-ratio",
+      "hepatic-zonation",
+      "quick-value",
+      "liver-sinusoidal-endothelial-cell",
+      "r-ratio",
+      "cholinesterase",
+      "space-of-disse"
+     ]
+    },
+    {
+     "id": "u03-steatotic-and-alcohol",
+     "title": {
+      "en": "Steatotic and alcohol-associated liver disease",
+      "de": "Steatotische und alkoholassoziierte Lebererkrankung"
+     },
+     "can_do": {
+      "en": "You can apply the 2023 MASLD/MetALD/ALD nomenclature and know the MASH drugs.",
+      "de": "Du kannst die MASLD/MetALD/ALD-Nomenklatur von 2023 anwenden und kennst die MASH-Medikamente."
+     },
+     "items": [
+      "alcohol-associated-liver-disease",
+      "lifestyle-intervention-masld",
+      "steatotic-liver-disease-nomenclature",
+      "glp-1-receptor-agonists-masld",
+      "resmetirom",
+      "alcohol-associated-hepatitis",
+      "nafld-and-nash",
+      "maddrey-discriminant-function",
+      "metald",
+      "lille-model"
+     ]
+    },
+    {
+     "id": "u04-cirrhosis-complications",
+     "title": {
+      "en": "Complications of cirrhosis",
+      "de": "Komplikationen der Zirrhose"
+     },
+     "can_do": {
+      "en": "You can explain portal hypertension, ascites, SBP, varices, HE, HRS and ACLF and their treatment.",
+      "de": "Du kannst portale Hypertension, Aszites, SBP, Varizen, HE, HRS und ACLF samt Therapie erklären."
+     },
+     "items": [
+      "ascites",
+      "hepatic-encephalopathy",
+      "transjugular-intrahepatic-portosystemic-shunt",
+      "non-selective-beta-blockers",
+      "oesophageal-varices",
+      "variceal-bleeding",
+      "acute-on-chronic-liver-failure",
+      "hepatorenal-syndrome",
+      "spontaneous-bacterial-peritonitis",
+      "paracentesis",
+      "lactulose",
+      "terlipressin",
+      "west-haven-criteria",
+      "rifaximin",
+      "compensated-advanced-chronic-liver-disease",
+      "endoscopic-band-ligation",
+      "hepatic-venous-pressure-gradient",
+      "portal-vein-thrombosis",
+      "clif-c-scores",
+      "hepatopulmonary-syndrome",
+      "serum-ascites-albumin-gradient"
+     ]
+    },
+    {
+     "id": "u05-fibrosis-assessment",
+     "title": {
+      "en": "Fibrosis assessment and histology scores",
+      "de": "Fibrosediagnostik und Histologie-Scores"
+     },
+     "can_do": {
+      "en": "You can compare non-invasive fibrosis tests and the histological staging systems.",
+      "de": "Du kannst nichtinvasive Fibrosetests und histologische Stagingsysteme vergleichen."
+     },
+     "items": [
+      "nafld-activity-score",
+      "metavir-score",
+      "elf-test",
+      "controlled-attenuation-parameter",
+      "nafld-fibrosis-score",
+      "apri-score",
+      "ishak-score",
+      "saf-score",
+      "mr-elastography",
+      "brunt-classification"
+     ]
+    },
+    {
+     "id": "u06-hcc",
+     "title": {
+      "en": "Hepatocellular carcinoma and bile duct cancer",
+      "de": "Leberzellkarzinom und Gallengangskarzinom"
+     },
+     "can_do": {
+      "en": "You can describe HCC diagnosis with LI-RADS and AFP and the transplant criteria beyond Milan.",
+      "de": "Du kannst die HCC-Diagnostik mit LI-RADS und AFP sowie Transplantationskriterien jenseits von Milan beschreiben."
+     },
+     "items": [
+      "alpha-fetoprotein",
+      "hcc-surveillance",
+      "li-rads",
+      "cholangiocarcinoma",
+      "up-to-seven-criteria",
+      "albi-grade",
+      "afp-model",
+      "ucsf-criteria"
+     ]
+    },
+    {
+     "id": "u07-liver-therapy",
+     "title": {
+      "en": "HCC treatment",
+      "de": "HCC-Therapie"
+     },
+     "can_do": {
+      "en": "You can match resection, ablation, TACE, SIRT and systemic drugs to HCC stages.",
+      "de": "Du kannst Resektion, Ablation, TACE, SIRT und Systemtherapie den HCC-Stadien zuordnen."
+     },
+     "items": [
+      "atezolizumab-bevacizumab",
+      "transarterial-chemoembolisation",
+      "durvalumab-tremelimumab",
+      "liver-resection",
+      "sorafenib",
+      "thermal-ablation",
+      "lenvatinib",
+      "selective-internal-radiation-therapy"
+     ]
+    },
+    {
+     "id": "u08-viral-autoimmune-metabolic",
+     "title": {
+      "en": "Viral, autoimmune, cholestatic and metabolic liver diseases",
+      "de": "Virale, autoimmune, cholestatische und metabolische Lebererkrankungen"
+     },
+     "can_do": {
+      "en": "You can characterise hepatitis B–E, AIH, PBC, PSC, haemochromatosis, Wilson, A1AT deficiency, DILI and ALF.",
+      "de": "Du kannst Hepatitis B–E, AIH, PBC, PSC, Hämochromatose, Wilson, A1AT-Mangel, DILI und ALV charakterisieren."
+     },
+     "items": [
+      "hepatitis-b",
+      "hepatitis-c",
+      "direct-acting-antivirals",
+      "acute-liver-failure",
+      "autoimmune-hepatitis",
+      "primary-biliary-cholangitis",
+      "primary-sclerosing-cholangitis",
+      "drug-induced-liver-injury",
+      "nucleos-t-ide-analogues-hbv",
+      "hereditary-haemochromatosis",
+      "ursodeoxycholic-acid",
+      "wilson-disease",
+      "alpha-1-antitrypsin-deficiency",
+      "hepatitis-d",
+      "hepatitis-e",
+      "hys-law",
+      "budd-chiari-syndrome"
+     ]
+    },
+    {
+     "id": "u09-donation-and-allocation",
+     "title": {
+      "en": "Organ donation and allocation",
+      "de": "Organspende und Allokation"
+     },
+     "can_do": {
+      "en": "You can explain donor types, German law and how Eurotransplant allocates livers and kidneys.",
+      "de": "Du kannst Spenderarten, deutsches Recht und die Allokation von Lebern und Nieren durch Eurotransplant erklären."
+     },
+     "items": [
+      "eurotransplant",
+      "donation-after-brain-death",
+      "liver-allocation-eurotransplant",
+      "liver-transplant-indications-and-listing",
+      "meld-na-score",
+      "living-donation",
+      "donation-after-circulatory-death",
+      "eurotransplant-kidney-allocation",
+      "meld-3-0",
+      "brain-death",
+      "high-urgency-status",
+      "living-donor-liver-transplantation",
+      "meld-exception-points",
+      "transplantationsgesetz",
+      "split-liver-transplantation",
+      "deutsche-stiftung-organtransplantation"
+     ]
+    },
+    {
+     "id": "u10-preservation-and-graft-function",
+     "title": {
+      "en": "Organ preservation and early graft function",
+      "de": "Organkonservierung und frühe Transplantatfunktion"
+     },
+     "can_do": {
+      "en": "You can explain ischaemia times, reperfusion injury, machine perfusion and early graft failure.",
+      "de": "Du kannst Ischämiezeiten, Reperfusionsschaden, Maschinenperfusion und frühes Transplantatversagen erklären."
+     },
+     "items": [
+      "ischaemia-reperfusion-injury",
+      "machine-perfusion",
+      "cold-ischaemia-time",
+      "delayed-graft-function",
+      "hypothermic-oxygenated-perfusion",
+      "normothermic-machine-perfusion",
+      "early-allograft-dysfunction",
+      "primary-non-function",
+      "extended-criteria-donor",
+      "warm-ischaemia-time",
+      "hepatic-artery-thrombosis",
+      "ischaemic-cholangiopathy",
+      "static-cold-storage"
+     ]
+    },
+    {
+     "id": "u11-histocompatibility",
+     "title": {
+      "en": "HLA, crossmatch and antibodies",
+      "de": "HLA, Crossmatch und Antikörper"
+     },
+     "can_do": {
+      "en": "You can explain HLA matching, crossmatch methods, DSA, PRA and desensitisation.",
+      "de": "Du kannst HLA-Matching, Crossmatch-Methoden, DSA, PRA und Desensibilisierung erklären."
+     },
+     "items": [
+      "donor-specific-antibodies",
+      "crossmatch",
+      "hla-matching",
+      "panel-reactive-antibodies",
+      "single-antigen-bead-assay",
+      "desensitisation",
+      "hla-typing",
+      "cdc-crossmatch",
+      "virtual-crossmatch",
+      "abo-incompatible-transplantation",
+      "flow-cytometry-crossmatch",
+      "eplet-mismatch"
+     ]
+    },
+    {
+     "id": "u12-rejection",
+     "title": {
+      "en": "Rejection and the Banff classification",
+      "de": "Abstoßung und Banff-Klassifikation"
+     },
+     "can_do": {
+      "en": "You can distinguish rejection types and read Banff lesion scores and C4d.",
+      "de": "Du kannst Abstoßungsformen unterscheiden und Banff-Läsionsscores und C4d lesen."
+     },
+     "items": [
+      "banff-classification",
+      "antibody-mediated-rejection",
+      "t-cell-mediated-rejection",
+      "chronic-rejection",
+      "c4d-staining",
+      "hyperacute-rejection",
+      "donor-derived-cell-free-dna",
+      "banff-liver-rejection-activity-index",
+      "microvascular-inflammation",
+      "molecular-microscope"
+     ]
+    },
+    {
+     "id": "u13-immunosuppressants",
+     "title": {
+      "en": "Immunosuppressive drugs",
+      "de": "Immunsuppressiva"
+     },
+     "can_do": {
+      "en": "You can explain mechanism, monitoring and side effects of each immunosuppressant.",
+      "de": "Du kannst Wirkmechanismus, Monitoring und Nebenwirkungen jedes Immunsuppressivums erklären."
+     },
+     "items": [
+      "calcineurin-inhibitors",
+      "mycophenolate",
+      "corticosteroids-in-transplantation",
+      "therapeutic-drug-monitoring",
+      "antithymocyte-globulin",
+      "ciclosporin",
+      "basiliximab",
+      "mtor-inhibitors",
+      "belatacept",
+      "azathioprine",
+      "cyp3a5-tacrolimus-pharmacogenetics",
+      "alemtuzumab"
+     ]
+    },
+    {
+     "id": "u14-post-transplant-complications",
+     "title": {
+      "en": "Complications after transplantation",
+      "de": "Komplikationen nach Transplantation"
+     },
+     "can_do": {
+      "en": "You can discuss infections, PTLD, PTDM, skin cancer and disease recurrence after transplantation.",
+      "de": "Du kannst Infektionen, PTLD, PTDM, Hautkrebs und Rezidive nach Transplantation besprechen."
+     },
+     "items": [
+      "cytomegalovirus-in-transplantation",
+      "post-transplant-infections",
+      "bk-polyomavirus",
+      "calcineurin-inhibitor-nephrotoxicity",
+      "disease-recurrence-after-liver-transplantation",
+      "post-transplant-lymphoproliferative-disorder",
+      "post-transplant-diabetes-mellitus",
+      "skin-cancer-after-transplantation",
+      "non-adherence"
+     ]
+    },
+    {
+     "id": "u15-other-organs-and-special-topics",
+     "title": {
+      "en": "Other organs and advanced transplant immunology",
+      "de": "Weitere Organe und vertiefte Transplantationsimmunologie"
+     },
+     "can_do": {
+      "en": "You can outline heart, lung and pancreas transplantation, tolerance, chimerism and GVHD.",
+      "de": "Du kannst Herz-, Lungen- und Pankreastransplantation, Toleranz, Chimärismus und GvHD skizzieren."
+     },
+     "items": [
+      "transplant-tolerance",
+      "graft-versus-host-disease",
+      "heart-transplantation",
+      "lung-transplantation",
+      "pancreas-transplantation",
+      "allorecognition-pathways",
+      "chimerism",
+      "normothermic-regional-perfusion",
+      "ishlt-rejection-grading"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "immune-liver-genes",
+   "title": {
+    "en": "Immune, liver and pancreas genes",
+    "de": "Immun-, Leber- und Pankreasgene"
+   },
+   "description": {
+    "en": "The immune, transplant, liver and pancreas genes and proteins clinicians talk about, from checkpoints and HLA to MASLD risk genes and PDAC serum markers.",
+    "de": "Die Immun-, Transplantations-, Leber- und Pankreasgene und -proteine, über die Kliniker sprechen, von Checkpoints und HLA bis zu MASLD-Risikogenen und PDAC-Serummarkern."
+   },
+   "units": [
+    {
+     "id": "u01-immune-checkpoints",
+     "title": {
+      "en": "Immune checkpoints",
+      "de": "Immun-Checkpoints"
+     },
+     "can_do": {
+      "en": "You can name the main checkpoint receptors, their ligands and the drugs that block them.",
+      "de": "Du kannst die wichtigsten Checkpoint-Rezeptoren, ihre Liganden und die blockierenden Medikamente nennen."
+     },
+     "items": [
+      "gene-pdcd1",
+      "protein-pd-1",
+      "gene-cd274",
+      "protein-pd-l1",
+      "gene-pdcd1lg2",
+      "protein-pd-l2",
+      "gene-ctla4",
+      "protein-ctla-4",
+      "gene-cd28",
+      "protein-cd28",
+      "gene-cd80",
+      "protein-cd80",
+      "gene-cd86",
+      "protein-cd86",
+      "gene-lag3",
+      "protein-lag-3",
+      "gene-havcr2",
+      "protein-tim-3",
+      "gene-tigit",
+      "protein-tigit"
+     ]
+    },
+    {
+     "id": "u02-t-cell-markers",
+     "title": {
+      "en": "T-cell and Treg markers",
+      "de": "T-Zell- und Treg-Marker"
+     },
+     "can_do": {
+      "en": "You can phenotype T cells and Tregs with CD markers and know their cytotoxic effector proteins.",
+      "de": "Du kannst T-Zellen und Tregs über CD-Marker beschreiben und kennst ihre zytotoxischen Effektorproteine."
+     },
+     "items": [
+      "gene-cd3e",
+      "protein-cd3",
+      "gene-cd4",
+      "protein-cd4",
+      "gene-cd8a",
+      "protein-cd8",
+      "gene-ptprc",
+      "protein-cd45",
+      "gene-foxp3",
+      "protein-foxp3",
+      "gene-il2ra",
+      "protein-cd25",
+      "gene-icos",
+      "protein-icos",
+      "gene-gzmb",
+      "protein-granzyme-b",
+      "gene-prf1",
+      "protein-perforin"
+     ]
+    },
+    {
+     "id": "u03-b-myeloid-nk-markers",
+     "title": {
+      "en": "B-cell, myeloid and NK markers",
+      "de": "B-Zell-, myeloische und NK-Marker"
+     },
+     "can_do": {
+      "en": "You can identify B cells, monocytes, macrophages, dendritic cells and NK cells by their markers.",
+      "de": "Du erkennst B-Zellen, Monozyten, Makrophagen, dendritische Zellen und NK-Zellen an ihren Markern."
+     },
+     "items": [
+      "gene-cd19",
+      "protein-cd19",
+      "gene-ms4a1",
+      "protein-cd20",
+      "gene-cd14",
+      "protein-cd14",
+      "gene-fcgr3a",
+      "protein-cd16",
+      "gene-ncam1",
+      "protein-cd56",
+      "gene-cd68",
+      "protein-cd68",
+      "gene-cd163",
+      "protein-cd163",
+      "gene-itgax",
+      "protein-cd11c"
+     ]
+    },
+    {
+     "id": "u04-key-cytokines",
+     "title": {
+      "en": "Key cytokines",
+      "de": "Zentrale Zytokine"
+     },
+     "can_do": {
+      "en": "You can explain the main pro- and anti-inflammatory cytokines and the drugs that target them.",
+      "de": "Du kannst die wichtigsten pro- und antiinflammatorischen Zytokine und ihre Hemmstoffe erklären."
+     },
+     "items": [
+      "gene-il2",
+      "protein-il-2",
+      "gene-il6",
+      "protein-il-6",
+      "gene-tnf",
+      "protein-tnf",
+      "gene-ifng",
+      "protein-ifn-gamma",
+      "gene-tgfb1",
+      "protein-tgf-beta1",
+      "gene-il1b",
+      "protein-il-1beta",
+      "gene-il17a",
+      "protein-il-17a",
+      "gene-il10",
+      "gene-cxcl8",
+      "protein-il-8"
+     ]
+    },
+    {
+     "id": "u05-hla",
+     "title": {
+      "en": "HLA and transplant matching",
+      "de": "HLA und Transplantat-Matching"
+     },
+     "can_do": {
+      "en": "You can explain HLA class I and II loci, typing, matching and donor-specific antibodies.",
+      "de": "Du kannst HLA-Klasse-I- und -II-Loci, Typisierung, Matching und donorspezifische Antikörper erklären."
+     },
+     "items": [
+      "gene-hla-a",
+      "protein-hla-a",
+      "gene-hla-b",
+      "protein-hla-b",
+      "gene-hla-c",
+      "protein-hla-c",
+      "gene-hla-drb1",
+      "protein-hla-dr",
+      "gene-hla-dqa1",
+      "gene-hla-dqb1",
+      "protein-hla-dq",
+      "gene-hla-dpb1",
+      "protein-hla-dp",
+      "gene-b2m",
+      "protein-beta-2-microglobulin",
+      "gene-mica",
+      "protein-mica"
+     ]
+    },
+    {
+     "id": "u06-immunosuppressant-pharmacology",
+     "title": {
+      "en": "Immunosuppressant targets and metabolism",
+      "de": "Ziele und Metabolismus der Immunsuppressiva"
+     },
+     "can_do": {
+      "en": "You can explain how tacrolimus, ciclosporin, mTOR inhibitors and MMF work and why CYP3A5 genotype matters.",
+      "de": "Du kannst erklären, wie Tacrolimus, Ciclosporin, mTOR-Hemmer und MMF wirken und warum der CYP3A5-Genotyp zählt."
+     },
+     "items": [
+      "gene-cyp3a5",
+      "protein-cyp3a5",
+      "gene-cyp3a4",
+      "protein-cyp3a4",
+      "gene-abcb1",
+      "protein-p-glycoprotein",
+      "gene-fkbp1a",
+      "protein-fkbp12",
+      "gene-ppp3ca",
+      "protein-calcineurin",
+      "gene-impdh2",
+      "protein-impdh2",
+      "gene-impdh1",
+      "protein-impdh1",
+      "gene-tpmt",
+      "protein-tpmt",
+      "gene-cd52",
+      "protein-cd52"
+     ]
+    },
+    {
+     "id": "u07-complement-nk-receptors",
+     "title": {
+      "en": "Complement and NK receptors",
+      "de": "Komplement und NK-Rezeptoren"
+     },
+     "can_do": {
+      "en": "You can explain C4d in antibody-mediated rejection, complement drugs and the main NK-cell receptors.",
+      "de": "Du kannst C4d bei der antikörpervermittelten Abstoßung, Komplement-Medikamente und die NK-Rezeptoren erklären."
+     },
+     "items": [
+      "gene-c3",
+      "protein-c3",
+      "gene-c4a",
+      "gene-c4b",
+      "protein-c4",
+      "protein-c4d",
+      "gene-c5",
+      "protein-c5",
+      "gene-kir2dl1",
+      "protein-kir2dl1",
+      "gene-klrc1",
+      "protein-nkg2a",
+      "gene-klrk1",
+      "protein-nkg2d",
+      "gene-hla-e",
+      "protein-hla-e"
+     ]
+    },
+    {
+     "id": "u08-liver-core-masld-genes",
+     "title": {
+      "en": "Liver core proteins and MASLD risk genes",
+      "de": "Leberproteine und MASLD-Risikogene"
+     },
+     "can_do": {
+      "en": "You can name the classic liver serum proteins and the main genetic risk variants for MASLD.",
+      "de": "Du kannst die klassischen Leber-Serumproteine und die wichtigsten genetischen MASLD-Risikovarianten nennen."
+     },
+     "items": [
+      "gene-alb",
+      "protein-albumin",
+      "gene-afp",
+      "gene-crp",
+      "protein-c-reactive-protein",
+      "gene-pnpla3",
+      "protein-pnpla3",
+      "gene-tm6sf2",
+      "protein-tm6sf2",
+      "gene-hsd17b13",
+      "protein-hsd17b13",
+      "gene-mboat7",
+      "protein-mboat7",
+      "gene-gckr",
+      "protein-gkrp",
+      "gene-apob",
+      "protein-apolipoprotein-b",
+      "gene-apoe",
+      "protein-apolipoprotein-e"
+     ]
+    },
+    {
+     "id": "u09-metabolic-drug-targets",
+     "title": {
+      "en": "Metabolic regulators and MASH drug targets",
+      "de": "Stoffwechselregulatoren und MASH-Targets"
+     },
+     "can_do": {
+      "en": "You can explain the nuclear receptors, hormones and receptors targeted by MASH and metabolic drugs.",
+      "de": "Du kannst die Kernrezeptoren, Hormone und Rezeptoren erklären, auf die MASH-Medikamente zielen."
+     },
+     "items": [
+      "gene-thrb",
+      "protein-thr-beta",
+      "gene-glp1r",
+      "protein-glp-1-receptor",
+      "gene-fgf21",
+      "protein-fgf21",
+      "gene-ppara",
+      "protein-ppar-alpha",
+      "gene-pparg",
+      "protein-ppar-gamma",
+      "gene-ppard",
+      "protein-ppar-delta",
+      "gene-nr1h4",
+      "protein-fxr",
+      "gene-srebf1",
+      "protein-srebp-1c",
+      "gene-lep",
+      "protein-leptin",
+      "gene-adipoq",
+      "protein-adiponectin"
+     ]
+    },
+    {
+     "id": "u10-fibrosis-inherited-liver-disease",
+     "title": {
+      "en": "Fibrosis markers and inherited liver disease",
+      "de": "Fibrosemarker und erbliche Lebererkrankungen"
+     },
+     "can_do": {
+      "en": "You can explain stellate-cell activation markers and the genes behind haemochromatosis, Wilson disease and AAT deficiency.",
+      "de": "Du kannst Sternzellaktivierung und die Gene hinter Hämochromatose, Morbus Wilson und AAT-Mangel erklären."
+     },
+     "items": [
+      "gene-col1a1",
+      "protein-collagen-type-i",
+      "gene-acta2",
+      "protein-alpha-sma",
+      "gene-timp1",
+      "protein-timp-1",
+      "gene-krt18",
+      "protein-cytokeratin-18",
+      "gene-hfe",
+      "protein-hfe",
+      "gene-hamp",
+      "protein-hepcidin",
+      "gene-atp7b",
+      "protein-atp7b",
+      "gene-serpina1",
+      "protein-alpha-1-antitrypsin",
+      "gene-ttr",
+      "protein-transthyretin"
+     ]
+    },
+    {
+     "id": "u11-drug-metabolism-liver-markers",
+     "title": {
+      "en": "Drug metabolism and hepatocyte markers",
+      "de": "Arzneimittelstoffwechsel und Hepatozytenmarker"
+     },
+     "can_do": {
+      "en": "You can name the key CYP enzymes, UGT1A1, NTCP and the IHC markers for hepatocytes and HCC.",
+      "de": "Du kennst die wichtigsten CYP-Enzyme, UGT1A1, NTCP und die IHC-Marker für Hepatozyten und HCC."
+     },
+     "items": [
+      "gene-cyp2e1",
+      "protein-cyp2e1",
+      "gene-cyp2d6",
+      "protein-cyp2d6",
+      "gene-cyp2c9",
+      "protein-cyp2c9",
+      "gene-cyp2c19",
+      "protein-cyp2c19",
+      "gene-ugt1a1",
+      "protein-ugt1a1",
+      "gene-slc10a1",
+      "protein-ntcp",
+      "gene-gpc3",
+      "protein-glypican-3",
+      "gene-arg1",
+      "protein-arginase-1"
+     ]
+    },
+    {
+     "id": "u12-pancreas-hormones-tumour-markers",
+     "title": {
+      "en": "Pancreatic hormones and tumour markers",
+      "de": "Pankreashormone und Tumormarker"
+     },
+     "can_do": {
+      "en": "You can explain insulin, glucagon, CA19-9, CEA, CA-125 and the cytokeratin pattern of PDAC.",
+      "de": "Du kannst Insulin, Glukagon, CA19-9, CEA, CA-125 und das Zytokeratinmuster des PDAC erklären."
+     },
+     "items": [
+      "gene-ins",
+      "protein-insulin",
+      "protein-c-peptide",
+      "gene-gcg",
+      "protein-glucagon",
+      "protein-glp-1",
+      "gene-ceacam5",
+      "protein-cea",
+      "gene-muc16",
+      "protein-ca-125",
+      "gene-fut3",
+      "protein-fut3",
+      "gene-krt19",
+      "protein-ck19",
+      "gene-krt7",
+      "protein-ck7",
+      "gene-krt20",
+      "protein-ck20",
+      "gene-vim",
+      "protein-vimentin"
+     ]
+    },
+    {
+     "id": "u13-exocrine-pancreas-pancreatitis",
+     "title": {
+      "en": "Exocrine pancreas and pancreatitis genes",
+      "de": "Exokrines Pankreas und Pankreatitisgene"
+     },
+     "can_do": {
+      "en": "You can explain the digestive enzymes, pancreatitis risk genes and the transcription factors of pancreas development.",
+      "de": "Du kannst Verdauungsenzyme, Pankreatitis-Risikogene und die Transkriptionsfaktoren der Pankreasentwicklung erklären."
+     },
+     "items": [
+      "gene-prss1",
+      "protein-cationic-trypsinogen",
+      "gene-spink1",
+      "protein-spink1",
+      "gene-cftr",
+      "protein-cftr",
+      "gene-ctrc",
+      "protein-chymotrypsin-c",
+      "gene-cel",
+      "protein-carboxyl-ester-lipase",
+      "gene-cela3b",
+      "protein-pancreatic-elastase",
+      "gene-pnlip",
+      "protein-pancreatic-lipase",
+      "gene-pdx1",
+      "protein-pdx1",
+      "gene-ptf1a",
+      "protein-ptf1a"
+     ]
+    },
+    {
+     "id": "u14-pdac-subtype-target-markers",
+     "title": {
+      "en": "PDAC subtype and target markers",
+      "de": "PDAC-Subtyp- und Zielmarker"
+     },
+     "can_do": {
+      "en": "You can name PDAC subtype markers, emerging antibody targets and the neuroendocrine marker chromogranin A.",
+      "de": "Du kennst PDAC-Subtypmarker, neue Antikörper-Targets und den neuroendokrinen Marker Chromogranin A."
+     },
+     "items": [
+      "gene-muc1",
+      "protein-muc1",
+      "gene-msln",
+      "protein-mesothelin",
+      "gene-cldn18",
+      "protein-claudin-18-2",
+      "gene-gata6",
+      "protein-gata6",
+      "gene-chga",
+      "protein-chromogranin-a"
+     ]
+    },
+    {
+     "id": "u15-tumour-microenvironment",
+     "title": {
+      "en": "Exhaustion, adenosine and chemokines",
+      "de": "Erschöpfung, Adenosin und Chemokine"
+     },
+     "can_do": {
+      "en": "You can explain T-cell exhaustion, the CD39/CD73 adenosine axis and the key inflammatory chemokines.",
+      "de": "Du kannst T-Zell-Erschöpfung, die CD39/CD73-Adenosinachse und die wichtigsten Chemokine erklären."
+     },
+     "items": [
+      "gene-tox",
+      "protein-tox",
+      "gene-entpd1",
+      "protein-cd39",
+      "gene-nt5e",
+      "protein-cd73",
+      "gene-cxcl9",
+      "protein-cxcl9",
+      "gene-cxcl10",
+      "protein-cxcl10",
+      "gene-ccl2",
+      "protein-mcp-1"
+     ]
+    },
+    {
+     "id": "u16-innate-sensing-interferon",
+     "title": {
+      "en": "Innate sensing and interferon signalling",
+      "de": "Angeborene Erkennung und Interferonsignal"
+     },
+     "can_do": {
+      "en": "You can explain TLR4, cGAS–STING, the NLRP3 inflammasome and STAT signalling.",
+      "de": "Du kannst TLR4, cGAS–STING, das NLRP3-Inflammasom und STAT-Signalwege erklären."
+     },
+     "items": [
+      "gene-stat1",
+      "protein-stat1",
+      "gene-irf1",
+      "protein-irf1",
+      "gene-tlr4",
+      "protein-tlr4",
+      "gene-cgas",
+      "protein-cgas",
+      "gene-sting1",
+      "protein-sting",
+      "gene-nlrp3",
+      "protein-nlrp3"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "technologies",
+   "title": {
+    "en": "Measurement technologies",
+    "de": "Messtechnologien"
+   },
+   "description": {
+    "en": "How gene and protein expression are measured: bulk, single-cell, spatial, protein and epigenomic technologies and their platforms.",
+    "de": "Wie Gen- und Proteinexpression gemessen werden: Bulk, Single-Cell, räumlich, Protein und Epigenomik."
+   },
+   "units": [
+    {
+     "id": "u01-essentials",
+     "title": {
+      "en": "The essentials",
+      "de": "Das Wichtigste"
+     },
+     "can_do": {
+      "en": "You can explain the core technologies everyone in the clinic and lab talks about: RNA-seq, arrays, qPCR, single-cell, spatial, flow, mass spec, IHC.",
+      "de": "Du kannst die Kerntechnologien erklären, über die in Klinik und Labor alle reden."
+     },
+     "items": [
+      "rna-seq",
+      "single-cell-rna-seq",
+      "10x-chromium-single-cell-3",
+      "quantitative-pcr",
+      "illumina-sequencing-by-synthesis",
+      "spatial-transcriptomics",
+      "immunohistochemistry",
+      "flow-cytometry",
+      "expression-microarray",
+      "next-generation-sequencing",
+      "10x-visium",
+      "elisa",
+      "western-blot",
+      "batch-effect",
+      "unique-molecular-identifier",
+      "mass-spectrometry-proteomics",
+      "nanostring-ncounter",
+      "single-nucleus-rna-seq",
+      "hematoxylin-and-eosin-staining",
+      "ffpe-tissue"
+     ]
+    },
+    {
+     "id": "u02-bulk-rna-seq-variants",
+     "title": {
+      "en": "Bulk RNA-seq in practice",
+      "de": "Bulk-RNA-seq in der Praxis"
+     },
+     "can_do": {
+      "en": "You know the library choices, RNA quality metrics and units that decide what a bulk RNA-seq dataset can tell you.",
+      "de": "Du kennst Library-Varianten, RNA-Qualitätsmaße und Einheiten, die über einen RNA-seq-Datensatz entscheiden."
+     },
+     "items": [
+      "poly-a-selection",
+      "ribosomal-rna-depletion",
+      "tpm",
+      "rna-integrity-number",
+      "stranded-rna-seq",
+      "cpm",
+      "ffpe-rna-seq",
+      "small-rna-seq",
+      "long-read-rna-seq",
+      "three-prime-tag-rna-seq",
+      "targeted-rna-sequencing"
+     ]
+    },
+    {
+     "id": "u03-arrays-and-pcr",
+     "title": {
+      "en": "Microarrays, qPCR and NanoString",
+      "de": "Microarrays, qPCR und NanoString"
+     },
+     "can_do": {
+      "en": "You can handle legacy array data and targeted expression assays, from GPL570 to ΔΔCt.",
+      "de": "Du kommst mit alten Array-Daten und gezielten Expressionsassays klar, von GPL570 bis ΔΔCt."
+     },
+     "items": [
+      "delta-delta-ct-method",
+      "affymetrix-genechip",
+      "digital-pcr",
+      "affymetrix-hg-u133-plus-2",
+      "rma-normalization",
+      "reference-gene",
+      "taqman-probe",
+      "illumina-beadarray",
+      "nanostring-ncounter-panels"
+     ]
+    },
+    {
+     "id": "u04-sequencing-platforms",
+     "title": {
+      "en": "Sequencing platforms and basics",
+      "de": "Sequenzierplattformen und Grundlagen"
+     },
+     "can_do": {
+      "en": "You can talk about sequencers, read structure, depth and DNA sequencing assays with a core facility or tumour board.",
+      "de": "Du kannst mit Core Facility oder Tumorboard über Sequenzierer, Reads, Tiefe und DNA-Assays reden."
+     },
+     "items": [
+      "whole-genome-sequencing",
+      "whole-exome-sequencing",
+      "sequencing-depth",
+      "paired-end-sequencing",
+      "fastq-format",
+      "sequencing-library-preparation",
+      "sanger-sequencing",
+      "targeted-gene-panel-sequencing",
+      "illumina-novaseq",
+      "long-read-sequencing",
+      "phred-quality-score",
+      "sequencing-library-multiplexing",
+      "oxford-nanopore-sequencing",
+      "pacbio-hifi-sequencing",
+      "illumina-nextseq",
+      "illumina-miseq"
+     ]
+    },
+    {
+     "id": "u05-single-cell-principles",
+     "title": {
+      "en": "Single-cell principles and QC",
+      "de": "Single-Cell-Grundlagen und QC"
+     },
+     "can_do": {
+      "en": "You understand barcodes, UMIs and the typical artefacts and QC steps of single-cell data.",
+      "de": "Du verstehst Barcodes, UMIs und die typischen Artefakte und QC-Schritte von Single-Cell-Daten."
+     },
+     "items": [
+      "cell-barcode",
+      "10x-chromium-single-cell-5",
+      "doublet",
+      "dropout",
+      "ambient-rna",
+      "smart-seq2",
+      "cell-ranger",
+      "cell-hashing",
+      "gel-bead-in-emulsion",
+      "single-cell-isolation",
+      "mitochondrial-read-fraction",
+      "tissue-dissociation-artefacts",
+      "drop-seq"
+     ]
+    },
+    {
+     "id": "u06-single-cell-platforms-multiomics",
+     "title": {
+      "en": "Single-cell platforms and multiomics",
+      "de": "Single-Cell-Plattformen und Multiomics"
+     },
+     "can_do": {
+      "en": "You can compare single-cell platforms and multimodal assays and pick one for a study.",
+      "de": "Du kannst Single-Cell-Plattformen und multimodale Assays vergleichen und für eine Studie auswählen."
+     },
+     "items": [
+      "cite-seq",
+      "single-cell-immune-repertoire-sequencing",
+      "10x-multiome",
+      "single-cell-atac-seq",
+      "10x-flex-fixed-rna-profiling",
+      "single-cell-multiomics",
+      "perturb-seq",
+      "split-seq",
+      "bd-rhapsody",
+      "smart-seq3",
+      "sci-rna-seq",
+      "cel-seq2",
+      "indrops",
+      "mars-seq",
+      "seq-well"
+     ]
+    },
+    {
+     "id": "u07-spatial",
+     "title": {
+      "en": "Spatial and tissue methods",
+      "de": "Räumliche und Gewebe-Methoden"
+     },
+     "can_do": {
+      "en": "You can place each spatial transcriptomics and tissue imaging method by resolution, plex and sample type.",
+      "de": "Du kannst jede räumliche Methode nach Auflösung, Plex und Probentyp einordnen."
+     },
+     "items": [
+      "10x-xenium",
+      "geomx-digital-spatial-profiler",
+      "visium-hd",
+      "in-situ-hybridization",
+      "fluorescence-in-situ-hybridization",
+      "multiplex-immunofluorescence",
+      "cosmx-spatial-molecular-imager",
+      "merfish",
+      "rnascope",
+      "codex-phenocycler",
+      "imaging-mass-cytometry",
+      "visium-cytassist",
+      "whole-slide-imaging",
+      "tissue-microarray"
+     ]
+    },
+    {
+     "id": "u08-protein",
+     "title": {
+      "en": "Protein measurement",
+      "de": "Proteinmessung"
+     },
+     "can_do": {
+      "en": "You know how cytometry, mass-spec proteomics and affinity assays measure proteins and where each fails.",
+      "de": "Du weißt, wie Zytometrie, MS-Proteomik und Affinitätsassays Proteine messen und wo sie scheitern."
+     },
+     "items": [
+      "fluorescence-activated-cell-sorting",
+      "mass-cytometry",
+      "olink-proximity-extension-assay",
+      "luminex-xmap-bead-assay",
+      "gating-strategy",
+      "data-independent-acquisition",
+      "spectral-flow-cytometry",
+      "tandem-mass-spectrometry",
+      "tmt-labeling",
+      "somascan",
+      "data-dependent-acquisition",
+      "label-free-quantification",
+      "compensation-flow-cytometry",
+      "immunoprecipitation",
+      "targeted-proteomics",
+      "phosphoproteomics"
+     ]
+    },
+    {
+     "id": "u09-epigenomics",
+     "title": {
+      "en": "Epigenomics",
+      "de": "Epigenomik"
+     },
+     "can_do": {
+      "en": "You can explain how chromatin, methylation and 3D genome assays work.",
+      "de": "Du kannst erklären, wie Chromatin-, Methylierungs- und 3D-Genom-Assays funktionieren."
+     },
+     "items": [
+      "chip-seq",
+      "atac-seq",
+      "bisulfite-sequencing",
+      "illumina-methylation-array",
+      "cut-and-run",
+      "cut-and-tag",
+      "hi-c",
+      "dnase-seq"
+     ]
+    },
+    {
+     "id": "u10-special-bulk-and-sequencing",
+     "title": {
+      "en": "Special variants: bulk and sequencing",
+      "de": "Spezialvarianten: Bulk und Sequenzierung"
+     },
+     "can_do": {
+      "en": "You know the niche transcriptomics methods and alternative sequencers when someone mentions them.",
+      "de": "Du kennst die Nischenmethoden der Transkriptomik und alternative Sequenzierer, wenn jemand sie erwähnt."
+     },
+     "items": [
+      "affymetrix-clariom",
+      "agilent-two-colour-microarray",
+      "pacbio-iso-seq",
+      "nanopore-direct-rna-sequencing",
+      "ion-torrent-sequencing",
+      "ribosome-profiling",
+      "spike-in-controls",
+      "mgi-dnbseq",
+      "brb-seq",
+      "nascent-rna-sequencing",
+      "northern-blot",
+      "cage-seq",
+      "element-aviti"
+     ]
+    },
+    {
+     "id": "u11-special-single-cell-spatial-protein",
+     "title": {
+      "en": "Special variants: single-cell, spatial, protein",
+      "de": "Spezialvarianten: Single-Cell, räumlich, Protein"
+     },
+     "can_do": {
+      "en": "You recognise specialist single-cell, imaging and proteomics methods and what they add.",
+      "de": "Du erkennst spezielle Single-Cell-, Imaging- und Proteomik-Methoden und weißt, was sie beitragen."
+     },
+     "items": [
+      "genetic-demultiplexing",
+      "laser-capture-microdissection",
+      "single-cell-dna-sequencing",
+      "slide-seq",
+      "stereo-seq",
+      "single-molecule-fish",
+      "mass-spectrometry-imaging",
+      "reverse-phase-protein-array",
+      "crop-seq",
+      "seqfish",
+      "mibi",
+      "silac",
+      "single-cell-dna-methylation"
+     ]
+    }
+   ]
+  }
+ ]
+}

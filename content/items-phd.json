@@ -8,7 +8,8 @@
     "phd/immune-system",
     "phd/liquid-chromatography",
     "phd/metabodecon",
-    "phd/nmr"
+    "phd/nmr",
+    "bioinformatics/genes/oncogenes"
   ],
   "items": [
     {
@@ -2632,18 +2633,26 @@
       "key": "myc",
       "kind": "term",
       "label_md": "MYC",
-      "gloss_md": "Master transcription-factor oncogene driving growth, proliferation and anabolic metabolism.",
-      "body_md": "Deregulated MYC is a hallmark of B-cell lymphomas, e.g. the t(8;14) MYC–IgH translocation in Burkitt lymphoma. Metabolically it upregulates glycolysis, glutaminolysis, nucleotide and amino-acid synthesis and polyamine synthesis (ODC). In ADMIRE's metabolomics application MYC status (high/low) was a discrete feature.",
+      "gloss_md": "A master transcription-factor oncogene encoding c-Myc, deregulated by amplification or translocation in a large fraction of cancers.",
+      "body_md": "Located on 8q24.21 within a gene desert rich in tissue-specific enhancers (the 8q24 region also harbours many cancer-risk SNPs and the lncRNA *PVT1*). Encodes c-Myc (two main isoforms from alternative start codons, p64 and p67). Homologue of the avian myelocytomatosis virus oncogene v-myc.\n\n- Alterations: rarely mutated but very often overexpressed. Gain/amplification of 8q24 is among the most common copy-number gains across cancers (breast, ovarian, PDAC, HCC, prostate). Translocation t(8;14)(q24;q32) juxtaposing MYC with the IGH enhancer (less often IGK/IGL t(2;8), t(8;22)) defines Burkitt lymphoma; MYC plus BCL2 rearrangement defines 'double-hit' high-grade B-cell lymphoma.\n- Downstream of WNT/β-catenin (key target in colorectal cancer), RAS–ERK and Notch.\n- History: MYC was linked to the Burkitt translocation in 1982 (Dalla-Favera, Croce lab; Taub, Leder lab).\n- Clinic: no approved direct MYC inhibitor; indirect approaches (BET bromodomain inhibitors, CDK7/9 inhibitors, Omomyc/OMO-103 in trials). MYC FISH in lymphoma diagnostics.\n- Paralogues *MYCN* (neuroblastoma) and *MYCL* (small cell lung cancer).",
       "attrs": {
-        "mnemonic": "MYC drives Burkitt lymphoma: the t(8;14) translocation puts MYC (chr 8) next to the immunoglobulin heavy-chain locus (chr 14) and its strong B-cell enhancer.",
-        "anecdote": "The name comes from avian myelocytomatosis virus, whose oncogene v-myc was found before the cellular gene.",
-        "source": "phd-defense"
+        "source": "phd-defense",
+        "aliases": [
+          "bHLHe39",
+          "MRTL"
+        ],
+        "mnemonic": "Burkitt = 8 and 14: 'MYC sits on 8, the antibody heavy chain on 14 – the translocation puts MYC under the antibody's loud speaker.'",
+        "anecdote": "Burkitt lymphoma was described by the surgeon Denis Burkitt in Ugandan children in 1958; tumour cells he sent to London led Epstein, Achong and Barr to discover Epstein–Barr virus (1964), the first human tumour virus.",
+        "full_name": "MYC proto-oncogene, bHLH transcription factor",
+        "chromosome": "8q24.21",
+        "role": "oncogene"
       },
-      "priority": 60,
+      "priority": 97,
       "level": 3,
       "dirs": [
         "phd/immune-system",
-        "immunology"
+        "immunology",
+        "bioinformatics/genes/oncogenes"
       ]
     },
     {

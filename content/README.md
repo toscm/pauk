@@ -24,7 +24,11 @@ Importable content files, one JSON per topic:
   `items-phd.json` holds the key concepts of the PhD decks in space `concepts`, linked into the deck directories and the subjects `bioinformatics` and `immunology`.
   `items-germany.json` (states and cities, space `concepts`) and `items-italian-town.json` (town words, space `it`) hold the items the activities below refer to; both are hand-written.
 
-- `curricula/` — courses for the tutor's level map (docs/tutor.md 9.6): `italian.json` (A1 from the existing Italian items, A2 from `items-italian-a2.json`, B1–C2 as units the teacher fills).
+- `items-bio-*.json` and `items-med-*.json` — bioinformatics and clinical knowledge for work at a university hospital, space `concepts`, all under `bioinformatics/`: cancer genes and their proteins (`items-bio-cancer-genes.json`), immune, transplant, liver and pancreas genes and proteins (`items-bio-immune-liver-genes.json`), measurement technologies for bulk, single-cell and spatial expression and proteomics (`items-bio-technologies.json`), liver disease and transplantation (`items-med-liver-transplant.json`), cancer and PDAC (`items-med-cancer-pdac.json`).
+  Written by LLM agents from a shared spec (one item per gene, protein, technology, disease, score or treatment; `priority` says how essential it is; memory aids where good ones exist), cross-checked for duplicates; keys: `gene-<hgnc symbol>`, `protein-<name>`, otherwise a slug of the English term.
+  Some link into `items-phd.json` or each other, so import them after it (`cli/tests/test_content.py` imports all item files in link order).
+
+- `curricula/` — courses for the tutor's level map (docs/tutor.md 9.6): `italian.json` (A1 from the existing Italian items, A2 from `items-italian-a2.json`, B1–C2 as units the teacher fills) and `bioinformatics.json` (stages cancer and PDAC, cancer genes, liver and transplantation, immune/liver/pancreas genes, technologies; each unit ordered by importance).
   `pauk import content/curricula/italian.json` creates one directory per unit under `italian/course/` and links the listed items; import the items files first.
   The CLI ships a copy in `cli/pauk/data/curricula/` (`cli/tests/test_curriculum.py` checks that both are equal and that every listed item exists).
 
