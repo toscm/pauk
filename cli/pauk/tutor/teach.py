@@ -231,6 +231,12 @@ def hint(exercise_id: str, text: str) -> None:
 
 
 @teach_app.command()
+def explain(exercise_id: str, text: str) -> None:
+    """Explain the topic of an answered exercise (after an explain request)."""
+    _act("explain", {"exercise_id": exercise_id, "text_md": _text_arg(text)})
+
+
+@teach_app.command()
 def note(ref: str, text: str) -> None:
     """Set your memo about this learner and item."""
     _act("note", {"ref": ref, "text": _text_arg(text)})

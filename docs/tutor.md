@@ -592,6 +592,8 @@ Acting (each appears in the learner's chat):
 
 - `hint EXERCISE_ID TEXT_MD`: a hint for an open exercise; caps its outcomes at `hard`.
 
+- `explain EXERCISE_ID TEXT_MD`: explains the topic of an answered exercise (rule, reason, example, a mnemonic if one helps), usually after an `explain_request`; shown in the chat as an `explanation`, never evidence.
+
 - `note REF TEXT`: updates the per-learner item note (4.8).
 
 - `focus REF` / `suspend REF`: only when the learner asks for it.
@@ -622,13 +624,17 @@ There is deliberately no action to set a score, delete items, change stored sett
 
 - `hint_request`: asks for a hint on the open exercise.
 
+- `explain_request`: asks the teacher to explain the topic of an exercise, before or after answering, also for an earlier exercise or one in a drill.
+  Before answering it gives up first (recorded like `dont_know`, since the explanation contains the answer); afterwards the recorded evidence stays as it is.
+  Once per exercise.
+
 - `report`: a problem report from the flag button (section 16); not forwarded to the teacher.
 
 - `end`.
 
 ### 9.4 Events the teacher receives
 
-- `learner_message`, `start`, `end`, `hint_request`, `item_proposal_resolved`, `settings_changed`, `activity_event`.
+- `learner_message`, `start`, `end`, `hint_request`, `explain_request` (with the exercise, the response and whether it was correct), `item_proposal_resolved`, `settings_changed`, `activity_event`.
 
 - `answered`: for keyed exercises `{exercise_id, response, outcome per item, correct_answer}` (already recorded and already shown to the learner); for `open`: `{exercise_id, response}` (awaiting `grade`); for `recall`: the self-grade (recorded).
 
@@ -1050,7 +1056,7 @@ The observer reports and suggests merges (which follow `tutor.merge`); it change
 
 ### 15.2 Simulated learners
 
-`pauk learn` is the learner's counterpart of `pauk teach`: `state`, `wait`, `start`, `message`, `answer`, `hint`, `dont_know`, `activity observe|act`, `report`, `end`.
+`pauk learn` is the learner's counterpart of `pauk teach`: `state`, `wait`, `start`, `message`, `answer`, `hint`, `explain`, `dont_know`, `activity observe|act`, `report`, `end`.
 It calls exactly the endpoints the browser calls, so an LLM learner needs no Chrome at all; if it cannot accomplish something through `pauk learn`, the API is incomplete, which is itself a finding.
 
 `pauk simulate --persona <file> --minutes 10` starts host, teacher, learner agent and observer agent together.

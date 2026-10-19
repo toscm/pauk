@@ -81,6 +81,7 @@ class ExerciseState:
     drill_id: Optional[str] = None
     status: str = "open"          # open | answered | graded
     hinted: bool = False
+    explain_requested: bool = False
     uuid: Optional[str] = None    # interaction uuid once recorded
     response: Optional[dict] = None
     dont_know: bool = False
@@ -393,6 +394,9 @@ class Session:
         s = self._exercise(body.exercise_id)
         if s.status != "open":
             raise SessionError(409, "answered", "This exercise was already answered")
+        return self._give_up(s)
+
+    def _give_up(self, s: ExerciseState) -> dict:
         s.dont_know = True
         if s.ex.kind in p.KEYED or s.ex.kind == "recall":
             outcomes = {ref: "fail" for ref in s.ex.items}
@@ -435,6 +439,27 @@ class Session:
         self._learner_active()
         s = self._exercise(body.exercise_id)
         self.emit(LEARNER, "hint_request", {"exercise_id": s.id})
+        return {"ok": True}
+
+    @locked
+    def explain_request(self, body: p.ExerciseRef) -> dict:
+        """The learner wants the topic of an exercise explained. Before
+        answering this gives up first (the explanation contains the
+        answer); afterwards the evidence stays as it is."""
+        self._learner_active()
+        s = self._exercise(body.exercise_id)
+        if s.explain_requested:
+            return {"ok": True}
+        gave_up = s.status == "open"
+        if gave_up:
+            self._give_up(s)
+        s.explain_requested = True
+        result = s.result or {}
+        self.emit(LEARNER, "explain_request", {
+            "exercise_id": s.id, "gave_up": gave_up, "response": s.response, "dont_know": s.dont_know,
+            "correct": None if s.status != "graded" else bool(result.get("correct")) and not s.dont_know,
+            "exercise": self._teacher_exercise(s),
+        }, learner={"exercise_id": s.id})
         return {"ok": True}
 
     @locked
@@ -623,6 +648,15 @@ class Session:
             raise SessionError(409, "answered", "Hints are for open exercises")
         s.hinted = True
         e = self.emit(TEACHER, "hint", {"exercise_id": s.id, "text_md": body.text_md})
+        return {"seq": e.seq}
+
+    @locked
+    def explain(self, body: p.Explain) -> dict:
+        self._teacher_act("explain", body.model_dump())
+        s = self._exercise(body.exercise_id)
+        if s.status == "open":
+            raise SessionError(409, "open", "Explain after the learner answered; for an open exercise give a hint")
+        e = self.emit(TEACHER, "explanation", {"exercise_id": s.id, "prompt_md": s.ex.prompt_md, "text_md": body.text_md})
         return {"seq": e.seq}
 
     @locked
@@ -1004,7 +1038,7 @@ class Session:
 
     # --- internals ------------------------------------------------------------------
 
-    WRAP_UP = ("say", "note", "report", "end")
+    WRAP_UP = ("say", "explain", "note", "report", "end")
 
     def _teacher_act(self, command: str, args: dict | None = None) -> None:
         self._check_open()

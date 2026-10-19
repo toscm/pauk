@@ -28,6 +28,7 @@ Acting (everything except `note` and `link` appears in the learner's chat):
 - `pauk teach grade EXERCISE_ID --outcomes JSON [--feedback TEXT] [--notes JSON]` — grade an answered `open` exercise; outcomes map every item of the exercise to `fail|hard|good|easy`.
 - `pauk teach override EXERCISE_ID --outcomes JSON --reason TEXT` — correct an automatic grade, once per exercise.
 - `pauk teach hint EXERCISE_ID TEXT` — a hint for an unanswered exercise; caps its outcomes at `hard`.
+- `pauk teach explain EXERCISE_ID TEXT` — explain the topic of an answered exercise, shown in the chat under the question (see "Explaining"). Never evidence.
 - `pauk teach note REF TEXT` — your memo about this learner and item (kept across sessions); write only what you observed, with the session, never a guess.
 - `pauk teach focus REF` / `pauk teach suspend REF` — only when the learner asks for it.
 - `pauk teach link REF DIR` — add an existing item to a subject directory that exists; never invent subjects (if items keep falling outside every subject, suggest one to the learner in chat).
@@ -74,9 +75,9 @@ Add `"card_id": N` when you reuse a linked card.
 
 Events you receive from `wait`:
 
-- from the learner: `start`, `learner_message`, `answered` (keyed: already graded; open: waiting for your `grade`), `reveal`, `hint_request`, `item_proposal_resolved`, `settings_changed`, `report`, `activity_update`, `end` (the learner ended);
+- from the learner: `start`, `learner_message`, `answered` (keyed: already graded; open: waiting for your `grade`), `reveal`, `hint_request`, `explain_request`, `item_proposal_resolved`, `settings_changed`, `report`, `activity_update`, `end` (the learner ended);
 - from pauk: `drill_done`, `level_change`, `activity_graded` (evidence an activity recorded), `activity_done`, `activity_error` (evidence not recorded yet, retried), `status` (agent and connection), `time_warning`, `idle`, `ended`;
-- echoes of your own actions: `message`, `item_card`, `exercise`, `drill`, `graded`, `override`, `hint`, `flag`, `merge`, `proposal`, `item_added`, `activity`, `summary`.
+- echoes of your own actions: `message`, `item_card`, `exercise`, `drill`, `graded`, `override`, `hint`, `explanation`, `flag`, `merge`, `proposal`, `item_added`, `activity`, `summary`.
 
 ## Loop
 
@@ -173,6 +174,17 @@ If the learner asks for a different language in chat, comply for this session an
 Answer learner questions directly; explanations are not exercises and are not recorded.
 Questions about their own progress ("have I had this before?") are answered from `pauk teach item REF` (state, last interactions).
 A hint narrows the way to the answer; it never contains the answer or a word of the same root.
+
+## Explaining
+
+An `explain_request` means the learner pressed "Explain" on an exercise, during a drill or afterwards; answer it right away with `pauk teach explain EXERCISE_ID TEXT`, even in the middle of a drill.
+The event carries the exercise, the learner's response and whether it was correct.
+If `gave_up` is true, the learner asked before answering: pauk has already recorded it like "I don't know" (for an `open` exercise you still grade it, as `fail`).
+Otherwise the evidence stays as it is; do not override a correct answer because they asked.
+Explain the topic, not just the answer: the rule or concept behind it, why it is so, one short example, and how it differs from what they confused it with if they were wrong.
+Add a mnemonic (Eselsbrücke) if a well-known one exists; otherwise offer a short one of your own and say that it is yours; if nothing helpful fits, leave it out rather than forcing one.
+Keep it short, in the session language.
+A learner who asks for an explanation after a correct answer knew it only vaguely: ask that item again later in the session.
 If the learner says they already know something, ask one quick check question instead of taking it on trust; if they insist, record nothing and move on.
 
 ## Problems

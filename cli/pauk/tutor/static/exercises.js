@@ -20,6 +20,8 @@ export class ExerciseWidget {
     this.kind = ex.kind;
     this.locked = false;
     this.onResult = onResult;
+    this.explainButtons = [];
+    this.explainState = null;      // null | 'requested' | 'explained'
     this.hints = h('div', {class: 'hints'});
     this.result = h('div', {class: 'result', 'aria-live': 'polite'});
     this.controls = this.buildControls(ex);
@@ -68,9 +70,27 @@ export class ExerciseWidget {
     const dontKnow = h('button', {type: 'button', class: 'secondary', onclick: () => this.dontKnow()}, t('ex.dont_know'));
     this.hintButton = hint;
     if (this.kind === 'recall') {
-      return [h('button', {type: 'button', onclick: () => this.reveal()}, t('ex.reveal')), hint, dontKnow];
+      return [h('button', {type: 'button', onclick: () => this.reveal()}, t('ex.reveal')), hint, dontKnow, this.explainButton()];
     }
-    return [h('button', {type: 'button', onclick: () => this.submit()}, t('ex.submit')), hint, dontKnow];
+    return [h('button', {type: 'button', onclick: () => this.submit()}, t('ex.submit')), hint, dontKnow, this.explainButton()];
+  }
+
+  // Explain stays usable after answering (lock() skips it); the drill
+  // summary asks for more buttons bound to the same exercise.
+  explainButton() {
+    const button = h('button', {type: 'button', class: 'secondary explain', 'data-keep': '',
+                                title: t('ex.explain_title'), onclick: () => this.requestExplain()}, t('ex.explain'));
+    this.explainButtons.push(button);
+    this.updateExplain();
+    return button;
+  }
+
+  updateExplain() {
+    for (const button of this.explainButtons) {
+      button.disabled = !!this.explainState;
+      button.textContent = this.explainState ? t(`ex.explain_${this.explainState}`) : t('ex.explain');
+      button.title = this.explainState ? '' : this.locked ? t('ex.explain_after') : t('ex.explain_title');
+    }
   }
 
   focus() {
@@ -119,6 +139,11 @@ export class ExerciseWidget {
     if (await this.send('hint-request')) this.hintRequested();
   }
 
+  async requestExplain() {
+    if (this.explainState) return;
+    if (await this.send('explain-request')) this.explainRequested();
+  }
+
   async dontKnow() {
     if (await this.send('dont-know')) this.lock();
   }
@@ -137,7 +162,8 @@ export class ExerciseWidget {
   lock() {
     if (this.locked) return;
     this.locked = true;
-    for (const el of this.el.querySelectorAll('input, textarea, select, button')) el.disabled = true;
+    for (const el of this.el.querySelectorAll('input, textarea, select, button:not([data-keep])')) el.disabled = true;
+    this.updateExplain();
   }
 
   setResult(...nodes) {
@@ -195,32 +221,52 @@ export class ExerciseWidget {
     this.hintButton.textContent = t('ex.hint_requested');
   }
 
+  explainRequested() {
+    if (this.explainState !== 'explained') this.explainState = 'requested';
+    this.updateExplain();
+  }
+
+  explained() {
+    this.explainState = 'explained';
+    this.updateExplain();
+  }
+
   revealed(referenceMd) {
     if (this.referenceShown) return;
     this.referenceShown = true;
     this.controls.append(h('div', {class: 'expected'}, h('span', {class: 'muted'}, t('ex.reference'), ' '), md(referenceMd)));
     if (this.locked) return;
     const knew = h('button', {type: 'button', onclick: () => this.selfGrade(true)}, t('ex.knew'));
-    this.actions.replaceChildren(knew, h('button', {type: 'button', class: 'secondary', onclick: () => this.selfGrade(false)}, t('ex.didnt')));
+    this.actions.replaceChildren(knew, h('button', {type: 'button', class: 'secondary', onclick: () => this.selfGrade(false)}, t('ex.didnt')),
+      ...this.explainButtons);
     knew.focus({preventScroll: true});
   }
 }
 
 // A drill: keyed exercises one at a time with a progress indicator,
-// instant feedback, then the next; a short summary at the end.
+// instant feedback, then the next; a short summary at the end. The dots
+// of answered exercises go back to them (e.g. to ask for an
+// explanation after a lucky guess); "back" returns to the current one.
 export class Drill {
   constructor(ev, register) {
     this.id = ev.drill_id;
     this.widgets = ev.exercises.map((ex) => register(new ExerciseWidget(ex, (w, correct, live) => this.answered(w, correct, live))));
     this.results = new Map();
     this.index = 0;
-    this.dots = this.widgets.map(() => h('span', {class: 'dot'}));
+    this.dots = this.widgets.map((w, i) => h('button', {type: 'button', class: 'dot', disabled: true,
+      'aria-label': t('ex.drill_go_to', {n: i + 1}), onclick: () => this.show(i, true)}));
     this.counter = h('span', {class: 'muted'});
     this.stage = h('div', {class: 'stage'});
     this.el = h('section', {class: 'drill', 'aria-label': t('ex.drill')},
-      h('header', {class: 'drill-head'}, h('strong', {}, t('ex.drill')), this.counter, h('span', {class: 'dots', 'aria-hidden': 'true'}, this.dots)),
+      h('header', {class: 'drill-head'}, h('strong', {}, t('ex.drill')), this.counter, h('span', {class: 'dots'}, this.dots)),
       this.stage);
     this.show(0, false);
+  }
+
+  // The first exercise not answered yet (the summary when all are).
+  current() {
+    const i = this.widgets.findIndex((w, j) => !this.results.has(j));
+    return i < 0 ? this.widgets.length : i;
   }
 
   show(index, focus) {
@@ -228,7 +274,12 @@ export class Drill {
     if (index >= this.widgets.length) return this.finish();
     this.counter.textContent = `${index + 1} / ${this.widgets.length}`;
     this.dots.forEach((d, i) => d.classList.toggle('current', i === index));
-    this.stage.replaceChildren(this.widgets[index].el);
+    const current = this.current();
+    const back = index !== current && this.results.has(index)
+      ? h('button', {type: 'button', class: 'link back', onclick: () => this.show(current, true)},
+        current < this.widgets.length ? t('ex.drill_back') : t('ex.drill_back_summary'))
+      : null;
+    this.stage.replaceChildren(...[this.widgets[index].el, back].filter(Boolean));
     if (focus) this.widgets[index].focus();
   }
 
@@ -236,6 +287,7 @@ export class Drill {
     const i = this.widgets.indexOf(widget);
     this.results.set(i, correct);
     this.dots[i].classList.add(correct ? 'ok' : 'bad');
+    this.dots[i].disabled = false;
     if (i !== this.index) return;
     if (!live) return this.show(i + 1, false);
     if (correct) {
@@ -255,7 +307,7 @@ export class Drill {
     this.stage.replaceChildren(h('ol', {class: 'drill-summary'}, this.widgets.map((w) => {
       const result = w.result.cloneNode(true);
       result.querySelectorAll('button').forEach((b) => b.remove());
-      return h('li', {}, w.el.querySelector('.md').cloneNode(true), result);
+      return h('li', {}, w.el.querySelector('.md').cloneNode(true), result, w.explainButton());
     })));
   }
 }

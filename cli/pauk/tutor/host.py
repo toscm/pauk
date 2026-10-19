@@ -155,6 +155,10 @@ def create_app(session: Session, base_url: str = "", restart_agent: Optional[Cal
     def hint_request(body: p.ExerciseRef):
         return session.hint_request(body)
 
+    @app.post(api + "/learner/explain-request", dependencies=[learner])
+    def explain_request(body: p.ExerciseRef):
+        return session.explain_request(body)
+
     @app.post(api + "/learner/proposal", dependencies=[learner])
     def proposal(body: p.ProposalDecision):
         return session.decide_proposal(body)
@@ -283,7 +287,7 @@ def create_app(session: Session, base_url: str = "", restart_agent: Optional[Cal
     actions = {
         "say": (p.Say, session.say), "introduce": (p.Introduce, session.introduce), "ask": (p.Ask, session.ask),
         "drill": (p.Drill, session.drill), "grade": (p.Grade, session.grade), "override": (p.Override, session.override),
-        "hint": (p.Hint, session.hint), "note": (p.Note, session.note),
+        "hint": (p.Hint, session.hint), "explain": (p.Explain, session.explain), "note": (p.Note, session.note),
         "focus": (p.Flag, lambda b: session.flag("focus", b)), "suspend": (p.Flag, lambda b: session.flag("suspended", b)),
         "link": (p.Link, session.link), "merge": (p.Merge, session.merge), "add-item": (p.AddItem, session.add_item),
         "report": (p.Report, session.teacher_report), "end": (p.End, session.end),

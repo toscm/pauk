@@ -120,6 +120,11 @@ class Hint(BaseModel):
     text_md: str = Field(min_length=1)
 
 
+class Explain(BaseModel):
+    exercise_id: str
+    text_md: str = Field(min_length=1)
+
+
 class Note(BaseModel):
     ref: str
     text: str
@@ -233,7 +238,7 @@ class Annotate(BaseModel):
 
 TEACHER_ACTIONS: dict[str, type[BaseModel]] = {
     "attach": Attach, "say": Say, "introduce": Introduce, "ask": Ask, "drill": Drill,
-    "grade": Grade, "override": Override, "hint": Hint, "note": Note, "focus": Flag,
+    "grade": Grade, "override": Override, "hint": Hint, "explain": Explain, "note": Note, "focus": Flag,
     "suspend": Flag, "link": Link, "merge": Merge, "add-item": AddItem, "report": Report, "end": End,
     "activity-start": ActivityStart, "activity-act": ActivityAct, "activity-end": ActivityRef,
 }

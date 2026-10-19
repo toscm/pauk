@@ -98,6 +98,12 @@ def hint(exercise_id: str) -> None:
 
 
 @learn_app.command()
+def explain(exercise_id: str) -> None:
+    """Ask for an explanation (gives up first if not answered yet)."""
+    _post("explain-request", {"exercise_id": exercise_id})
+
+
+@learn_app.command()
 def reveal(exercise_id: str) -> None:
     """Reveal the reference answer of a recall exercise."""
     _post("reveal", {"exercise_id": exercise_id})

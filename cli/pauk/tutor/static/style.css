@@ -232,7 +232,12 @@ button.secondary.active { background: var(--learner); }
 
 .drill-head { display: flex; flex-wrap: wrap; gap: 0.6em; align-items: center; margin-bottom: 0.4em; }
 .dots { display: inline-flex; gap: 4px; }
-.dot { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
+.dot { width: 9px; height: 9px; border-radius: 50%; background: var(--line); border: 0; padding: 0; min-width: 0; }
+button.dot:not(:disabled) { cursor: pointer; }
+button.dot:disabled { opacity: 1; }
+.drill .back { display: block; margin-top: 0.5rem; color: var(--accent); }
+.drill-summary .explain { margin-top: 0.25rem; }
+.explanation .muted.small { margin: 0 0 0.25rem; }
 .dot.current { outline: 2px solid var(--accent); outline-offset: 1px; }
 .dot.ok { background: var(--ok); }
 .dot.bad { background: var(--bad); }

@@ -13,7 +13,7 @@ import { goalText } from './start.js';
 import { arrow, h } from './ui.js';
 
 // Learner events after which the teacher is expected to respond.
-const AWAITS_TEACHER = new Set(['learner_message', 'start', 'hint_request', 'end']);
+const AWAITS_TEACHER = new Set(['learner_message', 'start', 'hint_request', 'explain_request', 'end']);
 
 const short = (text, n = 60) => (text.length > n ? `${text.slice(0, n - 1).trimEnd()}…` : text);
 
@@ -159,7 +159,7 @@ export class Transcript {
       case 'drill': {
         const drill = new Drill(ev, (w) => this.register(w));
         return this.addTask(ev, drill.el, t('task.drill', {count: ev.exercises.length}),
-                            () => drill.index >= drill.widgets.length);
+                            () => drill.current() >= drill.widgets.length);
       }
       case 'answered':
         widget?.answered(ev, live);
@@ -176,6 +176,13 @@ export class Transcript {
       case 'hint_request':
         widget?.hintRequested();
         return null;
+      case 'explain_request':
+        widget?.explainRequested();
+        return null;
+      case 'explanation':
+        widget?.explained();
+        return h('div', {class: 'bubble teacher explanation'},
+          h('p', {class: 'muted small'}, t('ex.explanation_of', {prompt: short(plain(ev.prompt_md || ''), 80)})), md(ev.text_md));
       case 'reveal':
         widget?.revealed(ev.reference_md);
         return null;

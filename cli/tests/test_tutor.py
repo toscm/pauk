@@ -117,6 +117,36 @@ def test_drill_reports_once_when_done(env):
     env.T("POST", "drill", {"exercises": [MC, {**MC, "kind": "open"}]}, status=400)  # only keyed
 
 
+def test_explain_before_answering_gives_up_and_after_keeps_the_grade(env):
+    drill = {"exercises": [
+        {"kind": "text", "items": ["it/farfalla"], "prompt_md": "butterfly?", "accepted": ["farfalla"]},
+        {"kind": "text", "items": ["it/ape"], "prompt_md": "bee?", "accepted": ["ape"]},
+    ]}
+    ids = env.T("POST", "drill", drill)["exercise_ids"]
+    env.T("POST", "explain", {"exercise_id": ids[0], "text_md": "Too early."}, status=409)  # still open
+    # after a correct answer: the evidence stays, the teacher gets the context
+    env.L("POST", "answer", {"exercise_id": ids[0], "text": "farfalla"})
+    recorded = len(env.api.interactions)
+    env.L("POST", "explain-request", {"exercise_id": ids[0]})
+    env.L("POST", "explain-request", {"exercise_id": ids[0]})   # once per exercise
+    assert len(env.api.interactions) == recorded
+    requests = [e for e in env.T("GET", "wait", params={"after": 0, "timeout": 0})["events"] if e["type"] == "explain_request"]
+    assert len(requests) == 1 and requests[0]["correct"] is True and requests[0]["gave_up"] is False
+    assert requests[0]["exercise"]["accepted"] == ["farfalla"] and requests[0]["response"] == {"text": "farfalla"}
+    # before answering: recorded as "I don't know", which also finishes the drill
+    env.L("POST", "explain-request", {"exercise_id": ids[1]})
+    assert env.api.interactions[-1]["grader"] == "dont_know"
+    events = env.T("GET", "wait", params={"after": 0, "timeout": 0})["events"]
+    assert [e["gave_up"] for e in events if e["type"] == "explain_request"] == [False, True]
+    assert [r["correct"] for r in [e for e in events if e["type"] == "drill_done"][0]["results"]] == [True, False]
+    env.T("POST", "explain", {"exercise_id": ids[1], "text_md": "**ape** = bee; think of a busy *ape* buzzing."})
+    shown = [e for e in env.L("GET", "state")["events"] if e["type"] == "explanation"]
+    assert shown[0]["prompt_md"] == "bee?" and "ape" in shown[0]["text_md"]
+    # the learner's view of the request never carries the key
+    assert [e for e in env.L("GET", "state")["events"] if e["type"] == "explain_request"][0].keys() >= {"exercise_id"}
+    assert "exercise" not in [e for e in env.L("GET", "state")["events"] if e["type"] == "explain_request"][0]
+
+
 def test_match_uses_opaque_tokens(env):
     ex = env.T("POST", "ask", {"exercise": {"kind": "match", "items": ["it/parlare"], "prompt_md": "Match",
                                             "pairs": [{"left_md": "io", "right_md": "parlo"}, {"left_md": "tu", "right_md": "parli"}]}})
