@@ -51,9 +51,24 @@ app with its own heavy toolchain ever materializes, it gets
 its own repo (`pauk-android`, named by platform — again not by
 language).
 
+## Installation
+
+To use pauk against the hosted API you only need the CLI.
+It needs Python 3.10 or newer; its Python dependencies are installed automatically.
+
+    pipx install 'git+https://github.com/toscm/pauk#subdirectory=cli'   # no checkout needed
+    # or, from a checkout:  pip install -e ./cli
+    pauk login https://pauk.aao756.de   # prompts for the token
+
+The tutor (`pauk`), `pauk items dedup` and `pauk triage` drive an LLM agent.
+By default that is the `claude` CLI, which must be installed and logged in; `pip install 'pauk[local]'` adds a llama.cpp runtime for running quests and tips without it.
+
+To develop pauk (API, database, test suite) you need the full toolchain: PHP 8.4, Composer, MariaDB 11.8 and Python 3.10 or newer.
+`make setup` installs all of it into `~/.local` without admin rights (on macOS MariaDB comes from Homebrew) and then the PHP and Python dependencies.
+See docs/development.md for the details, docs/testing.md for the tests and docs/deployment.md for deploying.
+
 ## Using the CLI
 
-    make setup                 # or: pip install -e ./cli
     pauk login https://pauk.aao756.de   # prompts for the token
     pauk                       # tutor: local web chat + LLM teacher (prints the link)
     pauk tutor --no-agent      # same, but attach the teacher yourself

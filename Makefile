@@ -10,10 +10,14 @@ DEV_DATADIR = $(ROOT)/api/var/devdb
 DEV_ENV     = PAUK_DB_HOST=127.0.0.1 PAUK_DB_PORT=$(DEV_PORT) \
               PAUK_DB_USER=root PAUK_DB_PASS= PAUK_DB_NAME=pauk_dev
 
-.PHONY: setup serve test test-php test-cli db-start db-stop db-migrate \
+.PHONY: setup toolchain serve test test-php test-cli db-start db-stop db-migrate \
         tunnel deploy rollback backup-fetch restore-local
 
-setup:
+# PHP, Composer, MariaDB into ~/.local (skips what is already there)
+toolchain:
+	PY=$(PY) scripts/install-toolchain.sh
+
+setup: toolchain
 	cd api && $(COMPOSER) install --no-interaction
 	test -d $(VENV) || $(PY) -m venv $(VENV)
 	$(VENV)/bin/pip install --quiet -e './cli[dev]'

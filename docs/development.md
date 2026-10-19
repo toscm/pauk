@@ -6,25 +6,26 @@ touched by `make deploy` and for reading logs.
 
 ## Toolchain (no admin rights required)
 
-- PHP 8.4 CLI: a static binary (from static-php.dev,
-  includes pdo_mysql) installed to `~/.local/bin/php`.
+`make setup` installs the toolchain into `~/.local` (via `scripts/install-toolchain.sh`, which skips whatever is already there), then the PHP dependencies with Composer and the Python ones into a venv.
+`make toolchain` runs only the first step.
 
-- Composer: `composer.phar` installed to
-  `~/.local/bin/composer`.
+- PHP 8.4 CLI: a static binary from static-php.dev (the "common" build, which includes pdo_mysql and mbstring) installed to `~/.local/bin/php`.
 
-- MariaDB 11.8: official binary tarball ("bintar") unpacked
-  to `~/.local/mariadb-11.8/`. Runs entirely in user space;
-  server and client binaries are addressed by full path from
-  the Makefile, nothing global is touched.
+- Composer: `composer.phar` installed to `~/.local/bin/composer`.
 
-- Python ≥ 3.10 with a project venv under `cli/.venv`.
+- MariaDB 11.8 under `~/.local/mariadb-11.8/`.
+  On Linux (x86_64) this is the official binary tarball ("bintar"), unpacked next to it and symlinked.
+  On macOS there is no official tarball, so the script installs the Homebrew bottle `mariadb@11.8` and symlinks the Homebrew prefix to `~/.local/mariadb-11.8` (Homebrew must be installed first).
+  Either way the server runs entirely in user space; server and client binaries are addressed by full path from the Makefile, nothing global is touched.
 
-- On Windows the toolchain runs inside WSL (Ubuntu), installed the same way into the WSL home (`~/.local/bin/php`, `~/.local/mariadb-11.8`, plus `uv` for the venv).
+- Python ≥ 3.10: checked, not installed; `make setup` creates the project venv under `cli/.venv` with it and installs the CLI with its dev extras.
+
+The paths can be overridden for `make` (`PHP`, `COMPOSER`, `MARIADB`, `PY`) and for the script (`PREFIX`, `PHP_VERSION`, `MARIADB_VERSION`).
+`~/.local/bin` should be on the `PATH` so that `php` and `composer` work outside `make` as well.
+CI (`.github/workflows/ci.yml`) installs the same versions with GitHub actions and a MariaDB service container; it is the reference when something about the toolchain is unclear.
+
+- On Windows the toolchain runs inside WSL (Ubuntu), installed the same way into the WSL home (`make setup` works there as on Linux).
   Run the suite from a WSL-side copy of the checkout (the MariaDB datadirs do not work well on the `/mnt/c` mount), and start pytest under `setsid` when WSL is launched from a Windows terminal: otherwise the hidden token prompt in `test_version_and_login` reads from the terminal instead of stdin and the test hangs.
-
-`make setup` installs/verifies all of the above and the
-PHP/Python dependencies. Candidate for toscpm registration
-once stable.
 
 ## Databases
 
@@ -55,7 +56,7 @@ concerns (see docs/architecture.md, Decisions).
 
 ## Everyday commands (Makefile)
 
-- `make setup` — install toolchain + dependencies
+- `make setup` — install toolchain + dependencies (`make toolchain` for the toolchain alone)
 - `make db-start` / `make db-stop` — local dev database
 - `make serve` — run the API on http://127.0.0.1:8080
   against the dev database (PHP built-in server,
