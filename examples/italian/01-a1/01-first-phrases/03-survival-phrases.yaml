@@ -1,0 +1,127 @@
+space: it
+items:
+  - key: non-capisco
+    kind: phrase
+    label: non capisco
+    gloss: I don't understand.
+    body: "Also: non ho capito."
+    priority: 85
+    level: 1
+    mnemonic: (de) Ich kapiere nicht.
+    cards:
+      - type: text
+        q: "Translate to Italian: **I don't understand.**"
+        answer: [non capisco, non ho capito]
+  - key: quanto-costa
+    kind: phrase
+    label: quanto costa
+    gloss: How much does it cost?
+    body: "Also: quanto viene."
+    priority: 85
+    level: 1
+    cards:
+      - type: text
+        q: "Translate to Italian: **How much does it cost?**"
+        answer: [quanto costa, quanto costa?, quanto viene, quanto viene?]
+  - key: dov-e-il-bagno
+    kind: phrase
+    label: dov'è il bagno
+    gloss: Where is the bathroom?
+    body: "Also: dove è il bagno."
+    priority: 85
+    level: 1
+    cards:
+      - type: text
+        q: "Translate to Italian: **Where is the bathroom?**"
+        answer:
+          - dov'è il bagno
+          - dove è il bagno
+          - dov'è il bagno?
+          - dove è il bagno?
+  - key: si
+    kind: phrase
+    label: sì
+    gloss: yes
+    body: "Also: si."
+    priority: 85
+    level: 1
+    mnemonic: "The accent matters: *sì* = yes, *si* = oneself."
+    cards:
+      - type: text
+        q: "Translate to Italian: **yes**"
+        answer: [sì, si]
+  - key: vorrei
+    kind: phrase
+    label: vorrei
+    gloss: I would like ... (polite)
+    priority: 85
+    level: 1
+    mnemonic: (de) Konditional von *volere*, wie 'ich möchte'.
+    cards:
+      - type: text
+        q: "Translate to Italian: **I would like ... (polite)**"
+        answer: [vorrei]
+  - key: parla-inglese
+    kind: phrase
+    label: parla inglese
+    gloss: Do you speak English?
+    body: "Also: parli inglese."
+    priority: 85
+    level: 1
+    cards:
+      - type: text
+        q: "Translate to Italian: **Do you speak English?**"
+        answer: [parla inglese, parli inglese, parla inglese?, parli inglese?]
+  - key: non-parlo-italiano
+    kind: phrase
+    label: non parlo italiano
+    gloss: I don't speak Italian.
+    priority: 85
+    level: 1
+    cards:
+      - type: text
+        q: "Translate to Italian: **I don't speak Italian.**"
+        answer: [non parlo italiano]
+  - key: puo-aiutarmi
+    kind: phrase
+    label: può aiutarmi
+    gloss: Can you help me?
+    body: "Also: mi puoi aiutare, mi può aiutare, puoi aiutarmi."
+    priority: 85
+    level: 1
+    cards:
+      - type: text
+        q: "Translate to Italian: **Can you help me?**"
+        answer:
+          - può aiutarmi
+          - puoi aiutarmi
+          - mi può aiutare
+          - mi puoi aiutare
+          - può aiutarmi?
+          - puoi aiutarmi?
+          - mi può aiutare?
+          - mi puoi aiutare?
+  - key: che-ore-sono
+    kind: phrase
+    label: che ore sono
+    gloss: What time is it?
+    body: "Also: che ora è."
+    priority: 85
+    level: 1
+    mnemonic: "Plural, because hours are plural: *sono le tre*; only *è l'una* is singular."
+    cards:
+      - type: text
+        q: "Translate to Italian: **What time is it?**"
+        answer: [che ore sono, che ora è, che ore sono?, che ora è?]
+  - key: il-conto-per-favore
+    kind: phrase
+    label: il conto, per favore
+    gloss: the bill, please
+    body: "Also: il conto per favore."
+    priority: 85
+    level: 1
+    mnemonic: (de) Der *conto* belastet dein Konto.
+    cards:
+      - type: text
+        q: "Translate to Italian: **the bill, please**"
+        answer: ["il conto, per favore", il conto per favore]

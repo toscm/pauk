@@ -1,0 +1,177 @@
+space: el
+items:
+  - key: rho
+    kind: symbol
+    label: ρ
+    gloss: rho
+    body: Letter 17 of 24. Uppercase **Ρ**, lowercase **ρ**.
+    priority: 80
+    level: 1
+    mnemonic: ρ looks like a p but is an r!
+    attrs:
+      uppercase: Ρ
+      position: 17
+    cards:
+      - type: text
+        q: "Name this Greek letter: **ρ**"
+        answer: [rho]
+      - type: text
+        q: "Name this Greek letter (uppercase): **Ρ**"
+        answer: [rho]
+      - type: mc
+        q: "Which Greek letter is this: **ρ**?"
+        answer: [rho]
+        wrong: [phi, pi, beta]
+  - key: sigma
+    kind: symbol
+    label: σ / ς
+    gloss: sigma
+    body: Letter 18 of 24. Uppercase **Σ**, lowercase **σ / ς**.
+    priority: 80
+    level: 1
+    mnemonic: ς is used only at the end of a word; the capital Σ is the sum sign.
+    attrs:
+      uppercase: Σ
+      position: 18
+    cards:
+      - type: text
+        q: "Name this Greek letter: **σ / ς**"
+        answer: [sigma]
+      - type: text
+        q: "Name this Greek letter (uppercase): **Σ**"
+        answer: [sigma]
+      - type: mc
+        q: "Which Greek letter is this: **σ / ς**?"
+        answer: [sigma]
+        wrong: [iota, kappa, alpha]
+  - key: tau
+    kind: symbol
+    label: τ
+    gloss: tau
+    body: Letter 19 of 24. Uppercase **Τ**, lowercase **τ**.
+    priority: 80
+    level: 1
+    attrs:
+      uppercase: Τ
+      position: 19
+    cards:
+      - type: text
+        q: "Name this Greek letter: **τ**"
+        answer: [tau]
+      - type: text
+        q: "Name this Greek letter (uppercase): **Τ**"
+        answer: [tau]
+      - type: mc
+        q: "Which Greek letter is this: **τ**?"
+        answer: [tau]
+        wrong: [pi, mu, rho]
+  - key: upsilon
+    kind: symbol
+    label: υ
+    gloss: upsilon
+    body: Letter 20 of 24. Uppercase **Υ**, lowercase **υ**. Also spelled ypsilon.
+    priority: 80
+    level: 1
+    anecdote: "*U psilon* means 'plain u', to tell it apart from the diphthong οι."
+    attrs:
+      uppercase: Υ
+      position: 20
+    cards:
+      - type: text
+        q: "Name this Greek letter: **υ**"
+        answer: [upsilon, ypsilon]
+      - type: text
+        q: "Name this Greek letter (uppercase): **Υ**"
+        answer: [upsilon, ypsilon]
+      - type: mc
+        q: "Which Greek letter is this: **υ**?"
+        answer: [upsilon]
+        wrong: [nu, gamma, chi]
+  - key: phi
+    kind: symbol
+    label: φ
+    gloss: phi
+    body: Letter 21 of 24. Uppercase **Φ**, lowercase **φ**.
+    priority: 80
+    level: 1
+    anecdote: The golden ratio (1.618…) is usually written φ.
+    attrs:
+      uppercase: Φ
+      position: 21
+    cards:
+      - type: text
+        q: "Name this Greek letter: **φ**"
+        answer: [phi]
+      - type: text
+        q: "Name this Greek letter (uppercase): **Φ**"
+        answer: [phi]
+      - type: mc
+        q: "Which Greek letter is this: **φ**?"
+        answer: [phi]
+        wrong: [psi, theta, chi]
+  - key: chi
+    kind: symbol
+    label: χ
+    gloss: chi
+    body: Letter 22 of 24. Uppercase **Χ**, lowercase **χ**.
+    priority: 80
+    level: 1
+    mnemonic: (de) χ sieht aus wie x, klingt aber wie das ch in *Bach*.
+    attrs:
+      uppercase: Χ
+      position: 22
+    cards:
+      - type: text
+        q: "Name this Greek letter: **χ**"
+        answer: [chi]
+      - type: text
+        q: "Name this Greek letter (uppercase): **Χ**"
+        answer: [chi]
+      - type: mc
+        q: "Which Greek letter is this: **χ**?"
+        answer: [chi]
+        wrong: [omicron, lambda, kappa]
+  - key: psi
+    kind: symbol
+    label: ψ
+    gloss: psi
+    body: Letter 23 of 24. Uppercase **Ψ**, lowercase **ψ**.
+    priority: 80
+    level: 1
+    anecdote: ψ is the symbol of psychology (from *psyche*, soul).
+    attrs:
+      uppercase: Ψ
+      position: 23
+    cards:
+      - type: text
+        q: "Name this Greek letter: **ψ**"
+        answer: [psi]
+      - type: text
+        q: "Name this Greek letter (uppercase): **Ψ**"
+        answer: [psi]
+      - type: mc
+        q: "Which Greek letter is this: **ψ**?"
+        answer: [psi]
+        wrong: [xi, phi, chi]
+  - key: omega
+    kind: symbol
+    label: ω
+    gloss: omega
+    body: Letter 24 of 24. Uppercase **Ω**, lowercase **ω**.
+    priority: 80
+    level: 1
+    anecdote: "*O mega* means 'big o'; 'the Alpha and the Omega' means the beginning and the end."
+    attrs:
+      uppercase: Ω
+      position: 24
+    cards:
+      - type: text
+        q: "Name this Greek letter: **ω**"
+        answer: [omega]
+      - type: text
+        q: "Name this Greek letter (uppercase): **Ω**"
+        answer: [omega]
+      - type: mc
+        q: "Which Greek letter is this: **ω**?"
+        answer: [omega]
+        wrong: [sigma, omicron, upsilon]

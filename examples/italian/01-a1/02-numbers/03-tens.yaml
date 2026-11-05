@@ -1,0 +1,99 @@
+space: it
+items:
+  - key: trenta
+    kind: word
+    label: trenta
+    gloss: thirty
+    priority: 60
+    level: 1
+    attrs:
+      pos: num
+    cards:
+      - type: text
+        q: "Translate to Italian: **thirty**"
+        answer: [trenta]
+  - key: quaranta
+    kind: word
+    label: quaranta
+    gloss: forty
+    priority: 60
+    level: 1
+    attrs:
+      pos: num
+    cards:
+      - type: text
+        q: "Translate to Italian: **forty**"
+        answer: [quaranta]
+  - key: cinquanta
+    kind: word
+    label: cinquanta
+    gloss: fifty
+    priority: 60
+    level: 1
+    attrs:
+      pos: num
+    cards:
+      - type: text
+        q: "Translate to Italian: **fifty**"
+        answer: [cinquanta]
+  - key: sessanta
+    kind: word
+    label: sessanta
+    gloss: sixty
+    priority: 60
+    level: 1
+    attrs:
+      pos: num
+    cards:
+      - type: text
+        q: "Translate to Italian: **sixty**"
+        answer: [sessanta]
+  - key: settanta
+    kind: word
+    label: settanta
+    gloss: seventy
+    priority: 60
+    level: 1
+    attrs:
+      pos: num
+    cards:
+      - type: text
+        q: "Translate to Italian: **seventy**"
+        answer: [settanta]
+  - key: ottanta
+    kind: word
+    label: ottanta
+    gloss: eighty
+    priority: 60
+    level: 1
+    attrs:
+      pos: num
+    cards:
+      - type: text
+        q: "Translate to Italian: **eighty**"
+        answer: [ottanta]
+  - key: novanta
+    kind: word
+    label: novanta
+    gloss: ninety
+    priority: 60
+    level: 1
+    attrs:
+      pos: num
+    cards:
+      - type: text
+        q: "Translate to Italian: **ninety**"
+        answer: [novanta]
+  - key: cento
+    kind: word
+    label: cento
+    gloss: one hundred
+    priority: 60
+    level: 1
+    mnemonic: (de) *Pro*zent = *per cento*, von hundert.
+    attrs:
+      pos: num
+    cards:
+      - type: text
+        q: "Translate to Italian: **one hundred**"
+        answer: [cento]

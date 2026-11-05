@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pauk</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="/vendor/katex/dist/katex.min.css">
+<link rel="stylesheet" href="/app/style.css">
+<script type="importmap">
+{ "imports": {
+  "marked": "/vendor/marked/lib/marked.esm.js",
+  "dompurify": "/vendor/dompurify/dist/purify.es.mjs",
+  "katex-auto-render": "/vendor/katex/dist/contrib/auto-render.mjs"
+} }
+</script>
+<script type="module" src="/app/app.ts"></script>
+</head>
+<body>
+<header>
+  <h1><a href="#browse" id="home-link">pauk</a></h1>
+  <div id="navsearch" class="search">
+    <input id="q" type="search" placeholder="Search" autocomplete="off" autocapitalize="off" spellcheck="false" aria-controls="results">
+    <kbd class="muted">/</kbd>
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <nav id="tabs">
+    <a href="#settings" data-tab="settings" title="Settings">Settings</a>
+  </nav>
+  <span id="status" class="muted"></span>
+  <nav id="session-nav" hidden>
+    <button id="btn-end" class="secondary">End</button>
+  </nav>
+</header>
+
+<main id="login" hidden>
+  <form id="login-form" class="card narrow">
+    <h2>Log in</h2>
+    <label>Name <input name="name" autocomplete="username" required></label>
+    <label>Password <input name="password" type="password" autocomplete="current-password"></label>
+    <button>Log in</button>
+    <p id="login-error" class="bad"></p>
+  </form>
+</main>
+
+<main id="browse" hidden></main>
+
+<main id="settings" hidden>
+  <section class="card">
+    <h2>Account</h2>
+    <p id="me" class="muted"></p>
+  </section>
+  <section class="card">
+    <h2>Learning</h2>
+    <form id="settings-form">
+      <label>Language of the teacher <select name="language"><option value="en">English</option><option value="de">Deutsch</option></select></label>
+      <label>New items per session <input name="new_items" type="number" min="0" max="50"></label>
+      <button>Save</button> <span id="saved" class="muted"></span>
+    </form>
+  </section>
+</main>
+
+<main id="chat" hidden>
+  <div id="transcript"></div>
+  <form id="composer">
+    <textarea id="input" rows="2" placeholder="Write to the teacher…"></textarea>
+    <button>Send</button>
+  </form>
+</main>
+</body>
+</html>

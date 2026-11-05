@@ -1,0 +1,190 @@
+# pauk explains itself: how the app works, as items you can learn.
+# Keep these in step with the code; they ship with every installation.
+space: concepts
+items:
+  - key: pauk-two-kinds-of-files
+    kind: fact
+    label: pauk's two kinds of files
+    gloss: Knowledge files are written by people (in an editor or with the app's edit buttons); learning logs are written by pauk and never edited.
+    body: |
+      Knowledge files (YAML decks, Markdown items) live in source folders listed in `config.yaml`.
+      The learning log lives in `~/pauk/users/<name>/log/` as one JSON line per observation.
+      Item states are never stored: pauk recomputes them from the log at startup.
+    priority: 90
+    level: 1
+    cards:
+      - type: mc
+        q: Which files does pauk write?
+        answer: [the learning log and a user's own items.yaml]
+        wrong: [the knowledge decks in the source folders, a database file, nothing at all]
+      - type: recall
+        q: Why does pauk never store item states?
+        answer: They are a pure function of the learning log (the memory model folded over it in time order), so storing them would only create a second truth that can drift.
+
+  - key: pauk-item-ref
+    kind: term
+    label: item reference (space/key)
+    gloss: The identity of an item, e.g. it/parlare or concepts/t-cell; the log refers to items only by it.
+    body: |
+      A space prevents false collisions (Italian *come* vs English *come*): one per language, `concepts` for everything else.
+      The file an item sits in does not matter: moving or renaming files changes nothing.
+    priority: 90
+    level: 1
+    cards:
+      - type: text
+        q: "In pauk, what is the reference of the Italian word *parlare*?"
+        answer: [it/parlare]
+      - type: mc
+        q: You move `italian/verbs.yaml` to `italian/a1/verbs.yaml`. What happens to your learning history of its items?
+        answer: [nothing, it stays with the items]
+        wrong: [it is lost, it moves to a new log file, pauk asks you to migrate it]
+
+  - key: pauk-edit-rules
+    kind: rule
+    label: the edit rules for knowledge files
+    gloss: Edit anything freely, except that a key must never be reused for a different meaning; renames and merges go through aliases.
+    body: |
+      - Free: wording, gloss, body, cards, files, folders, new items.
+      - Rename a key: add the old one to `aliases`.
+      - Merge two items: delete one, add its key to the other's `aliases`.
+      - Delete an item: its evidence is kept and comes back if the key returns.
+      - Forbidden: giving an existing key a different meaning.
+    priority: 85
+    level: 2
+    requires: [pauk-item-ref]
+    cards:
+      - type: recall
+        q: You want to rename the item `it/esser` to `it/essere`. What do you write so the learning history follows?
+        answer: "Rename the key to `essere` and add `aliases: [esser]` to the item."
+      - type: mc
+        q: Which edit breaks pauk's knowledge model?
+        answer: [reusing a key for a different meaning]
+        wrong: [rewording a gloss, deleting a card, splitting a file in two]
+
+  - key: pauk-no-versions
+    kind: fact
+    label: why knowledge files need no version numbers
+    gloss: The log refers to stable keys and stores each exercise as it was shown, so old evidence stays meaningful after any edit.
+    body: "Only the file format has a version (`format: 1` in `pauk.yaml` and `config.yaml`); it changes when the syntax changes, together with a migration script."
+    priority: 70
+    level: 2
+    requires: [pauk-edit-rules]
+    cards:
+      - type: recall
+        q: Why does an answer in the log stay meaningful after you edit the card it came from?
+        answer: "Each log line stores the exercise as it was shown (`ex`), the response (`resp`) and the grader version, and refers to items by their stable `space/key`."
+
+  - key: pauk-subjects
+    kind: rule
+    label: subjects in pauk
+    gloss: A file's path below its source folder is its subject (italian/a1/verbs.yaml is in italian/a1/verbs, italian/a1 and italian); `also` adds more.
+    priority: 70
+    level: 1
+    cards:
+      - type: mc
+        q: "Which subjects is an item in `italian/a1/verbs.yaml` (with `also: [italian/core]`) part of?"
+        answer: ["italian/a1/verbs, italian/a1, italian and italian/core"]
+        wrong: ["only italian/a1/verbs", "only italian/core", "italian/a1/verbs and italian/core"]
+
+  - key: pauk-memory-model
+    kind: term
+    label: pauk's memory model (pauk-mm@1)
+    gloss: An FSRS-inspired model that tracks stability (days until recall drops to 90 %) and difficulty per item.
+    body: |
+      Recall after t days is R = 1 / (1 + t / (9·S)), so R = 0.9 when t = S.
+      A success multiplies S, more so when the item was nearly forgotten (low R); a failure shrinks it.
+      Recognition (multiple choice) counts less than recall, recall less than production.
+      An item is due once R falls below 0.9.
+    priority: 75
+    level: 2
+    cards:
+      - type: mc
+        q: An item has stability S = 10 days. When is it due again (recall below 90 %)?
+        answer: [after about 10 days]
+        wrong: [after 1 day, after 90 days, never]
+      - type: mc
+        q: Which correct answer raises an item's stability the most?
+        answer: [producing it from memory]
+        wrong: [picking it in multiple choice, seeing it introduced, self-reporting that you know it]
+
+  - key: pauk-keyed-exercise
+    kind: term
+    label: keyed exercise
+    gloss: An exercise with a known answer (mc, text, match) that pauk grades itself, instantly; the key never reaches the browser.
+    body: Open questions are graded by the teacher, recall cards by the learner after revealing the reference.
+    priority: 70
+    level: 1
+    cards:
+      - type: mc
+        q: Who grades an `open` exercise?
+        answer: [the teacher (the LLM)]
+        wrong: [pauk, by string matching, the learner, nobody]
+
+  - key: pauk-typo-rule
+    kind: rule
+    label: pauk's typo tolerance
+    gloss: One edit per 8 characters counts as a typo (graded hard); answers under 4 characters must be exact; swapping one vowel for another is never a typo.
+    priority: 50
+    level: 3
+    requires: [pauk-keyed-exercise]
+    cards:
+      - type: mc
+        q: "The accepted answer is *fare*. How does pauk grade *faro*?"
+        answer: [wrong, because a swapped vowel changes the word]
+        wrong: [typo (hard), exact, it asks the teacher]
+
+  - key: pauk-teacher-tools
+    kind: fact
+    label: how the teacher acts
+    gloss: The Claude teacher can only call pauk's tools (say, ask, grade, introduce, ...), each acting on one learner's session; it has no shell and no file access.
+    body: |
+      Each learner event (a message, an answer) becomes a user message in a tool-use loop over the Messages API.
+      The model answers with tool calls; pauk executes them and sends the results back until the model ends its turn.
+      Tool results only contain what the tool returns, e.g. the items `next_items` selected, never whole files.
+    priority: 80
+    level: 2
+    cards:
+      - type: recall
+        q: Why can the teacher not read another user's data or your files?
+        answer: It only sees what pauk's tools return, and every tool acts on the current learner's session and knowledge; there is no shell or file tool.
+
+  - key: pauk-prompt-caching
+    kind: term
+    label: prompt caching in pauk
+    gloss: The system prompt, tool definitions and earlier turns are cached by the API, so each new call pays full price only for the new part.
+    body: |
+      The API is stateless: every call sends the whole conversation again.
+      Caching makes the repeated prefix cost about a tenth of normal input tokens.
+      Anything that changes the prefix (a timestamp in the system prompt, a changed tool list) breaks the cache.
+    priority: 70
+    level: 3
+    requires: [pauk-teacher-tools]
+    cards:
+      - type: mc
+        q: The 20th call of a session sends 30,000 tokens. Roughly how many of them are billed at the full input price?
+        answer: [only the new part since the last call]
+        wrong: [all 30,000, none, half]
+
+  - key: pauk-debug-log
+    kind: fact
+    label: pauk's API debug log
+    gloss: Every Claude API call is a line in users/<name>/api/YYYY-MM.jsonl with usage and cost, and with teacher.debug the full request and response.
+    body: "`pauk debug` lists the calls of the last session; `pauk debug --call N` shows the newest message, the model's thinking summary and its tool calls."
+    priority: 60
+    level: 2
+    cards:
+      - type: text
+        q: Which command shows what was sent to the Claude API in your last session?
+        answer: [pauk debug]
+
+  - key: pauk-budget
+    kind: rule
+    label: teacher budgets
+    gloss: Each user has a monthly USD budget in config.yaml; when it is spent, the teacher stops and practice without a teacher still works.
+    priority: 50
+    level: 2
+    cards:
+      - type: mc
+        q: "A user has `llm: false` in config.yaml. What can they do?"
+        answer: [practise without a teacher]
+        wrong: [nothing, chat with the teacher until their budget is spent, only read items]

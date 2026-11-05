@@ -1,0 +1,177 @@
+space: el
+items:
+  - key: alpha
+    kind: symbol
+    label: α
+    gloss: alpha
+    body: Letter 1 of 24. Uppercase **Α**, lowercase **α**.
+    priority: 80
+    level: 1
+    anecdote: "*Alpha* + *beta* gave us the word *alphabet*."
+    attrs:
+      uppercase: Α
+      position: 1
+    cards:
+      - type: text
+        q: "Name this Greek letter: **α**"
+        answer: [alpha]
+      - type: text
+        q: "Name this Greek letter (uppercase): **Α**"
+        answer: [alpha]
+      - type: mc
+        q: "Which Greek letter is this: **α**?"
+        answer: [alpha]
+        wrong: [mu, epsilon, sigma]
+  - key: beta
+    kind: symbol
+    label: β
+    gloss: beta
+    body: Letter 2 of 24. Uppercase **Β**, lowercase **β**.
+    priority: 80
+    level: 1
+    anecdote: In modern Greek it is called *vita* and sounds like v.
+    attrs:
+      uppercase: Β
+      position: 2
+    cards:
+      - type: text
+        q: "Name this Greek letter: **β**"
+        answer: [beta]
+      - type: text
+        q: "Name this Greek letter (uppercase): **Β**"
+        answer: [beta]
+      - type: mc
+        q: "Which Greek letter is this: **β**?"
+        answer: [beta]
+        wrong: [upsilon, tau, rho]
+  - key: gamma
+    kind: symbol
+    label: γ
+    gloss: gamma
+    body: Letter 3 of 24. Uppercase **Γ**, lowercase **γ**.
+    priority: 80
+    level: 1
+    anecdote: In modern Greek it sounds like a y before e and i sounds.
+    attrs:
+      uppercase: Γ
+      position: 3
+    cards:
+      - type: text
+        q: "Name this Greek letter: **γ**"
+        answer: [gamma]
+      - type: text
+        q: "Name this Greek letter (uppercase): **Γ**"
+        answer: [gamma]
+      - type: mc
+        q: "Which Greek letter is this: **γ**?"
+        answer: [gamma]
+        wrong: [epsilon, phi, delta]
+  - key: delta
+    kind: symbol
+    label: δ
+    gloss: delta
+    body: Letter 4 of 24. Uppercase **Δ**, lowercase **δ**.
+    priority: 80
+    level: 1
+    anecdote: River deltas are named after the triangular capital Δ; Herodotus first used it for the Nile delta.
+    attrs:
+      uppercase: Δ
+      position: 4
+    cards:
+      - type: text
+        q: "Name this Greek letter: **δ**"
+        answer: [delta]
+      - type: text
+        q: "Name this Greek letter (uppercase): **Δ**"
+        answer: [delta]
+      - type: mc
+        q: "Which Greek letter is this: **δ**?"
+        answer: [delta]
+        wrong: [rho, alpha, psi]
+  - key: epsilon
+    kind: symbol
+    label: ε
+    gloss: epsilon
+    body: Letter 5 of 24. Uppercase **Ε**, lowercase **ε**.
+    priority: 80
+    level: 1
+    anecdote: "*E psilon* means 'plain e', to tell it apart from the diphthong αι with the same sound."
+    attrs:
+      uppercase: Ε
+      position: 5
+    cards:
+      - type: text
+        q: "Name this Greek letter: **ε**"
+        answer: [epsilon]
+      - type: text
+        q: "Name this Greek letter (uppercase): **Ε**"
+        answer: [epsilon]
+      - type: mc
+        q: "Which Greek letter is this: **ε**?"
+        answer: [epsilon]
+        wrong: [sigma, eta, xi]
+  - key: zeta
+    kind: symbol
+    label: ζ
+    gloss: zeta
+    body: Letter 6 of 24. Uppercase **Ζ**, lowercase **ζ**.
+    priority: 80
+    level: 1
+    attrs:
+      uppercase: Ζ
+      position: 6
+    cards:
+      - type: text
+        q: "Name this Greek letter: **ζ**"
+        answer: [zeta]
+      - type: text
+        q: "Name this Greek letter (uppercase): **Ζ**"
+        answer: [zeta]
+      - type: mc
+        q: "Which Greek letter is this: **ζ**?"
+        answer: [zeta]
+        wrong: [xi, sigma, psi]
+  - key: eta
+    kind: symbol
+    label: η
+    gloss: eta
+    body: Letter 7 of 24. Uppercase **Η**, lowercase **η**.
+    priority: 80
+    level: 1
+    anecdote: The capital Η became the Latin letter H; in modern Greek η sounds like i.
+    attrs:
+      uppercase: Η
+      position: 7
+    cards:
+      - type: text
+        q: "Name this Greek letter: **η**"
+        answer: [eta]
+      - type: text
+        q: "Name this Greek letter (uppercase): **Η**"
+        answer: [eta]
+      - type: mc
+        q: "Which Greek letter is this: **η**?"
+        answer: [eta]
+        wrong: [iota, nu, mu]
+  - key: theta
+    kind: symbol
+    label: θ
+    gloss: theta
+    body: Letter 8 of 24. Uppercase **Θ**, lowercase **θ**.
+    priority: 80
+    level: 1
+    mnemonic: θ sounds like *th* in English *think*.
+    attrs:
+      uppercase: Θ
+      position: 8
+    cards:
+      - type: text
+        q: "Name this Greek letter: **θ**"
+        answer: [theta]
+      - type: text
+        q: "Name this Greek letter (uppercase): **Θ**"
+        answer: [theta]
+      - type: mc
+        q: "Which Greek letter is this: **θ**?"
+        answer: [theta]
+        wrong: [epsilon, lambda, pi]

@@ -1,0 +1,142 @@
+space: it
+items:
+  - key: zero
+    kind: word
+    label: zero
+    gloss: zero
+    priority: 85
+    level: 1
+    anecdote: From Arabic *sifr*; Fibonacci of Pisa wrote it as *zephirum* when he brought Arabic numerals to Europe.
+    attrs:
+      pos: num
+    cards:
+      - type: text
+        q: "Translate to Italian: **zero**"
+        answer: [zero]
+  - key: uno
+    kind: word
+    label: uno
+    gloss: one
+    priority: 85
+    level: 1
+    attrs:
+      pos: num
+    cards:
+      - type: text
+        q: "Translate to Italian: **one**"
+        answer: [uno]
+  - key: due
+    kind: word
+    label: due
+    gloss: two
+    priority: 85
+    level: 1
+    mnemonic: (de) Ein *Duo* oder *Duett* sind zwei.
+    attrs:
+      pos: num
+    cards:
+      - type: text
+        q: "Translate to Italian: **two**"
+        answer: [due]
+  - key: tre
+    kind: word
+    label: tre
+    gloss: three
+    priority: 85
+    level: 1
+    attrs:
+      pos: num
+    cards:
+      - type: text
+        q: "Translate to Italian: **three**"
+        answer: [tre]
+  - key: quattro
+    kind: word
+    label: quattro
+    gloss: four
+    priority: 85
+    level: 1
+    attrs:
+      pos: num
+    cards:
+      - type: text
+        q: "Translate to Italian: **four**"
+        answer: [quattro]
+  - key: cinque
+    kind: word
+    label: cinque
+    gloss: five
+    priority: 85
+    level: 1
+    anecdote: "*Cinquecento* means the 16th century (the 1500s), and it is also the Fiat 500."
+    attrs:
+      pos: num
+    cards:
+      - type: text
+        q: "Translate to Italian: **five**"
+        answer: [cinque]
+  - key: sei
+    kind: word
+    label: sei
+    gloss: six
+    priority: 85
+    level: 1
+    mnemonic: "*sei* is both 'six' and 'you are' (*tu sei*)."
+    attrs:
+      pos: num
+    cards:
+      - type: text
+        q: "Translate to Italian: **six**"
+        answer: [sei]
+  - key: sette
+    kind: word
+    label: sette
+    gloss: seven
+    priority: 85
+    level: 1
+    mnemonic: (de) *Sept*ember war im alten römischen Kalender der siebte Monat.
+    attrs:
+      pos: num
+    cards:
+      - type: text
+        q: "Translate to Italian: **seven**"
+        answer: [sette]
+  - key: otto
+    kind: word
+    label: otto
+    gloss: eight
+    priority: 85
+    level: 1
+    mnemonic: "(de) Aus -cht wird -tt: acht → *otto*, Nacht → *notte*."
+    attrs:
+      pos: num
+    cards:
+      - type: text
+        q: "Translate to Italian: **eight**"
+        answer: [otto]
+  - key: nove
+    kind: word
+    label: nove
+    gloss: nine
+    priority: 85
+    level: 1
+    anecdote: "*Novembre* was the ninth month of the old Roman calendar."
+    attrs:
+      pos: num
+    cards:
+      - type: text
+        q: "Translate to Italian: **nine**"
+        answer: [nove]
+  - key: dieci
+    kind: word
+    label: dieci
+    gloss: ten
+    priority: 85
+    level: 1
+    anecdote: "*Dicembre* was the tenth month of the old Roman calendar."
+    attrs:
+      pos: num
+    cards:
+      - type: text
+        q: "Translate to Italian: **ten**"
+        answer: [dieci]

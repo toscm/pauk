@@ -1,0 +1,125 @@
+space: it
+items:
+  - key: undici
+    kind: word
+    label: undici
+    gloss: eleven
+    priority: 70
+    level: 1
+    mnemonic: "From 11 to 16 the unit comes first: *un-dici, do-dici, … se-dici*."
+    attrs:
+      pos: num
+    cards:
+      - type: text
+        q: "Translate to Italian: **eleven**"
+        answer: [undici]
+  - key: dodici
+    kind: word
+    label: dodici
+    gloss: twelve
+    priority: 70
+    level: 1
+    attrs:
+      pos: num
+    cards:
+      - type: text
+        q: "Translate to Italian: **twelve**"
+        answer: [dodici]
+  - key: tredici
+    kind: word
+    label: tredici
+    gloss: thirteen
+    priority: 70
+    level: 1
+    attrs:
+      pos: num
+    cards:
+      - type: text
+        q: "Translate to Italian: **thirteen**"
+        answer: [tredici]
+  - key: quattordici
+    kind: word
+    label: quattordici
+    gloss: fourteen
+    priority: 70
+    level: 1
+    attrs:
+      pos: num
+    cards:
+      - type: text
+        q: "Translate to Italian: **fourteen**"
+        answer: [quattordici]
+  - key: quindici
+    kind: word
+    label: quindici
+    gloss: fifteen
+    priority: 70
+    level: 1
+    attrs:
+      pos: num
+    cards:
+      - type: text
+        q: "Translate to Italian: **fifteen**"
+        answer: [quindici]
+  - key: sedici
+    kind: word
+    label: sedici
+    gloss: sixteen
+    priority: 70
+    level: 1
+    attrs:
+      pos: num
+    cards:
+      - type: text
+        q: "Translate to Italian: **sixteen**"
+        answer: [sedici]
+  - key: diciassette
+    kind: word
+    label: diciassette
+    gloss: seventeen
+    priority: 70
+    level: 1
+    mnemonic: "From 17 on the ten comes first: *dici-assette, dici-otto, dici-annove*."
+    attrs:
+      pos: num
+    cards:
+      - type: text
+        q: "Translate to Italian: **seventeen**"
+        answer: [diciassette]
+  - key: diciotto
+    kind: word
+    label: diciotto
+    gloss: eighteen
+    priority: 70
+    level: 1
+    attrs:
+      pos: num
+    cards:
+      - type: text
+        q: "Translate to Italian: **eighteen**"
+        answer: [diciotto]
+  - key: diciannove
+    kind: word
+    label: diciannove
+    gloss: nineteen
+    priority: 70
+    level: 1
+    attrs:
+      pos: num
+    cards:
+      - type: text
+        q: "Translate to Italian: **nineteen**"
+        answer: [diciannove]
+  - key: venti
+    kind: word
+    label: venti
+    gloss: twenty
+    priority: 70
+    level: 1
+    mnemonic: "*venti* is 'twenty', but also the plural of *vento*, 'winds'."
+    attrs:
+      pos: num
+    cards:
+      - type: text
+        q: "Translate to Italian: **twenty**"
+        answer: [venti]

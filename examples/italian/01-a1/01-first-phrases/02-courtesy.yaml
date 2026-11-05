@@ -1,0 +1,77 @@
+space: it
+items:
+  - key: grazie
+    kind: phrase
+    label: grazie
+    gloss: thank you
+    body: "Also: grazie mille."
+    priority: 90
+    level: 1
+    mnemonic: (de) *Grazie* ist Anmut; von lateinisch *gratia* kommt auch *gratis*.
+    cards:
+      - type: text
+        q: "Translate to Italian: **thank you**"
+        answer: [grazie, grazie mille]
+  - key: prego
+    kind: phrase
+    label: prego
+    gloss: you're welcome
+    body: "Also: di niente, di nulla."
+    priority: 90
+    level: 1
+    anecdote: Literally 'I pray' (*pregare*); it also means 'please, go ahead'.
+    cards:
+      - type: text
+        q: "Translate to Italian: **you're welcome**"
+        answer: [prego, di niente, di nulla]
+  - key: per-favore
+    kind: phrase
+    label: per favore
+    gloss: please
+    body: "Also: per cortesia, per piacere."
+    priority: 90
+    level: 1
+    cards:
+      - type: text
+        q: "Translate to Italian: **please**"
+        answer: [per favore, per piacere, per cortesia]
+  - key: scusi
+    kind: phrase
+    label: scusi
+    gloss: excuse me
+    body: "Also: mi scusi, scusa, scusami."
+    priority: 90
+    level: 1
+    mnemonic: "*scusi* is formal (Lei), *scusa* is informal (tu)."
+    cards:
+      - type: text
+        q: "Translate to Italian: **excuse me**"
+        answer: [scusi, mi scusi, scusa, scusami]
+  - key: mi-dispiace
+    kind: phrase
+    label: mi dispiace
+    gloss: I'm sorry
+    body: "Also: mi spiace."
+    priority: 90
+    level: 1
+    mnemonic: Literally 'it displeases me', the opposite of *mi piace*.
+    cards:
+      - type: text
+        q: "Translate to Italian: **I'm sorry**"
+        answer: [mi dispiace, mi spiace]
+  - key: piacere
+    kind: phrase
+    label: piacere
+    gloss: nice to meet you
+    body: "Also: molto piacere, piacere di conoscerla, piacere di conoscerti."
+    priority: 90
+    level: 1
+    anecdote: Short for *piacere di conoscerti*, 'a pleasure to meet you'.
+    cards:
+      - type: text
+        q: "Translate to Italian: **nice to meet you**"
+        answer:
+          - piacere
+          - molto piacere
+          - piacere di conoscerti
+          - piacere di conoscerla

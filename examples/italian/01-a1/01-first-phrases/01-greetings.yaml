@@ -1,0 +1,112 @@
+space: it
+items:
+  - key: buongiorno
+    kind: phrase
+    label: buongiorno
+    gloss: good morning
+    body: "Also: buon giorno."
+    priority: 90
+    level: 1
+    cards:
+      - type: text
+        q: "Translate to Italian: **good morning**"
+        answer: [buongiorno, buon giorno]
+  - key: buonasera
+    kind: phrase
+    label: buonasera
+    gloss: good evening
+    body: "Also: buona sera."
+    priority: 90
+    level: 1
+    anecdote: Italians switch to *buonasera* surprisingly early, often right after lunch.
+    cards:
+      - type: text
+        q: "Translate to Italian: **good evening**"
+        answer: [buonasera, buona sera]
+  - key: buonanotte
+    kind: phrase
+    label: buonanotte
+    gloss: good night
+    body: "Also: buona notte."
+    priority: 90
+    level: 1
+    mnemonic: Only for going to bed or leaving late at night, never as a greeting.
+    cards:
+      - type: text
+        q: "Translate to Italian: **good night**"
+        answer: [buonanotte, buona notte]
+  - key: ciao
+    kind: phrase
+    label: ciao
+    gloss: hello
+    body: "Also: salve."
+    priority: 90
+    level: 1
+    anecdote: "*ciao* comes from Venetian *s-ciào vostro*, 'your servant'."
+    cards:
+      - type: text
+        q: "Translate to Italian: **hello**"
+        answer: [ciao, salve]
+  - key: arrivederci
+    kind: phrase
+    label: arrivederci
+    gloss: goodbye
+    body: "Also: arrivederla, ciao."
+    priority: 90
+    level: 1
+    mnemonic: (de) Wörtlich 'bis wir uns wiedersehen', wie *Auf Wiedersehen*.
+    cards:
+      - type: text
+        q: "Translate to Italian: **goodbye**"
+        answer: [arrivederci, ciao, arrivederla]
+  - key: come-stai
+    kind: phrase
+    label: come stai
+    gloss: How are you?
+    body: "Also: come sta, come va."
+    priority: 90
+    level: 1
+    cards:
+      - type: text
+        q: "Translate to Italian: **How are you?**"
+        answer:
+          - come stai
+          - come sta
+          - come va
+          - come stai?
+          - come sta?
+          - come va?
+  - key: mi-chiamo-marco
+    kind: phrase
+    label: mi chiamo Marco
+    gloss: My name is Marco.
+    body: "Also: il mio nome è Marco, sono Marco."
+    priority: 90
+    level: 1
+    mnemonic: Literally 'I call myself Marco' (*chiamarsi*).
+    cards:
+      - type: text
+        q: "Translate to Italian: **My name is Marco.**"
+        answer: [mi chiamo Marco, il mio nome è Marco, sono Marco]
+  - key: a-dopo
+    kind: phrase
+    label: a dopo
+    gloss: see you later
+    body: "Also: a più tardi, ci vediamo, ci vediamo dopo."
+    priority: 90
+    level: 1
+    cards:
+      - type: text
+        q: "Translate to Italian: **see you later**"
+        answer: [a dopo, a più tardi, ci vediamo, ci vediamo dopo]
+  - key: a-domani
+    kind: phrase
+    label: a domani
+    gloss: see you tomorrow
+    body: "Also: ci vediamo domani."
+    priority: 90
+    level: 1
+    cards:
+      - type: text
+        q: "Translate to Italian: **see you tomorrow**"
+        answer: [a domani, ci vediamo domani]

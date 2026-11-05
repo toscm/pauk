@@ -1,0 +1,5 @@
+node_modules/
+# private data never belongs in this public repo (see CLAUDE.md)
+*.env
+.env*
+*.jsonl
