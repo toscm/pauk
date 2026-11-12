@@ -13,7 +13,7 @@ import { HOME } from './config.ts';
 export const SERVER = 'local.pauk.server';
 const MENU = 'local.pauk.menu';
 const AGENTS = path.join(os.homedir(), 'Library', 'LaunchAgents');
-const domain = `gui/${process.getuid!()}`;
+const domain = `gui/${process.getuid?.()}`;
 const plist = (label: string) => path.join(AGENTS, `${label}.plist`);
 const MENU_BIN = path.join(HOME, 'bin', 'pauk-menu');
 const MENU_SRC = path.join(import.meta.dirname, '..', 'macos', 'PaukMenu.swift');
