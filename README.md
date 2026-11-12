@@ -16,11 +16,11 @@ Needs Node.js 24 or newer (it runs the TypeScript sources directly, there is no 
     npm install
     npm link                         # puts `pauk` on your PATH
     pauk user add NAME --admin --llm --budget 20
-    # for the teacher: ANTHROPIC_API_KEY=sk-ant-... in ~/pauk/.env (docs/files.md)
+    # for the teacher: anthropic_api_key in ~/pauk/secrets.yaml (docs/files.md)
     pauk check                       # validate the knowledge files
-    pauk start                       # prints the address, e.g. http://127.0.0.1:8765
+    pauk start                       # prints the address, e.g. http://127.0.0.1:8642
 
-The first command creates `~/pauk/config.yaml` with the example decks (`examples/`: the Greek letters and a little Italian) as its source.
+The first command creates `~/pauk/config.yaml` (nothing secret, can be shared between machines) and `~/pauk/secrets.yaml` (the API key and the logins of this machine); `config.yaml` with the example decks (`examples/`: the Greek letters and a little Italian) as its source.
 Point `sources` there at your own knowledge folders, ideally private git repositories.
 
 On macOS, let pauk run by itself instead of in a terminal:
@@ -31,16 +31,16 @@ On macOS, let pauk run by itself instead of in a terminal:
 
 This also adds a menu bar item (`app/macos/PaukMenu.swift`, built with `swiftc`): it shows whether pauk runs and at which address, copies or opens that address, restarts or stops pauk, and opens the log `~/pauk/server.log`.
 Ctrl+Option+Cmd+P restarts pauk from anywhere.
-The service reads the API key from `~/pauk/.env` (a login service does not see your shell's variables).
+The service reads the API key from `~/pauk/secrets.yaml` (a login service does not see your shell's variables).
 
 To learn on several machines with the same progress, keep it in a private git repository that pauk syncs (details in `docs/files.md`, "Progress and sync"):
 
-    git clone git@github.com:<you>/pauk-progress.git ~/Repos/pauk-progress   # an empty private repository
-    # in ~/pauk/config.yaml:  progress: ~/Repos/pauk-progress
-    # move existing data:     ~/pauk/users/* -> ~/Repos/pauk-progress/
+    git clone git@github.com:<you>/pauk-progress.git ~/repos/pauk-progress   # an empty private repository
+    # in ~/pauk/config.yaml:  progress: ~/repos/pauk-progress
+    # move existing data:     ~/pauk/users/* -> ~/repos/pauk-progress/
     pauk sync                        # pauk also syncs at start, around sessions, every 5 minutes and at exit
 
-For the other devices in your LAN set `listen: 0.0.0.0:8765` in `config.yaml`, add a user (`pauk user add guest --llm --budget 5`) and open the printed LAN address on the phone.
+For the other devices in your LAN set `listen: 0.0.0.0:8642` in `config.yaml`, add a user (`pauk user add guest --llm --budget 5`) and open the printed LAN address on the phone.
 From outside your LAN, use Tailscale (or another VPN) rather than opening a port.
 
 Admins can edit an item, add one to a folder or start a new folder right in the browser; pauk writes the change into the deck file and refuses changes that `pauk check` would report.

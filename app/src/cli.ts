@@ -6,7 +6,7 @@ import os from 'node:os';
 import path from 'node:path';
 import readline from 'node:readline/promises';
 import { parseArgs } from 'node:util';
-import { apiDir, configPath, HOME, hashPassword, loadConfig, setUser } from './config.ts';
+import { apiDir, configPath, hashPassword, loadConfig, secretsPath, setUser } from './config.ts';
 import { loadKnowledge } from './knowledge.ts';
 import { serve } from './server.ts';
 import { restart, service } from './service.ts';
@@ -28,17 +28,17 @@ const HELP = `pauk — knowledge in text files, an LLM teacher, a local web app
   pauk restart                    restart that service (or press Ctrl+Option+Cmd+P)
 
 config.yaml lives in ${configPath()} (set PAUK_HOME to move it), the learning data in ${config.progress}.
-Secrets such as ANTHROPIC_API_KEY can go into ${path.join(HOME, '.env')} (KEY=value lines).`;
+The API key and the logins are in ${secretsPath()}.`;
 
-// ~/pauk/.env: secrets for pauk only (the shell's environment wins)
-if (fs.existsSync(path.join(HOME, '.env'))) process.loadEnvFile(path.join(HOME, '.env'));
+// the API key from secrets.yaml, for the Anthropic SDK (the shell's environment wins)
+if (config.apiKey && !process.env.ANTHROPIC_API_KEY) process.env.ANTHROPIC_API_KEY = config.apiKey;
 
 const [cmd, sub, ...rest] = process.argv.slice(2);
 
 if (cmd === 'start') {
   const [host, port] = config.listen.split(':');
   if (!Object.keys(config.users).length) console.log('No users yet: run `pauk user add NAME` first.');
-  if (!process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_API_KEY.includes('REPLACE-ME')) console.log(`ANTHROPIC_API_KEY is not set (in the shell or ${path.join(HOME, '.env')}): practice works, the teacher does not.`);
+  if (!process.env.ANTHROPIC_API_KEY) console.log(`No API key (anthropic_api_key in ${secretsPath()}): practice works, the teacher does not.`);
   const sync = new Sync(config.progress, config.device);
   if (sync.enabled) console.log(describe(await sync.run('pauk start'), config.progress));
   else console.log(`progress in ${config.progress} (not a git repository, so not synced)`);
@@ -78,7 +78,7 @@ if (cmd === 'start') {
     password: hashPassword(pw),
     ...(o.admin ? { admin: true } : {}), ...(o.llm ? { llm: true } : {}), ...(o.budget ? { budget: Number(o.budget) } : {}),
   });
-  console.log(`saved ${rest[0]} in ${configPath()}`);
+  console.log(`saved ${rest[0]} in ${secretsPath()}`);
 } else if (cmd === 'service') {
   service(sub);
 } else if (cmd === 'restart') {

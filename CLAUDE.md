@@ -24,7 +24,7 @@ Never commit:
 
 - Internal project or employer information: funding applications and their review outcomes, grant plans, budgets, organisational details of research programmes.
 
-- Credentials and private infrastructure: tokens, passwords, keys, `.env` contents, and backups or copies of a pauk home (`~/pauk`).
+- Credentials and private infrastructure: tokens, passwords, keys, `secrets.yaml` contents, and backups or copies of a pauk home (`~/pauk`).
 
 - The user's own learning data: learning logs, session transcripts, API logs, teacher reports.
 

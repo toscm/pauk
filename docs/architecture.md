@@ -7,7 +7,7 @@ pauk is one Node.js program (`app/`) and a few kinds of text files.
 - Knowledge sources: folders of YAML decks and Markdown items (`docs/files.md`), usually git repositories.
   The pauk repository ships two: `app/knowledge/` (pauk explains itself, always loaded) and `examples/` (a new `config.yaml` lists it).
 
-- The pauk home `~/pauk`: `config.yaml`, `.env` with the API key, and one folder per user with the learning log, settings, session transcripts and the API log.
+- The pauk home `~/pauk`: `config.yaml` (shareable), `secrets.yaml` with the API key and the logins, the API logs, and by default the progress folder (one folder per user with the learning log, settings and session transcripts).
 
 - The server (`app/src/server.ts`): the browser app (`app/public/`), a small JSON API for it and a server-sent event stream per session, on one port in the LAN.
 
@@ -57,7 +57,8 @@ pauk is one Node.js program (`app/`) and a few kinds of text files.
   git is already needed for the knowledge repositories, works the same on macOS, Windows and Linux servers, and every change stays inspectable.
   Conflicts are designed out instead of resolved: each device appends to its own log folder, and the replay sorts all lines by time.
   The progress lives in its own repository, apart from the knowledge: it changes with every session (that would bury the history of the decks), belongs to a person rather than to a set of decks, and one progress folder serves any number of sources.
-  Secrets go into `~/pauk/.env`, separate from `config.yaml`, so the config can be shown and shared without leaking the API key.
+  Secrets (the API key, the password hashes) go into `~/pauk/secrets.yaml`, separate from `config.yaml`, so the config holds nothing secret: it can be shown, shared, and linked from a dotfiles repository on every machine.
+  The secrets stay per machine; a new machine needs the key pasted once and one `pauk user add`.
 
 - The pauk repository is public and holds no knowledge decks beyond `examples/` and pauk's own deck.
   Everything else lives in the user's own (usually private) source repositories, so publishing the code never publishes what someone learns.

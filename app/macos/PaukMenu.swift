@@ -17,7 +17,7 @@ func listen() -> (host: String, port: String) {
         let parts = value.split(separator: ":").map(String.init)
         if parts.count == 2 { return (parts[0], parts[1]) }
     }
-    return ("127.0.0.1", "8765")
+    return ("127.0.0.1", "8642")
 }
 
 // the Mac's IPv4 addresses in the LAN

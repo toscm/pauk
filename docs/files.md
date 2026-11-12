@@ -146,9 +146,9 @@ It changes only when the syntax changes incompatibly, together with a migration 
 In the pauk home (`~/pauk`, or `$PAUK_HOME`), the files of this machine:
 
     ~/pauk/
-      config.yaml                 # sources, users, teacher settings, prices, progress folder
+      config.yaml                 # sources, teacher settings, prices, progress folder: nothing secret, shareable
+      secrets.yaml                # the API key and the users' logins (private, never shared)
       logins.json                 # login cookies (private)
-      .env                        # secrets, e.g. ANTHROPIC_API_KEY=... (private, optional)
       api/tobi/2026-10.jsonl      # every Claude API call: usage, cost, with debug the full bodies
 
 In the progress folder (`progress` in `config.yaml`, by default `users/` in the pauk home), one folder per user:
@@ -167,44 +167,44 @@ pauk moves an `api/` folder it finds in a user's folder (from earlier versions) 
 
 ```yaml
 format: 1
-listen: 127.0.0.1:8765        # 0.0.0.0:8765 serves the LAN
-sources: [~/Repos/pauk-content, ~/projects/my-project/pauk-cards]
+listen: 127.0.0.1:8642        # 0.0.0.0:8642 serves the LAN
+sources: [~/repos/pauk-content, ~/projects/my-project/pauk-cards]
 teacher: {model: claude-opus-5-5, effort: medium, debug: true}
 prices:                       # USD per million tokens: input, output, cache read, cache write
   claude-opus-5-5: [4, 20, 0.2, 5]
-users:
-  tobi: {password: "scrypt$...", admin: true, llm: true, budget: 20}
-  guest: {password: "scrypt$...", llm: true, budget: 5}
-progress: ~/Repos/pauk-progress   # optional, default users/ in the pauk home
+progress: ~/repos/pauk-progress   # optional, default users/ in the pauk home
 device: macbook               # optional, default the host name
 ```
+
+- `config.yaml` holds nothing secret, so it can be shown, shared and kept in a (dotfiles) repository that links the same file on every machine.
+  Paths starting with `~/` work on every system; on macOS and Windows, `~/repos` and `~/Repos` are the same folder.
 
 - `progress`: the folder with one folder per user; a git repository there is synced (below).
 
 - `device`: this machine's name in the log (`log/<device>/`); lower case letters, digits and `-` (others become `-`).
+  Leave it out of a shared `config.yaml`: the host name differs per machine by itself.
 
-- `pauk user add NAME [--admin] [--llm] [--budget USD]` writes a user entry.
+### secrets.yaml
+
+The secrets of this machine: the API key and the logins.
+pauk creates it with a placeholder key; it is private (`chmod 600`), and never committed, copied or shared.
+
+```yaml
+anthropic_api_key: sk-ant-...   # from https://platform.claude.com → Settings → API keys
+users:
+  tobi: {password: "scrypt$...", admin: true, llm: true, budget: 20}
+  guest: {password: "scrypt$...", llm: true, budget: 5}
+```
+
+- `anthropic_api_key`: the Claude API key for the teacher; `ANTHROPIC_API_KEY` set in the shell wins over it.
+
+- `users`: written by `pauk user add NAME [--admin] [--llm] [--budget USD]` (it asks for the password and stores a salted scrypt hash).
+  Each machine has its own logins, so a new machine needs one `pauk user add`.
 
 - `llm` allows the Claude teacher; `budget` is USD per calendar month, after which only practice without a teacher works (no `budget`: no limit).
   The budget counts the calls of this machine (its `api/` folder), since API logs are not synced.
 
-- The API key is not stored here but in `.env` (below).
-
-### .env
-
-Secrets, kept out of `config.yaml` so that file can be shown and shared.
-Every `pauk` command reads it at startup with Node's `process.loadEnvFile`; a variable the shell already sets wins.
-
-```sh
-# Claude API key for the teacher, from https://platform.claude.com → Settings → API keys
-ANTHROPIC_API_KEY=sk-ant-...
-```
-
-- One `KEY=value` per line, no `export`, no spaces around `=`; quotes are optional, `#` starts a comment.
-
-- Today the only key is `ANTHROPIC_API_KEY`, which the Anthropic SDK reads.
-
-- Private: `chmod 600 ~/pauk/.env`; never commit, paste or share it.
+- Earlier versions kept the users in `config.yaml` and the key in `.env`; pauk moves both into `secrets.yaml` on its first start after the update and deletes `.env`.
 
 ### The learning log
 
@@ -262,7 +262,8 @@ There is no switch: pauk syncs the folder when it is the top of a git repository
 
 - After changes of other devices arrived, pauk reads a user's files again, unless that user is in a session (then after it).
 
-Not synced, since they belong to one machine: `config.yaml`, `.env`, `logins.json` and the API logs in the pauk home.
+Not synced by pauk, since they belong to one machine: `secrets.yaml`, `logins.json` and the API logs in the pauk home.
+`config.yaml` is not synced by pauk either, but it can be shared through a dotfiles repository (it holds nothing secret).
 
 Compaction (not in version 1): older months may later be folded into one file per year, holding a checkpoint of every item's state (labelled with the memory model version) plus monthly counts per item.
 The `type` field on every line is what makes that possible without a new format.

@@ -102,7 +102,7 @@ export class Teacher {
       console.error(err);
       const text = err instanceof Error ? err.message : String(err);
       this.session.emit('status', { teacher: 'error', text: /authentication method/.test(text)
-        ? 'The teacher has no API key: put ANTHROPIC_API_KEY=... into ~/pauk/.env (or the shell that runs `pauk start`) and restart pauk.' : text });
+        ? 'The teacher has no API key: put it into anthropic_api_key in ~/pauk/secrets.yaml (or ANTHROPIC_API_KEY into the shell that runs `pauk start`) and restart pauk.' : text });
     } finally {
       this.busy = false;
     }

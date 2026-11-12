@@ -21,7 +21,8 @@ function scratch(files: Record<string, string>) {
     fs.writeFileSync(path.join(src, f), text);
   }
   fs.writeFileSync(path.join(home, 'config.yaml'),
-    `sources: [${src}]\nteacher: {model: claude-opus-5-5, effort: low, debug: true}\nprices: {claude-opus-5-5: [4, 20, 0.2, 5]}\nusers: {tobi: {password: x, llm: true, budget: 1}}\n`);
+    `sources: [${src}]\nteacher: {model: claude-opus-5-5, effort: low, debug: true}\nprices: {claude-opus-5-5: [4, 20, 0.2, 5]}\n`);
+  fs.writeFileSync(path.join(home, 'secrets.yaml'), 'users: {tobi: {password: x, llm: true, budget: 1}}\n');
   return { home, src, config: loadConfig(home) };
 }
 

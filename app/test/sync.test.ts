@@ -44,7 +44,7 @@ test('the log: each device appends to its own folder, all devices and old logs a
 
 test('API logs move out of the user folder into the pauk home', () => {
   const home = tmp();
-  fs.writeFileSync(path.join(home, 'config.yaml'), 'sources: []\nusers: {}\n');
+  fs.writeFileSync(path.join(home, 'config.yaml'), 'sources: []\n');
   const config = loadConfig(home);
   const old = path.join(config.progress, 'tobi', 'api');
   fs.mkdirSync(old, { recursive: true });
@@ -60,7 +60,7 @@ test('config: progress and device', () => {
   const config = loadConfig(home);
   assert.equal(config.progress, path.join(os.homedir(), 'pauk-progress-x'));
   assert.equal(config.device, 'work-pc');
-  fs.writeFileSync(path.join(home, 'config.yaml'), 'users: {}\n');
+  fs.writeFileSync(path.join(home, 'config.yaml'), 'format: 1\n');
   assert.equal(loadConfig(home).progress, path.join(home, 'users'));
 });
 
