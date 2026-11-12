@@ -11,6 +11,7 @@ There are two kinds of files:
   The app does not write Markdown items, cards, links or the decks that ship with pauk (`app/knowledge/`); those are edited in an editor.
 
 - User files are written by pauk: the learning log, settings, transcripts and the API log of each user.
+  The users' learning data can live in its own folder, a git repository that pauk syncs between devices (see [Progress and sync](#progress-and-sync)).
 
 ## Knowledge sources
 
@@ -142,19 +143,25 @@ It changes only when the syntax changes incompatibly, together with a migration 
 
 ## User files
 
-All in the pauk home (`~/pauk`, or `$PAUK_HOME`):
+In the pauk home (`~/pauk`, or `$PAUK_HOME`), the files of this machine:
 
     ~/pauk/
-      config.yaml                 # sources, users, teacher settings, prices
+      config.yaml                 # sources, users, teacher settings, prices, progress folder
       logins.json                 # login cookies (private)
       .env                        # secrets, e.g. ANTHROPIC_API_KEY=... (private, optional)
-      users/tobi/
-        log/2026-10.jsonl         # the learning log, one file per month
-        items.yaml                # items the teacher added (pauk appends; edit freely)
-        settings.yaml             # language, new items per session, favorite subjects
-        sessions/2026-10-29T14-03-11.jsonl   # chat transcripts, one event per line; their start events also rank recently used subjects first in Search
-        api/2026-10.jsonl         # every Claude API call: usage, cost, with debug the full bodies
-        reports.jsonl             # problems the teacher reported
+      api/tobi/2026-10.jsonl      # every Claude API call: usage, cost, with debug the full bodies
+
+In the progress folder (`progress` in `config.yaml`, by default `users/` in the pauk home), one folder per user:
+
+    users/tobi/
+      log/macbook/2026-10.jsonl   # the learning log, one folder per device, one file per month
+      items.yaml                  # items the teacher added (pauk appends; edit freely)
+      settings.yaml               # language, new items per session, favorite subjects
+      sessions/2026-10-29T14-03-11.jsonl   # chat transcripts, one event per line; their start events also rank recently used subjects first in Search
+      reports.jsonl               # problems the teacher reported
+
+The API log stays in the pauk home: it is large (with `teacher.debug` it holds every request in full) and belongs to the machine that made the calls.
+pauk moves an `api/` folder it finds in a user's folder (from earlier versions) there.
 
 ### config.yaml
 
@@ -168,11 +175,18 @@ prices:                       # USD per million tokens: input, output, cache rea
 users:
   tobi: {password: "scrypt$...", admin: true, llm: true, budget: 20}
   guest: {password: "scrypt$...", llm: true, budget: 5}
+progress: ~/Repos/pauk-progress   # optional, default users/ in the pauk home
+device: macbook               # optional, default the host name
 ```
+
+- `progress`: the folder with one folder per user; a git repository there is synced (below).
+
+- `device`: this machine's name in the log (`log/<device>/`); lower case letters, digits and `-` (others become `-`).
 
 - `pauk user add NAME [--admin] [--llm] [--budget USD]` writes a user entry.
 
 - `llm` allows the Claude teacher; `budget` is USD per calendar month, after which only practice without a teacher works (no `budget`: no limit).
+  The budget counts the calls of this machine (its `api/` folder), since API logs are not synced.
 
 - The API key is not stored here but in `.env` (below).
 
@@ -223,7 +237,32 @@ Item states, flags and notes are recomputed from it at startup (the memory model
   They make every line self-contained: it stays meaningful whatever happens to the knowledge files.
 
 Lines with unknown item refs are kept and ignored.
-Sync is not part of version 1. Because the log is append-only, several devices could later each write their own log files (`log/<device>/...`) without ever conflicting, and the replay would sort all lines by `t`.
+
+Each device appends only to its own folder `log/<device>/`, so copies of the log on several devices never conflict.
+pauk reads the files of all device folders (and files directly in `log/`, written before there were device folders) and sorts all lines by `t`.
+
+## Progress and sync
+
+The progress folder (`progress` in `config.yaml`) holds the users' learning data.
+To share it between devices, make it a clone of a private git repository, e.g. `github.com/<you>/pauk-progress`, and point `progress` to it on every device.
+There is no switch: pauk syncs the folder when it is the top of a git repository (it has a `.git`).
+
+- pauk commits what it wrote, and if the branch has an upstream it pulls (with rebase) and pushes.
+  In a fresh clone of an empty repository, the first sync pushes and sets the upstream.
+
+- When: at `pauk start`, before and after each session, every 5 minutes while pauk runs, and when pauk is stopped (Ctrl+C, the login service).
+  `pauk sync` does the same by hand.
+
+- Commit messages name the reason and the device, e.g. `session 2026-11-12T08-30-00: tobi (macbook)`.
+
+- No conflicts: every device writes its own log folder; pauk writes a `.gitattributes` that merges the other append-only files (`*.jsonl`, `items.yaml`) by keeping the lines of both sides and keeps LF line endings on every system; for anything else (`settings.yaml`) the device that syncs last wins.
+
+- If a sync fails (offline, no access), pauk prints why and goes on; the next sync catches up.
+  git must not ask for a password: use an SSH key or a credential helper.
+
+- After changes of other devices arrived, pauk reads a user's files again, unless that user is in a session (then after it).
+
+Not synced, since they belong to one machine: `config.yaml`, `.env`, `logins.json` and the API logs in the pauk home.
 
 Compaction (not in version 1): older months may later be folded into one file per year, holding a checkpoint of every item's state (labelled with the memory model version) plus monthly counts per item.
 The `type` field on every line is what makes that possible without a new format.

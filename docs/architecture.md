@@ -52,6 +52,11 @@ pauk is one Node.js program (`app/`) and a few kinds of text files.
 
 - All user files live in one visible folder, `~/pauk` (`$PAUK_HOME` moves it), not in XDG or macOS Library folders.
   The learning log and the teacher's items are the user's own data, meant to be read and edited, like a Zotero or Obsidian folder; one folder is also one thing to back up, version or sync.
+
+- Progress syncs through git, not a sync service: the progress folder may be a private repository that pauk commits, pulls and pushes (`src/sync.ts`).
+  git is already needed for the knowledge repositories, works the same on macOS, Windows and Linux servers, and every change stays inspectable.
+  Conflicts are designed out instead of resolved: each device appends to its own log folder, and the replay sorts all lines by time.
+  The progress lives in its own repository, apart from the knowledge: it changes with every session (that would bury the history of the decks), belongs to a person rather than to a set of decks, and one progress folder serves any number of sources.
   Secrets go into `~/pauk/.env`, separate from `config.yaml`, so the config can be shown and shared without leaking the API key.
 
 - The pauk repository is public and holds no knowledge decks beyond `examples/` and pauk's own deck.

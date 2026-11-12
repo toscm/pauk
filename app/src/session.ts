@@ -10,7 +10,7 @@ import { Log } from './log.ts';
 import { capHinted, type Outcome, OUTCOMES } from './memory.ts';
 import { exerciseError, fromCard, grade, KEYED, modeOf, publicView, type Exercise } from './grader.ts';
 import { next } from './profile.ts';
-import { loadSettings, type Config, type Settings } from './config.ts';
+import { apiDir, loadSettings, type Config, type Settings } from './config.ts';
 
 export class Learner {
   name: string;
@@ -25,6 +25,7 @@ export class Learner {
     this.dir = dir;
     this.config = config;
     this.settings = loadSettings(dir);
+    moveApiLogs(path.join(dir, 'api'), apiDir(name, config.home));
     this.reload();
   }
 
@@ -37,8 +38,20 @@ export class Learner {
     const k = loadKnowledge(this.config.sources);
     if (fs.existsSync(this.ownItems)) loadFile(k, this.dir, this.ownItems, k.media.push(this.dir) - 1, 'mine');
     this.knowledge = k;
-    this.log = (this.log ?? new Log(this.dir)).replay(k);
+    this.log = (this.log ?? new Log(this.dir, this.config.device)).replay(k);
   }
+}
+
+// API logs used to be kept in the user's folder; they now stay out of the
+// progress folder, which may be synced (config.ts apiDir).
+function moveApiLogs(from: string, to: string): void {
+  if (!fs.existsSync(from)) return;
+  fs.mkdirSync(to, { recursive: true });
+  for (const f of fs.readdirSync(from)) {
+    fs.appendFileSync(path.join(to, f), fs.readFileSync(path.join(from, f)));
+    fs.rmSync(path.join(from, f));
+  }
+  fs.rmdirSync(from);
 }
 
 export interface Event { seq: number; t: string; type: string; [k: string]: unknown }
@@ -63,6 +76,7 @@ export class Session {
   ended = false;
   listeners = new Set<(e: Event) => void>();
   onLearner: (e: Event) => void = () => {};   // the teacher subscribes here
+  onClose: () => void = () => {};             // the server syncs the progress here
   private file: string;
 
   constructor(learner: Learner, goal: Goal) {
@@ -237,6 +251,7 @@ export class Session {
   close(summary: string) {
     this.ended = true;
     this.emit('ended', { from: 'teacher', summary });
+    this.onClose();
     return { ok: true };
   }
 

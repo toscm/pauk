@@ -7,11 +7,12 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { stripTypeScriptTypes } from 'node:module';
 import YAML from 'yaml';
-import { checkPassword, loadConfig, userDir, type Config } from './config.ts';
+import { apiDir, checkPassword, loadConfig, userDir, type Config } from './config.ts';
 import { Learner, Session } from './session.ts';
 import { Teacher, monthSpend } from './teacher.ts';
 import { itemsIn, itemView, subjects, usage } from './profile.ts';
 import { addFolder, addItem, itemSource, notEditable, updateItem } from './edit.ts';
+import { describe, Sync, type SyncResult } from './sync.ts';
 
 const APP = path.join(import.meta.dirname, '..', 'public');
 const MODULES = path.join(import.meta.dirname, '..', 'node_modules');
@@ -22,7 +23,9 @@ const TYPES: Record<string, string> = {
   '.woff2': 'font/woff2', '.woff': 'font/woff', '.ttf': 'font/ttf',
 };
 
-export function serve(config: Config = loadConfig()): http.Server {
+// `sync` (src/sync.ts) runs before and after each session and every few
+// minutes; the caller runs it at startup and shutdown.
+export function serve(config: Config = loadConfig(), sync = new Sync(config.progress, config.device)): http.Server {
   const loginFile = path.join(config.home, 'logins.json');   // login cookie -> user name, survives restarts
   const tokens = new Map<string, string>(fs.existsSync(loginFile) ? Object.entries(JSON.parse(fs.readFileSync(loginFile, 'utf8'))) : []);
   const learners = new Map<string, Learner>();
@@ -39,16 +42,25 @@ export function serve(config: Config = loadConfig()): http.Server {
       learners.forEach((l) => l.reload());
       stale = false;
     }
-    if (!learners.has(name)) learners.set(name, new Learner(name, userDir(name, config.home), config));
+    if (!learners.has(name)) learners.set(name, new Learner(name, userDir(name, config.progress), config));
     return learners.get(name)!;
   };
+
+  // After other devices' progress arrived, learners without a running
+  // session are read again from the files on their next request.
+  const synced = (r: SyncResult) => {
+    if (r.error || r.pulled) console.log(describe(r, config.progress));
+    if (!r.pulled) return;
+    for (const name of [...learners.keys()]) if (sessions.get(name)?.ended !== false) learners.delete(name);
+  };
+  sync.every(synced);
 
   const routes: Record<string, (name: string, body: any, req: http.IncomingMessage, res: http.ServerResponse) => unknown> = {
     'GET /api/me': (name) => {
       const u = config.users[name];
       const l = learner(name);
       const k = l.knowledge;
-      return { name, admin: !!u.admin, llm: !!u.llm, budget: u.budget ?? null, spent: monthSpend(l.dir), settings: l.settings,
+      return { name, admin: !!u.admin, llm: !!u.llm, budget: u.budget ?? null, spent: monthSpend(apiDir(name, config.home)), settings: l.settings,
         session: sessions.get(name)?.ended === false ? sessions.get(name)!.id : null,
         problems: u.admin ? { errors: k.errors.length, warnings: k.warnings.length } : undefined };
     },
@@ -94,11 +106,13 @@ export function serve(config: Config = loadConfig()): http.Server {
       fs.writeFileSync(path.join(l.dir, 'settings.yaml'), YAML.stringify(l.settings));
       return { favorites: l.settings.favorites };
     },
-    'POST /api/session': (name, b) => {
+    'POST /api/session': async (name, b) => {
       sessions.get(name)?.end();
+      if (sync.enabled) synced(await sync.run(`session start: ${name}`));   // start from the newest progress
       const teacher = !!b.teacher && !!config.users[name].llm;
       const s = new Session(learner(name), { subject: b.subject || undefined, teacher, minutes: b.minutes });
       if (teacher) new Teacher(s, config);
+      s.onClose = () => void sync.run(`session ${s.id}: ${name}`).then(synced);
       sessions.set(name, s);
       s.start();
       return { id: s.id, teacher };

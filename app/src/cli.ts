@@ -1,20 +1,24 @@
 #!/usr/bin/env -S node --disable-warning=ExperimentalWarning
-// pauk start | check | user add | debug | service | restart  (pauk help)
+// pauk start | check | sync | user add | debug | service | restart  (pauk help)
 
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import readline from 'node:readline/promises';
 import { parseArgs } from 'node:util';
-import { configPath, HOME, hashPassword, loadConfig, setUser, userDir } from './config.ts';
+import { apiDir, configPath, HOME, hashPassword, loadConfig, setUser } from './config.ts';
 import { loadKnowledge } from './knowledge.ts';
 import { serve } from './server.ts';
 import { restart, service } from './service.ts';
+import { describe, Sync } from './sync.ts';
+
+const config = loadConfig();
 
 const HELP = `pauk — knowledge in text files, an LLM teacher, a local web app
 
   pauk start                      serve the app (address from config.yaml)
   pauk check                      validate all knowledge files (file:line)
+  pauk sync                       commit, pull and push the progress folder (if it is a git repo)
   pauk user add NAME [--admin] [--llm] [--budget USD]
                                   add a user or change their password
   pauk debug [--user NAME] [--session ID] [--call N]
@@ -23,20 +27,29 @@ const HELP = `pauk — knowledge in text files, an LLM teacher, a local web app
                                   macOS: run pauk at login (launchd) with a menu bar item
   pauk restart                    restart that service (or press Ctrl+Option+Cmd+P)
 
-Data and config.yaml live in ${configPath()} (set PAUK_HOME to move them).
+config.yaml lives in ${configPath()} (set PAUK_HOME to move it), the learning data in ${config.progress}.
 Secrets such as ANTHROPIC_API_KEY can go into ${path.join(HOME, '.env')} (KEY=value lines).`;
 
 // ~/pauk/.env: secrets for pauk only (the shell's environment wins)
 if (fs.existsSync(path.join(HOME, '.env'))) process.loadEnvFile(path.join(HOME, '.env'));
 
 const [cmd, sub, ...rest] = process.argv.slice(2);
-const config = loadConfig();
 
 if (cmd === 'start') {
   const [host, port] = config.listen.split(':');
   if (!Object.keys(config.users).length) console.log('No users yet: run `pauk user add NAME` first.');
   if (!process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_API_KEY.includes('REPLACE-ME')) console.log(`ANTHROPIC_API_KEY is not set (in the shell or ${path.join(HOME, '.env')}): practice works, the teacher does not.`);
-  serve(config).listen(Number(port), host, () => {
+  const sync = new Sync(config.progress, config.device);
+  if (sync.enabled) console.log(describe(await sync.run('pauk start'), config.progress));
+  else console.log(`progress in ${config.progress} (not a git repository, so not synced)`);
+  // sync once more when pauk is stopped (Ctrl+C, the service manager)
+  for (const signal of ['SIGINT', 'SIGTERM'] as const) {
+    process.once(signal, async () => {
+      if (sync.enabled) console.log(describe(await sync.run('pauk stop'), config.progress));
+      process.exit(0);
+    });
+  }
+  serve(config, sync).listen(Number(port), host, () => {
     const addrs = host === '0.0.0.0'
       ? Object.values(os.networkInterfaces()).flat().filter((a) => a?.family === 'IPv4').map((a) => a!.address)
       : [host];
@@ -48,6 +61,14 @@ if (cmd === 'start') {
   for (const w of k.warnings) console.log(`warning ${w.where}: ${w.message}`);
   console.log(`${k.items.size} items, ${k.cards.size} cards, ${k.subjects.size} subjects from ${config.sources.length} sources; ${k.errors.length} errors, ${k.warnings.length} warnings`);
   process.exitCode = k.errors.length ? 1 : 0;
+} else if (cmd === 'sync') {
+  const sync = new Sync(config.progress, config.device);
+  if (!sync.enabled) console.log(`${config.progress} is not a git repository: nothing to sync (docs/files.md)`);
+  else {
+    const r = await sync.run('pauk sync');
+    console.log(describe(r, config.progress));
+    process.exitCode = r.error ? 1 : 0;
+  }
 } else if (cmd === 'user' && sub === 'add' && rest[0]) {
   const { values: o } = parseArgs({ args: rest.slice(1), options: { admin: { type: 'boolean' }, llm: { type: 'boolean' }, budget: { type: 'string' } } });
   const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
@@ -71,7 +92,7 @@ if (cmd === 'start') {
 // List the API calls of a session, or show one call in full.
 function debug(o: { user?: string; session?: string; call?: string }): void {
   const user = o.user ?? Object.keys(config.users)[0];
-  const dir = path.join(userDir(user, config.home), 'api');
+  const dir = apiDir(user, config.home);
   const calls = (fs.existsSync(dir) ? fs.readdirSync(dir).sort() : [])
     .flatMap((f) => fs.readFileSync(path.join(dir, f), 'utf8').split('\n').filter(Boolean).map((l) => JSON.parse(l)));
   const session = o.session ?? calls.at(-1)?.session;

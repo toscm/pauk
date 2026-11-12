@@ -33,6 +33,13 @@ This also adds a menu bar item (`app/macos/PaukMenu.swift`, built with `swiftc`)
 Ctrl+Option+Cmd+P restarts pauk from anywhere.
 The service reads the API key from `~/pauk/.env` (a login service does not see your shell's variables).
 
+To learn on several machines with the same progress, keep it in a private git repository that pauk syncs (details in `docs/files.md`, "Progress and sync"):
+
+    git clone git@github.com:<you>/pauk-progress.git ~/Repos/pauk-progress   # an empty private repository
+    # in ~/pauk/config.yaml:  progress: ~/Repos/pauk-progress
+    # move existing data:     ~/pauk/users/* -> ~/Repos/pauk-progress/
+    pauk sync                        # pauk also syncs at start, around sessions, every 5 minutes and at exit
+
 For the other devices in your LAN set `listen: 0.0.0.0:8765` in `config.yaml`, add a user (`pauk user add guest --llm --budget 5`) and open the printed LAN address on the phone.
 From outside your LAN, use Tailscale (or another VPN) rather than opening a port.
 
@@ -47,14 +54,15 @@ The code is in `app/`; paths below are relative to it.
 
 
 - `src/knowledge.ts` reads the source folders into an index (items, cards, aliases, subjects).
-- `src/log.ts` reads `users/<name>/log/*.jsonl` and replays it through `src/memory.ts` into item states.
+- `src/log.ts` reads `<progress>/<name>/log/**/*.jsonl` (one folder per device) and replays it through `src/memory.ts` into item states.
 - `src/profile.ts` answers "what is due, what is new" from both.
 - `src/session.ts` holds one session: the event stream, open exercises, grading (`src/grader.ts`, `src/text.ts`), practice without a teacher.
 - `src/teacher.ts` is the Claude teacher: a tool-use loop whose tools are methods of the session.
 - `src/server.ts` serves the app (`public/`) and a small JSON API; events reach the browser as server-sent events.
 - `src/edit.ts` writes the decks when an admin edits or adds an item in the browser.
+- `src/sync.ts` commits, pulls and pushes the progress folder when it is a git repository.
 - `src/service.ts` and `macos/PaukMenu.swift`: the login service and the menu bar item (macOS).
-- `src/cli.ts`: `pauk start | check | user add | debug | service | restart`.
+- `src/cli.ts`: `pauk start | check | sync | user add | debug | service | restart`.
 
 ## Debugging the teacher
 
@@ -78,7 +86,7 @@ Because the API is stateless, each call repeats the whole conversation; prompt c
 
 ### Where to look
 
-- `~/pauk/users/<name>/api/YYYY-MM.jsonl`: one line per API call with time, duration, model, token usage, cost and the month's total.
+- `~/pauk/api/<name>/YYYY-MM.jsonl`: one line per API call with time, duration, model, token usage, cost and the month's total.
   With `teacher.debug: true` (the default) the line also holds the full request and response.
 
 - `pauk debug` lists the calls of the last session (numbers made up for illustration):
@@ -92,6 +100,6 @@ Because the API is stateless, each call repeats the whole conversation; prompt c
 
 - `pauk debug --call 2` shows that call's newest message (what pauk added), the model's thinking summary, its text and its tool calls.
 
-- `~/pauk/users/<name>/sessions/<id>.jsonl` is the transcript as the browser saw it, one event per line.
+- `<progress>/<name>/sessions/<id>.jsonl` (by default `~/pauk/users/...`) is the transcript as the browser saw it, one event per line.
 
 - `npm test` includes a run of the loop against a scripted fake client (`test/flow.test.ts`): the place to try changes to the loop without spending money.

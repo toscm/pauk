@@ -30,7 +30,7 @@ Decisions (details in docs/architecture.md and docs/files.md):
 
 - Done later: `pauk service install` runs pauk as a launchd login service with a menu bar item (status, addresses, restart, Ctrl+Option+Cmd+P).
 
-- Not yet: courses and the level map, activities (town, maps, routes), quests, item merges proposed by the teacher, the profile page, i18n of the UI (English only), sync, log compaction.
+- Not yet: courses and the level map, activities (town, maps, routes), quests, item merges proposed by the teacher, the profile page, i18n of the UI (English only), sync (done later: issues/0002), log compaction.
 
 - Done later: practice text fields accept typing again (an inline key handler returned false and so cancelled every key); admins can edit items, add items and start folders in the browser (`app/src/edit.ts`).
 

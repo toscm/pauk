@@ -8,7 +8,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { loadKnowledge } from '../src/knowledge.ts';
 import { Log } from '../src/log.ts';
-import { loadConfig } from '../src/config.ts';
+import { apiDir, loadConfig } from '../src/config.ts';
 import { Learner, Session } from '../src/session.ts';
 import { Teacher } from '../src/teacher.ts';
 import { stateView } from '../src/profile.ts';
@@ -107,7 +107,8 @@ test('the teacher: tool calls act on the session, every call is logged with its 
   assert.deepEqual(s.events.filter((e) => e.from === 'teacher').map((e) => e.type), ['message', 'exercise']);
   assert.equal(sent.length, 2);
   assert.equal(sent[1].messages.at(-1).content[1].tool_use_id, 't2');
-  const calls = fs.readFileSync(path.join(learner.dir, 'api', `${new Date().toISOString().slice(0, 7)}.jsonl`), 'utf8').trim().split('\n');
+  const calls = fs.readFileSync(path.join(apiDir('tobi', config.home), `${new Date().toISOString().slice(0, 7)}.jsonl`), 'utf8').trim().split('\n');
+  assert.ok(!fs.existsSync(path.join(learner.dir, 'api')));   // API logs stay out of the progress folder
   assert.equal(calls.length, 2);
   assert.equal(JSON.parse(calls[0]).cost, (1000 * 4 + 100 * 20 + 5000 * 0.2) / 1e6);
 });

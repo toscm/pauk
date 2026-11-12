@@ -1,6 +1,8 @@
 // The learning log: one JSON line per observation in
-// users/<name>/log/YYYY-MM.jsonl, append-only. Item states, flags and
-// notes are recomputed from it at startup (docs/files.md).
+// <user>/log/<device>/YYYY-MM.jsonl, append-only. Each machine writes only
+// its own folder, so synced copies never conflict; the lines of all
+// devices (and of older logs directly in log/) are read and sorted by time.
+// Item states, flags and notes are recomputed from them (docs/files.md).
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -30,13 +32,15 @@ export class Log {
   states = new Map<string, State>();
   flags = new Map<string, 'focus' | 'suspended'>();
   notes = new Map<string, string[]>();
-  dir: string;
+  dir: string;   // where this device appends
 
-  constructor(dir: string) {
-    this.dir = path.join(dir, 'log');
+  constructor(dir: string, device?: string) {
+    const root = path.join(dir, 'log');
+    this.dir = device ? path.join(root, device) : root;
     fs.mkdirSync(this.dir, { recursive: true });
-    for (const f of fs.readdirSync(this.dir).filter((f) => f.endsWith('.jsonl')).sort()) {
-      for (const [i, raw] of fs.readFileSync(path.join(this.dir, f), 'utf8').split('\n').entries()) {
+    const files = fs.readdirSync(root, { recursive: true, encoding: 'utf8' }).filter((f) => f.endsWith('.jsonl')).sort();
+    for (const f of files) {
+      for (const [i, raw] of fs.readFileSync(path.join(root, f), 'utf8').split('\n').entries()) {
         if (!raw.trim()) continue;
         try {
           this.lines.push(JSON.parse(raw));

@@ -8,7 +8,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import Anthropic from '@anthropic-ai/sdk';
 import type { BetaMessageParam, BetaTool, BetaToolResultBlockParam, BetaContentBlockParam, BetaUsage } from '@anthropic-ai/sdk/resources/beta/messages/messages';
-import type { Config } from './config.ts';
+import { apiDir, type Config } from './config.ts';
 import type { Event, Session } from './session.ts';
 import { appendItem } from './knowledge.ts';
 import { itemView, next, search, summary } from './profile.ts';
@@ -70,7 +70,7 @@ export class Teacher {
     this.session = session;
     this.config = config;
     this.client = client;
-    this.spent = monthSpend(session.learner.dir);
+    this.spent = monthSpend(apiDir(session.learner.name, config.home));
     session.onLearner = (e) => this.push(e);
   }
 
@@ -207,7 +207,7 @@ export class Teacher {
   }
 
   private logCall(params: object, res: Anthropic.Beta.BetaMessage, ms: number): void {
-    const dir = path.join(this.session.learner.dir, 'api');
+    const dir = apiDir(this.session.learner.name, this.config.home);
     fs.mkdirSync(dir, { recursive: true });
     const line = {
       t: new Date().toISOString(), session: this.session.id, model: res.model, ms, stop_reason: res.stop_reason,
@@ -226,9 +226,10 @@ export function cost(config: Config, model: string, u: BetaUsage): number {
   return (u.input_tokens * p[0] + u.output_tokens * p[1] + (u.cache_read_input_tokens ?? 0) * p[2] + (u.cache_creation_input_tokens ?? 0) * p[3]) / 1e6;
 }
 
-// USD spent by one learner in the current calendar month.
+// USD spent by one learner in the current calendar month, on this machine
+// (the API logs are not synced). `dir` is the learner's apiDir.
 export function monthSpend(dir: string): number {
-  const file = path.join(dir, 'api', `${new Date().toISOString().slice(0, 7)}.jsonl`);
+  const file = path.join(dir, `${new Date().toISOString().slice(0, 7)}.jsonl`);
   if (!fs.existsSync(file)) return 0;
   let sum = 0;
   for (const raw of fs.readFileSync(file, 'utf8').split('\n')) if (raw) sum += JSON.parse(raw).cost ?? 0;
